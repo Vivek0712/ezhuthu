@@ -1,0 +1,196 @@
+[
+ {
+  "id": "ez:title/rajakesari",
+  "kind": "title",
+  "label_iso": "rājakēcari",
+  "label_ta": "இராஜகேசரி",
+  "variants": [
+   "kōvirājakēcari",
+   "rājakēcaripaṉmaṉ"
+  ],
+  "era": "Chola",
+  "dynasty": "Chola",
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "FIXTURE_CHOLA_001"
+  ]
+ },
+ {
+  "id": "ez:title/parakesari",
+  "kind": "title",
+  "label_iso": "parakēcari",
+  "label_ta": "பரகேசரி",
+  "variants": [
+   "kōpparakēcari"
+  ],
+  "era": "Chola",
+  "dynasty": "Chola",
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "FIXTURE_CHOLA_002"
+  ]
+ },
+ {
+  "id": "ez:ruler/nandivarman-iii",
+  "kind": "ruler",
+  "label_iso": "nantivikkiramaparumaṉ",
+  "label_ta": "நந்திவிக்கிரமபருமன்",
+  "variants": [
+   "nantivikkiramaparumaṟku",
+   "kōvicaiya nantivikkiramaparumaṉ"
+  ],
+  "era": "Pallava",
+  "dynasty": "Pallava",
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "FIXTURE_PALLAVA_001"
+  ]
+ },
+ {
+  "id": "ez:ruler/rajendra-chola-i",
+  "kind": "ruler",
+  "label_iso": "rājēntiracōḻatēvar",
+  "label_ta": "இராஜேந்திரசோழதேவர்",
+  "variants": [
+   "rājēntiracōḻa"
+  ],
+  "era": "Chola",
+  "dynasty": "Chola",
+  "broader": null,
+  "wikidata": null,
+  "attested_in": []
+ },
+ {
+  "id": "ez:place/uttaramerur",
+  "kind": "place",
+  "label_iso": "uttaramēru caturvētimaṅkalam",
+  "label_ta": "உத்தரமேரு சதுர்வேதிமங்கலம்",
+  "variants": [
+   "uttaramēru caturvētimaṅkalattu"
+  ],
+  "era": null,
+  "dynasty": "Pallava",
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "FIXTURE_PALLAVA_001"
+  ]
+ },
+ {
+  "id": "ez:place/thanjavur",
+  "kind": "place",
+  "label_iso": "tañcāvūr",
+  "label_ta": "தஞ்சாவூர்",
+  "variants": [],
+  "era": null,
+  "dynasty": "Chola",
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "FIXTURE_CHOLA_002"
+  ]
+ },
+ {
+  "id": "ez:temple/rajarajesvaram",
+  "kind": "temple",
+  "label_iso": "śrīrājarājīcuram",
+  "label_ta": "ஸ்ரீராஜராஜீசுரம்",
+  "variants": [
+   "śrīrājarājīcuramuṭaiya"
+  ],
+  "era": null,
+  "dynasty": "Chola",
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "FIXTURE_CHOLA_002"
+  ]
+ },
+ {
+  "id": "ez:grant_type/nanda-vilakku",
+  "kind": "grant_type",
+  "label_iso": "nantā viḷakku",
+  "label_ta": "நந்தா விளக்கு",
+  "variants": [
+   "nantāviḷakku"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "FIXTURE_CHOLA_001",
+   "FIXTURE_CHOLA_002",
+   "FIXTURE_PANDYA_001"
+  ]
+ },
+ {
+  "id": "ez:formula/candradityavar",
+  "kind": "formula",
+  "label_iso": "cantirātittavar celvatāka",
+  "label_ta": "சந்திராதித்தவர் செல்வதாக",
+  "variants": [
+   "cantirātittavar"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "FIXTURE_CHOLA_001",
+   "FIXTURE_CHOLA_002"
+  ]
+ },
+ {
+  "id": "ez:formula/paṉmahesvara-raksai",
+  "kind": "formula",
+  "label_iso": "paṉmāhēcurar rakṣai",
+  "label_ta": "பன்மாஹேசுரர் ரக்ஷை",
+  "variants": [
+   "paṉmāhēcurar"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "FIXTURE_CHOLA_001",
+   "FIXTURE_CHOLA_002"
+  ]
+ },
+ {
+  "id": "ez:assembly/sabha",
+  "kind": "assembly",
+  "label_iso": "sabhaiyōm",
+  "label_ta": "சபையோம்",
+  "variants": [
+   "sabhai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "FIXTURE_PALLAVA_001"
+  ]
+ },
+ {
+  "id": "ez:formula/tirumakal-pola",
+  "kind": "formula",
+  "label_iso": "tirumakaḷ pōlap perunilac celviyum tanakkē yurimai pūṇṭamai manakkoḷa",
+  "label_ta": "திருமகள் போலப் பெருநிலச் செல்வியும் தனக்கே உரிமை பூண்டமை மனக்கொள",
+  "variants": [
+   "tirumakaḷ pōla"
+  ],
+  "era": "Chola",
+  "dynasty": "Chola",
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "FIXTURE_CHOLA_001"
+  ]
+ }
+]
