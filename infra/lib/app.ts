@@ -22,7 +22,7 @@ export function buildApp(app: cdk.App, opts: BuildOptions = {}) {
   const codeDir = opts.agentCodeDir ?? path.join(REPO_ROOT, 'infra', 'agentcore', 'build');
   if (!externalRuntimeArn && !existsSync(path.join(codeDir, 'agent_runtime.py')))
     throw new Error(`AgentCore code bundle missing at ${codeDir}. Run \`npm run package:agent\` in infra/ first.`);
-  const tags = { project: 'ezhuthu', track: 'education' };
+  const tags = { track: 'education' }; // Project=ezhuthu comes from the cost tags below (tag keys are case-insensitive in IAM)
 
   const data = new EzhuthuDataStack(app, 'EzhuthuData', { env, tags });
   const domainPrefix =
@@ -47,5 +47,8 @@ export function buildApp(app: cdk.App, opts: BuildOptions = {}) {
     webDist: opts.webDist ?? path.join(REPO_ROOT, 'app', 'web', 'dist'),
     runtimeConfig: { cognitoDomain: auth.domain.baseUrl(), cognitoClientId: auth.client.userPoolClientId },
   });
+  // Cost allocation tags on every stack and resource.
+  const costTags: Record<string, string> = { Project: 'ezhuthu', Owner: 'vivekraja', Env: 'hackathon', CostCenter: 'hero-credits' };
+  for (const [k, v] of Object.entries(costTags)) cdk.Tags.of(app).add(k, v);
   return { data, auth, agent, api, web };
 }

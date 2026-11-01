@@ -1,8 +1,14 @@
 {
   "app": "npx tsx bin/ezhuthu.ts",
-  "watch": { "include": ["bin/**", "lib/**", "lambda/**"] },
+  "watch": {
+    "include": [
+      "bin/**",
+      "lib/**",
+      "lambda/**"
+    ]
+  },
   "context": {
-    "ezhuthu:webUrl": "",
+    "ezhuthu:webUrl": "https://d3jz2k92ne5puo.cloudfront.net",
     "ezhuthu:cognitoDomainPrefix": "",
     "@aws-cdk/core:checkSecretUsage": true,
     "@aws-cdk/core:defaultCrossStackReferences": "strong",
