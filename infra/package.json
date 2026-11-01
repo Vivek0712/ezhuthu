@@ -1,0 +1,34 @@
+{
+  "name": "@ezhuthu/infra",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AWS CDK app for Ezhuthu: AgentCore Runtime, API Gateway HTTP API + Lambda proxy, DynamoDB, Cognito, S3 + CloudFront",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "package:agent": "./agentcore/package.sh",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "synth": "npm run package:agent && cdk synth --quiet",
+    "check": "npm run typecheck && npm test"
+  },
+  "dependencies": {
+    "@aws-sdk/client-bedrock-agentcore": "^3.1161.0",
+    "@aws-sdk/client-dynamodb": "^3.1161.0",
+    "@aws-sdk/lib-dynamodb": "^3.1161.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.164",
+    "@types/node": "^22.20.5",
+    "aws-cdk": "^2.1147.0",
+    "aws-cdk-lib": "^2.275.0",
+    "constructs": "^10.8.1",
+    "esbuild": "^0.25.12",
+    "tsx": "^4.23.15",
+    "typescript": "5.9",
+    "vitest": "^3.2.7",
+    "yaml": "^2.9.1"
+  }
+}
