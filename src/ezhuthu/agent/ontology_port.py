@@ -14,6 +14,7 @@ import importlib
 import json
 import logging
 import os
+import threading
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
@@ -161,8 +162,19 @@ def _fixture_stub() -> StubOntology:
     return StubOntology(json.loads((FIXTURES_DIR / "ontology_stub.json").read_text(encoding="utf-8")))
 
 
-@lru_cache(maxsize=1)
+_ONTOLOGY_LOCK = threading.Lock()
+
+
 def get_ontology() -> OntologyPort:
+    """The agent's ontology, built once per process (``get_ontology.cache_clear()`` resets it). The first build
+    is under a lock: two FastAPI threadpool workers asking at once would otherwise each start an MCP server
+    and leak one."""
+    with _ONTOLOGY_LOCK:
+        return _build_ontology()
+
+
+@lru_cache(maxsize=1)
+def _build_ontology() -> OntologyPort:
     """The agent's ontology. Default: the ontology MCP server over stdio via a Strands MCPClient
     (``ezhuthu.agent.ontology_mcp``). ``EZHUTHU_ONTOLOGY=direct`` uses the in-process lookup API instead
     (offline fallback, flagged in ``name``); so does a failed MCP start, flagged ``fallback:direct``.
@@ -200,6 +212,9 @@ def get_ontology() -> OntologyPort:
             stub.name = "lookups-json"
             return stub
     return _fixture_stub()
+
+
+get_ontology.cache_clear = _build_ontology.cache_clear  # type: ignore[attr-defined]
 
 
 def letters_ok_for_dynasty(text: str, dynasty: str | None) -> bool:
