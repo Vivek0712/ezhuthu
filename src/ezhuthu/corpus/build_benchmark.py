@@ -748,8 +748,9 @@ def render_data_card(st: dict) -> str:
          " Pallava-period inscriptions (the dynasty ended about 900 CE); its titles name Pallava kings and"
          " some local rulers, and the build does not check each inscription's date. The Uttiramerur"
          " collection also holds"
-         " inscriptions of later kings (for example Rājarāja I Cōḻa and Kṛṣṇadevarāya), so its"
-         f" {st['per_collection'].get('tfa-uttiramerur-epigraphy', {}).get('items', 0)} items are not all"
+         " inscriptions of Chola and later kings (for example Rājarāja I Cōḻa and Kṛṣṇadevarāya); the titles"
+         f" of its {st['per_collection'].get('tfa-uttiramerur-epigraphy', {}).get('items', 0)} items name"
+         " Parakesarivarman, Pārthivendra, Rājarāja I, Rājendra and Tribhuvana Vīra, so none is securely"
          " over 1,100 years old; say \"over 1,100 years old\" only of the Pallava items."),
         ("- `dynasty` comes from the collection (Pallava, Pandya) or from ruler names in the title"
         f" ({st['dynasty_sources'].get('title', 0)} inscriptions); it is null for"

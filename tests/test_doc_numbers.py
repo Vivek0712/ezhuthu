@@ -52,6 +52,10 @@ def _expected(st: dict) -> dict[str, list[tuple[str, list[int]]]]:
              + rf" includes {N} Uttiramerur restorations",
              [pallava, uttiramerur]),
         ],
+        "design/brand/BRAND.md": [
+            (rf'"Over 1,100 years old" applies only to the Pallava collection \({N} restorations\)',
+             [pallava]),
+        ],
     }
 
 
@@ -59,14 +63,21 @@ def _expected(st: dict) -> dict[str, list[tuple[str, list[int]]]]:
 STALE = {
     "README.md": [r"12,900", r"3,800", r"CC BY 4\.0", r"\b87%"],
     "docs/CHARTER.md": [r"12,900", r"3,800", r"CC BY 4\.0", r"\b87%", r"1,200 published"],
+    # The age claim once covered the whole age set; only the Pallava items are over 1,100 years old.
+    "design/brand/BRAND.md": [r"Pallava and Uttiramerur set", r"Uttiramerur[^.]*over 1,100",
+                              r"age set[^.]*over 1,100 years old(?! applies only)"],
+    # The note asking the lead to confirm "CC BY 4.0" predates the CC BY-SA 4.0 decision.
+    "ontology/README.md": [r"lead should confirm", r"charter's \"CC BY 4\.0\""],
 }
+
+DOCS = ["README.md", "docs/CHARTER.md", "design/brand/BRAND.md"]
 
 
 def _int(text: str) -> int:
     return int(text.replace(",", ""))
 
 
-@pytest.mark.parametrize("doc", ["README.md", "docs/CHARTER.md"])
+@pytest.mark.parametrize("doc", DOCS)
 def test_doc_numbers_match_stats(doc):
     text = (ROOT / doc).read_text(encoding="utf-8")
     for pattern, want in _expected(_stats())[doc]:
@@ -76,7 +87,7 @@ def test_doc_numbers_match_stats(doc):
         assert got == want, f"{doc}: {m.group(0)!r} says {got}, benchmark/stats.json says {want}"
 
 
-@pytest.mark.parametrize("doc", ["README.md", "docs/CHARTER.md"])
+@pytest.mark.parametrize("doc", sorted(STALE))
 def test_doc_has_no_planning_numbers(doc):
     text = (ROOT / doc).read_text(encoding="utf-8")
     for pattern in STALE[doc]:
@@ -91,3 +102,17 @@ def test_expected_values_are_internally_consistent():
         "tfa-uttiramerur-epigraphy"]["items"] == st["age_set_items"]
     assert sum(st["licences"].values()) == st["inscriptions"]
     assert all(isinstance(v, int) and v > 0 for vs in e.values() for v in vs)
+
+
+def test_data_card_does_not_age_uttiramerur():
+    """Every Uttiramerur title names a Chola-or-later ruler, so none is securely over 1,100 years old."""
+    card = (ROOT / "benchmark" / "DATA_CARD.md").read_text(encoding="utf-8")
+    assert "none is securely over 1,100 years old" in card
+    assert "not all over 1,100" not in card
+
+
+def test_licence_covers_editions_without_a_header():
+    st = _stats()
+    assert st["licences"].get("(none in header)", 0) > 0  # the case the sentence exists for
+    text = " ".join((ROOT / "benchmark" / "LICENSE").read_text(encoding="utf-8").split())
+    assert re.search(r"Editions with no licence header fall under their repository's LICENCE\.txt, which is CC BY 4\.0", text)

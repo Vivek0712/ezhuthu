@@ -254,7 +254,7 @@ The first `docs/CHARTER.md` was written before this build. It now quotes the mea
 
 - Restorations are what DHARMA editors supplied; a model that reproduces them "matches expert
   restorations". It is not proof that the reading is correct.
-- The age set is defined by collection, not by date. The Pallava collection is DHARMA's corpus of Pallava-period inscriptions (the dynasty ended about 900 CE); its titles name Pallava kings and some local rulers, and the build does not check each inscription's date. The Uttiramerur collection also holds inscriptions of later kings (for example Rājarāja I Cōḻa and Kṛṣṇadevarāya), so its 9 items are not all over 1,100 years old; say "over 1,100 years old" only of the Pallava items.
+- The age set is defined by collection, not by date. The Pallava collection is DHARMA's corpus of Pallava-period inscriptions (the dynasty ended about 900 CE); its titles name Pallava kings and some local rulers, and the build does not check each inscription's date. The Uttiramerur collection also holds inscriptions of Chola and later kings (for example Rājarāja I Cōḻa and Kṛṣṇadevarāya); the titles of its 9 items name Parakesarivarman, Pārthivendra, Rājarāja I, Rājendra and Tribhuvana Vīra, so none is securely over 1,100 years old; say "over 1,100 years old" only of the Pallava items.
 - `dynasty` comes from the collection (Pallava, Pandya) or from ruler names in the title (415 inscriptions); it is null for 371.
 - Edition-specific marks that are not letters (for example `⌈`, `‡`, `=` and literal brackets) are kept exactly as in the source text in `text_iso`, `left`, `right` and `target`; score with `normalise_for_scoring` (see Scoring).
 - `approx_date` is the first CE date in the edition commentary, when there is one.

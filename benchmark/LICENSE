@@ -10,5 +10,7 @@ Changes made: text extracted from the editions, split into train/val/test, resto
 benchmark items, and Tamil-script display forms added. See DATA_CARD.md.
 
 Most edition files declare CC BY-SA 4.0 in their <availability> header (counts in DATA_CARD.md),
-so this derived work is shared under the same licence. The repository's Apache-2.0 licence covers
+so this derived work is shared under the same licence. Editions with no licence header fall under
+their repository's LICENCE.txt, which is CC BY 4.0; CC BY 4.0 material may be shared in a derived work
+under CC BY-SA 4.0 with attribution, so those editions are covered too. The repository's Apache-2.0 licence covers
 the code, not the files in this directory.
