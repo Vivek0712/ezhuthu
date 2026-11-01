@@ -1,6 +1,7 @@
 """Checks on the committed ontology artefacts (ontology/ezhuthu.ttl, ontology/lookups/*.json)."""
 
 import json
+import re
 from pathlib import Path
 
 import jsonschema
@@ -101,6 +102,40 @@ def test_letters_by_era_covers_all_stages_and_levels():
 def test_coverage_report_is_consistent(lookups):
     cov = json.loads((ONTO / "coverage.json").read_text(encoding="utf-8"))
     assert cov["entities_per_kind"] == {k: len(v) for k, v in lookups.items()}
-    assert cov["corpus"]["inscriptions"] > 1000
+    assert cov["corpus"]["inscriptions"] == len(cov["splits"]["included_inscriptions"]) > 800
     for kind, w in cov["wikidata"].items():
         assert w["with_qid"] == sum(1 for r in lookups[kind] if r["wikidata"])
+
+
+def test_shipped_build_is_train_split_only(lookups):
+    """No val/test edition (whose <supplied> text is a benchmark answer) feeds the shipped ontology."""
+    sp = json.loads((ONTO / "coverage.json").read_text(encoding="utf-8"))["splits"]
+    assert sp["used"] == ["train"]
+    used = set(sp["included_inscriptions"])
+    assert sp["excluded_held_out"] > 0
+    for recs in lookups.values():
+        for r in recs:
+            for ref in r["attested_in"]:
+                assert ref.split(":")[0] in used, (r["id"], ref)
+    bench = REPO / "benchmark" / "inscriptions.jsonl"
+    if bench.exists():  # once the data team's benchmark is on main, guard against split drift
+        held = {json.loads(x)["id"] for x in bench.read_text(encoding="utf-8").splitlines()
+                if x.strip() and json.loads(x)["split"] != "train"}
+        leaked = sorted(used & held)
+        msg = f"{len(leaked)} val/test editions used (splits changed?); rebuild: ezhuthu.ontology.build --splits train"
+        assert not leaked, (msg, leaked[:5])
+
+
+def test_tamil_labels_have_no_latin_residue(lookups):
+    for recs in lookups.values():
+        for r in recs:
+            ta = r.get("label_ta")
+            if ta:
+                assert not re.search(r"[A-Za-z]", re.sub(r"\b[IVX]+\b", "", ta)), (r["id"], ta)
+
+
+def test_reviewed_wikidata_fixes():
+    snap = json.loads((ONTO / "wikidata" / "snapshot.json").read_text(encoding="utf-8"))
+    # Q97481257 is an ASI monument item at Erukkampattu, not the Srirangam temple (QA, PR #9)
+    assert snap["resolved"]["ez:temple/srirangam-ranganatha"] == "Q2671548"
+    assert "Q97481257" not in snap["resolved"].values()

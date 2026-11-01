@@ -17,9 +17,9 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00011"
+   "DHARMA_INSCempiyanMahadevi00011",
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INSPandya10008"
   ],
   "stage": "chola-tamil",
   "glyph": "அ",
@@ -27,7 +27,7 @@
   "iso_values": [
    "a"
   ],
-  "corpus_count": 2545,
+  "corpus_count": 1578,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -50,9 +50,9 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00011"
+   "DHARMA_INSCempiyanMahadevi00011",
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INStfaSIIv01p0i0042"
   ],
   "stage": "chola-tamil",
   "glyph": "ஆ",
@@ -60,7 +60,7 @@
   "iso_values": [
    "ā"
   ],
-  "corpus_count": 2787,
+  "corpus_count": 1659,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -77,15 +77,15 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSCempiyanMahadevi00004",
-   "DHARMA_INSCempiyanMahadevi00005",
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00017",
-   "DHARMA_INSCempiyanMahadevi00020",
-   "DHARMA_INSCempiyanMahadevi00021",
-   "DHARMA_INSCempiyanMahadevi00024",
-   "DHARMA_INSCempiyanMahadevi00028"
+   "DHARMA_INStfaSIIv02p0i0001",
+   "DHARMA_INStfaSIIv02p0i0004",
+   "DHARMA_INStfaSIIv02p0i0005",
+   "DHARMA_INStfaSIIv02p0i0065",
+   "DHARMA_INStfaSIIv03p0i0001",
+   "DHARMA_INStfaSIIv03p0i0002",
+   "DHARMA_INStfaSIIv03p0i0011"
   ],
   "stage": "chola-tamil",
   "glyph": "ஐ",
@@ -93,7 +93,7 @@
   "iso_values": [
    "ai"
   ],
-  "corpus_count": 337,
+  "corpus_count": 239,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -162,9 +162,9 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00011"
+   "DHARMA_INSCempiyanMahadevi00011",
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INSPandya01002"
   ],
   "stage": "chola-tamil",
   "glyph": "ச",
@@ -172,7 +172,7 @@
   "iso_values": [
    "ca"
   ],
-  "corpus_count": 6927,
+  "corpus_count": 3816,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -192,12 +192,12 @@
    "DHARMA_INSCempiyanMahadevi00002",
    "DHARMA_INSCempiyanMahadevi00003",
    "DHARMA_INSCempiyanMahadevi00004",
-   "DHARMA_INSCempiyanMahadevi00005",
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
    "DHARMA_INSCempiyanMahadevi00011",
-   "DHARMA_INSCempiyanMahadevi00055"
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INStfaSIIv01p0i0042"
   ],
   "stage": "chola-tamil",
   "glyph": "எ",
@@ -206,7 +206,7 @@
    "e",
    "ē"
   ],
-  "corpus_count": 1845,
+  "corpus_count": 1192,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -225,13 +225,13 @@
    "DHARMA_INSCempiyanMahadevi00001",
    "DHARMA_INSCempiyanMahadevi00002",
    "DHARMA_INSCempiyanMahadevi00004",
-   "DHARMA_INSCempiyanMahadevi00005",
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00011"
+   "DHARMA_INSCempiyanMahadevi00011",
+   "DHARMA_INStfaSIIv01p0i0042",
+   "DHARMA_INStfaSIIv02p0i0001",
+   "DHARMA_INStfaSIIv02p0i0004"
   ],
   "stage": "chola-tamil",
   "glyph": "ஹ",
@@ -239,7 +239,7 @@
   "iso_values": [
    "ha"
   ],
-  "corpus_count": 541,
+  "corpus_count": 294,
   "grantha": true,
   "attestation_count": 10,
   "inscription_count": 10
@@ -261,10 +261,10 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
    "DHARMA_INSCempiyanMahadevi00011",
-   "DHARMA_INSCempiyanMahadevi00055"
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INSPandya01002",
+   "DHARMA_INStfaSIIv01p0i0042"
   ],
   "stage": "chola-tamil",
   "glyph": "இ",
@@ -272,7 +272,7 @@
   "iso_values": [
    "i"
   ],
-  "corpus_count": 3922,
+  "corpus_count": 2462,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -289,15 +289,15 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSCempiyanMahadevi00002",
-   "DHARMA_INSCempiyanMahadevi00005",
-   "DHARMA_INSCempiyanMahadevi00029",
-   "DHARMA_INSCempiyanMahadevi00035",
-   "DHARMA_INSCempiyanMahadevi00040",
-   "DHARMA_INSCempiyanMahadevi00047",
-   "DHARMA_INSCempiyanMahadevi00048",
-   "DHARMA_INSCempiyanMahadevi00051",
    "DHARMA_INStfaSIIv02p0i0001",
-   "DHARMA_INStfaSIIv02p0i0002"
+   "DHARMA_INStfaSIIv02p0i0004",
+   "DHARMA_INStfaSIIv02p0i0005",
+   "DHARMA_INStfaSIIv02p0i0065",
+   "DHARMA_INStfaSIIv03p0i0004",
+   "DHARMA_INStfaSIIv03p0i0009",
+   "DHARMA_INStfaSIIv03p0i0017",
+   "DHARMA_INStfaSIIv03p0i0019",
+   "DHARMA_INStfaSIIv04p0i0133"
   ],
   "stage": "chola-tamil",
   "glyph": "ஈ",
@@ -305,7 +305,7 @@
   "iso_values": [
    "ī"
   ],
-  "corpus_count": 98,
+  "corpus_count": 62,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -321,16 +321,16 @@
   "broader": "ez:script_stage/chola-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00005",
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
-   "DHARMA_INSCempiyanMahadevi00014",
-   "DHARMA_INSCempiyanMahadevi00022",
-   "DHARMA_INSCempiyanMahadevi00023",
-   "DHARMA_INSCempiyanMahadevi00024",
-   "DHARMA_INSCempiyanMahadevi00025",
-   "DHARMA_INSCempiyanMahadevi00027",
-   "DHARMA_INSCempiyanMahadevi00055"
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INSPandya01002",
+   "DHARMA_INStfaSIIv01p0i0042",
+   "DHARMA_INStfaSIIv02p0i0001",
+   "DHARMA_INStfaSIIv02p0i0004",
+   "DHARMA_INStfaSIIv02p0i0005",
+   "DHARMA_INStfaSIIv02p0i0065",
+   "DHARMA_INStfaSIIv03p0i0001"
   ],
   "stage": "chola-tamil",
   "glyph": "ஜ",
@@ -338,7 +338,7 @@
   "iso_values": [
    "ja"
   ],
-  "corpus_count": 672,
+  "corpus_count": 462,
   "grantha": true,
   "attestation_count": 10,
   "inscription_count": 10
@@ -361,9 +361,9 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00011"
+   "DHARMA_INSCempiyanMahadevi00011",
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INSPandya01002"
   ],
   "stage": "chola-tamil",
   "glyph": "க",
@@ -371,7 +371,7 @@
   "iso_values": [
    "ka"
   ],
-  "corpus_count": 27603,
+  "corpus_count": 15933,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -389,14 +389,14 @@
   "attested_in": [
    "DHARMA_INSCempiyanMahadevi00001",
    "DHARMA_INSCempiyanMahadevi00002",
-   "DHARMA_INSCempiyanMahadevi00005",
-   "DHARMA_INSCempiyanMahadevi00012",
-   "DHARMA_INSCempiyanMahadevi00018",
-   "DHARMA_INSCempiyanMahadevi00022",
-   "DHARMA_INSCempiyanMahadevi00023",
-   "DHARMA_INSCempiyanMahadevi00024",
-   "DHARMA_INSCempiyanMahadevi00025",
-   "DHARMA_INSCempiyanMahadevi00027"
+   "DHARMA_INStfaSIIv02p0i0001",
+   "DHARMA_INStfaSIIv02p0i0004",
+   "DHARMA_INStfaSIIv02p0i0065",
+   "DHARMA_INStfaSIIv03p0i0006",
+   "DHARMA_INStfaSIIv03p0i0019",
+   "DHARMA_INStfaSIIv04p0i0137",
+   "DHARMA_INStfaSIIv04p0i0140",
+   "DHARMA_INStfaSIIv04p0i0148"
   ],
   "stage": "chola-tamil",
   "glyph": "க்ஷ",
@@ -404,7 +404,7 @@
   "iso_values": [
    "kṣa"
   ],
-  "corpus_count": 145,
+  "corpus_count": 73,
   "grantha": true,
   "attestation_count": 10,
   "inscription_count": 10
@@ -427,9 +427,9 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00011"
+   "DHARMA_INSCempiyanMahadevi00011",
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INSPandya01002"
   ],
   "stage": "chola-tamil",
   "glyph": "ல",
@@ -437,7 +437,7 @@
   "iso_values": [
    "la"
   ],
-  "corpus_count": 10250,
+  "corpus_count": 5927,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -460,9 +460,9 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00011"
+   "DHARMA_INSCempiyanMahadevi00011",
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INStfaSIIv01p0i0042"
   ],
   "stage": "chola-tamil",
   "glyph": "ள",
@@ -470,7 +470,7 @@
   "iso_values": [
    "ḷa"
   ],
-  "corpus_count": 4533,
+  "corpus_count": 2822,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -493,9 +493,9 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00011"
+   "DHARMA_INSCempiyanMahadevi00011",
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INSPandya01002"
   ],
   "stage": "chola-tamil",
   "glyph": "ம",
@@ -503,7 +503,7 @@
   "iso_values": [
    "ma"
   ],
-  "corpus_count": 16784,
+  "corpus_count": 9764,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -526,9 +526,9 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00011"
+   "DHARMA_INSCempiyanMahadevi00011",
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INSPandya01002"
   ],
   "stage": "chola-tamil",
   "glyph": "ந",
@@ -536,7 +536,7 @@
   "iso_values": [
    "na"
   ],
-  "corpus_count": 9126,
+  "corpus_count": 5342,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -555,13 +555,13 @@
    "DHARMA_INSCempiyanMahadevi00001",
    "DHARMA_INSCempiyanMahadevi00002",
    "DHARMA_INSCempiyanMahadevi00004",
-   "DHARMA_INSCempiyanMahadevi00005",
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00010",
    "DHARMA_INSCempiyanMahadevi00011",
-   "DHARMA_INSCempiyanMahadevi00012"
+   "DHARMA_INStfaSIIv01p0i0042",
+   "DHARMA_INStfaSIIv02p0i0001",
+   "DHARMA_INStfaSIIv02p0i0004"
   ],
   "stage": "chola-tamil",
   "glyph": "ங",
@@ -569,7 +569,7 @@
   "iso_values": [
    "ṅa"
   ],
-  "corpus_count": 2267,
+  "corpus_count": 1419,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -592,9 +592,9 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00011"
+   "DHARMA_INSCempiyanMahadevi00011",
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INStfaSIIv01p0i0042"
   ],
   "stage": "chola-tamil",
   "glyph": "ண",
@@ -602,7 +602,7 @@
   "iso_values": [
    "ṇa"
   ],
-  "corpus_count": 5594,
+  "corpus_count": 3417,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -625,9 +625,9 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00011"
+   "DHARMA_INSCempiyanMahadevi00011",
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INStfaSIIv01p0i0042"
   ],
   "stage": "chola-tamil",
   "glyph": "ன",
@@ -635,7 +635,7 @@
   "iso_values": [
    "ṉa"
   ],
-  "corpus_count": 9491,
+  "corpus_count": 5709,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -652,15 +652,15 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSCempiyanMahadevi00004",
-   "DHARMA_INSCempiyanMahadevi00005",
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
    "DHARMA_INSCempiyanMahadevi00011",
-   "DHARMA_INSCempiyanMahadevi00012",
-   "DHARMA_INSCempiyanMahadevi00014",
-   "DHARMA_INSCempiyanMahadevi00055"
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INSPandya01002",
+   "DHARMA_INStfaSIIv02p0i0001",
+   "DHARMA_INStfaSIIv02p0i0004",
+   "DHARMA_INStfaSIIv02p0i0005",
+   "DHARMA_INStfaSIIv02p0i0065"
   ],
   "stage": "chola-tamil",
   "glyph": "ஞ",
@@ -668,7 +668,7 @@
   "iso_values": [
    "ña"
   ],
-  "corpus_count": 1260,
+  "corpus_count": 717,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -686,14 +686,14 @@
   "attested_in": [
    "DHARMA_INSCempiyanMahadevi00001",
    "DHARMA_INSCempiyanMahadevi00004",
-   "DHARMA_INSCempiyanMahadevi00005",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
    "DHARMA_INSCempiyanMahadevi00011",
-   "DHARMA_INSCempiyanMahadevi00012",
-   "DHARMA_INSCempiyanMahadevi00019",
-   "DHARMA_INSCempiyanMahadevi00023"
+   "DHARMA_INStfaSIIv01p0i0042",
+   "DHARMA_INStfaSIIv02p0i0001",
+   "DHARMA_INStfaSIIv02p0i0004",
+   "DHARMA_INStfaSIIv02p0i0005",
+   "DHARMA_INStfaSIIv02p0i0065"
   ],
   "stage": "chola-tamil",
   "glyph": "ஒ",
@@ -702,7 +702,7 @@
    "o",
    "ō"
   ],
-  "corpus_count": 1207,
+  "corpus_count": 755,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -725,9 +725,9 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00011"
+   "DHARMA_INSCempiyanMahadevi00011",
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INSPandya01002"
   ],
   "stage": "chola-tamil",
   "glyph": "ப",
@@ -735,7 +735,7 @@
   "iso_values": [
    "pa"
   ],
-  "corpus_count": 11551,
+  "corpus_count": 6626,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -758,9 +758,9 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00011"
+   "DHARMA_INSCempiyanMahadevi00011",
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INSPandya01002"
   ],
   "stage": "chola-tamil",
   "glyph": "ர",
@@ -768,7 +768,7 @@
   "iso_values": [
    "ra"
   ],
-  "corpus_count": 16677,
+  "corpus_count": 9880,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -791,9 +791,9 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00011"
+   "DHARMA_INSCempiyanMahadevi00011",
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INSPandya01002"
   ],
   "stage": "chola-tamil",
   "glyph": "ற",
@@ -801,7 +801,7 @@
   "iso_values": [
    "ṟa"
   ],
-  "corpus_count": 7786,
+  "corpus_count": 4457,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -823,10 +823,10 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
    "DHARMA_INSCempiyanMahadevi00011",
-   "DHARMA_INSCempiyanMahadevi00055"
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INSPandya01002",
+   "DHARMA_INSPandya10008"
   ],
   "stage": "chola-tamil",
   "glyph": "ஸ",
@@ -834,7 +834,7 @@
   "iso_values": [
    "sa"
   ],
-  "corpus_count": 1362,
+  "corpus_count": 854,
   "grantha": true,
   "attestation_count": 10,
   "inscription_count": 10
@@ -857,9 +857,9 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00011"
+   "DHARMA_INSCempiyanMahadevi00011",
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INSPandya01002"
   ],
   "stage": "chola-tamil",
   "glyph": "ஶ",
@@ -867,7 +867,7 @@
   "iso_values": [
    "śa"
   ],
-  "corpus_count": 1475,
+  "corpus_count": 869,
   "grantha": true,
   "attestation_count": 10,
   "inscription_count": 10
@@ -883,16 +883,16 @@
   "broader": "ez:script_stage/chola-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00005",
    "DHARMA_INSCempiyanMahadevi00006",
-   "DHARMA_INSCempiyanMahadevi00025",
-   "DHARMA_INSCempiyanMahadevi00026",
-   "DHARMA_INSCempiyanMahadevi00044",
-   "DHARMA_INSCempiyanMahadevi00046",
-   "DHARMA_INSCempiyanMahadevi00050",
-   "DHARMA_INSCempiyanMahadevi00051",
-   "DHARMA_INSCempiyanMahadevi00061",
-   "DHARMA_INSPandya01009"
+   "DHARMA_INStfaSIIv02p0i0001",
+   "DHARMA_INStfaSIIv02p0i0065",
+   "DHARMA_INStfaSIIv03p0i0001",
+   "DHARMA_INStfaSIIv03p0i0007",
+   "DHARMA_INStfaSIIv03p0i0011",
+   "DHARMA_INStfaSIIv03p0i0012",
+   "DHARMA_INStfaSIIv03p0i0013",
+   "DHARMA_INStfaSIIv03p0i0014",
+   "DHARMA_INStfaSIIv04p0i0133"
   ],
   "stage": "chola-tamil",
   "glyph": "ஷ",
@@ -900,7 +900,7 @@
   "iso_values": [
    "ṣa"
   ],
-  "corpus_count": 153,
+  "corpus_count": 104,
   "grantha": true,
   "attestation_count": 10,
   "inscription_count": 10
@@ -923,9 +923,9 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00011"
+   "DHARMA_INSCempiyanMahadevi00011",
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INSPandya01002"
   ],
   "stage": "chola-tamil",
   "glyph": "த",
@@ -933,7 +933,7 @@
   "iso_values": [
    "ta"
   ],
-  "corpus_count": 21020,
+  "corpus_count": 12159,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -956,9 +956,9 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00011"
+   "DHARMA_INSCempiyanMahadevi00011",
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INSPandya01002"
   ],
   "stage": "chola-tamil",
   "glyph": "ட",
@@ -966,7 +966,7 @@
   "iso_values": [
    "ṭa"
   ],
-  "corpus_count": 12172,
+  "corpus_count": 7175,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -988,10 +988,10 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
    "DHARMA_INSCempiyanMahadevi00011",
-   "DHARMA_INSCempiyanMahadevi00055"
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INStfaSIIv01p0i0042",
+   "DHARMA_INStfaSIIv02p0i0001"
   ],
   "stage": "chola-tamil",
   "glyph": "உ",
@@ -999,7 +999,7 @@
   "iso_values": [
    "u"
   ],
-  "corpus_count": 1524,
+  "corpus_count": 883,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1016,15 +1016,15 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSCempiyanMahadevi00002",
-   "DHARMA_INSCempiyanMahadevi00005",
    "DHARMA_INSCempiyanMahadevi00006",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00012",
-   "DHARMA_INSCempiyanMahadevi00014",
-   "DHARMA_INSCempiyanMahadevi00015",
-   "DHARMA_INSCempiyanMahadevi00017",
-   "DHARMA_INSCempiyanMahadevi00019",
-   "DHARMA_INSCempiyanMahadevi00020"
+   "DHARMA_INStfaSIIv01p0i0042",
+   "DHARMA_INStfaSIIv02p0i0001",
+   "DHARMA_INStfaSIIv02p0i0004",
+   "DHARMA_INStfaSIIv02p0i0005",
+   "DHARMA_INStfaSIIv02p0i0065",
+   "DHARMA_INStfaSIIv03p0i0001",
+   "DHARMA_INStfaSIIv03p0i0002",
+   "DHARMA_INStfaSIIv03p0i0004"
   ],
   "stage": "chola-tamil",
   "glyph": "ஊ",
@@ -1032,7 +1032,7 @@
   "iso_values": [
    "ū"
   ],
-  "corpus_count": 384,
+  "corpus_count": 271,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1055,9 +1055,9 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00011"
+   "DHARMA_INSCempiyanMahadevi00011",
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INSPandya01002"
   ],
   "stage": "chola-tamil",
   "glyph": "வ",
@@ -1065,7 +1065,7 @@
   "iso_values": [
    "va"
   ],
-  "corpus_count": 11633,
+  "corpus_count": 6824,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1088,9 +1088,9 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00011"
+   "DHARMA_INSCempiyanMahadevi00011",
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INSPandya01002"
   ],
   "stage": "chola-tamil",
   "glyph": "ய",
@@ -1098,7 +1098,7 @@
   "iso_values": [
    "ya"
   ],
-  "corpus_count": 9488,
+  "corpus_count": 5304,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1121,9 +1121,9 @@
    "DHARMA_INSCempiyanMahadevi00006",
    "DHARMA_INSCempiyanMahadevi00007",
    "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSCempiyanMahadevi00009",
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00011"
+   "DHARMA_INSCempiyanMahadevi00011",
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INStfaSIIv01p0i0042"
   ],
   "stage": "chola-tamil",
   "glyph": "ழ",
@@ -1131,7 +1131,7 @@
   "iso_values": [
    "ḻa"
   ],
-  "corpus_count": 3586,
+  "corpus_count": 2177,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1150,13 +1150,13 @@
    "DHARMA_INSPallava00022",
    "DHARMA_INSPallava00027",
    "DHARMA_INSPallava00030",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00034",
    "DHARMA_INSPallava00037",
    "DHARMA_INSPallava00039",
    "DHARMA_INSPallava00041",
    "DHARMA_INSPallava00046",
-   "DHARMA_INSPallava00047"
+   "DHARMA_INSPallava00062",
+   "DHARMA_INSPallava00067"
   ],
   "stage": "grantha",
   "glyph": "𑌅",
@@ -1164,7 +1164,7 @@
   "iso_values": [
    "a"
   ],
-  "corpus_count": 149,
+  "corpus_count": 128,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1180,16 +1180,14 @@
   "broader": "ez:script_stage/grantha",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00037",
    "DHARMA_INSPallava00046",
    "DHARMA_INSPallava00062",
-   "DHARMA_INSPallava00064",
    "DHARMA_INSPallava00095",
    "DHARMA_INSPallava00155",
-   "DHARMA_INSPallava00389",
    "DHARMA_INSPandya01017",
-   "DHARMA_INSTamilNadu00620"
+   "DHARMA_INSTamilNadu00620",
+   "DHARMA_INSTamilNadu01002"
   ],
   "stage": "grantha",
   "glyph": "𑌆",
@@ -1197,10 +1195,10 @@
   "iso_values": [
    "ā"
   ],
-  "corpus_count": 64,
+  "corpus_count": 60,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 8,
+  "inscription_count": 8
  },
  {
   "id": "ez:letter/grantha-ai",
@@ -1264,13 +1262,13 @@
    "DHARMA_INSPallava00022",
    "DHARMA_INSPallava00027",
    "DHARMA_INSPallava00030",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00034",
    "DHARMA_INSPallava00037",
    "DHARMA_INSPallava00041",
    "DHARMA_INSPallava00046",
    "DHARMA_INSPallava00062",
-   "DHARMA_INSPallava00064"
+   "DHARMA_INSPallava00095",
+   "DHARMA_INSPallava00155"
   ],
   "stage": "grantha",
   "glyph": "𑌬",
@@ -1278,7 +1276,7 @@
   "iso_values": [
    "ba"
   ],
-  "corpus_count": 80,
+  "corpus_count": 74,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1294,16 +1292,16 @@
   "broader": "ez:script_stage/grantha",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00029",
    "DHARMA_INSPallava00030",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00037",
    "DHARMA_INSPallava00039",
    "DHARMA_INSPallava00046",
    "DHARMA_INSPallava00062",
-   "DHARMA_INSPallava00063",
-   "DHARMA_INSPallava00064"
+   "DHARMA_INSPallava00067",
+   "DHARMA_INSPallava00095",
+   "DHARMA_INSPallava00155",
+   "DHARMA_INSPallava00381"
   ],
   "stage": "grantha",
   "glyph": "𑌭",
@@ -1311,7 +1309,7 @@
   "iso_values": [
    "bha"
   ],
-  "corpus_count": 154,
+  "corpus_count": 119,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1336,7 +1334,7 @@
    "DHARMA_INSPallava00041",
    "DHARMA_INSPallava00046",
    "DHARMA_INSPallava00062",
-   "DHARMA_INSPallava00063"
+   "DHARMA_INSPallava00067"
   ],
   "stage": "grantha",
   "glyph": "𑌚",
@@ -1344,7 +1342,7 @@
   "iso_values": [
    "ca"
   ],
-  "corpus_count": 216,
+  "corpus_count": 187,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1392,13 +1390,13 @@
    "DHARMA_INSPallava00019",
    "DHARMA_INSPallava00022",
    "DHARMA_INSPallava00023",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00027",
    "DHARMA_INSPallava00030",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00035",
    "DHARMA_INSPallava00037",
-   "DHARMA_INSPallava00039"
+   "DHARMA_INSPallava00039",
+   "DHARMA_INSPallava00041",
+   "DHARMA_INSPallava00046"
   ],
   "stage": "grantha",
   "glyph": "𑌦",
@@ -1406,7 +1404,7 @@
   "iso_values": [
    "da"
   ],
-  "corpus_count": 353,
+  "corpus_count": 296,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1428,10 +1426,10 @@
    "DHARMA_INSPallava00037",
    "DHARMA_INSPallava00041",
    "DHARMA_INSPallava00046",
-   "DHARMA_INSPallava00064",
    "DHARMA_INSPallava00067",
    "DHARMA_INSPallava00155",
-   "DHARMA_INSPallava00389"
+   "DHARMA_INSPandya01003",
+   "DHARMA_INSPandya01004"
   ],
   "stage": "grantha",
   "glyph": "𑌡",
@@ -1439,7 +1437,7 @@
   "iso_values": [
    "ḍa"
   ],
-  "corpus_count": 26,
+  "corpus_count": 20,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1482,15 +1480,15 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSPallava00022",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00027",
    "DHARMA_INSPallava00029",
    "DHARMA_INSPallava00030",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00037",
    "DHARMA_INSPallava00039",
    "DHARMA_INSPallava00041",
-   "DHARMA_INSPallava00046"
+   "DHARMA_INSPallava00046",
+   "DHARMA_INSPallava00062",
+   "DHARMA_INSPallava00067"
   ],
   "stage": "grantha",
   "glyph": "𑌧",
@@ -1498,7 +1496,7 @@
   "iso_values": [
    "dha"
   ],
-  "corpus_count": 96,
+  "corpus_count": 72,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1517,13 +1515,13 @@
    "DHARMA_INSPallava00022",
    "DHARMA_INSPallava00027",
    "DHARMA_INSPallava00029",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00035",
    "DHARMA_INSPallava00039",
    "DHARMA_INSPallava00041",
    "DHARMA_INSPallava00046",
    "DHARMA_INSPallava00062",
-   "DHARMA_INSPallava00063"
+   "DHARMA_INSPallava00095",
+   "DHARMA_INSPallava00155"
   ],
   "stage": "grantha",
   "glyph": "𑌏",
@@ -1531,7 +1529,7 @@
   "iso_values": [
    "e"
   ],
-  "corpus_count": 73,
+  "corpus_count": 67,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1548,15 +1546,15 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSPallava00022",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00030",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00035",
    "DHARMA_INSPallava00037",
    "DHARMA_INSPallava00039",
    "DHARMA_INSPallava00041",
    "DHARMA_INSPallava00046",
-   "DHARMA_INSPallava00047"
+   "DHARMA_INSPallava00062",
+   "DHARMA_INSPallava00067",
+   "DHARMA_INSPallava00070"
   ],
   "stage": "grantha",
   "glyph": "𑌗",
@@ -1564,7 +1562,7 @@
   "iso_values": [
    "ga"
   ],
-  "corpus_count": 138,
+  "corpus_count": 106,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1609,15 +1607,15 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSPallava00022",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00027",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00035",
    "DHARMA_INSPallava00037",
    "DHARMA_INSPallava00039",
    "DHARMA_INSPallava00041",
    "DHARMA_INSPallava00046",
-   "DHARMA_INSPallava00047"
+   "DHARMA_INSPallava00062",
+   "DHARMA_INSPallava00070",
+   "DHARMA_INSPallava00095"
   ],
   "stage": "grantha",
   "glyph": "𑌹",
@@ -1625,7 +1623,7 @@
   "iso_values": [
    "ha"
   ],
-  "corpus_count": 172,
+  "corpus_count": 135,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1642,15 +1640,15 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSPallava00022",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00029",
    "DHARMA_INSPallava00030",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00034",
    "DHARMA_INSPallava00035",
    "DHARMA_INSPallava00037",
    "DHARMA_INSPallava00039",
-   "DHARMA_INSPallava00041"
+   "DHARMA_INSPallava00041",
+   "DHARMA_INSPallava00046",
+   "DHARMA_INSPallava00062"
   ],
   "stage": "grantha",
   "glyph": "𑌇",
@@ -1658,7 +1656,7 @@
   "iso_values": [
    "i"
   ],
-  "corpus_count": 105,
+  "corpus_count": 98,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1675,9 +1673,7 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSPallava00062",
-   "DHARMA_INSPallava00064",
    "DHARMA_INSPallava00067",
-   "DHARMA_INSPallava00389",
    "DHARMA_INSPandya01003",
    "DHARMA_INSTamilNadu01002"
   ],
@@ -1687,10 +1683,10 @@
   "iso_values": [
    "ī"
   ],
-  "corpus_count": 8,
+  "corpus_count": 6,
   "grantha": false,
-  "attestation_count": 6,
-  "inscription_count": 6
+  "attestation_count": 4,
+  "inscription_count": 4
  },
  {
   "id": "ez:letter/grantha-ja",
@@ -1704,15 +1700,15 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSPallava00022",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00029",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00035",
    "DHARMA_INSPallava00037",
    "DHARMA_INSPallava00039",
    "DHARMA_INSPallava00041",
    "DHARMA_INSPallava00046",
-   "DHARMA_INSPallava00062"
+   "DHARMA_INSPallava00062",
+   "DHARMA_INSPallava00067",
+   "DHARMA_INSPallava00095"
   ],
   "stage": "grantha",
   "glyph": "𑌜",
@@ -1720,7 +1716,7 @@
   "iso_values": [
    "ja"
   ],
-  "corpus_count": 156,
+  "corpus_count": 134,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1760,14 +1756,14 @@
   "attested_in": [
    "DHARMA_INSPallava00019",
    "DHARMA_INSPallava00022",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00027",
    "DHARMA_INSPallava00029",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00035",
    "DHARMA_INSPallava00037",
    "DHARMA_INSPallava00039",
-   "DHARMA_INSPallava00041"
+   "DHARMA_INSPallava00041",
+   "DHARMA_INSPallava00046",
+   "DHARMA_INSPallava00061"
   ],
   "stage": "grantha",
   "glyph": "𑌕",
@@ -1775,7 +1771,7 @@
   "iso_values": [
    "ka"
   ],
-  "corpus_count": 621,
+  "corpus_count": 567,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1793,11 +1789,9 @@
   "attested_in": [
    "DHARMA_INSPallava00037",
    "DHARMA_INSPallava00062",
-   "DHARMA_INSPallava00064",
    "DHARMA_INSPallava00155",
    "DHARMA_INSPallava00249",
    "DHARMA_INSPallava00380",
-   "DHARMA_INSPallava00389",
    "DHARMA_INSPandya01003",
    "DHARMA_INSPandya01017"
   ],
@@ -1807,10 +1801,10 @@
   "iso_values": [
    "kha"
   ],
-  "corpus_count": 27,
+  "corpus_count": 22,
   "grantha": false,
-  "attestation_count": 9,
-  "inscription_count": 9
+  "attestation_count": 7,
+  "inscription_count": 7
  },
  {
   "id": "ez:letter/grantha-la",
@@ -1825,14 +1819,14 @@
   "attested_in": [
    "DHARMA_INSPallava00019",
    "DHARMA_INSPallava00022",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00027",
    "DHARMA_INSPallava00029",
    "DHARMA_INSPallava00030",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00034",
    "DHARMA_INSPallava00035",
-   "DHARMA_INSPallava00037"
+   "DHARMA_INSPallava00037",
+   "DHARMA_INSPallava00039",
+   "DHARMA_INSPallava00041"
   ],
   "stage": "grantha",
   "glyph": "𑌲",
@@ -1840,7 +1834,7 @@
   "iso_values": [
    "la"
   ],
-  "corpus_count": 480,
+  "corpus_count": 446,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1882,12 +1876,12 @@
    "DHARMA_INSPallava00039",
    "DHARMA_INSPallava00046",
    "DHARMA_INSPallava00062",
-   "DHARMA_INSPallava00063",
    "DHARMA_INSPallava00067",
    "DHARMA_INSPallava00095",
    "DHARMA_INSPallava00155",
    "DHARMA_INSPallava00314",
-   "DHARMA_INSPallava00382"
+   "DHARMA_INSPandya01003",
+   "DHARMA_INSPandya01004"
   ],
   "stage": "grantha",
   "glyph": "𑌳",
@@ -1895,7 +1889,7 @@
   "iso_values": [
    "ḷa"
   ],
-  "corpus_count": 76,
+  "corpus_count": 72,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1913,14 +1907,14 @@
   "attested_in": [
    "DHARMA_INSPallava00019",
    "DHARMA_INSPallava00022",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00027",
    "DHARMA_INSPallava00029",
    "DHARMA_INSPallava00030",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00035",
    "DHARMA_INSPallava00037",
-   "DHARMA_INSPallava00039"
+   "DHARMA_INSPallava00039",
+   "DHARMA_INSPallava00041",
+   "DHARMA_INSPallava00046"
   ],
   "stage": "grantha",
   "glyph": "𑌮",
@@ -1928,7 +1922,7 @@
   "iso_values": [
    "ma"
   ],
-  "corpus_count": 873,
+  "corpus_count": 755,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -1947,13 +1941,13 @@
    "DHARMA_INSPallava00019",
    "DHARMA_INSPallava00022",
    "DHARMA_INSPallava00023",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00027",
    "DHARMA_INSPallava00029",
    "DHARMA_INSPallava00030",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00034",
-   "DHARMA_INSPallava00035"
+   "DHARMA_INSPallava00035",
+   "DHARMA_INSPallava00037",
+   "DHARMA_INSPallava00039"
   ],
   "stage": "grantha",
   "glyph": "𑌨",
@@ -1961,7 +1955,7 @@
   "iso_values": [
    "na"
   ],
-  "corpus_count": 691,
+  "corpus_count": 603,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -2007,14 +2001,14 @@
   "attested_in": [
    "DHARMA_INSPallava00019",
    "DHARMA_INSPallava00022",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00027",
    "DHARMA_INSPallava00029",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00035",
    "DHARMA_INSPallava00037",
    "DHARMA_INSPallava00039",
-   "DHARMA_INSPallava00041"
+   "DHARMA_INSPallava00041",
+   "DHARMA_INSPallava00046",
+   "DHARMA_INSPallava00062"
   ],
   "stage": "grantha",
   "glyph": "𑌣",
@@ -2022,7 +2016,7 @@
   "iso_values": [
    "ṇa"
   ],
-  "corpus_count": 191,
+  "corpus_count": 160,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -2044,10 +2038,10 @@
    "DHARMA_INSPallava00037",
    "DHARMA_INSPallava00046",
    "DHARMA_INSPallava00062",
-   "DHARMA_INSPallava00064",
    "DHARMA_INSPallava00067",
    "DHARMA_INSPallava00095",
-   "DHARMA_INSPallava00155"
+   "DHARMA_INSPallava00155",
+   "DHARMA_INSPandya01003"
   ],
   "stage": "grantha",
   "glyph": "𑌞",
@@ -2055,7 +2049,7 @@
   "iso_values": [
    "ña"
   ],
-  "corpus_count": 55,
+  "corpus_count": 48,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -2077,7 +2071,6 @@
    "DHARMA_INSPallava00046",
    "DHARMA_INSPallava00155",
    "DHARMA_INSPandya01003",
-   "DHARMA_INSPandya01014",
    "DHARMA_INSTamilNadu01002"
   ],
   "stage": "grantha",
@@ -2086,10 +2079,10 @@
   "iso_values": [
    "o"
   ],
-  "corpus_count": 43,
+  "corpus_count": 42,
   "grantha": false,
-  "attestation_count": 8,
-  "inscription_count": 8
+  "attestation_count": 7,
+  "inscription_count": 7
  },
  {
   "id": "ez:letter/grantha-pa",
@@ -2104,14 +2097,14 @@
   "attested_in": [
    "DHARMA_INSPallava00022",
    "DHARMA_INSPallava00023",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00027",
    "DHARMA_INSPallava00029",
    "DHARMA_INSPallava00030",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00034",
    "DHARMA_INSPallava00035",
-   "DHARMA_INSPallava00037"
+   "DHARMA_INSPallava00037",
+   "DHARMA_INSPallava00039",
+   "DHARMA_INSPallava00041"
   ],
   "stage": "grantha",
   "glyph": "𑌪",
@@ -2119,7 +2112,7 @@
   "iso_values": [
    "pa"
   ],
-  "corpus_count": 522,
+  "corpus_count": 473,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -2137,8 +2130,7 @@
   "attested_in": [
    "DHARMA_INSPallava00046",
    "DHARMA_INSPallava00062",
-   "DHARMA_INSPallava00155",
-   "DHARMA_INSTamilNadu00822"
+   "DHARMA_INSPallava00155"
   ],
   "stage": "grantha",
   "glyph": "𑌫",
@@ -2146,10 +2138,10 @@
   "iso_values": [
    "pha"
   ],
-  "corpus_count": 5,
+  "corpus_count": 4,
   "grantha": false,
-  "attestation_count": 4,
-  "inscription_count": 4
+  "attestation_count": 3,
+  "inscription_count": 3
  },
  {
   "id": "ez:letter/grantha-ra",
@@ -2165,13 +2157,13 @@
    "DHARMA_INSPallava00019",
    "DHARMA_INSPallava00022",
    "DHARMA_INSPallava00023",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00027",
    "DHARMA_INSPallava00029",
    "DHARMA_INSPallava00030",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00034",
-   "DHARMA_INSPallava00035"
+   "DHARMA_INSPallava00035",
+   "DHARMA_INSPallava00037",
+   "DHARMA_INSPallava00039"
   ],
   "stage": "grantha",
   "glyph": "𑌰",
@@ -2179,7 +2171,7 @@
   "iso_values": [
    "ra"
   ],
-  "corpus_count": 984,
+  "corpus_count": 823,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -2245,14 +2237,14 @@
   "attested_in": [
    "DHARMA_INSPallava00019",
    "DHARMA_INSPallava00022",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00027",
    "DHARMA_INSPallava00029",
    "DHARMA_INSPallava00030",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00034",
    "DHARMA_INSPallava00037",
-   "DHARMA_INSPallava00039"
+   "DHARMA_INSPallava00039",
+   "DHARMA_INSPallava00041",
+   "DHARMA_INSPallava00046"
   ],
   "stage": "grantha",
   "glyph": "𑌸",
@@ -2260,7 +2252,7 @@
   "iso_values": [
    "sa"
   ],
-  "corpus_count": 524,
+  "corpus_count": 450,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -2278,14 +2270,14 @@
   "attested_in": [
    "DHARMA_INSPallava00019",
    "DHARMA_INSPallava00022",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00027",
    "DHARMA_INSPallava00029",
    "DHARMA_INSPallava00030",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00035",
    "DHARMA_INSPallava00037",
-   "DHARMA_INSPallava00039"
+   "DHARMA_INSPallava00039",
+   "DHARMA_INSPallava00041",
+   "DHARMA_INSPallava00046"
   ],
   "stage": "grantha",
   "glyph": "𑌶",
@@ -2293,7 +2285,7 @@
   "iso_values": [
    "śa"
   ],
-  "corpus_count": 250,
+  "corpus_count": 199,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -2311,14 +2303,14 @@
   "attested_in": [
    "DHARMA_INSPallava00019",
    "DHARMA_INSPallava00022",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00027",
    "DHARMA_INSPallava00030",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00037",
    "DHARMA_INSPallava00041",
    "DHARMA_INSPallava00046",
-   "DHARMA_INSPallava00051"
+   "DHARMA_INSPallava00062",
+   "DHARMA_INSPallava00155",
+   "DHARMA_INSPallava00319"
   ],
   "stage": "grantha",
   "glyph": "𑌷",
@@ -2326,7 +2318,7 @@
   "iso_values": [
    "ṣa"
   ],
-  "corpus_count": 89,
+  "corpus_count": 72,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -2344,14 +2336,14 @@
   "attested_in": [
    "DHARMA_INSPallava00019",
    "DHARMA_INSPallava00022",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00027",
    "DHARMA_INSPallava00029",
    "DHARMA_INSPallava00030",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00034",
    "DHARMA_INSPallava00035",
-   "DHARMA_INSPallava00037"
+   "DHARMA_INSPallava00037",
+   "DHARMA_INSPallava00039",
+   "DHARMA_INSPallava00041"
   ],
   "stage": "grantha",
   "glyph": "𑌤",
@@ -2359,7 +2351,7 @@
   "iso_values": [
    "ta"
   ],
-  "corpus_count": 972,
+  "corpus_count": 840,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -2376,15 +2368,15 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSPallava00022",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00039",
    "DHARMA_INSPallava00046",
-   "DHARMA_INSPallava00051",
    "DHARMA_INSPallava00062",
-   "DHARMA_INSPallava00064",
    "DHARMA_INSPallava00067",
    "DHARMA_INSPallava00095",
-   "DHARMA_INSPallava00155"
+   "DHARMA_INSPallava00155",
+   "DHARMA_INSPallava00249",
+   "DHARMA_INSPallava00359",
+   "DHARMA_INSPallava00387"
   ],
   "stage": "grantha",
   "glyph": "𑌥",
@@ -2392,7 +2384,7 @@
   "iso_values": [
    "tha"
   ],
-  "corpus_count": 63,
+  "corpus_count": 57,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -2409,15 +2401,15 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSPallava00022",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00027",
    "DHARMA_INSPallava00046",
    "DHARMA_INSPallava00062",
-   "DHARMA_INSPallava00064",
    "DHARMA_INSPallava00095",
    "DHARMA_INSPallava00155",
-   "DHARMA_INSPallava00389",
-   "DHARMA_INSPandya01003"
+   "DHARMA_INSPandya01003",
+   "DHARMA_INSPandya01004",
+   "DHARMA_INSPandya01013",
+   "DHARMA_INSPandya01017"
   ],
   "stage": "grantha",
   "glyph": "𑌟",
@@ -2425,7 +2417,7 @@
   "iso_values": [
    "ṭa"
   ],
-  "corpus_count": 269,
+  "corpus_count": 262,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -2441,8 +2433,6 @@
   "broader": "ez:script_stage/grantha",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00033",
-   "DHARMA_INSPallava00064",
    "DHARMA_INSPallava00536"
   ],
   "stage": "grantha",
@@ -2451,10 +2441,10 @@
   "iso_values": [
    "ṭha"
   ],
-  "corpus_count": 3,
+  "corpus_count": 1,
   "grantha": false,
-  "attestation_count": 3,
-  "inscription_count": 3
+  "attestation_count": 1,
+  "inscription_count": 1
  },
  {
   "id": "ez:letter/grantha-u",
@@ -2468,15 +2458,15 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSPallava00022",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00034",
    "DHARMA_INSPallava00039",
    "DHARMA_INSPallava00046",
    "DHARMA_INSPallava00062",
-   "DHARMA_INSPallava00064",
    "DHARMA_INSPallava00155",
    "DHARMA_INSPallava00392",
-   "DHARMA_INSPandya01003"
+   "DHARMA_INSPandya01003",
+   "DHARMA_INSPandya01004",
+   "DHARMA_INSTamilNadu00001"
   ],
   "stage": "grantha",
   "glyph": "𑌉",
@@ -2484,7 +2474,7 @@
   "iso_values": [
    "u"
   ],
-  "corpus_count": 45,
+  "corpus_count": 42,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -2529,13 +2519,13 @@
    "DHARMA_INSPallava00019",
    "DHARMA_INSPallava00022",
    "DHARMA_INSPallava00023",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00027",
    "DHARMA_INSPallava00029",
    "DHARMA_INSPallava00030",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00035",
-   "DHARMA_INSPallava00037"
+   "DHARMA_INSPallava00037",
+   "DHARMA_INSPallava00039",
+   "DHARMA_INSPallava00041"
   ],
   "stage": "grantha",
   "glyph": "𑌵",
@@ -2543,7 +2533,7 @@
   "iso_values": [
    "va"
   ],
-  "corpus_count": 641,
+  "corpus_count": 565,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -2561,14 +2551,14 @@
   "attested_in": [
    "DHARMA_INSPallava00019",
    "DHARMA_INSPallava00022",
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00027",
    "DHARMA_INSPallava00029",
    "DHARMA_INSPallava00030",
-   "DHARMA_INSPallava00033",
    "DHARMA_INSPallava00037",
    "DHARMA_INSPallava00039",
-   "DHARMA_INSPallava00041"
+   "DHARMA_INSPallava00041",
+   "DHARMA_INSPallava00046",
+   "DHARMA_INSPallava00062"
   ],
   "stage": "grantha",
   "glyph": "𑌯",
@@ -2576,7 +2566,7 @@
   "iso_values": [
    "ya"
   ],
-  "corpus_count": 538,
+  "corpus_count": 469,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -2592,10 +2582,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
@@ -2609,10 +2595,10 @@
   "iso_values": [
    "a"
   ],
-  "corpus_count": 143,
+  "corpus_count": 39,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:letter/later-tamil-aa",
@@ -2625,12 +2611,7 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
-   "DHARMA_INSTamilNadu00815",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
    "DHARMA_INStfaSIIv01p0i0044",
@@ -2642,10 +2623,10 @@
   "iso_values": [
    "ā"
   ],
-  "corpus_count": 92,
+  "corpus_count": 13,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 5,
+  "inscription_count": 5
  },
  {
   "id": "ez:letter/later-tamil-ai",
@@ -2727,10 +2708,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
@@ -2744,10 +2721,10 @@
   "iso_values": [
    "ca"
   ],
-  "corpus_count": 296,
+  "corpus_count": 59,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:letter/later-tamil-e",
@@ -2760,13 +2737,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
-   "DHARMA_INSTamilNadu00815",
-   "DHARMA_INSTamilNadu00816",
-   "DHARMA_INSTamilNadu00820",
-   "DHARMA_INSTamilNadu00821",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0044",
    "DHARMA_INStfaSIIv01p0i0045"
@@ -2778,10 +2748,10 @@
    "e",
    "ē"
   ],
-  "corpus_count": 53,
+  "corpus_count": 6,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 3,
+  "inscription_count": 3
  },
  {
   "id": "ez:letter/later-tamil-ha",
@@ -2794,10 +2764,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00816",
-   "DHARMA_INSTamilNadu00820",
-   "DHARMA_INSTamilNadu00821",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
    "DHARMA_INStfaSIIv01p0i0044",
@@ -2810,10 +2776,10 @@
   "iso_values": [
    "ha"
   ],
-  "corpus_count": 36,
+  "corpus_count": 17,
   "grantha": true,
-  "attestation_count": 9,
-  "inscription_count": 9
+  "attestation_count": 5,
+  "inscription_count": 5
  },
  {
   "id": "ez:letter/later-tamil-i",
@@ -2826,11 +2792,7 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
-   "DHARMA_INSTamilNadu00815",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
    "DHARMA_INStfaSIIv01p0i0044",
@@ -2843,10 +2805,10 @@
   "iso_values": [
    "i"
   ],
-  "corpus_count": 59,
+  "corpus_count": 7,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:letter/later-tamil-ii",
@@ -2858,20 +2820,17 @@
   "dynasty": null,
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00457"
-  ],
+  "attested_in": [],
   "stage": "later-tamil",
   "glyph": "ஈ",
   "letter_type": "vowel",
   "iso_values": [
    "ī"
   ],
-  "corpus_count": 3,
+  "corpus_count": 0,
   "grantha": false,
-  "attestation_count": 2,
-  "inscription_count": 2
+  "attestation_count": 0,
+  "inscription_count": 0
  },
  {
   "id": "ez:letter/later-tamil-ja",
@@ -2884,11 +2843,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00815",
-   "DHARMA_INSTamilNadu00816",
-   "DHARMA_INSTamilNadu00820",
-   "DHARMA_INSTamilNadu00821",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
    "DHARMA_INStfaSIIv01p0i0044",
@@ -2901,10 +2855,10 @@
   "iso_values": [
    "ja"
   ],
-  "corpus_count": 49,
+  "corpus_count": 23,
   "grantha": true,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 5,
+  "inscription_count": 5
  },
  {
   "id": "ez:letter/later-tamil-ka",
@@ -2917,10 +2871,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
@@ -2934,10 +2884,10 @@
   "iso_values": [
    "ka"
   ],
-  "corpus_count": 764,
+  "corpus_count": 118,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:letter/later-tamil-kssa",
@@ -2950,11 +2900,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00815",
-   "DHARMA_INSTamilNadu00816",
-   "DHARMA_INSTamilNadu00820",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
    "DHARMA_INStfaSIIv01p0i0044",
@@ -2967,10 +2912,10 @@
   "iso_values": [
    "kṣa"
   ],
-  "corpus_count": 45,
+  "corpus_count": 9,
   "grantha": true,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 5,
+  "inscription_count": 5
  },
  {
   "id": "ez:letter/later-tamil-la",
@@ -2983,10 +2928,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
@@ -3000,10 +2941,10 @@
   "iso_values": [
    "la"
   ],
-  "corpus_count": 292,
+  "corpus_count": 70,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:letter/later-tamil-lla",
@@ -3016,10 +2957,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
@@ -3033,10 +2970,10 @@
   "iso_values": [
    "ḷa"
   ],
-  "corpus_count": 149,
+  "corpus_count": 21,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:letter/later-tamil-ma",
@@ -3049,10 +2986,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
@@ -3066,10 +2999,10 @@
   "iso_values": [
    "ma"
   ],
-  "corpus_count": 705,
+  "corpus_count": 161,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:letter/later-tamil-na",
@@ -3082,10 +3015,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
@@ -3099,10 +3028,10 @@
   "iso_values": [
    "na"
   ],
-  "corpus_count": 322,
+  "corpus_count": 78,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:letter/later-tamil-nga",
@@ -3115,14 +3044,7 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
-   "DHARMA_INSTamilNadu00815",
-   "DHARMA_INSTamilNadu00816",
-   "DHARMA_INSTamilNadu00820",
-   "DHARMA_INSTamilNadu00821",
    "DHARMA_INSTamilNadu00824"
   ],
   "stage": "later-tamil",
@@ -3131,10 +3053,10 @@
   "iso_values": [
    "ṅa"
   ],
-  "corpus_count": 77,
+  "corpus_count": 11,
   "grantha": false,
-  "attestation_count": 9,
-  "inscription_count": 9
+  "attestation_count": 2,
+  "inscription_count": 2
  },
  {
   "id": "ez:letter/later-tamil-nna",
@@ -3147,10 +3069,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
@@ -3164,10 +3082,10 @@
   "iso_values": [
    "ṇa"
   ],
-  "corpus_count": 216,
+  "corpus_count": 40,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:letter/later-tamil-nnna",
@@ -3180,10 +3098,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
@@ -3197,10 +3111,10 @@
   "iso_values": [
    "ṉa"
   ],
-  "corpus_count": 265,
+  "corpus_count": 46,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:letter/later-tamil-nya",
@@ -3213,12 +3127,7 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
    "DHARMA_INSTamilNadu00461",
-   "DHARMA_INSTamilNadu00815",
-   "DHARMA_INSTamilNadu00816",
-   "DHARMA_INSTamilNadu00820",
-   "DHARMA_INSTamilNadu00821",
    "DHARMA_INStfaSIIv01p0i0043",
    "DHARMA_INStfaSIIv01p0i0044",
    "DHARMA_INStfaSIIv01p0i0045",
@@ -3230,10 +3139,10 @@
   "iso_values": [
    "ña"
   ],
-  "corpus_count": 38,
+  "corpus_count": 11,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 5,
+  "inscription_count": 5
  },
  {
   "id": "ez:letter/later-tamil-o",
@@ -3245,11 +3154,7 @@
   "dynasty": null,
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSTamilNadu00460",
-   "DHARMA_INSTamilNadu00815",
-   "DHARMA_INSTamilNadu00821"
-  ],
+  "attested_in": [],
   "stage": "later-tamil",
   "glyph": "ஒ",
   "letter_type": "vowel",
@@ -3257,10 +3162,10 @@
    "o",
    "ō"
   ],
-  "corpus_count": 7,
+  "corpus_count": 0,
   "grantha": false,
-  "attestation_count": 3,
-  "inscription_count": 3
+  "attestation_count": 0,
+  "inscription_count": 0
  },
  {
   "id": "ez:letter/later-tamil-pa",
@@ -3273,10 +3178,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
@@ -3290,10 +3191,10 @@
   "iso_values": [
    "pa"
   ],
-  "corpus_count": 503,
+  "corpus_count": 103,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:letter/later-tamil-ra",
@@ -3306,10 +3207,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
@@ -3323,10 +3220,10 @@
   "iso_values": [
    "ra"
   ],
-  "corpus_count": 814,
+  "corpus_count": 188,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:letter/later-tamil-rra",
@@ -3339,10 +3236,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
@@ -3356,10 +3249,10 @@
   "iso_values": [
    "ṟa"
   ],
-  "corpus_count": 192,
+  "corpus_count": 43,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:letter/later-tamil-sa",
@@ -3372,11 +3265,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00460",
-   "DHARMA_INSTamilNadu00815",
-   "DHARMA_INSTamilNadu00816",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
    "DHARMA_INStfaSIIv01p0i0044",
@@ -3389,10 +3277,10 @@
   "iso_values": [
    "sa"
   ],
-  "corpus_count": 143,
+  "corpus_count": 53,
   "grantha": true,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 5,
+  "inscription_count": 5
  },
  {
   "id": "ez:letter/later-tamil-sha",
@@ -3405,10 +3293,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
@@ -3422,10 +3306,10 @@
   "iso_values": [
    "śa"
   ],
-  "corpus_count": 141,
+  "corpus_count": 41,
   "grantha": true,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:letter/later-tamil-ssa",
@@ -3438,14 +3322,7 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
-   "DHARMA_INSTamilNadu00815",
-   "DHARMA_INSTamilNadu00816",
-   "DHARMA_INSTamilNadu00820",
-   "DHARMA_INSTamilNadu00821",
    "DHARMA_INSTamilNadu00824"
   ],
   "stage": "later-tamil",
@@ -3454,10 +3331,10 @@
   "iso_values": [
    "ṣa"
   ],
-  "corpus_count": 32,
+  "corpus_count": 2,
   "grantha": true,
-  "attestation_count": 9,
-  "inscription_count": 9
+  "attestation_count": 2,
+  "inscription_count": 2
  },
  {
   "id": "ez:letter/later-tamil-ta",
@@ -3470,10 +3347,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
@@ -3487,10 +3360,10 @@
   "iso_values": [
    "ta"
   ],
-  "corpus_count": 827,
+  "corpus_count": 162,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:letter/later-tamil-tta",
@@ -3503,10 +3376,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
@@ -3520,10 +3389,10 @@
   "iso_values": [
    "ṭa"
   ],
-  "corpus_count": 342,
+  "corpus_count": 35,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:letter/later-tamil-u",
@@ -3536,14 +3405,7 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
-   "DHARMA_INSTamilNadu00461",
-   "DHARMA_INSTamilNadu00815",
-   "DHARMA_INSTamilNadu00816",
-   "DHARMA_INSTamilNadu00820",
-   "DHARMA_INSTamilNadu00821"
+   "DHARMA_INSTamilNadu00461"
   ],
   "stage": "later-tamil",
   "glyph": "உ",
@@ -3551,10 +3413,10 @@
   "iso_values": [
    "u"
   ],
-  "corpus_count": 51,
+  "corpus_count": 1,
   "grantha": false,
-  "attestation_count": 8,
-  "inscription_count": 8
+  "attestation_count": 1,
+  "inscription_count": 1
  },
  {
   "id": "ez:letter/later-tamil-uu",
@@ -3566,23 +3428,17 @@
   "dynasty": null,
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00460",
-   "DHARMA_INSTamilNadu00816",
-   "DHARMA_INSTamilNadu00820",
-   "DHARMA_INSTamilNadu00821"
-  ],
+  "attested_in": [],
   "stage": "later-tamil",
   "glyph": "ஊ",
   "letter_type": "vowel",
   "iso_values": [
    "ū"
   ],
-  "corpus_count": 6,
+  "corpus_count": 0,
   "grantha": false,
-  "attestation_count": 5,
-  "inscription_count": 5
+  "attestation_count": 0,
+  "inscription_count": 0
  },
  {
   "id": "ez:letter/later-tamil-va",
@@ -3595,10 +3451,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
@@ -3612,10 +3464,10 @@
   "iso_values": [
    "va"
   ],
-  "corpus_count": 412,
+  "corpus_count": 132,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:letter/later-tamil-ya",
@@ -3628,10 +3480,6 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INStfaSIIv01p0i0043",
@@ -3645,10 +3493,10 @@
   "iso_values": [
    "ya"
   ],
-  "corpus_count": 467,
+  "corpus_count": 104,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:letter/later-tamil-zha",
@@ -3661,13 +3509,7 @@
   "broader": "ez:script_stage/later-tamil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00460",
    "DHARMA_INSTamilNadu00461",
-   "DHARMA_INSTamilNadu00815",
-   "DHARMA_INSTamilNadu00816",
-   "DHARMA_INSTamilNadu00820",
-   "DHARMA_INSTamilNadu00821",
    "DHARMA_INSTamilNadu00824"
   ],
   "stage": "later-tamil",
@@ -3676,10 +3518,10 @@
   "iso_values": [
    "ḻa"
   ],
-  "corpus_count": 49,
+  "corpus_count": 3,
   "grantha": false,
-  "attestation_count": 8,
-  "inscription_count": 8
+  "attestation_count": 2,
+  "inscription_count": 2
  },
  {
   "id": "ez:letter/pallava-tamil-a",
@@ -3709,7 +3551,7 @@
   "iso_values": [
    "a"
   ],
-  "corpus_count": 855,
+  "corpus_count": 673,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -3734,7 +3576,7 @@
    "DHARMA_INSPallava00074",
    "DHARMA_INSPallava00075",
    "DHARMA_INSPallava00078",
-   "DHARMA_INSPallava00079"
+   "DHARMA_INSPallava00080"
   ],
   "stage": "pallava-tamil",
   "glyph": "ஆ",
@@ -3742,7 +3584,7 @@
   "iso_values": [
    "ā"
   ],
-  "corpus_count": 1021,
+  "corpus_count": 756,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -3760,14 +3602,14 @@
   "attested_in": [
    "DHARMA_INSPallava00071",
    "DHARMA_INSPallava00075",
-   "DHARMA_INSPallava00079",
    "DHARMA_INSPallava00080",
    "DHARMA_INSPallava00084",
-   "DHARMA_INSPallava00085",
    "DHARMA_INSPallava00087",
    "DHARMA_INSPallava00088",
    "DHARMA_INSPallava00092",
-   "DHARMA_INSPallava00098"
+   "DHARMA_INSPallava00105",
+   "DHARMA_INSPallava00108",
+   "DHARMA_INSPallava00111"
   ],
   "stage": "pallava-tamil",
   "glyph": "ஐ",
@@ -3775,7 +3617,7 @@
   "iso_values": [
    "ai"
   ],
-  "corpus_count": 92,
+  "corpus_count": 69,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -3814,7 +3656,6 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSPallava00044",
-   "DHARMA_INSPallava00224",
    "DHARMA_INSPallava00502"
   ],
   "stage": "pallava-tamil",
@@ -3823,10 +3664,10 @@
   "iso_values": [
    "ḵ"
   ],
-  "corpus_count": 3,
+  "corpus_count": 2,
   "grantha": false,
-  "attestation_count": 3,
-  "inscription_count": 3
+  "attestation_count": 2,
+  "inscription_count": 2
  },
  {
   "id": "ez:letter/pallava-tamil-ca",
@@ -3856,7 +3697,7 @@
   "iso_values": [
    "ca"
   ],
-  "corpus_count": 2000,
+  "corpus_count": 1513,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -3878,10 +3719,10 @@
    "DHARMA_INSPallava00074",
    "DHARMA_INSPallava00078",
    "DHARMA_INSPallava00080",
-   "DHARMA_INSPallava00083",
    "DHARMA_INSPallava00086",
    "DHARMA_INSPallava00088",
-   "DHARMA_INSPallava00091"
+   "DHARMA_INSPallava00091",
+   "DHARMA_INSPallava00092"
   ],
   "stage": "pallava-tamil",
   "glyph": "எ",
@@ -3890,7 +3731,7 @@
    "e",
    "ē"
   ],
-  "corpus_count": 664,
+  "corpus_count": 506,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -3923,7 +3764,7 @@
   "iso_values": [
    "ha"
   ],
-  "corpus_count": 212,
+  "corpus_count": 156,
   "grantha": true,
   "attestation_count": 10,
   "inscription_count": 10
@@ -3945,10 +3786,10 @@
    "DHARMA_INSPallava00074",
    "DHARMA_INSPallava00075",
    "DHARMA_INSPallava00078",
-   "DHARMA_INSPallava00079",
    "DHARMA_INSPallava00080",
    "DHARMA_INSPallava00082",
-   "DHARMA_INSPallava00083"
+   "DHARMA_INSPallava00084",
+   "DHARMA_INSPallava00087"
   ],
   "stage": "pallava-tamil",
   "glyph": "இ",
@@ -3956,7 +3797,7 @@
   "iso_values": [
    "i"
   ],
-  "corpus_count": 1261,
+  "corpus_count": 918,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -3989,7 +3830,7 @@
   "iso_values": [
    "ī"
   ],
-  "corpus_count": 18,
+  "corpus_count": 17,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4008,13 +3849,13 @@
    "DHARMA_INSPallava00044",
    "DHARMA_INSPallava00091",
    "DHARMA_INSPallava00092",
-   "DHARMA_INSPallava00098",
-   "DHARMA_INSPallava00101",
    "DHARMA_INSPallava00105",
    "DHARMA_INSPallava00107",
-   "DHARMA_INSPallava00110",
-   "DHARMA_INSPallava00119",
-   "DHARMA_INSPallava00127"
+   "DHARMA_INSPallava00127",
+   "DHARMA_INSPallava00132",
+   "DHARMA_INSPallava00134",
+   "DHARMA_INSPallava00139",
+   "DHARMA_INSPallava00140"
   ],
   "stage": "pallava-tamil",
   "glyph": "ஜ",
@@ -4022,7 +3863,7 @@
   "iso_values": [
    "ja"
   ],
-  "corpus_count": 87,
+  "corpus_count": 60,
   "grantha": true,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4055,7 +3896,7 @@
   "iso_values": [
    "ka"
   ],
-  "corpus_count": 7249,
+  "corpus_count": 5414,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4072,15 +3913,15 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSPallava00071",
-   "DHARMA_INSPallava00098",
    "DHARMA_INSPallava00099",
-   "DHARMA_INSPallava00101",
    "DHARMA_INSPallava00105",
-   "DHARMA_INSPallava00110",
    "DHARMA_INSPallava00115",
-   "DHARMA_INSPallava00118",
-   "DHARMA_INSPallava00119",
-   "DHARMA_INSPallava00120"
+   "DHARMA_INSPallava00120",
+   "DHARMA_INSPallava00122",
+   "DHARMA_INSPallava00123",
+   "DHARMA_INSPallava00130",
+   "DHARMA_INSPallava00132",
+   "DHARMA_INSPallava00136"
   ],
   "stage": "pallava-tamil",
   "glyph": "க்ஷ",
@@ -4088,7 +3929,7 @@
   "iso_values": [
    "kṣa"
   ],
-  "corpus_count": 75,
+  "corpus_count": 57,
   "grantha": true,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4121,7 +3962,7 @@
   "iso_values": [
    "la"
   ],
-  "corpus_count": 2425,
+  "corpus_count": 1833,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4154,7 +3995,7 @@
   "iso_values": [
    "ḷa"
   ],
-  "corpus_count": 999,
+  "corpus_count": 736,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4187,7 +4028,7 @@
   "iso_values": [
    "ma"
   ],
-  "corpus_count": 4811,
+  "corpus_count": 3670,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4212,7 +4053,7 @@
    "DHARMA_INSPallava00074",
    "DHARMA_INSPallava00075",
    "DHARMA_INSPallava00078",
-   "DHARMA_INSPallava00079"
+   "DHARMA_INSPallava00080"
   ],
   "stage": "pallava-tamil",
   "glyph": "ந",
@@ -4220,7 +4061,7 @@
   "iso_values": [
    "na"
   ],
-  "corpus_count": 2351,
+  "corpus_count": 1773,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4253,7 +4094,7 @@
   "iso_values": [
    "ṅa"
   ],
-  "corpus_count": 579,
+  "corpus_count": 417,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4286,7 +4127,7 @@
   "iso_values": [
    "ṇa"
   ],
-  "corpus_count": 1379,
+  "corpus_count": 1061,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4319,7 +4160,7 @@
   "iso_values": [
    "ṉa"
   ],
-  "corpus_count": 2819,
+  "corpus_count": 2049,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4352,7 +4193,7 @@
   "iso_values": [
    "ña"
   ],
-  "corpus_count": 369,
+  "corpus_count": 287,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4374,10 +4215,10 @@
    "DHARMA_INSPallava00074",
    "DHARMA_INSPallava00078",
    "DHARMA_INSPallava00080",
-   "DHARMA_INSPallava00083",
    "DHARMA_INSPallava00091",
    "DHARMA_INSPallava00096",
-   "DHARMA_INSPallava00097"
+   "DHARMA_INSPallava00097",
+   "DHARMA_INSPallava00100"
   ],
   "stage": "pallava-tamil",
   "glyph": "ஒ",
@@ -4386,7 +4227,7 @@
    "o",
    "ō"
   ],
-  "corpus_count": 345,
+  "corpus_count": 260,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4419,7 +4260,7 @@
   "iso_values": [
    "pa"
   ],
-  "corpus_count": 4070,
+  "corpus_count": 3056,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4452,7 +4293,7 @@
   "iso_values": [
    "ra"
   ],
-  "corpus_count": 5154,
+  "corpus_count": 3827,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4476,8 +4317,8 @@
    "DHARMA_INSPallava00074",
    "DHARMA_INSPallava00075",
    "DHARMA_INSPallava00078",
-   "DHARMA_INSPallava00079",
-   "DHARMA_INSPallava00080"
+   "DHARMA_INSPallava00080",
+   "DHARMA_INSPallava00082"
   ],
   "stage": "pallava-tamil",
   "glyph": "ற",
@@ -4485,7 +4326,7 @@
   "iso_values": [
    "ṟa"
   ],
-  "corpus_count": 2106,
+  "corpus_count": 1542,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4509,8 +4350,8 @@
    "DHARMA_INSPallava00075",
    "DHARMA_INSPallava00078",
    "DHARMA_INSPallava00080",
-   "DHARMA_INSPallava00083",
-   "DHARMA_INSPallava00091"
+   "DHARMA_INSPallava00091",
+   "DHARMA_INSPallava00092"
   ],
   "stage": "pallava-tamil",
   "glyph": "ஸ",
@@ -4518,7 +4359,7 @@
   "iso_values": [
    "sa"
   ],
-  "corpus_count": 794,
+  "corpus_count": 589,
   "grantha": true,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4551,7 +4392,7 @@
   "iso_values": [
    "śa"
   ],
-  "corpus_count": 477,
+  "corpus_count": 355,
   "grantha": true,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4568,15 +4409,15 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSPallava00078",
-   "DHARMA_INSPallava00101",
    "DHARMA_INSPallava00105",
-   "DHARMA_INSPallava00106",
    "DHARMA_INSPallava00107",
    "DHARMA_INSPallava00115",
    "DHARMA_INSPallava00136",
    "DHARMA_INSPallava00141",
    "DHARMA_INSPallava00147",
-   "DHARMA_INSPallava00149"
+   "DHARMA_INSPallava00149",
+   "DHARMA_INSPallava00154",
+   "DHARMA_INSPallava00185"
   ],
   "stage": "pallava-tamil",
   "glyph": "ஷ",
@@ -4584,7 +4425,7 @@
   "iso_values": [
    "ṣa"
   ],
-  "corpus_count": 56,
+  "corpus_count": 48,
   "grantha": true,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4617,7 +4458,7 @@
   "iso_values": [
    "ta"
   ],
-  "corpus_count": 6994,
+  "corpus_count": 5238,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4650,7 +4491,7 @@
   "iso_values": [
    "ṭa"
   ],
-  "corpus_count": 4040,
+  "corpus_count": 3080,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4683,7 +4524,7 @@
   "iso_values": [
    "u"
   ],
-  "corpus_count": 386,
+  "corpus_count": 280,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4706,9 +4547,9 @@
    "DHARMA_INSPallava00078",
    "DHARMA_INSPallava00080",
    "DHARMA_INSPallava00082",
-   "DHARMA_INSPallava00083",
    "DHARMA_INSPallava00088",
-   "DHARMA_INSPallava00094"
+   "DHARMA_INSPallava00094",
+   "DHARMA_INSPallava00097"
   ],
   "stage": "pallava-tamil",
   "glyph": "ஊ",
@@ -4716,7 +4557,7 @@
   "iso_values": [
    "ū"
   ],
-  "corpus_count": 156,
+  "corpus_count": 115,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4749,7 +4590,7 @@
   "iso_values": [
    "va"
   ],
-  "corpus_count": 3768,
+  "corpus_count": 2841,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4782,7 +4623,7 @@
   "iso_values": [
    "ya"
   ],
-  "corpus_count": 2782,
+  "corpus_count": 2054,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -4807,7 +4648,7 @@
    "DHARMA_INSPallava00074",
    "DHARMA_INSPallava00075",
    "DHARMA_INSPallava00078",
-   "DHARMA_INSPallava00079"
+   "DHARMA_INSPallava00080"
   ],
   "stage": "pallava-tamil",
   "glyph": "ழ",
@@ -4815,7 +4656,7 @@
   "iso_values": [
    "ḻa"
   ],
-  "corpus_count": 853,
+  "corpus_count": 647,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -6619,23 +6460,23 @@
   "broader": "ez:script_stage/vatteluttu",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00252",
    "DHARMA_INSPallava00253",
    "DHARMA_INSPallava00272",
    "DHARMA_INSPallava00276",
    "DHARMA_INSPallava00280",
    "DHARMA_INSPallava00282",
    "DHARMA_INSPallava00283",
-   "DHARMA_INSPallava00284",
    "DHARMA_INSPallava00285",
-   "DHARMA_INSPallava00286"
+   "DHARMA_INSPallava00287",
+   "DHARMA_INSPallava00291",
+   "DHARMA_INSPallava00292"
   ],
   "stage": "vatteluttu",
   "letter_type": "vowel",
   "iso_values": [
    "a"
   ],
-  "corpus_count": 165,
+  "corpus_count": 101,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -6651,23 +6492,23 @@
   "broader": "ez:script_stage/vatteluttu",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00252",
    "DHARMA_INSPallava00253",
    "DHARMA_INSPallava00272",
    "DHARMA_INSPallava00273",
    "DHARMA_INSPallava00276",
-   "DHARMA_INSPallava00277",
    "DHARMA_INSPallava00278",
    "DHARMA_INSPallava00279",
    "DHARMA_INSPallava00280",
-   "DHARMA_INSPallava00281"
+   "DHARMA_INSPallava00282",
+   "DHARMA_INSPallava00283",
+   "DHARMA_INSPallava00285"
   ],
   "stage": "vatteluttu",
   "letter_type": "vowel",
   "iso_values": [
    "ā"
   ],
-  "corpus_count": 132,
+  "corpus_count": 80,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -6685,10 +6526,6 @@
   "attested_in": [
    "DHARMA_INSPallava00411",
    "DHARMA_INSPallava00431",
-   "DHARMA_INSPandya00013",
-   "DHARMA_INSPandya00027",
-   "DHARMA_INSPandya00036",
-   "DHARMA_INSPandya00081",
    "DHARMA_INSTamilNadu00177"
   ],
   "stage": "vatteluttu",
@@ -6696,10 +6533,10 @@
   "iso_values": [
    "ai"
   ],
-  "corpus_count": 10,
+  "corpus_count": 3,
   "grantha": false,
-  "attestation_count": 7,
-  "inscription_count": 7
+  "attestation_count": 3,
+  "inscription_count": 3
  },
  {
   "id": "ez:letter/vatteluttu-au",
@@ -6754,23 +6591,23 @@
   "broader": "ez:script_stage/vatteluttu",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00252",
    "DHARMA_INSPallava00253",
    "DHARMA_INSPallava00272",
    "DHARMA_INSPallava00273",
-   "DHARMA_INSPallava00274",
    "DHARMA_INSPallava00275",
    "DHARMA_INSPallava00276",
-   "DHARMA_INSPallava00277",
    "DHARMA_INSPallava00278",
-   "DHARMA_INSPallava00279"
+   "DHARMA_INSPallava00279",
+   "DHARMA_INSPallava00280",
+   "DHARMA_INSPallava00282",
+   "DHARMA_INSPallava00283"
   ],
   "stage": "vatteluttu",
   "letter_type": "consonant",
   "iso_values": [
    "ca"
   ],
-  "corpus_count": 496,
+  "corpus_count": 278,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -6786,16 +6623,16 @@
   "broader": "ez:script_stage/vatteluttu",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00252",
    "DHARMA_INSPallava00276",
-   "DHARMA_INSPallava00277",
    "DHARMA_INSPallava00278",
    "DHARMA_INSPallava00279",
    "DHARMA_INSPallava00282",
    "DHARMA_INSPallava00283",
-   "DHARMA_INSPallava00284",
    "DHARMA_INSPallava00285",
-   "DHARMA_INSPallava00286"
+   "DHARMA_INSPallava00291",
+   "DHARMA_INSPallava00292",
+   "DHARMA_INSPallava00293",
+   "DHARMA_INSPallava00296"
   ],
   "stage": "vatteluttu",
   "letter_type": "vowel",
@@ -6803,7 +6640,7 @@
    "e",
    "ē"
   ],
-  "corpus_count": 105,
+  "corpus_count": 61,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -6821,21 +6658,21 @@
   "attested_in": [
    "DHARMA_INSPallava00272",
    "DHARMA_INSPallava00280",
-   "DHARMA_INSPallava00281",
    "DHARMA_INSPallava00282",
    "DHARMA_INSPallava00283",
-   "DHARMA_INSPallava00284",
    "DHARMA_INSPallava00285",
-   "DHARMA_INSPallava00286",
    "DHARMA_INSPallava00288",
-   "DHARMA_INSPallava00295"
+   "DHARMA_INSPallava00296",
+   "DHARMA_INSPallava00297",
+   "DHARMA_INSPallava00298",
+   "DHARMA_INSPallava00299"
   ],
   "stage": "vatteluttu",
   "letter_type": "vowel",
   "iso_values": [
    "i"
   ],
-  "corpus_count": 194,
+  "corpus_count": 78,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -6851,12 +6688,10 @@
   "broader": "ez:script_stage/vatteluttu",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00252",
    "DHARMA_INSPallava00253",
    "DHARMA_INSPallava00279",
    "DHARMA_INSPallava00297",
    "DHARMA_INSPallava00549",
-   "DHARMA_INSPandya00095",
    "DHARMA_INSTamilNadu00178"
   ],
   "stage": "vatteluttu",
@@ -6864,10 +6699,10 @@
   "iso_values": [
    "ī"
   ],
-  "corpus_count": 7,
+  "corpus_count": 5,
   "grantha": false,
-  "attestation_count": 7,
-  "inscription_count": 7
+  "attestation_count": 5,
+  "inscription_count": 5
  },
  {
   "id": "ez:letter/vatteluttu-ka",
@@ -6880,23 +6715,23 @@
   "broader": "ez:script_stage/vatteluttu",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00252",
    "DHARMA_INSPallava00253",
    "DHARMA_INSPallava00272",
    "DHARMA_INSPallava00273",
-   "DHARMA_INSPallava00274",
    "DHARMA_INSPallava00275",
    "DHARMA_INSPallava00276",
-   "DHARMA_INSPallava00277",
    "DHARMA_INSPallava00278",
-   "DHARMA_INSPallava00279"
+   "DHARMA_INSPallava00279",
+   "DHARMA_INSPallava00280",
+   "DHARMA_INSPallava00282",
+   "DHARMA_INSPallava00283"
   ],
   "stage": "vatteluttu",
   "letter_type": "consonant",
   "iso_values": [
    "ka"
   ],
-  "corpus_count": 1534,
+  "corpus_count": 837,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -6914,21 +6749,21 @@
   "attested_in": [
    "DHARMA_INSPallava00272",
    "DHARMA_INSPallava00273",
-   "DHARMA_INSPallava00274",
    "DHARMA_INSPallava00275",
    "DHARMA_INSPallava00276",
-   "DHARMA_INSPallava00277",
    "DHARMA_INSPallava00278",
    "DHARMA_INSPallava00279",
    "DHARMA_INSPallava00280",
-   "DHARMA_INSPallava00281"
+   "DHARMA_INSPallava00282",
+   "DHARMA_INSPallava00283",
+   "DHARMA_INSPallava00285"
   ],
   "stage": "vatteluttu",
   "letter_type": "consonant",
   "iso_values": [
    "la"
   ],
-  "corpus_count": 454,
+  "corpus_count": 210,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -6949,18 +6784,18 @@
    "DHARMA_INSPallava00273",
    "DHARMA_INSPallava00275",
    "DHARMA_INSPallava00276",
-   "DHARMA_INSPallava00277",
    "DHARMA_INSPallava00278",
    "DHARMA_INSPallava00279",
    "DHARMA_INSPallava00282",
-   "DHARMA_INSPallava00283"
+   "DHARMA_INSPallava00283",
+   "DHARMA_INSPallava00285"
   ],
   "stage": "vatteluttu",
   "letter_type": "consonant",
   "iso_values": [
    "ḷa"
   ],
-  "corpus_count": 196,
+  "corpus_count": 100,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -6976,23 +6811,23 @@
   "broader": "ez:script_stage/vatteluttu",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00252",
    "DHARMA_INSPallava00253",
    "DHARMA_INSPallava00272",
    "DHARMA_INSPallava00273",
-   "DHARMA_INSPallava00274",
    "DHARMA_INSPallava00275",
    "DHARMA_INSPallava00276",
-   "DHARMA_INSPallava00277",
    "DHARMA_INSPallava00278",
-   "DHARMA_INSPallava00279"
+   "DHARMA_INSPallava00279",
+   "DHARMA_INSPallava00280",
+   "DHARMA_INSPallava00282",
+   "DHARMA_INSPallava00283"
   ],
   "stage": "vatteluttu",
   "letter_type": "consonant",
   "iso_values": [
    "ma"
   ],
-  "corpus_count": 826,
+  "corpus_count": 498,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -7008,23 +6843,23 @@
   "broader": "ez:script_stage/vatteluttu",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00252",
    "DHARMA_INSPallava00272",
-   "DHARMA_INSPallava00274",
    "DHARMA_INSPallava00276",
-   "DHARMA_INSPallava00277",
    "DHARMA_INSPallava00278",
    "DHARMA_INSPallava00279",
    "DHARMA_INSPallava00280",
-   "DHARMA_INSPallava00281",
-   "DHARMA_INSPallava00282"
+   "DHARMA_INSPallava00282",
+   "DHARMA_INSPallava00283",
+   "DHARMA_INSPallava00285",
+   "DHARMA_INSPallava00287",
+   "DHARMA_INSPallava00288"
   ],
   "stage": "vatteluttu",
   "letter_type": "consonant",
   "iso_values": [
    "na"
   ],
-  "corpus_count": 573,
+  "corpus_count": 293,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -7044,19 +6879,19 @@
    "DHARMA_INSPallava00273",
    "DHARMA_INSPallava00275",
    "DHARMA_INSPallava00276",
-   "DHARMA_INSPallava00277",
    "DHARMA_INSPallava00278",
    "DHARMA_INSPallava00282",
-   "DHARMA_INSPallava00284",
    "DHARMA_INSPallava00291",
-   "DHARMA_INSPallava00292"
+   "DHARMA_INSPallava00292",
+   "DHARMA_INSPallava00293",
+   "DHARMA_INSPallava00294"
   ],
   "stage": "vatteluttu",
   "letter_type": "consonant",
   "iso_values": [
    "ṅa"
   ],
-  "corpus_count": 138,
+  "corpus_count": 94,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -7072,23 +6907,23 @@
   "broader": "ez:script_stage/vatteluttu",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00252",
    "DHARMA_INSPallava00253",
    "DHARMA_INSPallava00273",
-   "DHARMA_INSPallava00274",
    "DHARMA_INSPallava00275",
    "DHARMA_INSPallava00276",
-   "DHARMA_INSPallava00277",
    "DHARMA_INSPallava00278",
    "DHARMA_INSPallava00279",
-   "DHARMA_INSPallava00280"
+   "DHARMA_INSPallava00280",
+   "DHARMA_INSPallava00282",
+   "DHARMA_INSPallava00283",
+   "DHARMA_INSPallava00285"
   ],
   "stage": "vatteluttu",
   "letter_type": "consonant",
   "iso_values": [
    "ṇa"
   ],
-  "corpus_count": 385,
+  "corpus_count": 235,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -7104,23 +6939,23 @@
   "broader": "ez:script_stage/vatteluttu",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00252",
    "DHARMA_INSPallava00253",
    "DHARMA_INSPallava00272",
    "DHARMA_INSPallava00273",
-   "DHARMA_INSPallava00274",
    "DHARMA_INSPallava00275",
    "DHARMA_INSPallava00276",
-   "DHARMA_INSPallava00277",
    "DHARMA_INSPallava00278",
-   "DHARMA_INSPallava00279"
+   "DHARMA_INSPallava00279",
+   "DHARMA_INSPallava00280",
+   "DHARMA_INSPallava00282",
+   "DHARMA_INSPallava00283"
   ],
   "stage": "vatteluttu",
   "letter_type": "consonant",
   "iso_values": [
    "ṉa"
   ],
-  "corpus_count": 569,
+  "corpus_count": 344,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -7138,21 +6973,21 @@
   "attested_in": [
    "DHARMA_INSPallava00272",
    "DHARMA_INSPallava00276",
-   "DHARMA_INSPallava00277",
    "DHARMA_INSPallava00279",
    "DHARMA_INSPallava00280",
    "DHARMA_INSPallava00282",
    "DHARMA_INSPallava00283",
    "DHARMA_INSPallava00285",
-   "DHARMA_INSPallava00286",
-   "DHARMA_INSPallava00287"
+   "DHARMA_INSPallava00287",
+   "DHARMA_INSPallava00288",
+   "DHARMA_INSPallava00291"
   ],
   "stage": "vatteluttu",
   "letter_type": "consonant",
   "iso_values": [
    "ña"
   ],
-  "corpus_count": 78,
+  "corpus_count": 53,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -7169,15 +7004,14 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSPallava00272",
-   "DHARMA_INSPallava00286",
    "DHARMA_INSPallava00291",
    "DHARMA_INSPallava00292",
-   "DHARMA_INSPallava00295",
    "DHARMA_INSPallava00296",
    "DHARMA_INSPallava00298",
    "DHARMA_INSPallava00407",
    "DHARMA_INSPallava00551",
-   "DHARMA_INSPandya00027"
+   "DHARMA_INSTamilNadu00174",
+   "DHARMA_INSTamilNadu00177"
   ],
   "stage": "vatteluttu",
   "letter_type": "vowel",
@@ -7185,10 +7019,10 @@
    "o",
    "ō"
   ],
-  "corpus_count": 72,
+  "corpus_count": 17,
   "grantha": false,
-  "attestation_count": 10,
-  "inscription_count": 10
+  "attestation_count": 9,
+  "inscription_count": 9
  },
  {
   "id": "ez:letter/vatteluttu-pa",
@@ -7201,23 +7035,23 @@
   "broader": "ez:script_stage/vatteluttu",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00252",
    "DHARMA_INSPallava00253",
    "DHARMA_INSPallava00272",
    "DHARMA_INSPallava00273",
-   "DHARMA_INSPallava00274",
    "DHARMA_INSPallava00275",
    "DHARMA_INSPallava00276",
-   "DHARMA_INSPallava00277",
    "DHARMA_INSPallava00278",
-   "DHARMA_INSPallava00279"
+   "DHARMA_INSPallava00279",
+   "DHARMA_INSPallava00280",
+   "DHARMA_INSPallava00282",
+   "DHARMA_INSPallava00283"
   ],
   "stage": "vatteluttu",
   "letter_type": "consonant",
   "iso_values": [
    "pa"
   ],
-  "corpus_count": 770,
+  "corpus_count": 433,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -7233,23 +7067,23 @@
   "broader": "ez:script_stage/vatteluttu",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00252",
    "DHARMA_INSPallava00253",
    "DHARMA_INSPallava00272",
    "DHARMA_INSPallava00273",
-   "DHARMA_INSPallava00274",
    "DHARMA_INSPallava00275",
    "DHARMA_INSPallava00276",
-   "DHARMA_INSPallava00277",
    "DHARMA_INSPallava00278",
-   "DHARMA_INSPallava00279"
+   "DHARMA_INSPallava00279",
+   "DHARMA_INSPallava00280",
+   "DHARMA_INSPallava00282",
+   "DHARMA_INSPallava00283"
   ],
   "stage": "vatteluttu",
   "letter_type": "consonant",
   "iso_values": [
    "ra"
   ],
-  "corpus_count": 1122,
+  "corpus_count": 664,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -7265,23 +7099,23 @@
   "broader": "ez:script_stage/vatteluttu",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00252",
    "DHARMA_INSPallava00253",
    "DHARMA_INSPallava00272",
    "DHARMA_INSPallava00273",
-   "DHARMA_INSPallava00274",
    "DHARMA_INSPallava00276",
-   "DHARMA_INSPallava00277",
    "DHARMA_INSPallava00278",
    "DHARMA_INSPallava00279",
-   "DHARMA_INSPallava00280"
+   "DHARMA_INSPallava00280",
+   "DHARMA_INSPallava00282",
+   "DHARMA_INSPallava00283",
+   "DHARMA_INSPallava00285"
   ],
   "stage": "vatteluttu",
   "letter_type": "consonant",
   "iso_values": [
    "ṟa"
   ],
-  "corpus_count": 551,
+  "corpus_count": 298,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -7297,23 +7131,23 @@
   "broader": "ez:script_stage/vatteluttu",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00252",
    "DHARMA_INSPallava00253",
    "DHARMA_INSPallava00272",
    "DHARMA_INSPallava00273",
    "DHARMA_INSPallava00275",
    "DHARMA_INSPallava00276",
-   "DHARMA_INSPallava00277",
    "DHARMA_INSPallava00278",
    "DHARMA_INSPallava00279",
-   "DHARMA_INSPallava00280"
+   "DHARMA_INSPallava00280",
+   "DHARMA_INSPallava00282",
+   "DHARMA_INSPallava00283"
   ],
   "stage": "vatteluttu",
   "letter_type": "consonant",
   "iso_values": [
    "ta"
   ],
-  "corpus_count": 1263,
+  "corpus_count": 720,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -7329,23 +7163,23 @@
   "broader": "ez:script_stage/vatteluttu",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00252",
    "DHARMA_INSPallava00253",
    "DHARMA_INSPallava00272",
    "DHARMA_INSPallava00273",
-   "DHARMA_INSPallava00274",
    "DHARMA_INSPallava00275",
    "DHARMA_INSPallava00276",
-   "DHARMA_INSPallava00277",
    "DHARMA_INSPallava00278",
-   "DHARMA_INSPallava00279"
+   "DHARMA_INSPallava00279",
+   "DHARMA_INSPallava00280",
+   "DHARMA_INSPallava00282",
+   "DHARMA_INSPallava00283"
   ],
   "stage": "vatteluttu",
   "letter_type": "consonant",
   "iso_values": [
    "ṭa"
   ],
-  "corpus_count": 723,
+  "corpus_count": 398,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -7365,19 +7199,19 @@
    "DHARMA_INSPallava00273",
    "DHARMA_INSPallava00275",
    "DHARMA_INSPallava00283",
-   "DHARMA_INSPallava00295",
    "DHARMA_INSPallava00298",
    "DHARMA_INSPallava00304",
-   "DHARMA_INSPallava00306",
-   "DHARMA_INSPandya00027",
-   "DHARMA_INSPandya00508"
+   "DHARMA_INSPandya00508",
+   "DHARMA_INSPandya10002",
+   "DHARMA_INSPandya10003",
+   "DHARMA_INSTamilNadu00177"
   ],
   "stage": "vatteluttu",
   "letter_type": "vowel",
   "iso_values": [
    "u"
   ],
-  "corpus_count": 60,
+  "corpus_count": 30,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -7393,23 +7227,23 @@
   "broader": "ez:script_stage/vatteluttu",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00252",
    "DHARMA_INSPallava00253",
    "DHARMA_INSPallava00272",
    "DHARMA_INSPallava00273",
-   "DHARMA_INSPallava00286",
    "DHARMA_INSPallava00299",
    "DHARMA_INSPallava00300",
-   "DHARMA_INSPallava00306",
    "DHARMA_INSPallava00398",
-   "DHARMA_INSPallava00406"
+   "DHARMA_INSPallava00406",
+   "DHARMA_INSPallava00409",
+   "DHARMA_INSTamilNadu00177",
+   "DHARMA_INSTamilNadu00178"
   ],
   "stage": "vatteluttu",
   "letter_type": "vowel",
   "iso_values": [
    "ū"
   ],
-  "corpus_count": 29,
+  "corpus_count": 17,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -7425,23 +7259,23 @@
   "broader": "ez:script_stage/vatteluttu",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00252",
    "DHARMA_INSPallava00253",
    "DHARMA_INSPallava00272",
    "DHARMA_INSPallava00273",
-   "DHARMA_INSPallava00274",
    "DHARMA_INSPallava00276",
-   "DHARMA_INSPallava00277",
    "DHARMA_INSPallava00278",
    "DHARMA_INSPallava00279",
-   "DHARMA_INSPallava00280"
+   "DHARMA_INSPallava00280",
+   "DHARMA_INSPallava00282",
+   "DHARMA_INSPallava00283",
+   "DHARMA_INSPallava00285"
   ],
   "stage": "vatteluttu",
   "letter_type": "consonant",
   "iso_values": [
    "va"
   ],
-  "corpus_count": 734,
+  "corpus_count": 462,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -7457,23 +7291,23 @@
   "broader": "ez:script_stage/vatteluttu",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00252",
    "DHARMA_INSPallava00253",
    "DHARMA_INSPallava00272",
    "DHARMA_INSPallava00273",
-   "DHARMA_INSPallava00274",
    "DHARMA_INSPallava00276",
-   "DHARMA_INSPallava00277",
    "DHARMA_INSPallava00278",
    "DHARMA_INSPallava00279",
-   "DHARMA_INSPallava00280"
+   "DHARMA_INSPallava00280",
+   "DHARMA_INSPallava00282",
+   "DHARMA_INSPallava00283",
+   "DHARMA_INSPallava00285"
   ],
   "stage": "vatteluttu",
   "letter_type": "consonant",
   "iso_values": [
    "ya"
   ],
-  "corpus_count": 539,
+  "corpus_count": 312,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10
@@ -7494,18 +7328,18 @@
    "DHARMA_INSPallava00294",
    "DHARMA_INSPallava00296",
    "DHARMA_INSPallava00297",
-   "DHARMA_INSPallava00306",
    "DHARMA_INSPallava00400",
    "DHARMA_INSPallava00406",
    "DHARMA_INSPallava00407",
-   "DHARMA_INSPallava00409"
+   "DHARMA_INSPallava00409",
+   "DHARMA_INSPallava00418"
   ],
   "stage": "vatteluttu",
   "letter_type": "consonant",
   "iso_values": [
    "ḻa"
   ],
-  "corpus_count": 126,
+  "corpus_count": 49,
   "grantha": false,
   "attestation_count": 10,
   "inscription_count": 10

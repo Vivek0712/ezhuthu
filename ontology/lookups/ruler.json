@@ -14,17 +14,10 @@
   "broader": "ez:dynasty/vijayanagara",
   "wikidata": "Q2336272",
   "attested_in": [
-   "DHARMA_INSTamilNadu00455",
-   "DHARMA_INSTamilNadu00456",
-   "DHARMA_INSTamilNadu00456:4",
-   "DHARMA_INSTamilNadu00457",
-   "DHARMA_INSTamilNadu00457:7",
-   "DHARMA_INSTamilNadu00457:12",
-   "DHARMA_INSTamilNadu00458:4",
-   "DHARMA_INSTamilNadu00460:7"
+   "DHARMA_INSTamilNadu00458:4"
   ],
-  "attestation_count": 8,
-  "inscription_count": 5
+  "attestation_count": 1,
+  "inscription_count": 1
  },
  {
   "id": "ez:ruler/aditya-i",
@@ -40,16 +33,11 @@
   "broader": "ez:dynasty/chola",
   "wikidata": "Q3535800",
   "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00005:2",
    "DHARMA_INSPallava00045:3r6=24",
-   "DHARMA_INSPallava00181:35",
-   "DHARMA_INSPallava00237:11",
-   "DHARMA_INSPallava00265:4",
-   "DHARMA_INSTamilNadu01016:8",
-   "DHARMA_INStfaSIIv03p0i0003:4"
+   "DHARMA_INSPallava00181:35"
   ],
-  "attestation_count": 7,
-  "inscription_count": 7
+  "attestation_count": 2,
+  "inscription_count": 2
  },
  {
   "id": "ez:ruler/aparajita",
@@ -69,27 +57,19 @@
    "DHARMA_INSPallava00235",
    "DHARMA_INSPallava00235:2",
    "DHARMA_INSPallava00236",
-   "DHARMA_INSPallava00237",
    "DHARMA_INSPallava00238",
-   "DHARMA_INSPallava00239",
    "DHARMA_INSPallava00240",
    "DHARMA_INSPallava00241",
    "DHARMA_INSPallava00242",
    "DHARMA_INSPallava00243",
    "DHARMA_INSPallava00243:8",
    "DHARMA_INSPallava00244",
-   "DHARMA_INSPallava00246",
-   "DHARMA_INSPallava00246:1",
-   "DHARMA_INSPallava00343",
-   "DHARMA_INSPallava00344",
    "DHARMA_INSPallava00345",
-   "DHARMA_INSPallava00346",
-   "DHARMA_INSPallava00347",
    "DHARMA_INSPallava00348",
    "DHARMA_INSPallava00390"
   ],
-  "attestation_count": 21,
-  "inscription_count": 18
+  "attestation_count": 13,
+  "inscription_count": 11
  },
  {
   "id": "ez:ruler/dantivarman",
@@ -109,26 +89,19 @@
   "wikidata": "Q1267307",
   "attested_in": [
    "DHARMA_INSPallava00097",
-   "DHARMA_INSPallava00098",
-   "DHARMA_INSPallava00098:1",
    "DHARMA_INSPallava00099",
    "DHARMA_INSPallava00100",
    "DHARMA_INSPallava00100:1",
-   "DHARMA_INSPallava00101",
-   "DHARMA_INSPallava00101:1",
    "DHARMA_INSPallava00102",
    "DHARMA_INSPallava00103",
    "DHARMA_INSPallava00103:1",
    "DHARMA_INSPallava00104",
    "DHARMA_INSPallava00105",
    "DHARMA_INSPallava00105:3",
-   "DHARMA_INSPallava00106",
    "DHARMA_INSPallava00107",
    "DHARMA_INSPallava00107:1",
    "DHARMA_INSPallava00108",
    "DHARMA_INSPallava00108:1",
-   "DHARMA_INSPallava00109",
-   "DHARMA_INSPallava00110",
    "DHARMA_INSPallava00111",
    "DHARMA_INSPallava00112",
    "DHARMA_INSPallava00112:1",
@@ -137,18 +110,15 @@
    "DHARMA_INSPallava00308",
    "DHARMA_INSPallava00322",
    "DHARMA_INSPallava00323",
-   "DHARMA_INSPallava00324",
    "DHARMA_INSPallava00427",
    "DHARMA_INSPallava00435",
    "DHARMA_INSPallava00436",
    "DHARMA_INSPallava00436:1",
-   "DHARMA_INSPallava00437",
    "DHARMA_INSPallava00491",
-   "DHARMA_INSPallava00526",
    "DHARMA_INStfaSIIv12p0i0042:1"
   ],
-  "attestation_count": 38,
-  "inscription_count": 29
+  "attestation_count": 28,
+  "inscription_count": 21
  },
  {
   "id": "ez:ruler/gandaraditya",
@@ -166,18 +136,10 @@
   "attested_in": [
    "DHARMA_INSCempiyanMahadevi00002:6",
    "DHARMA_INSCempiyanMahadevi00003:2",
-   "DHARMA_INSCempiyanMahadevi00005:4",
-   "DHARMA_INSCempiyanMahadevi00005:24",
-   "DHARMA_INSCempiyanMahadevi00005:213",
-   "DHARMA_INSCempiyanMahadevi00009:1",
-   "DHARMA_INSCempiyanMahadevi00014:2",
-   "DHARMA_INSCempiyanMahadevi00029:2",
-   "DHARMA_INSCempiyanMahadevi00040:3",
-   "DHARMA_INSCempiyanMahadevi00046:6",
    "DHARMA_INStfaSIIv05p1i0241:3"
   ],
-  "attestation_count": 11,
-  "inscription_count": 9
+  "attestation_count": 3,
+  "inscription_count": 3
  },
  {
   "id": "ez:ruler/kampavarman",
@@ -200,14 +162,10 @@
    "DHARMA_INSPallava00198",
    "DHARMA_INSPallava00199",
    "DHARMA_INSPallava00199:1",
-   "DHARMA_INSPallava00200",
-   "DHARMA_INSPallava00200:1",
    "DHARMA_INSPallava00202",
    "DHARMA_INSPallava00202:1",
    "DHARMA_INSPallava00203",
    "DHARMA_INSPallava00203:1",
-   "DHARMA_INSPallava00204",
-   "DHARMA_INSPallava00205",
    "DHARMA_INSPallava00206",
    "DHARMA_INSPallava00207",
    "DHARMA_INSPallava00208",
@@ -219,24 +177,28 @@
    "DHARMA_INSPallava00212",
    "DHARMA_INSPallava00214",
    "DHARMA_INSPallava00214:1",
-   "DHARMA_INSPallava00215",
-   "DHARMA_INSPallava00215:1",
    "DHARMA_INSPallava00216",
    "DHARMA_INSPallava00217",
    "DHARMA_INSPallava00217:1",
    "DHARMA_INSPallava00218",
    "DHARMA_INSPallava00218:1",
-   "DHARMA_INSPallava00219",
-   "DHARMA_INSPallava00219:1",
    "DHARMA_INSPallava00220",
    "DHARMA_INSPallava00220:1",
-   "DHARMA_INSPallava00221",
    "DHARMA_INSPallava00222",
    "DHARMA_INSPallava00222:1",
-   "DHARMA_INSPallava00223"
+   "DHARMA_INSPallava00223",
+   "DHARMA_INSPallava00223:1",
+   "DHARMA_INSPallava00226",
+   "DHARMA_INSPallava00226:1",
+   "DHARMA_INSPallava00227",
+   "DHARMA_INSPallava00227:1",
+   "DHARMA_INSPallava00228",
+   "DHARMA_INSPallava00231",
+   "DHARMA_INSPallava00232",
+   "DHARMA_INSPallava00310"
   ],
-  "attestation_count": 79,
-  "inscription_count": 60
+  "attestation_count": 59,
+  "inscription_count": 44
  },
  {
   "id": "ez:ruler/kannaradeva",
@@ -256,13 +218,12 @@
    "DHARMA_INSTamilNadu00013",
    "DHARMA_INSTamilNadu00014",
    "DHARMA_INSTamilNadu00203",
-   "DHARMA_INSTamilNadu00204",
    "DHARMA_INStfaSIIv03p0i0007",
    "DHARMA_INStfaSIIv03p0i0007:1"
   ],
   "note": "Rāṣṭrakūṭa Kr̥ṣṇa III, styled 'kacciyun tañcaiyuṅ koṇṭa' (who took Kāñci and Tañcai)",
-  "attestation_count": 7,
-  "inscription_count": 6
+  "attestation_count": 6,
+  "inscription_count": 5
  },
  {
   "id": "ez:ruler/kopperuncinkan",
@@ -279,16 +240,12 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSTamilNadu00051:2",
-   "DHARMA_INSTamilNadu00134",
    "DHARMA_INStfaSIIv08p0i0043",
    "DHARMA_INStfaSIIv08p0i0043:1",
-   "DHARMA_INStfaSIIv12p0i0222:1",
-   "DHARMA_INStfaSIIv12p0i0245",
-   "DHARMA_INStfaSIIv12p0i0245:1",
    "DHARMA_INStfaSIIv12p0i0252:1"
   ],
-  "attestation_count": 8,
-  "inscription_count": 6
+  "attestation_count": 4,
+  "inscription_count": 3
  },
  {
   "id": "ez:ruler/kulasekhara-pandya",
@@ -306,26 +263,18 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSPandya01008:6",
-   "DHARMA_INSPandya01009",
-   "DHARMA_INSPandya01009:5",
    "DHARMA_INSPandya01010:7",
    "DHARMA_INSPandya01010:14",
    "DHARMA_INSPandya01017:3",
    "DHARMA_INSPandya01018:1",
-   "DHARMA_INSPandya01019",
    "DHARMA_INSPandya01020",
    "DHARMA_INSPandya10008",
-   "DHARMA_INSTamilNadu00042",
-   "DHARMA_INSTamilNadu00042:1",
    "DHARMA_INSTamilNadu00143:8",
    "DHARMA_INSTamilNadu00144:6",
    "DHARMA_INSTamilNadu00147",
-   "DHARMA_INSTamilNadu00148",
    "DHARMA_INSTamilNadu00178:11",
    "DHARMA_INSTamilNadu00179",
    "DHARMA_INSTamilNadu00179:1",
-   "DHARMA_INSTamilNadu00402",
-   "DHARMA_INSTamilNadu00413:4",
    "DHARMA_INSTamilNadu00418:3",
    "DHARMA_INSTamilNadu00425",
    "DHARMA_INSTamilNadu00425:1",
@@ -333,21 +282,24 @@
    "DHARMA_INSTamilNadu00426:1",
    "DHARMA_INSTamilNadu00426:4",
    "DHARMA_INSTamilNadu00429",
-   "DHARMA_INSTamilNadu00430:5",
    "DHARMA_INSTamilNadu00432",
    "DHARMA_INSTamilNadu00432:1",
    "DHARMA_INSTamilNadu00433",
    "DHARMA_INSTamilNadu00435",
    "DHARMA_INSTamilNadu00435:2",
-   "DHARMA_INSTamilNadu00436:5",
-   "DHARMA_INSTamilNadu00437",
    "DHARMA_INSTamilNadu00438",
    "DHARMA_INSTamilNadu00499:8",
    "DHARMA_INSTamilNadu00712",
-   "DHARMA_INSTamilNadu00712:1"
+   "DHARMA_INSTamilNadu00712:1",
+   "DHARMA_INStfaSIIv25p0i0099",
+   "DHARMA_INStfaSIIv25p0i0099:1",
+   "DHARMA_INStfaSIIv26p0i0491",
+   "DHARMA_INStfaSIIv26p0i0491:1",
+   "DHARMA_INStfaSIIv41p0i0201",
+   "DHARMA_INStfaSIIv41p0i0201:1"
   ],
-  "attestation_count": 48,
-  "inscription_count": 34
+  "attestation_count": 35,
+  "inscription_count": 24
  },
  {
   "id": "ez:ruler/kulottunga-i",
@@ -363,7 +315,6 @@
   "broader": "ez:dynasty/chola",
   "wikidata": "Q2119008",
   "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00053:14",
    "DHARMA_INSTamilNadu00029",
    "DHARMA_INSTamilNadu00030",
    "DHARMA_INSTamilNadu00035",
@@ -383,8 +334,6 @@
    "DHARMA_INSTamilNadu00066:2",
    "DHARMA_INSTamilNadu00070:18",
    "DHARMA_INSTamilNadu00075:1",
-   "DHARMA_INSTamilNadu00110",
-   "DHARMA_INSTamilNadu00111",
    "DHARMA_INSTamilNadu00112",
    "DHARMA_INSTamilNadu00113",
    "DHARMA_INSTamilNadu00114",
@@ -393,20 +342,23 @@
    "DHARMA_INSTamilNadu00117",
    "DHARMA_INSTamilNadu00118:8",
    "DHARMA_INSTamilNadu00122",
-   "DHARMA_INSTamilNadu00123",
    "DHARMA_INSTamilNadu00124",
    "DHARMA_INSTamilNadu00128",
    "DHARMA_INSTamilNadu00128:1",
    "DHARMA_INSTamilNadu00129",
    "DHARMA_INSTamilNadu00129:1",
-   "DHARMA_INSTamilNadu00134:6",
-   "DHARMA_INSTamilNadu00140:15",
    "DHARMA_INSTamilNadu00163:4",
-   "DHARMA_INSTamilNadu00198"
+   "DHARMA_INSTamilNadu00198",
+   "DHARMA_INSTamilNadu00198:3",
+   "DHARMA_INSTamilNadu00199",
+   "DHARMA_INSTamilNadu00199:1",
+   "DHARMA_INSTamilNadu00403",
+   "DHARMA_INSTamilNadu00733",
+   "DHARMA_INSTamilNadu01011"
   ],
   "note": "DHARMA 'Kulottuṅga Cōḻa' titles without numeral are grouped here; Kulottuṅga II/III are not separated",
-  "attestation_count": 80,
-  "inscription_count": 52
+  "attestation_count": 62,
+  "inscription_count": 40
  },
  {
   "id": "ez:ruler/kulottunga-iii",
@@ -425,8 +377,6 @@
    "DHARMA_INSTamilNadu00007",
    "DHARMA_INSTamilNadu00007:3",
    "DHARMA_INSTamilNadu00018",
-   "DHARMA_INSTamilNadu00043",
-   "DHARMA_INSUttiramerur00090",
    "DHARMA_INStfaSIIv04p0i0381",
    "DHARMA_INStfaSIIv12p0i0096",
    "DHARMA_INStfaSIIv38p0i0423",
@@ -434,8 +384,8 @@
    "DHARMA_INStfaSIIv41p0i0265:1"
   ],
   "note": "styled Tribhuvanavīradēva",
-  "attestation_count": 10,
-  "inscription_count": 8
+  "attestation_count": 8,
+  "inscription_count": 6
  },
  {
   "id": "ez:ruler/kumaravishnu",
@@ -450,14 +400,12 @@
   "broader": "ez:dynasty/pallava",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00011",
-   "DHARMA_INSPallava00011:3r2=14",
    "DHARMA_INSPallava00121:13",
    "DHARMA_INSPallava00377",
    "DHARMA_INSPallava00377:2v2=10"
   ],
-  "attestation_count": 5,
-  "inscription_count": 3
+  "attestation_count": 3,
+  "inscription_count": 2
  },
  {
   "id": "ez:ruler/mahendravarman",
@@ -475,18 +423,13 @@
   "broader": "ez:dynasty/pallava",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00024",
    "DHARMA_INSPallava00070",
-   "DHARMA_INSPallava00277",
    "DHARMA_INSPallava00278",
    "DHARMA_INSPallava00279",
    "DHARMA_INSPallava00280",
-   "DHARMA_INSPallava00281",
    "DHARMA_INSPallava00282",
    "DHARMA_INSPallava00283",
-   "DHARMA_INSPallava00284",
    "DHARMA_INSPallava00285",
-   "DHARMA_INSPallava00286",
    "DHARMA_INSPallava00287",
    "DHARMA_INSPallava00296",
    "DHARMA_INSPallava00393:1v4=4",
@@ -497,15 +440,11 @@
    "DHARMA_INSPallava00410",
    "DHARMA_INSPallava00411",
    "DHARMA_INSPallava00418",
-   "DHARMA_INSPallava00488",
-   "DHARMA_INSPallava00489",
-   "DHARMA_INSPallava00527",
-   "DHARMA_INSTamilNadu00172",
-   "DHARMA_INSTamilNadu00173"
+   "DHARMA_INSPallava00489"
   ],
   "note": "Mahendravarman I–III not disambiguated by DHARMA titles",
-  "attestation_count": 27,
-  "inscription_count": 27
+  "attestation_count": 18,
+  "inscription_count": 18
  },
  {
   "id": "ez:ruler/maran-cataiyan",
@@ -525,27 +464,20 @@
    "DHARMA_INSPandya00007",
    "DHARMA_INSPandya00008",
    "DHARMA_INSPandya00010",
-   "DHARMA_INSPandya00011",
    "DHARMA_INSPandya00012",
-   "DHARMA_INSPandya00012B",
-   "DHARMA_INSPandya00012B:3",
-   "DHARMA_INSPandya00021",
-   "DHARMA_INSPandya00027",
    "DHARMA_INSPandya00268",
    "DHARMA_INSPandya00269",
-   "DHARMA_INSPandya00323",
    "DHARMA_INSPandya00337",
    "DHARMA_INSPandya00341",
    "DHARMA_INSPandya00501",
    "DHARMA_INSPandya00502",
    "DHARMA_INSPandya00503",
-   "DHARMA_INSPandya00505",
    "DHARMA_INSPandya00506",
    "DHARMA_INSPandya00509"
   ],
   "note": "first-empire Pāṇḍya; the name pair is shared by more than one king",
-  "attestation_count": 21,
-  "inscription_count": 20
+  "attestation_count": 14,
+  "inscription_count": 14
  },
  {
   "id": "ez:ruler/nandivarman",
@@ -568,25 +500,19 @@
   "broader": "ez:dynasty/pallava",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00010",
    "DHARMA_INSPallava00073",
    "DHARMA_INSPallava00074",
    "DHARMA_INSPallava00075",
    "DHARMA_INSPallava00075:1",
    "DHARMA_INSPallava00076",
-   "DHARMA_INSPallava00077",
-   "DHARMA_INSPallava00077:7r2=79",
    "DHARMA_INSPallava00078",
    "DHARMA_INSPallava00078:1",
-   "DHARMA_INSPallava00079",
    "DHARMA_INSPallava00080",
    "DHARMA_INSPallava00080:1",
    "DHARMA_INSPallava00081",
    "DHARMA_INSPallava00081:2v1=17",
    "DHARMA_INSPallava00082",
    "DHARMA_INSPallava00082:1",
-   "DHARMA_INSPallava00085",
-   "DHARMA_INSPallava00085:1",
    "DHARMA_INSPallava00088",
    "DHARMA_INSPallava00088:1",
    "DHARMA_INSPallava00089",
@@ -594,24 +520,30 @@
    "DHARMA_INSPallava00094",
    "DHARMA_INSPallava00114",
    "DHARMA_INSPallava00116",
-   "DHARMA_INSPallava00119",
    "DHARMA_INSPallava00120",
    "DHARMA_INSPallava00120:1",
    "DHARMA_INSPallava00121",
    "DHARMA_INSPallava00121:4r4=48",
    "DHARMA_INSPallava00122",
    "DHARMA_INSPallava00123",
-   "DHARMA_INSPallava00125",
    "DHARMA_INSPallava00126",
    "DHARMA_INSPallava00126:1",
    "DHARMA_INSPallava00127",
    "DHARMA_INSPallava00127:1",
    "DHARMA_INSPallava00135",
-   "DHARMA_INSPallava00136"
+   "DHARMA_INSPallava00136",
+   "DHARMA_INSPallava00137",
+   "DHARMA_INSPallava00139",
+   "DHARMA_INSPallava00140",
+   "DHARMA_INSPallava00141",
+   "DHARMA_INSPallava00142",
+   "DHARMA_INSPallava00143",
+   "DHARMA_INSPallava00144",
+   "DHARMA_INSPallava00145"
   ],
   "note": "Nandivarman II and III are not disambiguated by DHARMA titles",
-  "attestation_count": 63,
-  "inscription_count": 49
+  "attestation_count": 52,
+  "inscription_count": 40
  },
  {
   "id": "ez:ruler/nandivikramavarman",
@@ -630,8 +562,6 @@
   "attested_in": [
    "DHARMA_INSPallava00072",
    "DHARMA_INSPallava00072:1",
-   "DHARMA_INSPallava00083",
-   "DHARMA_INSPallava00083:1",
    "DHARMA_INSPallava00084",
    "DHARMA_INSPallava00087",
    "DHARMA_INSPallava00090:2v6=22",
@@ -639,21 +569,14 @@
    "DHARMA_INSPallava00091:2",
    "DHARMA_INSPallava00115",
    "DHARMA_INSPallava00117",
-   "DHARMA_INSPallava00118",
-   "DHARMA_INSPallava00124",
-   "DHARMA_INSPallava00124:1",
    "DHARMA_INSPallava00128",
-   "DHARMA_INSPallava00129",
    "DHARMA_INSPallava00130",
    "DHARMA_INSPallava00131",
    "DHARMA_INSPallava00131:1",
    "DHARMA_INSPallava00132",
-   "DHARMA_INSPallava00133",
    "DHARMA_INSPallava00134",
    "DHARMA_INSPallava00138",
    "DHARMA_INSPallava00138:1",
-   "DHARMA_INSPallava00321",
-   "DHARMA_INSPallava00321:1",
    "DHARMA_INSPallava00325",
    "DHARMA_INSPallava00328",
    "DHARMA_INSPallava00330",
@@ -666,12 +589,14 @@
    "DHARMA_INSPallava00465",
    "DHARMA_INSPallava00481",
    "DHARMA_INSPallava00481:1",
-   "DHARMA_INSPallava00500",
-   "DHARMA_INSPallava00510"
+   "DHARMA_INSPallava00510",
+   "DHARMA_INSPallava00510:1",
+   "DHARMA_INSPallava00551",
+   "DHARMA_INSPallava00551:1"
   ],
   "note": "regnal name used by Nandivarman II and III",
-  "attestation_count": 43,
-  "inscription_count": 32
+  "attestation_count": 33,
+  "inscription_count": 25
  },
  {
   "id": "ez:ruler/narasimhavarman",
@@ -694,7 +619,6 @@
    "DHARMA_INSPallava00256",
    "DHARMA_INSPallava00293",
    "DHARMA_INSPallava00294",
-   "DHARMA_INSPallava00295",
    "DHARMA_INSPallava00299",
    "DHARMA_INSPallava00300",
    "DHARMA_INSPallava00301",
@@ -708,8 +632,8 @@
    "DHARMA_INSPallava00498"
   ],
   "note": "Narasiṁhavarman I/II not disambiguated",
-  "attestation_count": 19,
-  "inscription_count": 19
+  "attestation_count": 18,
+  "inscription_count": 18
  },
  {
   "id": "ez:ruler/netuncataiyan",
@@ -764,12 +688,9 @@
    "DHARMA_INSPallava00160",
    "DHARMA_INSPallava00160:1",
    "DHARMA_INSPallava00161",
-   "DHARMA_INSPallava00162",
    "DHARMA_INSPallava00163",
    "DHARMA_INSPallava00164",
    "DHARMA_INSPallava00165",
-   "DHARMA_INSPallava00166",
-   "DHARMA_INSPallava00167",
    "DHARMA_INSPallava00168",
    "DHARMA_INSPallava00169",
    "DHARMA_INSPallava00170",
@@ -777,10 +698,6 @@
    "DHARMA_INSPallava00172",
    "DHARMA_INSPallava00173",
    "DHARMA_INSPallava00174",
-   "DHARMA_INSPallava00175",
-   "DHARMA_INSPallava00176",
-   "DHARMA_INSPallava00177",
-   "DHARMA_INSPallava00178",
    "DHARMA_INSPallava00179",
    "DHARMA_INSPallava00180",
    "DHARMA_INSPallava00181",
@@ -788,10 +705,17 @@
    "DHARMA_INSPallava00184",
    "DHARMA_INSPallava00185",
    "DHARMA_INSPallava00186",
-   "DHARMA_INSPallava00187"
+   "DHARMA_INSPallava00187",
+   "DHARMA_INSPallava00188",
+   "DHARMA_INSPallava00189",
+   "DHARMA_INSPallava00190",
+   "DHARMA_INSPallava00191",
+   "DHARMA_INSPallava00192",
+   "DHARMA_INSPallava00193",
+   "DHARMA_INSPallava00194"
   ],
-  "attestation_count": 59,
-  "inscription_count": 57
+  "attestation_count": 49,
+  "inscription_count": 47
  },
  {
   "id": "ez:ruler/paramesvaravarman",
@@ -832,17 +756,7 @@
   "attested_in": [
    "DHARMA_INSCempiyanMahadevi00003:3",
    "DHARMA_INSCempiyanMahadevi00008:1",
-   "DHARMA_INSCempiyanMahadevi00015:2",
-   "DHARMA_INSCempiyanMahadevi00017:1",
-   "DHARMA_INSCempiyanMahadevi00021:2",
-   "DHARMA_INSCempiyanMahadevi00029:3",
-   "DHARMA_INSCempiyanMahadevi00029:54",
-   "DHARMA_INSCempiyanMahadevi00029:60",
-   "DHARMA_INSCempiyanMahadevi00029:77",
-   "DHARMA_INSCempiyanMahadevi00032:17",
-   "DHARMA_INSCempiyanMahadevi00051:3",
    "DHARMA_INSPallava00141:8",
-   "DHARMA_INSPandya00160:106",
    "DHARMA_INSPandya00161:34",
    "DHARMA_INSPandya01001:9",
    "DHARMA_INSPandya10002:3v2=30",
@@ -853,8 +767,8 @@
    "DHARMA_INStfaSIIv34p0i0059:5"
   ],
   "note": "styled 'matirai koṇṭa kō-p-parakēcari-varmaṉ' (the Parakesarivarman who took Madurai)",
-  "attestation_count": 21,
-  "inscription_count": 17
+  "attestation_count": 11,
+  "inscription_count": 10
  },
  {
   "id": "ez:ruler/parthivendradhipati",
@@ -872,21 +786,16 @@
   "broader": "ez:dynasty/chola",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSUttiramerur00015",
-   "DHARMA_INSUttiramerur00016",
    "DHARMA_INSUttiramerur00018",
    "DHARMA_INSUttiramerur00019",
-   "DHARMA_INSUttiramerur00028",
-   "DHARMA_INSUttiramerur00029",
    "DHARMA_INSUttiramerur00035",
-   "DHARMA_INSUttiramerur00037",
    "DHARMA_INSUttiramerur00041",
    "DHARMA_INSUttiramerur00043",
    "DHARMA_INSUttiramerur00044"
   ],
   "note": "Cōḻa prince known from Toṇṭaimaṇṭalam inscriptions; identification with Āditya II is debated",
-  "attestation_count": 11,
-  "inscription_count": 11
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:ruler/rajadhiraja-i",
@@ -902,46 +811,31 @@
   "broader": "ez:dynasty/chola",
   "wikidata": "Q2128678",
   "attested_in": [
-   "DHARMA_INSPallava00077:6v1=71",
    "DHARMA_INSTamilNadu00023:1",
    "DHARMA_INSTamilNadu00101",
    "DHARMA_INSTamilNadu00102",
    "DHARMA_INSTamilNadu00102:14",
    "DHARMA_INSTamilNadu00103",
-   "DHARMA_INSTamilNadu00104",
-   "DHARMA_INSTamilNadu00104:2",
    "DHARMA_INSTamilNadu00105",
    "DHARMA_INSTamilNadu00106",
    "DHARMA_INSTamilNadu00164",
    "DHARMA_INSTamilNadu00423:1",
-   "DHARMA_INSTamilNadu00444:1",
-   "DHARMA_INSTamilNadu00455:1",
-   "DHARMA_INSTamilNadu00457:6",
-   "DHARMA_INSTamilNadu00818:1",
-   "DHARMA_INSTamilNadu00820:1",
    "DHARMA_INSTamilNadu01009",
    "DHARMA_INSTamilNadu01009:9v4=274=3",
    "DHARMA_INSTamilNadu01015",
    "DHARMA_INSTamilNadu01015:2",
    "DHARMA_INSUttiramerur00098:1",
-   "DHARMA_INStfaSIIv04p0i0139",
-   "DHARMA_INStfaSIIv04p0i0555",
    "DHARMA_INStfaSIIv04p0i0556",
    "DHARMA_INStfaSIIv04p0i0556:1",
-   "DHARMA_INStfaSIIv05p1i1358",
-   "DHARMA_INStfaSIIv05p1i1358:1",
-   "DHARMA_INStfaSIIv05p1i1359",
    "DHARMA_INStfaSIIv08p0i0205:1",
-   "DHARMA_INStfaSIIv08p0i0675",
-   "DHARMA_INStfaSIIv08p0i0675:6",
    "DHARMA_INStfaSIIv17p0i0603:5",
    "DHARMA_INStfaSIIv17p0i0603:11",
    "DHARMA_INStfaSIIv38p0i0137",
    "DHARMA_INStfaSIIv38p0i0137:3"
   ],
   "note": "DHARMA titles 'Rājādhirāja' without numeral are assumed to be Rājādhirāja I only when the meykkīrtti 'tiṅkaḷ ēr taru' is present",
-  "attestation_count": 36,
-  "inscription_count": 27
+  "attestation_count": 21,
+  "inscription_count": 15
  },
  {
   "id": "ez:ruler/rajaraja-i",
@@ -957,12 +851,6 @@
   "broader": "ez:dynasty/chola",
   "wikidata": "Q2128757",
   "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00034",
-   "DHARMA_INSCempiyanMahadevi00037",
-   "DHARMA_INSCempiyanMahadevi00039",
-   "DHARMA_INSCempiyanMahadevi00042",
-   "DHARMA_INSCempiyanMahadevi00043",
-   "DHARMA_INSCempiyanMahadevi00045",
    "DHARMA_INSTamilNadu00130:1",
    "DHARMA_INSTamilNadu00177",
    "DHARMA_INSTamilNadu00610:1",
@@ -970,7 +858,6 @@
    "DHARMA_INSUttiramerur00054",
    "DHARMA_INSUttiramerur00055",
    "DHARMA_INSUttiramerur00055:2",
-   "DHARMA_INSUttiramerur00060",
    "DHARMA_INSUttiramerur00061",
    "DHARMA_INSUttiramerur00062",
    "DHARMA_INSUttiramerur00065",
@@ -986,9 +873,6 @@
    "DHARMA_INStfaSIIv02p0i0001:5.1=29",
    "DHARMA_INStfaSIIv02p0i0001:5.2=30",
    "DHARMA_INStfaSIIv02p0i0001:7.1=44",
-   "DHARMA_INStfaSIIv02p0i0002",
-   "DHARMA_INStfaSIIv02p0i0002:1.2=2",
-   "DHARMA_INStfaSIIv02p0i0002:2.1=8",
    "DHARMA_INStfaSIIv02p0i0004",
    "DHARMA_INStfaSIIv02p0i0004:1.3=3",
    "DHARMA_INStfaSIIv02p0i0004:1.4=4",
@@ -996,10 +880,20 @@
    "DHARMA_INStfaSIIv02p0i0005",
    "DHARMA_INStfaSIIv02p0i0005:A1",
    "DHARMA_INStfaSIIv02p0i0065",
-   "DHARMA_INStfaSIIv02p0i0065:2"
+   "DHARMA_INStfaSIIv02p0i0065:2",
+   "DHARMA_INStfaSIIv03p0i0002",
+   "DHARMA_INStfaSIIv03p0i0004",
+   "DHARMA_INStfaSIIv03p0i0004:3",
+   "DHARMA_INStfaSIIv03p0i0004:5",
+   "DHARMA_INStfaSIIv03p0i0006",
+   "DHARMA_INStfaSIIv03p0i0009",
+   "DHARMA_INStfaSIIv03p0i0009:3",
+   "DHARMA_INStfaSIIv03p0i0017",
+   "DHARMA_INStfaSIIv03p0i0017:8",
+   "DHARMA_INStfaSIIv03p0i0017:11"
   ],
-  "attestation_count": 66,
-  "inscription_count": 35
+  "attestation_count": 48,
+  "inscription_count": 24
  },
  {
   "id": "ez:ruler/rajaraja-ii",
@@ -1037,16 +931,14 @@
    "DHARMA_INSPallava00055:1.3",
    "DHARMA_INSPallava00062",
    "DHARMA_INSPallava00062:1",
-   "DHARMA_INSPallava00063",
    "DHARMA_INSPallava00381:1",
-   "DHARMA_INSPallava00382:1",
    "DHARMA_INSPandya10006",
    "DHARMA_INSTamilNadu00422:3",
    "DHARMA_INStfaSIIv03p0i0002:3"
   ],
   "note": "Rājasiṁha = Narasiṁhavarman II",
-  "attestation_count": 12,
-  "inscription_count": 8
+  "attestation_count": 10,
+  "inscription_count": 6
  },
  {
   "id": "ez:ruler/rajendra-i",
@@ -1063,16 +955,6 @@
   "broader": "ez:dynasty/chola",
   "wikidata": "Q211483",
   "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00051:2",
-   "DHARMA_INSCempiyanMahadevi00052:18",
-   "DHARMA_INSCempiyanMahadevi00052:21",
-   "DHARMA_INSPandya00160:91",
-   "DHARMA_INSPandya00160:95",
-   "DHARMA_INSPandya00160:98",
-   "DHARMA_INSPandya00160:100",
-   "DHARMA_INSPandya00160:101",
-   "DHARMA_INSPandya00160:105",
-   "DHARMA_INSPandya00160:108",
    "DHARMA_INSPandya00161:12",
    "DHARMA_INSPandya00161:20",
    "DHARMA_INSPandya00161:28",
@@ -1081,7 +963,6 @@
    "DHARMA_INSTamilNadu00022",
    "DHARMA_INSTamilNadu00108:2",
    "DHARMA_INSTamilNadu00133",
-   "DHARMA_INSTamilNadu00134:2",
    "DHARMA_INSTamilNadu00151:2",
    "DHARMA_INSTamilNadu00165",
    "DHARMA_INSTamilNadu00165:1",
@@ -1089,23 +970,31 @@
    "DHARMA_INSTamilNadu00166:1",
    "DHARMA_INSTamilNadu00167",
    "DHARMA_INSTamilNadu00167:17",
-   "DHARMA_INSTamilNadu00193",
    "DHARMA_INSTamilNadu00802",
    "DHARMA_INSTamilNadu00802:2",
    "DHARMA_INSTamilNadu00802:14",
    "DHARMA_INSTamilNadu01006",
-   "DHARMA_INSTamilNadu01007",
    "DHARMA_INSTamilNadu01009:86r4",
    "DHARMA_INSTamilNadu01011:2v1=31",
    "DHARMA_INSTamilNadu01014",
    "DHARMA_INSTamilNadu01014:28",
-   "DHARMA_INSTamilNadu01016:2",
    "DHARMA_INSUttiramerur00068",
    "DHARMA_INSUttiramerur00068:1",
-   "DHARMA_INSUttiramerur00075"
+   "DHARMA_INSUttiramerur00075",
+   "DHARMA_INSUttiramerur00075:1",
+   "DHARMA_INStfaSIIv03p0i0064",
+   "DHARMA_INStfaSIIv04p0i0223",
+   "DHARMA_INStfaSIIv04p0i0223:15",
+   "DHARMA_INStfaSIIv04p0i0828",
+   "DHARMA_INStfaSIIv05p1i1354",
+   "DHARMA_INStfaSIIv08p0i0260:1",
+   "DHARMA_INStfaSIIv17p0i0387:2",
+   "DHARMA_INStfaSIIv23p0i0341:1",
+   "DHARMA_INStfaSIIv23p0i0341:2",
+   "DHARMA_INStfaSIIv41p0i0012"
   ],
-  "attestation_count": 62,
-  "inscription_count": 40
+  "attestation_count": 38,
+  "inscription_count": 25
  },
  {
   "id": "ez:ruler/rajendra-ii",
@@ -1140,15 +1029,13 @@
   "broader": "ez:dynasty/vijayanagara",
   "wikidata": "Q1452340",
   "attested_in": [
-   "DHARMA_INSTamilNadu00460:7",
-   "DHARMA_INSTamilNadu00814:2",
    "DHARMA_INStfaSIIv01p0i0043",
    "DHARMA_INStfaSIIv01p0i0044",
    "DHARMA_INStfaSIIv01p0i0045",
    "DHARMA_INStfaSIIv01p0i0046"
   ],
-  "attestation_count": 6,
-  "inscription_count": 6
+  "attestation_count": 4,
+  "inscription_count": 4
  },
  {
   "id": "ez:ruler/simhavarman",
@@ -1171,8 +1058,6 @@
    "DHARMA_INSPallava00007:5v2=34",
    "DHARMA_INSPallava00008",
    "DHARMA_INSPallava00009",
-   "DHARMA_INSPallava00010:1v4=4",
-   "DHARMA_INSPallava00012",
    "DHARMA_INSPallava00013",
    "DHARMA_INSPallava00014",
    "DHARMA_INSPallava00015",
@@ -1184,8 +1069,8 @@
    "DHARMA_INSPallava00409"
   ],
   "note": "name borne by several Pallavas; not disambiguated",
-  "attestation_count": 17,
-  "inscription_count": 15
+  "attestation_count": 15,
+  "inscription_count": 13
  },
  {
   "id": "ez:ruler/simhavishnu",
@@ -1203,15 +1088,14 @@
    "DHARMA_INSPallava00017",
    "DHARMA_INSPallava00037:5",
    "DHARMA_INSPallava00076:=13",
-   "DHARMA_INSPallava00077:5r2=51",
    "DHARMA_INSPallava00121:16",
    "DHARMA_INSPallava00273",
    "DHARMA_INSPallava00276",
    "DHARMA_INSPallava00407",
    "DHARMA_INSPallava00408"
   ],
-  "attestation_count": 9,
-  "inscription_count": 9
+  "attestation_count": 8,
+  "inscription_count": 8
  },
  {
   "id": "ez:ruler/siva-skandavarman",
@@ -1259,37 +1143,14 @@
    "DHARMA_INSPallava00008:2r3=8",
    "DHARMA_INSPallava00009:1v4=4",
    "DHARMA_INSPallava00009:2v2=10",
-   "DHARMA_INSPallava00010:1v2=2",
-   "DHARMA_INSPallava00010:2r1=6",
-   "DHARMA_INSPallava00011:1v3=3",
-   "DHARMA_INSPallava00012:2v1=9",
    "DHARMA_INSPallava00013:2v1=7",
    "DHARMA_INSPallava00014:2v1=7",
    "DHARMA_INSPallava00015:2r3=7",
-   "DHARMA_INSPallava00077:4v6=48",
    "DHARMA_INSPallava00396:2r1=6"
   ],
   "note": "early Pallava name borne by more than one king",
-  "attestation_count": 20,
-  "inscription_count": 14
- },
- {
-  "id": "ez:ruler/sriranga",
-  "kind": "ruler",
-  "label_iso": "Śrīraṅga",
-  "label_ta": "ஶ்ரீரங்க",
-  "variants": [],
-  "era": null,
-  "dynasty": "ez:dynasty/vijayanagara",
-  "broader": "ez:dynasty/vijayanagara",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSTamilNadu00815",
-   "DHARMA_INSTamilNadu00816"
-  ],
-  "note": "Aravīḍu king; not disambiguated",
-  "attestation_count": 2,
-  "inscription_count": 2
+  "attestation_count": 15,
+  "inscription_count": 10
  },
  {
   "id": "ez:ruler/sundara-pandya",
@@ -1308,19 +1169,12 @@
    "DHARMA_INSPandya01002",
    "DHARMA_INSPandya01003",
    "DHARMA_INSPandya01003:1",
-   "DHARMA_INSPandya10009",
    "DHARMA_INSTamilNadu00041",
-   "DHARMA_INSTamilNadu00042:10",
-   "DHARMA_INSTamilNadu00042:11",
-   "DHARMA_INSTamilNadu00067",
-   "DHARMA_INSTamilNadu00067:5",
    "DHARMA_INSTamilNadu00071:5",
    "DHARMA_INSTamilNadu00073",
    "DHARMA_INSTamilNadu00073:1",
    "DHARMA_INSTamilNadu00102:3",
    "DHARMA_INSTamilNadu00135:2",
-   "DHARMA_INSTamilNadu00140",
-   "DHARMA_INSTamilNadu00140:1",
    "DHARMA_INSTamilNadu00142:5",
    "DHARMA_INSTamilNadu00143",
    "DHARMA_INSTamilNadu00143:1",
@@ -1343,12 +1197,19 @@
    "DHARMA_INSTamilNadu00408:34",
    "DHARMA_INSTamilNadu00410",
    "DHARMA_INSTamilNadu00411",
-   "DHARMA_INSTamilNadu00412",
-   "DHARMA_INSTamilNadu00412:11"
+   "DHARMA_INSTamilNadu00418:16",
+   "DHARMA_INSTamilNadu00421:1",
+   "DHARMA_INSTamilNadu00422",
+   "DHARMA_INSTamilNadu00422:1",
+   "DHARMA_INSTamilNadu00423",
+   "DHARMA_INSTamilNadu00423:1",
+   "DHARMA_INSTamilNadu00432:16",
+   "DHARMA_INSTamilNadu00441:9",
+   "DHARMA_INSTamilNadu00477:4"
   ],
   "note": "Jaṭāvarman/Māṟavarman Sundara Pāṇḍya I/II not disambiguated",
-  "attestation_count": 74,
-  "inscription_count": 51
+  "attestation_count": 55,
+  "inscription_count": 38
  },
  {
   "id": "ez:ruler/uttama-chola",
@@ -1363,49 +1224,30 @@
   "broader": "ez:dynasty/chola",
   "wikidata": "Q3536701",
   "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00005:165",
-   "DHARMA_INSCempiyanMahadevi00005:225",
    "DHARMA_INSCempiyanMahadevi00007:1",
    "DHARMA_INSCempiyanMahadevi00008:3",
-   "DHARMA_INSCempiyanMahadevi00010:1",
-   "DHARMA_INSCempiyanMahadevi00010:3",
-   "DHARMA_INSCempiyanMahadevi00010:4",
-   "DHARMA_INSCempiyanMahadevi00010:5",
-   "DHARMA_INSCempiyanMahadevi00010:6",
-   "DHARMA_INSCempiyanMahadevi00010:7",
    "DHARMA_INSCempiyanMahadevi00011:2",
-   "DHARMA_INSCempiyanMahadevi00012",
-   "DHARMA_INSCempiyanMahadevi00012:1",
-   "DHARMA_INSCempiyanMahadevi00014:1",
-   "DHARMA_INSCempiyanMahadevi00014:2",
-   "DHARMA_INSCempiyanMahadevi00014:5",
-   "DHARMA_INSCempiyanMahadevi00015:1",
-   "DHARMA_INSCempiyanMahadevi00015:3",
-   "DHARMA_INSCempiyanMahadevi00016:3",
-   "DHARMA_INSCempiyanMahadevi00017:1",
-   "DHARMA_INSCempiyanMahadevi00018",
-   "DHARMA_INSCempiyanMahadevi00018:1",
-   "DHARMA_INSCempiyanMahadevi00018:2",
-   "DHARMA_INSCempiyanMahadevi00020:1",
-   "DHARMA_INSCempiyanMahadevi00020:3",
-   "DHARMA_INSCempiyanMahadevi00020:4",
-   "DHARMA_INSCempiyanMahadevi00021:1",
-   "DHARMA_INSCempiyanMahadevi00022:1",
-   "DHARMA_INSCempiyanMahadevi00024:1",
-   "DHARMA_INSCempiyanMahadevi00027:2",
-   "DHARMA_INSCempiyanMahadevi00028:9",
-   "DHARMA_INSCempiyanMahadevi00031:4",
-   "DHARMA_INSCempiyanMahadevi00032:3",
-   "DHARMA_INSCempiyanMahadevi00032:12",
-   "DHARMA_INSCempiyanMahadevi00033:6",
-   "DHARMA_INSCempiyanMahadevi00035:1",
-   "DHARMA_INSCempiyanMahadevi00037:1",
-   "DHARMA_INSCempiyanMahadevi00040:2",
-   "DHARMA_INSCempiyanMahadevi00040:3",
-   "DHARMA_INSCempiyanMahadevi00040:6"
+   "DHARMA_INSCempiyanMahadevi00055",
+   "DHARMA_INSCempiyanMahadevi00055:2",
+   "DHARMA_INSPandya00161:21",
+   "DHARMA_INSPandya00161:23",
+   "DHARMA_INSPandya01001:9",
+   "DHARMA_INSTamilNadu00198:5",
+   "DHARMA_INSTamilNadu00523",
+   "DHARMA_INSTamilNadu00523:1",
+   "DHARMA_INSTamilNadu01004",
+   "DHARMA_INStfaSIIv03p0i0143",
+   "DHARMA_INStfaSIIv03p0i0145",
+   "DHARMA_INStfaSIIv03p0i0145:1",
+   "DHARMA_INStfaSIIv04p0i0137:12",
+   "DHARMA_INStfaSIIv04p0i0223:12",
+   "DHARMA_INStfaSIIv08p0i0165:65",
+   "DHARMA_INStfaSIIv13p0i0170:A3=3",
+   "DHARMA_INStfaSIIv17p0i0442:10",
+   "DHARMA_INStfaSIIv38p0i0489:3"
   ],
-  "attestation_count": 72,
-  "inscription_count": 49
+  "attestation_count": 21,
+  "inscription_count": 17
  },
  {
   "id": "ez:ruler/varaguna",
@@ -1422,32 +1264,18 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSCempiyanMahadevi00007:5",
-   "DHARMA_INSPallava00167:8",
    "DHARMA_INSPandya00010:13",
-   "DHARMA_INSPandya00011:5",
-   "DHARMA_INSPandya00012B:3",
-   "DHARMA_INSPandya00013",
-   "DHARMA_INSPandya00013:5",
-   "DHARMA_INSPandya00013:11",
-   "DHARMA_INSPandya00013:81",
-   "DHARMA_INSPandya00014",
-   "DHARMA_INSPandya00021:2",
    "DHARMA_INSPandya00024",
-   "DHARMA_INSPandya00028:6",
    "DHARMA_INSPandya00341:15",
    "DHARMA_INSPandya00507",
    "DHARMA_INSPandya00507:1",
    "DHARMA_INSPandya01017:1",
    "DHARMA_INSPandya01018:1",
-   "DHARMA_INSPandya01019",
-   "DHARMA_INSPandya01019:1r9=9",
    "DHARMA_INSPandya01020",
-   "DHARMA_INStfaSIIv13p0i0335:3",
-   "DHARMA_INStfaSIIv23p0i0047:41",
    "DHARMA_INStfaSIIv25p0i0099:8"
   ],
-  "attestation_count": 24,
-  "inscription_count": 19
+  "attestation_count": 10,
+  "inscription_count": 9
  },
  {
   "id": "ez:ruler/venkatapati",
@@ -1462,19 +1290,14 @@
   "broader": "ez:dynasty/vijayanagara",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSTamilNadu00460",
-   "DHARMA_INSTamilNadu00460:7",
    "DHARMA_INSTamilNadu00461",
    "DHARMA_INSTamilNadu00461:1",
-   "DHARMA_INSTamilNadu00820",
-   "DHARMA_INSTamilNadu00821",
-   "DHARMA_INSTamilNadu00821:1",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INSTamilNadu00824:1"
   ],
   "note": "Aravīḍu king; Veṅkaṭa I/II not disambiguated",
-  "attestation_count": 9,
-  "inscription_count": 5
+  "attestation_count": 4,
+  "inscription_count": 2
  },
  {
   "id": "ez:ruler/vikrama-chola",
@@ -1490,15 +1313,12 @@
   "broader": "ez:dynasty/chola",
   "wikidata": "Q7929581",
   "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00032:8",
-   "DHARMA_INSCempiyanMahadevi00051:5",
    "DHARMA_INSTamilNadu00065",
    "DHARMA_INSTamilNadu00065:1",
    "DHARMA_INSTamilNadu00118",
    "DHARMA_INSTamilNadu00118:2",
    "DHARMA_INSTamilNadu00119",
    "DHARMA_INSTamilNadu00120",
-   "DHARMA_INSTamilNadu00125",
    "DHARMA_INSTamilNadu00126:2",
    "DHARMA_INSTamilNadu00514:3",
    "DHARMA_INSTamilNadu00515:6",
@@ -1506,26 +1326,21 @@
    "DHARMA_INSTamilNadu00516:12",
    "DHARMA_INSTamilNadu00518:4",
    "DHARMA_INSTamilNadu00519:2",
-   "DHARMA_INSTamilNadu00520:2",
-   "DHARMA_INSTamilNadu00521:15",
-   "DHARMA_INSTamilNadu00521:38",
    "DHARMA_INSTamilNadu00803:B1",
    "DHARMA_INSTamilNadu00805:2",
    "DHARMA_INStfaSIIv05p1i0420:3",
    "DHARMA_INStfaSIIv08p0i0228:10",
-   "DHARMA_INStfaSIIv12p0i0245:6",
    "DHARMA_INStfaSIIv19p0i0357:A15=15",
    "DHARMA_INStfaSIIv19p0i0357:A38=38",
    "DHARMA_INStfaSIIv22p0i0165",
    "DHARMA_INStfaSIIv22p0i0165:1",
    "DHARMA_INStfaSIIv26p0i0174:5",
    "DHARMA_INStfaSIIv26p0i0333:6",
-   "DHARMA_INStfaSIIv36p0i0142:3",
    "DHARMA_INStfaSIIv36p0i0215:10",
    "DHARMA_INStfaSIIv36p0i0221:2"
   ],
-  "attestation_count": 33,
-  "inscription_count": 27
+  "attestation_count": 25,
+  "inscription_count": 20
  },
  {
   "id": "ez:ruler/vikrama-pandya",
@@ -1541,7 +1356,6 @@
   "broader": "ez:dynasty/pandya",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPandya00160:73",
    "DHARMA_INSPandya00161:20",
    "DHARMA_INSTamilNadu00048",
    "DHARMA_INSTamilNadu00048:1",
@@ -1551,8 +1365,8 @@
    "DHARMA_INSTamilNadu00481:4",
    "DHARMA_INStfaSIIv38p0i0137:2"
   ],
-  "attestation_count": 9,
-  "inscription_count": 8
+  "attestation_count": 8,
+  "inscription_count": 7
  },
  {
   "id": "ez:ruler/vira-pandya",
@@ -1568,7 +1382,6 @@
   "broader": "ez:dynasty/pandya",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPandya00160:98",
    "DHARMA_INSPandya01013",
    "DHARMA_INSPandya10007",
    "DHARMA_INSPandya10007:1v10=10",
@@ -1576,21 +1389,15 @@
    "DHARMA_INSTamilNadu00101:1",
    "DHARMA_INSTamilNadu00149",
    "DHARMA_INSTamilNadu00401:23",
-   "DHARMA_INSTamilNadu00402:19",
-   "DHARMA_INSTamilNadu00413:4",
-   "DHARMA_INSTamilNadu00417",
-   "DHARMA_INSTamilNadu00417:1",
    "DHARMA_INSTamilNadu00418",
    "DHARMA_INSTamilNadu00418:1",
-   "DHARMA_INSTamilNadu00419",
    "DHARMA_INSTamilNadu00461:7",
    "DHARMA_INSTamilNadu01015:1",
-   "DHARMA_INSUttiramerur00014:1",
    "DHARMA_INStfaSIIv03p0i0014:1",
    "DHARMA_INStfaSIIv04p0i0152"
   ],
-  "attestation_count": 20,
-  "inscription_count": 17
+  "attestation_count": 13,
+  "inscription_count": 11
  },
  {
   "id": "ez:ruler/virarajendra",
@@ -1608,9 +1415,6 @@
   "attested_in": [
    "DHARMA_INSTamilNadu00036",
    "DHARMA_INSTamilNadu00036:1",
-   "DHARMA_INSTamilNadu00037",
-   "DHARMA_INSTamilNadu00037:2",
-   "DHARMA_INSTamilNadu00043:1",
    "DHARMA_INSTamilNadu00163",
    "DHARMA_INSTamilNadu00163:3",
    "DHARMA_INSTamilNadu00803:B1",
@@ -1620,8 +1424,8 @@
    "DHARMA_INStfaSIIv01p0i0042:1",
    "DHARMA_INStfaSIIv38p0i0128"
   ],
-  "attestation_count": 13,
-  "inscription_count": 9
+  "attestation_count": 10,
+  "inscription_count": 7
  },
  {
   "id": "ez:ruler/vishnugopa",
@@ -1638,7 +1442,6 @@
   "attested_in": [
    "DHARMA_INSPallava00006:3r4=16",
    "DHARMA_INSPallava00007:3v4=20",
-   "DHARMA_INSPallava00012:2v4=12",
    "DHARMA_INSPallava00013:3r1=10",
    "DHARMA_INSPallava00014:2v3=9",
    "DHARMA_INSPallava00015:2v1=9",
@@ -1650,7 +1453,7 @@
    "DHARMA_INSPallava00394:3r4=19"
   ],
   "note": "name borne by more than one early Pallava",
-  "attestation_count": 12,
-  "inscription_count": 9
+  "attestation_count": 11,
+  "inscription_count": 8
  }
 ]

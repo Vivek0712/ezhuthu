@@ -914,7 +914,7 @@
    "label_ta": "வட்டெழுத்து",
    "era": "c. 6th–11th c. CE in the Tamil country",
    "aksharamukha_script": null,
-   "corpus_letters": 12524,
+   "corpus_letters": 7149,
    "letters": [
     {
      "iso": "a",
@@ -924,7 +924,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 165
+     "corpus_count": 101
     },
     {
      "iso": "ā",
@@ -934,7 +934,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 132
+     "corpus_count": 80
     },
     {
      "iso": "i",
@@ -944,7 +944,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 194
+     "corpus_count": 78
     },
     {
      "iso": "ī",
@@ -954,7 +954,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 7
+     "corpus_count": 5
     },
     {
      "iso": "u",
@@ -964,7 +964,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 60
+     "corpus_count": 30
     },
     {
      "iso": "ū",
@@ -974,7 +974,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 29
+     "corpus_count": 17
     },
     {
      "iso": "e",
@@ -985,7 +985,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 105
+     "corpus_count": 61
     },
     {
      "iso": "ai",
@@ -995,7 +995,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 10
+     "corpus_count": 3
     },
     {
      "iso": "o",
@@ -1006,7 +1006,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 72
+     "corpus_count": 17
     },
     {
      "iso": "au",
@@ -1026,7 +1026,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 1534
+     "corpus_count": 837
     },
     {
      "iso": "ṅa",
@@ -1036,7 +1036,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 138
+     "corpus_count": 94
     },
     {
      "iso": "ca",
@@ -1046,7 +1046,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 496
+     "corpus_count": 278
     },
     {
      "iso": "ña",
@@ -1056,7 +1056,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 78
+     "corpus_count": 53
     },
     {
      "iso": "ṭa",
@@ -1066,7 +1066,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 723
+     "corpus_count": 398
     },
     {
      "iso": "ṇa",
@@ -1076,7 +1076,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 385
+     "corpus_count": 235
     },
     {
      "iso": "ta",
@@ -1086,7 +1086,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 1263
+     "corpus_count": 720
     },
     {
      "iso": "na",
@@ -1096,7 +1096,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 573
+     "corpus_count": 293
     },
     {
      "iso": "pa",
@@ -1106,7 +1106,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 770
+     "corpus_count": 433
     },
     {
      "iso": "ma",
@@ -1116,7 +1116,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 826
+     "corpus_count": 498
     },
     {
      "iso": "ya",
@@ -1126,7 +1126,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 539
+     "corpus_count": 312
     },
     {
      "iso": "ra",
@@ -1136,7 +1136,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 1122
+     "corpus_count": 664
     },
     {
      "iso": "la",
@@ -1146,7 +1146,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 454
+     "corpus_count": 210
     },
     {
      "iso": "va",
@@ -1156,7 +1156,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 734
+     "corpus_count": 462
     },
     {
      "iso": "ḻa",
@@ -1166,7 +1166,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 126
+     "corpus_count": 49
     },
     {
      "iso": "ḷa",
@@ -1176,7 +1176,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 196
+     "corpus_count": 100
     },
     {
      "iso": "ṟa",
@@ -1186,7 +1186,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 551
+     "corpus_count": 298
     },
     {
      "iso": "ṉa",
@@ -1196,7 +1196,7 @@
      ],
      "glyph": null,
      "script": null,
-     "corpus_count": 569
+     "corpus_count": 344
     },
     {
      "iso": "ḵ",
@@ -1237,7 +1237,7 @@
    "label_ta": "கிரந்தம்",
    "era": "c. 6th c. CE onward",
    "aksharamukha_script": "Grantha",
-   "corpus_letters": 10179,
+   "corpus_letters": 8886,
    "letters": [
     {
      "iso": "a",
@@ -1247,7 +1247,7 @@
      ],
      "glyph": "𑌅",
      "script": "Grantha",
-     "corpus_count": 149
+     "corpus_count": 128
     },
     {
      "iso": "ā",
@@ -1257,7 +1257,7 @@
      ],
      "glyph": "𑌆",
      "script": "Grantha",
-     "corpus_count": 64
+     "corpus_count": 60
     },
     {
      "iso": "i",
@@ -1267,7 +1267,7 @@
      ],
      "glyph": "𑌇",
      "script": "Grantha",
-     "corpus_count": 105
+     "corpus_count": 98
     },
     {
      "iso": "ī",
@@ -1277,7 +1277,7 @@
      ],
      "glyph": "𑌈",
      "script": "Grantha",
-     "corpus_count": 8
+     "corpus_count": 6
     },
     {
      "iso": "u",
@@ -1287,7 +1287,7 @@
      ],
      "glyph": "𑌉",
      "script": "Grantha",
-     "corpus_count": 45
+     "corpus_count": 42
     },
     {
      "iso": "ū",
@@ -1337,7 +1337,7 @@
      ],
      "glyph": "𑌏",
      "script": "Grantha",
-     "corpus_count": 73
+     "corpus_count": 67
     },
     {
      "iso": "ai",
@@ -1357,7 +1357,7 @@
      ],
      "glyph": "𑌓",
      "script": "Grantha",
-     "corpus_count": 43
+     "corpus_count": 42
     },
     {
      "iso": "au",
@@ -1377,7 +1377,7 @@
      ],
      "glyph": "𑌕",
      "script": "Grantha",
-     "corpus_count": 621
+     "corpus_count": 567
     },
     {
      "iso": "kha",
@@ -1387,7 +1387,7 @@
      ],
      "glyph": "𑌖",
      "script": "Grantha",
-     "corpus_count": 27
+     "corpus_count": 22
     },
     {
      "iso": "ga",
@@ -1397,7 +1397,7 @@
      ],
      "glyph": "𑌗",
      "script": "Grantha",
-     "corpus_count": 138
+     "corpus_count": 106
     },
     {
      "iso": "gha",
@@ -1427,7 +1427,7 @@
      ],
      "glyph": "𑌚",
      "script": "Grantha",
-     "corpus_count": 216
+     "corpus_count": 187
     },
     {
      "iso": "cha",
@@ -1447,7 +1447,7 @@
      ],
      "glyph": "𑌜",
      "script": "Grantha",
-     "corpus_count": 156
+     "corpus_count": 134
     },
     {
      "iso": "jha",
@@ -1467,7 +1467,7 @@
      ],
      "glyph": "𑌞",
      "script": "Grantha",
-     "corpus_count": 55
+     "corpus_count": 48
     },
     {
      "iso": "ṭa",
@@ -1477,7 +1477,7 @@
      ],
      "glyph": "𑌟",
      "script": "Grantha",
-     "corpus_count": 269
+     "corpus_count": 262
     },
     {
      "iso": "ṭha",
@@ -1487,7 +1487,7 @@
      ],
      "glyph": "𑌠",
      "script": "Grantha",
-     "corpus_count": 3
+     "corpus_count": 1
     },
     {
      "iso": "ḍa",
@@ -1497,7 +1497,7 @@
      ],
      "glyph": "𑌡",
      "script": "Grantha",
-     "corpus_count": 26
+     "corpus_count": 20
     },
     {
      "iso": "ḍha",
@@ -1517,7 +1517,7 @@
      ],
      "glyph": "𑌣",
      "script": "Grantha",
-     "corpus_count": 191
+     "corpus_count": 160
     },
     {
      "iso": "ta",
@@ -1527,7 +1527,7 @@
      ],
      "glyph": "𑌤",
      "script": "Grantha",
-     "corpus_count": 972
+     "corpus_count": 840
     },
     {
      "iso": "tha",
@@ -1537,7 +1537,7 @@
      ],
      "glyph": "𑌥",
      "script": "Grantha",
-     "corpus_count": 63
+     "corpus_count": 57
     },
     {
      "iso": "da",
@@ -1547,7 +1547,7 @@
      ],
      "glyph": "𑌦",
      "script": "Grantha",
-     "corpus_count": 353
+     "corpus_count": 296
     },
     {
      "iso": "dha",
@@ -1557,7 +1557,7 @@
      ],
      "glyph": "𑌧",
      "script": "Grantha",
-     "corpus_count": 96
+     "corpus_count": 72
     },
     {
      "iso": "na",
@@ -1567,7 +1567,7 @@
      ],
      "glyph": "𑌨",
      "script": "Grantha",
-     "corpus_count": 691
+     "corpus_count": 603
     },
     {
      "iso": "pa",
@@ -1577,7 +1577,7 @@
      ],
      "glyph": "𑌪",
      "script": "Grantha",
-     "corpus_count": 522
+     "corpus_count": 473
     },
     {
      "iso": "pha",
@@ -1587,7 +1587,7 @@
      ],
      "glyph": "𑌫",
      "script": "Grantha",
-     "corpus_count": 5
+     "corpus_count": 4
     },
     {
      "iso": "ba",
@@ -1597,7 +1597,7 @@
      ],
      "glyph": "𑌬",
      "script": "Grantha",
-     "corpus_count": 80
+     "corpus_count": 74
     },
     {
      "iso": "bha",
@@ -1607,7 +1607,7 @@
      ],
      "glyph": "𑌭",
      "script": "Grantha",
-     "corpus_count": 154
+     "corpus_count": 119
     },
     {
      "iso": "ma",
@@ -1617,7 +1617,7 @@
      ],
      "glyph": "𑌮",
      "script": "Grantha",
-     "corpus_count": 873
+     "corpus_count": 755
     },
     {
      "iso": "ya",
@@ -1627,7 +1627,7 @@
      ],
      "glyph": "𑌯",
      "script": "Grantha",
-     "corpus_count": 538
+     "corpus_count": 469
     },
     {
      "iso": "ra",
@@ -1637,7 +1637,7 @@
      ],
      "glyph": "𑌰",
      "script": "Grantha",
-     "corpus_count": 984
+     "corpus_count": 823
     },
     {
      "iso": "la",
@@ -1647,7 +1647,7 @@
      ],
      "glyph": "𑌲",
      "script": "Grantha",
-     "corpus_count": 480
+     "corpus_count": 446
     },
     {
      "iso": "va",
@@ -1657,7 +1657,7 @@
      ],
      "glyph": "𑌵",
      "script": "Grantha",
-     "corpus_count": 641
+     "corpus_count": 565
     },
     {
      "iso": "śa",
@@ -1667,7 +1667,7 @@
      ],
      "glyph": "𑌶",
      "script": "Grantha",
-     "corpus_count": 250
+     "corpus_count": 199
     },
     {
      "iso": "ṣa",
@@ -1677,7 +1677,7 @@
      ],
      "glyph": "𑌷",
      "script": "Grantha",
-     "corpus_count": 89
+     "corpus_count": 72
     },
     {
      "iso": "sa",
@@ -1687,7 +1687,7 @@
      ],
      "glyph": "𑌸",
      "script": "Grantha",
-     "corpus_count": 524
+     "corpus_count": 450
     },
     {
      "iso": "ha",
@@ -1697,7 +1697,7 @@
      ],
      "glyph": "𑌹",
      "script": "Grantha",
-     "corpus_count": 172
+     "corpus_count": 135
     },
     {
      "iso": "ḷa",
@@ -1707,7 +1707,7 @@
      ],
      "glyph": "𑌳",
      "script": "Grantha",
-     "corpus_count": 76
+     "corpus_count": 72
     }
    ],
    "exceptions": [
@@ -1723,7 +1723,7 @@
    "label_ta": "பல்லவர் காலத் தமிழ்",
    "era": "c. 6th–9th c. CE",
    "aksharamukha_script": "Tamil",
-   "corpus_letters": 62265,
+   "corpus_letters": 46634,
    "letters": [
     {
      "iso": "a",
@@ -1733,7 +1733,7 @@
      ],
      "glyph": "அ",
      "script": "Tamil",
-     "corpus_count": 855
+     "corpus_count": 673
     },
     {
      "iso": "ā",
@@ -1743,7 +1743,7 @@
      ],
      "glyph": "ஆ",
      "script": "Tamil",
-     "corpus_count": 1021
+     "corpus_count": 756
     },
     {
      "iso": "i",
@@ -1753,7 +1753,7 @@
      ],
      "glyph": "இ",
      "script": "Tamil",
-     "corpus_count": 1261
+     "corpus_count": 918
     },
     {
      "iso": "ī",
@@ -1763,7 +1763,7 @@
      ],
      "glyph": "ஈ",
      "script": "Tamil",
-     "corpus_count": 18
+     "corpus_count": 17
     },
     {
      "iso": "u",
@@ -1773,7 +1773,7 @@
      ],
      "glyph": "உ",
      "script": "Tamil",
-     "corpus_count": 386
+     "corpus_count": 280
     },
     {
      "iso": "ū",
@@ -1783,7 +1783,7 @@
      ],
      "glyph": "ஊ",
      "script": "Tamil",
-     "corpus_count": 156
+     "corpus_count": 115
     },
     {
      "iso": "e",
@@ -1794,7 +1794,7 @@
      ],
      "glyph": "எ",
      "script": "Tamil",
-     "corpus_count": 664
+     "corpus_count": 506
     },
     {
      "iso": "ai",
@@ -1804,7 +1804,7 @@
      ],
      "glyph": "ஐ",
      "script": "Tamil",
-     "corpus_count": 92
+     "corpus_count": 69
     },
     {
      "iso": "o",
@@ -1815,7 +1815,7 @@
      ],
      "glyph": "ஒ",
      "script": "Tamil",
-     "corpus_count": 345
+     "corpus_count": 260
     },
     {
      "iso": "au",
@@ -1835,7 +1835,7 @@
      ],
      "glyph": "க",
      "script": "Tamil",
-     "corpus_count": 7249
+     "corpus_count": 5414
     },
     {
      "iso": "ṅa",
@@ -1845,7 +1845,7 @@
      ],
      "glyph": "ங",
      "script": "Tamil",
-     "corpus_count": 579
+     "corpus_count": 417
     },
     {
      "iso": "ca",
@@ -1855,7 +1855,7 @@
      ],
      "glyph": "ச",
      "script": "Tamil",
-     "corpus_count": 2000
+     "corpus_count": 1513
     },
     {
      "iso": "ña",
@@ -1865,7 +1865,7 @@
      ],
      "glyph": "ஞ",
      "script": "Tamil",
-     "corpus_count": 369
+     "corpus_count": 287
     },
     {
      "iso": "ṭa",
@@ -1875,7 +1875,7 @@
      ],
      "glyph": "ட",
      "script": "Tamil",
-     "corpus_count": 4040
+     "corpus_count": 3080
     },
     {
      "iso": "ṇa",
@@ -1885,7 +1885,7 @@
      ],
      "glyph": "ண",
      "script": "Tamil",
-     "corpus_count": 1379
+     "corpus_count": 1061
     },
     {
      "iso": "ta",
@@ -1895,7 +1895,7 @@
      ],
      "glyph": "த",
      "script": "Tamil",
-     "corpus_count": 6994
+     "corpus_count": 5238
     },
     {
      "iso": "na",
@@ -1905,7 +1905,7 @@
      ],
      "glyph": "ந",
      "script": "Tamil",
-     "corpus_count": 2351
+     "corpus_count": 1773
     },
     {
      "iso": "pa",
@@ -1915,7 +1915,7 @@
      ],
      "glyph": "ப",
      "script": "Tamil",
-     "corpus_count": 4070
+     "corpus_count": 3056
     },
     {
      "iso": "ma",
@@ -1925,7 +1925,7 @@
      ],
      "glyph": "ம",
      "script": "Tamil",
-     "corpus_count": 4811
+     "corpus_count": 3670
     },
     {
      "iso": "ya",
@@ -1935,7 +1935,7 @@
      ],
      "glyph": "ய",
      "script": "Tamil",
-     "corpus_count": 2782
+     "corpus_count": 2054
     },
     {
      "iso": "ra",
@@ -1945,7 +1945,7 @@
      ],
      "glyph": "ர",
      "script": "Tamil",
-     "corpus_count": 5154
+     "corpus_count": 3827
     },
     {
      "iso": "la",
@@ -1955,7 +1955,7 @@
      ],
      "glyph": "ல",
      "script": "Tamil",
-     "corpus_count": 2425
+     "corpus_count": 1833
     },
     {
      "iso": "va",
@@ -1965,7 +1965,7 @@
      ],
      "glyph": "வ",
      "script": "Tamil",
-     "corpus_count": 3768
+     "corpus_count": 2841
     },
     {
      "iso": "ḻa",
@@ -1975,7 +1975,7 @@
      ],
      "glyph": "ழ",
      "script": "Tamil",
-     "corpus_count": 853
+     "corpus_count": 647
     },
     {
      "iso": "ḷa",
@@ -1985,7 +1985,7 @@
      ],
      "glyph": "ள",
      "script": "Tamil",
-     "corpus_count": 999
+     "corpus_count": 736
     },
     {
      "iso": "ṟa",
@@ -1995,7 +1995,7 @@
      ],
      "glyph": "ற",
      "script": "Tamil",
-     "corpus_count": 2106
+     "corpus_count": 1542
     },
     {
      "iso": "ṉa",
@@ -2005,7 +2005,7 @@
      ],
      "glyph": "ன",
      "script": "Tamil",
-     "corpus_count": 2819
+     "corpus_count": 2049
     },
     {
      "iso": "ja",
@@ -2016,7 +2016,7 @@
      ],
      "glyph": "ஜ",
      "script": "Tamil",
-     "corpus_count": 87
+     "corpus_count": 60
     },
     {
      "iso": "śa",
@@ -2027,7 +2027,7 @@
      ],
      "glyph": "ஶ",
      "script": "Tamil",
-     "corpus_count": 477
+     "corpus_count": 355
     },
     {
      "iso": "ṣa",
@@ -2038,7 +2038,7 @@
      ],
      "glyph": "ஷ",
      "script": "Tamil",
-     "corpus_count": 56
+     "corpus_count": 48
     },
     {
      "iso": "sa",
@@ -2049,7 +2049,7 @@
      ],
      "glyph": "ஸ",
      "script": "Tamil",
-     "corpus_count": 794
+     "corpus_count": 589
     },
     {
      "iso": "ha",
@@ -2060,7 +2060,7 @@
      ],
      "glyph": "ஹ",
      "script": "Tamil",
-     "corpus_count": 212
+     "corpus_count": 156
     },
     {
      "iso": "kṣa",
@@ -2071,7 +2071,7 @@
      ],
      "glyph": "க்ஷ",
      "script": "Tamil",
-     "corpus_count": 75
+     "corpus_count": 57
     },
     {
      "iso": "ḵ",
@@ -2081,7 +2081,7 @@
      ],
      "glyph": "ஃ",
      "script": "Tamil",
-     "corpus_count": 3
+     "corpus_count": 2
     }
    ],
    "exceptions": [
@@ -2107,7 +2107,7 @@
    "label_ta": "சோழர் காலத் தமிழ்",
    "era": "c. 9th–13th c. CE",
    "aksharamukha_script": "Tamil",
-   "corpus_letters": 208897,
+   "corpus_letters": 122430,
    "letters": [
     {
      "iso": "a",
@@ -2117,7 +2117,7 @@
      ],
      "glyph": "அ",
      "script": "Tamil",
-     "corpus_count": 2545
+     "corpus_count": 1578
     },
     {
      "iso": "ā",
@@ -2127,7 +2127,7 @@
      ],
      "glyph": "ஆ",
      "script": "Tamil",
-     "corpus_count": 2787
+     "corpus_count": 1659
     },
     {
      "iso": "i",
@@ -2137,7 +2137,7 @@
      ],
      "glyph": "இ",
      "script": "Tamil",
-     "corpus_count": 3922
+     "corpus_count": 2462
     },
     {
      "iso": "ī",
@@ -2147,7 +2147,7 @@
      ],
      "glyph": "ஈ",
      "script": "Tamil",
-     "corpus_count": 98
+     "corpus_count": 62
     },
     {
      "iso": "u",
@@ -2157,7 +2157,7 @@
      ],
      "glyph": "உ",
      "script": "Tamil",
-     "corpus_count": 1524
+     "corpus_count": 883
     },
     {
      "iso": "ū",
@@ -2167,7 +2167,7 @@
      ],
      "glyph": "ஊ",
      "script": "Tamil",
-     "corpus_count": 384
+     "corpus_count": 271
     },
     {
      "iso": "e",
@@ -2178,7 +2178,7 @@
      ],
      "glyph": "எ",
      "script": "Tamil",
-     "corpus_count": 1845
+     "corpus_count": 1192
     },
     {
      "iso": "ai",
@@ -2188,7 +2188,7 @@
      ],
      "glyph": "ஐ",
      "script": "Tamil",
-     "corpus_count": 337
+     "corpus_count": 239
     },
     {
      "iso": "o",
@@ -2199,7 +2199,7 @@
      ],
      "glyph": "ஒ",
      "script": "Tamil",
-     "corpus_count": 1207
+     "corpus_count": 755
     },
     {
      "iso": "au",
@@ -2219,7 +2219,7 @@
      ],
      "glyph": "க",
      "script": "Tamil",
-     "corpus_count": 27603
+     "corpus_count": 15933
     },
     {
      "iso": "ṅa",
@@ -2229,7 +2229,7 @@
      ],
      "glyph": "ங",
      "script": "Tamil",
-     "corpus_count": 2267
+     "corpus_count": 1419
     },
     {
      "iso": "ca",
@@ -2239,7 +2239,7 @@
      ],
      "glyph": "ச",
      "script": "Tamil",
-     "corpus_count": 6927
+     "corpus_count": 3816
     },
     {
      "iso": "ña",
@@ -2249,7 +2249,7 @@
      ],
      "glyph": "ஞ",
      "script": "Tamil",
-     "corpus_count": 1260
+     "corpus_count": 717
     },
     {
      "iso": "ṭa",
@@ -2259,7 +2259,7 @@
      ],
      "glyph": "ட",
      "script": "Tamil",
-     "corpus_count": 12172
+     "corpus_count": 7175
     },
     {
      "iso": "ṇa",
@@ -2269,7 +2269,7 @@
      ],
      "glyph": "ண",
      "script": "Tamil",
-     "corpus_count": 5594
+     "corpus_count": 3417
     },
     {
      "iso": "ta",
@@ -2279,7 +2279,7 @@
      ],
      "glyph": "த",
      "script": "Tamil",
-     "corpus_count": 21020
+     "corpus_count": 12159
     },
     {
      "iso": "na",
@@ -2289,7 +2289,7 @@
      ],
      "glyph": "ந",
      "script": "Tamil",
-     "corpus_count": 9126
+     "corpus_count": 5342
     },
     {
      "iso": "pa",
@@ -2299,7 +2299,7 @@
      ],
      "glyph": "ப",
      "script": "Tamil",
-     "corpus_count": 11551
+     "corpus_count": 6626
     },
     {
      "iso": "ma",
@@ -2309,7 +2309,7 @@
      ],
      "glyph": "ம",
      "script": "Tamil",
-     "corpus_count": 16784
+     "corpus_count": 9764
     },
     {
      "iso": "ya",
@@ -2319,7 +2319,7 @@
      ],
      "glyph": "ய",
      "script": "Tamil",
-     "corpus_count": 9488
+     "corpus_count": 5304
     },
     {
      "iso": "ra",
@@ -2329,7 +2329,7 @@
      ],
      "glyph": "ர",
      "script": "Tamil",
-     "corpus_count": 16677
+     "corpus_count": 9880
     },
     {
      "iso": "la",
@@ -2339,7 +2339,7 @@
      ],
      "glyph": "ல",
      "script": "Tamil",
-     "corpus_count": 10250
+     "corpus_count": 5927
     },
     {
      "iso": "va",
@@ -2349,7 +2349,7 @@
      ],
      "glyph": "வ",
      "script": "Tamil",
-     "corpus_count": 11633
+     "corpus_count": 6824
     },
     {
      "iso": "ḻa",
@@ -2359,7 +2359,7 @@
      ],
      "glyph": "ழ",
      "script": "Tamil",
-     "corpus_count": 3586
+     "corpus_count": 2177
     },
     {
      "iso": "ḷa",
@@ -2369,7 +2369,7 @@
      ],
      "glyph": "ள",
      "script": "Tamil",
-     "corpus_count": 4533
+     "corpus_count": 2822
     },
     {
      "iso": "ṟa",
@@ -2379,7 +2379,7 @@
      ],
      "glyph": "ற",
      "script": "Tamil",
-     "corpus_count": 7786
+     "corpus_count": 4457
     },
     {
      "iso": "ṉa",
@@ -2389,7 +2389,7 @@
      ],
      "glyph": "ன",
      "script": "Tamil",
-     "corpus_count": 9491
+     "corpus_count": 5709
     },
     {
      "iso": "ja",
@@ -2400,7 +2400,7 @@
      ],
      "glyph": "ஜ",
      "script": "Tamil",
-     "corpus_count": 672
+     "corpus_count": 462
     },
     {
      "iso": "śa",
@@ -2411,7 +2411,7 @@
      ],
      "glyph": "ஶ",
      "script": "Tamil",
-     "corpus_count": 1475
+     "corpus_count": 869
     },
     {
      "iso": "ṣa",
@@ -2422,7 +2422,7 @@
      ],
      "glyph": "ஷ",
      "script": "Tamil",
-     "corpus_count": 153
+     "corpus_count": 104
     },
     {
      "iso": "sa",
@@ -2433,7 +2433,7 @@
      ],
      "glyph": "ஸ",
      "script": "Tamil",
-     "corpus_count": 1362
+     "corpus_count": 854
     },
     {
      "iso": "ha",
@@ -2444,7 +2444,7 @@
      ],
      "glyph": "ஹ",
      "script": "Tamil",
-     "corpus_count": 541
+     "corpus_count": 294
     },
     {
      "iso": "kṣa",
@@ -2455,7 +2455,7 @@
      ],
      "glyph": "க்ஷ",
      "script": "Tamil",
-     "corpus_count": 145
+     "corpus_count": 73
     },
     {
      "iso": "ḵ",
@@ -2491,7 +2491,7 @@
    "label_ta": "பிற்காலத் தமிழ்",
    "era": "c. 14th c. CE onward",
    "aksharamukha_script": "Tamil",
-   "corpus_letters": 7828,
+   "corpus_letters": 1704,
    "letters": [
     {
      "iso": "a",
@@ -2501,7 +2501,7 @@
      ],
      "glyph": "அ",
      "script": "Tamil",
-     "corpus_count": 143
+     "corpus_count": 39
     },
     {
      "iso": "ā",
@@ -2511,7 +2511,7 @@
      ],
      "glyph": "ஆ",
      "script": "Tamil",
-     "corpus_count": 92
+     "corpus_count": 13
     },
     {
      "iso": "i",
@@ -2521,7 +2521,7 @@
      ],
      "glyph": "இ",
      "script": "Tamil",
-     "corpus_count": 59
+     "corpus_count": 7
     },
     {
      "iso": "ī",
@@ -2531,7 +2531,7 @@
      ],
      "glyph": "ஈ",
      "script": "Tamil",
-     "corpus_count": 3
+     "corpus_count": 0
     },
     {
      "iso": "u",
@@ -2541,7 +2541,7 @@
      ],
      "glyph": "உ",
      "script": "Tamil",
-     "corpus_count": 51
+     "corpus_count": 1
     },
     {
      "iso": "ū",
@@ -2551,7 +2551,7 @@
      ],
      "glyph": "ஊ",
      "script": "Tamil",
-     "corpus_count": 6
+     "corpus_count": 0
     },
     {
      "iso": "e",
@@ -2562,7 +2562,7 @@
      ],
      "glyph": "எ",
      "script": "Tamil",
-     "corpus_count": 53
+     "corpus_count": 6
     },
     {
      "iso": "ai",
@@ -2583,7 +2583,7 @@
      ],
      "glyph": "ஒ",
      "script": "Tamil",
-     "corpus_count": 7
+     "corpus_count": 0
     },
     {
      "iso": "au",
@@ -2603,7 +2603,7 @@
      ],
      "glyph": "க",
      "script": "Tamil",
-     "corpus_count": 764
+     "corpus_count": 118
     },
     {
      "iso": "ṅa",
@@ -2613,7 +2613,7 @@
      ],
      "glyph": "ங",
      "script": "Tamil",
-     "corpus_count": 77
+     "corpus_count": 11
     },
     {
      "iso": "ca",
@@ -2623,7 +2623,7 @@
      ],
      "glyph": "ச",
      "script": "Tamil",
-     "corpus_count": 296
+     "corpus_count": 59
     },
     {
      "iso": "ña",
@@ -2633,7 +2633,7 @@
      ],
      "glyph": "ஞ",
      "script": "Tamil",
-     "corpus_count": 38
+     "corpus_count": 11
     },
     {
      "iso": "ṭa",
@@ -2643,7 +2643,7 @@
      ],
      "glyph": "ட",
      "script": "Tamil",
-     "corpus_count": 342
+     "corpus_count": 35
     },
     {
      "iso": "ṇa",
@@ -2653,7 +2653,7 @@
      ],
      "glyph": "ண",
      "script": "Tamil",
-     "corpus_count": 216
+     "corpus_count": 40
     },
     {
      "iso": "ta",
@@ -2663,7 +2663,7 @@
      ],
      "glyph": "த",
      "script": "Tamil",
-     "corpus_count": 827
+     "corpus_count": 162
     },
     {
      "iso": "na",
@@ -2673,7 +2673,7 @@
      ],
      "glyph": "ந",
      "script": "Tamil",
-     "corpus_count": 322
+     "corpus_count": 78
     },
     {
      "iso": "pa",
@@ -2683,7 +2683,7 @@
      ],
      "glyph": "ப",
      "script": "Tamil",
-     "corpus_count": 503
+     "corpus_count": 103
     },
     {
      "iso": "ma",
@@ -2693,7 +2693,7 @@
      ],
      "glyph": "ம",
      "script": "Tamil",
-     "corpus_count": 705
+     "corpus_count": 161
     },
     {
      "iso": "ya",
@@ -2703,7 +2703,7 @@
      ],
      "glyph": "ய",
      "script": "Tamil",
-     "corpus_count": 467
+     "corpus_count": 104
     },
     {
      "iso": "ra",
@@ -2713,7 +2713,7 @@
      ],
      "glyph": "ர",
      "script": "Tamil",
-     "corpus_count": 814
+     "corpus_count": 188
     },
     {
      "iso": "la",
@@ -2723,7 +2723,7 @@
      ],
      "glyph": "ல",
      "script": "Tamil",
-     "corpus_count": 292
+     "corpus_count": 70
     },
     {
      "iso": "va",
@@ -2733,7 +2733,7 @@
      ],
      "glyph": "வ",
      "script": "Tamil",
-     "corpus_count": 412
+     "corpus_count": 132
     },
     {
      "iso": "ḻa",
@@ -2743,7 +2743,7 @@
      ],
      "glyph": "ழ",
      "script": "Tamil",
-     "corpus_count": 49
+     "corpus_count": 3
     },
     {
      "iso": "ḷa",
@@ -2753,7 +2753,7 @@
      ],
      "glyph": "ள",
      "script": "Tamil",
-     "corpus_count": 149
+     "corpus_count": 21
     },
     {
      "iso": "ṟa",
@@ -2763,7 +2763,7 @@
      ],
      "glyph": "ற",
      "script": "Tamil",
-     "corpus_count": 192
+     "corpus_count": 43
     },
     {
      "iso": "ṉa",
@@ -2773,7 +2773,7 @@
      ],
      "glyph": "ன",
      "script": "Tamil",
-     "corpus_count": 265
+     "corpus_count": 46
     },
     {
      "iso": "ja",
@@ -2784,7 +2784,7 @@
      ],
      "glyph": "ஜ",
      "script": "Tamil",
-     "corpus_count": 49
+     "corpus_count": 23
     },
     {
      "iso": "śa",
@@ -2795,7 +2795,7 @@
      ],
      "glyph": "ஶ",
      "script": "Tamil",
-     "corpus_count": 141
+     "corpus_count": 41
     },
     {
      "iso": "ṣa",
@@ -2806,7 +2806,7 @@
      ],
      "glyph": "ஷ",
      "script": "Tamil",
-     "corpus_count": 32
+     "corpus_count": 2
     },
     {
      "iso": "sa",
@@ -2817,7 +2817,7 @@
      ],
      "glyph": "ஸ",
      "script": "Tamil",
-     "corpus_count": 143
+     "corpus_count": 53
     },
     {
      "iso": "ha",
@@ -2828,7 +2828,7 @@
      ],
      "glyph": "ஹ",
      "script": "Tamil",
-     "corpus_count": 36
+     "corpus_count": 17
     },
     {
      "iso": "kṣa",
@@ -2839,7 +2839,7 @@
      ],
      "glyph": "க்ஷ",
      "script": "Tamil",
-     "corpus_count": 45
+     "corpus_count": 9
     },
     {
      "iso": "ḵ",

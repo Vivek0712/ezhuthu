@@ -1,50 +1,5 @@
 [
  {
-  "id": "ez:temple/allur-pancanadesvara",
-  "kind": "temple",
-  "label_iso": "Pañcanadeśvara",
-  "label_ta": "பஞ்சநதெஶ்வர",
-  "variants": [
-   "Pañcanadeśvara"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/allur",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INStfaSIIv08p0i0675"
-  ],
-  "place": "Allūr",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/ambasamudram-ericcavutaiyar",
-  "kind": "temple",
-  "label_iso": "Ericcāvuṭaiyār temple",
-  "label_ta": "எரிச்சாவுடையார் தெம்ப்லெ",
-  "variants": [
-   "Ericcāvuṭaiyār temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/ambasamudram",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSPandya00013",
-   "DHARMA_INSPandya00038",
-   "DHARMA_INSPandya00063",
-   "DHARMA_INSPandya00077",
-   "DHARMA_INSPandya00095"
-  ],
-  "place": "Ambasamudram",
-  "source": "dharma-title",
-  "attestation_count": 5,
-  "inscription_count": 5
- },
- {
   "id": "ez:temple/ambasamudram-tirumulanatha",
   "kind": "temple",
   "label_iso": "Tirumūlanātha temple",
@@ -57,16 +12,13 @@
   "broader": "ez:place/ambasamudram",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPandya00027",
-   "DHARMA_INSPandya00056",
-   "DHARMA_INSPandya00081",
    "DHARMA_INSPandya00508"
   ],
   "place": "Ambasamudram",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 4,
-  "inscription_count": 4
+  "attestation_count": 1,
+  "inscription_count": 1
  },
  {
   "id": "ez:temple/ampal-perumal",
@@ -85,46 +37,6 @@
   ],
   "place": "Ampal",
   "deity": "ez:deity/vishnu",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/anankur-x",
-  "kind": "temple",
-  "label_iso": "X temple",
-  "label_ta": "X தெம்ப்லெ",
-  "variants": [
-   "X temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/anankur",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00053"
-  ],
-  "place": "Āṉaṅkūr",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/anpil-x",
-  "kind": "temple",
-  "label_iso": "X temple",
-  "label_ta": "X தெம்ப்லெ",
-  "variants": [
-   "X temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/anpil",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00025"
-  ],
-  "place": "Aṉpil",
   "source": "dharma-title",
   "attestation_count": 1,
   "inscription_count": 1
@@ -171,47 +83,6 @@
   "source": "dharma-title",
   "attestation_count": 2,
   "inscription_count": 2
- },
- {
-  "id": "ez:temple/atuturai-apatsahayesvara",
-  "kind": "temple",
-  "label_iso": "Āpatsahāyeśvara temple",
-  "label_ta": "ஆபத்ஸஹாயெஶ்வர தெம்ப்லெ",
-  "variants": [
-   "Āpatsahāyeśvara temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/atuturai",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00018"
-  ],
-  "place": "Āṭutuṟai",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/atuturai-x",
-  "kind": "temple",
-  "label_iso": "X temple",
-  "label_ta": "X தெம்ப்லெ",
-  "variants": [
-   "X temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/atuturai",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00035"
-  ],
-  "place": "Āṭutuṟai",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
  },
  {
   "id": "ez:temple/avutaiyarkoyil-adikailasanathasvamin",
@@ -270,15 +141,14 @@
   "broader": "ez:place/caluvan-kuppam",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00064",
    "DHARMA_INSPallava00065",
    "DHARMA_INSPallava00066"
   ],
   "place": "Cāḷuvaṉ Kuppam",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 3,
-  "inscription_count": 3
+  "attestation_count": 2,
+  "inscription_count": 2
  },
  {
   "id": "ez:temple/campur-vatakari-mulasthanesvara",
@@ -364,7 +234,6 @@
    "DHARMA_INStfaSIIv04p0i0147",
    "DHARMA_INStfaSIIv04p0i0148",
    "DHARMA_INStfaSIIv04p0i0149",
-   "DHARMA_INStfaSIIv04p0i0150",
    "DHARMA_INStfaSIIv04p0i0150-A",
    "DHARMA_INStfaSIIv04p0i0151",
    "DHARMA_INStfaSIIv04p0i0152"
@@ -372,8 +241,8 @@
   "place": "Cēlam",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 13,
-  "inscription_count": 13
+  "attestation_count": 12,
+  "inscription_count": 12
  },
  {
   "id": "ez:temple/celam-saundararajaperumal",
@@ -388,53 +257,18 @@
   "broader": "ez:place/celam",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INStfaSIIv04p0i0153",
    "DHARMA_INStfaSIIv04p0i0155",
    "DHARMA_INStfaSIIv04p0i0156",
-   "DHARMA_INStfaSIIv04p0i0157",
    "DHARMA_INStfaSIIv04p0i0158",
-   "DHARMA_INStfaSIIv04p0i0159",
    "DHARMA_INStfaSIIv04p0i0160",
    "DHARMA_INStfaSIIv04p0i0161",
-   "DHARMA_INStfaSIIv04p0i0162",
-   "DHARMA_INStfaSIIv04p0i0163"
+   "DHARMA_INStfaSIIv04p0i0162"
   ],
   "place": "Cēlam",
   "deity": "ez:deity/vishnu",
   "source": "dharma-title",
-  "attestation_count": 10,
-  "inscription_count": 10
- },
- {
-  "id": "ez:temple/cempiyanmatevi-kailasanathasvamin",
-  "kind": "temple",
-  "label_iso": "Kailāsanāthasvāmin temple",
-  "label_ta": "கைலாஸநாதஸ்வாமின் தெம்ப்லெ",
-  "variants": [
-   "Kailāsanāthasvāmin temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/cempiyanmatevi",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00010",
-   "DHARMA_INSCempiyanMahadevi00014",
-   "DHARMA_INSCempiyanMahadevi00015",
-   "DHARMA_INSCempiyanMahadevi00016",
-   "DHARMA_INSCempiyanMahadevi00017",
-   "DHARMA_INSCempiyanMahadevi00020",
-   "DHARMA_INSCempiyanMahadevi00021",
-   "DHARMA_INSCempiyanMahadevi00028",
-   "DHARMA_INSCempiyanMahadevi00033",
-   "DHARMA_INSCempiyanMahadevi00051",
-   "DHARMA_INSCempiyanMahadevi00054"
-  ],
-  "place": "Cempiyaṉmātēvi",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 11,
-  "inscription_count": 11
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:temple/cenkama-rsabhesvara",
@@ -452,27 +286,6 @@
    "DHARMA_INStfaSIIv07p0i0118"
   ],
   "place": "Ceṅkama",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/cenkottai-siva",
-  "kind": "temple",
-  "label_iso": "Śiva temple",
-  "label_ta": "ஶிவ தெம்ப்லெ",
-  "variants": [
-   "Śiva temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/cenkottai",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSPandya01009"
-  ],
-  "place": "Ceṅkōṭṭai",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
   "attestation_count": 1,
@@ -513,15 +326,14 @@
   "broader": "ez:place/centalai",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPandya00505",
    "DHARMA_INSPandya00509",
    "DHARMA_INStfaSIIv06p0i0012"
   ],
   "place": "Centalai",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 3,
-  "inscription_count": 3
+  "attestation_count": 2,
+  "inscription_count": 2
  },
  {
   "id": "ez:temple/ceytunkanallur-vyaghrapatisvara",
@@ -550,8 +362,7 @@
   "label_iso": "Nāṭarāja temple",
   "label_ta": "நாடராஜ தெம்ப்லெ",
   "variants": [
-   "Nāṭarāja temple",
-   "Naṭarāja temple"
+   "Nāṭarāja temple"
   ],
   "era": null,
   "dynasty": null,
@@ -559,14 +370,12 @@
   "wikidata": "Q1966341",
   "attested_in": [
    "DHARMA_INStfaSIIv04p0i0223",
-   "DHARMA_INStfaSIIv08p0i0043",
-   "DHARMA_INStfaSIIv12p0i0245"
+   "DHARMA_INStfaSIIv08p0i0043"
   ],
   "place": "Citamparam",
   "source": "dharma-title",
-  "deity": "ez:deity/siva",
-  "attestation_count": 3,
-  "inscription_count": 3
+  "attestation_count": 2,
+  "inscription_count": 2
  },
  {
   "id": "ez:temple/cozhapuram-rajendracozhisvara",
@@ -604,48 +413,7 @@
   "attested_in": [
    "DHARMA_INStfaSIIv22p0i0165"
   ],
-  "place": "Elavāṉācūr",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/elavanacur-x",
-  "kind": "temple",
-  "label_iso": "X temple",
-  "label_ta": "X தெம்ப்லெ",
-  "variants": [
-   "X temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/elavanacur",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00032"
-  ],
-  "place": "Elavāṉācūr",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/elvanasur-gramardhanatha",
-  "kind": "temple",
-  "label_iso": "Grāmārdhanātha Temple",
-  "label_ta": "க்ராமார்தநாத தெம்ப்லெ",
-  "variants": [
-   "Grāmārdhanātha Temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/elvanasur",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INStfaSIIv22p0i0161"
-  ],
-  "place": "Elvānāśūr",
+  "place": "Elavaṉācūr",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
   "attestation_count": 1,
@@ -695,27 +463,6 @@
    "DHARMA_INStfaSIIv39p0i0130"
   ],
   "place": "Ettiyattali",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/govindaputtur-gangajatadhara",
-  "kind": "temple",
-  "label_iso": "Gaṅgājaṭādhara temple",
-  "label_ta": "கங்காஜடாதர தெம்ப்லெ",
-  "variants": [
-   "Gaṅgājaṭādhara temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/govindaputtur",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INStfaSIIv19p0i0273"
-  ],
-  "place": "Govindaputtūr",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
   "attestation_count": 1,
@@ -825,93 +572,19 @@
    "DHARMA_INSTamilNadu00803",
    "DHARMA_INSTamilNadu00804",
    "DHARMA_INSTamilNadu00805",
-   "DHARMA_INSTamilNadu00806",
    "DHARMA_INSTamilNadu00807",
-   "DHARMA_INSTamilNadu00808",
    "DHARMA_INSTamilNadu00809",
    "DHARMA_INSTamilNadu00810",
    "DHARMA_INSTamilNadu00811",
    "DHARMA_INSTamilNadu00812",
-   "DHARMA_INSTamilNadu00813",
-   "DHARMA_INSTamilNadu00814",
-   "DHARMA_INSTamilNadu00815",
-   "DHARMA_INSTamilNadu00816",
-   "DHARMA_INSTamilNadu00817",
-   "DHARMA_INSTamilNadu00820",
-   "DHARMA_INSTamilNadu00821",
-   "DHARMA_INSTamilNadu00822",
-   "DHARMA_INSTamilNadu00823",
    "DHARMA_INSTamilNadu00824",
    "DHARMA_INSTamilNadu00826"
   ],
   "place": "Kāñcipuram",
   "deity": "ez:deity/vishnu",
   "source": "dharma-title",
-  "attestation_count": 23,
-  "inscription_count": 23
- },
- {
-  "id": "ez:temple/kancipuram-conna-vannam-ceyta-perumal-temple-18",
-  "kind": "temple",
-  "label_iso": "Coṉṉa Vaṇṇam Ceyta Perumāḷ temple 18",
-  "label_ta": "சொன்ன வண்ணம் செய்த பெருமாள் தெம்ப்லெ 18",
-  "variants": [
-   "Coṉṉa Vaṇṇam Ceyta Perumāḷ temple 18"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/kancipuram",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSTamilNadu00818"
-  ],
-  "place": "Kāñcipuram",
-  "deity": "ez:deity/vishnu",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/kancipuram-conna-vannam-ceyta-perumal-temple-19",
-  "kind": "temple",
-  "label_iso": "Coṉṉa Vaṇṇam Ceyta Perumāḷ temple 19",
-  "label_ta": "சொன்ன வண்ணம் செய்த பெருமாள் தெம்ப்லெ 19",
-  "variants": [
-   "Coṉṉa Vaṇṇam Ceyta Perumāḷ temple 19"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/kancipuram",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSTamilNadu00819"
-  ],
-  "place": "Kāñcipuram",
-  "deity": "ez:deity/vishnu",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/kancipuram-conna-vannam-ceyta-perumal-temple-25",
-  "kind": "temple",
-  "label_iso": "Coṉṉa Vaṇṇam Ceyta Perumāḷ temple 25",
-  "label_ta": "சொன்ன வண்ணம் செய்த பெருமாள் தெம்ப்லெ 25",
-  "variants": [
-   "Coṉṉa Vaṇṇam Ceyta Perumāḷ temple 25"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/kancipuram",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSTamilNadu00825"
-  ],
-  "place": "Kāñcipuram",
-  "deity": "ez:deity/vishnu",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
+  "attestation_count": 12,
+  "inscription_count": 12
  },
  {
   "id": "ez:temple/kancipuram-ekambaranatha",
@@ -950,14 +623,13 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSPallava00055",
-   "DHARMA_INSPallava00056",
    "DHARMA_INSPallava00385"
   ],
   "place": "Kāñcipuram",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 3,
-  "inscription_count": 3
+  "attestation_count": 2,
+  "inscription_count": 2
  },
  {
   "id": "ez:temple/kancipuram-matangesvara",
@@ -1018,13 +690,12 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSPallava00070",
-   "DHARMA_INSPallava00488",
    "DHARMA_INSPallava00489"
   ],
   "place": "Kāñcipuram",
   "source": "dharma-title",
-  "attestation_count": 3,
-  "inscription_count": 3
+  "attestation_count": 2,
+  "inscription_count": 2
  },
  {
   "id": "ez:temple/kancipuram-ulakalantaperumal",
@@ -1060,14 +731,13 @@
   "broader": "ez:place/kancipuram",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INStfaSIIv04p0i0133",
-   "DHARMA_INStfaSIIv04p0i0134"
+   "DHARMA_INStfaSIIv04p0i0133"
   ],
   "place": "Kāñcipuram",
   "deity": "ez:deity/vishnu",
   "source": "dharma-title",
-  "attestation_count": 2,
-  "inscription_count": 2
+  "attestation_count": 1,
+  "inscription_count": 1
  },
  {
   "id": "ez:temple/kanyakumari-kanyakumari",
@@ -1106,16 +776,14 @@
    "DHARMA_INSPallava00322",
    "DHARMA_INSPallava00340",
    "DHARMA_INSPallava00518",
-   "DHARMA_INSTamilNadu00020",
    "DHARMA_INSTamilNadu00021",
-   "DHARMA_INSTamilNadu00022",
-   "DHARMA_INSTamilNadu00024"
+   "DHARMA_INSTamilNadu00022"
   ],
   "place": "Kāppalūr",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 7,
-  "inscription_count": 7
+  "attestation_count": 5,
+  "inscription_count": 5
  },
  {
   "id": "ez:temple/karuvur-pasupatisvara",
@@ -1133,8 +801,6 @@
   "attested_in": [
    "DHARMA_INStfaSIIv03p0i0020",
    "DHARMA_INStfaSIIv03p0i0021",
-   "DHARMA_INStfaSIIv03p0i0022",
-   "DHARMA_INStfaSIIv03p0i0023",
    "DHARMA_INStfaSIIv03p0i0024",
    "DHARMA_INStfaSIIv03p0i0025",
    "DHARMA_INStfaSIIv03p0i0026"
@@ -1142,8 +808,8 @@
   "place": "Karuvūr",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 7,
-  "inscription_count": 7
+  "attestation_count": 5,
+  "inscription_count": 5
  },
  {
   "id": "ez:temple/katalur-on-a-stone-outside",
@@ -1189,10 +855,9 @@
  {
   "id": "ez:temple/kizhur-virattanesvara",
   "kind": "temple",
-  "label_iso": "Vīraṭṭānēśvara",
-  "label_ta": "வீரட்டாநேஶ்வர",
+  "label_iso": "Vīraṭṭāṉeśvara temple",
+  "label_ta": "வீரட்டானெஶ்வர தெம்ப்லெ",
   "variants": [
-   "Vīraṭṭānēśvara",
    "Vīraṭṭāṉeśvara temple"
   ],
   "era": null,
@@ -1200,14 +865,13 @@
   "broader": "ez:place/kizhur",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPallava00118",
    "DHARMA_INStfaSIIv41p0i0012"
   ],
   "place": "Kīḻūr",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 2,
-  "inscription_count": 2
+  "attestation_count": 1,
+  "inscription_count": 1
  },
  {
   "id": "ez:temple/konerirajapuram-umamahesvara",
@@ -1222,17 +886,13 @@
   "broader": "ez:place/konerirajapuram",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00005",
-   "DHARMA_INSCempiyanMahadevi00039",
-   "DHARMA_INSCempiyanMahadevi00045",
-   "DHARMA_INSCempiyanMahadevi00055",
-   "DHARMA_INSCempiyanMahadevi00056"
+   "DHARMA_INSCempiyanMahadevi00055"
   ],
   "place": "Kōṉērirājapuram",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 5,
-  "inscription_count": 5
+  "attestation_count": 1,
+  "inscription_count": 1
  },
  {
   "id": "ez:temple/kovintapputtur-gangajatadhara",
@@ -1253,22 +913,17 @@
    "DHARMA_INSTamilNadu00514",
    "DHARMA_INSTamilNadu00515",
    "DHARMA_INSTamilNadu00516",
-   "DHARMA_INSTamilNadu00517",
    "DHARMA_INSTamilNadu00518",
    "DHARMA_INSTamilNadu00519",
-   "DHARMA_INSTamilNadu00520",
-   "DHARMA_INSTamilNadu00521",
-   "DHARMA_INSTamilNadu00522",
    "DHARMA_INSTamilNadu00523",
    "DHARMA_INSTamilNadu00524",
-   "DHARMA_INSTamilNadu00525",
-   "DHARMA_INSTamilNadu00526"
+   "DHARMA_INSTamilNadu00525"
   ],
   "place": "Kōvintapputtūr",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 16,
-  "inscription_count": 16
+  "attestation_count": 11,
+  "inscription_count": 11
  },
  {
   "id": "ez:temple/koyil-tevarayan-pettai-matsyapurisvara",
@@ -1290,27 +945,6 @@
   "source": "dharma-title",
   "attestation_count": 1,
   "inscription_count": 1
- },
- {
-  "id": "ez:temple/koyil-tevarayan-pettai-x",
-  "kind": "temple",
-  "label_iso": "X temple",
-  "label_ta": "X தெம்ப்லெ",
-  "variants": [
-   "X temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/koyil-tevarayan-pettai",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00036",
-   "DHARMA_INSCempiyanMahadevi00041"
-  ],
-  "place": "Kōyil-Tēvarāyaṉ-Pēṭṭai",
-  "source": "dharma-title",
-  "attestation_count": 2,
-  "inscription_count": 2
  },
  {
   "id": "ez:temple/kumpakonam-nagesvara",
@@ -1400,27 +1034,6 @@
   "inscription_count": 1
  },
  {
-  "id": "ez:temple/kuttalam-uktavedisvara",
-  "kind": "temple",
-  "label_iso": "Uktavedīśvara temple",
-  "label_ta": "உக்தவெதீஶ்வர தெம்ப்லெ",
-  "variants": [
-   "Uktavedīśvara temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/kuttalam",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00031"
-  ],
-  "place": "Kuttālam",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
   "id": "ez:temple/kuttalam-uttaravedisvara",
   "kind": "temple",
   "label_iso": "Uttaravēdīśvara",
@@ -1442,50 +1055,6 @@
   "inscription_count": 1
  },
  {
-  "id": "ez:temple/lalkuti-saptarsisvara",
-  "kind": "temple",
-  "label_iso": "Saptar̥ṣīśvara temple",
-  "label_ta": "ஸப்தருʼஷீஶ்வர தெம்ப்லெ",
-  "variants": [
-   "Saptar̥ṣīśvara temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/lalkuti",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSPandya00012A",
-   "DHARMA_INSPandya00012B",
-   "DHARMA_INStfaSIIv04p0i0532",
-   "DHARMA_INStfaSIIv19p0i0146"
-  ],
-  "place": "Lālkuṭi",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 4,
-  "inscription_count": 4
- },
- {
-  "id": "ez:temple/madurai-minaksi",
-  "kind": "temple",
-  "label_iso": "Minākṣi temple",
-  "label_ta": "மிநாக்ஷி தெம்ப்லெ",
-  "variants": [
-   "Minākṣi temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/madurai",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSTamilNadu00067"
-  ],
-  "place": "Madurai",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
   "id": "ez:temple/mahabalipuram-adivaraha",
   "kind": "temple",
   "label_iso": "Ādivarāha",
@@ -1499,27 +1068,6 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSPallava00092"
-  ],
-  "place": "Mahābalipuram",
-  "deity": "ez:deity/vishnu",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/mahabalipuram-adivaraha-cave",
-  "kind": "temple",
-  "label_iso": "Ādivarāha cave",
-  "label_ta": "ஆதிவராஹ சவெ",
-  "variants": [
-   "Ādivarāha cave"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/mahabalipuram",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSPallava00051"
   ],
   "place": "Mahābalipuram",
   "deity": "ez:deity/vishnu",
@@ -1594,8 +1142,7 @@
   "label_iso": "Shore Temple",
   "label_ta": "ஸ்ஹொரெ தெம்ப்லெ",
   "variants": [
-   "Shore Temple",
-   "Shore temple"
+   "Shore Temple"
   ],
   "era": null,
   "dynasty": null,
@@ -1603,37 +1150,14 @@
   "wikidata": "Q1144279",
   "attested_in": [
    "DHARMA_INSPallava00316",
-   "DHARMA_INSPallava00318",
    "DHARMA_INSPallava00319",
    "DHARMA_INSPallava00380",
-   "DHARMA_INSPallava00381",
-   "DHARMA_INSPallava00382",
-   "DHARMA_INSPallava00477"
+   "DHARMA_INSPallava00381"
   ],
   "place": "Mahābalipuram",
   "source": "dharma-title",
-  "attestation_count": 7,
-  "inscription_count": 7
- },
- {
-  "id": "ez:temple/mahabalipuram-temple-s-name",
-  "kind": "temple",
-  "label_iso": "temple’s name",
-  "label_ta": "தெம்ப்லெ(அ)ஸ் நமெ",
-  "variants": [
-   "temple’s name"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/mahabalipuram",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSPallava00047"
-  ],
-  "place": "Mahābalipuram",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
+  "attestation_count": 4,
+  "inscription_count": 4
  },
  {
   "id": "ez:temple/marutanallur-karakkuti",
@@ -1668,16 +1192,13 @@
   "broader": "ez:place/melpati",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INStfaSIIv03p0i0015",
-   "DHARMA_INStfaSIIv03p0i0016",
-   "DHARMA_INStfaSIIv03p0i0017",
-   "DHARMA_INStfaSIIv03p0i0018"
+   "DHARMA_INStfaSIIv03p0i0017"
   ],
   "place": "Mēlpāṭi",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 4,
-  "inscription_count": 4
+  "attestation_count": 1,
+  "inscription_count": 1
  },
  {
   "id": "ez:temple/melpati-somanathesvara",
@@ -1760,18 +1281,13 @@
    "DHARMA_INSTamilNadu00029",
    "DHARMA_INSTamilNadu00030",
    "DHARMA_INSTamilNadu00031",
-   "DHARMA_INSTamilNadu00032",
-   "DHARMA_INSTamilNadu00033",
    "DHARMA_INSTamilNadu00034",
    "DHARMA_INSTamilNadu00035",
    "DHARMA_INSTamilNadu00036",
-   "DHARMA_INSTamilNadu00037",
    "DHARMA_INSTamilNadu00038",
    "DHARMA_INSTamilNadu00039",
    "DHARMA_INSTamilNadu00040",
    "DHARMA_INSTamilNadu00041",
-   "DHARMA_INSTamilNadu00042",
-   "DHARMA_INSTamilNadu00043",
    "DHARMA_INSTamilNadu00044",
    "DHARMA_INSTamilNadu00045",
    "DHARMA_INSTamilNadu00046",
@@ -1780,14 +1296,13 @@
    "DHARMA_INSTamilNadu00049",
    "DHARMA_INSTamilNadu00050",
    "DHARMA_INSTamilNadu00051",
-   "DHARMA_INSTamilNadu00052",
    "DHARMA_INSTamilNadu00053"
   ],
   "place": "Nallūr",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 26,
-  "inscription_count": 26
+  "attestation_count": 20,
+  "inscription_count": 20
  },
  {
   "id": "ez:temple/narttamalai-cave-doorjamb",
@@ -1830,67 +1345,6 @@
   "inscription_count": 1
  },
  {
-  "id": "ez:temple/orakam-bhagavati",
-  "kind": "temple",
-  "label_iso": "Bhagavati temple",
-  "label_ta": "பகவதி தெம்ப்லெ",
-  "variants": [
-   "Bhagavati temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/orakam",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSTamilNadu00173"
-  ],
-  "place": "Ōrakam",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/paccil-kopurappatti-avanisvara-amalisvara",
-  "kind": "temple",
-  "label_iso": "Avanīśvara/Amalīśvara temple",
-  "label_ta": "அவநீஶ்வர/அமலீஶ்வர தெம்ப்லெ",
-  "variants": [
-   "Avanīśvara/Amalīśvara temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/paccil-kopurappatti",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00009"
-  ],
-  "place": "Pāccil-Kōpurappaṭṭi",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/paccil-kopurappatti-x",
-  "kind": "temple",
-  "label_iso": "X temple",
-  "label_ta": "X தெம்ப்லெ",
-  "variants": [
-   "X temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/paccil-kopurappatti",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00049"
-  ],
-  "place": "Pāccil-Kōpurappaṭṭi",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
   "id": "ez:temple/palaiyankottai-kopalacami",
   "kind": "temple",
   "label_iso": "Kōpālacāmi temple",
@@ -1906,47 +1360,6 @@
    "DHARMA_INSTamilNadu00177"
   ],
   "place": "Pāḷaiyaṅkōṭṭai",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/pantanallur-x",
-  "kind": "temple",
-  "label_iso": "X temple",
-  "label_ta": "X தெம்ப்லெ",
-  "variants": [
-   "X temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/pantanallur",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00052"
-  ],
-  "place": "Pantanallūr",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/pariyur-amarapanisvara",
-  "kind": "temple",
-  "label_iso": "Amarapaṇīśvara temple",
-  "label_ta": "அமரபணீஶ்வர தெம்ப்லெ",
-  "variants": [
-   "Amarapaṇīśvara temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/pariyur",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INStfaSIIv36p0i0186"
-  ],
-  "place": "Pāriyūr",
-  "deity": "ez:deity/siva",
   "source": "dharma-title",
   "attestation_count": 1,
   "inscription_count": 1
@@ -1995,27 +1408,6 @@
   "inscription_count": 1
  },
  {
-  "id": "ez:temple/perumpulivakkam-akastisvara",
-  "kind": "temple",
-  "label_iso": "Akastīśvara temple",
-  "label_ta": "அகஸ்தீஶ்வர தெம்ப்லெ",
-  "variants": [
-   "Akastīśvara temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/perumpulivakkam",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSPallava00351"
-  ],
-  "place": "Perumpulivākkam",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
   "id": "ez:temple/perur-gostesvara",
   "kind": "temple",
   "label_iso": "Goṣṭeśvara",
@@ -2029,27 +1421,6 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INStfaSIIv05p1i0241"
-  ],
-  "place": "Pērūr",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/perur-gosthisvara",
-  "kind": "temple",
-  "label_iso": "Goṣṭhīśvara",
-  "label_ta": "கொஷ்டீஶ்வர",
-  "variants": [
-   "Goṣṭhīśvara"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/perur",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INStfaSIIv05p1i0228"
   ],
   "place": "Pērūr",
   "deity": "ez:deity/siva",
@@ -2113,7 +1484,6 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSTamilNadu00401",
-   "DHARMA_INSTamilNadu00402",
    "DHARMA_INSTamilNadu00403",
    "DHARMA_INSTamilNadu00404",
    "DHARMA_INSTamilNadu00405",
@@ -2123,14 +1493,9 @@
    "DHARMA_INSTamilNadu00409",
    "DHARMA_INSTamilNadu00410",
    "DHARMA_INSTamilNadu00411",
-   "DHARMA_INSTamilNadu00412",
-   "DHARMA_INSTamilNadu00413",
-   "DHARMA_INSTamilNadu00414",
    "DHARMA_INSTamilNadu00415",
    "DHARMA_INSTamilNadu00416",
-   "DHARMA_INSTamilNadu00417",
    "DHARMA_INSTamilNadu00418",
-   "DHARMA_INSTamilNadu00419",
    "DHARMA_INSTamilNadu00420",
    "DHARMA_INSTamilNadu00421",
    "DHARMA_INSTamilNadu00422",
@@ -2141,22 +1506,28 @@
    "DHARMA_INSTamilNadu00427",
    "DHARMA_INSTamilNadu00428",
    "DHARMA_INSTamilNadu00429",
-   "DHARMA_INSTamilNadu00430",
-   "DHARMA_INSTamilNadu00431",
    "DHARMA_INSTamilNadu00432",
    "DHARMA_INSTamilNadu00433",
    "DHARMA_INSTamilNadu00434",
    "DHARMA_INSTamilNadu00435",
-   "DHARMA_INSTamilNadu00436",
-   "DHARMA_INSTamilNadu00437",
    "DHARMA_INSTamilNadu00438",
    "DHARMA_INSTamilNadu00439",
-   "DHARMA_INSTamilNadu00440"
+   "DHARMA_INSTamilNadu00440",
+   "DHARMA_INSTamilNadu00441",
+   "DHARMA_INSTamilNadu00442",
+   "DHARMA_INSTamilNadu00443",
+   "DHARMA_INSTamilNadu00449",
+   "DHARMA_INSTamilNadu00450",
+   "DHARMA_INSTamilNadu00451",
+   "DHARMA_INSTamilNadu00453",
+   "DHARMA_INSTamilNadu00461",
+   "DHARMA_INSTamilNadu00462",
+   "DHARMA_INSTamilNadu00463"
   ],
   "place": "Pirāṉmalai",
   "source": "dharma-title",
-  "attestation_count": 90,
-  "inscription_count": 90
+  "attestation_count": 59,
+  "inscription_count": 59
  },
  {
   "id": "ez:temple/piranmalai-mankaipakar",
@@ -2216,47 +1587,6 @@
   ],
   "place": "Puḷḷalūr",
   "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/pullalur-visnu",
-  "kind": "temple",
-  "label_iso": "Viṣṇu temple",
-  "label_ta": "விஷ்ணு தெம்ப்லெ",
-  "variants": [
-   "Viṣṇu temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/pullalur",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSTamilNadu00172"
-  ],
-  "place": "Puḷḷalūr",
-  "deity": "ez:deity/vishnu",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/sankaranayinarkoyil-sankaralingasvami-temple",
-  "kind": "temple",
-  "label_iso": "Śankaralingasvāmi temple.",
-  "label_ta": "ஶந்கரலிந்கஸ்வாமி தெம்ப்லெ.",
-  "variants": [
-   "Śankaralingasvāmi temple."
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/sankaranayinarkoyil",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INStfaSIIv34p0i0432"
-  ],
-  "place": "Sankaranayinarkōyil",
   "source": "dharma-title",
   "attestation_count": 1,
   "inscription_count": 1
@@ -2356,7 +1686,7 @@
   "era": null,
   "dynasty": null,
   "broader": "ez:place/srirangam",
-  "wikidata": "Q97481257",
+  "wikidata": "Q2671548",
   "attested_in": [
    "DHARMA_INSPandya01003",
    "DHARMA_INStfaSIIv04p0i0508",
@@ -2412,28 +1742,6 @@
   "inscription_count": 1
  },
  {
-  "id": "ez:temple/srivillipputtur-perumal",
-  "kind": "temple",
-  "label_iso": "Perumāḷ temple",
-  "label_ta": "பெருமாள் தெம்ப்லெ",
-  "variants": [
-   "Perumāḷ temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/srivillipputtur",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSTamilNadu00175",
-   "DHARMA_INSTamilNadu00176"
-  ],
-  "place": "Śrīvillipputtūr",
-  "deity": "ez:deity/vishnu",
-  "source": "dharma-title",
-  "attestation_count": 2,
-  "inscription_count": 2
- },
- {
   "id": "ez:temple/takkolam-jalanathesvara",
   "kind": "temple",
   "label_iso": "Jalanātheśvara",
@@ -2455,26 +1763,6 @@
   "inscription_count": 1
  },
  {
-  "id": "ez:temple/talaccankatu-x",
-  "kind": "temple",
-  "label_iso": "X temple",
-  "label_ta": "X தெம்ப்லெ",
-  "variants": [
-   "X temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/talaccankatu",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00057"
-  ],
-  "place": "Talaccaṅkāṭu",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
   "id": "ez:temple/tanjore-brhadisvara",
   "kind": "temple",
   "label_iso": "Br̥hadīśvara",
@@ -2488,15 +1776,13 @@
   "wikidata": "Q916943",
   "attested_in": [
    "DHARMA_INStfaSIIv02p0i0001",
-   "DHARMA_INStfaSIIv02p0i0002",
-   "DHARMA_INStfaSIIv02p0i0023",
    "DHARMA_INStfaSIIv02p0i0065"
   ],
   "place": "Tanjore",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 4,
-  "inscription_count": 4
+  "attestation_count": 2,
+  "inscription_count": 2
  },
  {
   "id": "ez:temple/taracuram-airavatesvara",
@@ -2618,28 +1904,6 @@
   "inscription_count": 1
  },
  {
-  "id": "ez:temple/tenneri-x",
-  "kind": "temple",
-  "label_iso": "X temple",
-  "label_ta": "X தெம்ப்லெ",
-  "variants": [
-   "X temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tenneri",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00040",
-   "DHARMA_INSCempiyanMahadevi00047",
-   "DHARMA_INSCempiyanMahadevi00048"
-  ],
-  "place": "Teṉṉēri",
-  "source": "dharma-title",
-  "attestation_count": 3,
-  "inscription_count": 3
- },
- {
   "id": "ez:temple/thanjavur-brhadisvara",
   "kind": "temple",
   "label_iso": "Br̥hadīśvara temple",
@@ -2660,109 +1924,6 @@
   "source": "dharma-title",
   "attestation_count": 2,
   "inscription_count": 2
- },
- {
-  "id": "ez:temple/tillaisthanam-neyyati-appar",
-  "kind": "temple",
-  "label_iso": "Neyyāṭi Appar temple",
-  "label_ta": "நெய்யாடி அப்பர் தெம்ப்லெ",
-  "variants": [
-   "Neyyāṭi Appar temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tillaisthanam",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSPandya00323"
-  ],
-  "place": "Tillaisthānam",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/tiruccatturai-otanavanesvara",
-  "kind": "temple",
-  "label_iso": "Ōtaṉavaṉēśvara temple",
-  "label_ta": "ஓதனவனேஶ்வர தெம்ப்லெ",
-  "variants": [
-   "Ōtaṉavaṉēśvara temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tiruccatturai",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSPandya00028"
-  ],
-  "place": "Tiruccāttuṟai",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/tiruccennampunti-cataiyar",
-  "kind": "temple",
-  "label_iso": "Caṭaiyar temple",
-  "label_ta": "சடையர் தெம்ப்லெ",
-  "variants": [
-   "Caṭaiyar temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tiruccennampunti",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INStfaSIIv07p0i0520"
-  ],
-  "place": "Tirucceṉṉampūṇṭi",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/tiruccirrampalam-puratanavanesvara",
-  "kind": "temple",
-  "label_iso": "Purātanavaṉeśvara temple",
-  "label_ta": "புராதநவனெஶ்வர தெம்ப்லெ",
-  "variants": [
-   "Purātanavaṉeśvara temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tiruccirrampalam",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSPandya00014"
-  ],
-  "place": "Tirucciṟṟampalam",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/tirukantecuvaram-natanapadesvara",
-  "kind": "temple",
-  "label_iso": "Naṭanapādeśvara",
-  "label_ta": "நடநபாதெஶ்வர",
-  "variants": [
-   "Naṭanapādeśvara"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tirukantecuvaram",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INStfaSIIv17p0i0171"
-  ],
-  "place": "Tirukaṇṭēcuvaram",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
  },
  {
   "id": "ez:temple/tirukantecuvaram-tirumulanatar",
@@ -2827,26 +1988,6 @@
   "inscription_count": 1
  },
  {
-  "id": "ez:temple/tirukkalittattai-x",
-  "kind": "temple",
-  "label_iso": "X temple",
-  "label_ta": "X தெம்ப்லெ",
-  "variants": [
-   "X temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tirukkalittattai",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00050"
-  ],
-  "place": "Tirukkaḷittaṭṭai",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
   "id": "ez:temple/tirukkattupalli-agnisvara",
   "kind": "temple",
   "label_iso": "Agnīśvara temple",
@@ -2868,27 +2009,6 @@
   "inscription_count": 1
  },
  {
-  "id": "ez:temple/tirukkokkaranam-gokarnesvara",
-  "kind": "temple",
-  "label_iso": "Gokarṇeśvara temple",
-  "label_ta": "கொகர்ணெஶ்வர தெம்ப்லெ",
-  "variants": [
-   "Gokarṇeśvara temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tirukkokkaranam",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSPandya00025"
-  ],
-  "place": "Tirukkōkkaraṇam",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
   "id": "ez:temple/tirukkotikkaval-tirukkotisvara",
   "kind": "temple",
   "label_iso": "Tirukkōṭīśvara temple",
@@ -2903,20 +2023,17 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSCempiyanMahadevi00007",
-   "DHARMA_INSCempiyanMahadevi00042",
    "DHARMA_INSPallava00139",
    "DHARMA_INSPallava00184",
    "DHARMA_INSPandya00020",
-   "DHARMA_INSPandya00021",
    "DHARMA_INSPandya00268",
-   "DHARMA_INSPandya00269",
-   "DHARMA_INStfaSIIv19p0i0292"
+   "DHARMA_INSPandya00269"
   ],
   "place": "Tirukkōṭikkāval",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 9,
-  "inscription_count": 9
+  "attestation_count": 6,
+  "inscription_count": 6
  },
  {
   "id": "ez:temple/tirukkoyilur-trivikrama-perumal",
@@ -2956,88 +2073,6 @@
   ],
   "place": "Tirumālpuram",
   "deity": "ez:deity/vishnu",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/tirumananceri-udvahanathasvamin",
-  "kind": "temple",
-  "label_iso": "Udvāhanāthasvāmin temple",
-  "label_ta": "உத்வாஹநாதஸ்வாமின் தெம்ப்லெ",
-  "variants": [
-   "Udvāhanāthasvāmin temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tirumananceri",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00059"
-  ],
-  "place": "Tirumaṇañcēri",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/tirumananceri-x",
-  "kind": "temple",
-  "label_iso": "X temple",
-  "label_ta": "X தெம்ப்லெ",
-  "variants": [
-   "X temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tirumananceri",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00024",
-   "DHARMA_INSCempiyanMahadevi00030"
-  ],
-  "place": "Tirumaṇañcēri",
-  "source": "dharma-title",
-  "attestation_count": 2,
-  "inscription_count": 2
- },
- {
-  "id": "ez:temple/tirumankalam-x",
-  "kind": "temple",
-  "label_iso": "X temple",
-  "label_ta": "X தெம்ப்லெ",
-  "variants": [
-   "X temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tirumankalam",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00044"
-  ],
-  "place": "Tirumaṅkalam",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/tirumazhavati-x",
-  "kind": "temple",
-  "label_iso": "X temple",
-  "label_ta": "X தெம்ப்லெ",
-  "variants": [
-   "X temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tirumazhavati",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00058"
-  ],
-  "place": "Tirumaḻavāṭi",
   "source": "dharma-title",
   "attestation_count": 1,
   "inscription_count": 1
@@ -3101,28 +2136,22 @@
    "DHARMA_INSTamilNadu00101",
    "DHARMA_INSTamilNadu00102",
    "DHARMA_INSTamilNadu00103",
-   "DHARMA_INSTamilNadu00104",
    "DHARMA_INSTamilNadu00105",
    "DHARMA_INSTamilNadu00106",
    "DHARMA_INSTamilNadu00107",
    "DHARMA_INSTamilNadu00108",
    "DHARMA_INSTamilNadu00109",
-   "DHARMA_INSTamilNadu00110",
-   "DHARMA_INSTamilNadu00111",
    "DHARMA_INSTamilNadu00112",
    "DHARMA_INSTamilNadu00113",
    "DHARMA_INSTamilNadu00114",
    "DHARMA_INSTamilNadu00115",
-   "DHARMA_INSTamilNadu00116",
    "DHARMA_INSTamilNadu00117",
    "DHARMA_INSTamilNadu00118",
    "DHARMA_INSTamilNadu00119",
    "DHARMA_INSTamilNadu00120",
    "DHARMA_INSTamilNadu00121",
    "DHARMA_INSTamilNadu00122",
-   "DHARMA_INSTamilNadu00123",
    "DHARMA_INSTamilNadu00124",
-   "DHARMA_INSTamilNadu00125",
    "DHARMA_INSTamilNadu00126",
    "DHARMA_INSTamilNadu00127",
    "DHARMA_INSTamilNadu00128",
@@ -3131,60 +2160,25 @@
    "DHARMA_INSTamilNadu00131",
    "DHARMA_INSTamilNadu00132",
    "DHARMA_INSTamilNadu00133",
-   "DHARMA_INSTamilNadu00134",
    "DHARMA_INSTamilNadu00135",
    "DHARMA_INSTamilNadu00136",
    "DHARMA_INSTamilNadu00137",
    "DHARMA_INSTamilNadu00138",
    "DHARMA_INSTamilNadu00139",
-   "DHARMA_INSTamilNadu00140"
+   "DHARMA_INSTamilNadu00141",
+   "DHARMA_INSTamilNadu00142",
+   "DHARMA_INSTamilNadu00143",
+   "DHARMA_INSTamilNadu00144",
+   "DHARMA_INSTamilNadu00145",
+   "DHARMA_INSTamilNadu00146",
+   "DHARMA_INSTamilNadu00147",
+   "DHARMA_INSTamilNadu00149"
   ],
   "place": "Tirunaḷḷāṟu",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 59,
-  "inscription_count": 59
- },
- {
-  "id": "ez:temple/tirunaraiyur-siddhanathasvamin",
-  "kind": "temple",
-  "label_iso": "Siddhanāthasvāmin temple",
-  "label_ta": "ஸித்தநாதஸ்வாமின் தெம்ப்லெ",
-  "variants": [
-   "Siddhanāthasvāmin temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tirunaraiyur",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00060"
-  ],
-  "place": "Tirunaṟaiyūr",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/tirunaraiyur-x",
-  "kind": "temple",
-  "label_iso": "X temple",
-  "label_ta": "X தெம்ப்லெ",
-  "variants": [
-   "X temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tirunaraiyur",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00023"
-  ],
-  "place": "Tirunaṟaiyūr",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
+  "attestation_count": 48,
+  "inscription_count": 48
  },
  {
   "id": "ez:temple/tirunelveli-nelliyappar",
@@ -3311,27 +2305,6 @@
   "inscription_count": 1
  },
  {
-  "id": "ez:temple/tiruppazhanam-apatsahayesvara",
-  "kind": "temple",
-  "label_iso": "Āpatsāhayeśvara temple",
-  "label_ta": "ஆபத்ஸாஹயெஶ்வர தெம்ப்லெ",
-  "variants": [
-   "Āpatsāhayeśvara temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tiruppazhanam",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INStfaSIIv19p0i0172"
-  ],
-  "place": "Tiruppaḻaṉam",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
   "id": "ez:temple/tiruppukuzhi-vijayaraghavaperumal",
   "kind": "temple",
   "label_iso": "Vijayaraghavaperumāḷ temple",
@@ -3369,26 +2342,6 @@
   ],
   "place": "Tiruppulivaṉam",
   "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/tiruppurampiyam-x",
-  "kind": "temple",
-  "label_iso": "X temple",
-  "label_ta": "X தெம்ப்லெ",
-  "variants": [
-   "X temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tiruppurampiyam",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00027"
-  ],
-  "place": "Tiruppuṟampiyam",
   "source": "dharma-title",
   "attestation_count": 1,
   "inscription_count": 1
@@ -3457,49 +2410,6 @@
   "inscription_count": 1
  },
  {
-  "id": "ez:temple/tiruvaiyaru-pancanatisvara",
-  "kind": "temple",
-  "label_iso": "Pañcanātīśvara temple",
-  "label_ta": "பஞ்சநாதீஶ்வர தெம்ப்லெ",
-  "variants": [
-   "Pañcanātīśvara temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tiruvaiyaru",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INStfaSIIv05p1i0053",
-   "DHARMA_INStfaSIIv05p1i0523",
-   "DHARMA_INStfaSIIv05p1i0551"
-  ],
-  "place": "Tiruvaiyāṟu",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 3,
-  "inscription_count": 3
- },
- {
-  "id": "ez:temple/tiruvakkarai-x",
-  "kind": "temple",
-  "label_iso": "X temple",
-  "label_ta": "X தெம்ப்லெ",
-  "variants": [
-   "X temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tiruvakkarai",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00046"
-  ],
-  "place": "Tiruvakkarai",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
   "id": "ez:temple/tiruvalanjuli-kapartisvara",
   "kind": "temple",
   "label_iso": "Kapartīśvara temple",
@@ -3554,14 +2464,13 @@
   "broader": "ez:place/tiruvalisvaram",
   "wikidata": "Q7911723",
   "attested_in": [
-   "DHARMA_INSPandya00160",
    "DHARMA_INSPandya00161"
   ],
   "place": "Tiruvalīśvaram",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 2,
-  "inscription_count": 2
+  "attestation_count": 1,
+  "inscription_count": 1
  },
  {
   "id": "ez:temple/tiruvamattur-apiramesvara",
@@ -3645,14 +2554,12 @@
   "broader": "ez:place/tiruvarur",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00022",
-   "DHARMA_INSCempiyanMahadevi00034",
    "DHARMA_INStfaSIIv17p0i0603"
   ],
   "place": "Tiruvārūr",
   "source": "dharma-title",
-  "attestation_count": 3,
-  "inscription_count": 3
+  "attestation_count": 1,
+  "inscription_count": 1
  },
  {
   "id": "ez:temple/tiruvatavur-tirumarainata",
@@ -3717,27 +2624,6 @@
   "inscription_count": 2
  },
  {
-  "id": "ez:temple/tiruvellarai-jambunathasvami",
-  "kind": "temple",
-  "label_iso": "Jambunāthasvāmi",
-  "label_ta": "ஜம்புநாதஸ்வாமி",
-  "variants": [
-   "Jambunāthasvāmi"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tiruvellarai",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSPallava00119"
-  ],
-  "place": "Tiruveḷḷaṟai",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
   "id": "ez:temple/tiruvellarai-jambunathasvamin",
   "kind": "temple",
   "label_iso": "Jambunāthasvāmin temple",
@@ -3780,47 +2666,6 @@
   "inscription_count": 1
  },
  {
-  "id": "ez:temple/tiruvelvikkuti-manavalesvara",
-  "kind": "temple",
-  "label_iso": "Maṇavāḷēśvara temple",
-  "label_ta": "மணவாளேஶ்வர தெம்ப்லெ",
-  "variants": [
-   "Maṇavāḷēśvara temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tiruvelvikkuti",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00062"
-  ],
-  "place": "Tiruvēḷvikkuṭi",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/tiruvenkatu-x",
-  "kind": "temple",
-  "label_iso": "X temple",
-  "label_ta": "X தெம்ப்லெ",
-  "variants": [
-   "X temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tiruvenkatu",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00029"
-  ],
-  "place": "Tiruveṇkāṭu",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
   "id": "ez:temple/tiruvicalur-sivayoganatha",
   "kind": "temple",
   "label_iso": "Śivayoganātha temple",
@@ -3833,14 +2678,13 @@
   "broader": "ez:place/tiruvicalur",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPandya00024",
-   "DHARMA_INStfaSIIv32p1i0031"
+   "DHARMA_INSPandya00024"
   ],
   "place": "Tiruvicalūr",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 2,
-  "inscription_count": 2
+  "attestation_count": 1,
+  "inscription_count": 1
  },
  {
   "id": "ez:temple/tiruvicalur-sivayoganathasvamin",
@@ -3855,15 +2699,13 @@
   "broader": "ez:place/tiruvicalur",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00004",
-   "DHARMA_INSCempiyanMahadevi00026",
-   "DHARMA_INSCempiyanMahadevi00061"
+   "DHARMA_INSCempiyanMahadevi00004"
   ],
   "place": "Tiruvicalūr",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 3,
-  "inscription_count": 3
+  "attestation_count": 1,
+  "inscription_count": 1
  },
  {
   "id": "ez:temple/tiruvisalur-sivayoganatha",
@@ -3878,14 +2720,13 @@
   "broader": "ez:place/tiruvisalur",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INStfaSIIv23p0i0047",
    "DHARMA_INStfaSIIv23p0i0341"
   ],
   "place": "Tiruviśalūr",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 2,
-  "inscription_count": 2
+  "attestation_count": 1,
+  "inscription_count": 1
  },
  {
   "id": "ez:temple/tiruvitaimarutur-mahalingasvamin",
@@ -3960,8 +2801,7 @@
   "label_iso": "Ādhipurīśvara temple",
   "label_ta": "ஆதிபுரீஶ்வர தெம்ப்லெ",
   "variants": [
-   "Ādhipurīśvara temple",
-   "Ādhipurīśvara"
+   "Ādhipurīśvara temple"
   ],
   "era": null,
   "dynasty": null,
@@ -3976,59 +2816,28 @@
    "DHARMA_INSTamilNadu00012",
    "DHARMA_INSTamilNadu00013",
    "DHARMA_INSTamilNadu00014",
-   "DHARMA_INSTamilNadu00015",
-   "DHARMA_INSTamilNadu00016",
    "DHARMA_INSTamilNadu00017",
    "DHARMA_INStfaSIIv03p0i0064",
    "DHARMA_INStfaSIIv03p0i0103",
    "DHARMA_INStfaSIIv03p0i0104",
    "DHARMA_INStfaSIIv03p0i0105",
-   "DHARMA_INStfaSIIv03p0i0108",
    "DHARMA_INStfaSIIv03p0i0115",
    "DHARMA_INStfaSIIv03p0i0143",
    "DHARMA_INStfaSIIv03p0i0145",
-   "DHARMA_INStfaSIIv04p0i0553",
-   "DHARMA_INStfaSIIv04p0i0555",
    "DHARMA_INStfaSIIv04p0i0556",
    "DHARMA_INStfaSIIv04p0i0558",
    "DHARMA_INStfaSIIv05p1i1354",
    "DHARMA_INStfaSIIv05p1i1355",
    "DHARMA_INStfaSIIv05p1i1356",
    "DHARMA_INStfaSIIv05p1i1357",
-   "DHARMA_INStfaSIIv05p1i1358",
-   "DHARMA_INStfaSIIv05p1i1359",
    "DHARMA_INStfaSIIv38p0i0128",
-   "DHARMA_INStfaSIIv38p0i0131",
-   "DHARMA_INStfaSIIv38p0i0139",
-   "DHARMA_INStfaSIIv38p0i0140",
    "DHARMA_INStfaSIIv38p0i0195"
   ],
   "place": "Tiruvoṟṟiyūr",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 34,
-  "inscription_count": 34
- },
- {
-  "id": "ez:temple/tiruvorriyur-valmikanatha",
-  "kind": "temple",
-  "label_iso": "Valmīkanātha",
-  "label_ta": "வல்மீகநாத",
-  "variants": [
-   "Valmīkanātha"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/tiruvorriyur",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSPallava00344"
-  ],
-  "place": "Tiruvoṟṟiyūr",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
+  "attestation_count": 24,
+  "inscription_count": 24
  },
  {
   "id": "ez:temple/tiruvottur-vedapurisvara",
@@ -4064,13 +2873,12 @@
   "broader": "ez:place/trichy",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSPandya00010",
-   "DHARMA_INSPandya00011"
+   "DHARMA_INSPandya00010"
   ],
   "place": "Trichy",
   "source": "dharma-title",
-  "attestation_count": 2,
-  "inscription_count": 2
+  "attestation_count": 1,
+  "inscription_count": 1
  },
  {
   "id": "ez:temple/tuci-vaikunthaperumal",
@@ -4108,12 +2916,10 @@
   "attested_in": [
    "DHARMA_INStfaSIIv03p0i0001",
    "DHARMA_INStfaSIIv03p0i0002",
-   "DHARMA_INStfaSIIv03p0i0003",
    "DHARMA_INStfaSIIv03p0i0004",
    "DHARMA_INStfaSIIv03p0i0006",
    "DHARMA_INStfaSIIv03p0i0007",
    "DHARMA_INStfaSIIv03p0i0009",
-   "DHARMA_INStfaSIIv03p0i0010",
    "DHARMA_INStfaSIIv03p0i0011",
    "DHARMA_INStfaSIIv03p0i0012",
    "DHARMA_INStfaSIIv03p0i0013",
@@ -4122,8 +2928,8 @@
   "place": "Ukkal",
   "deity": "ez:deity/vishnu",
   "source": "dharma-title",
-  "attestation_count": 12,
-  "inscription_count": 12
+  "attestation_count": 10,
+  "inscription_count": 10
  },
  {
   "id": "ez:temple/urrattur-siddharatnesvara",
@@ -4168,28 +2974,6 @@
   "inscription_count": 1
  },
  {
-  "id": "ez:temple/utaiyarkuti-anantisvara",
-  "kind": "temple",
-  "label_iso": "Anantīśvara temple",
-  "label_ta": "அநந்தீஶ்வர தெம்ப்லெ",
-  "variants": [
-   "Anantīśvara temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/utaiyarkuti",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INStfaSIIv19p0i0023",
-   "DHARMA_INStfaSIIv19p0i0305"
-  ],
-  "place": "Uṭaiyārkuṭi",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 2,
-  "inscription_count": 2
- },
- {
   "id": "ez:temple/uttiramerur-sundaravaradaperumal",
   "kind": "temple",
   "label_iso": "Sundaravaradaperumāḷ",
@@ -4210,7 +2994,6 @@
    "DHARMA_INSUttiramerur00053",
    "DHARMA_INSUttiramerur00054",
    "DHARMA_INSUttiramerur00055",
-   "DHARMA_INSUttiramerur00060",
    "DHARMA_INSUttiramerur00061",
    "DHARMA_INSUttiramerur00062",
    "DHARMA_INSUttiramerur00065",
@@ -4221,8 +3004,8 @@
   "place": "Uttiramērūr",
   "deity": "ez:deity/vishnu",
   "source": "dharma-title",
-  "attestation_count": 14,
-  "inscription_count": 14
+  "attestation_count": 13,
+  "inscription_count": 13
  },
  {
   "id": "ez:temple/uttiramerur-vaikuntha-perumal",
@@ -4238,14 +3021,13 @@
   "wikidata": null,
   "attested_in": [
    "DHARMA_INSUttiramerur00001",
-   "DHARMA_INSUttiramerur00002",
-   "DHARMA_INSUttiramerur00090"
+   "DHARMA_INSUttiramerur00002"
   ],
   "place": "Uttiramērūr",
   "deity": "ez:deity/vishnu",
   "source": "dharma-title",
-  "attestation_count": 3,
-  "inscription_count": 3
+  "attestation_count": 2,
+  "inscription_count": 2
  },
  {
   "id": "ez:temple/uttiramerur-vaikunthaperumal",
@@ -4262,27 +3044,21 @@
   "attested_in": [
    "DHARMA_INSPallava00078",
    "DHARMA_INSPallava00096",
-   "DHARMA_INSPallava00109",
    "DHARMA_INSPallava00199",
    "DHARMA_INSPallava00203",
    "DHARMA_INSPallava00208",
    "DHARMA_INSPallava00267",
-   "DHARMA_INSUttiramerur00014",
-   "DHARMA_INSUttiramerur00015",
-   "DHARMA_INSUttiramerur00016",
    "DHARMA_INSUttiramerur00017",
    "DHARMA_INSUttiramerur00018",
    "DHARMA_INSUttiramerur00019",
-   "DHARMA_INSUttiramerur00028",
    "DHARMA_INSUttiramerur00035",
-   "DHARMA_INSUttiramerur00037",
    "DHARMA_INSUttiramerur00041"
   ],
   "place": "Uttiramērūr",
   "deity": "ez:deity/vishnu",
   "source": "dharma-title",
-  "attestation_count": 17,
-  "inscription_count": 17
+  "attestation_count": 11,
+  "inscription_count": 11
  },
  {
   "id": "ez:temple/uyyakkontan-tirumalai-ujjivanatha",
@@ -4297,32 +3073,10 @@
   "broader": "ez:place/uyyakkontan-tirumalai",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00001",
-   "DHARMA_INSCempiyanMahadevi00037",
-   "DHARMA_INSCempiyanMahadevi00063"
+   "DHARMA_INSCempiyanMahadevi00001"
   ],
   "place": "Uyyakkoṇṭāṉ Tirumalai",
   "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 3,
-  "inscription_count": 3
- },
- {
-  "id": "ez:temple/valappurnatu-arappallisvara",
-  "kind": "temple",
-  "label_iso": "Aṟappaḷḷīsvara temple",
-  "label_ta": "அறப்பள்ளீஸ்வர தெம்ப்லெ",
-  "variants": [
-   "Aṟappaḷḷīsvara temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/valappurnatu",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00019"
-  ],
-  "place": "Vaḷappūrnāṭu",
   "source": "dharma-title",
   "attestation_count": 1,
   "inscription_count": 1
@@ -4361,14 +3115,13 @@
   "broader": "ez:place/vata-tirumullaivayil",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00012",
    "DHARMA_INSCempiyanMahadevi00013"
   ],
   "place": "Vaṭa-Tirumullaivāyil",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 2,
-  "inscription_count": 2
+  "attestation_count": 1,
+  "inscription_count": 1
  },
  {
   "id": "ez:temple/vazhuvur-virattanesvara",
@@ -4388,59 +3141,16 @@
    "DHARMA_INSTamilNadu00164",
    "DHARMA_INStfaSIIv38p0i0418",
    "DHARMA_INStfaSIIv38p0i0419",
-   "DHARMA_INStfaSIIv38p0i0422",
    "DHARMA_INStfaSIIv38p0i0423"
   ],
   "place": "Vaḻuvūr",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 6,
-  "inscription_count": 6
+  "attestation_count": 5,
+  "inscription_count": 5
  },
  {
-  "id": "ez:temple/vellalur-tenisvara",
-  "kind": "temple",
-  "label_iso": "Tēṉīśvara temple",
-  "label_ta": "தேனீஶ்வர தெம்ப்லெ",
-  "variants": [
-   "Tēṉīśvara temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/vellalur",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INStfaSIIv36p0i0142"
-  ],
-  "place": "Veḷḷalūr",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/vijayamangalam-kariyamanikka-perumal",
-  "kind": "temple",
-  "label_iso": "Kariyamāṇikka Perumāḷ temple",
-  "label_ta": "கரியமாணிக்க பெருமாள் தெம்ப்லெ",
-  "variants": [
-   "Kariyamāṇikka Perumāḷ temple"
-  ],
-  "era": null,
-  "dynasty": null,
-  "broader": "ez:place/vijayamangalam",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INStfaSIIv41p0i0331"
-  ],
-  "place": "Vijayamaṅgalam",
-  "deity": "ez:deity/vishnu",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/viruttacalam-vrddhagirisvara",
+  "id": "ez:temple/vrddhacalam-vrddhagirisvara",
   "kind": "temple",
   "label_iso": "Vr̥ddhagirīśvara temple",
   "label_ta": "வ்ருʼத்தகிரீஶ்வர தெம்ப்லெ",
@@ -4449,38 +3159,15 @@
   ],
   "era": null,
   "dynasty": null,
-  "broader": "ez:place/viruttacalam",
-  "wikidata": null,
-  "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00043"
-  ],
-  "place": "Viruttācalam",
-  "deity": "ez:deity/siva",
-  "source": "dharma-title",
-  "attestation_count": 1,
-  "inscription_count": 1
- },
- {
-  "id": "ez:temple/vrddhacalam-vrddhagirisvara",
-  "kind": "temple",
-  "label_iso": "Vr̥ddhagirīśvara temple",
-  "label_ta": "வ்ருʼத்தகிரீஶ்வர தெம்ப்லெ",
-  "variants": [
-   "Vr̥ddhagirīśvara temple",
-   "Vr̥ddhāgirīśvara temple"
-  ],
-  "era": null,
-  "dynasty": null,
   "broader": "ez:place/vrddhacalam",
   "wikidata": null,
   "attested_in": [
-   "DHARMA_INSCempiyanMahadevi00008",
-   "DHARMA_INSTamilNadu00193"
+   "DHARMA_INSCempiyanMahadevi00008"
   ],
   "place": "Vr̥ddhācalam",
   "deity": "ez:deity/siva",
   "source": "dharma-title",
-  "attestation_count": 2,
-  "inscription_count": 2
+  "attestation_count": 1,
+  "inscription_count": 1
  }
 ]
