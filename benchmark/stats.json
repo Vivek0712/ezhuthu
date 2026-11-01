@@ -118,38 +118,38 @@
   },
   "per_split": {
     "train": {
-      "inscriptions": 1056,
-      "items": 2462,
-      "hard": 2161,
-      "hard_share": 0.8777,
-      "age_set": 330,
-      "blank": 2731
+      "inscriptions": 1060,
+      "items": 2433,
+      "hard": 2159,
+      "hard_share": 0.8874,
+      "age_set": 333,
+      "blank": 2702
     },
     "val": {
-      "inscriptions": 132,
-      "items": 444,
-      "hard": 396,
-      "hard_share": 0.8919,
-      "age_set": 47,
-      "blank": 465
+      "inscriptions": 129,
+      "items": 443,
+      "hard": 401,
+      "hard_share": 0.9052,
+      "age_set": 35,
+      "blank": 449
     },
     "test": {
-      "inscriptions": 132,
-      "items": 383,
-      "hard": 301,
-      "hard_share": 0.7859,
-      "age_set": 42,
-      "blank": 361
+      "inscriptions": 131,
+      "items": 413,
+      "hard": 317,
+      "hard_share": 0.7676,
+      "age_set": 51,
+      "blank": 406
     }
   },
   "age_set_items": 419,
   "age_set_inscriptions": 506,
   "blank_items": 3557,
-  "corpus_lines": 14324,
+  "corpus_lines": 14355,
   "gap_chars_hist": {
     "1": 1833,
-    "2": 584,
-    "3": 297,
+    "2": 583,
+    "3": 298,
     "4": 179,
     "5": 108,
     "6-10": 210,
@@ -268,5 +268,470 @@
   },
   "duplicate_files_skipped": [
     "tfa-tamil-outside-TN-epigraphy/DHARMA_INSPondicherry00102.xml"
-  ]
+  ],
+  "edition_groups": [
+    {
+      "ids": [
+        "DHARMA_INSCempiyanMahadevi00007",
+        "DHARMA_INStfaSIIv19p0i0292"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSCirkali00001",
+        "DHARMA_INSCirkali00032"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSCirkali00013",
+        "DHARMA_INSCirkali00014"
+      ],
+      "split": "val"
+    },
+    {
+      "ids": [
+        "DHARMA_INSKotumpalur00026",
+        "DHARMA_INSKotumpalur00027",
+        "DHARMA_INSKotumpalur00031"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSMelKil00001",
+        "DHARMA_INSMelKil00002"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSMelKil00007",
+        "DHARMA_INSMelKil00008"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00106",
+        "DHARMA_INSPallava00526"
+      ],
+      "split": "test"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00132",
+        "DHARMA_INSPallava00133"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00150",
+        "DHARMA_INSPallava00151"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00176",
+        "DHARMA_INSPallava00177"
+      ],
+      "split": "test"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00188",
+        "DHARMA_INSPallava00189"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00203",
+        "DHARMA_INSPallava00206"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00204",
+        "DHARMA_INSPallava00205"
+      ],
+      "split": "test"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00216",
+        "DHARMA_INSPallava00217",
+        "DHARMA_INSPallava00218"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00238",
+        "DHARMA_INSPallava00239"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00280",
+        "DHARMA_INSPallava00281"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00282",
+        "DHARMA_INSPallava00283"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00284",
+        "DHARMA_INSPallava00527"
+      ],
+      "split": "test"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00293",
+        "DHARMA_INSPallava00294"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00301",
+        "DHARMA_INSPallava00302"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00310",
+        "DHARMA_INSPallava00528"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00332",
+        "DHARMA_INSPallava00333"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00336",
+        "DHARMA_INSPallava00366"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00402",
+        "DHARMA_INSPallava00501"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00423",
+        "DHARMA_INSPallava00424"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00507",
+        "DHARMA_INSPallava00508"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPandya00006",
+        "DHARMA_INSPandya00007"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPondicherry00002",
+        "DHARMA_INSPondicherry00003",
+        "DHARMA_INSPondicherry00004",
+        "DHARMA_INSPondicherry00006"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00020",
+        "DHARMA_INSTamilNadu00024"
+      ],
+      "split": "test"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00036",
+        "DHARMA_INSTamilNadu00037"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00074",
+        "DHARMA_INSTamilNadu00162"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00103",
+        "DHARMA_INSTamilNadu00104"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00105",
+        "DHARMA_INSTamilNadu00106"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00108",
+        "DHARMA_INSTamilNadu00109"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00120",
+        "DHARMA_INSTamilNadu00125"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00147",
+        "DHARMA_INSTamilNadu00148"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00405",
+        "DHARMA_INSTamilNadu00406"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00412",
+        "DHARMA_INSTamilNadu00413",
+        "DHARMA_INSTamilNadu00414"
+      ],
+      "split": "test"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00415",
+        "DHARMA_INSTamilNadu00416"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00432",
+        "DHARMA_INSTamilNadu00433"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00442",
+        "DHARMA_INSTamilNadu00443"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00445",
+        "DHARMA_INSTamilNadu00446",
+        "DHARMA_INSTamilNadu00447"
+      ],
+      "split": "test"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00456",
+        "DHARMA_INSTamilNadu00457"
+      ],
+      "split": "val"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00512",
+        "DHARMA_INSTamilNadu00513"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00518",
+        "DHARMA_INSTamilNadu00519",
+        "DHARMA_INSTamilNadu00520",
+        "DHARMA_INSTamilNadu00524"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00525",
+        "DHARMA_INSTamilNadu00526"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTiruvavatuturai10107",
+        "DHARMA_INSTiruvavatuturai10139"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTiruvavatuturai10111",
+        "DHARMA_INSTiruvavatuturai10123"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTiruvavatuturai10122",
+        "DHARMA_INSTiruvavatuturai10142"
+      ],
+      "split": "val"
+    },
+    {
+      "ids": [
+        "DHARMA_INSUttiramerur00015",
+        "DHARMA_INSUttiramerur00016",
+        "DHARMA_INSUttiramerur00028",
+        "DHARMA_INSUttiramerur00029"
+      ],
+      "split": "val"
+    },
+    {
+      "ids": [
+        "DHARMA_INSUttiramerur00018",
+        "DHARMA_INSUttiramerur00019"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSUttiramerur00054",
+        "DHARMA_INSUttiramerur00060",
+        "DHARMA_INSUttiramerur00061",
+        "DHARMA_INSUttiramerur00062"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv01p0i0043",
+        "DHARMA_INStfaSIIv01p0i0044",
+        "DHARMA_INStfaSIIv01p0i0045",
+        "DHARMA_INStfaSIIv01p0i0046"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv02p0i0001",
+        "DHARMA_INStfaSIIv02p0i0002"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv03p0i0015",
+        "DHARMA_INStfaSIIv03p0i0016"
+      ],
+      "split": "test"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv03p0i0022",
+        "DHARMA_INStfaSIIv03p0i0023"
+      ],
+      "split": "val"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv03p0i0104",
+        "DHARMA_INStfaSIIv03p0i0105"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv04p0i0140",
+        "DHARMA_INStfaSIIv04p0i0141"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv04p0i0151",
+        "DHARMA_INStfaSIIv04p0i0153"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv04p0i0155",
+        "DHARMA_INStfaSIIv04p0i0156",
+        "DHARMA_INStfaSIIv04p0i0157",
+        "DHARMA_INStfaSIIv04p0i0158"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv13p0i0049",
+        "DHARMA_INStfaSIIv19p0i0135"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv19p0i0229",
+        "DHARMA_INStfaSIIv19p0i0230"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv38p0i0131",
+        "DHARMA_INStfaSIIv38p0i0139",
+        "DHARMA_INStfaSIIv38p0i0140"
+      ],
+      "split": "test"
+    }
+  ],
+  "dup_rule": {
+    "text_ratio_min": 95,
+    "min_chars": 40,
+    "or_same_site_ruler_year": true
+  }
 }

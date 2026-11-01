@@ -13,6 +13,9 @@ Outputs (all JSONL is UTF-8, one record per line, sorted for stable diffs):
   editors did not fill (discovery set; no target to score).
 * ``corpus_lines.jsonl``: every line of every TRAIN inscription (retrieval corpus).
 * ``inscriptions.jsonl``: metadata and full text for every inscription (all splits), for the tutor.
+  ``text_iso`` / ``text_tamil`` inline the expert fills (they ARE the answers for val/test items);
+  ``text_iso_masked`` / ``text_tamil_masked`` show every fill as ``[?N]``. See "Leakage rules" in the
+  data card.
 * ``stats.json`` and ``DATA_CARD.md``: counts from this run.
 """
 
@@ -24,6 +27,7 @@ import json
 import random
 import re
 import sys
+import unicodedata
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -31,7 +35,7 @@ from rapidfuzz import fuzz, process
 
 from ezhuthu.corpus.epidoc import Inscription, Line, Span, parse_file
 from ezhuthu.corpus.fetch import LOCK_PATH, RAW_DIR, ROOT, edition_files, load_lock
-from ezhuthu.corpus.script import GAP_MARKER_RE, count_aksharas, iso_to_tamil
+from ezhuthu.corpus.script import GAP_MARKER_RE, count_aksharas, iso_to_tamil_display
 
 OUT_DIR = ROOT / "benchmark"
 SEED = 13
@@ -42,6 +46,8 @@ SHORT_CONTEXT = 40  # chars; below this the previous / next line is added to the
 HARD_WINDOW = 15  # chars of context on each side of the target used for the parallel search
 HARD_THRESHOLD = 90  # rapidfuzz partial_ratio
 HARD_SLACK = 3  # extra chars on each side of a train window, so partial_ratio can re-align
+DUP_RATIO = 95  # rapidfuzz ratio of normalised whole texts at or above which two editions are one stone
+DUP_MIN_CHARS = 40  # texts shorter than this (normalised) are never grouped on text alone
 GAP_BUCKETS = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 10), (11, 20), (21, 10**9)]
 
 
@@ -88,8 +94,81 @@ def load_corpus(lock: dict, raw_dir: Path,
     return inscriptions, sources
 
 
-def assign_splits(inscriptions: list[Inscription], seed: int = SEED) -> dict[str, str]:
-    """80/10/10 by inscription, stratified by collection, deterministic for a given seed."""
+def _norm_whole_text(ins: Inscription) -> str:
+    return "".join(norm_for_match(ln.text) for ln in ins.lines)
+
+
+def _site_ruler_year(ins: Inscription) -> tuple[str, str, int] | None:
+    """(site, ruler, regnal year) from the title, ASCII-folded; None unless all three are known.
+
+    DHARMA titles read ``"<site>, <monument>, time of <ruler>, year <n>"``.
+    """
+    if not (ins.title and ins.ruler and ins.regnal_year is not None):
+        return None
+
+    def fold(x: str) -> str:
+        x = unicodedata.normalize("NFD", x)
+        return re.sub(r"[^a-z0-9]+", " ", "".join(c for c in x if not unicodedata.combining(c)).lower()).strip()
+
+    site = fold(ins.title.split(",")[0])
+    ruler = fold(ins.ruler)
+    if not site or not ruler:
+        return None
+    return site, ruler, int(ins.regnal_year)
+
+
+def edition_groups(inscriptions: list[Inscription], ratio: int = DUP_RATIO) -> list[list[str]]:
+    """Groups (size >= 2) of editions that are the same inscription published in different collections.
+
+    Two editions are linked when their normalised whole texts score rapidfuzz ``ratio >= ratio``
+    (texts of at least ``DUP_MIN_CHARS`` letters), or when site, ruler and regnal year in the title
+    all match. Links are closed transitively. Each group is sorted; groups are sorted by first id.
+    """
+    ids = [i.id for i in inscriptions]
+    texts = [_norm_whole_text(i) for i in inscriptions]
+    parent = list(range(len(ids)))
+
+    def find(a: int) -> int:
+        while parent[a] != a:
+            parent[a] = parent[parent[a]]
+            a = parent[a]
+        return a
+
+    def union(a: int, b: int) -> None:
+        ra, rb = find(a), find(b)
+        if ra != rb:
+            parent[max(ra, rb)] = min(ra, rb)
+
+    long_idx = [k for k, t in enumerate(texts) if len(t) >= DUP_MIN_CHARS]
+    if len(long_idx) > 1:
+        long_texts = [texts[k] for k in long_idx]
+        scores = process.cdist(long_texts, long_texts, scorer=fuzz.ratio, score_cutoff=ratio,
+                               dtype="uint8", workers=-1)
+        for a, b in zip(*scores.nonzero(), strict=True):
+            if a < b:
+                union(long_idx[a], long_idx[b])
+    by_key: dict[tuple, int] = {}
+    for k, ins in enumerate(inscriptions):
+        key = _site_ruler_year(ins)
+        if key is None:
+            continue
+        if key in by_key:
+            union(by_key[key], k)
+        else:
+            by_key[key] = k
+    members: dict[int, list[str]] = collections.defaultdict(list)
+    for k, iid in enumerate(ids):
+        members[find(k)].append(iid)
+    return sorted((sorted(m) for m in members.values() if len(m) > 1), key=lambda g: g[0])
+
+
+def assign_splits(inscriptions: list[Inscription], seed: int = SEED,
+                  groups: list[list[str]] | None = None) -> dict[str, str]:
+    """80/10/10 by inscription, stratified by collection, deterministic for a given seed.
+
+    Editions in one of ``groups`` (see :func:`edition_groups`) all take the split drawn for the
+    group's first id, so two editions of one stone never end up in different splits.
+    """
     by_col: dict[str, list[str]] = collections.defaultdict(list)
     for ins in inscriptions:
         by_col[ins.collection or ""].append(ins.id)
@@ -102,6 +181,9 @@ def assign_splits(inscriptions: list[Inscription], seed: int = SEED) -> dict[str
         n_val = round(len(ids) * SPLIT_FRACTIONS["val"])
         for k, iid in enumerate(ids):
             split[iid] = "test" if k < n_test else "val" if k < n_test + n_val else "train"
+    for g in groups or []:
+        for iid in g[1:]:
+            split[iid] = split[g[0]]
     return split
 
 
@@ -221,7 +303,8 @@ def _target_windows(train_texts: list[tuple[str, str]], tgt: str, window: int) -
 
 
 def mark_hard(items: list[dict], train_texts: list[tuple[str, str]],
-              window: int = HARD_WINDOW, threshold: int = HARD_THRESHOLD) -> None:
+              window: int = HARD_WINDOW, threshold: int = HARD_THRESHOLD,
+              same_stone: dict[str, set[str]] | None = None) -> None:
     """Set ``hard`` on every item.
 
     ``train_texts`` is ``(inscription_id, norm_for_match(full text))`` for the TRAIN inscriptions; a
@@ -230,8 +313,10 @@ def mark_hard(items: list[dict], train_texts: list[tuple[str, str]],
     An item is *not* hard when some train inscription other than its own contains the target and the
     item's query (``window`` chars of left context, target, ``window`` chars of right context) scores
     rapidfuzz ``partial_ratio >= threshold`` against the text around that occurrence (the same window
-    plus ``HARD_SLACK`` chars each side, so the alignment stays on the target).
+    plus ``HARD_SLACK`` chars each side, so the alignment stays on the target). Other editions of
+    the item's own stone (``same_stone``: id -> all ids in its edition group) do not count as parallels.
     """
+    same_stone = same_stone or {}
     cache: dict[str, tuple[list[str], list[set[str]]]] = {}
     for it in items:
         tgt = norm_for_match(it["target"])
@@ -245,8 +330,8 @@ def mark_hard(items: list[dict], train_texts: list[tuple[str, str]],
         # the query is not padded: an item with little context of its own is compared on what it has
         query = norm_for_match(it["left"])[-window:] + tgt + norm_for_match(it["right"])[:window]
         hits = process.extract(query, choices, scorer=fuzz.partial_ratio, score_cutoff=threshold, limit=None)
-        own = it["inscription_id"]
-        it["hard"] = not any(owners[idx] - {own} for _, _, idx in hits)
+        own = same_stone.get(it["inscription_id"], {it["inscription_id"]})
+        it["hard"] = not any(owners[idx] - own for _, _, idx in hits)
 
 
 # --------------------------------------------------------------------------------------------------
@@ -272,7 +357,13 @@ def _hist(items: list[dict]) -> dict[str, int]:
     return {b: c.get(b, 0) for b in order}
 
 
-def inscription_record(ins: Inscription, split: str, source: Source) -> dict:
+def masked_text(ins: Inscription) -> str:
+    """``ins.text`` with every expert fill (``supplied`` lost/undefined) shown as ``[?N]``."""
+    return "\n".join(("-" if ln.joined else "") + ln.masked() for ln in ins.lines)
+
+
+def inscription_record(ins: Inscription, split: str, source: Source,
+                       same_stone: list[str] | None = None) -> dict:
     tamil = is_tamil(ins.lang)
     n_sup = sum(len(ln.spans_of("supplied")) for ln in ins.lines)
     n_gap = sum(len(ln.spans_of("gap")) for ln in ins.lines)
@@ -297,15 +388,20 @@ def inscription_record(ins: Inscription, split: str, source: Source) -> dict:
         "source_url": source.url,
         "dharmalekha_url": f"https://dharmalekha.info/texts/{ins.id}",
         "commit": source.commit,
+        "same_stone_as": same_stone or [],
         "text_iso": ins.text,
-        "text_tamil": iso_to_tamil(ins.text) if tamil else None,
+        "text_iso_masked": masked_text(ins),
+        "text_tamil": iso_to_tamil_display(ins.text) if tamil else None,
+        "text_tamil_masked": iso_to_tamil_display(masked_text(ins)) if tamil else None,
     }
 
 
 def build(lock: dict, raw_dir: Path, out_dir: Path, seed: int = SEED) -> dict:
     duplicates: list[str] = []
     inscriptions, sources = load_corpus(lock, raw_dir, duplicates)
-    split = assign_splits(inscriptions, seed)
+    groups = edition_groups(inscriptions)
+    same_stone = {iid: set(g) for g in groups for iid in g}
+    split = assign_splits(inscriptions, seed, groups)
     skipped: collections.Counter = collections.Counter()
     items: list[dict] = []
     blanks: list[dict] = []
@@ -325,8 +421,8 @@ def build(lock: dict, raw_dir: Path, out_dir: Path, seed: int = SEED) -> dict:
                 "joined": ln.joined, "text": ln.text, "text_masked": ln.masked(),
                 "source_url": sources[ins.id].url,
             })
-    mark_hard(items, [(i.id, "".join(norm_for_match(ln.text) for ln in i.lines))
-                      for i in inscriptions if i.id in train_ids])
+    mark_hard(items, [(i.id, _norm_whole_text(i)) for i in inscriptions if i.id in train_ids],
+              same_stone=same_stone)
 
     out_dir.mkdir(parents=True, exist_ok=True)
     by_split = {s: [it for it in items if it["split"] == s] for s in ("train", "val", "test")}
@@ -337,10 +433,14 @@ def build(lock: dict, raw_dir: Path, out_dir: Path, seed: int = SEED) -> dict:
     _write_jsonl(out_dir / "blank.jsonl", blanks)
     _write_jsonl(out_dir / "corpus_lines.jsonl", corpus_lines)
     _write_jsonl(out_dir / "inscriptions.jsonl",
-                 [inscription_record(i, split[i.id], sources[i.id]) for i in inscriptions])
+                 [inscription_record(i, split[i.id], sources[i.id],
+                                     sorted(same_stone.get(i.id, set()) - {i.id})) for i in inscriptions])
 
     stats = compute_stats(lock, inscriptions, split, items, blanks, corpus_lines, skipped, seed)
     stats["duplicate_files_skipped"] = duplicates
+    stats["edition_groups"] = [{"ids": g, "split": split[g[0]]} for g in groups]
+    stats["dup_rule"] = {"text_ratio_min": DUP_RATIO, "min_chars": DUP_MIN_CHARS,
+                         "or_same_site_ruler_year": True}
     (out_dir / "stats.json").write_text(json.dumps(stats, indent=2, ensure_ascii=False) + "\n")
     (out_dir / "DATA_CARD.md").write_text(render_data_card(stats))
     return stats
@@ -418,7 +518,8 @@ def render_data_card(st: dict) -> str:
         "",
         "Licence: the repositories' LICENCE files say CC BY 4.0, but the edition files themselves declare",
         "the licence below in `<availability>`. Because most files say **CC BY-SA 4.0**, this derived",
-        "benchmark is shared under **CC BY-SA 4.0** with attribution to DHARMA.",
+        "benchmark is shared under **CC BY-SA 4.0** with attribution to DHARMA (see `benchmark/LICENSE`;",
+        "the repository's Apache-2.0 licence covers the code, not the files in `benchmark/`).",
         "",
         "| Licence in file header | Inscriptions |",
         "| --- | ---: |",
@@ -429,6 +530,54 @@ def render_data_card(st: dict) -> str:
               "| --- | --- | --- | ---: |"]
     for r in st["repos"]:
         lines.append(f"| {r['repo']} | `{r['commit'][:12]}` | {r['license'] or 'none'} | {r['tei_files']} |")
+    lines += [
+        "",
+        "## Leakage rules (read before building retrieval, lookups or prompts)",
+        "",
+        "`inscriptions.jsonl` covers **all** splits so that the tutor can show any inscription. Its",
+        "`text_iso` and `text_tamil` inline every expert fill, so for val and test inscriptions they",
+        "**contain the answers** to `items.val.jsonl` and `items.test.jsonl`. Therefore:",
+        "",
+        "1. The restorer's retrieval corpus, the ontology's `attested_in` references, few-shot examples",
+        "   and any other lookup the restorer can see must be built from **train only**",
+        "   (`corpus_lines.jsonl`, or `inscriptions.jsonl` rows with `split == \"train\"`). If a lookup",
+        "   needs all splits (for the tutor), tag every reference with its `split` and filter out val/test",
+        "   on the restoration and evaluation paths.",
+        "2. Where text of a val/test inscription must be shown next to a restoration task, use",
+        "   `text_iso_masked` / `text_tamil_masked`: every expert fill appears there as `[?N]`.",
+        "3. `same_stone_as` lists other editions of the same stone (see below). They are always in the",
+        "   same split, and they must not be used as parallels for each other.",
+        "",
+        "`tests/test_corpus_benchmark.py` checks that the retrieval corpus is train only and that every",
+        "val/test fill is masked in `text_iso_masked`.",
+        "",
+        "## Scoring",
+        "",
+        "Score restorations with `ezhuthu.corpus.script.normalise_for_scoring` applied to both the",
+        "prediction and `target`, so that CER and top-1 exact match count **letters only**. It keeps",
+        "ISO-15919 letters (lower-cased, `ṛ` spelled `r̥`) and drops spaces, hyphens, `·`, `’`, digits,",
+        "punctuation, gap markers and editorial marks such as `=`, `‡`, `⌈`, `⌉`, `_` and quote marks,",
+        "which DHARMA editions use and which some targets contain. `text_tamil` and `text_tamil_masked`",
+        "are display forms (`iso_to_tamil_display`): editorial marks are removed, notes such as",
+        "`[text not available]` become `[?]`, and stray Latin letters are folded or dropped.",
+        "`text_iso` keeps the raw marks.",
+        "",
+        "## Same stone, several editions",
+        "",
+        (f"Some stones are edited in two collections. Before splitting, editions are grouped when their"
+         f" normalised whole texts score rapidfuzz `ratio` >= {st['dup_rule']['text_ratio_min']} (texts of at"
+         f" least {st['dup_rule']['min_chars']} letters) or when site, ruler and regnal year in the title all"
+         " match; a group takes the split drawn for its first id. The second rule also groups distinct"
+         " inscriptions of one king, year and site, which keeps their shared formulae in one split."
+         f" **{len(st['edition_groups'])}** groups,"
+         f" {sum(len(g['ids']) for g in st['edition_groups'])} inscriptions (all in `stats.json`"
+         " `edition_groups`):"),
+        "",
+        "| Split | Editions grouped |",
+        "| --- | --- |",
+    ]
+    for g in st["edition_groups"]:
+        lines.append(f"| {g['split']} | " + ", ".join(f"`{i}`" for i in g["ids"]) + " |")
     lines += [
         "",
         "## What an item is",
@@ -464,10 +613,12 @@ def render_data_card(st: dict) -> str:
     lines += [
         "",
         f"Splits are by inscription (seed {st['seed']}, 80/10/10 within each collection), so no",
-        "inscription appears in two splits. `items.test-hard.jsonl` and `items.test-age.jsonl` are the",
+        "inscription appears in two splits, and editions of one stone share a split (see above).",
+        "`items.test-hard.jsonl` and `items.test-age.jsonl` are the",
         "hard and age subsets of the test split.",
         "",
-        "**Hard** = no train inscription other than the item's own contains the target with a similar",
+        "**Hard** = no train inscription other than the item's own (or another edition of its stone)",
+        "contains the target with a similar",
         (f"context: the item's query ({st['hard_rule']['window_chars']} characters of context on each side"
          " of the target; spaces, hyphens and apostrophes ignored) scores rapidfuzz `partial_ratio` >="
          f" {st['hard_rule']['partial_ratio_min']} against the text around some occurrence of the target"
@@ -514,7 +665,8 @@ def render_data_card(st: dict) -> str:
         f" ({st['dynasty_sources'].get('title', 0)} inscriptions); it is null for"
         f" {st['dynasty_sources'].get('(unknown)', 0)}."),
         ("- Edition-specific marks that are not letters (for example `⌈`, `‡`, `=` and literal brackets)"
-        " are kept exactly as in the source text."),
+        " are kept exactly as in the source text in `text_iso`, `left`, `right` and `target`; score with"
+        " `normalise_for_scoring` (see Scoring)."),
         "- `approx_date` is the first CE date in the edition commentary, when there is one.",
         "- Items skipped: " + (", ".join(f"{k} {v}" for k, v in sorted(st["skipped"].items())) or "none") + ".",
         "- Files skipped because the same inscription id was already loaded from an earlier repository: "

@@ -42,12 +42,19 @@ _CONSONANTS: dict[str, str] = {
 _VOWELS: dict[str, tuple[str, str]] = {
     "ai": ("ஐ", "ை"), "au": ("ஔ", "ௌ"),
     "r̥̄": ("ரூ", "்ரூ"), "r̥": ("ரு", "்ரு"), "l̥̄": ("லூ", "்லூ"), "l̥": ("லு", "்லு"),
+    # IAST-style dotted-below vocalic r used in some DHARMA files; same letters as r̥ / r̥̄
+    "ṝ": ("ரூ", "்ரூ"), "ṛ": ("ரு", "்ரு"),
     "ā": ("ஆ", "ா"), "ī": ("ஈ", "ீ"), "ū": ("ஊ", "ூ"), "ē": ("ஏ", "ே"), "ō": ("ஓ", "ோ"),
     "a": ("அ", ""), "i": ("இ", "ி"), "u": ("உ", "ு"), "e": ("எ", "ெ"), "o": ("ஒ", "ொ"),
     # diaeresis breaks a diphthong: kaïlāsa = ka-i-lāsa
     "ï": ("இ", "ி"), "ü": ("உ", "ு"),
 }
-_SIGNS: dict[str, str] = {"ṃ": "ம்", "ṁ": "ம்", "ḥ": "ஃ", "m̐": "ம்"}
+# ``ḵ`` is the ISO-15919 āytam (ஃ, aḵtu = அஃது): a letter of its own, written without puḷḷi, after
+# which a vowel is written as an independent letter.
+_SIGNS: dict[str, str] = {"ṃ": "ம்", "ṁ": "ம்", "ḥ": "ஃ", "m̐": "ம்", "ḵ": "ஃ"}
+_LETTER_SIGNS = frozenset({"ḵ"})  # signs that count as a Tamil letter (gap_chars)
+# canonical spelling used by normalise_for_scoring
+_VOWEL_ALIASES = {"ṛ": "r̥", "ṝ": "r̥̄"}
 _VIRAMA = "்"
 _TAMIL_NUMERAL_SIGNS = {"10": "௰", "100": "௱", "1000": "௲"}
 _TAMIL_DIGITS = str.maketrans("0123456789", "௦௧௨௩௪௫௬௭௮௯")
@@ -110,7 +117,7 @@ def count_aksharas(text: str) -> int:
     toks = [t for t in tokenize(text) if t.kind != "O" or t.iso not in "-·’'"]
     count = 0
     for k, tok in enumerate(toks):
-        if tok.kind == "V":
+        if tok.kind == "V" or (tok.kind == "S" and tok.iso in _LETTER_SIGNS):
             count += 1
         elif tok.kind == "C":
             nxt = toks[k + 1] if k + 1 < len(toks) else None
@@ -185,6 +192,71 @@ def iso_to_tamil(text: str, keep_hyphens: bool = False) -> str:
         pos = m.end()
     parts.append(_iso_chunk_to_tamil(text[pos:], keep_hyphens))
     return "".join(parts)
+
+
+# Editorial marks that DHARMA editions use inside the text but that are not letters: ``=`` (a
+# sandhi / word-division mark), ``‡`` and ``⌈ ⌉`` (edition-specific symbols), ``_`` and quote marks.
+# They are kept in ``text_iso``; the display form of Tamil text and the scoring form drop them.
+# The apostrophes ``’`` and ``'`` are not here: they mark an elided vowel and change the spelling.
+EDITORIAL_MARKS = "=‡⌈⌉⌊⌋_\"“”„‘`´\ufffd"
+_EDITORIAL_RE = re.compile("[" + re.escape(EDITORIAL_MARKS) + "]")
+
+
+def strip_editorial_marks(text: str) -> str:
+    """Remove the non-letter editorial marks in :data:`EDITORIAL_MARKS`. Gap markers are kept."""
+    parts: list[str] = []
+    pos = 0
+    for m in GAP_MARKER_RE.finditer(text):
+        parts.append(_EDITORIAL_RE.sub("", text[pos:m.start()]))
+        parts.append(m.group(0))
+        pos = m.end()
+    parts.append(_EDITORIAL_RE.sub("", text[pos:]))
+    return "".join(parts)
+
+
+# Editors' prose inside the text: "[text not available]", "{wavy line}". Shown as a gap / dropped.
+_NOTE_BRACKET_RE = re.compile(r"\[(?!\?\d*\])[^\]\n]*[A-Za-z]{3,}[^\]\n]*\]")
+_NOTE_BRACE_RE = re.compile(r"\{[^}\n]*\}")
+_KEY_CHARS = frozenset("".join(_TOKEN_KEYS))
+
+
+def _fold_stray_letters(text: str) -> str:
+    """Letters no ISO-15919 key starts with (source typos such as ``ţ``, ``ḿ``, ``ȧ``, ``Å``) are
+    folded to their base letter when that is a key letter (``ţ`` -> ``t``) and dropped otherwise
+    (``x``, ``w``), so that no Latin letter reaches Tamil display text."""
+    out: list[str] = []
+    for ch in _nfc(text):
+        if ch.isalpha() and not ("\u0b80" <= ch <= "\u0bff") and ch.lower() not in _KEY_CHARS:
+            base = unicodedata.normalize("NFD", ch)[0]
+            out.append(base if base.lower() in _KEY_CHARS else "")
+        else:
+            out.append(ch)
+    return "".join(out)
+
+
+def iso_to_tamil_display(text: str) -> str:
+    """Tamil script for learners: :func:`iso_to_tamil` with editorial marks removed, editors' notes
+    in brackets shown as ``[?]`` (``{...}`` notes dropped), stray Latin letters folded or dropped, and
+    runs of spaces collapsed (line breaks kept). Gap markers are preserved. ``text_iso`` keeps the raw
+    marks; use this only for what learners read or hear."""
+    text = _NOTE_BRACE_RE.sub("", _NOTE_BRACKET_RE.sub("[?]", text))
+    out = iso_to_tamil(_fold_stray_letters(strip_editorial_marks(text)))
+    return "\n".join(re.sub(r"[ \t]{2,}", " ", row).strip(" ") for row in out.split("\n"))
+
+
+def normalise_for_scoring(text: str) -> str:
+    """The form in which restorations are compared (CER, top-1 exact match): letters only.
+
+    ISO-15919 letters (consonants, vowels, anusvāra / visarga / āytam) are kept, lower-cased and in
+    one canonical spelling (``ṛ`` -> ``r̥``); everything else is dropped: spaces, hyphens, ``·``,
+    ``’``, digits, punctuation, gap markers and the editorial marks in :data:`EDITORIAL_MARKS`.
+    The upper-case convention for independent vowels is ignored (``k-Il`` and ``kil`` score the same).
+
+    >>> normalise_for_scoring("nan=ti-p ‡pōttaraiyar 2 10")
+    'nantippōttaraiyar'
+    """
+    text = GAP_MARKER_RE.sub(" ", _nfc(text))
+    return "".join(_VOWEL_ALIASES.get(t.iso, t.iso) for t in tokenize(text) if t.kind != "O")
 
 
 def normalize_iso(text: str) -> str:

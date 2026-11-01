@@ -57,13 +57,13 @@ Fields `kind`, `reason` and `lang` are additions to the contract (allowed: the s
 - Restoration items: **3289** (by reason: lost 2525, undefined 764).
 - Age set (Pallava + Uttiramerur collections, the only set described as over 1,100 years old): **419** items from 506 inscriptions.
 - Blank set (`kind: blank`, `<gap>` of a known size with no expert fill): **3557**.
-- Retrieval corpus (`corpus_lines.jsonl`, train inscriptions only): 14324 lines.
+- Retrieval corpus (`corpus_lines.jsonl`, train inscriptions only): 14355 lines.
 
 | Split | Inscriptions | Items | Hard | Hard share | Age-set items | Blank |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| train | 1056 | 2462 | 2161 | 87.8% | 330 | 2731 |
-| val | 132 | 444 | 396 | 89.2% | 47 | 465 |
-| test | 132 | 383 | 301 | 78.6% | 42 | 361 |
+| train | 1060 | 2433 | 2159 | 88.7% | 333 | 2702 |
+| val | 129 | 443 | 401 | 90.5% | 35 | 449 |
+| test | 131 | 413 | 317 | 76.8% | 51 | 406 |
 
 Splits are by inscription (seed 13, 80/10/10 within each collection), so no
 inscription appears in two splits. `items.test-hard.jsonl` and `items.test-age.jsonl` are the
@@ -77,8 +77,8 @@ context: the item's query (15 characters of context on each side of the target; 
 | Letters | Restoration items | Blank items |
 | --- | ---: | ---: |
 | 1 | 1833 | 408 |
-| 2 | 584 | 473 |
-| 3 | 297 | 690 |
+| 2 | 583 | 473 |
+| 3 | 298 | 690 |
 | 4 | 179 | 645 |
 | 5 | 108 | 385 |
 | 6-10 | 210 | 811 |
