@@ -1,0 +1,436 @@
+openapi: 3.1.0
+info:
+  title: Ezhuthu restore, evaluate and tutor API
+  version: 0.1.0
+  description: >
+    Machine-readable mirror of contracts/restore-api.md (the contract is the source of truth).
+    scripts/check-contract.mjs fails the web lint if an endpoint in the contract is missing here,
+    and src/api/schema.d.ts is generated from this file by scripts/gen-api.mjs.
+    Shapes the contract leaves open (evaluate items, queue items, gap_ref) are pinned here and
+    were handed off to u:agent; they are marked "app-defined".
+servers:
+  - url: /
+paths:
+  /api/restore:
+    post:
+      operationId: restore
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RestoreRequest' }
+      responses:
+        '200':
+          description: Candidate fills per gap
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/RestoreResponse' }
+        default: { $ref: '#/components/responses/Error' }
+  /api/evaluate:
+    post:
+      operationId: evaluate
+      description: Requires a signed-in user (Cognito JWT). Accepts a built-in benchmark run or a JSONL upload.
+      security: [{ cognito: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EvaluateBuiltinRequest' }
+          application/x-ndjson:
+            schema:
+              type: string
+              description: JSONL, one benchmark-item record per line (contracts/benchmark-item.schema.json)
+      responses:
+        '200':
+          description: Score report
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EvaluateResponse' }
+        default: { $ref: '#/components/responses/Error' }
+  /api/corrections:
+    post:
+      operationId: submitCorrection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CorrectionRequest' }
+      responses:
+        '201':
+          description: Correction stored and queued for expert review
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/QueueItem' }
+        default: { $ref: '#/components/responses/Error' }
+  /api/queue:
+    get:
+      operationId: listQueue
+      description: Requires a Cognito user in the "experts" group.
+      security: [{ cognito: [] }]
+      responses:
+        '200':
+          description: Pending review items, oldest first
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/QueueList' }
+        default: { $ref: '#/components/responses/Error' }
+  /api/queue/{id}:
+    post:
+      operationId: reviewQueueItem
+      security: [{ cognito: [] }]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/QueueAction' }
+      responses:
+        '200':
+          description: Updated item
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/QueueItem' }
+        default: { $ref: '#/components/responses/Error' }
+  /api/lesson:
+    post:
+      operationId: startLesson
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/LessonRequest' }
+      responses:
+        '200':
+          description: A levelled practice set built from one inscription
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/LessonResponse' }
+        default: { $ref: '#/components/responses/Error' }
+  /api/answer:
+    post:
+      operationId: answer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AnswerRequest' }
+      responses:
+        '200':
+          description: Grade plus the decider's pedagogy decision
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AnswerResponse' }
+        default: { $ref: '#/components/responses/Error' }
+  /api/assessment:
+    post:
+      operationId: startAssessment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AssessmentRequest' }
+      responses:
+        '200':
+          description: Ten era-letter items; grade each with /api/answer
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AssessmentResponse' }
+        default: { $ref: '#/components/responses/Error' }
+  /api/progress/{session_id}:
+    get:
+      operationId: getProgress
+      parameters:
+        - { name: session_id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: Pre/post scores and gain
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ProgressResponse' }
+        default: { $ref: '#/components/responses/Error' }
+components:
+  securitySchemes:
+    cognito:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    Error:
+      description: Error
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code: { type: string }
+            message: { type: string }
+    Level:
+      type: string
+      enum: [L1, L2, L3, L4, L5]
+    Lang:
+      type: string
+      enum: [ta, en]
+    RestoreRequest:
+      type: object
+      required: [text]
+      properties:
+        text: { type: string, description: 'Gap markers: [?] unknown length, [?N] about N characters' }
+        script: { type: string, enum: [iso15919, tamil], default: iso15919 }
+        max_candidates: { type: integer, minimum: 1, maximum: 20, default: 5 }
+        allow_escalation: { type: boolean, default: true }
+    Parallel:
+      type: object
+      required: [inscription_id, line_n, snippet, url]
+      properties:
+        inscription_id: { type: string }
+        line_n: { type: string }
+        snippet: { type: string }
+        url: { type: string }
+    OntologyHint:
+      type: object
+      required: [id, kind, label]
+      properties:
+        id: { type: string }
+        kind: { type: string, enum: [ruler, title, place, grant, measure, formula] }
+        label: { type: string }
+    Candidate:
+      type: object
+      required: [text, text_tamil, confidence, model, decider_model, parallels, ontology_hints]
+      properties:
+        text: { type: string }
+        text_tamil: { type: string }
+        confidence: { type: number, minimum: 0, maximum: 1 }
+        model: { type: string, enum: [sonnet, opus, retrieval] }
+        decider_model: { type: string }
+        parallels: { type: array, items: { $ref: '#/components/schemas/Parallel' } }
+        ontology_hints: { type: array, items: { $ref: '#/components/schemas/OntologyHint' } }
+    Gap:
+      type: object
+      required: [index, gap_chars, decision, chosen, candidates]
+      properties:
+        index: { type: integer }
+        gap_chars: { type: [integer, 'null'] }
+        decision: { type: string, enum: [fill, abstain] }
+        chosen: { type: [integer, 'null'] }
+        candidates: { type: array, items: { $ref: '#/components/schemas/Candidate' } }
+    RestoreResponse:
+      type: object
+      required: [restored_text, restored_text_tamil, gaps, models_used, trace_id, latency_ms]
+      properties:
+        restored_text: { type: string }
+        restored_text_tamil: { type: string }
+        gaps: { type: array, items: { $ref: '#/components/schemas/Gap' } }
+        models_used: { type: array, items: { type: string } }
+        trace_id: { type: string }
+        latency_ms: { type: number }
+    EvaluateBuiltinRequest:
+      type: object
+      required: [benchmark]
+      properties:
+        benchmark: { type: string, enum: [test-hard, test] }
+        limit: { type: integer, minimum: 1, maximum: 2000, default: 200 }
+        router: { type: string, enum: [sonnet, opus, routed], default: routed }
+    CoveragePoint:
+      type: object
+      required: [threshold, coverage, accuracy]
+      properties:
+        threshold: { type: number }
+        coverage: { type: number }
+        accuracy: { type: number }
+    RouterScore:
+      type: object
+      description: app-defined subset; extra keys are ignored by the UI
+      properties:
+        n: { type: integer }
+        top1: { type: number }
+        cer: { type: number }
+        ece: { type: number }
+    EvaluateItem:
+      type: object
+      description: app-defined; one scored gap, used for the reliability chart
+      required: [id, target, prediction, confidence, correct]
+      properties:
+        id: { type: string }
+        target: { type: string }
+        prediction: { type: [string, 'null'] }
+        confidence: { type: number }
+        correct: { type: boolean }
+        abstained: { type: boolean }
+        router: { type: string }
+    EvaluateResponse:
+      type: object
+      required: [n, top1, top20, cer, ece, coverage, by_router, items]
+      properties:
+        n: { type: integer }
+        top1: { type: number }
+        top20: { type: number }
+        cer: { type: number }
+        ece: { type: number }
+        coverage: { type: array, items: { $ref: '#/components/schemas/CoveragePoint' } }
+        by_router:
+          type: object
+          additionalProperties: { $ref: '#/components/schemas/RouterScore' }
+        items: { type: array, items: { $ref: '#/components/schemas/EvaluateItem' } }
+    BenchmarkItem:
+      type: object
+      description: Mirror of contracts/benchmark-item.schema.json (required list is checked by scripts/check-contract.mjs)
+      required: [id, inscription_id, collection, split, line_n, left, right, target, gap_chars, hard, age_set, source_url]
+      properties:
+        id: { type: string }
+        inscription_id: { type: string }
+        collection: { type: string }
+        dynasty: { type: [string, 'null'] }
+        age_set: { type: boolean }
+        split: { type: string, enum: [train, val, test] }
+        line_n: { type: string }
+        left: { type: string }
+        right: { type: string }
+        target: { type: string }
+        gap_chars: { type: integer, minimum: 1 }
+        hard: { type: boolean }
+        kind: { type: string, enum: [supplied, blank] }
+        source_url: { type: string }
+    GapRef:
+      type: object
+      description: app-defined pointer to the gap a correction is about
+      required: [trace_id, gap_index]
+      properties:
+        trace_id: { type: string }
+        gap_index: { type: integer }
+        left: { type: string }
+        right: { type: string }
+        gap_chars: { type: [integer, 'null'] }
+        inscription_id: { type: string }
+    CorrectionRequest:
+      type: object
+      required: [gap_ref, user]
+      properties:
+        gap_ref: { $ref: '#/components/schemas/GapRef' }
+        accepted_candidate: { type: string }
+        corrected_text: { type: string }
+        user: { type: string, maxLength: 64 }
+    QueueItem:
+      type: object
+      description: app-defined
+      required: [id, gap_ref, user, status, created_at]
+      properties:
+        id: { type: string }
+        gap_ref: { $ref: '#/components/schemas/GapRef' }
+        accepted_candidate: { type: string }
+        corrected_text: { type: string }
+        user: { type: string }
+        status: { type: string, enum: [pending, approved, edited, rejected] }
+        created_at: { type: string, format: date-time }
+        reviewed_by: { type: string }
+        reviewed_at: { type: string, format: date-time }
+        final_text: { type: string }
+    QueueList:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: '#/components/schemas/QueueItem' } }
+    QueueAction:
+      type: object
+      required: [action]
+      properties:
+        action: { type: string, enum: [approve, edit, reject] }
+        text: { type: string }
+    LessonRequest:
+      type: object
+      required: [level, lang]
+      properties:
+        inscription_id: { type: string }
+        text: { type: string }
+        level: { $ref: '#/components/schemas/Level' }
+        lang: { $ref: '#/components/schemas/Lang' }
+    Inscription:
+      type: object
+      required: [id, title, dynasty, approx_date, source_url, restored_text, restored_text_tamil]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        dynasty: { type: [string, 'null'] }
+        approx_date: { type: [string, 'null'] }
+        source_url: { type: string }
+        restored_text: { type: string }
+        restored_text_tamil: { type: string }
+    PracticeItem:
+      type: object
+      required: [item_id, type, prompt_ta, prompt_en, script_level, answer_hidden]
+      properties:
+        item_id: { type: string }
+        type: { type: string, enum: [letter, word, line] }
+        prompt_ta: { type: string }
+        prompt_en: { type: string }
+        glyph_svg: { type: string }
+        glyph_text: { type: string }
+        script_level: { $ref: '#/components/schemas/Level' }
+        answer_hidden: { type: boolean }
+    LessonContext:
+      type: object
+      required: [explain_ta, explain_en]
+      properties:
+        ruler: { type: string }
+        temple: { type: string }
+        grant: { type: string }
+        explain_ta: { type: string }
+        explain_en: { type: string }
+    LessonResponse:
+      type: object
+      required: [session_id, inscription, items, context]
+      properties:
+        session_id: { type: string }
+        inscription: { $ref: '#/components/schemas/Inscription' }
+        items: { type: array, items: { $ref: '#/components/schemas/PracticeItem' } }
+        context: { $ref: '#/components/schemas/LessonContext' }
+    AnswerRequest:
+      type: object
+      required: [session_id, item_id, answer]
+      properties:
+        session_id: { type: string }
+        item_id: { type: string }
+        answer: { type: string }
+    AnswerResponse:
+      type: object
+      required: [correct, feedback_ta, feedback_en, next_action, decider_confidence]
+      properties:
+        correct: { type: boolean }
+        feedback_ta: { type: string }
+        feedback_en: { type: string }
+        next_action: { type: string, enum: [advance, repeat, hint] }
+        decider_confidence: { type: number }
+        hint_ta: { type: string }
+    AssessmentRequest:
+      type: object
+      required: [session_id, phase]
+      properties:
+        session_id: { type: string }
+        phase: { type: string, enum: [pre, post] }
+    AssessmentResponse:
+      type: object
+      description: The contract says "returns 10 era-letter items"; app reads them under `items`.
+      required: [items]
+      properties:
+        session_id: { type: string }
+        phase: { type: string, enum: [pre, post] }
+        items: { type: array, items: { $ref: '#/components/schemas/PracticeItem' } }
+    ProgressResponse:
+      type: object
+      description: app-defined units - scores are fractions 0..1 of the assessment items, gain = post - pre
+      required: [pre_score, post_score, gain, letters_correct_by_level, median_seconds_per_letter]
+      properties:
+        pre_score: { type: [number, 'null'], minimum: 0, maximum: 1 }
+        post_score: { type: [number, 'null'], minimum: 0, maximum: 1 }
+        gain: { type: [number, 'null'] }
+        letters_correct_by_level:
+          type: object
+          additionalProperties: { type: integer }
+        median_seconds_per_letter: { type: [number, 'null'] }
