@@ -13,9 +13,10 @@ jobs:
       - run: make check
   web:
     runs-on: ubuntu-latest
-    if: hashFiles('app/web/package.json') != ''
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
-      - run: make web-check
+      - name: web checks
+        run: |
+          if [ -f app/web/package.json ]; then make web-check; else echo "no web app yet"; fi
