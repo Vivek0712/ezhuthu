@@ -17,3 +17,11 @@ decider:
   local: StrandsAgents/strands-decider-E4B-gemma4-v1-2610      # fits 24 GB M4 Pro (mps/mlx), JevBench 187/231
   fast: StrandsAgents/strands-decider-2B-qwen3.5-v1-2610       # reference model
   final_eval_gpu: StrandsAgents/strands-decider-26B-A4B-gemma4-v1-2610
+  # Hosted Strands Decider API (decider-cloud staging), used by the cloud runtime with
+  # EZHUTHU_DECIDER_BACKEND=hosted. Key 'ezhuthu' lives only in Secrets Manager. Free tier: 10 rpm.
+  cloud:
+    url: https://da25tnxy06gjk.cloudfront.net
+    model: strands-decider-2b-hobson-v19
+    secret_name: ezhuthu/decider-api-key
+    rpm: 10
+    max_input_chars: 8000   # free-tier limit; the client drops tail candidates (keeps 'none') to fit

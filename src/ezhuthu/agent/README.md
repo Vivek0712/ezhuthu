@@ -12,9 +12,10 @@ For each `[?]` / `[?N]` gap:
    the gap), a character 5-gram model, and `propose_fills` (a Strands `Agent` on Bedrock, `llm.py`).
 3. `check_constraints`: drops candidates with non-ISO characters or Grantha letters in early-Tamil contexts,
    flags length outside `max(2, 34%)` of `[?N]`.
-4. `rank_and_decide`: Strands Decider `choice` over the candidates plus a `none` option, via
-   `POST /v1/systemone` on a local `strands-decider serve`. If the decider is unreachable the confidence falls
-   back to the LLM's self-report (or a retrieval heuristic) and `decider_model` says `fallback:...`.
+4. `rank_and_decide`: Strands Decider `choice` over the candidates plus a `none` option, via the backend
+   chosen by `EZHUTHU_DECIDER_BACKEND` (see "Decider backends"). If the decider is unreachable or refuses the
+   request, the confidence falls back to the LLM's self-report (or a retrieval heuristic), `decider_model`
+   says `fallback:...` and each candidate's `decider_source` says `fallback`.
 5. Router (`config/models.yaml` `routing`): `routed` starts on `llm.default` (Sonnet 4.6); it goes straight to
    `llm.escalate` (Opus 4.6) when the gap is over 12 characters or there is no good parallel, and escalates
    after Sonnet when the best confidence is under 0.6. Gaps under 0.5 are `abstain` ("experts are unsure").
@@ -44,6 +45,31 @@ Graph routes to `explain_template` instead. `/api/answer` grades the reading, th
 Levels: L1 modern Tamil, L2 Chola orthography (no e/ē, o/ō contrast, no pulli), L3 Grantha (Noto Sans Grantha),
 L4 Vatteluttu (`glyph_svg: "vatteluttu:<iso>"`, the app draws it), L5 Tamil-Brahmi (Noto Sans Brahmi).
 
+## Decider backends (`decider.py`)
+
+`EZHUTHU_DECIDER_BACKEND` = `local` (default) | `hosted` | `fallback`.
+
+| backend | endpoint | model | notes |
+|---|---|---|---|
+| `local` | `POST {EZHUTHU_DECIDER_URL}/v1/systemone` (`strands-decider serve`) | v1-2610 (`decider.fast` / `decider.local`) | evaluation and laptop dev |
+| `hosted` | `POST {decider.cloud.url}/v1/decide`, bearer key | `decider.cloud.model` (`strands-decider-2b-hobson-v19`) | cloud runtime; key from `$EZHUTHU_DECIDER_API_KEY` or Secrets Manager `decider.cloud.secret_name` |
+| `fallback` | none | none | LLM self-report (restoration) and rules (pedagogy) |
+
+The hosted client paces itself to `decider.cloud.rpm` (free tier 10/min), retries 429/503 once after
+`Retry-After` (seconds or an HTTP date; anything unparseable waits 5 s, capped at 20 s), treats
+401/402/403/413/422 as "unavailable" (flagged fallback) and never logs the key. Any unusable reply (non-JSON
+body, missing `answers[<name>]`, non-numeric probabilities) is also "unavailable", for the local backend too, so
+`/restore` and the tutor never 500 on a decider fault. The pacing is **per process**: several AgentCore sessions
+(or the API plus a benchmark run) share one key and together can exceed 10/min. The server then answers 429, the
+client retries once, and if that is refused too the request uses the flagged fallback, so it fails safe but
+loses the decider for that call. On the
+free tier a request may be at most 8,000 characters (state + questions, JSON with ASCII escapes, so ISO-15919
+diacritics count 6 each); `decider.cloud.max_input_chars` makes the client drop tail candidates (never `none`) to
+fit; candidates dropped that way get confidence 0 with `confidence_source: decider-trimmed` (the decider never
+saw them), and those beyond the 23 decider slots get `decider-overflow`. Outputs carry `decider_model` and `decider_source` (`hosted` | `local` | `fallback`; tutor answers also carry
+`decider_backend`). Benchmark of the backends: `python -m ezhuthu.eval.decider_bench` and
+`eval/reports/*-decider-benchmark.md`.
+
 ## Running
 
 ```bash
@@ -54,7 +80,9 @@ EZHUTHU_LIVE=1 python -m ezhuthu.eval.run --split test --limit 300 --router rout
 python -m ezhuthu.agentcore_app                             # AgentCore runtime locally on :8080
 ```
 
-Environment: `EZHUTHU_LIVE=1` (allow Bedrock), `EZHUTHU_DECIDER_URL`, `EZHUTHU_DECIDER=off`,
+Environment: `EZHUTHU_LIVE=1` (allow Bedrock), `EZHUTHU_DECIDER_BACKEND=local|hosted|fallback`,
+`EZHUTHU_DECIDER_URL` (local), `EZHUTHU_DECIDER_API_KEY` or the Secrets Manager secret (hosted),
+`EZHUTHU_DECIDER_CLOUD_URL` (override), `EZHUTHU_DECIDER=off`,
 `EZHUTHU_ONTOLOGY=mcp|direct|stub` (default `mcp`), `EZHUTHU_ONTOLOGY_ROOT` (ontology build dir for the MCP server),
 `EZHUTHU_STORE=memory|sqlite:<path>|dynamodb:<table>`, `EZHUTHU_BENCHMARK_DIR`, `EZHUTHU_FIXTURES=1`,
 `EZHUTHU_CONFIG` (path to models.yaml when the bundle is not a checkout).
@@ -79,5 +107,6 @@ endpoint's JSON body, or `{"error": {"status": 404|422|500, "detail": "..."}}`.
 
 The runtime needs `config/models.yaml` in the bundle (or `EZHUTHU_CONFIG`), `EZHUTHU_LIVE=1`,
 `EZHUTHU_STORE=dynamodb:<table>` (single table: `pk` string hash key, GSI `kind-index` on `kind`), Bedrock
-invoke permission for the two model IDs, and optionally `EZHUTHU_DECIDER_URL` if a decider endpoint is reachable
-from the runtime. Without a decider, confidences use the flagged fallback.
+invoke permission for the two model IDs, and for the hosted decider `EZHUTHU_DECIDER_BACKEND=hosted` plus
+`secretsmanager:GetSecretValue` on `ezhuthu/decider-api-key`. Without a decider, confidences use the flagged
+fallback.

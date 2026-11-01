@@ -1,0 +1,22 @@
+{
+ "split": "test",
+ "subset": "hard",
+ "limit": 60,
+ "data_dir": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/decider/benchmark",
+ "router": "sonnet",
+ "llm": "us.anthropic.claude-sonnet-4-6",
+ "use_ontology": false,
+ "propose_max_tokens": 2048,
+ "usage": {
+  "calls": 60,
+  "cached_calls": 0,
+  "input_tokens": {
+   "sonnet": 41049
+  },
+  "output_tokens": {
+   "sonnet": 40680
+  },
+  "estimated_cost_usd": 0.7333,
+  "price_basis": "USD/MTok list prices in ezhuthu.agent.llm.PRICE_PER_MTOK"
+ }
+}

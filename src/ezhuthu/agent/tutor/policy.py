@@ -25,6 +25,7 @@ class PolicyDecision:
     confidence: float | None
     source: str  # decider model name, or "rules"
     overridden: bool = False
+    backend: str = "rules"  # hosted | local | rules
 
 
 def rules(correct: bool, attempts: int, hint_given: bool) -> str:
@@ -46,4 +47,5 @@ def decide(decider: Decider, state: dict[str, Any]) -> PolicyDecision:
     overridden = False
     if action != "advance" and (correct or attempts >= MAX_ATTEMPTS):
         action, overridden = "advance", True
-    return PolicyDecision(action, round(res.probabilities.get(action, res.confidence), 4), res.model, overridden)
+    return PolicyDecision(action, round(res.probabilities.get(action, res.confidence), 4), res.model, overridden,
+                          res.source)

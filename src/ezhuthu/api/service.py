@@ -179,5 +179,6 @@ class EzhuthuService:
     def health(self) -> dict[str, Any]:
         h = self.decider.health() if hasattr(self.decider, "health") else None
         return {"status": "ok", "live_llm": self._llm is not None, "decider": (h or {}).get("model"),
+                "decider_source": (h or {}).get("source", "local") if h else "fallback",
                 "ontology": self.restorer.ontology.name, "corpus_lines": len(self.restorer.corpus),
                 "models": self.config.llm}
