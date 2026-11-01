@@ -56,10 +56,17 @@ L4 Vatteluttu (`glyph_svg: "vatteluttu:<iso>"`, the app draws it), L5 Tamil-Brah
 | `fallback` | none | none | LLM self-report (restoration) and rules (pedagogy) |
 
 The hosted client paces itself to `decider.cloud.rpm` (free tier 10/min), retries 429/503 once after
-`Retry-After`, treats 401/402/403/413/422 as "unavailable" (flagged fallback) and never logs the key. On the
+`Retry-After` (seconds or an HTTP date; anything unparseable waits 5 s, capped at 20 s), treats
+401/402/403/413/422 as "unavailable" (flagged fallback) and never logs the key. Any unusable reply (non-JSON
+body, missing `answers[<name>]`, non-numeric probabilities) is also "unavailable", for the local backend too, so
+`/restore` and the tutor never 500 on a decider fault. The pacing is **per process**: several AgentCore sessions
+(or the API plus a benchmark run) share one key and together can exceed 10/min. The server then answers 429, the
+client retries once, and if that is refused too the request uses the flagged fallback, so it fails safe but
+loses the decider for that call. On the
 free tier a request may be at most 8,000 characters (state + questions, JSON with ASCII escapes, so ISO-15919
 diacritics count 6 each); `decider.cloud.max_input_chars` makes the client drop tail candidates (never `none`) to
-fit. Outputs carry `decider_model` and `decider_source` (`hosted` | `local` | `fallback`; tutor answers also carry
+fit; candidates dropped that way get confidence 0 with `confidence_source: decider-trimmed` (the decider never
+saw them), and those beyond the 23 decider slots get `decider-overflow`. Outputs carry `decider_model` and `decider_source` (`hosted` | `local` | `fallback`; tutor answers also carry
 `decider_backend`). Benchmark of the backends: `python -m ezhuthu.eval.decider_bench` and
 `eval/reports/*-decider-benchmark.md`.
 

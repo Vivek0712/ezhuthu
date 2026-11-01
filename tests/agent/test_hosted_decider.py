@@ -31,6 +31,7 @@ class FakeCloud:
     def __init__(self):
         self.requests: list[dict] = []
         self.fail_next: list[tuple[int, str, dict]] = []  # (status, code, headers)
+        self.raw_next: list[tuple[int, bytes, dict]] = []  # (status, raw body, headers): malformed replies
         fake = self
 
         class H(BaseHTTPRequestHandler):
@@ -64,6 +65,15 @@ class FakeCloud:
                 fake.requests.append({"method": "POST", "path": self.path, "body": body,
                                       "auth": self.headers.get("authorization")})
                 if not self._auth():
+                    return
+                if fake.raw_next:
+                    status, raw, headers = fake.raw_next.pop(0)
+                    self.send_response(status)
+                    for k, v in headers.items():
+                        self.send_header(k, v)
+                    self.send_header("content-length", str(len(raw)))
+                    self.end_headers()
+                    self.wfile.write(raw)
                     return
                 if fake.fail_next:
                     status, code, headers = fake.fail_next.pop(0)
@@ -257,3 +267,106 @@ def test_hosted_trims_tail_options_to_tier_limit(cloud):
     sent = cloud.requests[-1]["body"]["questions"]["restoration"]["criteria"]
     assert "none" in sent and "c0" in sent and len(sent) < len(opts) and d.last_trimmed == len(opts) - len(sent)
     assert res.probabilities.get("c7") is None  # dropped options carry no probability
+
+
+# ---- malformed replies must become DeciderUnavailable (QA on PR #19) -------------------------------------
+
+def test_retry_after_http_date_and_garbage_are_parsed_defensively(cloud):
+    from email.utils import formatdate
+
+    from ezhuthu.agent.decider import retry_after_seconds
+
+    assert retry_after_seconds(None) == 5.0 and retry_after_seconds("soon") == 5.0
+    assert retry_after_seconds("-3") == 0.0 and retry_after_seconds(" 2.5 ") == 2.5
+    assert retry_after_seconds(formatdate(0, usegmt=True)) == 0.0  # a date in the past: retry now
+    assert 0.0 < retry_after_seconds(formatdate(__import__("time").time() + 30, usegmt=True)) <= 30.0
+    d, sleeps = make(cloud, rpm=None, max_retry_wait=20.0)
+    import time as _t
+
+    cloud.fail_next = [(429, "rate_limited", {"Retry-After": formatdate(_t.time() + 600, usegmt=True)})]
+    assert d.choice("s", "i", {"a": "1", "b": "2"}).choice == "a"
+    assert sleeps == [20.0]  # HTTP date honoured, capped at max_retry_wait
+    cloud.fail_next = [(503, "overloaded", {"Retry-After": "not-a-number"})]
+    assert d.choice("s", "i", {"a": "1", "b": "2"}).choice == "a"
+    assert sleeps[-1] == 5.0
+
+
+def test_non_json_200_is_unavailable(cloud):
+    d, _ = make(cloud, rpm=None)
+    cloud.raw_next = [(200, b"<html>gateway hiccup</html>", {"content-type": "text/html"})]
+    with pytest.raises(DeciderUnavailable, match="non-JSON"):
+        d.choice("s", "i", {"a": "1", "b": "2"})
+    cloud.raw_next = [(200, b"\xff\xfe not utf-8", {})]
+    with pytest.raises(DeciderUnavailable):
+        d.noul("s", "i")
+
+
+@pytest.mark.parametrize("body", [
+    {"id": "r", "model": MODEL, "answers": {}},                                          # no answers[name]
+    {"id": "r", "model": MODEL},                                                         # no answers at all
+    {"id": "r", "answers": {"q": {"choice": "a", "probabilities": None, "confidence": 1}}},  # TypeError
+    {"id": "r", "answers": {"q": {"choice": "a", "probabilities": {"a": "x"}, "confidence": 1}}},  # ValueError
+    ["not", "an", "object"],
+])
+def test_malformed_200_answer_is_unavailable(cloud, body):
+    d, _ = make(cloud, rpm=None)
+    cloud.raw_next = [(200, json.dumps(body).encode(), {"content-type": "application/json"})]
+    with pytest.raises(DeciderUnavailable, match="unusable"):
+        d.choice("s", "i", {"a": "1", "b": "2"}, name="q")
+    cloud.raw_next = [(200, json.dumps(body).encode(), {"content-type": "application/json"})]
+    with pytest.raises(DeciderUnavailable, match="unusable"):
+        d.noul("s", "i", name="q")
+
+
+@pytest.mark.parametrize("raw", [b"not json", json.dumps({"answers": {}}).encode()])
+def test_restorer_falls_back_on_malformed_hosted_reply(cloud, raw):
+    d, _ = make(cloud, rpm=None)
+    r = Restorer(decider=d, corpus=[], use_ontology=False, config=CFG)
+    cloud.raw_next = [(200, raw, {"content-type": "application/json"})]
+    tag, ranked = r.rank_and_decide([Candidate("a", llm_confidence=0.4), Candidate("b", llm_confidence=0.6)],
+                                    left="", right="", gap_chars=1, parallels=[], hints=[])
+    assert tag == "fallback:llm-self-report" and ranked[0].text == "b"
+    assert ranked[0].to_api(tag)["decider_source"] == "fallback"
+
+
+@pytest.mark.parametrize("raw", [b"<html>oops</html>", json.dumps({"answers": {}}).encode(),
+                                 json.dumps({"answers": {"q": {"choice": "a"}}}).encode()])
+def test_local_http_decider_malformed_reply_is_unavailable(raw):
+    class H(BaseHTTPRequestHandler):
+        def log_message(self, *a):
+            pass
+
+        def do_POST(self):
+            self.rfile.read(int(self.headers["content-length"]))
+            self.send_response(200)
+            self.send_header("content-length", str(len(raw)))
+            self.end_headers()
+            self.wfile.write(raw)
+
+    srv = ThreadingHTTPServer(("127.0.0.1", 0), H)
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    try:
+        d = HttpDecider(f"http://127.0.0.1:{srv.server_address[1]}")
+        with pytest.raises(DeciderUnavailable):
+            d.choice("s", "i", {"a": "1", "b": "2"}, name="q")
+        with pytest.raises(DeciderUnavailable):
+            d.noul("s", "i", name="q")
+    finally:
+        srv.shutdown()
+
+
+def test_trimmed_candidates_are_labelled_decider_trimmed(cloud):
+    from ezhuthu.agent.decider import request_chars
+
+    cands = [Candidate("ṉ" * 40 + str(i)) for i in range(8)]
+    d, _ = make(cloud, rpm=None)
+    r = Restorer(decider=d, corpus=[], use_ontology=False, config=CFG)
+    r.rank_and_decide(cands, left="", right="", gap_chars=40, parallels=[], hints=[])
+    full = cloud.requests[-1]["body"]
+    d.max_input_chars = request_chars({"state": full["state"], "questions": full["questions"]}) - 400
+    model, ranked = r.rank_and_decide([Candidate("ṉ" * 40 + str(i)) for i in range(8)], left="", right="",
+                                      gap_chars=40, parallels=[], hints=[])
+    assert model == MODEL and d.last_trimmed > 0
+    srcs = [c.confidence_source for c in ranked]
+    assert srcs.count("decider-trimmed") == d.last_trimmed and srcs.count("decider") == 8 - d.last_trimmed
+    assert all(c.confidence == 0.0 for c in ranked if c.confidence_source == "decider-trimmed")

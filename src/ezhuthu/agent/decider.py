@@ -18,6 +18,7 @@ restoration, rules for pedagogy) and must flag the source in their output. Every
 
 from __future__ import annotations
 
+import email.utils
 import json
 import logging
 import os
@@ -104,13 +105,49 @@ def fit_choice(state: Any, instructions: str, options: dict[str, Any], name: str
 
 
 def parse_choice(out: dict[str, Any], name: str, source: str, default_model: str) -> Choice:
-    ans = out["answers"][name]
-    return Choice(ans["choice"], {k: float(v) for k, v in ans["probabilities"].items()},
-                  float(ans["confidence"]), out.get("model", default_model), out.get("latency_ms"), source)
+    """Read one choice answer; any malformed reply raises ``DeciderUnavailable`` so callers fall back."""
+    try:
+        ans = out["answers"][name]
+        probs = {str(k): float(v) for k, v in ans["probabilities"].items()}
+        choice = ans["choice"]
+        if not isinstance(choice, str):
+            raise TypeError(f"choice is {type(choice).__name__}, not str")
+        return Choice(choice, probs, float(ans["confidence"]), out.get("model", default_model),
+                      out.get("latency_ms"), source)
+    except (KeyError, TypeError, ValueError, AttributeError) as exc:
+        raise DeciderUnavailable(f"{source} decider returned an unusable answer for {name!r} "
+                                 f"({type(exc).__name__})") from exc
 
 
 def parse_noul(out: dict[str, Any], name: str, source: str, default_model: str) -> Noul:
-    return Noul(float(out["answers"][name]["noul"]), out.get("model", default_model), out.get("latency_ms"), source)
+    try:
+        return Noul(float(out["answers"][name]["noul"]), out.get("model", default_model), out.get("latency_ms"),
+                    source)
+    except (KeyError, TypeError, ValueError, AttributeError) as exc:
+        raise DeciderUnavailable(f"{source} decider returned an unusable answer for {name!r} "
+                                 f"({type(exc).__name__})") from exc
+
+
+def retry_after_seconds(value: str | None, default: float = 5.0) -> float:
+    """``Retry-After`` as seconds: delta-seconds or an HTTP date; anything unparseable gives ``default``."""
+    if not value:
+        return default
+    value = value.strip()
+    try:
+        return max(0.0, float(value))
+    except ValueError:
+        pass
+    try:
+        when = email.utils.parsedate_to_datetime(value)
+    except (TypeError, ValueError, IndexError):
+        return default
+    if when is None:
+        return default
+    if when.tzinfo is None:
+        from datetime import UTC
+
+        when = when.replace(tzinfo=UTC)
+    return max(0.0, when.timestamp() - time.time())
 
 
 class HttpDecider:
@@ -127,6 +164,8 @@ class HttpDecider:
         try:
             with urllib.request.urlopen(req, timeout=timeout or self.timeout) as resp:
                 return json.loads(resp.read().decode())
+        except ValueError as exc:  # non-JSON / undecodable body (JSONDecodeError, UnicodeDecodeError)
+            raise DeciderUnavailable(f"decider {path} returned a non-JSON reply ({type(exc).__name__})") from exc
         except urllib.error.HTTPError as exc:  # server is up but refused the request (e.g. 422)
             detail = exc.read().decode(errors="replace")[:300]
             log.warning("decider %s returned %s: %s", path, exc.code, detail)
@@ -248,6 +287,9 @@ class HostedDecider:
                     self.last_headers = {k.lower(): v for k, v in resp.headers.items()
                                          if k.lower().startswith("x-")}
                     return json.loads(resp.read().decode())
+            except ValueError as exc:  # non-JSON / undecodable 2xx body
+                raise DeciderUnavailable(f"hosted decider {path} returned a non-JSON reply "
+                                         f"({type(exc).__name__})") from exc
             except urllib.error.HTTPError as exc:
                 body = exc.read().decode(errors="replace")[:300]
                 try:
@@ -256,7 +298,7 @@ class HostedDecider:
                     code = ""
                 retry_after = exc.headers.get("retry-after") if exc.headers else None
                 if exc.code in (429, 503) and attempt == 0:
-                    wait = min(self.max_retry_wait, float(retry_after or 5))
+                    wait = min(self.max_retry_wait, retry_after_seconds(retry_after))
                     log.warning("hosted decider %s %s (%s); retrying in %.1fs", path, exc.code, code, wait)
                     self._sleep(wait)
                     continue
@@ -276,7 +318,7 @@ class HostedDecider:
             m = next((d for d in out.get("data", []) if d.get("id") == self.model), None)
             self._health = {"status": "ok", "model": self.model, "source": "hosted",
                             "url": self.base_url} if m and m.get("ready", True) else None
-        except DeciderUnavailable:
+        except (DeciderUnavailable, AttributeError, TypeError):  # unreachable or malformed listing
             self._health = None
         return self._health
 

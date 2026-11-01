@@ -8,7 +8,12 @@
     python -m ezhuthu.eval.decider_bench score --cands <cands.jsonl> --decider fallback --label llm-self
     # 3. tutor-policy check on 20 scripted learner states, then the report
     python -m ezhuthu.eval.decider_bench policy --decider local=http://127.0.0.1:8771 --label 2b
-    python -m ezhuthu.eval.decider_bench report --cands <cands.jsonl> --labels 2b,e4b,hosted-v19,llm-self
+    python -m ezhuthu.eval.decider_bench report --cands <cands.jsonl> --labels 2b,e4b,hosted-v19,llm-self \
+        --out eval/reports/<date>-decider-benchmark --sync-from-cache
+
+``report`` reads the per-item rows from ``<out>/restoration-<label>.jsonl`` and ``<out>/policy-<label>.jsonl``
+(committed next to the report, so every number is re-derivable from git); ``--sync-from-cache`` first copies
+them there from ``.cache/decider-bench``.
 
 Each item's decider request is exactly the ``rank_and_decide`` request of the restorer (same state, same
 instructions, same options c0..cN + ``none``), so the deciders differ only in the model that answers. The top-1
@@ -23,6 +28,8 @@ import argparse
 import datetime as dt
 import json
 import logging
+import math
+import shutil
 import statistics
 import sys
 import time
@@ -37,8 +44,10 @@ from ..agent.decider import (
     HostedDecider,
     HttpDecider,
     NoDecider,
+    choice_payload,
     fit_choice,
     hosted_decider,
+    request_chars,
 )
 from ..agent.prompts import RESTORER_SYSTEM, parse_candidates, propose_prompt
 from ..agent.restorer import Candidate, Restorer
@@ -386,30 +395,71 @@ def policy_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 # ---------------------------------------------------------------- report -------------------------------------
+def mcnemar_exact(b: int, c: int) -> float:
+    """Two-sided exact McNemar p-value for b and c discordant pairs."""
+    n = b + c
+    if n == 0:
+        return 1.0
+    tail = sum(math.comb(n, i) for i in range(min(b, c) + 1)) / 2 ** n
+    return min(1.0, 2 * tail)
+
+
+def compare(a: list[dict[str, Any]], b: list[dict[str, Any]]) -> dict[str, Any]:
+    """Paired comparison on the items both labels scored: right/wrong agreement, McNemar, and pick agreement."""
+    ra, rb = {r["id"]: r for r in a}, {r["id"]: r for r in b}
+    common = [i for i in ra if i in rb]
+    only_a = sum(1 for i in common if ra[i]["correct"] and not rb[i]["correct"])
+    only_b = sum(1 for i in common if rb[i]["correct"] and not ra[i]["correct"])
+    diff = [i for i in common if canon(ra[i]["top1"] or "") != canon(rb[i]["top1"] or "")]
+    return {"n": len(common), "both_correct": sum(1 for i in common if ra[i]["correct"] and rb[i]["correct"]),
+            "only_a_correct": only_a, "only_b_correct": only_b,
+            "mcnemar_p": round(mcnemar_exact(only_a, only_b), 4),
+            "same_correctness_every_item": only_a == only_b == 0,
+            "different_pick": len(diff), "different_pick_ids": diff}
+
+
 def report(args) -> int:
     recs = read_jsonl(args.cands)
     meta_p = Path(str(args.cands) + ".meta.json")
     cmeta = json.loads(meta_p.read_text()) if meta_p.exists() else {}
     labels = [x for x in args.labels.split(",") if x]
     ids = [r["id"] for r in recs]
-    res, pol = {}, {}
+    stem = Path(args.out) if args.out else (repo_root() or Path.cwd()) / "eval" / "reports" / \
+        f"{dt.date.today().isoformat()}-decider-benchmark"
+    rows_dir = Path(args.rows_dir) if getattr(args, "rows_dir", None) else stem
+    rows_dir.mkdir(parents=True, exist_ok=True)
+    if getattr(args, "sync_from_cache", False):
+        for lb in labels:
+            for kind in ("restoration", "policy"):
+                src = cache_dir() / f"{kind}-{lb}.jsonl"
+                if src.exists():
+                    shutil.copyfile(src, rows_dir / src.name)
+    res, pol, byl = {}, {}, {}
     for lb in labels:
-        p = cache_dir() / f"restoration-{lb}.jsonl"
+        p = rows_dir / f"restoration-{lb}.jsonl"
         if p.exists():
             byid = {r["id"]: r for r in read_jsonl(p)}  # last write wins
             rows = [byid[i] for i in ids if i in byid]
+            byl[lb] = rows
             res[lb] = {"model": rows[0]["decider_model"] if rows else None, **summarize(rows),
-                       "complete": len(rows) == len(ids)}
-        pp = cache_dir() / f"policy-{lb}.jsonl"
+                       "complete": len(rows) == len(ids), "rows_file": str(p.relative_to(stem.parent))
+                       if p.is_relative_to(stem.parent) else str(p)}
+        pp = rows_dir / f"policy-{lb}.jsonl"
         if pp.exists():
             prow = read_jsonl(pp)
             pol[lb] = {"model": prow[0]["decider_model"], **policy_summary(prow),
                        "actions": [r["decider_raw"] for r in prow], "final": [r["final"] for r in prow]}
+    pairs = {f"{a} vs {b}": compare(byl[a], byl[b])
+             for i, a in enumerate(labels) for b in labels[i + 1:] if a in byl and b in byl}
     import hashlib
 
-    sizes = [len(json.dumps({"state": r["request"]["state"], "q": r["request"]["options"]}))
+    cfg = load_models_config()
+    limit = ((cfg.decider or {}).get("cloud") or {}).get("max_input_chars")
+    # The same count decider-cloud's gateway applies to max_input_chars (request_chars).
+    sizes = [request_chars(choice_payload(r["request"]["state"], r["request"]["instructions"],
+                                          r["request"]["options"], r["request"]["name"]))
              for r in recs if r.get("request")]
-    abstain_below = load_models_config().routing.abstain_if_confidence_below
+    abstain_below = cfg.routing.abstain_if_confidence_below
     out = {
         "meta": {"date": dt.datetime.now(dt.UTC).isoformat(timespec="seconds"), "task": "restoration rank_and_decide",
                  "candidates_file": str(args.cands),
@@ -418,13 +468,15 @@ def report(args) -> int:
                  "items_with_candidates": sum(1 for r in recs if r.get("fills")),
                  "mean_candidates": round(statistics.mean(len(r.get("fills") or []) for r in recs), 2),
                  "request_chars_json_ascii": {"median": pct(sizes, 0.5), "p95": pct(sizes, 0.95),
-                                              "max": max(sizes) if sizes else None},
-                 "abstain_threshold": abstain_below, "notes": args.note or []},
-        "restoration": res, "policy": pol,
+                                              "max": max(sizes) if sizes else None, "limit": limit,
+                                              "over_limit": sum(1 for x in sizes if limit and x > limit),
+                                              "n": len(sizes)},
+                 "abstain_threshold": abstain_below, "notes": args.note or [],
+                 "rows_dir": str(rows_dir.relative_to(stem.parent)) if rows_dir.is_relative_to(stem.parent)
+                 else str(rows_dir)},
+        "restoration": res, "pairwise": pairs, "policy": pol,
         "policy_states": scripted_states(),
     }
-    stem = Path(args.out) if args.out else (repo_root() or Path.cwd()) / "eval" / "reports" / \
-        f"{dt.date.today().isoformat()}-decider-benchmark"
     stem.parent.mkdir(parents=True, exist_ok=True)
     stem.with_suffix(".json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     stem.with_suffix(".md").write_text(render_md(out, labels), encoding="utf-8")
@@ -449,8 +501,13 @@ def render_md(out: dict[str, Any], labels: list[str]) -> str:
          f"parallels + character n-gram; ontology {'on' if m['candidate_generation'].get('use_ontology') else 'off'}; "
          f"{m['items_with_candidates']} items have candidates, mean {m['mean_candidates']} candidates per item."),
          f"- Abstain threshold: confidence < {m['abstain_threshold']} (`routing.abstain_if_confidence_below`).",
-         (f"- Decider request size (state + options, JSON with ASCII escapes): median {m['request_chars_json_ascii']['median']}, "
-         f"p95 {m['request_chars_json_ascii']['p95']}, max {m['request_chars_json_ascii']['max']} characters."), "",
+         (f"- Decider request size (state + questions incl. instructions, JSON with ASCII escapes, as decider-cloud "
+         f"counts it): median {m['request_chars_json_ascii']['median']}, p95 {m['request_chars_json_ascii']['p95']}, "
+         f"max {m['request_chars_json_ascii']['max']} characters; {m['request_chars_json_ascii'].get('over_limit')} of "
+         f"{m['request_chars_json_ascii'].get('n')} over the {m['request_chars_json_ascii'].get('limit')}-character "
+         f"free-tier limit."),
+         (f"- Per-item rows: `{Path(m.get('rows_dir', '')).name}/` next to this report (restoration-<label>.jsonl, "
+          "policy-<label>.jsonl)."), "",
          "## Restoration (same items, same candidates)", "",
          ("| decider | model | N | errors | top-1 | top-1 when target is a candidate | ECE | abstain rate | "
          "selective accuracy (n) | latency p50 / p95 ms |"), "|---|---|---|---|---|---|---|---|---|---|"]
@@ -473,6 +530,14 @@ def render_md(out: dict[str, Any], labels: list[str]) -> str:
             if r:
                 L.append(f"| {lb} | " + " | ".join(f"{_f(c['coverage'])} / {_f(c['accuracy'])}"
                                                    for c in r["coverage_curve"]) + " |")
+    if out.get("pairwise"):
+        L += ["", ("Paired comparison on the items both scored (exact McNemar on the discordant items; "
+                   "*different pick* counts items where the chosen fill differs, right or wrong):"), "",
+              "| pair | N | both right | only first right | only second right | McNemar p | different pick |",
+              "|---|---|---|---|---|---|---|"]
+        for k, c in out["pairwise"].items():
+            L.append(f"| {k} | {c['n']} | {c['both_correct']} | {c['only_a_correct']} | {c['only_b_correct']} | "
+                     f"{c['mcnemar_p']:.3f} | {c['different_pick']} |")
     L += ["", "## Tutor policy (20 scripted learner states)", "",
           ("Reference = the rule policy (`tutor/policy.py rules`). *Raw* is the decider's choice before guardrails; "
           "*final* is after the guardrails (never drill a correct item, never loop past 3 attempts)."), "",
@@ -525,6 +590,9 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("--cands", required=True)
     r.add_argument("--labels", required=True)
     r.add_argument("--out", default=None)
+    r.add_argument("--rows-dir", default=None, help="per-item rows (default: <out>/ next to the report)")
+    r.add_argument("--sync-from-cache", action="store_true",
+                   help="copy restoration-/policy-<label>.jsonl from .cache/decider-bench into the rows dir first")
     r.add_argument("--note", action="append")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")

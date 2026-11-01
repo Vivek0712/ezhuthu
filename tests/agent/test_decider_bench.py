@@ -114,10 +114,32 @@ def test_score_and_report_end_to_end(tmp_path, monkeypatch):
     assert bench.main(["score", "--cands", str(cands), "--decider", "local=x", "--label", "fake"]) == 0
     assert bench.main(["policy", "--decider", "local=x", "--label", "fake"]) == 0
     out = tmp_path / "rep"
+    # Without --sync-from-cache the report reads only the committed rows dir (<out>/), which is empty here.
+    assert bench.main(["report", "--cands", str(cands), "--labels", "fake,self,hosted", "--out", str(out)]) == 0
+    assert json.loads(out.with_suffix(".json").read_text())["restoration"] == {}
     assert bench.main(["report", "--cands", str(cands), "--labels", "fake,self,hosted", "--out", str(out),
-                       "--note", "synthetic"]) == 0
+                       "--note", "synthetic", "--sync-from-cache"]) == 0
+    assert sorted(p.name for p in out.iterdir()) == ["policy-fake.jsonl", "restoration-fake.jsonl",
+                                                     "restoration-self.jsonl"]
     data = json.loads(out.with_suffix(".json").read_text())
     assert data["restoration"]["self"]["top1"] == 0.25 and data["restoration"]["fake"]["n"] == 4
     assert data["policy"]["fake"]["n"] == 20 and "hosted" not in data["restoration"]
+    assert data["restoration"]["fake"]["rows_file"] == "rep/restoration-fake.jsonl"
+    pair = data["pairwise"]["fake vs self"]
+    assert pair["n"] == 4 and pair["only_a_correct"] + pair["only_b_correct"] + pair["both_correct"] <= 4
+    sz = data["meta"]["request_chars_json_ascii"]
+    assert sz["n"] == len([r for r in RECS if r.get("request")]) and sz["limit"] == 8000 and sz["over_limit"] == 0
     md = out.with_suffix(".md").read_text()
     assert "| hosted | not run |" in md and "synthetic" in md and "fallback:llm-self-report" in md
+    assert "| fake vs self | 4 |" in md
+
+
+def test_mcnemar_exact_and_compare():
+    assert bench.mcnemar_exact(16, 5) == pytest.approx(0.0266, abs=1e-4)
+    assert bench.mcnemar_exact(0, 0) == 1.0 and bench.mcnemar_exact(3, 3) == 1.0
+    a = [{"id": "1", "correct": True, "top1": "x"}, {"id": "2", "correct": False, "top1": "y"},
+         {"id": "3", "correct": False, "top1": None}]
+    b = [{"id": "1", "correct": True, "top1": "x"}, {"id": "2", "correct": False, "top1": "z"},
+         {"id": "3", "correct": False, "top1": "q"}]
+    c = bench.compare(a, b)
+    assert c["same_correctness_every_item"] and c["different_pick"] == 2 and c["different_pick_ids"] == ["2", "3"]

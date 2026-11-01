@@ -208,8 +208,12 @@ class Restorer:
         try:
             res = self.decider.choice(state, DECIDER_INSTRUCTIONS, options, name="restoration")
             for i, c in enumerate(top):
+                # An option missing from the answer was dropped to fit the request size limit
+                # (HostedDecider fit_choice): the decider never saw it, so do not label it as scored.
+                seen = f"c{i}" in res.probabilities
                 c.confidence = res.probabilities.get(f"c{i}", 0.0)
-                c.confidence_source, c.decider_source = "decider", res.source
+                c.confidence_source = "decider" if seen else "decider-trimmed"
+                c.decider_source = res.source
             for c in cands[23:]:
                 c.confidence, c.confidence_source, c.decider_source = 0.0, "decider-overflow", res.source
             ranked = sorted(cands, key=lambda c: c.confidence, reverse=True)
