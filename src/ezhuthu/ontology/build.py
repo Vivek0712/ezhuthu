@@ -1,6 +1,14 @@
 """Build the Ezhuthu ontology artefacts from DHARMA + curated seeds.
 
-    python -m ezhuthu.ontology.build --dharma data/raw/dharma
+    python -m ezhuthu.ontology.build --dharma data/raw/dharma --splits train      # shipped build
+    python -m ezhuthu.ontology.build --dharma data/raw/dharma --splits all        # full corpus (local only)
+
+``--splits train`` builds only from inscriptions that ``benchmark/inscriptions.jsonl`` (one or more
+``--benchmark`` files) puts in the train split. DHARMA editions keep the expert ``<supplied>``
+restorations inline, so an ontology built from val/test editions would hand the restorer the
+answers to held-out items (QA, PR #9). An inscription is used only when every given benchmark file
+lists it and puts it in an allowed split; editions a benchmark does not list (drafts, duplicates)
+are left out too, because they may be another edition of a held-out stone.
 
 Writes, under ``ontology/``:
   * ``lookups/<kind>.json``  entity records per contracts/ontology-lookup.schema.json
@@ -15,6 +23,7 @@ gives byte-identical output.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import subprocess
@@ -70,7 +79,52 @@ def _ta(iso: str) -> str | None:
             ta = transliterate.process("ISO", "Tamil", tok.lower(), nativize=False, post_options=["TamilRemoveNumbers"])
             # faithful ISO mapping (n -> ந, ṉ -> ன); Tamil never ends a word in ந், so Sanskrit final n -> ன்
             out.append(re.sub(r"ந்(?=$|[-\s])", "ன்", ta))
-    return " ".join(o for o in out if o) or None
+    res = " ".join(o for o in out if o) or None
+    if res and re.search(r"[A-Za-z]", re.sub(r"\b[IVX]+\b", "", res)):
+        return None  # Latin residue: the label was not ISO-15919 (do not show learners a mixed-script label)
+    return res
+
+
+SPLITS = ("train", "val", "test")
+
+
+def load_split_map(paths: list[Path]) -> list[dict[str, str]]:
+    """One ``{inscription id: split}`` map per benchmark ``inscriptions.jsonl``."""
+    maps = []
+    for p in paths:
+        m: dict[str, str] = {}
+        for line in Path(p).read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                rec = json.loads(line)
+                m[rec["id"]] = rec["split"]
+        maps.append(m)
+    return maps
+
+
+def split_filter(ids: list[str], splits: set[str], maps: list[dict[str, str]]) -> tuple[set[str], dict]:
+    """Inscription ids allowed under ``splits`` plus a provenance record for coverage.json."""
+    if not maps:
+        raise ValueError("--splits needs at least one benchmark inscriptions.jsonl")
+    allowed, held_out, unlisted = set(), [], []
+    for i in ids:
+        got = [m.get(i) for m in maps]
+        if any(g is None for g in got):
+            unlisted.append(i)
+        elif all(g in splits for g in got):
+            allowed.add(i)
+        else:
+            held_out.append(i)
+    return allowed, {
+        "used": sorted(splits, key=SPLITS.index),
+        "benchmarks": [
+            {"inscriptions": len(m), "per_split": {s: sum(1 for v in m.values() if v == s) for s in SPLITS},
+             "sha256": hashlib.sha256(json.dumps(sorted(m.items())).encode()).hexdigest()}
+            for m in maps
+        ],
+        "excluded_held_out": len(held_out),
+        "excluded_not_in_benchmark": len(unlisted),
+        "included_inscriptions": sorted(allowed),
+    }
 
 
 class Registry:
@@ -274,7 +328,10 @@ def _extract_admin_units(reg: Registry, ins: Inscription, unit_types: list[dict]
                     break
 
 
-def build(dharma_root: Path, out_dir: Path = ONTOLOGY_DIR, wikidata_snapshot: Path | None = None) -> dict:
+def build(dharma_root: Path, out_dir: Path = ONTOLOGY_DIR, wikidata_snapshot: Path | None = None,
+          splits: set[str] | None = None, benchmarks: list[Path] | None = None) -> dict:
+    """Build the artefacts. ``splits=None`` uses every edition (fixtures, local exploration);
+    ``splits={"train"}`` with ``benchmarks`` is the shipped, leakage-free build."""
     seeds = load_seeds(out_dir / "seeds")
     reg = Registry()
     meta = _register_seeds(reg, seeds)
@@ -287,6 +344,14 @@ def build(dharma_root: Path, out_dir: Path = ONTOLOGY_DIR, wikidata_snapshot: Pa
             index.add(eid, v)
 
     inscriptions = list(iter_corpus(dharma_root))
+    split_info: dict = {"used": "all", "included_inscriptions": None}
+    if splits is not None:
+        bad = set(splits) - set(SPLITS)
+        if bad:
+            raise ValueError(f"unknown split(s): {sorted(bad)}")
+        allowed, split_info = split_filter([i.id for i in inscriptions], set(splits),
+                                           load_split_map(list(benchmarks or [])))
+        inscriptions = [i for i in inscriptions if i.id in allowed]
     ins_meta: dict[str, dict] = {}
     unmatched_names: Counter = Counter()
     unmapped_classes: Counter = Counter()
@@ -431,6 +496,7 @@ def build(dharma_root: Path, out_dir: Path = ONTOLOGY_DIR, wikidata_snapshot: Pa
     coverage = {
         "corpus": {"collections": pins, "inscriptions": len(inscriptions),
                    "lines": sum(len(i.lines) for i in inscriptions)},
+        "splits": split_info,
         "entities_per_kind": {k: len(v) for k, v in final.items()},
         "wikidata": {
             k: {"with_qid": sum(1 for r in final[k] if r["wikidata"]), "total": len(final[k]),
@@ -469,8 +535,19 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("--dharma", type=Path, default=REPO / "data" / "raw" / "dharma")
     ap.add_argument("--out", type=Path, default=ONTOLOGY_DIR)
     ap.add_argument("--wikidata", type=Path, default=ONTOLOGY_DIR / "wikidata" / "snapshot.json")
+    ap.add_argument("--splits", default="train",
+                    help="comma-separated benchmark splits to build from (default: train), or 'all'")
+    ap.add_argument("--benchmark", type=Path, action="append",
+                    help="benchmark inscriptions.jsonl (repeatable; default benchmark/inscriptions.jsonl). "
+                         "With several files an edition must be in an allowed split in every one.")
     args = ap.parse_args(argv)
-    cov = build(args.dharma, args.out, args.wikidata)
+    splits = None if args.splits == "all" else {s.strip() for s in args.splits.split(",") if s.strip()}
+    benchmarks = args.benchmark or [REPO / "benchmark" / "inscriptions.jsonl"]
+    if splits is not None:
+        missing = [str(b) for b in benchmarks if not b.exists()]
+        if missing:
+            ap.error(f"benchmark file(s) not found: {missing} (run the data team's benchmark build, or pass --splits all)")
+    cov = build(args.dharma, args.out, args.wikidata, splits, benchmarks)
     print(json.dumps({k: cov[k] for k in ("entities_per_kind", "wikidata", "inscriptions_per_stage")}, indent=1))
 
 
