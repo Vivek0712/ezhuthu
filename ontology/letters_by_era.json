@@ -1,0 +1,2889 @@
+{
+ "stages": {
+  "tamil-brahmi-1": {
+   "label_iso": "Tamil-Brāhmī I",
+   "label_ta": "தமிழ்-பிராமி I",
+   "era": "c. 2nd c. BCE onward (orthographic system, not a strict period)",
+   "aksharamukha_script": "TamilBrahmi",
+   "corpus_letters": 0,
+   "letters": [
+    {
+     "iso": "a",
+     "type": "vowel",
+     "iso_values": [
+      "a"
+     ],
+     "glyph": "𑀅",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ā",
+     "type": "vowel",
+     "iso_values": [
+      "ā"
+     ],
+     "glyph": "𑀆",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "i",
+     "type": "vowel",
+     "iso_values": [
+      "i"
+     ],
+     "glyph": "𑀇",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ī",
+     "type": "vowel",
+     "iso_values": [
+      "ī"
+     ],
+     "glyph": "𑀈",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "u",
+     "type": "vowel",
+     "iso_values": [
+      "u"
+     ],
+     "glyph": "𑀉",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ū",
+     "type": "vowel",
+     "iso_values": [
+      "ū"
+     ],
+     "glyph": "𑀊",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "e",
+     "type": "vowel",
+     "iso_values": [
+      "e",
+      "ē"
+     ],
+     "glyph": "𑀏",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ai",
+     "type": "vowel",
+     "iso_values": [
+      "ai"
+     ],
+     "glyph": "𑀐",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "o",
+     "type": "vowel",
+     "iso_values": [
+      "o",
+      "ō"
+     ],
+     "glyph": "𑀑",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ka",
+     "type": "consonant",
+     "iso_values": [
+      "ka"
+     ],
+     "glyph": "𑀓",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ṅa",
+     "type": "consonant",
+     "iso_values": [
+      "ṅa"
+     ],
+     "glyph": "𑀗",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ca",
+     "type": "consonant",
+     "iso_values": [
+      "ca"
+     ],
+     "glyph": "𑀘",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ña",
+     "type": "consonant",
+     "iso_values": [
+      "ña"
+     ],
+     "glyph": "𑀜",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ṭa",
+     "type": "consonant",
+     "iso_values": [
+      "ṭa"
+     ],
+     "glyph": "𑀝",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ṇa",
+     "type": "consonant",
+     "iso_values": [
+      "ṇa"
+     ],
+     "glyph": "𑀡",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ta",
+     "type": "consonant",
+     "iso_values": [
+      "ta"
+     ],
+     "glyph": "𑀢",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "na",
+     "type": "consonant",
+     "iso_values": [
+      "na"
+     ],
+     "glyph": "𑀦",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "pa",
+     "type": "consonant",
+     "iso_values": [
+      "pa"
+     ],
+     "glyph": "𑀧",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ma",
+     "type": "consonant",
+     "iso_values": [
+      "ma"
+     ],
+     "glyph": "𑀫",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ya",
+     "type": "consonant",
+     "iso_values": [
+      "ya"
+     ],
+     "glyph": "𑀬",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ra",
+     "type": "consonant",
+     "iso_values": [
+      "ra"
+     ],
+     "glyph": "𑀭",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "la",
+     "type": "consonant",
+     "iso_values": [
+      "la"
+     ],
+     "glyph": "𑀮",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "va",
+     "type": "consonant",
+     "iso_values": [
+      "va"
+     ],
+     "glyph": "𑀯",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ḻa",
+     "type": "consonant",
+     "iso_values": [
+      "ḻa"
+     ],
+     "glyph": "𑀵",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ḷa",
+     "type": "consonant",
+     "iso_values": [
+      "ḷa"
+     ],
+     "glyph": "𑀴",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ṟa",
+     "type": "consonant",
+     "iso_values": [
+      "ṟa"
+     ],
+     "glyph": "𑀶",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ṉa",
+     "type": "consonant",
+     "iso_values": [
+      "ṉa"
+     ],
+     "glyph": "𑀷",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    }
+   ],
+   "exceptions": [
+    {
+     "rule": "no-e-o-length-contrast",
+     "text": "No e/ē or o/ō contrast.",
+     "source": "I. Mahadevan, Early Tamil Epigraphy (2003; rev. 2014)"
+    },
+    {
+     "rule": "special-letters",
+     "text": "Tamil-Brāhmī adds letters for the Tamil sounds ḻ, ḷ, ṟ and ṉ that Aśokan Brāhmī lacks (Unicode: BRAHMI LETTER OLD TAMIL LLLA/RRA/NNNA, U+11035–U+11037, and LLA U+11034).",
+     "source": "I. Mahadevan, Early Tamil Epigraphy (2003; rev. 2014); Unicode Standard, Brahmi block"
+    },
+    {
+     "rule": "no-aspirates-or-sibilants",
+     "text": "Tamil-Brāhmī writes Tamil and has no letters for Sanskrit aspirates or sibilants in this inventory; Prakrit loan words in the corpus may use a few Brāhmī letters (e.g. dha, sa) and are not part of the core set.",
+     "source": "I. Mahadevan, Early Tamil Epigraphy (2003; rev. 2014)"
+    },
+    {
+     "rule": "TB-I-no-inherent-vowel",
+     "text": "Tamil-Brāhmī I: a bare consonant sign is the consonant without vowel; Ca is written with the same stroke as Cā (a/ā ambiguity).",
+     "source": "I. Mahadevan, Early Tamil Epigraphy (2003; rev. 2014)"
+    }
+   ]
+  },
+  "tamil-brahmi-2": {
+   "label_iso": "Tamil-Brāhmī II",
+   "label_ta": "தமிழ்-பிராமி II",
+   "era": null,
+   "aksharamukha_script": "TamilBrahmi",
+   "corpus_letters": 0,
+   "letters": [
+    {
+     "iso": "a",
+     "type": "vowel",
+     "iso_values": [
+      "a"
+     ],
+     "glyph": "𑀅",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ā",
+     "type": "vowel",
+     "iso_values": [
+      "ā"
+     ],
+     "glyph": "𑀆",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "i",
+     "type": "vowel",
+     "iso_values": [
+      "i"
+     ],
+     "glyph": "𑀇",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ī",
+     "type": "vowel",
+     "iso_values": [
+      "ī"
+     ],
+     "glyph": "𑀈",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "u",
+     "type": "vowel",
+     "iso_values": [
+      "u"
+     ],
+     "glyph": "𑀉",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ū",
+     "type": "vowel",
+     "iso_values": [
+      "ū"
+     ],
+     "glyph": "𑀊",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "e",
+     "type": "vowel",
+     "iso_values": [
+      "e",
+      "ē"
+     ],
+     "glyph": "𑀏",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ai",
+     "type": "vowel",
+     "iso_values": [
+      "ai"
+     ],
+     "glyph": "𑀐",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "o",
+     "type": "vowel",
+     "iso_values": [
+      "o",
+      "ō"
+     ],
+     "glyph": "𑀑",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ka",
+     "type": "consonant",
+     "iso_values": [
+      "ka"
+     ],
+     "glyph": "𑀓",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ṅa",
+     "type": "consonant",
+     "iso_values": [
+      "ṅa"
+     ],
+     "glyph": "𑀗",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ca",
+     "type": "consonant",
+     "iso_values": [
+      "ca"
+     ],
+     "glyph": "𑀘",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ña",
+     "type": "consonant",
+     "iso_values": [
+      "ña"
+     ],
+     "glyph": "𑀜",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ṭa",
+     "type": "consonant",
+     "iso_values": [
+      "ṭa"
+     ],
+     "glyph": "𑀝",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ṇa",
+     "type": "consonant",
+     "iso_values": [
+      "ṇa"
+     ],
+     "glyph": "𑀡",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ta",
+     "type": "consonant",
+     "iso_values": [
+      "ta"
+     ],
+     "glyph": "𑀢",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "na",
+     "type": "consonant",
+     "iso_values": [
+      "na"
+     ],
+     "glyph": "𑀦",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "pa",
+     "type": "consonant",
+     "iso_values": [
+      "pa"
+     ],
+     "glyph": "𑀧",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ma",
+     "type": "consonant",
+     "iso_values": [
+      "ma"
+     ],
+     "glyph": "𑀫",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ya",
+     "type": "consonant",
+     "iso_values": [
+      "ya"
+     ],
+     "glyph": "𑀬",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ra",
+     "type": "consonant",
+     "iso_values": [
+      "ra"
+     ],
+     "glyph": "𑀭",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "la",
+     "type": "consonant",
+     "iso_values": [
+      "la"
+     ],
+     "glyph": "𑀮",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "va",
+     "type": "consonant",
+     "iso_values": [
+      "va"
+     ],
+     "glyph": "𑀯",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ḻa",
+     "type": "consonant",
+     "iso_values": [
+      "ḻa"
+     ],
+     "glyph": "𑀵",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ḷa",
+     "type": "consonant",
+     "iso_values": [
+      "ḷa"
+     ],
+     "glyph": "𑀴",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ṟa",
+     "type": "consonant",
+     "iso_values": [
+      "ṟa"
+     ],
+     "glyph": "𑀶",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ṉa",
+     "type": "consonant",
+     "iso_values": [
+      "ṉa"
+     ],
+     "glyph": "𑀷",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    }
+   ],
+   "exceptions": [
+    {
+     "rule": "no-e-o-length-contrast",
+     "text": "No e/ē or o/ō contrast.",
+     "source": "I. Mahadevan, Early Tamil Epigraphy (2003; rev. 2014)"
+    },
+    {
+     "rule": "special-letters",
+     "text": "Tamil-Brāhmī adds letters for the Tamil sounds ḻ, ḷ, ṟ and ṉ that Aśokan Brāhmī lacks (Unicode: BRAHMI LETTER OLD TAMIL LLLA/RRA/NNNA, U+11035–U+11037, and LLA U+11034).",
+     "source": "I. Mahadevan, Early Tamil Epigraphy (2003; rev. 2014); Unicode Standard, Brahmi block"
+    },
+    {
+     "rule": "no-aspirates-or-sibilants",
+     "text": "Tamil-Brāhmī writes Tamil and has no letters for Sanskrit aspirates or sibilants in this inventory; Prakrit loan words in the corpus may use a few Brāhmī letters (e.g. dha, sa) and are not part of the core set.",
+     "source": "I. Mahadevan, Early Tamil Epigraphy (2003; rev. 2014)"
+    },
+    {
+     "rule": "TB-II-inherent-vowel",
+     "text": "Tamil-Brāhmī II: the bare consonant sign carries inherent a (as in Aśokan Brāhmī), so a vowel-less consonant is not distinguished from Ca.",
+     "source": "I. Mahadevan, Early Tamil Epigraphy (2003; rev. 2014)"
+    }
+   ]
+  },
+  "tamil-brahmi-3": {
+   "label_iso": "Tamil-Brāhmī III",
+   "label_ta": "தமிழ்-பிராமி III",
+   "era": null,
+   "aksharamukha_script": "TamilBrahmi",
+   "corpus_letters": 0,
+   "letters": [
+    {
+     "iso": "a",
+     "type": "vowel",
+     "iso_values": [
+      "a"
+     ],
+     "glyph": "𑀅",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ā",
+     "type": "vowel",
+     "iso_values": [
+      "ā"
+     ],
+     "glyph": "𑀆",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "i",
+     "type": "vowel",
+     "iso_values": [
+      "i"
+     ],
+     "glyph": "𑀇",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ī",
+     "type": "vowel",
+     "iso_values": [
+      "ī"
+     ],
+     "glyph": "𑀈",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "u",
+     "type": "vowel",
+     "iso_values": [
+      "u"
+     ],
+     "glyph": "𑀉",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ū",
+     "type": "vowel",
+     "iso_values": [
+      "ū"
+     ],
+     "glyph": "𑀊",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "e",
+     "type": "vowel",
+     "iso_values": [
+      "e",
+      "ē"
+     ],
+     "glyph": "𑀏",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ai",
+     "type": "vowel",
+     "iso_values": [
+      "ai"
+     ],
+     "glyph": "𑀐",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "o",
+     "type": "vowel",
+     "iso_values": [
+      "o",
+      "ō"
+     ],
+     "glyph": "𑀑",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ka",
+     "type": "consonant",
+     "iso_values": [
+      "ka"
+     ],
+     "glyph": "𑀓",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ṅa",
+     "type": "consonant",
+     "iso_values": [
+      "ṅa"
+     ],
+     "glyph": "𑀗",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ca",
+     "type": "consonant",
+     "iso_values": [
+      "ca"
+     ],
+     "glyph": "𑀘",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ña",
+     "type": "consonant",
+     "iso_values": [
+      "ña"
+     ],
+     "glyph": "𑀜",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ṭa",
+     "type": "consonant",
+     "iso_values": [
+      "ṭa"
+     ],
+     "glyph": "𑀝",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ṇa",
+     "type": "consonant",
+     "iso_values": [
+      "ṇa"
+     ],
+     "glyph": "𑀡",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ta",
+     "type": "consonant",
+     "iso_values": [
+      "ta"
+     ],
+     "glyph": "𑀢",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "na",
+     "type": "consonant",
+     "iso_values": [
+      "na"
+     ],
+     "glyph": "𑀦",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "pa",
+     "type": "consonant",
+     "iso_values": [
+      "pa"
+     ],
+     "glyph": "𑀧",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ma",
+     "type": "consonant",
+     "iso_values": [
+      "ma"
+     ],
+     "glyph": "𑀫",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ya",
+     "type": "consonant",
+     "iso_values": [
+      "ya"
+     ],
+     "glyph": "𑀬",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ra",
+     "type": "consonant",
+     "iso_values": [
+      "ra"
+     ],
+     "glyph": "𑀭",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "la",
+     "type": "consonant",
+     "iso_values": [
+      "la"
+     ],
+     "glyph": "𑀮",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "va",
+     "type": "consonant",
+     "iso_values": [
+      "va"
+     ],
+     "glyph": "𑀯",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ḻa",
+     "type": "consonant",
+     "iso_values": [
+      "ḻa"
+     ],
+     "glyph": "𑀵",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ḷa",
+     "type": "consonant",
+     "iso_values": [
+      "ḷa"
+     ],
+     "glyph": "𑀴",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ṟa",
+     "type": "consonant",
+     "iso_values": [
+      "ṟa"
+     ],
+     "glyph": "𑀶",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ṉa",
+     "type": "consonant",
+     "iso_values": [
+      "ṉa"
+     ],
+     "glyph": "𑀷",
+     "script": "TamilBrahmi",
+     "corpus_count": 0
+    }
+   ],
+   "exceptions": [
+    {
+     "rule": "no-e-o-length-contrast",
+     "text": "No e/ē or o/ō contrast.",
+     "source": "I. Mahadevan, Early Tamil Epigraphy (2003; rev. 2014)"
+    },
+    {
+     "rule": "special-letters",
+     "text": "Tamil-Brāhmī adds letters for the Tamil sounds ḻ, ḷ, ṟ and ṉ that Aśokan Brāhmī lacks (Unicode: BRAHMI LETTER OLD TAMIL LLLA/RRA/NNNA, U+11035–U+11037, and LLA U+11034).",
+     "source": "I. Mahadevan, Early Tamil Epigraphy (2003; rev. 2014); Unicode Standard, Brahmi block"
+    },
+    {
+     "rule": "no-aspirates-or-sibilants",
+     "text": "Tamil-Brāhmī writes Tamil and has no letters for Sanskrit aspirates or sibilants in this inventory; Prakrit loan words in the corpus may use a few Brāhmī letters (e.g. dha, sa) and are not part of the core set.",
+     "source": "I. Mahadevan, Early Tamil Epigraphy (2003; rev. 2014)"
+    },
+    {
+     "rule": "TB-III-pulli",
+     "text": "Tamil-Brāhmī III: the pulli (dot) marks the vowel-less consonant; the bare sign is Ca.",
+     "source": "I. Mahadevan, Early Tamil Epigraphy (2003; rev. 2014)"
+    }
+   ]
+  },
+  "vatteluttu": {
+   "label_iso": "Vaṭṭeḻuttu",
+   "label_ta": "வட்டெழுத்து",
+   "era": "c. 6th–11th c. CE in the Tamil country",
+   "aksharamukha_script": null,
+   "corpus_letters": 7149,
+   "letters": [
+    {
+     "iso": "a",
+     "type": "vowel",
+     "iso_values": [
+      "a"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 101
+    },
+    {
+     "iso": "ā",
+     "type": "vowel",
+     "iso_values": [
+      "ā"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 80
+    },
+    {
+     "iso": "i",
+     "type": "vowel",
+     "iso_values": [
+      "i"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 78
+    },
+    {
+     "iso": "ī",
+     "type": "vowel",
+     "iso_values": [
+      "ī"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 5
+    },
+    {
+     "iso": "u",
+     "type": "vowel",
+     "iso_values": [
+      "u"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 30
+    },
+    {
+     "iso": "ū",
+     "type": "vowel",
+     "iso_values": [
+      "ū"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 17
+    },
+    {
+     "iso": "e",
+     "type": "vowel",
+     "iso_values": [
+      "e",
+      "ē"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 61
+    },
+    {
+     "iso": "ai",
+     "type": "vowel",
+     "iso_values": [
+      "ai"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 3
+    },
+    {
+     "iso": "o",
+     "type": "vowel",
+     "iso_values": [
+      "o",
+      "ō"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 17
+    },
+    {
+     "iso": "au",
+     "type": "vowel",
+     "iso_values": [
+      "au"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 0
+    },
+    {
+     "iso": "ka",
+     "type": "consonant",
+     "iso_values": [
+      "ka"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 837
+    },
+    {
+     "iso": "ṅa",
+     "type": "consonant",
+     "iso_values": [
+      "ṅa"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 94
+    },
+    {
+     "iso": "ca",
+     "type": "consonant",
+     "iso_values": [
+      "ca"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 278
+    },
+    {
+     "iso": "ña",
+     "type": "consonant",
+     "iso_values": [
+      "ña"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 53
+    },
+    {
+     "iso": "ṭa",
+     "type": "consonant",
+     "iso_values": [
+      "ṭa"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 398
+    },
+    {
+     "iso": "ṇa",
+     "type": "consonant",
+     "iso_values": [
+      "ṇa"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 235
+    },
+    {
+     "iso": "ta",
+     "type": "consonant",
+     "iso_values": [
+      "ta"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 720
+    },
+    {
+     "iso": "na",
+     "type": "consonant",
+     "iso_values": [
+      "na"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 293
+    },
+    {
+     "iso": "pa",
+     "type": "consonant",
+     "iso_values": [
+      "pa"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 433
+    },
+    {
+     "iso": "ma",
+     "type": "consonant",
+     "iso_values": [
+      "ma"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 498
+    },
+    {
+     "iso": "ya",
+     "type": "consonant",
+     "iso_values": [
+      "ya"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 312
+    },
+    {
+     "iso": "ra",
+     "type": "consonant",
+     "iso_values": [
+      "ra"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 664
+    },
+    {
+     "iso": "la",
+     "type": "consonant",
+     "iso_values": [
+      "la"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 210
+    },
+    {
+     "iso": "va",
+     "type": "consonant",
+     "iso_values": [
+      "va"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 462
+    },
+    {
+     "iso": "ḻa",
+     "type": "consonant",
+     "iso_values": [
+      "ḻa"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 49
+    },
+    {
+     "iso": "ḷa",
+     "type": "consonant",
+     "iso_values": [
+      "ḷa"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 100
+    },
+    {
+     "iso": "ṟa",
+     "type": "consonant",
+     "iso_values": [
+      "ṟa"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 298
+    },
+    {
+     "iso": "ṉa",
+     "type": "consonant",
+     "iso_values": [
+      "ṉa"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 344
+    },
+    {
+     "iso": "ḵ",
+     "type": "aytam",
+     "iso_values": [
+      "ḵ"
+     ],
+     "glyph": null,
+     "script": null,
+     "corpus_count": 0
+    }
+   ],
+   "exceptions": [
+    {
+     "rule": "no-e-o-length-contrast",
+     "text": "Short and long e (e/ē) and o (o/ō) are written with the same sign; the distinction was introduced in the 18th century (attributed to C. J. Beschi). Editors supply the length in ISO transliteration, so the tutor accepts either value for these signs.",
+     "source": "standard history of Tamil script; DHARMA editions normalise length in transliteration"
+    },
+    {
+     "rule": "pulli-often-unwritten",
+     "text": "The pulli (dot marking a vowel-less consonant) is usually not written in medieval stone inscriptions; a consonant sign may stand for C or Ca and must be read from context.",
+     "source": "general palaeographic observation; DHARMA editions transliterate the intended reading"
+    },
+    {
+     "rule": "no-unicode",
+     "text": "Vaṭṭeḻuttu has no Unicode encoding; Aksharamukha maps it to Tamil code points. The app ships SVG glyphs and shows the ISO-15919 value (contracts/restore-api.md).",
+     "source": "Aksharamukha ScriptMap/MainIndic/Vatteluttu.py; Unicode pipeline (not encoded)"
+    },
+    {
+     "rule": "no-grantha-letters",
+     "text": "Sanskrit sounds (j, ś, ṣ, s, h) are not part of Vaṭṭeḻuttu; Sanskrit words are written in Grantha alongside it.",
+     "source": "DHARMA editions mark such passages with <hi rend='grantha'>"
+    }
+   ]
+  },
+  "grantha": {
+   "label_iso": "Grantha",
+   "label_ta": "கிரந்தம்",
+   "era": "c. 6th c. CE onward",
+   "aksharamukha_script": "Grantha",
+   "corpus_letters": 8886,
+   "letters": [
+    {
+     "iso": "a",
+     "type": "vowel",
+     "iso_values": [
+      "a"
+     ],
+     "glyph": "𑌅",
+     "script": "Grantha",
+     "corpus_count": 128
+    },
+    {
+     "iso": "ā",
+     "type": "vowel",
+     "iso_values": [
+      "ā"
+     ],
+     "glyph": "𑌆",
+     "script": "Grantha",
+     "corpus_count": 60
+    },
+    {
+     "iso": "i",
+     "type": "vowel",
+     "iso_values": [
+      "i"
+     ],
+     "glyph": "𑌇",
+     "script": "Grantha",
+     "corpus_count": 98
+    },
+    {
+     "iso": "ī",
+     "type": "vowel",
+     "iso_values": [
+      "ī"
+     ],
+     "glyph": "𑌈",
+     "script": "Grantha",
+     "corpus_count": 6
+    },
+    {
+     "iso": "u",
+     "type": "vowel",
+     "iso_values": [
+      "u"
+     ],
+     "glyph": "𑌉",
+     "script": "Grantha",
+     "corpus_count": 42
+    },
+    {
+     "iso": "ū",
+     "type": "vowel",
+     "iso_values": [
+      "ū"
+     ],
+     "glyph": "𑌊",
+     "script": "Grantha",
+     "corpus_count": 11
+    },
+    {
+     "iso": "r̥",
+     "type": "vowel",
+     "iso_values": [
+      "r̥"
+     ],
+     "glyph": "𑌋",
+     "script": "Grantha",
+     "corpus_count": 4
+    },
+    {
+     "iso": "r̥̄",
+     "type": "vowel",
+     "iso_values": [
+      "r̥̄"
+     ],
+     "glyph": "𑍠",
+     "script": "Grantha",
+     "corpus_count": 0
+    },
+    {
+     "iso": "l̥",
+     "type": "vowel",
+     "iso_values": [
+      "l̥"
+     ],
+     "glyph": "𑌌",
+     "script": "Grantha",
+     "corpus_count": 0
+    },
+    {
+     "iso": "e",
+     "type": "vowel",
+     "iso_values": [
+      "e"
+     ],
+     "glyph": "𑌏",
+     "script": "Grantha",
+     "corpus_count": 67
+    },
+    {
+     "iso": "ai",
+     "type": "vowel",
+     "iso_values": [
+      "ai"
+     ],
+     "glyph": "𑌐",
+     "script": "Grantha",
+     "corpus_count": 3
+    },
+    {
+     "iso": "o",
+     "type": "vowel",
+     "iso_values": [
+      "o"
+     ],
+     "glyph": "𑌓",
+     "script": "Grantha",
+     "corpus_count": 42
+    },
+    {
+     "iso": "au",
+     "type": "vowel",
+     "iso_values": [
+      "au"
+     ],
+     "glyph": "𑌔",
+     "script": "Grantha",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ka",
+     "type": "consonant",
+     "iso_values": [
+      "ka"
+     ],
+     "glyph": "𑌕",
+     "script": "Grantha",
+     "corpus_count": 567
+    },
+    {
+     "iso": "kha",
+     "type": "consonant",
+     "iso_values": [
+      "kha"
+     ],
+     "glyph": "𑌖",
+     "script": "Grantha",
+     "corpus_count": 22
+    },
+    {
+     "iso": "ga",
+     "type": "consonant",
+     "iso_values": [
+      "ga"
+     ],
+     "glyph": "𑌗",
+     "script": "Grantha",
+     "corpus_count": 106
+    },
+    {
+     "iso": "gha",
+     "type": "consonant",
+     "iso_values": [
+      "gha"
+     ],
+     "glyph": "𑌘",
+     "script": "Grantha",
+     "corpus_count": 8
+    },
+    {
+     "iso": "ṅa",
+     "type": "consonant",
+     "iso_values": [
+      "ṅa"
+     ],
+     "glyph": "𑌙",
+     "script": "Grantha",
+     "corpus_count": 48
+    },
+    {
+     "iso": "ca",
+     "type": "consonant",
+     "iso_values": [
+      "ca"
+     ],
+     "glyph": "𑌚",
+     "script": "Grantha",
+     "corpus_count": 187
+    },
+    {
+     "iso": "cha",
+     "type": "consonant",
+     "iso_values": [
+      "cha"
+     ],
+     "glyph": "𑌛",
+     "script": "Grantha",
+     "corpus_count": 11
+    },
+    {
+     "iso": "ja",
+     "type": "consonant",
+     "iso_values": [
+      "ja"
+     ],
+     "glyph": "𑌜",
+     "script": "Grantha",
+     "corpus_count": 134
+    },
+    {
+     "iso": "jha",
+     "type": "consonant",
+     "iso_values": [
+      "jha"
+     ],
+     "glyph": "𑌝",
+     "script": "Grantha",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ña",
+     "type": "consonant",
+     "iso_values": [
+      "ña"
+     ],
+     "glyph": "𑌞",
+     "script": "Grantha",
+     "corpus_count": 48
+    },
+    {
+     "iso": "ṭa",
+     "type": "consonant",
+     "iso_values": [
+      "ṭa"
+     ],
+     "glyph": "𑌟",
+     "script": "Grantha",
+     "corpus_count": 262
+    },
+    {
+     "iso": "ṭha",
+     "type": "consonant",
+     "iso_values": [
+      "ṭha"
+     ],
+     "glyph": "𑌠",
+     "script": "Grantha",
+     "corpus_count": 1
+    },
+    {
+     "iso": "ḍa",
+     "type": "consonant",
+     "iso_values": [
+      "ḍa"
+     ],
+     "glyph": "𑌡",
+     "script": "Grantha",
+     "corpus_count": 20
+    },
+    {
+     "iso": "ḍha",
+     "type": "consonant",
+     "iso_values": [
+      "ḍha"
+     ],
+     "glyph": "𑌢",
+     "script": "Grantha",
+     "corpus_count": 3
+    },
+    {
+     "iso": "ṇa",
+     "type": "consonant",
+     "iso_values": [
+      "ṇa"
+     ],
+     "glyph": "𑌣",
+     "script": "Grantha",
+     "corpus_count": 160
+    },
+    {
+     "iso": "ta",
+     "type": "consonant",
+     "iso_values": [
+      "ta"
+     ],
+     "glyph": "𑌤",
+     "script": "Grantha",
+     "corpus_count": 840
+    },
+    {
+     "iso": "tha",
+     "type": "consonant",
+     "iso_values": [
+      "tha"
+     ],
+     "glyph": "𑌥",
+     "script": "Grantha",
+     "corpus_count": 57
+    },
+    {
+     "iso": "da",
+     "type": "consonant",
+     "iso_values": [
+      "da"
+     ],
+     "glyph": "𑌦",
+     "script": "Grantha",
+     "corpus_count": 296
+    },
+    {
+     "iso": "dha",
+     "type": "consonant",
+     "iso_values": [
+      "dha"
+     ],
+     "glyph": "𑌧",
+     "script": "Grantha",
+     "corpus_count": 72
+    },
+    {
+     "iso": "na",
+     "type": "consonant",
+     "iso_values": [
+      "na"
+     ],
+     "glyph": "𑌨",
+     "script": "Grantha",
+     "corpus_count": 603
+    },
+    {
+     "iso": "pa",
+     "type": "consonant",
+     "iso_values": [
+      "pa"
+     ],
+     "glyph": "𑌪",
+     "script": "Grantha",
+     "corpus_count": 473
+    },
+    {
+     "iso": "pha",
+     "type": "consonant",
+     "iso_values": [
+      "pha"
+     ],
+     "glyph": "𑌫",
+     "script": "Grantha",
+     "corpus_count": 4
+    },
+    {
+     "iso": "ba",
+     "type": "consonant",
+     "iso_values": [
+      "ba"
+     ],
+     "glyph": "𑌬",
+     "script": "Grantha",
+     "corpus_count": 74
+    },
+    {
+     "iso": "bha",
+     "type": "consonant",
+     "iso_values": [
+      "bha"
+     ],
+     "glyph": "𑌭",
+     "script": "Grantha",
+     "corpus_count": 119
+    },
+    {
+     "iso": "ma",
+     "type": "consonant",
+     "iso_values": [
+      "ma"
+     ],
+     "glyph": "𑌮",
+     "script": "Grantha",
+     "corpus_count": 755
+    },
+    {
+     "iso": "ya",
+     "type": "consonant",
+     "iso_values": [
+      "ya"
+     ],
+     "glyph": "𑌯",
+     "script": "Grantha",
+     "corpus_count": 469
+    },
+    {
+     "iso": "ra",
+     "type": "consonant",
+     "iso_values": [
+      "ra"
+     ],
+     "glyph": "𑌰",
+     "script": "Grantha",
+     "corpus_count": 823
+    },
+    {
+     "iso": "la",
+     "type": "consonant",
+     "iso_values": [
+      "la"
+     ],
+     "glyph": "𑌲",
+     "script": "Grantha",
+     "corpus_count": 446
+    },
+    {
+     "iso": "va",
+     "type": "consonant",
+     "iso_values": [
+      "va"
+     ],
+     "glyph": "𑌵",
+     "script": "Grantha",
+     "corpus_count": 565
+    },
+    {
+     "iso": "śa",
+     "type": "consonant",
+     "iso_values": [
+      "śa"
+     ],
+     "glyph": "𑌶",
+     "script": "Grantha",
+     "corpus_count": 199
+    },
+    {
+     "iso": "ṣa",
+     "type": "consonant",
+     "iso_values": [
+      "ṣa"
+     ],
+     "glyph": "𑌷",
+     "script": "Grantha",
+     "corpus_count": 72
+    },
+    {
+     "iso": "sa",
+     "type": "consonant",
+     "iso_values": [
+      "sa"
+     ],
+     "glyph": "𑌸",
+     "script": "Grantha",
+     "corpus_count": 450
+    },
+    {
+     "iso": "ha",
+     "type": "consonant",
+     "iso_values": [
+      "ha"
+     ],
+     "glyph": "𑌹",
+     "script": "Grantha",
+     "corpus_count": 135
+    },
+    {
+     "iso": "ḷa",
+     "type": "consonant",
+     "iso_values": [
+      "ḷa"
+     ],
+     "glyph": "𑌳",
+     "script": "Grantha",
+     "corpus_count": 72
+    }
+   ],
+   "exceptions": [
+    {
+     "rule": "sanskrit-inventory",
+     "text": "Grantha writes Sanskrit: full Sanskrit inventory (aspirates, sibilants, r̥, l̥). e and o are long in Sanskrit; there is no short/long contrast to teach.",
+     "source": "Unicode Standard, Grantha block; Aksharamukha Grantha map"
+    }
+   ]
+  },
+  "pallava-tamil": {
+   "label_iso": "Pallava Tamil",
+   "label_ta": "பல்லவர் காலத் தமிழ்",
+   "era": "c. 6th–9th c. CE",
+   "aksharamukha_script": "Tamil",
+   "corpus_letters": 46634,
+   "letters": [
+    {
+     "iso": "a",
+     "type": "vowel",
+     "iso_values": [
+      "a"
+     ],
+     "glyph": "அ",
+     "script": "Tamil",
+     "corpus_count": 673
+    },
+    {
+     "iso": "ā",
+     "type": "vowel",
+     "iso_values": [
+      "ā"
+     ],
+     "glyph": "ஆ",
+     "script": "Tamil",
+     "corpus_count": 756
+    },
+    {
+     "iso": "i",
+     "type": "vowel",
+     "iso_values": [
+      "i"
+     ],
+     "glyph": "இ",
+     "script": "Tamil",
+     "corpus_count": 918
+    },
+    {
+     "iso": "ī",
+     "type": "vowel",
+     "iso_values": [
+      "ī"
+     ],
+     "glyph": "ஈ",
+     "script": "Tamil",
+     "corpus_count": 17
+    },
+    {
+     "iso": "u",
+     "type": "vowel",
+     "iso_values": [
+      "u"
+     ],
+     "glyph": "உ",
+     "script": "Tamil",
+     "corpus_count": 280
+    },
+    {
+     "iso": "ū",
+     "type": "vowel",
+     "iso_values": [
+      "ū"
+     ],
+     "glyph": "ஊ",
+     "script": "Tamil",
+     "corpus_count": 115
+    },
+    {
+     "iso": "e",
+     "type": "vowel",
+     "iso_values": [
+      "e",
+      "ē"
+     ],
+     "glyph": "எ",
+     "script": "Tamil",
+     "corpus_count": 506
+    },
+    {
+     "iso": "ai",
+     "type": "vowel",
+     "iso_values": [
+      "ai"
+     ],
+     "glyph": "ஐ",
+     "script": "Tamil",
+     "corpus_count": 69
+    },
+    {
+     "iso": "o",
+     "type": "vowel",
+     "iso_values": [
+      "o",
+      "ō"
+     ],
+     "glyph": "ஒ",
+     "script": "Tamil",
+     "corpus_count": 260
+    },
+    {
+     "iso": "au",
+     "type": "vowel",
+     "iso_values": [
+      "au"
+     ],
+     "glyph": "ஔ",
+     "script": "Tamil",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ka",
+     "type": "consonant",
+     "iso_values": [
+      "ka"
+     ],
+     "glyph": "க",
+     "script": "Tamil",
+     "corpus_count": 5414
+    },
+    {
+     "iso": "ṅa",
+     "type": "consonant",
+     "iso_values": [
+      "ṅa"
+     ],
+     "glyph": "ங",
+     "script": "Tamil",
+     "corpus_count": 417
+    },
+    {
+     "iso": "ca",
+     "type": "consonant",
+     "iso_values": [
+      "ca"
+     ],
+     "glyph": "ச",
+     "script": "Tamil",
+     "corpus_count": 1513
+    },
+    {
+     "iso": "ña",
+     "type": "consonant",
+     "iso_values": [
+      "ña"
+     ],
+     "glyph": "ஞ",
+     "script": "Tamil",
+     "corpus_count": 287
+    },
+    {
+     "iso": "ṭa",
+     "type": "consonant",
+     "iso_values": [
+      "ṭa"
+     ],
+     "glyph": "ட",
+     "script": "Tamil",
+     "corpus_count": 3080
+    },
+    {
+     "iso": "ṇa",
+     "type": "consonant",
+     "iso_values": [
+      "ṇa"
+     ],
+     "glyph": "ண",
+     "script": "Tamil",
+     "corpus_count": 1061
+    },
+    {
+     "iso": "ta",
+     "type": "consonant",
+     "iso_values": [
+      "ta"
+     ],
+     "glyph": "த",
+     "script": "Tamil",
+     "corpus_count": 5238
+    },
+    {
+     "iso": "na",
+     "type": "consonant",
+     "iso_values": [
+      "na"
+     ],
+     "glyph": "ந",
+     "script": "Tamil",
+     "corpus_count": 1773
+    },
+    {
+     "iso": "pa",
+     "type": "consonant",
+     "iso_values": [
+      "pa"
+     ],
+     "glyph": "ப",
+     "script": "Tamil",
+     "corpus_count": 3056
+    },
+    {
+     "iso": "ma",
+     "type": "consonant",
+     "iso_values": [
+      "ma"
+     ],
+     "glyph": "ம",
+     "script": "Tamil",
+     "corpus_count": 3670
+    },
+    {
+     "iso": "ya",
+     "type": "consonant",
+     "iso_values": [
+      "ya"
+     ],
+     "glyph": "ய",
+     "script": "Tamil",
+     "corpus_count": 2054
+    },
+    {
+     "iso": "ra",
+     "type": "consonant",
+     "iso_values": [
+      "ra"
+     ],
+     "glyph": "ர",
+     "script": "Tamil",
+     "corpus_count": 3827
+    },
+    {
+     "iso": "la",
+     "type": "consonant",
+     "iso_values": [
+      "la"
+     ],
+     "glyph": "ல",
+     "script": "Tamil",
+     "corpus_count": 1833
+    },
+    {
+     "iso": "va",
+     "type": "consonant",
+     "iso_values": [
+      "va"
+     ],
+     "glyph": "வ",
+     "script": "Tamil",
+     "corpus_count": 2841
+    },
+    {
+     "iso": "ḻa",
+     "type": "consonant",
+     "iso_values": [
+      "ḻa"
+     ],
+     "glyph": "ழ",
+     "script": "Tamil",
+     "corpus_count": 647
+    },
+    {
+     "iso": "ḷa",
+     "type": "consonant",
+     "iso_values": [
+      "ḷa"
+     ],
+     "glyph": "ள",
+     "script": "Tamil",
+     "corpus_count": 736
+    },
+    {
+     "iso": "ṟa",
+     "type": "consonant",
+     "iso_values": [
+      "ṟa"
+     ],
+     "glyph": "ற",
+     "script": "Tamil",
+     "corpus_count": 1542
+    },
+    {
+     "iso": "ṉa",
+     "type": "consonant",
+     "iso_values": [
+      "ṉa"
+     ],
+     "glyph": "ன",
+     "script": "Tamil",
+     "corpus_count": 2049
+    },
+    {
+     "iso": "ja",
+     "type": "consonant",
+     "grantha": true,
+     "iso_values": [
+      "ja"
+     ],
+     "glyph": "ஜ",
+     "script": "Tamil",
+     "corpus_count": 60
+    },
+    {
+     "iso": "śa",
+     "type": "consonant",
+     "grantha": true,
+     "iso_values": [
+      "śa"
+     ],
+     "glyph": "ஶ",
+     "script": "Tamil",
+     "corpus_count": 355
+    },
+    {
+     "iso": "ṣa",
+     "type": "consonant",
+     "grantha": true,
+     "iso_values": [
+      "ṣa"
+     ],
+     "glyph": "ஷ",
+     "script": "Tamil",
+     "corpus_count": 48
+    },
+    {
+     "iso": "sa",
+     "type": "consonant",
+     "grantha": true,
+     "iso_values": [
+      "sa"
+     ],
+     "glyph": "ஸ",
+     "script": "Tamil",
+     "corpus_count": 589
+    },
+    {
+     "iso": "ha",
+     "type": "consonant",
+     "grantha": true,
+     "iso_values": [
+      "ha"
+     ],
+     "glyph": "ஹ",
+     "script": "Tamil",
+     "corpus_count": 156
+    },
+    {
+     "iso": "kṣa",
+     "type": "consonant",
+     "grantha": true,
+     "iso_values": [
+      "kṣa"
+     ],
+     "glyph": "க்ஷ",
+     "script": "Tamil",
+     "corpus_count": 57
+    },
+    {
+     "iso": "ḵ",
+     "type": "aytam",
+     "iso_values": [
+      "ḵ"
+     ],
+     "glyph": "ஃ",
+     "script": "Tamil",
+     "corpus_count": 2
+    }
+   ],
+   "exceptions": [
+    {
+     "rule": "no-e-o-length-contrast",
+     "text": "Short and long e (e/ē) and o (o/ō) are written with the same sign; the distinction was introduced in the 18th century (attributed to C. J. Beschi). Editors supply the length in ISO transliteration, so the tutor accepts either value for these signs.",
+     "source": "standard history of Tamil script; DHARMA editions normalise length in transliteration"
+    },
+    {
+     "rule": "pulli-often-unwritten",
+     "text": "The pulli (dot marking a vowel-less consonant) is usually not written in medieval stone inscriptions; a consonant sign may stand for C or Ca and must be read from context.",
+     "source": "general palaeographic observation; DHARMA editions transliterate the intended reading"
+    },
+    {
+     "rule": "grantha-letters-in-tamil",
+     "text": "Tamil-script inscriptions of this period write Sanskrit words with Grantha letters (j, ś, ṣ, s, h, kṣ); they are included and flagged grantha=true.",
+     "source": "DHARMA <hi rend='grantha'> markup (10,247 spans in the six collections)"
+    }
+   ]
+  },
+  "chola-tamil": {
+   "label_iso": "Chola Tamil",
+   "label_ta": "சோழர் காலத் தமிழ்",
+   "era": "c. 9th–13th c. CE",
+   "aksharamukha_script": "Tamil",
+   "corpus_letters": 122430,
+   "letters": [
+    {
+     "iso": "a",
+     "type": "vowel",
+     "iso_values": [
+      "a"
+     ],
+     "glyph": "அ",
+     "script": "Tamil",
+     "corpus_count": 1578
+    },
+    {
+     "iso": "ā",
+     "type": "vowel",
+     "iso_values": [
+      "ā"
+     ],
+     "glyph": "ஆ",
+     "script": "Tamil",
+     "corpus_count": 1659
+    },
+    {
+     "iso": "i",
+     "type": "vowel",
+     "iso_values": [
+      "i"
+     ],
+     "glyph": "இ",
+     "script": "Tamil",
+     "corpus_count": 2462
+    },
+    {
+     "iso": "ī",
+     "type": "vowel",
+     "iso_values": [
+      "ī"
+     ],
+     "glyph": "ஈ",
+     "script": "Tamil",
+     "corpus_count": 62
+    },
+    {
+     "iso": "u",
+     "type": "vowel",
+     "iso_values": [
+      "u"
+     ],
+     "glyph": "உ",
+     "script": "Tamil",
+     "corpus_count": 883
+    },
+    {
+     "iso": "ū",
+     "type": "vowel",
+     "iso_values": [
+      "ū"
+     ],
+     "glyph": "ஊ",
+     "script": "Tamil",
+     "corpus_count": 271
+    },
+    {
+     "iso": "e",
+     "type": "vowel",
+     "iso_values": [
+      "e",
+      "ē"
+     ],
+     "glyph": "எ",
+     "script": "Tamil",
+     "corpus_count": 1192
+    },
+    {
+     "iso": "ai",
+     "type": "vowel",
+     "iso_values": [
+      "ai"
+     ],
+     "glyph": "ஐ",
+     "script": "Tamil",
+     "corpus_count": 239
+    },
+    {
+     "iso": "o",
+     "type": "vowel",
+     "iso_values": [
+      "o",
+      "ō"
+     ],
+     "glyph": "ஒ",
+     "script": "Tamil",
+     "corpus_count": 755
+    },
+    {
+     "iso": "au",
+     "type": "vowel",
+     "iso_values": [
+      "au"
+     ],
+     "glyph": "ஔ",
+     "script": "Tamil",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ka",
+     "type": "consonant",
+     "iso_values": [
+      "ka"
+     ],
+     "glyph": "க",
+     "script": "Tamil",
+     "corpus_count": 15933
+    },
+    {
+     "iso": "ṅa",
+     "type": "consonant",
+     "iso_values": [
+      "ṅa"
+     ],
+     "glyph": "ங",
+     "script": "Tamil",
+     "corpus_count": 1419
+    },
+    {
+     "iso": "ca",
+     "type": "consonant",
+     "iso_values": [
+      "ca"
+     ],
+     "glyph": "ச",
+     "script": "Tamil",
+     "corpus_count": 3816
+    },
+    {
+     "iso": "ña",
+     "type": "consonant",
+     "iso_values": [
+      "ña"
+     ],
+     "glyph": "ஞ",
+     "script": "Tamil",
+     "corpus_count": 717
+    },
+    {
+     "iso": "ṭa",
+     "type": "consonant",
+     "iso_values": [
+      "ṭa"
+     ],
+     "glyph": "ட",
+     "script": "Tamil",
+     "corpus_count": 7175
+    },
+    {
+     "iso": "ṇa",
+     "type": "consonant",
+     "iso_values": [
+      "ṇa"
+     ],
+     "glyph": "ண",
+     "script": "Tamil",
+     "corpus_count": 3417
+    },
+    {
+     "iso": "ta",
+     "type": "consonant",
+     "iso_values": [
+      "ta"
+     ],
+     "glyph": "த",
+     "script": "Tamil",
+     "corpus_count": 12159
+    },
+    {
+     "iso": "na",
+     "type": "consonant",
+     "iso_values": [
+      "na"
+     ],
+     "glyph": "ந",
+     "script": "Tamil",
+     "corpus_count": 5342
+    },
+    {
+     "iso": "pa",
+     "type": "consonant",
+     "iso_values": [
+      "pa"
+     ],
+     "glyph": "ப",
+     "script": "Tamil",
+     "corpus_count": 6626
+    },
+    {
+     "iso": "ma",
+     "type": "consonant",
+     "iso_values": [
+      "ma"
+     ],
+     "glyph": "ம",
+     "script": "Tamil",
+     "corpus_count": 9764
+    },
+    {
+     "iso": "ya",
+     "type": "consonant",
+     "iso_values": [
+      "ya"
+     ],
+     "glyph": "ய",
+     "script": "Tamil",
+     "corpus_count": 5304
+    },
+    {
+     "iso": "ra",
+     "type": "consonant",
+     "iso_values": [
+      "ra"
+     ],
+     "glyph": "ர",
+     "script": "Tamil",
+     "corpus_count": 9880
+    },
+    {
+     "iso": "la",
+     "type": "consonant",
+     "iso_values": [
+      "la"
+     ],
+     "glyph": "ல",
+     "script": "Tamil",
+     "corpus_count": 5927
+    },
+    {
+     "iso": "va",
+     "type": "consonant",
+     "iso_values": [
+      "va"
+     ],
+     "glyph": "வ",
+     "script": "Tamil",
+     "corpus_count": 6824
+    },
+    {
+     "iso": "ḻa",
+     "type": "consonant",
+     "iso_values": [
+      "ḻa"
+     ],
+     "glyph": "ழ",
+     "script": "Tamil",
+     "corpus_count": 2177
+    },
+    {
+     "iso": "ḷa",
+     "type": "consonant",
+     "iso_values": [
+      "ḷa"
+     ],
+     "glyph": "ள",
+     "script": "Tamil",
+     "corpus_count": 2822
+    },
+    {
+     "iso": "ṟa",
+     "type": "consonant",
+     "iso_values": [
+      "ṟa"
+     ],
+     "glyph": "ற",
+     "script": "Tamil",
+     "corpus_count": 4457
+    },
+    {
+     "iso": "ṉa",
+     "type": "consonant",
+     "iso_values": [
+      "ṉa"
+     ],
+     "glyph": "ன",
+     "script": "Tamil",
+     "corpus_count": 5709
+    },
+    {
+     "iso": "ja",
+     "type": "consonant",
+     "grantha": true,
+     "iso_values": [
+      "ja"
+     ],
+     "glyph": "ஜ",
+     "script": "Tamil",
+     "corpus_count": 462
+    },
+    {
+     "iso": "śa",
+     "type": "consonant",
+     "grantha": true,
+     "iso_values": [
+      "śa"
+     ],
+     "glyph": "ஶ",
+     "script": "Tamil",
+     "corpus_count": 869
+    },
+    {
+     "iso": "ṣa",
+     "type": "consonant",
+     "grantha": true,
+     "iso_values": [
+      "ṣa"
+     ],
+     "glyph": "ஷ",
+     "script": "Tamil",
+     "corpus_count": 104
+    },
+    {
+     "iso": "sa",
+     "type": "consonant",
+     "grantha": true,
+     "iso_values": [
+      "sa"
+     ],
+     "glyph": "ஸ",
+     "script": "Tamil",
+     "corpus_count": 854
+    },
+    {
+     "iso": "ha",
+     "type": "consonant",
+     "grantha": true,
+     "iso_values": [
+      "ha"
+     ],
+     "glyph": "ஹ",
+     "script": "Tamil",
+     "corpus_count": 294
+    },
+    {
+     "iso": "kṣa",
+     "type": "consonant",
+     "grantha": true,
+     "iso_values": [
+      "kṣa"
+     ],
+     "glyph": "க்ஷ",
+     "script": "Tamil",
+     "corpus_count": 73
+    },
+    {
+     "iso": "ḵ",
+     "type": "aytam",
+     "iso_values": [
+      "ḵ"
+     ],
+     "glyph": "ஃ",
+     "script": "Tamil",
+     "corpus_count": 1
+    }
+   ],
+   "exceptions": [
+    {
+     "rule": "no-e-o-length-contrast",
+     "text": "Short and long e (e/ē) and o (o/ō) are written with the same sign; the distinction was introduced in the 18th century (attributed to C. J. Beschi). Editors supply the length in ISO transliteration, so the tutor accepts either value for these signs.",
+     "source": "standard history of Tamil script; DHARMA editions normalise length in transliteration"
+    },
+    {
+     "rule": "pulli-often-unwritten",
+     "text": "The pulli (dot marking a vowel-less consonant) is usually not written in medieval stone inscriptions; a consonant sign may stand for C or Ca and must be read from context.",
+     "source": "general palaeographic observation; DHARMA editions transliterate the intended reading"
+    },
+    {
+     "rule": "grantha-letters-in-tamil",
+     "text": "Grantha letters (j, ś, ṣ, s, h, kṣ) appear inside Tamil text for Sanskrit words; included and flagged grantha=true.",
+     "source": "DHARMA <hi rend='grantha'> markup"
+    }
+   ]
+  },
+  "later-tamil": {
+   "label_iso": "Later Tamil",
+   "label_ta": "பிற்காலத் தமிழ்",
+   "era": "c. 14th c. CE onward",
+   "aksharamukha_script": "Tamil",
+   "corpus_letters": 1704,
+   "letters": [
+    {
+     "iso": "a",
+     "type": "vowel",
+     "iso_values": [
+      "a"
+     ],
+     "glyph": "அ",
+     "script": "Tamil",
+     "corpus_count": 39
+    },
+    {
+     "iso": "ā",
+     "type": "vowel",
+     "iso_values": [
+      "ā"
+     ],
+     "glyph": "ஆ",
+     "script": "Tamil",
+     "corpus_count": 13
+    },
+    {
+     "iso": "i",
+     "type": "vowel",
+     "iso_values": [
+      "i"
+     ],
+     "glyph": "இ",
+     "script": "Tamil",
+     "corpus_count": 7
+    },
+    {
+     "iso": "ī",
+     "type": "vowel",
+     "iso_values": [
+      "ī"
+     ],
+     "glyph": "ஈ",
+     "script": "Tamil",
+     "corpus_count": 0
+    },
+    {
+     "iso": "u",
+     "type": "vowel",
+     "iso_values": [
+      "u"
+     ],
+     "glyph": "உ",
+     "script": "Tamil",
+     "corpus_count": 1
+    },
+    {
+     "iso": "ū",
+     "type": "vowel",
+     "iso_values": [
+      "ū"
+     ],
+     "glyph": "ஊ",
+     "script": "Tamil",
+     "corpus_count": 0
+    },
+    {
+     "iso": "e",
+     "type": "vowel",
+     "iso_values": [
+      "e",
+      "ē"
+     ],
+     "glyph": "எ",
+     "script": "Tamil",
+     "corpus_count": 6
+    },
+    {
+     "iso": "ai",
+     "type": "vowel",
+     "iso_values": [
+      "ai"
+     ],
+     "glyph": "ஐ",
+     "script": "Tamil",
+     "corpus_count": 2
+    },
+    {
+     "iso": "o",
+     "type": "vowel",
+     "iso_values": [
+      "o",
+      "ō"
+     ],
+     "glyph": "ஒ",
+     "script": "Tamil",
+     "corpus_count": 0
+    },
+    {
+     "iso": "au",
+     "type": "vowel",
+     "iso_values": [
+      "au"
+     ],
+     "glyph": "ஔ",
+     "script": "Tamil",
+     "corpus_count": 0
+    },
+    {
+     "iso": "ka",
+     "type": "consonant",
+     "iso_values": [
+      "ka"
+     ],
+     "glyph": "க",
+     "script": "Tamil",
+     "corpus_count": 118
+    },
+    {
+     "iso": "ṅa",
+     "type": "consonant",
+     "iso_values": [
+      "ṅa"
+     ],
+     "glyph": "ங",
+     "script": "Tamil",
+     "corpus_count": 11
+    },
+    {
+     "iso": "ca",
+     "type": "consonant",
+     "iso_values": [
+      "ca"
+     ],
+     "glyph": "ச",
+     "script": "Tamil",
+     "corpus_count": 59
+    },
+    {
+     "iso": "ña",
+     "type": "consonant",
+     "iso_values": [
+      "ña"
+     ],
+     "glyph": "ஞ",
+     "script": "Tamil",
+     "corpus_count": 11
+    },
+    {
+     "iso": "ṭa",
+     "type": "consonant",
+     "iso_values": [
+      "ṭa"
+     ],
+     "glyph": "ட",
+     "script": "Tamil",
+     "corpus_count": 35
+    },
+    {
+     "iso": "ṇa",
+     "type": "consonant",
+     "iso_values": [
+      "ṇa"
+     ],
+     "glyph": "ண",
+     "script": "Tamil",
+     "corpus_count": 40
+    },
+    {
+     "iso": "ta",
+     "type": "consonant",
+     "iso_values": [
+      "ta"
+     ],
+     "glyph": "த",
+     "script": "Tamil",
+     "corpus_count": 162
+    },
+    {
+     "iso": "na",
+     "type": "consonant",
+     "iso_values": [
+      "na"
+     ],
+     "glyph": "ந",
+     "script": "Tamil",
+     "corpus_count": 78
+    },
+    {
+     "iso": "pa",
+     "type": "consonant",
+     "iso_values": [
+      "pa"
+     ],
+     "glyph": "ப",
+     "script": "Tamil",
+     "corpus_count": 103
+    },
+    {
+     "iso": "ma",
+     "type": "consonant",
+     "iso_values": [
+      "ma"
+     ],
+     "glyph": "ம",
+     "script": "Tamil",
+     "corpus_count": 161
+    },
+    {
+     "iso": "ya",
+     "type": "consonant",
+     "iso_values": [
+      "ya"
+     ],
+     "glyph": "ய",
+     "script": "Tamil",
+     "corpus_count": 104
+    },
+    {
+     "iso": "ra",
+     "type": "consonant",
+     "iso_values": [
+      "ra"
+     ],
+     "glyph": "ர",
+     "script": "Tamil",
+     "corpus_count": 188
+    },
+    {
+     "iso": "la",
+     "type": "consonant",
+     "iso_values": [
+      "la"
+     ],
+     "glyph": "ல",
+     "script": "Tamil",
+     "corpus_count": 70
+    },
+    {
+     "iso": "va",
+     "type": "consonant",
+     "iso_values": [
+      "va"
+     ],
+     "glyph": "வ",
+     "script": "Tamil",
+     "corpus_count": 132
+    },
+    {
+     "iso": "ḻa",
+     "type": "consonant",
+     "iso_values": [
+      "ḻa"
+     ],
+     "glyph": "ழ",
+     "script": "Tamil",
+     "corpus_count": 3
+    },
+    {
+     "iso": "ḷa",
+     "type": "consonant",
+     "iso_values": [
+      "ḷa"
+     ],
+     "glyph": "ள",
+     "script": "Tamil",
+     "corpus_count": 21
+    },
+    {
+     "iso": "ṟa",
+     "type": "consonant",
+     "iso_values": [
+      "ṟa"
+     ],
+     "glyph": "ற",
+     "script": "Tamil",
+     "corpus_count": 43
+    },
+    {
+     "iso": "ṉa",
+     "type": "consonant",
+     "iso_values": [
+      "ṉa"
+     ],
+     "glyph": "ன",
+     "script": "Tamil",
+     "corpus_count": 46
+    },
+    {
+     "iso": "ja",
+     "type": "consonant",
+     "grantha": true,
+     "iso_values": [
+      "ja"
+     ],
+     "glyph": "ஜ",
+     "script": "Tamil",
+     "corpus_count": 23
+    },
+    {
+     "iso": "śa",
+     "type": "consonant",
+     "grantha": true,
+     "iso_values": [
+      "śa"
+     ],
+     "glyph": "ஶ",
+     "script": "Tamil",
+     "corpus_count": 41
+    },
+    {
+     "iso": "ṣa",
+     "type": "consonant",
+     "grantha": true,
+     "iso_values": [
+      "ṣa"
+     ],
+     "glyph": "ஷ",
+     "script": "Tamil",
+     "corpus_count": 2
+    },
+    {
+     "iso": "sa",
+     "type": "consonant",
+     "grantha": true,
+     "iso_values": [
+      "sa"
+     ],
+     "glyph": "ஸ",
+     "script": "Tamil",
+     "corpus_count": 53
+    },
+    {
+     "iso": "ha",
+     "type": "consonant",
+     "grantha": true,
+     "iso_values": [
+      "ha"
+     ],
+     "glyph": "ஹ",
+     "script": "Tamil",
+     "corpus_count": 17
+    },
+    {
+     "iso": "kṣa",
+     "type": "consonant",
+     "grantha": true,
+     "iso_values": [
+      "kṣa"
+     ],
+     "glyph": "க்ஷ",
+     "script": "Tamil",
+     "corpus_count": 9
+    },
+    {
+     "iso": "ḵ",
+     "type": "aytam",
+     "iso_values": [
+      "ḵ"
+     ],
+     "glyph": "ஃ",
+     "script": "Tamil",
+     "corpus_count": 0
+    }
+   ],
+   "exceptions": [
+    {
+     "rule": "no-e-o-length-contrast",
+     "text": "Short and long e (e/ē) and o (o/ō) are written with the same sign; the distinction was introduced in the 18th century (attributed to C. J. Beschi). Editors supply the length in ISO transliteration, so the tutor accepts either value for these signs.",
+     "source": "standard history of Tamil script; DHARMA editions normalise length in transliteration"
+    },
+    {
+     "rule": "pulli-often-unwritten",
+     "text": "The pulli (dot marking a vowel-less consonant) is usually not written in medieval stone inscriptions; a consonant sign may stand for C or Ca and must be read from context.",
+     "source": "general palaeographic observation; DHARMA editions transliterate the intended reading"
+    }
+   ]
+  }
+ },
+ "levels": {
+  "L1": [
+   "later-tamil"
+  ],
+  "L2": [
+   "chola-tamil"
+  ],
+  "L3": [
+   "pallava-tamil",
+   "grantha"
+  ],
+  "L4": [
+   "vatteluttu"
+  ],
+  "L5": [
+   "tamil-brahmi-1",
+   "tamil-brahmi-2",
+   "tamil-brahmi-3"
+  ]
+ }
+}

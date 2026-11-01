@@ -1,0 +1,8 @@
+{
+  "source": "https://github.com/erc-dharma",
+  "pinned_at": "2026-11-01T00:00:00Z",
+  "repos": [
+    {"repo": "tfa-pallava-epigraphy", "url": "https://github.com/erc-dharma/tfa-pallava-epigraphy.git", "branch": "master", "commit": "1111111111111111111111111111111111111111", "commit_date": "2026-10-01T00:00:00Z", "license": "CC-BY-4.0", "tei_files": 2},
+    {"repo": "tfa-sii-epigraphy", "url": "https://github.com/erc-dharma/tfa-sii-epigraphy.git", "branch": "master", "commit": "2222222222222222222222222222222222222222", "commit_date": "2026-10-01T00:00:00Z", "license": "CC-BY-4.0", "tei_files": 2}
+  ]
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Test fixture: excerpt adapted from DHARMA_INSUttiramerur00001 (DHARMA, CC BY 4.0, ed. E. Francis). -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="eng">
+  <teiHeader><fileDesc><titleStmt>
+    <title>Uttiramērūr, Vaikuṇṭha-Perumāḷ, time of Parakesarivarman, year 12</title>
+  </titleStmt></fileDesc></teiHeader>
+  <text xml:space="preserve"><body>
+    <div type="edition" xml:lang="tam-Latn" rendition="class:tamil maturity:83215">
+      <ab><lb n="1"/><hi rend="grantha">svasti śrī</hi></ab>
+      <p>mat<choice><orig>i</orig><reg>u</reg></choice>rai koṇṭa <supplied reason="lost">kō-p-para</supplied>kēcari-varmmarkku yāṇṭu
+      paṉṉiraṇṭu Āvatu Uttiramēru-c-caturvvedimaṅkalattu <hi rend="grantha">sabhai</hi>yōm<note>editorial note, not text</note>
+      <lb n="2" break="no"/>yiṉāl <gap reason="lost" quantity="3" unit="character"/> vāriyam-āka <surplus>ṭu</surplus>Ēri-vāriyamum</p>
+    </div>
+    <div type="translation"><p>Prosperity! Fortune!</p></div>
+  </body></text>
+</TEI>

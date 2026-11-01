@@ -1,0 +1,737 @@
+{
+  "seed": 13,
+  "pinned_at": "2026-11-01T19:44:51Z",
+  "repos": [
+    {
+      "repo": "tfa-accalpuram-epigraphy",
+      "commit": "68dd33faf0455032ea81846fb8ed50f32b434d86",
+      "commit_date": "2025-06-17T12:17:33Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 0
+    },
+    {
+      "repo": "tfa-cempiyan-mahadevi-epigraphy",
+      "commit": "8953cda9883492b163f38f1f2aaec1992395de0c",
+      "commit_date": "2026-10-08T10:15:30Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 12
+    },
+    {
+      "repo": "tfa-cirkali-epigraphy",
+      "commit": "9ff78b784d4d5b0c774f72aa78e462349b1c7d48",
+      "commit_date": "2026-10-19T16:41:50Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 55
+    },
+    {
+      "repo": "tfa-kotumpalur-epigraphy",
+      "commit": "783a257761cdbb6138fe4b4955d066aede0e4edb",
+      "commit_date": "2026-09-29T09:09:11Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 41
+    },
+    {
+      "repo": "tfa-melappaluvur-kilappaluvur-epigraphy",
+      "commit": "3c1804e3e7d4e28f84a783de018f728c64d5505f",
+      "commit_date": "2026-09-29T09:09:20Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 20
+    },
+    {
+      "repo": "tfa-pallava-epigraphy",
+      "commit": "1b1b17c4df4990aba2c28101372e669fc9182d10",
+      "commit_date": "2026-10-08T10:16:09Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 481
+    },
+    {
+      "repo": "tfa-pandya-epigraphy",
+      "commit": "562e33f4e7ae082013e3ff268bd59d6c450944bc",
+      "commit_date": "2026-10-01T11:11:46Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 54
+    },
+    {
+      "repo": "tfa-pondicherry-epigraphy",
+      "commit": "06405f5f06d63546652f35cf5c9e9addbda4e5e7",
+      "commit_date": "2026-10-27T20:29:50Z",
+      "license": null,
+      "tei_files": 14
+    },
+    {
+      "repo": "tfa-sii-epigraphy",
+      "commit": "65fc39d14a35f88771d4dd8d3dbb10269d0a0000",
+      "commit_date": "2026-10-19T16:42:27Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 176
+    },
+    {
+      "repo": "tfa-tamil-outside-TN-epigraphy",
+      "commit": "25117cef8368fca9b46580a2610bbd5da84c00bb",
+      "commit_date": "2026-10-20T13:40:29Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 21
+    },
+    {
+      "repo": "tfa-tamilnadu-epigraphy",
+      "commit": "3c3ee14436bb70b2465ab99df7276bea7ebbd8f5",
+      "commit_date": "2026-10-26T11:34:41Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 343
+    },
+    {
+      "repo": "tfa-tiruvannamalai-epigraphy",
+      "commit": "3cc05049da0e5ad0b0f278d370a427ecadd0bdd8",
+      "commit_date": "2026-09-18T08:08:46Z",
+      "license": null,
+      "tei_files": 0
+    },
+    {
+      "repo": "tfa-tiruvavatuturai-epigraphy",
+      "commit": "53e5dee31e1804ea7a2c0ffdcfe4344b40507f98",
+      "commit_date": "2026-10-18T12:25:10Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 79
+    },
+    {
+      "repo": "tfa-uttiramerur-epigraphy",
+      "commit": "4b97baaffa2607003d7cf4dd02fd3cf861322ae3",
+      "commit_date": "2026-09-29T09:10:49Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 26
+    }
+  ],
+  "inscriptions": 1320,
+  "inscriptions_tamil": 1192,
+  "inscriptions_with_items": 449,
+  "inscriptions_damaged": 858,
+  "supplied_spans_all": {
+    "omitted": 2227,
+    "lost": 2719,
+    "undefined": 806
+  },
+  "lines": 18066,
+  "items": 3289,
+  "items_by_reason": {
+    "lost": 2525,
+    "undefined": 764
+  },
+  "per_split": {
+    "train": {
+      "inscriptions": 1060,
+      "items": 2433,
+      "hard": 2159,
+      "hard_share": 0.8874,
+      "age_set": 333,
+      "blank": 2702
+    },
+    "val": {
+      "inscriptions": 129,
+      "items": 443,
+      "hard": 401,
+      "hard_share": 0.9052,
+      "age_set": 35,
+      "blank": 449
+    },
+    "test": {
+      "inscriptions": 131,
+      "items": 413,
+      "hard": 317,
+      "hard_share": 0.7676,
+      "age_set": 51,
+      "blank": 406
+    }
+  },
+  "age_set_items": 419,
+  "age_set_inscriptions": 506,
+  "blank_items": 3557,
+  "corpus_lines": 14355,
+  "gap_chars_hist": {
+    "1": 1833,
+    "2": 583,
+    "3": 298,
+    "4": 179,
+    "5": 108,
+    "6-10": 210,
+    "11-20": 55,
+    "21+": 23
+  },
+  "gap_chars_hist_blank": {
+    "1": 408,
+    "2": 473,
+    "3": 690,
+    "4": 645,
+    "5": 385,
+    "6-10": 811,
+    "11-20": 115,
+    "21+": 30
+  },
+  "per_collection": {
+    "tfa-cempiyan-mahadevi-epigraphy": {
+      "inscriptions": 12,
+      "lines": 206,
+      "items": 1
+    },
+    "tfa-cirkali-epigraphy": {
+      "inscriptions": 55,
+      "lines": 676,
+      "items": 456,
+      "blank": 187
+    },
+    "tfa-kotumpalur-epigraphy": {
+      "inscriptions": 41,
+      "lines": 282,
+      "items": 158,
+      "blank": 84
+    },
+    "tfa-melappaluvur-kilappaluvur-epigraphy": {
+      "inscriptions": 20,
+      "lines": 269,
+      "items": 58,
+      "blank": 53
+    },
+    "tfa-pallava-epigraphy": {
+      "inscriptions": 480,
+      "lines": 5398,
+      "items": 410,
+      "blank": 564
+    },
+    "tfa-pandya-epigraphy": {
+      "inscriptions": 54,
+      "lines": 928,
+      "items": 63,
+      "blank": 92
+    },
+    "tfa-pondicherry-epigraphy": {
+      "inscriptions": 14,
+      "lines": 109,
+      "items": 16,
+      "blank": 8
+    },
+    "tfa-sii-epigraphy": {
+      "inscriptions": 176,
+      "lines": 2898,
+      "items": 965,
+      "blank": 681
+    },
+    "tfa-tamil-outside-TN-epigraphy": {
+      "inscriptions": 20,
+      "lines": 87,
+      "items": 47,
+      "blank": 5
+    },
+    "tfa-tamilnadu-epigraphy": {
+      "inscriptions": 343,
+      "lines": 4170,
+      "items": 970,
+      "blank": 1805
+    },
+    "tfa-tiruvavatuturai-epigraphy": {
+      "inscriptions": 79,
+      "lines": 2934,
+      "items": 136,
+      "blank": 60
+    },
+    "tfa-uttiramerur-epigraphy": {
+      "inscriptions": 26,
+      "lines": 109,
+      "items": 9,
+      "blank": 18
+    }
+  },
+  "licences": {
+    "CC BY-SA 4.0": 1249,
+    "(none in header)": 71
+  },
+  "langs": {
+    "tam-Latn": 1187,
+    "san-Latn": 117,
+    "pra-Latn": 4,
+    "tel-Latn": 1,
+    "(none)": 4,
+    "tam": 5,
+    "pli-Latn": 1,
+    "fra-Latn": 1
+  },
+  "dynasty_sources": {
+    "title": 415,
+    "(unknown)": 371,
+    "collection": 534
+  },
+  "skipped": {
+    "supplied_no_letters": 45
+  },
+  "hard_rule": {
+    "window_chars": 15,
+    "partial_ratio_min": 90,
+    "slack_chars": 3
+  },
+  "duplicate_files_skipped": [
+    "tfa-tamil-outside-TN-epigraphy/DHARMA_INSPondicherry00102.xml"
+  ],
+  "edition_groups": [
+    {
+      "ids": [
+        "DHARMA_INSCempiyanMahadevi00007",
+        "DHARMA_INStfaSIIv19p0i0292"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSCirkali00001",
+        "DHARMA_INSCirkali00032"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSCirkali00013",
+        "DHARMA_INSCirkali00014"
+      ],
+      "split": "val"
+    },
+    {
+      "ids": [
+        "DHARMA_INSKotumpalur00026",
+        "DHARMA_INSKotumpalur00027",
+        "DHARMA_INSKotumpalur00031"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSMelKil00001",
+        "DHARMA_INSMelKil00002"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSMelKil00007",
+        "DHARMA_INSMelKil00008"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00106",
+        "DHARMA_INSPallava00526"
+      ],
+      "split": "test"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00132",
+        "DHARMA_INSPallava00133"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00150",
+        "DHARMA_INSPallava00151"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00176",
+        "DHARMA_INSPallava00177"
+      ],
+      "split": "test"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00188",
+        "DHARMA_INSPallava00189"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00203",
+        "DHARMA_INSPallava00206"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00204",
+        "DHARMA_INSPallava00205"
+      ],
+      "split": "test"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00216",
+        "DHARMA_INSPallava00217",
+        "DHARMA_INSPallava00218"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00238",
+        "DHARMA_INSPallava00239"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00280",
+        "DHARMA_INSPallava00281"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00282",
+        "DHARMA_INSPallava00283"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00284",
+        "DHARMA_INSPallava00527"
+      ],
+      "split": "test"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00293",
+        "DHARMA_INSPallava00294"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00301",
+        "DHARMA_INSPallava00302"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00310",
+        "DHARMA_INSPallava00528"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00332",
+        "DHARMA_INSPallava00333"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00336",
+        "DHARMA_INSPallava00366"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00402",
+        "DHARMA_INSPallava00501"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00423",
+        "DHARMA_INSPallava00424"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPallava00507",
+        "DHARMA_INSPallava00508"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPandya00006",
+        "DHARMA_INSPandya00007"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSPondicherry00002",
+        "DHARMA_INSPondicherry00003",
+        "DHARMA_INSPondicherry00004",
+        "DHARMA_INSPondicherry00006"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00020",
+        "DHARMA_INSTamilNadu00024"
+      ],
+      "split": "test"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00036",
+        "DHARMA_INSTamilNadu00037"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00074",
+        "DHARMA_INSTamilNadu00162"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00103",
+        "DHARMA_INSTamilNadu00104"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00105",
+        "DHARMA_INSTamilNadu00106"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00108",
+        "DHARMA_INSTamilNadu00109"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00120",
+        "DHARMA_INSTamilNadu00125"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00147",
+        "DHARMA_INSTamilNadu00148"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00405",
+        "DHARMA_INSTamilNadu00406"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00412",
+        "DHARMA_INSTamilNadu00413",
+        "DHARMA_INSTamilNadu00414"
+      ],
+      "split": "test"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00415",
+        "DHARMA_INSTamilNadu00416"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00432",
+        "DHARMA_INSTamilNadu00433"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00442",
+        "DHARMA_INSTamilNadu00443"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00445",
+        "DHARMA_INSTamilNadu00446",
+        "DHARMA_INSTamilNadu00447"
+      ],
+      "split": "test"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00456",
+        "DHARMA_INSTamilNadu00457"
+      ],
+      "split": "val"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00512",
+        "DHARMA_INSTamilNadu00513"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00518",
+        "DHARMA_INSTamilNadu00519",
+        "DHARMA_INSTamilNadu00520",
+        "DHARMA_INSTamilNadu00524"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTamilNadu00525",
+        "DHARMA_INSTamilNadu00526"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTiruvavatuturai10107",
+        "DHARMA_INSTiruvavatuturai10139"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTiruvavatuturai10111",
+        "DHARMA_INSTiruvavatuturai10123"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSTiruvavatuturai10122",
+        "DHARMA_INSTiruvavatuturai10142"
+      ],
+      "split": "val"
+    },
+    {
+      "ids": [
+        "DHARMA_INSUttiramerur00015",
+        "DHARMA_INSUttiramerur00016",
+        "DHARMA_INSUttiramerur00028",
+        "DHARMA_INSUttiramerur00029"
+      ],
+      "split": "val"
+    },
+    {
+      "ids": [
+        "DHARMA_INSUttiramerur00018",
+        "DHARMA_INSUttiramerur00019"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INSUttiramerur00054",
+        "DHARMA_INSUttiramerur00060",
+        "DHARMA_INSUttiramerur00061",
+        "DHARMA_INSUttiramerur00062"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv01p0i0043",
+        "DHARMA_INStfaSIIv01p0i0044",
+        "DHARMA_INStfaSIIv01p0i0045",
+        "DHARMA_INStfaSIIv01p0i0046"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv02p0i0001",
+        "DHARMA_INStfaSIIv02p0i0002"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv03p0i0015",
+        "DHARMA_INStfaSIIv03p0i0016"
+      ],
+      "split": "test"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv03p0i0022",
+        "DHARMA_INStfaSIIv03p0i0023"
+      ],
+      "split": "val"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv03p0i0104",
+        "DHARMA_INStfaSIIv03p0i0105"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv04p0i0140",
+        "DHARMA_INStfaSIIv04p0i0141"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv04p0i0151",
+        "DHARMA_INStfaSIIv04p0i0153"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv04p0i0155",
+        "DHARMA_INStfaSIIv04p0i0156",
+        "DHARMA_INStfaSIIv04p0i0157",
+        "DHARMA_INStfaSIIv04p0i0158"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv13p0i0049",
+        "DHARMA_INStfaSIIv19p0i0135"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv19p0i0229",
+        "DHARMA_INStfaSIIv19p0i0230"
+      ],
+      "split": "train"
+    },
+    {
+      "ids": [
+        "DHARMA_INStfaSIIv38p0i0131",
+        "DHARMA_INStfaSIIv38p0i0139",
+        "DHARMA_INStfaSIIv38p0i0140"
+      ],
+      "split": "test"
+    }
+  ],
+  "dup_rule": {
+    "text_ratio_min": 95,
+    "min_chars": 40,
+    "or_same_site_ruler_year": true
+  }
+}

@@ -1,0 +1,34 @@
+{
+ "in_corpus": {
+  "k": 5,
+  "gaps": 1450,
+  "gaps_with_any_hint": 259,
+  "hit_at_k": 0.0662,
+  "hits": 96,
+  "gaps_inside_entity_mention": 222,
+  "hit_at_k_inside_entity_mention": 0.4279,
+  "note": "in-corpus (not held-out): editions the ontology was built from; an upper bound"
+ },
+ "held_out": [
+  {
+   "items": "items.val.jsonl",
+   "sha256": "7de507db795cafec2de75625ea57039ae9362813b00249c493615e9358ac8331",
+   "k": 5,
+   "scored": 345,
+   "skipped_short_target": 99,
+   "hits": 16,
+   "hit_at_k": 0.0464,
+   "items_with_any_hint": 53
+  },
+  {
+   "items": "items.test.jsonl",
+   "sha256": "5fc8eefd2f958c186d29a4d64eaba05793b416268264238b623c1bf00c5ea945",
+   "k": 5,
+   "scored": 253,
+   "skipped_short_target": 130,
+   "hits": 16,
+   "hit_at_k": 0.0632,
+   "items_with_any_hint": 42
+  }
+ ]
+}

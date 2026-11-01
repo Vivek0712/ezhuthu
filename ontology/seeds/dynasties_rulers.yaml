@@ -1,0 +1,195 @@
+# Curated seed list: dynasties, rulers and royal titles.
+# Variants are ISO-15919 spellings as they occur in DHARMA editions (Tamil and Sanskrit forms).
+# The build keeps only entries whose variants (or DHARMA header titles) are attested in the corpus,
+# and fills attested_in from the corpus scan. Wikidata QIDs are resolved by
+# `python -m ezhuthu.ontology.wikidata --refresh` from `wikidata_label` and reviewed in
+# ontology/wikidata/snapshot.json; an ambiguous name (e.g. "Mahendravarman", I/II/III) gets no QID.
+# Regnal dates are conventional and approximate (era strings start with "c.").
+# Sources: DHARMA header titles and editions (CC BY 4.0); conventional chronology as summarised in
+# K. A. Nilakanta Sastri, The Cōḻas (1955) for Chola rulers; Wikidata for identifiers.
+
+dynasties:
+  - slug: pallava
+    label_iso: Pallava
+    variants: [pallava, pallavar, pallavaṉ, pallava-kula]
+    era: c. 4th–9th c. CE
+    wikidata: Q466803
+    tamil_stage: pallava-tamil
+  - slug: chola
+    label_iso: Cōḻa
+    variants: [cōḻa, cōḷa, cōḻar, cōḻaṉ]
+    era: c. 9th–13th c. CE (imperial Cōḻas)
+    wikidata: Q151148
+    tamil_stage: chola-tamil
+  - slug: pandya
+    label_iso: Pāṇḍya
+    variants: [pāṇḍya, pāṇṭiya, pāṇṭiyaṉ, pāṇṭi]
+    era: c. 6th–14th c. CE (first and second empires)
+    wikidata: Q844910
+    tamil_stage: null
+  - slug: rashtrakuta
+    label_iso: Rāṣṭrakūṭa
+    variants: [rāṣṭrakūṭa, irāṭṭakūṭa]
+    era: c. 8th–10th c. CE
+    wikidata: Q856691
+    tamil_stage: chola-tamil
+  - slug: kadava
+    label_iso: Kāṭava
+    variants: [kāṭava, kāṭavar, kāṭavaṉ]
+    era: c. 13th c. CE (Kāṭava chiefs)
+    wikidata: Q6345221
+    tamil_stage: chola-tamil
+  - slug: vijayanagara
+    label_iso: Vijayanagara
+    variants: [vijayanagara, vijayanakara]
+    era: c. 1336–1646 CE
+    wikidata_label: Vijayanagara Empire
+    tamil_stage: later-tamil
+
+rulers:
+  # --- Pallava -------------------------------------------------------------------------------
+  - {slug: siva-skandavarman, label_iso: Śiva-Skandavarman, dynasty: pallava, era: c. 4th c. CE,
+     variants: [śivaskandavarma, sivakhaṁdavamma], title_names: [Śiva-Skandavarman]}
+  - {slug: vishnugopa, label_iso: Viṣṇugopa, dynasty: pallava, era: c. 4th c. CE,
+     variants: [viṣṇugopa], title_names: [Viṣṇugopavarman, Viṣṇugopa], note: "name borne by more than one early Pallava"}
+  - {slug: simhavarman, label_iso: Siṁhavarman, dynasty: pallava,
+     variants: [siṁhavarma, ciṅkavarma, ciṅkavaṉma], title_names: [Siṁhavarman], note: "name borne by several Pallavas; not disambiguated"}
+  - {slug: simhavishnu, label_iso: Siṁhaviṣṇu, dynasty: pallava, era: c. 575–600 CE,
+     variants: [siṁhaviṣṇu], title_names: [Siṁhaviṣṇu, Siṁhaviṣṇuvarman], wikidata_label: Simhavishnu}
+  - {slug: mahendravarman, label_iso: Mahendravarman, dynasty: pallava,
+     variants: [mahendravarma, makēntiravarma, mahēntiravarma, makentirapōttaraiyar], title_names: [Mahendravarman, Mahendra],
+     note: "Mahendravarman I–III not disambiguated by DHARMA titles"}
+  - {slug: narasimhavarman, label_iso: Narasiṁhavarman, dynasty: pallava,
+     variants: [narasiṁhavarma, naraciṅkavarma], title_names: [Narasiṁhavarman, Narasiṁhavikramavarman, Naraciṅkapōttaracar],
+     note: "Narasiṁhavarman I/II not disambiguated"}
+  - {slug: rajasimha, label_iso: Rājasiṁha, dynasty: pallava, era: c. 700–728 CE,
+     variants: [rājasiṁha, irācaciṅka], title_names: [Rājasiṁha], wikidata_label: Narasimhavarman II,
+     note: "Rājasiṁha = Narasiṁhavarman II"}
+  - {slug: paramesvaravarman, label_iso: Parameśvaravarman, dynasty: pallava,
+     variants: [parameśvaravarma, paramēcuvaravarma], title_names: [Parameśvaravarman, Paramēccurappōttaraiyar]}
+  - {slug: nandivarman, label_iso: Nandivarman, dynasty: pallava,
+     variants: [nandivarma, nantivarma, nantippōttaraiyar, nantipōttaraiyar, nantippōttaraicar, nantippōttaracar,
+                nantipōttaraicar, nantippōtaraiyar, nantippōttaraiyaṉ],
+     title_names: [Nandivarman, Nantippōttaraiyar, Nantipōttaraiyar, Nantippōttaraicar, Nantippōttaracar,
+                   Nantipōttaraicar, Nantippōtaraiyar, Nantippōttaraiyaṉ, Nantippōttairayaṉ, Nantippōtairayar, Nantippōtairayaṉ],
+     note: "Nandivarman II and III are not disambiguated by DHARMA titles"}
+  - {slug: nandivikramavarman, label_iso: Nandivikramavarman, dynasty: pallava,
+     variants: [nandivikramavarma, nantivikkiramaparuma, nantivikkiramavarma], title_names: [Nandivikramavarman, Nandivikrama],
+     note: "regnal name used by Nandivarman II and III"}
+  - {slug: dantivarman, label_iso: Dantivarman, dynasty: pallava, era: c. 796–846 CE,
+     variants: [dantivarma, tantivarma, dantivikramavarma, tantivikkiramaparuma, tantippōttaraiyar],
+     title_names: [Dantivarman, Dantivikramavarman, Dantivikrama, Tantippōttaraiyar, Tantipōttaraiyaṉ, Dantippōttaracar], wikidata_label: Dantivarman}
+  - {slug: nrpatunga, label_iso: Nr̥patuṅgavarman, dynasty: pallava, era: c. 9th c. CE,
+     variants: [nr̥patuṅgavarma, nirupatuṅkavarma, nr̥patuṅgavikramavarma, nirupatuṅkavikkiramavarma, nirupatuṅkatēva,
+                nr̥patuṅkapōttatēva, nr̥patuṅgappōttaraiyar],
+     title_names: [Nr̥patuṅgavarman, Nr̥patuṅga, Nr̥patuṅgavikramavarman, Nr̥patuṅkavikramavarman, Nr̥patuṅgavikrama,
+                   Nr̥patuṅgappōttaraiyar, Nr̥patuṅkapōttatēvaṉ, Nr̥patuṇgavikramavaram], wikidata_label: Nripatunga Varman}
+  - {slug: kampavarman, label_iso: Kampavarman, dynasty: pallava, era: c. 9th c. CE,
+     variants: [kampavarma, kampavikramavarma, kampaparuma], title_names: [Kampavarman, Kampavikramavarman, Kampa]}
+  - {slug: aparajita, label_iso: Aparājitavarman, dynasty: pallava, era: c. 885–897 CE,
+     variants: [aparājitavarma, aparājitavikramavarma, aparācita], title_names: [Aparājitavarman, Aparājitavikramavarman, Aparājita],
+     wikidata_label: Aparajitavarman}
+  - {slug: skandavarman, label_iso: Skandavarman, dynasty: pallava, era: c. 4th–5th c. CE,
+     variants: [skandavarma], title_names: [Skandavarman, Vijaya-Skandavarman], note: "early Pallava name borne by more than one king"}
+  - {slug: kumaravishnu, label_iso: Kumāraviṣṇu, dynasty: pallava, variants: [kumāraviṣṇu], title_names: [Kumāraviṣṇu]}
+  # --- Cōḻa ---------------------------------------------------------------------------------
+  - {slug: vijayalaya, label_iso: Vijayālaya Cōḻa, dynasty: chola, era: c. 850–871 CE,
+     variants: [vijayālaya], title_names: [Vijayālaya], wikidata_label: Vijayalaya Chola}
+  - {slug: aditya-i, label_iso: Āditya I, dynasty: chola, era: c. 871–907 CE,
+     variants: [ātittaṉ, āditya], title_names: [Āditya I], wikidata_label: Aditya I}
+  - {slug: parantaka-i, label_iso: Parāntaka I Cōḻa, dynasty: chola, era: c. 907–955 CE,
+     variants: [parāntaka], title_names: [Parāntaka I Cōḻa, Parāntaka I], wikidata_label: Parantaka I,
+     note: "styled 'matirai koṇṭa kō-p-parakēcari-varmaṉ' (the Parakesarivarman who took Madurai)"}
+  - {slug: gandaraditya, label_iso: Gaṇḍarāditya, dynasty: chola, era: c. 950–957 CE,
+     variants: [gaṇḍarāditya, kaṇṭarātitta], title_names: [Gaṇḍarāditya], wikidata_label: Gandaraditya}
+  - {slug: uttama-chola, label_iso: Uttama Cōḻa, dynasty: chola, era: c. 970–985 CE,
+     variants: [uttamacōḻa], title_names: [Uttama Cōḻa, Parakesarivarman Uttama Cōḻa], wikidata_label: Uththama Chola}
+  - {slug: rajaraja-i, label_iso: Rājarāja I Cōḻa, dynasty: chola, era: c. 985–1014 CE,
+     variants: [rājarājadēva, irācarācatēva], title_names: [Rājarāja I Cōḻa, Rājarāja I, Rājakesarivarman Rājarāja, Rājarājakesarivarman, Rājarāja Rājakesarivarman],
+     wikidata_label: Rajaraja I}
+  - {slug: rajendra-i, label_iso: Rājendra I Cōḻa, dynasty: chola, era: c. 1012–1044 CE,
+     variants: [rājēntiracōḻa, rājendracōḻa, irācēntiracōḻa], title_names: [Rājendra I Cōḻa, Rājendra Cōḻa, Parakesarivarman Rājendra Cōḻa],
+     wikidata_label: Rajendra Chola I}
+  - {slug: rajadhiraja-i, label_iso: Rājādhirāja I Cōḻa, dynasty: chola, era: c. 1018–1054 CE,
+     variants: [rājādhirāja, irācātirāca], title_names: [Rājādhirāja, Rājakesarivarman Rājādhirāja], wikidata_label: Rajadhiraja Chola,
+     note: "DHARMA titles 'Rājādhirāja' without numeral are assumed to be Rājādhirāja I only when the meykkīrtti 'tiṅkaḷ ēr taru' is present"}
+  - {slug: rajendra-ii, label_iso: Rājendra II Cōḻa, dynasty: chola, era: c. 1052–1064 CE,
+     variants: [], title_names: [Rājendra II], wikidata_label: Rajendra Chola II}
+  - {slug: virarajendra, label_iso: Vīrarājendra Cōḻa, dynasty: chola, era: c. 1063–1070 CE,
+     variants: [vīrarājēntira, vīrarājendra], title_names: [Vīrarājendra, Parakesarivarman Tribhuvanacakravartin Vīrarājendra],
+     wikidata_label: Virarajendra Chola}
+  - {slug: kulottunga-i, label_iso: Kulottuṅga I Cōḻa, dynasty: chola, era: c. 1070–1122 CE,
+     variants: [kulōttuṅkacōḻa, kulottuṅgacōḻa], title_names: [Kulottuṅga I, Kulottuṅga Cōḻa, Tribhuvanacakravartin Kulōttuṅga Cōḻa],
+     wikidata_label: Kulothunga Chola I,
+     note: "DHARMA 'Kulottuṅga Cōḻa' titles without numeral are grouped here; Kulottuṅga II/III are not separated"}
+  - {slug: vikrama-chola, label_iso: Vikrama Cōḻa, dynasty: chola, era: c. 1118–1135 CE,
+     variants: [vikkiramacōḻa, vikramacōḻa], title_names: [Vikrama Cōḻa], wikidata_label: Vikrama Chola}
+  - {slug: rajaraja-ii, label_iso: Rājarāja II Cōḻa, dynasty: chola, era: c. 1146–1173 CE,
+     variants: [], title_names: [Rājarāja II, Parakesarivarman Tribhuvanacakravartin Rājarāja], wikidata_label: Rajaraja II}
+  - {slug: parthivendradhipati, label_iso: Pārthivendrādhipativarman, dynasty: chola, era: c. 10th c. CE,
+     variants: [pārthivēntirātipativarma, pārttivēntirātipativarma, pārthivendrādhipativarma, pārthivendrādivarma],
+     title_names: [Pārthivendrādhipativarman, Pārthivendrādivarman],
+     note: "Cōḻa prince known from Toṇṭaimaṇṭalam inscriptions; identification with Āditya II is debated"}
+  - {slug: kulottunga-iii, label_iso: Kulottuṅga III Cōḻa, dynasty: chola, era: c. 1178–1218 CE,
+     variants: [tribhuvanavīradēva, tiripuvaṉavīratēva], title_names: ["Vīrarājēndra (Kulottuṅga Cōḻa III)", Tribhuvana Vīra],
+     wikidata_label: Kulothunga Chola III, note: "styled Tribhuvanavīradēva"}
+  # --- Pāṇḍya --------------------------------------------------------------------------------
+  - {slug: maran-cataiyan, label_iso: Māṟaṉ Caṭaiyaṉ, dynasty: pandya, era: c. 8th–9th c. CE, tamil_stage: pallava-tamil,
+     variants: [māṟañcaṭaiyaṉ, māṟaṉcaṭaiyaṉ], title_names: [Māṟaṉ Caṭaiyaṉ, Māṟañ Caṭaiyaṉ],
+     note: "first-empire Pāṇḍya; the name pair is shared by more than one king"}
+  - {slug: netuncataiyan, label_iso: Neṭuñcaṭaiyaṉ, dynasty: pandya, era: c. 8th c. CE, tamil_stage: pallava-tamil,
+     variants: [neṭuñcaṭaiyaṉ], title_names: [Neṭuñcaṭaiyaṉ]}
+  - {slug: varaguna, label_iso: Varaguṇa, dynasty: pandya, era: c. 9th c. CE, tamil_stage: pallava-tamil,
+     variants: [varaguṇa, varakuṇa], title_names: [Varaguṇa]}
+  - {slug: sundara-pandya, label_iso: Sundara Pāṇḍya, dynasty: pandya, era: c. 13th c. CE, tamil_stage: chola-tamil,
+     variants: [cuntarapāṇṭiya, sundarapāṇḍya], title_names: [Sundara Pāṇḍya], note: "Jaṭāvarman/Māṟavarman Sundara Pāṇḍya I/II not disambiguated"}
+  - {slug: kulasekhara-pandya, label_iso: Kulaśekhara Pāṇḍya, dynasty: pandya, era: c. 13th c. CE, tamil_stage: chola-tamil,
+     variants: [kulaśēkhara, kulacēkara, kuḷaśekhara], title_names: [Kulaśekhara]}
+  - {slug: vira-pandya, label_iso: Vīra Pāṇḍya, dynasty: pandya, tamil_stage: chola-tamil,
+     variants: [vīrapāṇṭiya, vīrapāṇḍya], title_names: [Vīrapāṇḍya, Vīra Pāṇḍya]}
+  - {slug: vikrama-pandya, label_iso: Vikrama Pāṇḍya, dynasty: pandya, tamil_stage: chola-tamil,
+     variants: [vikkiramapāṇṭiya, vikramapāṇḍya], title_names: [Vikrama Pāṇḍya]}
+  # --- others -------------------------------------------------------------------------------
+  - {slug: kannaradeva, label_iso: Kaṉṉaradēva, dynasty: rashtrakuta, era: c. 939–967 CE,
+     variants: [kaṉṉaradēva, kaṇṇaradēva], title_names: [Kaṉṉara Deva, Kaṇṇaradeva, Kaṉṉaradeva], wikidata_label: Krishna III,
+     note: "Rāṣṭrakūṭa Kr̥ṣṇa III, styled 'kacciyun tañcaiyuṅ koṇṭa' (who took Kāñci and Tañcai)"}
+  - {slug: kopperuncinkan, label_iso: Kōpperuñciṅkaṉ, dynasty: kadava, era: c. 13th c. CE,
+     variants: [kōpperuñciṅka, kopperuñciṅka], title_names: [Kōpperuñciṅkaṉ, king Kōpperuciṅkaṉ]}
+  - {slug: venkatapati, label_iso: Veṅkaṭapati, dynasty: vijayanagara, variants: [veṅkaṭapati], title_names: [Veṅkaṭapati],
+     note: "Aravīḍu king; Veṅkaṭa I/II not disambiguated"}
+  - {slug: sriranga, label_iso: Śrīraṅga, dynasty: vijayanagara, variants: [], title_names: [Śrīraṅga Deva Mahārāja],
+     note: "Aravīḍu king; not disambiguated"}
+  - {slug: sadasiva-raya, label_iso: Sadāśiva Rāya, dynasty: vijayanagara, era: c. 1542–1570 CE,
+     variants: [sadāśivadēvamahārāya, catācivatēvamakārāya, catācivarāya], title_names: [Sadāśiva Deva Mahārāya],
+     wikidata_label: Sadasiva Raya}
+  - {slug: acyuta-raya, label_iso: Acyuta Rāya, dynasty: vijayanagara, era: c. 1529–1542 CE,
+     variants: [acyutadēvamahārāya, accutarāya, accutatēvamakārāya], title_names: [Acyuta], wikidata_label: Achyuta Deva Raya}
+
+titles:
+  - {slug: parakesarivarman, label_iso: Parakēsarivarman, dynasty: chola, label_en: "Parakesari ('lion to enemy kings')",
+     variants: [parakēcarivarma, parakēcaripaṉma, parakēcaripanma, parakesarivarma, parakēsarivarma, parakēcarivaṉma, parakēcari],
+     title_names: [Parakesarivarman, Parakesrivarman],
+     note: "alternating Cōḻa regnal title (Parakēsari / Rājakēsari); a title alone does not identify the king"}
+  - {slug: rajakesarivarman, label_iso: Rājakēsarivarman, dynasty: chola,
+     variants: [rājakēcarivarma, rājakēcaripaṉma, irājakēcarivarma, irājakēcaripaṉma, rājakesarivarma, rājakēsarivarma, irācakēcari, rājakēcari],
+     title_names: [Rājakesarivarman], note: "alternating Cōḻa regnal title"}
+  - {slug: ko, label_iso: kō, label_en: king, variants: [], note: "royal prefix in regnal formulas (kō-v-irāja-rāja..., kō-vicaiya...); matched through formulas, too short to scan alone"}
+  - {slug: tribhuvanacakravartin, label_iso: Tribhuvanacakravartin, label_en: "emperor of the three worlds",
+     variants: [tribhuvanacakravartti, tiripuvaṉaccakkaravartti, tiripuvaṉaccakkaravatti, tiripuvaṉacakkaravartti, tiṟipuvaṉacakkiravartti],
+     title_names: [Tribhuvanacakravartin], note: "imperial title of later Cōḻa and Pāṇḍya kings"}
+  - {slug: koneri-nmaikontan, label_iso: Kōṉēriṉmaikoṇṭāṉ, label_en: "the king who has no equal",
+     variants: [kōṉēriṉmaikoṇṭāṉ, kōṉēriṉmaikoṇṭaṉ, kōṉēriṉmai], title_names: [Kōṉēriṉmaikoṇṭāṉ, Kōnēriṉmaikoṇṭāṉ, Tribhuvanacakravartin Kōṉēriṉmaikoṇṭāṉ],
+     note: "epithet heading royal orders of later Cōḻa and Pāṇḍya kings; DHARMA titles use it where the king is not named"}
+  - {slug: maravarman, label_iso: Māṟavarman, dynasty: pandya, variants: [māṟavarma, māṟapaṉma, māṟapanma], note: "alternating Pāṇḍya regnal title"}
+  - {slug: jatavarman, label_iso: Jaṭāvarman, dynasty: pandya, variants: [jaṭāvarma, caṭaiyapaṉma, caṭaiyavarma, caṭaiyapanma], note: "alternating Pāṇḍya regnal title"}
+  - {slug: pottaraiyar, label_iso: Pōttaraiyar, dynasty: pallava, variants: [pōttaraiyar, pōttaraicar, pōtaraiyar], note: "Tamil title of Pallava kings"}
+  - {slug: udaiyar, label_iso: uṭaiyār, label_en: lord, variants: [uṭaiyār], note: "'lord'; used of kings and of deities"}
+  - {slug: perumanatikal, label_iso: perumāṉaṭikaḷ, label_en: "His Majesty", variants: [perumāṉaṭikaḷ], note: "honorific of the reigning king"}
+  - {slug: mahamalla, label_iso: Mahāmalla, dynasty: pallava, label_en: "great wrestler",
+     variants: [mahāmalla, māmalla], title_names: [Mahāmalla, Narasiṁha Mahāmalla], note: "biruda of the Pallava Narasiṁhavarman I"}
+  - {slug: lalitankura, label_iso: Lalitāṅkura, dynasty: pallava, variants: [lalitāṅkura], title_names: [Lalitāṅkura, Laḷitāṅkura],
+     note: "biruda of the Pallava Mahendravarman I"}
+  - {slug: vicitracitta, label_iso: Vicitracitta, dynasty: pallava, variants: [vicitracitta], title_names: [Vicitracitta],
+     note: "biruda of the Pallava Mahendravarman I"}
+  - {slug: satrumalla, label_iso: Śatrumalla, dynasty: pallava, variants: [śatrumalla], title_names: [Śatrumalla],
+     note: "biruda of the Pallava Mahendravarman I"}

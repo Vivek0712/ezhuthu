@@ -1,0 +1,61 @@
+{
+  "name": "@ezhuthu/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Ezhuthu bilingual tutor UI (React + Vite), built with Strands Agents on Amazon Bedrock AgentCore",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -p tsconfig.json --noEmit && vite build",
+    "build:mock": "vite build --mode mock --outDir dist-mock",
+    "preview:mock": "vite preview --mode mock --outDir dist-mock --port 4173 --strictPort",
+    "gen:api": "node scripts/gen-api.mjs",
+    "lint": "node scripts/gen-api.mjs --check && node scripts/check-contract.mjs && eslint . && tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test",
+    "screenshots": "UPDATE_SCREENSHOTS=1 playwright test --grep @screens"
+  },
+  "dependencies": {
+    "@fontsource/fraunces": "^5.3.0",
+    "@fontsource/instrument-sans": "^5.3.0",
+    "@fontsource/noto-sans-brahmi": "^5.3.0",
+    "@fontsource/noto-sans-grantha": "^5.3.0",
+    "@fontsource/noto-sans-tamil": "^5.3.0",
+    "@fontsource/noto-serif-tamil": "^5.3.0",
+    "openapi-fetch": "^0.14.1",
+    "react": "19.1",
+    "react-dom": "19.1",
+    "react-router-dom": "^7.18.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@playwright/test": "1.56",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.8",
+    "@types/node": "^22.20.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^5.2.0",
+    "eslint": "^9.39.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.5.0",
+    "jsdom": "^26.1.0",
+    "msw": "^2.15.0",
+    "openapi-typescript": "^7.13.0",
+    "typescript": "5.9",
+    "typescript-eslint": "^8.72.1",
+    "vite": "^7.3.7",
+    "vitest": "^3.2.7",
+    "yaml": "^2.9.1"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
+}

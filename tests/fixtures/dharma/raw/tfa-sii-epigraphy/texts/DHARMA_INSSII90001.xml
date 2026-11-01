@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader><fileDesc><titleStmt><title>Tañcāvūr, fixture, time of Rājarāja I Cōḻa, year 25</title></titleStmt></fileDesc></teiHeader>
+  <text>
+    <body>
+      <div type="edition" xml:lang="tam-Latn">
+        <p>
+          <lb n="1"/>kōṉērājakesarivarmar-āṉa śrī-rājarāja-tēvarkku yāṇṭu Irupattu Añcāvatu
+          <lb n="2"/>uṭaiyār śrī-rājarājēśvaram-uṭaiyārkku nantā viḷakku Oṉṟukku
+          <lb n="3"/>vaitta āṭu toṇṇūṟu
+        </p>
+      </div>
+    </body>
+  </text>
+</TEI>
