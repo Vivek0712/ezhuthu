@@ -1,0 +1,183 @@
+# Ezhuthu Tamil epigraphy ontology (v0)
+
+The knowledge layer behind the Ezhuthu tutor and restorer: who ruled, where a place sits in the
+nāṭu/kōṭṭam/maṇṭalam hierarchy, which royal-praise formula belongs to which king, which letters
+existed in which script stage. Built with rdflib; a Context Ontology Accelerator attempt is
+documented in [COA.md](COA.md).
+
+## Files
+
+| Path | What |
+| --- | --- |
+| `ezhuthu.ttl` | OWL ontology: 27 classes, 21 object properties, 2,489 named individuals (29,995 triples) |
+| `lookups/<kind>.json` | Entity records, one file per kind, valid against `contracts/ontology-lookup.schema.json` |
+| `letters_by_era.json` | Valid base letters per script stage, Unicode glyphs (Aksharamukha), documented exceptions, corpus counts, tutor levels L1–L5 |
+| `coverage.json` | Counts per kind, Wikidata coverage, dropped seeds, unmatched title names, DHARMA commit pins |
+| `hint_eval.json` | In-corpus check of `hints_for_gap` against DHARMA expert restorations |
+| `seeds/*.yaml` | Curated seed lists (rulers, titles, formulas, grant types, assemblies, measures, coins, taxes, deities, unit types) |
+| `wikidata/snapshot.json`, `wikidata/review.yaml` | Wikidata SPARQL results (all candidates) and the manual review applied to them |
+
+Code: `src/ezhuthu/ontology/` (`tei.py` reader, `normalize.py`, `matcher.py`, `letters.py`, `build.py`,
+`owl.py`, `wikidata.py`, `lookup.py`, `hint_eval.py`).
+
+## Using it (agent and app teams)
+
+```python
+from ezhuthu.ontology import find_entities, valid_letters, formulas_for, entity, hints_for_gap
+
+find_entities("svasti śrī maturai koṇṭa kō-p-parakēcari-varmmarkku yāṇṭu")
+# -> [{id: ez:formula/svasti-sri, ...}, {id: ez:formula/matirai-konta}, {id: ez:title/parakesarivarman}, ...]
+#    each with kind, label (ISO), label_ta, start/end char span, surface
+valid_letters("L2")            # or a stage id, e.g. "chola-tamil", "vatteluttu", "tamil-brahmi-1"
+formulas_for("ez:ruler/rajaraja-i")   # own meykkīrtti/epithets, then dynasty formulas, then common ones
+entity("ez:ruler/rajaraja-i")         # full lookup record (wikidata Q2128757, attested_in, era, ...)
+hints_for_gap("svasti śrī maturai koṇṭa kō-p-para", "rkku yāṇṭu", gap_chars=11)
+# -> [{id: ez:title/parakesarivarman, kind: title, label: Parakēsarivarman, fill: "kecarivarma",
+#      alt_fills: [...], score, reason: "overlap"}, ...]
+```
+
+Each hint has `id`, `kind` and `label`, the shape of `ontology_hints` in `contracts/restore-api.md`.
+`fill` is in folded key form (see Normalisation), so compare with `ezhuthu.ontology.normalize.key(candidate)`.
+A gap right before `-kku yāṇṭu` (regnal-year formula) also returns `reason: "regnal_slot"` hints: the
+rulers and titles of the dynasty named in the context, with `fill: null`.
+
+All text is ISO-15919. `label_ta` is Aksharamukha's Tamil rendering of `label_iso`
+(Sanskrit sounds in Grantha letters; regnal numerals kept as I/II/III).
+
+## Scope and model
+
+Backbone reused by IRI, never copied (the TTL makes no statements about backbone terms):
+
+| Ezhuthu class | Subclass of |
+| --- | --- |
+| `ez:Inscription` | `crmtex:TX1_Written_Text` |
+| `ez:Line` | `crmtex:TX7_Written_Text_Segment` |
+| `ez:Edition` | `epont:Edition` (EpOnt, `https://w3id.org/epont/ontology/`) |
+| `ez:ScriptStage` | `crmtex:TX3_Writing_System` |
+| `ez:Letter` | `crmtex:TX8_Grapheme` |
+| `ez:Dynasty`, `ez:Assembly` | `crm:E74_Group` |
+| `ez:Ruler` | `crm:E21_Person` |
+| `ez:Title` (title/epithet/biruda) | `crm:E41_Appellation` |
+| `ez:Formula` ⊃ `ez:RoyalPraiseFormula` (meykkīrtti) | `crm:E90_Symbolic_Object` |
+| `ez:Place` ⊃ `ez:AdministrativeUnit` ⊃ `Ur`, `Caturvedimangalam`, `Nadu`, `Kurram`, `Kottam`, `Valanadu`, `Mandalam` | `crm:E53_Place` |
+| `ez:Temple` | `crm:E22_Human-Made_Object` |
+| `ez:Deity` | `crm:E28_Conceptual_Object` |
+| `ez:Grant` / `ez:GrantType` | `crm:E7_Activity` / `crm:E55_Type` |
+| `ez:Measure`, `ez:Coin` | `crm:E58_Measurement_Unit` |
+| `ez:Tax` | `crm:E55_Type` |
+
+Properties include `ez:fallsWithin` (⊑ `crm:P89_falls_within`), `ez:hasMember` (⊑ `crm:P107`),
+`ez:bearsTitle` (⊑ `crm:P1`), `ez:mentions` (⊑ `crm:P67`), `ez:hasLine` (⊑ `crm:P106`),
+`ez:hasEdition` (⊑ `epont:hasEdition`), `ez:locatedAt` (⊑ `crm:P55`), `ez:grantType` (⊑ `crm:P2`),
+plus `ez:attestedIn`, `ez:writtenIn`, `ez:letterOf`, `ez:memberOfDynasty`, `ez:praiseOf`, `ez:dedicatedTo`.
+Labels: `skos:prefLabel@ta-Latn` (ISO), `skos:altLabel@ta` / `@en`, variants as `skos:hiddenLabel`,
+Wikidata as `skos:exactMatch`. The grant properties (`recordsGrant`, `grantedTo`, `paidIn`,
+`exemptFrom`, `witnessedBy`) are declared for the agent team; v0 has no grant *instances*.
+
+Namespace: `https://w3id.org/ezhuthu/` (`ez:ruler/rajaraja-i` → `https://w3id.org/ezhuthu/ruler/rajaraja-i`).
+The w3id redirect is not registered yet.
+
+## Where instances come from
+
+* **DHARMA header titles** (`<place>, <temple>, time of <ruler>, year N`): places, temples, ruler and
+  title attestations. 112 distinct title names (136 inscriptions) did not match a seed and are listed in
+  `coverage.json` (`title_names_unmatched`), e.g. bare "Rājarāja" (I or II?) is left unmatched on purpose.
+* **DHARMA `<placeName>`/`<persName>`**: DHARMA marks very few entities in edition text (14 `placeName`,
+  14 unreferenced `persName` across the six collections; most `persName` elements are editors), so
+  this adds only 4 places. `<rs>` is not used.
+* **Corpus scan of curated seed variants** (rulers, titles, formulas, grant types, assemblies,
+  measures, coins, taxes, deities): `attested_in` lists `<inscription_id>:<line_n>` refs. A seed with
+  no attestation is dropped and listed in `coverage.json` (v0: Vijayālaya, `kō`, `paṭṭam`, `tiramam`, bare `ūr`).
+* **Administrative units** are extracted from edition text by their oblique-case suffixes
+  (`-nāṭṭu`, `-kūṟṟattu`, `-kōṭṭattu`, `-vaḷanāṭṭu`, `-maṇṭalattu`, `-caturvēdimaṅkalattu`), and
+  `broader` comes from address chains (inscriptions name units big-to-small, e.g.
+  `jayaṅ-koṇṭa-cōḻa-maṇṭalattu kāliyūr-k-kōṭṭattu …`): the nearest preceding higher-rank unit,
+  majority vote. Fragments next to gaps are skipped and one-off short names dropped (31 dropped).
+* **Script stage** per inscription: DHARMA `rendition="class:…"` (`tamil`, `vaṭṭeḻuttu`, `grantha`)
+  plus the ruler/dynasty for Tamil script (Pallava → Pallava Tamil, Cōḻa → Chola Tamil, Vijayanagara →
+  Later Tamil; Pāṇḍya by the ruler's era).
+* **Wikidata** (SPARQL, `python -m ezhuthu.ontology.wikidata --refresh`, then `review.yaml`): a QID is
+  assigned only when exactly one item matches an English label form under a kind filter (human for
+  rulers; located in Tamil Nadu for places; temple class + Tamil Nadu for temples). Names DHARMA does
+  not disambiguate (Mahendravarman, Nandivarman, Sundara Pāṇḍya …) intentionally have no QID.
+
+## Coverage (v0, DHARMA commits pinned in `coverage.json`)
+
+Corpus: 6 DHARMA collections (`tfa-pallava`, `tfa-cempiyan-mahadevi`, `tfa-pandya`, `tfa-sii`,
+`tfa-tamilnadu`, `tfa-uttiramerur`), 1,193 inscriptions, 16,043 edition lines.
+
+| Kind | Entities | With Wikidata QID |
+| --- | ---: | ---: |
+| script_stage | 8 | |
+| letter | 262 | |
+| dynasty | 6 | 6 (100%) |
+| ruler | 43 | 19 (44.2%) |
+| title | 13 | |
+| formula | 14 | |
+| place | 428 | 40 (9.3%) |
+| admin_unit | 269 (7 unit types + 262 named units) | |
+| temple | 197 | 8 (4.1%) |
+| deity | 13 | |
+| grant_type | 10 | |
+| assembly | 6 | |
+| measure | 14 | |
+| coin | 5 | |
+| tax | 8 | |
+
+Inscriptions per script stage: Pallava Tamil 345, Chola Tamil 312, Vaṭṭeḻuttu 82, Grantha 73,
+Later Tamil 14, **Tamil-Brāhmī 0**: none of the six collections contains Tamil-Brāhmī, so its letters
+(Aksharamukha + Mahadevan 2003 exceptions) have no corpus attestation yet. Unmapped DHARMA script
+classes (Southern Brāhmī 20, Siddhamātr̥kā 2, numeric class codes 7) are counted in `coverage.json`.
+
+`hints_for_gap`, in-corpus check (`python -m ezhuthu.ontology.hint_eval`): over 1,985 gaps made by
+hiding `<supplied reason="lost">` spans, a top-5 hint reproduces the expert restoration exactly for
+131 (6.6%); for the 308 gaps that fall inside an entity mention it does so for 130 (42.2%). This is
+**not held-out** (the ontology was built from the same editions, supplied text included), so read it
+as how much of the restoration need the ontology covers, not as restoration accuracy. The held-out
+benchmark is the data team's `benchmark/`.
+
+## Normalisation
+
+Matching compares folded keys (`normalize.key`): lower-case, editorial marks removed (`- ’ · = …`),
+e/ē and o/ō merged (no length contrast in Tamil script before the 18th c.), ś/ṣ/s → c (Tamil spelling of
+Sanskrit sibilants), gemination after r collapsed (`varmma` = `varma`), spaces removed. A match must
+start at a word or compound-member boundary and may end anywhere, so stems match case forms.
+
+## Known limitations
+
+* `attested_in` in the lookups lists at most 40 refs (sorted by id); `inscription_count` and
+  `attestation_count` give the totals and the TTL has every `ez:attestedIn` link.
+* Short glossary stems can over-match (e.g. `poṉ` "gold" also starts personal names; `kalam` is
+  restricted to `nel kalam`/`kalam nel`/`kalamum` because it also means "ship"). Counts are
+  attestations of the string, not hand-verified senses.
+* Place labels follow DHARMA titles, which mix ISO and English forms (Tanjore and Thanjavur are two
+  place records, both with Q41496).
+* Era strings are conventional, approximate regnal dates; the curated glosses (`label_en`) are short
+  handbook glosses, not quotations from DHARMA translations.
+
+## Licence and citation
+
+DHARMA repositories carry a CC BY 4.0 `LICENCE.txt`, while 1,127 of the 1,128 edition files that declare a licence declare
+CC BY-SA 4.0 in their TEI header. Because the lookups and individuals are derived from those files,
+the derived data (`lookups/`, `letters_by_era.json`, individuals in `ezhuthu.ttl`) is released under
+**CC BY-SA 4.0** (`dcterms:license` in the TTL); the class/property model and the curated seeds are
+offered under CC BY 4.0. The lead should confirm this with the charter's "CC BY 4.0" wording.
+
+Cite DHARMA for the source texts:
+
+> DHARMA project (ERC grant 809994), *Tamil and Pallava epigraphy* collections, https://dharmalekha.info,
+> CC BY 4.0 / CC BY-SA 4.0, commits as pinned in `ontology/coverage.json`.
+
+and this ontology as: *Ezhuthu Tamil epigraphy ontology v0 (2026), built with rdflib on CIDOC CRM,
+CRMtex and EpOnt; instances from DHARMA.* Letter renderings: Aksharamukha (V. Rajan). Tamil-Brāhmī
+exceptions: I. Mahadevan, *Early Tamil Epigraphy* (2003).
+
+## Rebuild
+
+```bash
+make setup
+# DHARMA clones under data/raw/dharma/<collection>/ (gitignored; `make data` once the data team lands it)
+.venv/bin/python -m ezhuthu.ontology.wikidata --refresh   # optional, network; then review wikidata/review.yaml
+.venv/bin/python -m ezhuthu.ontology.build                 # offline, deterministic
+.venv/bin/python -m ezhuthu.ontology.hint_eval
+```
