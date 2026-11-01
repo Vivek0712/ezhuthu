@@ -29,7 +29,9 @@ talks to it with a Strands `MCPClient` (`McpOntology`). `build_restorer_agent()`
 server's tools (`find_entities`, `valid_letters`, `formulas_for`, `entity`, `hints_for_gap`) from that session.
 The in-process `ezhuthu.ontology.lookup` API is only an offline fallback and is flagged in `/health` `ontology`:
 `EZHUTHU_ONTOLOGY=direct` gives `direct:ezhuthu.ontology.lookup`, a failed MCP start gives
-`fallback:direct (mcp unavailable)`. `EZHUTHU_ONTOLOGY=stub` (or `EZHUTHU_FIXTURES=1` with no mode) uses the
+`fallback:direct (mcp unavailable)`. If the server process dies later, the next call restarts it once and retries;
+if it stays dead, the same instance answers from the direct API and `/health` shows `fallback:direct (mcp died)`.
+`EZHUTHU_ONTOLOGY=stub` (or `EZHUTHU_FIXTURES=1` with no mode) uses the
 fixture stub. Runtime needs: `ontology/COA.md` section 3.
 
 ## Tutor (`tutor/`)

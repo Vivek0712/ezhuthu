@@ -163,3 +163,156 @@ def test_server_runs_in_this_environment_from_any_cwd(tmp_path, monkeypatch):
         assert onto.entity("ez:dynasty/chola")["kind"] == "dynasty"
     finally:
         onto.close()
+
+
+# ---- QA on PR #17: a dead server, the first-build race, error mapping, the stop warning ----------------------
+
+def _kill_server_children() -> list[int]:
+    """SIGKILL this process's ontology MCP server children (the stdio subprocesses McpOntology starts)."""
+    import os
+    import signal
+    import subprocess
+    import time
+
+    out = subprocess.run(["pgrep", "-P", str(os.getpid()), "-f", "ezhuthu.ontology.mcp_server"],
+                         check=False, capture_output=True, text=True).stdout.split()
+    pids = [int(p) for p in out]
+    for pid in pids:
+        os.kill(pid, signal.SIGKILL)
+    deadline = time.monotonic() + 5
+    for pid in pids:
+        while time.monotonic() < deadline:
+            try:
+                if os.waitpid(pid, os.WNOHANG) != (0, 0):
+                    break
+            except ChildProcessError:
+                break
+            time.sleep(0.05)
+    return pids
+
+
+def test_killed_server_is_restarted_and_restore_still_works():
+    onto = McpOntology()
+    try:
+        r = Restorer(decider=NoDecider(), ontology=onto)
+        assert [c.text for c in r.restore_gap("cantirātittavar", " ivai", 5).candidates
+                if "ontology" in c.sources] == ["aiyum"]
+        assert _kill_server_children(), "no MCP server child found"
+        out = r.restore_gap("cantirātittavar", " ivai", 5)
+        assert [c.text for c in out.candidates if "ontology" in c.sources] == ["aiyum"]
+        assert onto.name == "mcp:ezhuthu-ontology (stdio)" and not onto.fell_back
+        assert onto.entity("ez:ruler/rajaraja-i") == lookup.entity("ez:ruler/rajaraja-i")
+    finally:
+        onto.close()
+
+
+def test_server_that_stays_dead_falls_back_to_flagged_direct(monkeypatch):
+    onto = McpOntology()
+    try:
+        _kill_server_children()
+        # the restart cannot start a server any more
+        monkeypatch.setattr(onto.client, "start", lambda: (_ for _ in ()).throw(OSError("spawn failed")))
+        r = Restorer(decider=NoDecider(), ontology=onto)
+        out = r.restore_gap("cantirātittavar", " ivai", 5)
+        assert [c.text for c in out.candidates if "ontology" in c.sources] == ["aiyum"]
+        assert onto.fell_back and onto.name == "fallback:direct (mcp died)"
+        # every tool keeps answering with the server's shapes and the direct API's errors
+        assert onto.find_entities("svasti śrī rājakēsari") == ModuleOntology(lookup).find_entities(
+            "svasti śrī rājakēsari")
+        assert onto.formulas_for("ez:ruler/rajaraja-i") == lookup.formulas_for("ez:ruler/rajaraja-i")
+        assert onto.raw_hints_for_gap("cantirātittavar", " ivai", limit=2) == lookup.hints_for_gap(
+            "cantirātittavar", " ivai", None, 2)
+        with pytest.raises(KeyError, match="unknown script stage"):
+            onto.valid_letters("no-such-stage")
+    finally:
+        onto.close()
+
+
+def test_dead_server_is_flagged_in_get_ontology(fresh_port):
+    """/health reports get_ontology().name, so the cached instance itself must carry the fallback flag."""
+    fresh_port.delenv("EZHUTHU_FIXTURES", raising=False)
+    fresh_port.delenv("EZHUTHU_ONTOLOGY", raising=False)
+    onto = get_ontology()
+    assert isinstance(onto, McpOntology)
+    _kill_server_children()
+    fresh_port.setattr(onto.client, "start", lambda: (_ for _ in ()).throw(OSError("spawn failed")))
+    assert onto.hints_for_gap("cantirātittavar", " ivai")
+    assert get_ontology() is onto and get_ontology().name == "fallback:direct (mcp died)"
+
+
+def test_concurrent_first_calls_build_one_ontology(fresh_port):
+    import threading
+
+    from ezhuthu.agent import ontology_mcp
+
+    fresh_port.delenv("EZHUTHU_FIXTURES", raising=False)
+    fresh_port.delenv("EZHUTHU_ONTOLOGY", raising=False)
+    built = []
+    real_init = ontology_mcp.McpOntology.__init__
+
+    def slow_init(self, *a, **kw):
+        built.append(self)
+        threading.Event().wait(0.3)  # widen the race window
+        real_init(self, *a, **kw)
+
+    fresh_port.setattr(ontology_mcp.McpOntology, "__init__", slow_init)
+    results: list = []
+    threads = [threading.Thread(target=lambda: results.append(get_ontology())) for _ in range(4)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    assert len(built) == 1 and len({id(o) for o in results}) == 1
+
+
+class _FakeClient:
+    """Returns one canned MCP tool result; enough to test McpOntology.call's error mapping."""
+
+    def __init__(self, result):
+        self.result = result
+
+    def start(self):
+        return self
+
+    def list_tools_sync(self):
+        from types import SimpleNamespace
+
+        return [SimpleNamespace(tool_name=n) for n in
+                ("find_entities", "valid_letters", "formulas_for", "entity", "hints_for_gap")]
+
+    def call_tool_sync(self, tool_use_id, name, args):
+        return self.result
+
+    def stop(self, *exc):
+        pass
+
+
+def _err(text):
+    return {"status": "error", "toolUseId": "x", "content": [{"text": text}], "isError": True}
+
+
+def test_error_mapping_only_reads_the_exception_prefix():
+    onto = McpOntology(_FakeClient(_err("Error executing tool find_entities: ValueError: bad 'KeyError: x' text")))
+    with pytest.raises(ValueError, match="bad 'KeyError: x' text") as ei:
+        onto.find_entities("abc")
+    assert type(ei.value) is ValueError
+    onto.client.result = _err("Error executing tool valid_letters: KeyError: unknown script stage: 'z'")
+    with pytest.raises(KeyError):
+        onto.valid_letters("z")
+    onto.client.result = _err("Error executing tool find_entities: RuntimeError: ValueError: inside")
+    with pytest.raises(McpOntologyError, match="RuntimeError"):
+        onto.find_entities("abc")
+    onto.client.result = _err("Error executing tool other_tool: ValueError: wrong tool")
+    with pytest.raises(McpOntologyError):
+        onto.find_entities("abc")
+    onto.close()
+
+
+def test_start_failure_emits_no_unawaited_coroutine_warning(monkeypatch, recwarn):
+    import gc
+
+    monkeypatch.setattr("ezhuthu.agent.ontology_mcp.SERVER_MODULE", "ezhuthu.no_such_module")
+    with pytest.raises(McpOntologyError):
+        McpOntology(startup_timeout=10)
+    gc.collect()
+    assert not [w for w in recwarn.list if "never awaited" in str(w.message)]

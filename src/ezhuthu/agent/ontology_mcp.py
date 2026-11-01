@@ -5,11 +5,16 @@ exactly like the direct API. It starts the server as a subprocess of the current
 (``sys.executable -m ezhuthu.ontology.mcp_server``), so the server always runs in the agent's own environment
 (locally, in tests and in the AgentCore runtime bundle). The same client is also a Strands tool provider:
 ``Agent(tools=[onto.client])`` gives an agent the five ontology tools directly.
+
+If the server process dies after start (crash, OOM kill), the next call restarts the same client once and
+retries; if that fails too, ``McpOntology`` answers from the in-process lookup API and renames itself
+``fallback:direct (mcp died)`` so ``/health`` shows it.
 """
 
 from __future__ import annotations
 
 import atexit
+import contextlib
 import copy
 import json
 import logging
@@ -17,6 +22,8 @@ import os
 import sys
 import threading
 import uuid
+import warnings
+from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
 
@@ -36,6 +43,40 @@ PASSTHROUGH_ENV = ("PYTHONPATH", "EZHUTHU_ONTOLOGY_ROOT", "EZHUTHU_MCP_LOG")
 
 class McpOntologyError(RuntimeError):
     """The MCP server could not be started or a tool call failed for a reason other than bad input."""
+
+
+class _TransportError(McpOntologyError):
+    """The connection to the server failed (as opposed to the server reporting a tool error)."""
+
+
+# Strands' MCPClient wraps an exception raised while calling a tool (the server process is gone, the pipe
+# is closed) in an error result with this text; the server's own tool errors start "Error executing tool".
+_TRANSPORT_PREFIX = "Tool execution failed: "
+# The server's input errors, after "Error executing tool <name>: " (see mcp_server._input_errors).
+_INPUT_ERRORS = (("KeyError: ", KeyError), ("ValueError: ", ValueError), ("TypeError: ", ValueError))
+FALLBACK_NAME = "fallback:direct (mcp died)"
+
+
+@contextlib.contextmanager
+def _no_unawaited_close_warning() -> Iterator[None]:
+    """``MCPClient.stop`` on a client whose background loop has already ended (a failed start inside
+    ``MCPClient.start``, a dead server) schedules its close coroutine on a loop that never runs again, so
+    Python warns "coroutine 'MCPClient.stop.<locals>._set_close_event' was never awaited" when the loop is
+    closed. Nothing is lost: the background thread has already exited. This is in Strands, not our call
+    order, so filter exactly that warning, on purpose, around our start and stop calls."""
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", message=r"coroutine 'MCPClient\.stop\.<locals>\._set_close_event' "
+                                r"was never awaited", category=RuntimeWarning)
+        yield
+
+
+def _stop_quietly(client: MCPClient) -> None:
+    """Stop the client. stop() re-raises the connection error that ended a dead session; that is expected."""
+    with _no_unawaited_close_warning():
+        try:
+            client.stop(None, None, None)
+        except Exception:
+            log.debug("MCP client stop reported an error", exc_info=True)
 
 
 def _import_roots() -> list[str]:
@@ -78,47 +119,125 @@ class McpOntology:
 
     def __init__(self, client: MCPClient | None = None, *, root: str | None = None, startup_timeout: int = 30):
         self.client = client or make_client(root, startup_timeout)
+        self._root = root
         self._entity_cache: dict[str, dict[str, Any] | None] = {}
         self._lock = threading.Lock()
+        self._restart_lock = threading.Lock()
+        self._generation = 0  # bumped on each restart, so concurrent callers restart only once
+        self._direct: Any = None  # the in-process lookup API, once the server is given up on
         self._closed = False
+        self._start()
+        atexit.register(self.close)
+
+    def _start(self) -> None:
         try:
-            self.client.start()
+            with _no_unawaited_close_warning():  # a failed start runs stop() on a finished loop
+                self.client.start()
             tools = {t.tool_name for t in self.client.list_tools_sync()}
         except Exception as exc:
             raise McpOntologyError(f"ontology MCP server did not start: {exc}") from exc
         missing = sorted(set(TOOL_NAMES) - tools)
         if missing:
-            self.close()
+            _stop_quietly(self.client)
             raise McpOntologyError(f"ontology MCP server lacks tools {missing}")
-        atexit.register(self.close)
+
+    @property
+    def fell_back(self) -> bool:
+        return self._direct is not None
 
     # ---- transport -----------------------------------------------------------------
     def call(self, tool: str, **arguments: Any) -> dict[str, Any]:
         """Call one tool and return its JSON object. Input errors raise ``ValueError`` (``KeyError`` for an unknown
-        stage), like the direct API."""
+        stage), like the direct API. A dead server is restarted once; if it stays dead the call (and every later
+        one) is answered by the in-process lookup API and ``name`` becomes ``fallback:direct (mcp died)``."""
         args = {k: v for k, v in arguments.items() if v is not None}
-        res = self.client.call_tool_sync(f"ez-{uuid.uuid4().hex[:12]}", tool, args)
+        if self._direct is None:
+            generation = self._generation
+            try:
+                return self._call_mcp(tool, args)
+            except _TransportError as exc:
+                if self._recover(generation, exc):
+                    try:
+                        return self._call_mcp(tool, args)
+                    except _TransportError as exc2:
+                        self._give_up(exc2)
+        return self._call_direct(tool, args)
+
+    def _call_mcp(self, tool: str, args: dict[str, Any]) -> dict[str, Any]:
+        try:
+            res = self.client.call_tool_sync(f"ez-{uuid.uuid4().hex[:12]}", tool, args)
+        except Exception as exc:  # e.g. MCPClientInitializationError: the session is not running
+            raise _TransportError(f"{type(exc).__name__}: {exc}") from exc
         text = "".join(c.get("text", "") for c in res.get("content", []) if isinstance(c, dict))
         if res.get("status") == "error":
-            if "KeyError: " in text:  # unknown script stage, as the direct API raises it
-                raise KeyError(text.split("KeyError: ", 1)[1])
-            for marker in ("ValueError: ", "TypeError: "):  # the server's input-error prefix
-                if marker in text:
-                    raise ValueError(text.split(marker, 1)[1])
+            if text.startswith(_TRANSPORT_PREFIX):
+                raise _TransportError(text)
+            prefix = f"Error executing tool {tool}: "
+            if text.startswith(prefix):
+                rest = text[len(prefix):]
+                for marker, exc_type in _INPUT_ERRORS:  # the server's input errors, as the direct API raises them
+                    if rest.startswith(marker):
+                        raise exc_type(rest[len(marker):])
             raise McpOntologyError(text or f"MCP tool {tool} failed")
         data = res.get("structuredContent")
         if data is None:
             data = json.loads(text)
         return data
 
+    def _recover(self, generation: int, exc: Exception) -> bool:
+        """Restart the client after a transport failure seen at ``generation``. True if the caller should
+        retry over MCP; False once the direct fallback is in place."""
+        with self._restart_lock:
+            if self._direct is not None or self._closed:
+                return False
+            if self._generation != generation:  # another thread already restarted it
+                return True
+            log.warning("ontology MCP server connection lost (%s); restarting it", exc)
+            _stop_quietly(self.client)
+            self._generation += 1
+            try:
+                self._start()
+                return True
+            except McpOntologyError as exc2:
+                self._give_up(exc2, locked=True)
+                return False
+
+    def _give_up(self, exc: Exception, locked: bool = False) -> None:
+        """Switch to the direct lookup API for good (``locked``: the caller holds ``_restart_lock``)."""
+        if not locked:
+            with self._restart_lock:
+                self._give_up(exc, locked=True)
+            return
+        if self._direct is not None:
+            return
+        from ezhuthu.ontology import lookup
+
+        log.error("ontology MCP server unusable after a restart (%s); answering from the direct lookup API", exc)
+        self._direct = lookup.load(self._root or os.environ.get("EZHUTHU_ONTOLOGY_ROOT") or None)
+        self.name = FALLBACK_NAME
+        _stop_quietly(self.client)
+
+    def _call_direct(self, tool: str, args: dict[str, Any]) -> dict[str, Any]:
+        """The same JSON objects the server returns (ezhuthu.ontology.mcp_server), computed in-process."""
+        d = self._direct
+        if tool == "find_entities":
+            return {"entities": d.find_entities(args["text"])}
+        if tool == "valid_letters":
+            return {"stage": args["stage"], "letters": d.valid_letters(args["stage"])}
+        if tool == "formulas_for":
+            return {"ruler": args["ruler"], "formulas": d.formulas_for(args["ruler"])}
+        if tool == "entity":
+            return {"entity": d.entity(args["id"])}
+        if tool == "hints_for_gap":
+            return {"hints": d.hints_for_gap(args["left"], args["right"], args.get("gap_chars"),
+                                             args.get("limit", 10))}
+        raise McpOntologyError(f"unknown ontology tool {tool!r}")
+
     def close(self) -> None:
         if self._closed:
             return
         self._closed = True
-        try:
-            self.client.stop(None, None, None)
-        except Exception:
-            log.debug("MCP client stop failed", exc_info=True)
+        _stop_quietly(self.client)
 
     # ---- OntologyPort --------------------------------------------------------------
     def hints_for_gap(self, left: str, right: str, gap_chars: int | None = None) -> list[Hint]:

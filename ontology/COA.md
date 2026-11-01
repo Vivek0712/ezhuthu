@@ -111,6 +111,7 @@ and is byte-identical across seeds.
 | --- | --- | --- |
 | unset / `mcp` (default) | `McpOntology`: Strands `MCPClient` → `stdio_client` → `sys.executable -m ezhuthu.ontology.mcp_server` | `mcp:ezhuthu-ontology (stdio)` |
 | MCP fails to start | direct `ezhuthu.ontology.lookup` (offline fallback, logged as a warning) | `fallback:direct (mcp unavailable)` |
+| MCP server dies after start | the next call restarts the server once and retries; if that fails, direct `ezhuthu.ontology.lookup` (logged as an error) | `mcp:ezhuthu-ontology (stdio)` after a restart, else `fallback:direct (mcp died)` |
 | `direct` | direct `ezhuthu.ontology.lookup` | `direct:ezhuthu.ontology.lookup` |
 | `stub`, or `EZHUTHU_FIXTURES=1` with no mode | fixture stub (synthetic corpus) | `stub` |
 
