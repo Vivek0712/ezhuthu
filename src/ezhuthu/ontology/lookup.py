@@ -20,6 +20,7 @@ import re
 from collections import defaultdict
 from pathlib import Path
 
+from ezhuthu.ontology.letters import letter_count
 from ezhuthu.ontology.matcher import MIN_KEY, KeyedText, VariantIndex
 from ezhuthu.ontology.normalize import key
 
@@ -122,11 +123,16 @@ class Ontology:
           * ``regnal_slot``: the gap sits right before ``-kku yāṇṭu`` (regnal-year formula), so it
             likely holds a royal name or title; the rulers and titles named in the context's
             dynasty are proposed. Without an anchor these carry no ``fill``.
+        ``gap_chars`` is in Tamil letters (uyir/mey/uyirmey, as in the benchmark and DHARMA's
+        ``<gap unit="character">``); a fill more than ~30% (min 1 letter) off is dropped.
         Hints are ranked by anchor length and fit to ``gap_chars`` (when given).
         """
         lk = KeyedText.of(left)
         L, R = lk.joined, key(right)
         regnal = bool(_REGNAL_RIGHT.search(R))
+        context = self.find_entities(left + " " + right)
+        dyns = {self.entities[c["id"]].get("dynasty") or (c["id"] if c["kind"] == "dynasty" else None)
+                for c in context} - {None}
         left_boundary = not left or bool(re.search(r"[\s\-]$", left))
         cands: dict[str, dict] = {}  # best hint per entity
 
@@ -135,14 +141,16 @@ class Ontology:
                 return
             fit = 1.0
             if gap_chars:
-                tol = max(2, round(0.4 * gap_chars))
-                diff = abs(len(fill) - gap_chars)
+                tol = max(1, round(0.3 * gap_chars))
+                diff = abs(letter_count(fill) - gap_chars)
                 if diff > tol:
                     return
                 fit = 1.0 - diff / (tol + 1)
             score = (a_left + a_right) / vlen * 0.6 + fit * 0.4
             if regnal and self.entities[eid]["kind"] in ("ruler", "title"):
                 score += 0.3  # a royal name is expected before "-kku yāṇṭu"
+            if dyns and self.entities[eid].get("dynasty") in dyns:
+                score += 0.15  # same dynasty as an entity named in the context
             score = round(score, 4)
             prev = cands.get(eid)
             if prev is None or prev["score"] < score:
@@ -177,9 +185,6 @@ class Ontology:
         hints = sorted(cands.values(), key=lambda h: (-h["score"], -h["anchor_left"] - h["anchor_right"], h["id"]))
         if regnal:
             have = {h["id"] for h in hints}
-            context = self.find_entities(left + " " + right)
-            dyns = {self.entities[c["id"]].get("dynasty") or (c["id"] if c["kind"] == "dynasty" else None)
-                    for c in context} - {None}
             pool = [r for r in self.entities.values() if r["kind"] in ("ruler", "title") and r.get("dynasty")
                     and (not dyns or r.get("dynasty") in dyns) and r["id"] not in have]
             pool.sort(key=lambda r: (-r.get("inscription_count", 0), r["id"]))

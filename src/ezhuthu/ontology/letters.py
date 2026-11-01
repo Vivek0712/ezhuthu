@@ -279,3 +279,23 @@ def letter_slug(iso: str) -> str:
     for a, b in _LETTER_ASCII:
         s = s.replace(unicodedata.normalize("NFC", a), b)
     return s
+
+
+def letter_count(text: str) -> int:
+    """Number of Tamil letters (uyir, mey, uyirmey) in ISO-15919 ``text``.
+
+    Same unit as the benchmark's ``gap_chars`` and DHARMA's ``<gap unit="character">``: every
+    vowel is one letter, and so is every consonant not followed by a vowel.
+    """
+    import unicodedata
+
+    units = _UNIT.findall(unicodedata.normalize("NFC", re.sub(r"\[\?\d*\]", " ", text)).lower())
+    count = 0
+    for i, u in enumerate(units):
+        if u in _VOW:
+            count += 1
+        elif u in _CONS or u == "ḵ":
+            nxt = units[i + 1] if i + 1 < len(units) else None
+            if nxt is None or nxt not in _VOW:
+                count += 1
+    return count
