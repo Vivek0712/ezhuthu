@@ -1,0 +1,272 @@
+{
+  "seed": 13,
+  "pinned_at": "2026-11-01T19:44:51Z",
+  "repos": [
+    {
+      "repo": "tfa-accalpuram-epigraphy",
+      "commit": "68dd33faf0455032ea81846fb8ed50f32b434d86",
+      "commit_date": "2025-06-17T12:17:33Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 0
+    },
+    {
+      "repo": "tfa-cempiyan-mahadevi-epigraphy",
+      "commit": "8953cda9883492b163f38f1f2aaec1992395de0c",
+      "commit_date": "2026-10-08T10:15:30Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 12
+    },
+    {
+      "repo": "tfa-cirkali-epigraphy",
+      "commit": "9ff78b784d4d5b0c774f72aa78e462349b1c7d48",
+      "commit_date": "2026-10-19T16:41:50Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 55
+    },
+    {
+      "repo": "tfa-kotumpalur-epigraphy",
+      "commit": "783a257761cdbb6138fe4b4955d066aede0e4edb",
+      "commit_date": "2026-09-29T09:09:11Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 41
+    },
+    {
+      "repo": "tfa-melappaluvur-kilappaluvur-epigraphy",
+      "commit": "3c1804e3e7d4e28f84a783de018f728c64d5505f",
+      "commit_date": "2026-09-29T09:09:20Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 20
+    },
+    {
+      "repo": "tfa-pallava-epigraphy",
+      "commit": "1b1b17c4df4990aba2c28101372e669fc9182d10",
+      "commit_date": "2026-10-08T10:16:09Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 481
+    },
+    {
+      "repo": "tfa-pandya-epigraphy",
+      "commit": "562e33f4e7ae082013e3ff268bd59d6c450944bc",
+      "commit_date": "2026-10-01T11:11:46Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 54
+    },
+    {
+      "repo": "tfa-pondicherry-epigraphy",
+      "commit": "06405f5f06d63546652f35cf5c9e9addbda4e5e7",
+      "commit_date": "2026-10-27T20:29:50Z",
+      "license": null,
+      "tei_files": 14
+    },
+    {
+      "repo": "tfa-sii-epigraphy",
+      "commit": "65fc39d14a35f88771d4dd8d3dbb10269d0a0000",
+      "commit_date": "2026-10-19T16:42:27Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 176
+    },
+    {
+      "repo": "tfa-tamil-outside-TN-epigraphy",
+      "commit": "25117cef8368fca9b46580a2610bbd5da84c00bb",
+      "commit_date": "2026-10-20T13:40:29Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 21
+    },
+    {
+      "repo": "tfa-tamilnadu-epigraphy",
+      "commit": "3c3ee14436bb70b2465ab99df7276bea7ebbd8f5",
+      "commit_date": "2026-10-26T11:34:41Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 343
+    },
+    {
+      "repo": "tfa-tiruvannamalai-epigraphy",
+      "commit": "3cc05049da0e5ad0b0f278d370a427ecadd0bdd8",
+      "commit_date": "2026-09-18T08:08:46Z",
+      "license": null,
+      "tei_files": 0
+    },
+    {
+      "repo": "tfa-tiruvavatuturai-epigraphy",
+      "commit": "53e5dee31e1804ea7a2c0ffdcfe4344b40507f98",
+      "commit_date": "2026-10-18T12:25:10Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 79
+    },
+    {
+      "repo": "tfa-uttiramerur-epigraphy",
+      "commit": "4b97baaffa2607003d7cf4dd02fd3cf861322ae3",
+      "commit_date": "2026-09-29T09:10:49Z",
+      "license": "CC-BY-4.0",
+      "tei_files": 26
+    }
+  ],
+  "inscriptions": 1320,
+  "inscriptions_tamil": 1192,
+  "inscriptions_with_items": 449,
+  "inscriptions_damaged": 858,
+  "supplied_spans_all": {
+    "omitted": 2227,
+    "lost": 2719,
+    "undefined": 806
+  },
+  "lines": 18066,
+  "items": 3289,
+  "items_by_reason": {
+    "lost": 2525,
+    "undefined": 764
+  },
+  "per_split": {
+    "train": {
+      "inscriptions": 1056,
+      "items": 2462,
+      "hard": 2161,
+      "hard_share": 0.8777,
+      "age_set": 330,
+      "blank": 2731
+    },
+    "val": {
+      "inscriptions": 132,
+      "items": 444,
+      "hard": 396,
+      "hard_share": 0.8919,
+      "age_set": 47,
+      "blank": 465
+    },
+    "test": {
+      "inscriptions": 132,
+      "items": 383,
+      "hard": 301,
+      "hard_share": 0.7859,
+      "age_set": 42,
+      "blank": 361
+    }
+  },
+  "age_set_items": 419,
+  "age_set_inscriptions": 506,
+  "blank_items": 3557,
+  "corpus_lines": 14324,
+  "gap_chars_hist": {
+    "1": 1833,
+    "2": 584,
+    "3": 297,
+    "4": 179,
+    "5": 108,
+    "6-10": 210,
+    "11-20": 55,
+    "21+": 23
+  },
+  "gap_chars_hist_blank": {
+    "1": 408,
+    "2": 473,
+    "3": 690,
+    "4": 645,
+    "5": 385,
+    "6-10": 811,
+    "11-20": 115,
+    "21+": 30
+  },
+  "per_collection": {
+    "tfa-cempiyan-mahadevi-epigraphy": {
+      "inscriptions": 12,
+      "lines": 206,
+      "items": 1
+    },
+    "tfa-cirkali-epigraphy": {
+      "inscriptions": 55,
+      "lines": 676,
+      "items": 456,
+      "blank": 187
+    },
+    "tfa-kotumpalur-epigraphy": {
+      "inscriptions": 41,
+      "lines": 282,
+      "items": 158,
+      "blank": 84
+    },
+    "tfa-melappaluvur-kilappaluvur-epigraphy": {
+      "inscriptions": 20,
+      "lines": 269,
+      "items": 58,
+      "blank": 53
+    },
+    "tfa-pallava-epigraphy": {
+      "inscriptions": 480,
+      "lines": 5398,
+      "items": 410,
+      "blank": 564
+    },
+    "tfa-pandya-epigraphy": {
+      "inscriptions": 54,
+      "lines": 928,
+      "items": 63,
+      "blank": 92
+    },
+    "tfa-pondicherry-epigraphy": {
+      "inscriptions": 14,
+      "lines": 109,
+      "items": 16,
+      "blank": 8
+    },
+    "tfa-sii-epigraphy": {
+      "inscriptions": 176,
+      "lines": 2898,
+      "items": 965,
+      "blank": 681
+    },
+    "tfa-tamil-outside-TN-epigraphy": {
+      "inscriptions": 20,
+      "lines": 87,
+      "items": 47,
+      "blank": 5
+    },
+    "tfa-tamilnadu-epigraphy": {
+      "inscriptions": 343,
+      "lines": 4170,
+      "items": 970,
+      "blank": 1805
+    },
+    "tfa-tiruvavatuturai-epigraphy": {
+      "inscriptions": 79,
+      "lines": 2934,
+      "items": 136,
+      "blank": 60
+    },
+    "tfa-uttiramerur-epigraphy": {
+      "inscriptions": 26,
+      "lines": 109,
+      "items": 9,
+      "blank": 18
+    }
+  },
+  "licences": {
+    "CC BY-SA 4.0": 1249,
+    "(none in header)": 71
+  },
+  "langs": {
+    "tam-Latn": 1187,
+    "san-Latn": 117,
+    "pra-Latn": 4,
+    "tel-Latn": 1,
+    "(none)": 4,
+    "tam": 5,
+    "pli-Latn": 1,
+    "fra-Latn": 1
+  },
+  "dynasty_sources": {
+    "title": 415,
+    "(unknown)": 371,
+    "collection": 534
+  },
+  "skipped": {
+    "supplied_no_letters": 45
+  },
+  "hard_rule": {
+    "window_chars": 15,
+    "partial_ratio_min": 90,
+    "slack_chars": 3
+  },
+  "duplicate_files_skipped": [
+    "tfa-tamil-outside-TN-epigraphy/DHARMA_INSPondicherry00102.xml"
+  ]
+}
