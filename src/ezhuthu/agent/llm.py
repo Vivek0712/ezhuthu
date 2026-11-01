@@ -68,7 +68,10 @@ class UsageLedger:
         return round(total, 4)
 
     def to_dict(self) -> dict:
-        d = {k: v for k, v in asdict(self).items() if not k.startswith("_")}
+        # Not dataclasses.asdict: it deep-copies the lock and raises "cannot pickle '_thread.lock'".
+        with self._lock:
+            d = {"calls": self.calls, "cached_calls": self.cached_calls,
+                 "input_tokens": dict(self.input_tokens), "output_tokens": dict(self.output_tokens)}
         d["estimated_cost_usd"] = self.estimated_cost_usd()
         d["price_basis"] = "USD/MTok list prices in ezhuthu.agent.llm.PRICE_PER_MTOK"
         return d

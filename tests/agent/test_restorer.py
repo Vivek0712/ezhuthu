@@ -121,6 +121,17 @@ def test_bedrock_cache_hit_needs_no_network(monkeypatch, tmp_path):
     llm.cache.put(key, LLMResponse("cached text", CFG.model_id("default"), 3, 4))
     r = llm.complete("default", "s", "p")
     assert r.cached and r.text == "cached text" and llm.ledger.cached_calls == 1 and llm.ledger.calls == 0
+    d = llm.ledger.to_dict()  # regression: asdict() deep-copied the lock and crashed
+    assert d["cached_calls"] == 1 and d["estimated_cost_usd"] == 0.0 and json.dumps(d)
+
+
+def test_ledger_estimates_cost_from_tokens():
+    from ezhuthu.agent.llm import LLMResponse, UsageLedger
+
+    led = UsageLedger()
+    led.add("sonnet", LLMResponse("x", "m", input_tokens=1_000_000, output_tokens=0))
+    led.add("opus", LLMResponse("x", "m", input_tokens=0, output_tokens=1_000_000))
+    assert led.to_dict()["estimated_cost_usd"] == 3.0 + 25.0
 
 
 def test_parse_candidates_tolerates_prose():

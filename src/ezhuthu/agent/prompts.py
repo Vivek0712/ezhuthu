@@ -84,7 +84,7 @@ def explain_prompt(facts: dict[str, Any]) -> str:
         + json.dumps(facts, ensure_ascii=False, indent=1)
         + "\n\nWrite a short explanation for the learner (2-3 sentences each language) of who made this "
         "inscription, what it records and why it matters, using only these facts. Then hand off to the "
-        "assessor to check it. Final answer as JSON: "
+        "assessor with your draft JSON as the message (no other text). The assessor replies with the final JSON: "
         '{"explain_ta": "...", "explain_en": "..."}'
     )
 

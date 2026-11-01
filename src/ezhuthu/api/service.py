@@ -36,7 +36,7 @@ def default_model_factory():
         session = boto3.Session(profile_name=cfg.aws_profile, region_name=cfg.region)
     except ProfileNotFound:
         session = boto3.Session(region_name=cfg.region)
-    return BedrockModel(model_id=cfg.model_id("default"), boto_session=session, temperature=0.3, max_tokens=800)
+    return BedrockModel(model_id=cfg.model_id("default"), boto_session=session, temperature=0.3, max_tokens=2000)
 
 
 class EzhuthuService:
