@@ -275,7 +275,7 @@ def video_card(theme: str, kicker_ta: str, kicker_en: str, title_ta: str, title_
             out.append(p(text(line, TA_SERIF, fs, x, 615 + i * fs * 1.3, ta_ax), t["ink"]))
         en_y = 832
     out.append(p(text(title_en, FRAUNCES, 58, x, en_y, LAT), t["muted"]))
-    out.append(f'<path d="M{x} 880h120" stroke="{t["lamp"]}" stroke-width="4" stroke-linecap="round"/>')
+    out.append(f'<path d="M{x + 2} 880h116" stroke="{t["lamp"]}" stroke-width="4" stroke-linecap="round"/>')
     out.append(p(text(foot, SANS, 24, x, 940, {"wght": 500}), t["faint"]))
     return svg(W, H, "".join(out), title_en, f"{kicker_en}: {title_en}")
 
