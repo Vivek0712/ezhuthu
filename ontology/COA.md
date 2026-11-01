@@ -1,18 +1,76 @@
 # Context Ontology Accelerator (COA) and the ontology MCP server
 
-**Result, 2026-11-02 (issue #12): COA was not run.** The toolchain COA asks for was installed in a scratch
-directory outside the repo, but every attempt to execute COA's own code (its `make generate` build, and then its
-ontology-engine validators inside a throwaway Docker container) was denied by this session's permission policy
-for code fetched from outside the project ("Code from External"). Per the denial's instructions that was not
-worked around. So COA's Scan and Model steps produced **no** ontology draft, there was nothing to reconcile with
-`ezhuthu.ttl`, and no part of the Ezhuthu ontology was built, induced, validated or served by COA.
-Do not use "built with AWS Context Ontology Accelerator" (charter branding rule) until a run is recorded here.
+**Result, 2026-11-02 (issue #12, attempts 2 and 3): COA was not run.** The user asked to "use S3 Vectors instead of
+Neptune", and the workflow brief for this attempt relayed approval to run COA's own code locally, with Amazon S3
+Vectors as the vector store and FalkorDB (Docker) as the graph store instead of OpenSearch Serverless and Neptune. The storage side is done: a COA v0.3.8 patch for S3 Vectors + FalkorDB
+([`coa/patches/`](coa/patches/README.md)), a tagged S3 vector bucket with the two indexes COA writes by default
+(chunk, topic) sized for COA's embedding model, a check that the embedding model answers on this account, and an
+asserting check of the patch's FalkorDB queries on a real FalkorDB. But COA's `make setup` was **denied again** by
+this session's permission classifier ("Code from External"). That denial is not overridden by approvals relayed
+through the workflow, and it was not worked around. Without `make setup` there is no COA environment, so Scan, Model,
+the export, the reconciliation with `ezhuthu.ttl` and a COA Serve query were **not** run. No ontology was induced,
+nothing was imported into `ezhuthu.ttl`, and there is no `coa/RECONCILE.md` (no counts to report).
+Do not use "built with AWS Context Ontology Accelerator" (charter branding rule) until a run is recorded here;
+`tests/ontology/test_coa_store.py` fails if the READMEs or this file make that claim while `coa/RECONCILE.md`
+(the record of a real run) does not exist.
 
 The rdflib build (`python -m ezhuthu.ontology.build --splits train`, `ontology/ezhuthu.ttl` + `lookups/`) stays the
-source of truth. Serving over MCP is done by our own server, `ezhuthu.ontology.mcp_server` (below), which **did**
+source of truth. Serving over MCP is done by our own server, `ezhuthu.ontology.mcp_server` (section 3), which **did**
 run and is tested.
 
-## 1. COA attempt: every command, outcome and evidence
+## 0. Attempt 3 (2026-11-02, QA follow-up on PR #21)
+
+| # | Command | Outcome |
+| --- | --- | --- |
+| 1 | `uv sync --all-packages` in `~/tamil-script/.coa-scratch/coa` (scratch uv 0.13.6) | **Denied** by the permission classifier ("Code from External"), as in attempts 1 and 2. Not retried, not worked around. Scan, Model and Serve therefore still have not run; issue #12 stays open. |
+| 2 | `aws bedrock-runtime invoke-model --model-id us.cohere.embed-v4:0` (one sentence, `output_dimension` 1024), profile heisenberg, us-east-1 | **Worked**: one 1024-d float embedding returned. `GetFoundationModelAvailability(cohere.embed-v4:0)` reports `agreementAvailability: NOT_AVAILABLE`, `authorizationStatus: AUTHORIZED`, `entitlementAvailability: AVAILABLE`, `regionAvailability: AVAILABLE`; the invoke succeeds regardless, so no Marketplace agreement step is needed today. Cost: one embedding call (well under $0.001). |
+| 3 | `EMBEDDING_INDEXES`: back to COA's default `chunk,topic` | Nothing in COA v0.3.8 or the patch reads a statement index (no semantic-guided Serve strategy), so embedding statements would only add Bedrock cost. The empty `ezhuthu.statement-b0310331b8d553b7b3ebfbf51` index was checked empty (`ListVectors` → 0) and deleted. |
+| 4 | `python -m ezhuthu.ontology.coa_store --create` (now verifies) | Bucket and `ezhuthu.chunk-`/`ezhuthu.topic-b0310331b8d553b7b3ebfbf51` verified: 1024, cosine, float32, all four cost tags on bucket and indexes. Existing resources are now checked: a dimension/metric/data-type mismatch raises `PlanMismatch`, missing tags are re-applied (unit-tested with a fake client). |
+| 5 | Patch: `falkordb://` without `host:port` | Now rejected in Scan, Model and Serve with a clear error (graphrag's `FalkorDBGraphStoreFactory.try_create` returns `None` for an empty endpoint). Patch regenerated from scratch commit `0ebd178`; `git apply --check` on pristine v0.3.8 is clean; patched files parse. |
+| 6 | `bash ontology/coa/falkordb_query_check.sh` (image pinned to `falkordb/falkordb@sha256:725b74d400124862c9e0f318c56bfb3c55b97cd7f301d9dfe8685980fb3c8195`) | Prints `OK` and exits 0; every expected value is now asserted (plus `id(e) <> entityId`). With one expected value altered it exits 1 (`FAIL get_class_nodes: missing '3'`). |
+
+## 1. Attempt 2 (2026-11-02): S3 Vectors + FalkorDB. Every command, outcome and evidence
+
+Scratch: `~/tamil-script/.coa-scratch/` (outside the repo). COA clone at v0.3.8 (`bacd1aa393e31cf2bdbff1bb12186df99479cf71`),
+local branch `ezhuthu-s3v-falkor` (commit `5d2aa16`, exported as the patch).
+
+| # | Command | Outcome |
+| --- | --- | --- |
+| 1 | Read COA's storage seams: `packages/sources/.../kg_build/graph_build.py` (Scan writes `neptune-db://` + `aoss://`), `packages/ontology-engine/.../stores/{protocol,ndb_lexical,na_lexical}.py` + `routers/induce_unstructured.py` (Model reads through `LexicalGraphStore`), `packages/context-manager/.../clients/factory.py` + `lexical/{store_factory,strategies}.py` (Serve), `uv.lock` | graphrag-lexical-graph **3.18.7**. Embedding model `us.cohere.embed-v4:0` at **1024** dims (`coa_common.constants`). Tenant = `to_graphrag_tenant_id(namespace)` (UUID, hyphens stripped, 25 hex chars). |
+| 2 | Read graphrag-toolkit docs and source (`awslabs/graphrag-toolkit` @ `3dd40de`, cloned to read only) | S3 Vectors is built in (`s3vectors://<bucket>[/<prefix>]`, present since at least 3.17.1). Index name `<prefix>.<index>-<tenant>`, `float32`, cosine, `nonFilterableMetadataKeys=[value, metadata]`. FalkorDB is the contrib package `graphrag-toolkit-lexical-graph-falkordb` 1.0.1 (`falkordb://host:port`, must be registered with `GraphStoreFactory`). Per its docs it supports **semantic-guided search only, not traversal-based search**. |
+| 3 | `source env.sh && make setup` in the COA clone | **Denied** by the permission classifier ("Code from External"), as in attempt 1. Not retried, not worked around. Blocks `uv sync`, COA's tests, Scan, Model and Serve. |
+| 4 | Wrote the patch on branch `ezhuthu-s3v-falkor` (Scan/Model/Serve URIs from env, `FalkorDBLexicalStore`, local Scan/Model drivers); details in [`coa/patches/README.md`](coa/patches/README.md) | Every patched file parses (`ast.parse`). `git apply --check` of the exported patch on a pristine v0.3.8 worktree is clean. **Not executed** (step 3). |
+| 5 | `python -m ezhuthu.ontology.coa_store --create` (first done with an equivalent one-off script that also smoke-tested put/query/delete) | Created vector bucket **`ezhuthu-coa-vectors`** (SSE-S3) and indexes **`ezhuthu.chunk-`/`ezhuthu.statement-`/`ezhuthu.topic-b0310331b8d553b7b3ebfbf51`** (1024, cosine, float32), account 643603452951, us-east-1. Bucket and all three indexes tagged `Project=ezhuthu, Owner=vivekraja, Env=hackathon, CostCenter=hero-credits` (read back with `ListTagsForResource`). Smoke test: 2 synthetic 1024-d vectors put into the chunk index, `QueryVectors` top-2 returned `smoke-1` (distance 0.0) then `smoke-0` (0.9957), then both deleted. The indexes are now empty. Re-running is idempotent. No Bedrock call. |
+| 6 | `docker run falkordb/falkordb:latest` (digest `sha256:725b74d4…c8195`, graph module 4.22.3), then the 5 queries `FalkorDBLexicalStore` sends, on a hand-built 2-entity graph with graphrag's tenant-scoped labels; script: [`coa/falkordb_query_check.sh`](coa/falkordb_query_check.sh) | All five returned the expected rows: classes `Ruler 2, Temple 1`; relation `Ruler built Temple 1`; entity `e1 Rajaraja I Ruler`; fact `Rajaraja I built Brihadisvara` with object `Brihadisvara Temple`; topic `t1 Chola temples 1`. Unrewritten `id(e)` returned internal integers (`2`, `3`), which confirms that the `entityId`/`topicId` rewrite is needed. This checks the openCypher dialect only, not graphrag's write path into FalkorDB. Container removed. |
+| 7 | Neptune / OpenSearch | Nothing created. |
+
+(Attempt 3 deleted the statement index created in step 5; see section 0.)
+
+**Not run** (all blocked by step 3): `uv sync`, COA unit tests, Scan of the train-split DHARMA text +
+`ezhuthu.ttl` seed, Model (induction), export, reconciliation (`coa/RECONCILE.md`), COA Serve/MCP query.
+
+**AWS cost of this attempt: about $0.00.** S3 Vectors bills storage ($0.06/GB-month), PUT ($0.20/GB logical)
+and queries ($2.50 per million requests plus data processed). This attempt wrote 2 vectors (~8 KB), ran 1 query
+and deleted both, so the cost is under $0.0001. Empty indexes cost nothing. No Bedrock calls were made in attempt 2
+(attempt 3 made one embedding call), and FalkorDB ran locally. To remove the resources, delete the two indexes and
+then the bucket (`s3vectors
+delete-index` / `delete-vector-bucket`, boto3 or AWS CLI ≥ 2.27).
+
+### What finishing needs
+
+1. A permission rule that lets this session run COA's code in `~/tamil-script/.coa-scratch/coa` (`make setup`,
+   `uv run …`). It has to be in the user's Claude Code settings: approval text relayed by a workflow does not
+   change the classifier's decision.
+2. Then follow [`coa/patches/README.md`](coa/patches/README.md) → *Run*. Export the 862 train-split editions to
+   `.txt` with `ezhuthu.ontology.tei` (`coverage.json` → `splits`), add `ezhuthu.ttl` as a seed (Scan accepts
+   text, so it would go in as a document; COA's Turtle upload targets the deployed engine), and run `scan_local.py`
+   with a small `--limit` first to size Bedrock spend. Then run `model_local.py`, reconcile into
+   `coa/RECONCILE.md`, and only then add the "built with" line.
+3. Serve: COA's retriever strategies are all traversal-based, which the FalkorDB store does not support (see the
+   patch README, *Known gaps*), and COA's MCP server needs deployed Lambdas. Our own MCP server stays the
+   serving path.
+
+## 1b. Attempt 1 (2026-11-02, PR #17): toolchain only
 
 Scratch directory: `~/tamil-script/.coa-scratch/` (outside the repo, not committed). Nothing was deployed and no
 AWS API was called.
@@ -25,7 +83,7 @@ AWS API was called.
 | 4 | `export JAVA_HOME=$(brew --prefix openjdk@21)` | Java `openjdk 21.0.13` (COA: 17–24, 21 recommended). Docker server 28.3.2 was already running. COA's `models/gradlew` wrapper replaces a global Gradle; Maven is only for the Databricks connector (not needed). |
 | 5 | `python3.12 -m venv uvenv && uvenv/bin/pip install "uv>=0.13.4"` | Worked: uv 0.13.6 in the scratch dir. COA's `pyproject.toml` sets `[tool.uv] required-version = ">=0.13.4"`; the global uv is 0.7.19 and was left alone. |
 | 6 | `make generate` (COA `Makefile` → `scripts/smithy-generate.sh`: `models/gradlew clean build`, openapi-generator, `npm install` of the generated TS clients) | **Denied** by the session permission policy before it ran: "Code from External". This is the first step of COA's `make setup`; `uv sync --all-packages` cannot run without it, because `smithy-generated/control-plane-python-server` is a uv workspace member that the ontology engine depends on. |
-| 7 | `docker run --rm python:3.12-slim …` with the COA source mounted read-only, installing `rdflib owlready2 pyshacl httpx defusedxml pydantic` + a JRE in the container and running a driver over COA's tier-1/2/3 validators (`ConsistencyValidator` (HermiT), `TaxonomyCycleValidator`, `ConnectivityValidator`, `SHACLValidator`, `DatatypeTokenValidator`, `StructuralMetricsValidator`, `LabelCompletenessValidator`, `CompetencyQuestionValidator`, `AmbiguousMatchValidator`) on a copy of `ezhuthu.ttl` | **Denied** by the same policy ("Code from External"), although sandboxed. Not retried. The driver script is kept at `~/tamil-script/.coa-scratch/drivers/validate.py` for whoever gets approval. |
+| 7 | `docker run --rm python:3.12-slim …` with the COA source mounted read-only, installing `rdflib owlready2 pyshacl httpx defusedxml pydantic` + a JRE in the container and running a driver over COA's tier-1/2/3 validators (`ConsistencyValidator` (HermiT), `TaxonomyCycleValidator`, `ConnectivityValidator`, `SHACLValidator`, `DatatypeTokenValidator`, `StructuralMetricsValidator`, `LabelCompletenessValidator`, `CompetencyQuestionValidator`, `AmbiguousMatchValidator`) on a copy of `ezhuthu.ttl` | **Denied** by the same policy ("Code from External"), although sandboxed. Not retried. (Correction, 2026-11-02: the driver script this row said was kept at `~/tamil-script/.coa-scratch/drivers/validate.py` is not there.) |
 
 Not attempted, because they depend on step 6 or on a deployment: `uv sync --all-packages`, `pnpm install
 --frozen-lockfile`, `make test`, COA's ontology-engine service (`uvicorn coa_ontology.main:app`), Scan, Model,
@@ -48,19 +106,9 @@ and COA's MCP server.
   `ezhuthu.ontology.tei` (train split only, `coverage.json` → `splits`, so no val/test text reaches an artefact used
   in evaluation).
 
-So even with execution approved, a COA "Scan → Model" without the 17-stack deployment means writing an in-memory
-lexical store and calling Bedrock from a local process; that is a design decision for the lead, not a docs-only
-local workflow.
-
-### What to approve to finish this (smallest honest steps)
-
-1. Allow running COA's code locally (permission rule for `make generate` / `uv sync` in `~/tamil-script/.coa-scratch/coa`,
-   or for the Docker run in step 7). Then run step 7 and record HermiT consistency, structural metrics and label
-   completeness for `ezhuthu.ttl` here. That would justify "validated with COA's ontology-engine validators", still
-   not "built with COA".
-2. For Scan → Model: either the COA dev deploy (about $930/month idle per COA's docs; lead's spend decision) or an
-   approved local in-memory `LexicalGraphStore` with Bedrock extraction. Import only additions that survive review
-   into our seeds; `ezhuthu.ttl` stays the source of truth, and the diff goes in this file.
+Superseded by attempt 2 (section 1): S3 Vectors + FalkorDB replace a deployment, and the
+in-memory store idea became `FalkorDBLexicalStore` in the patch. Note that Model also calls Bedrock for class
+descriptions and embeddings (Cohere Embed v4), and Scan calls it for extraction.
 
 ## 2. COA's MCP server: can it serve our ontology locally? No.
 

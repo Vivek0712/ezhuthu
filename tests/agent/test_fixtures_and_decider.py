@@ -27,11 +27,15 @@ def test_fixture_ontology_validates_against_lookup_schema():
         jsonschema.validate(rec, schema)
 
 
-# Opt-in only: a strands-decider left running on the default port by another session must not turn
-# `make check` red (QA on #20). Set EZHUTHU_DECIDER_URL to a running `strands-decider serve` to run these.
+# Opt-in only, and marked ``network`` (deselected in ``make check``): a strands-decider left running
+# by another session must not turn the suite red. Set EZHUTHU_DECIDER_URL and run ``pytest -m network``.
 DECIDER_URL = os.environ.get("EZHUTHU_DECIDER_URL", "")
-needs_decider = pytest.mark.skipif(not DECIDER_URL or not HttpDecider(DECIDER_URL).available(),
-                                   reason="set EZHUTHU_DECIDER_URL to a running strands-decider serve")
+_decider_up = pytest.mark.skipif(not DECIDER_URL or not HttpDecider(DECIDER_URL).available(),
+                                 reason="set EZHUTHU_DECIDER_URL to a running strands-decider serve")
+
+
+def needs_decider(fn):
+    return pytest.mark.network(_decider_up(fn))
 
 
 @needs_decider

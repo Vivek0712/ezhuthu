@@ -7,7 +7,7 @@ data:
 lint:
 	.venv/bin/ruff check src tests
 test:
-	.venv/bin/pytest -q -m "not live"
+	.venv/bin/pytest -q -m "not live and not network"
 design-check:
 	$(PY) design/tools/check_design.py
 check: lint test design-check

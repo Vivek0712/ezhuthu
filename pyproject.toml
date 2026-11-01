@@ -42,4 +42,7 @@ target-version = "py312"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-markers = ["live: calls AWS Bedrock (needs EZHUTHU_LIVE=1)"]
+markers = [
+  "live: calls AWS Bedrock (needs EZHUTHU_LIVE=1)",
+  "network: calls a live local service (e.g. strands-decider serve); deselected in make check",
+]

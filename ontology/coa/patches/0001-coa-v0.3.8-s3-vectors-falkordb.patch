@@ -1,0 +1,461 @@
+From 0ebd178bd20642720c84d8676db2911d9cd73b17 Mon Sep 17 00:00:00 2001
+From: Vivek Raja <vivekraja98@gmail.com>
+Date: Mon, 2 Nov 2026 03:12:04 +0530
+Subject: [PATCH] ezhuthu: S3 Vectors + FalkorDB storage seams and local
+ Scan/Model drivers
+
+---
+ .../src/coa_serve/clients/factory.py          | 24 ++++-
+ .../inducer/routers/induce_unstructured.py    | 14 +++
+ .../unstructured/stores/falkordb_lexical.py   | 91 +++++++++++++++++++
+ .../documents/kg_build/graph_build.py         | 78 ++++++++++++----
+ scripts/ezhuthu_local/model_local.py          | 66 ++++++++++++++
+ scripts/ezhuthu_local/scan_local.py           | 86 ++++++++++++++++++
+ 6 files changed, 339 insertions(+), 20 deletions(-)
+ create mode 100644 packages/ontology-engine/src/coa_ontology/inducer/unstructured/stores/falkordb_lexical.py
+ create mode 100644 scripts/ezhuthu_local/model_local.py
+ create mode 100644 scripts/ezhuthu_local/scan_local.py
+
+diff --git a/packages/context-manager/src/coa_serve/clients/factory.py b/packages/context-manager/src/coa_serve/clients/factory.py
+index 1caed35..bc28f20 100644
+--- a/packages/context-manager/src/coa_serve/clients/factory.py
++++ b/packages/context-manager/src/coa_serve/clients/factory.py
+@@ -157,7 +157,14 @@ def build_lexical_retriever(
+     Returns None only when the required store endpoints are unset (nothing for
+     graphrag to address).
+     """
+-    if not config.neptune_endpoint or not config.opensearch_endpoint:
++    # GRAPH_STORE_URI / VECTOR_STORE_URI (any graphrag-toolkit connection string,
++    # e.g. falkordb://host:6379 and s3vectors://<bucket>/<prefix>) override the
++    # Neptune / OpenSearch Serverless endpoints. Must match what kg-build wrote to.
++    graph_uri_override = os.environ.get("GRAPH_STORE_URI", "").strip()
++    vector_uri_override = os.environ.get("VECTOR_STORE_URI", "").strip()
++    if not (graph_uri_override or config.neptune_endpoint) or not (
++        vector_uri_override or config.opensearch_endpoint
++    ):
+         return None
+ 
+     # Standard-mode path (timeout_s is None): honor LEXICAL_RETRIEVER_TIMEOUT_S so
+@@ -181,8 +188,19 @@ def build_lexical_retriever(
+     from ..lexical import BaselineLexicalRetriever
+     from ..lexical.strategies import DEFAULT_SPEC
+ 
+-    graph_uri = _graph_store_uri(config.neptune_endpoint)
+-    vector_store_uri = f"aoss://{config.opensearch_endpoint}"
++    graph_uri = graph_uri_override or _graph_store_uri(config.neptune_endpoint)
++    vector_store_uri = vector_uri_override or f"aoss://{config.opensearch_endpoint}"
++    if graph_uri.startswith("falkordb://"):
++        host, _, port = graph_uri[len("falkordb://") :].strip("/").rpartition(":")
++        if not host or not port.isdigit():
++            raise ValueError(f"GRAPH_STORE_URI needs host:port, e.g. falkordb://localhost:6379; got {graph_uri!r}")
++        # FalkorDB is a graphrag-toolkit contrib store; register it before use.
++        # Note: the contrib store supports semantic-guided search only, while every
++        # COA retriever strategy (lexical/strategies.py) is traversal-based.
++        from graphrag_toolkit.lexical_graph.storage import GraphStoreFactory
++        from graphrag_toolkit_contrib.lexical_graph.storage.graph.falkordb import FalkorDBGraphStoreFactory
++
++        GraphStoreFactory.register(FalkorDBGraphStoreFactory)
+ 
+     logger.info(
+         "building_lexical_retriever",
+diff --git a/packages/ontology-engine/src/coa_ontology/inducer/routers/induce_unstructured.py b/packages/ontology-engine/src/coa_ontology/inducer/routers/induce_unstructured.py
+index 8c6e89f..21c18e8 100644
+--- a/packages/ontology-engine/src/coa_ontology/inducer/routers/induce_unstructured.py
++++ b/packages/ontology-engine/src/coa_ontology/inducer/routers/induce_unstructured.py
+@@ -35,6 +35,7 @@ from __future__ import annotations
+ 
+ import contextlib
+ import logging
++import os
+ import uuid
+ from datetime import UTC, datetime
+ from threading import Event, Thread
+@@ -278,6 +279,19 @@ def _build_lexical_store(graph_arn: str, region: str, app_config: dict, namespac
+ 
+     tenant_id = to_graphrag_tenant_id(namespace) if namespace else ""
+ 
++    # Local/self-hosted lexical graph (FalkorDB). Like the Neptune DB endpoint,
++    # the URI comes from server-side config only (LEXICAL_GRAPH_STORE_URI), never
++    # from the caller's graph_arn.
++    lexical_uri = (app_config.get("lexical_graph_store_uri") or os.environ.get("LEXICAL_GRAPH_STORE_URI", "")).strip()
++    if lexical_uri.startswith("falkordb://"):
++        from coa_ontology.inducer.unstructured.stores.falkordb_lexical import FalkorDBLexicalStore
++
++        return FalkorDBLexicalStore(
++            lexical_uri,
++            tenant_id=tenant_id,
++            graph_name=os.environ.get("FALKORDB_GRAPH_NAME", "graphrag"),
++        )
++
+     # Strict ARN validation — only accept canonical Neptune Analytics ARN format
+     _VALID_ARN_PREFIX = "arn:aws:neptune-graph:"
+     if graph_arn.startswith(_VALID_ARN_PREFIX):
+diff --git a/packages/ontology-engine/src/coa_ontology/inducer/unstructured/stores/falkordb_lexical.py b/packages/ontology-engine/src/coa_ontology/inducer/unstructured/stores/falkordb_lexical.py
+new file mode 100644
+index 0000000..2b70c60
+--- /dev/null
++++ b/packages/ontology-engine/src/coa_ontology/inducer/unstructured/stores/falkordb_lexical.py
+@@ -0,0 +1,91 @@
++# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
++# SPDX-License-Identifier: Apache-2.0
++
++"""FalkorDB implementation of the LexicalGraphStore protocol.
++
++Reads a graphrag-toolkit lexical graph written through the
++``graphrag-toolkit-lexical-graph-falkordb`` contrib graph store. The queries are
++the Neptune DB ones (``ndb_lexical``) with one difference: graphrag-toolkit maps
++node ids to Neptune's ``~id`` on Neptune, but to plain node properties
++(``entityId``, ``topicId``) on every other graph store, so ``id(n)`` (FalkorDB's
++internal integer id) is replaced by those properties.
++
++Connection string: ``falkordb://host:port``; both parts are required (the
++graphrag-toolkit FalkorDB factory returns no store for a bare ``falkordb://``, so
++Scan would fail on it). Graph name defaults to ``graphrag``, the contrib store's
++default database.
++"""
++
++from __future__ import annotations
++
++import logging
++
++from coa_ontology.inducer.unstructured.stores.ndb_lexical import (
++    _TENANT_ID_HEX_RE,
++    NeptuneDatabaseLexicalStore,
++)
++
++log = logging.getLogger(__name__)
++
++FALKORDB_PREFIX = "falkordb://"
++DEFAULT_GRAPH_NAME = "graphrag"
++
++
++def parse_falkordb_uri(uri: str) -> tuple[str, int]:
++    """Return (host, port) for ``falkordb://host:port`` (both required)."""
++    if not uri.startswith(FALKORDB_PREFIX):
++        raise ValueError(f"not a falkordb:// URI: {uri!r}")
++    host, _, port = uri[len(FALKORDB_PREFIX) :].strip("/").rpartition(":")
++    if not host or not port.isdigit():
++        raise ValueError(f"FalkorDB URI needs host:port, e.g. falkordb://localhost:6379; got {uri!r}")
++    return host, int(port)
++
++
++class FalkorDBLexicalStore(NeptuneDatabaseLexicalStore):
++    """LexicalGraphStore backed by FalkorDB (openCypher over the Redis protocol).
++
++    Args:
++        uri: ``falkordb://host:port``.
++        tenant_id: graphrag tenant suffix (hex-only or empty), as for Neptune DB.
++        graph_name: FalkorDB graph (database) name the lexical graph was written to.
++    """
++
++    def __init__(self, uri: str, tenant_id: str = "", graph_name: str = DEFAULT_GRAPH_NAME) -> None:
++        if tenant_id and not _TENANT_ID_HEX_RE.match(tenant_id):
++            raise ValueError(f"tenant_id must be hex-only or empty; got {tenant_id!r}")
++        import falkordb
++
++        host, port = parse_falkordb_uri(uri)
++        self._endpoint = f"{host}:{port}"
++        self._port = port
++        self._region = ""
++        self._tenant_id = tenant_id
++        self._graph = falkordb.FalkorDB(host=host, port=port).select_graph(graph_name)
++
++    # graphrag-toolkit stores node ids as Neptune ``~id`` (read with ``id(n)``) on
++    # Neptune, but as plain properties on other graph stores. The Neptune DB
++    # queries this class inherits use ``id(e)``/``id(subj)`` for entities and
++    # ``id(t)`` for topics; rewrite exactly those before sending.
++    _ID_REWRITES = (
++        ("id(e)", "e.entityId"),
++        ("id(subj)", "subj.entityId"),
++        ("id(t)", "t.topicId"),
++    )
++
++    def _oc_query(self, cypher: str, params: dict | None = None) -> list[dict]:
++        query_str = " ".join(cypher.split())
++        for old, new in self._ID_REWRITES:
++            query_str = query_str.replace(old, new)
++        try:
++            res = self._graph.ro_query(query_str, params=params or {})
++        except Exception as e:  # falkordb raises redis ResponseError subclasses
++            raise RuntimeError(f"FalkorDB query failed (endpoint={self._endpoint}): {e}") from e
++        header = [h[1] if isinstance(h, (list, tuple)) else h for h in res.header]
++        return [dict(zip(header, row, strict=False)) for row in res.result_set]
++
++    def health_check(self) -> dict:
++        try:
++            self._oc_query("RETURN 1 AS ping")
++            return {"status": "healthy", "backend": "falkordb"}
++        except Exception as e:
++            return {"status": "unhealthy", "backend": "falkordb", "error": str(e)}
+diff --git a/packages/sources/src/coa_sources/documents/kg_build/graph_build.py b/packages/sources/src/coa_sources/documents/kg_build/graph_build.py
+index 0e479c5..c9dcbc8 100644
+--- a/packages/sources/src/coa_sources/documents/kg_build/graph_build.py
++++ b/packages/sources/src/coa_sources/documents/kg_build/graph_build.py
+@@ -1054,6 +1054,47 @@ def _patch_graphrag_bulk_ingest_retry() -> None:
+     _graphrag_bulk_ingest_patched = True
+ 
+ 
++def _register_contrib_graph_stores(graph_store_uri: str) -> None:
++    """Register the graphrag-toolkit FalkorDB contrib factory for ``falkordb://`` URIs.
++
++    FalkorDB support lives in the separate ``graphrag-toolkit-lexical-graph-falkordb``
++    package and must be registered with ``GraphStoreFactory`` before
++    ``for_graph_store`` can resolve the URI. Idempotent per process.
++    """
++    if not graph_store_uri.startswith("falkordb://"):
++        return
++    host, _, port = graph_store_uri[len("falkordb://") :].strip("/").rpartition(":")
++    if not host or not port.isdigit():
++        # graphrag's FalkorDBGraphStoreFactory returns None for an empty endpoint.
++        raise ValueError(f"GRAPH_STORE_URI needs host:port, e.g. falkordb://localhost:6379; got {graph_store_uri!r}")
++    from graphrag_toolkit.lexical_graph.storage import GraphStoreFactory
++    from graphrag_toolkit_contrib.lexical_graph.storage.graph.falkordb import FalkorDBGraphStoreFactory
++
++    GraphStoreFactory.register(FalkorDBGraphStoreFactory)
++
++
++def _store_uris_from_env() -> tuple[str, str]:
++    """Return (graph_store_uri, vector_store_uri).
++
++    ``GRAPH_STORE_URI`` / ``VECTOR_STORE_URI`` (any graphrag-toolkit connection
++    string, e.g. ``falkordb://localhost:6379`` and ``s3vectors://<bucket>/<prefix>``)
++    take precedence. Otherwise the URIs are derived from ``NEPTUNE_ENDPOINT`` and
++    ``OPENSEARCH_ENDPOINT`` exactly as before (Neptune DB + OpenSearch Serverless).
++    """
++    graph_store_uri = os.environ.get("GRAPH_STORE_URI", "").strip()
++    vector_store_uri = os.environ.get("VECTOR_STORE_URI", "").strip()
++    if not graph_store_uri:
++        neptune_host = _require_env("NEPTUNE_ENDPOINT").replace("wss://", "").replace("https://", "").rstrip("/")
++        graph_store_uri = f"neptune-db://{neptune_host}:8182"
++    if not vector_store_uri:
++        opensearch_host = (
++            _require_env("OPENSEARCH_ENDPOINT").replace("https://", "").replace("http://", "").rstrip("/")
++        )
++        vector_store_uri = f"aoss://{opensearch_host}:443"
++    _register_contrib_graph_stores(graph_store_uri)
++    return graph_store_uri, vector_store_uri
++
++
+ def _setup_graphrag(tenant_id: str):
+     """Configure GraphRAG and return (graph_store_uri, vector_store_uri)."""
+     # Patch BEFORE importing graphrag — the monkey-patch must replace index_exists
+@@ -1165,13 +1206,7 @@ def _setup_graphrag(tenant_id: str):
+     if USE_BATCH_INFERENCE:
+         GraphRAGConfig.extraction_batch_size = EXTRACTION_BATCH_SIZE
+ 
+-    neptune_endpoint = _require_env("NEPTUNE_ENDPOINT")
+-    opensearch_endpoint = _require_env("OPENSEARCH_ENDPOINT")
+-
+-    neptune_host = neptune_endpoint.replace("wss://", "").replace("https://", "").rstrip("/")
+-    opensearch_host = opensearch_endpoint.replace("https://", "").replace("http://", "").rstrip("/")
+-    graph_store_uri = f"neptune-db://{neptune_host}:8182"
+-    vector_store_uri = f"aoss://{opensearch_host}:443"
++    graph_store_uri, vector_store_uri = _store_uris_from_env()
+ 
+     # NOTE: chunking is intentionally NOT overridden here. With no SentenceSplitter
+     # in the IndexingConfig, the toolkit falls back to its default
+@@ -1500,18 +1535,27 @@ def _check_backend_health(
+         )
+         return False
+ 
+-    # --- Vector store (AOSS) health check ---
++    # --- Vector store health check (AOSS, or S3 Vectors bucket) ---
+     try:
+-        from graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes import (
+-            create_os_client,
+-        )
++        if vector_store_uri.startswith("s3vectors://"):
++            import boto3
++            from graphrag_toolkit.lexical_graph.storage.vector.s3_vector_index_factory import (
++                parse_s3_vectors_connection_string,
++            )
+ 
+-        vector_endpoint = vector_store_uri.replace("aoss://", "")
+-        client = create_os_client(vector_endpoint, pool_maxsize=1)
+-        try:
+-            client.cat.indices(format="json")
+-        finally:
+-            client.close()
++            bucket, _prefix, _kms = parse_s3_vectors_connection_string(vector_store_uri)
++            boto3.client("s3vectors", region_name=AWS_REGION).get_vector_bucket(vectorBucketName=bucket)
++        else:
++            from graphrag_toolkit.lexical_graph.storage.vector.opensearch_vector_indexes import (
++                create_os_client,
++            )
++
++            vector_endpoint = vector_store_uri.replace("aoss://", "")
++            client = create_os_client(vector_endpoint, pool_maxsize=1)
++            try:
++                client.cat.indices(format="json")
++            finally:
++                client.close()
+         logger.info("Vector store health check passed")
+     except Exception:
+         tb = traceback.format_exc()
+diff --git a/scripts/ezhuthu_local/model_local.py b/scripts/ezhuthu_local/model_local.py
+new file mode 100644
+index 0000000..a792f62
+--- /dev/null
++++ b/scripts/ezhuthu_local/model_local.py
+@@ -0,0 +1,66 @@
++# SPDX-License-Identifier: Apache-2.0
++"""Local COA Model: run the unstructured induction pipeline against a local lexical graph.
++
++Builds the same UnstructuredInductionConfig the ontology-engine router builds
++(routers/induce_unstructured.py) but with no DynamoDB job/proposal rows and no
++grounding service, and writes the induced Turtle to a file.
++
++    LEXICAL_GRAPH_STORE_URI=falkordb://localhost:6379 \
++    uv run python scripts/ezhuthu_local/model_local.py --namespace <uuid> --out induced.ttl
++"""
++
++from __future__ import annotations
++
++import argparse
++import json
++import os
++import pathlib
++import sys
++
++
++def main() -> int:
++    ap = argparse.ArgumentParser()
++    ap.add_argument("--namespace", required=True, help="namespace UUID; tenant = to_graphrag_tenant_id(namespace)")
++    ap.add_argument("--name", default="ezhuthu-coa")
++    ap.add_argument("--uri-prefix", default="https://w3id.org/ezhuthu/coa/")
++    ap.add_argument("--description-mode", default="label_only", choices=["label_only", "instance", "schema"])
++    ap.add_argument("--confidence", type=float, default=0.5)
++    ap.add_argument("--out", required=True, type=pathlib.Path)
++    args = ap.parse_args()
++
++    from coa_common import DEFAULT_EMBED_MODEL_ID
++    from coa_ontology.bedrock_embeddings import BedrockEmbeddingClient
++    from coa_ontology.inducer.routers.induce_unstructured import _build_lexical_store
++    from coa_ontology.inducer.services.llm import LLMClient
++    from coa_ontology.inducer.unstructured.schemas import SamplingParams, UnstructuredInductionConfig
++    from coa_ontology.inducer.unstructured.services.iri_resolver import InMemoryIRIResolver
++    from coa_ontology.inducer.unstructured.services.pipeline import UnstructuredInductionPipeline
++
++    region = os.environ.get("AWS_REGION", "us-east-1")
++    store = _build_lexical_store("local", region, {}, namespace=args.namespace)
++    print("lexical store:", store.health_check(), file=sys.stderr)
++    config = UnstructuredInductionConfig(
++        namespace=args.namespace,
++        name=args.name,
++        ontology_uri_prefix=args.uri_prefix,
++        graph_arn="local",
++        confidence_threshold=args.confidence,
++        sampling=SamplingParams(),
++        description_mode=args.description_mode,
++        include_individuals=True,
++        entailment_enabled=True,
++        lexical_store=store,
++        embedding_client=BedrockEmbeddingClient(region=region, model_id=DEFAULT_EMBED_MODEL_ID, dimensions=1024),
++        description_llm=LLMClient(model_id=os.environ.get("DESCRIPTION_LLM_MODEL_ID", "us.anthropic.claude-sonnet-4-6"),
++                                  region=region),
++        iri_resolver=InMemoryIRIResolver(namespace=args.namespace, ontology_name=args.name),
++    )
++    report = UnstructuredInductionPipeline().run(config, on_status=lambda s: print("stage:", s.value, file=sys.stderr))
++    args.out.write_text(report.turtle, encoding="utf-8")
++    print(json.dumps({k: getattr(report, k) for k in ("tboxClassCount", "objectPropertyCount",
++                      "datatypePropertyCount", "conceptCount", "individualCount")}))
++    return 0
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/scripts/ezhuthu_local/scan_local.py b/scripts/ezhuthu_local/scan_local.py
+new file mode 100644
+index 0000000..d35f97d
+--- /dev/null
++++ b/scripts/ezhuthu_local/scan_local.py
+@@ -0,0 +1,86 @@
++# SPDX-License-Identifier: Apache-2.0
++"""Local COA Scan: run kg_build's graphrag indexing on a local folder of .txt files.
++
++Same code path as the ECS task (graph_build._setup_graphrag, _build_indexing_config,
++_check_backend_health, _run_continuous), with the S3 staging read and the DynamoDB
++status table replaced by a local folder and an in-memory dict.
++
++    GRAPH_STORE_URI=falkordb://localhost:6379 \
++    VECTOR_STORE_URI=s3vectors://<vector-bucket>/<prefix> \
++    BEDROCK_MODEL_ARN=<extraction model or inference profile> \
++    NAMESPACE_LANGUAGE=en \
++    uv run python scripts/ezhuthu_local/scan_local.py --docs DIR --tenant HEX [--limit N]
++"""
++
++from __future__ import annotations
++
++import argparse
++import json
++import pathlib
++import sys
++import time
++
++
++class MemoryDAO:
++    """Stand-in for coa_common.dao.DynamoDBDAO (get/update only)."""
++
++    def __init__(self) -> None:
++        self.items: dict[str, dict] = {}
++
++    def get(self, key: dict) -> dict | None:
++        return self.items.get(json.dumps(key, sort_keys=True))
++
++    def update(self, key: dict, values: dict) -> None:
++        self.items.setdefault(json.dumps(key, sort_keys=True), {}).update(values)
++        print("status:", json.dumps(values, default=str), file=sys.stderr)
++
++
++def load_documents(folder: pathlib.Path, limit: int | None):
++    from llama_index.core import Document
++
++    docs = []
++    for path in sorted(folder.glob("*.txt"))[:limit]:
++        text = path.read_text(encoding="utf-8")
++        if not text.strip():
++            continue
++        meta = {"filename": path.name}
++        sidecar = path.with_suffix(".metadata.json")
++        if sidecar.exists():
++            meta.update({k.replace(".", "_").replace("-", "_"): v for k, v in json.loads(sidecar.read_text()).items()})
++        doc = Document(text=text, metadata=meta)
++        doc.excluded_llm_metadata_keys = list(meta)
++        doc.excluded_embed_metadata_keys = list(meta)
++        docs.append(doc)
++    return docs
++
++
++def main() -> int:
++    ap = argparse.ArgumentParser()
++    ap.add_argument("--docs", required=True, type=pathlib.Path)
++    ap.add_argument("--tenant", required=True, help="graphrag tenant id (hex, <=25 chars)")
++    ap.add_argument("--namespace", default="ezhuthu")
++    ap.add_argument("--limit", type=int, default=None)
++    args = ap.parse_args()
++
++    from coa_sources.documents.kg_build import graph_build as gb
++
++    docs = load_documents(args.docs, args.limit)
++    print(f"loaded {len(docs)} documents from {args.docs}", file=sys.stderr)
++    if not docs:
++        return 1
++    graph_uri, vector_uri = gb._setup_graphrag(args.tenant)
++    indexing_config = gb._build_indexing_config(
++        "local", args.namespace, "local", namespace_language=gb.os.environ.get("NAMESPACE_LANGUAGE", "en")
++    )
++    ddb, key = MemoryDAO(), {"PK": f"NS#{args.namespace}", "SK": "SRC#local"}
++    if not gb._check_backend_health(graph_uri, vector_uri, ddb, key):
++        return 2
++    t0 = time.time()
++    ok, failed = gb._run_continuous(docs, graph_uri, vector_uri, args.tenant, indexing_config, ddb, key, None)
++    print(json.dumps({"docs_ok": ok, "docs_failed": failed, "seconds": round(time.time() - t0, 1),
++                      "graph_store": graph_uri, "vector_store": vector_uri}))
++    return 0 if ok else 3
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+-- 
+2.39.5 (Apple Git-154)
+
