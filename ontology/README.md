@@ -9,16 +9,30 @@ documented in [COA.md](COA.md).
 
 | Path | What |
 | --- | --- |
-| `ezhuthu.ttl` | OWL ontology: 27 classes, 21 object properties, 2,489 named individuals (29,995 triples) |
+| `ezhuthu.ttl` | OWL ontology: 27 classes, 21 object properties, 1,958 named individuals (23,029 triples) |
 | `lookups/<kind>.json` | Entity records, one file per kind, valid against `contracts/ontology-lookup.schema.json` |
 | `letters_by_era.json` | Valid base letters per script stage, Unicode glyphs (Aksharamukha), documented exceptions, corpus counts, tutor levels L1–L5 |
-| `coverage.json` | Counts per kind, Wikidata coverage, dropped seeds, unmatched title names, DHARMA commit pins |
-| `hint_eval.json` | In-corpus check of `hints_for_gap` against DHARMA expert restorations |
+| `coverage.json` | Counts per kind, Wikidata coverage, dropped seeds, unmatched title names, DHARMA commit pins, `splits` (benchmark split filter and the exact inscription ids used) |
+| `hint_eval.json` | `hints_for_gap` hit@5: held-out on benchmark val/test items, plus in-corpus coverage |
 | `seeds/*.yaml` | Curated seed lists (rulers, titles, formulas, grant types, assemblies, measures, coins, taxes, deities, unit types) |
 | `wikidata/snapshot.json`, `wikidata/review.yaml` | Wikidata SPARQL results (all candidates) and the manual review applied to them |
 
 Code: `src/ezhuthu/ontology/` (`tei.py` reader, `normalize.py`, `matcher.py`, `letters.py`, `build.py`,
 `owl.py`, `wikidata.py`, `lookup.py`, `hint_eval.py`).
+
+## Train split only (no benchmark leakage)
+
+DHARMA editions keep the expert `<supplied>` restorations inline, and the ontology takes place, temple
+and admin-unit names (and their spellings) from edition titles and text. Built from every edition, it
+would offer val/test answers as `hints_for_gap` fills (QA on PR #9 found two such test hits). The
+shipped artefacts are therefore built with `--splits train`: an edition is used only when the data
+team's `benchmark/inscriptions.jsonl` lists it in the train split. The v0 build was run against both
+the PR #6 benchmark and the data team's newer local regeneration, and an edition had to be train in
+**both** (so it stays leak-free whichever lands). Editions a benchmark does not list (102 `~`-prefixed
+DHARMA drafts) are left out too, since they may be another edition of a held-out stone. Result: 862 of
+1,193 editions used, 229 held out, 102 unlisted (`coverage.json` -> `splits`, with every id used).
+`tests/ontology/test_artefacts.py` fails if any val/test edition of `benchmark/inscriptions.jsonl` (once
+it is on main) is among them: rebuild with `--splits train` whenever the splits change.
 
 ## Using it (agent and app teams)
 
@@ -44,10 +58,18 @@ when their dynasty matches an entity named in `left`/`right`.
 A gap right before `-kku yāṇṭu` (regnal-year formula) also returns `reason: "regnal_slot"` hints: the
 rulers and titles of the dynasty named in the context, with `fill: null`.
 
+Input rules (all raise `ValueError`): text must be ISO-15919, not Tamil script (transliterate first
+with `ezhuthu.corpus.script`); `gap_chars` is `None` or an int >= 1; `find_entities` takes at most
+50,000 chars (`MAX_TEXT_CHARS`). `hints_for_gap` reads only the 2,000 chars (`CONTEXT_CHARS`) nearest
+the gap on each side, so huge payloads cost no more than normal ones. Every result is a fresh copy;
+mutating it does not change the cached ontology.
+
 All text is ISO-15919. `label_ta` is Aksharamukha's faithful ISO→Tamil mapping of `label_iso`
 (`nativize=False`, no superscript digits, so n→ந and ṉ→ன as DHARMA writes them; word-final ந் is
 written ன்; Sanskrit sounds in Grantha letters; regnal numerals kept as I/II/III). The data team's
-`ezhuthu.corpus.script.iso_to_tamil` is the reference renderer for running text.
+`ezhuthu.corpus.script.iso_to_tamil` is the reference renderer for running text. When a label is not
+ISO-15919 (an English DHARMA title such as "Tiruveḷḷaṟai’s well") and the rendering would keep Latin
+letters, `label_ta` is `null` rather than a mixed-script string.
 
 ## Scope and model
 
@@ -85,19 +107,20 @@ The w3id redirect is not registered yet.
 ## Where instances come from
 
 * **DHARMA header titles** (`<place>, <temple>, time of <ruler>, year N`): places, temples, ruler and
-  title attestations. 112 distinct title names (136 inscriptions) did not match a seed and are listed in
+  title attestations. 88 distinct title names (97 inscriptions) did not match a seed and are listed in
   `coverage.json` (`title_names_unmatched`), e.g. bare "Rājarāja" (I or II?) is left unmatched on purpose.
 * **DHARMA `<placeName>`/`<persName>`**: DHARMA marks very few entities in edition text (14 `placeName`,
   14 unreferenced `persName` across the six collections; most `persName` elements are editors), so
-  this adds only 4 places. `<rs>` is not used.
+  this adds only 4 places (train split). `<rs>` is not used.
 * **Corpus scan of curated seed variants** (rulers, titles, formulas, grant types, assemblies,
   measures, coins, taxes, deities): `attested_in` lists `<inscription_id>:<line_n>` refs. A seed with
-  no attestation is dropped and listed in `coverage.json` (v0: Vijayālaya, `kō`, `paṭṭam`, `tiramam`, bare `ūr`).
+  no attestation is dropped and listed in `coverage.json` (v0 train build: Vijayālaya, Śrīraṅga, `kō`,
+  `paṭṭam`, `tiramam`, `īḻakkācu`, bare `ūr`).
 * **Administrative units** are extracted from edition text by their oblique-case suffixes
   (`-nāṭṭu`, `-kūṟṟattu`, `-kōṭṭattu`, `-vaḷanāṭṭu`, `-maṇṭalattu`, `-caturvēdimaṅkalattu`), and
   `broader` comes from address chains (inscriptions name units big-to-small, e.g.
   `jayaṅ-koṇṭa-cōḻa-maṇṭalattu kāliyūr-k-kōṭṭattu …`): the nearest preceding higher-rank unit,
-  majority vote. Fragments next to gaps are skipped and one-off short names dropped (31 dropped).
+  majority vote. Fragments next to gaps are skipped and one-off short names dropped (37 dropped).
 * **Script stage** per inscription: DHARMA `rendition="class:…"` (`tamil`, `vaṭṭeḻuttu`, `grantha`)
   plus the ruler/dynasty for Tamil script (Pallava → Pallava Tamil, Cōḻa → Chola Tamil, Vijayanagara →
   Later Tamil; Pāṇḍya by the ruler's era).
@@ -106,40 +129,49 @@ The w3id redirect is not registered yet.
   rulers; located in Tamil Nadu for places; temple class + Tamil Nadu for temples). Names DHARMA does
   not disambiguate (Mahendravarman, Nandivarman, Sundara Pāṇḍya …) intentionally have no QID.
 
-## Coverage (v0, DHARMA commits pinned in `coverage.json`)
+## Coverage (v0, train split, DHARMA commits pinned in `coverage.json`)
 
 Corpus: 6 DHARMA collections (`tfa-pallava`, `tfa-cempiyan-mahadevi`, `tfa-pandya`, `tfa-sii`,
-`tfa-tamilnadu`, `tfa-uttiramerur`), 1,193 inscriptions, 16,043 edition lines.
+`tfa-tamilnadu`, `tfa-uttiramerur`), 1,193 editions, of which the 862 train-split editions
+(10,564 edition lines) are used.
 
 | Kind | Entities | With Wikidata QID |
 | --- | ---: | ---: |
 | script_stage | 8 | |
 | letter | 262 | |
 | dynasty | 6 | 6 (100%) |
-| ruler | 43 | 19 (44.2%) |
+| ruler | 42 | 19 (45.2%) |
 | title | 13 | |
 | formula | 14 | |
-| place | 428 | 40 (9.3%) |
-| admin_unit | 269 (7 unit types + 262 named units) | |
-| temple | 197 | 8 (4.1%) |
+| place | 357 | 35 (9.8%) |
+| admin_unit | 200 (6 unit types + 194 named units) | |
+| temple | 139 | 8 (5.8%) |
 | deity | 13 | |
 | grant_type | 10 | |
 | assembly | 6 | |
 | measure | 14 | |
-| coin | 5 | |
+| coin | 4 | |
 | tax | 8 | |
 
-Inscriptions per script stage: Pallava Tamil 345, Chola Tamil 312, Vaṭṭeḻuttu 82, Grantha 73,
-Later Tamil 14, **Tamil-Brāhmī 0**: none of the six collections contains Tamil-Brāhmī, so its letters
+Inscriptions per script stage (train split): Pallava Tamil 268, Chola Tamil 196, Vaṭṭeḻuttu 61,
+Grantha 56, Later Tamil 6, **Tamil-Brāhmī 0**: none of the six collections contains Tamil-Brāhmī, so its letters
 (Aksharamukha + Mahadevan 2003 exceptions) have no corpus attestation yet. Unmapped DHARMA script
-classes (Southern Brāhmī 20, Siddhamātr̥kā 2, numeric class codes 7) are counted in `coverage.json`.
+classes (Southern Brāhmī 17, Siddhamātr̥kā 2, numeric class codes 7) are counted in `coverage.json`.
 
-`hints_for_gap`, in-corpus check (`python -m ezhuthu.ontology.hint_eval`): over 1,985 gaps made by
-hiding `<supplied reason="lost">` spans, a top-5 hint reproduces the expert restoration exactly for
-131 (6.6%); for the 308 gaps that fall inside an entity mention it does so for 130 (42.2%). This is
-**not held-out** (the ontology was built from the same editions, supplied text included), so read it
-as how much of the restoration need the ontology covers, not as restoration accuracy. The held-out
-benchmark is the data team's `benchmark/`.
+`hints_for_gap` (`python -m ezhuthu.ontology.hint_eval --items ...`, `hint_eval.json`), top-5 exact match
+of `fill`/`alt_fills` against the folded expert restoration, items with a target of 2+ key characters:
+
+| Set | Scored | Hits | hit@5 |
+| --- | ---: | ---: | ---: |
+| val (held-out, PR #6 benchmark) | 345 | 16 | 4.6% |
+| test (held-out, PR #6 benchmark) | 253 | 16 | 6.3% |
+| in-corpus (lost `<supplied>` spans of the 862 train editions; upper bound, not held-out) | 1,450 | 96 | 6.6% |
+
+For comparison, an ontology built from every edition scores 18/345 on val and 17/253 on test: that gap
+is the leakage the train-only build removes. On the data team's newer local regeneration of the
+benchmark the train-only build scores 14/344 (val) and 18/280 (test). `hint_eval` refuses to score
+items whose inscription was used to build the ontology. These are hint-coverage numbers, not
+restoration accuracy: hints are one input to the agent's restorer.
 
 ## Normalisation
 
@@ -183,6 +215,7 @@ exceptions: I. Mahadevan, *Early Tamil Epigraphy* (2003).
 make setup
 # DHARMA clones under data/raw/dharma/<collection>/ (gitignored; `make data` once the data team lands it)
 .venv/bin/python -m ezhuthu.ontology.wikidata --refresh   # optional, network; then review wikidata/review.yaml
-.venv/bin/python -m ezhuthu.ontology.build                 # offline, deterministic
-.venv/bin/python -m ezhuthu.ontology.hint_eval
+.venv/bin/python -m ezhuthu.ontology.build --splits train  # offline, deterministic; needs benchmark/inscriptions.jsonl
+#   (--benchmark PATH is repeatable; --splits all builds from every edition, for local exploration only)
+.venv/bin/python -m ezhuthu.ontology.hint_eval --items benchmark/items.val.jsonl --items benchmark/items.test.jsonl
 ```
