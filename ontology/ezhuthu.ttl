@@ -46,7 +46,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/ancunilai-nadu> a owl:NamedIndividual,
         ez:Nadu ;
-    skos:altLabel "அஞ்சுனிலை-நாடு"@ta ;
+    skos:altLabel "அஞ்சுநிலை-நாடு"@ta ;
     skos:hiddenLabel "Añcunilai-nāṭṭu"@ta-Latn ;
     skos:prefLabel "Añcunilai-nāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -84,7 +84,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/arumozhitevavalanattuttakkalur-nadu> a owl:NamedIndividual,
         ez:Nadu ;
-    skos:altLabel "அருமொழிதெவவளனாட்டுத்தக்களுர்-நாடு"@ta ;
+    skos:altLabel "அருமொழிதெவவளநாட்டுத்தக்களுர்-நாடு"@ta ;
     skos:hiddenLabel "Arumoḻitevavaḷanāṭṭuttakkaḷur-nāṭṭu"@ta-Latn ;
     skos:prefLabel "Arumoḻitevavaḷanāṭṭuttakkaḷur-nāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -101,7 +101,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/arvala-kurram> a owl:NamedIndividual,
         ez:Kurram ;
-    skos:altLabel "ஆர்வல-கூற்றம்"@ta ;
+    skos:altLabel "ஆர்·வல-கூற்றம்"@ta ;
     skos:hiddenLabel "Ār·vala-kūṟṟattu"@ta-Latn ;
     skos:prefLabel "Ār·vala-kūṟṟam"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -126,7 +126,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/atirajaraja-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "அதிராஜராஜ-வளனாடு"@ta ;
+    skos:altLabel "அதிராஜராஜ-வளநாடு"@ta ;
     skos:hiddenLabel "Atirājarāja-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Atirājarāja-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -234,7 +234,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/cozha-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "சோழ-வளனாடு"@ta ;
+    skos:altLabel "சோழ-வளநாடு"@ta ;
     skos:hiddenLabel "cōḻa-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Cōḻa-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -242,7 +242,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/cozhapantiya-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "சோழ-பாண்டிய-வளனாடு"@ta ;
+    skos:altLabel "சோழ-பாண்டிய-வளநாடு"@ta ;
     skos:hiddenLabel "cōḻa-pāṇṭiya-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Cōḻa-pāṇṭiya-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 2 ;
@@ -301,7 +301,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/crivanavanmahadevica-caturvedimangalam> a owl:NamedIndividual,
         ez:Caturvedimangalam ;
-    skos:altLabel "ஶ்ரீ-வானவன்-மஹாதெவி-ச-சதுர்வேதிமங்கலம்"@ta ;
+    skos:altLabel "ஶ்ரீ-வாநவன்-மஹாதெவி-ச-சதுர்வேதிமங்கலம்"@ta ;
     skos:hiddenLabel "śrī-vānavaṉ-mahādevi-ca-caturvēdimaṅkalattu"@ta-Latn ;
     skos:prefLabel "Śrī-vānavaṉ-mahādevi-ca-caturvēdimaṅkalam"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -366,7 +366,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/ilaiyanur-nadu> a owl:NamedIndividual,
         ez:Nadu ;
-    skos:altLabel "இளையனூர்-நாடு"@ta ;
+    skos:altLabel "இளையநூர்-நாடு"@ta ;
     skos:hiddenLabel "Iḷaiyanūr-nāṭṭu"@ta-Latn ;
     skos:prefLabel "Iḷaiyanūr-nāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -393,7 +393,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/iracentiracozha-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "இராசெந்திரசொழ-வளனாடு"@ta ;
+    skos:altLabel "இராசெந்திரசொழ-வளநாடு"@ta ;
     skos:hiddenLabel "Irācentiracoḻa-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Irācentiracoḻa-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -446,7 +446,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/jayankontacozha-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "ஜயங்-கொண்ட-சோழ-வளனாடு"@ta ;
+    skos:altLabel "ஜயங்-கொண்ட-சோழ-வளநாடு"@ta ;
     skos:hiddenLabel "jayaṅ-koṇṭa-cōḻa-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Jayaṅ-koṇṭa-cōḻa-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 2 ;
@@ -554,7 +554,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/karunkula-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "கருங்குள-வளனாடு"@ta ;
+    skos:altLabel "கருங்குள-வளநாடு"@ta ;
     skos:hiddenLabel "karuṅkuḷa-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Karuṅkuḷa-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -579,7 +579,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/kcatriyacikhamani-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "க்ஷத்ரிய-சிகாமணி-வளனாடு"@ta ;
+    skos:altLabel "க்ஷத்ரிய-சிகாமணி-வளநாடு"@ta ;
     skos:hiddenLabel "kṣatriya-cikhāmaṇi-vaḷanāṭṭu"@ta-Latn,
         "kṣatriya-śikhāmaṇi-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Kṣatriya-cikhāmaṇi-vaḷanāṭu"@ta-Latn ;
@@ -589,7 +589,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/kcattracikamani-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "க்ஷத்த்ர-சிகாமணி-வளனாடு"@ta ;
+    skos:altLabel "க்ஷத்த்ர-சிகாமணி-வளநாடு"@ta ;
     skos:hiddenLabel "kṣattra-cikāmaṇi-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Kṣattra-cikāmaṇi-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -597,7 +597,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/keralacinkava-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "கேரள-சிங்க-வ-வளனாடு"@ta ;
+    skos:altLabel "கேரள-சிங்க-வ-வளநாடு"@ta ;
     skos:hiddenLabel "kēraḷa-ciṅka-va-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Kēraḷa-ciṅka-va-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -605,7 +605,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/khamani-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "காமணி-வளனாடு"@ta ;
+    skos:altLabel "காமணி-வளநாடு"@ta ;
     skos:hiddenLabel "khāmaṇi-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Khāmaṇi-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -662,7 +662,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/kontacozha-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "கொண்ட-சோழ-வளனாடு"@ta ;
+    skos:altLabel "கொண்ட-சோழ-வளநாடு"@ta ;
     skos:hiddenLabel "koṇṭa-cōḻa-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Koṇṭa-cōḻa-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -678,7 +678,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/kontar-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "கொண்டார்-வளனாடு"@ta ;
+    skos:altLabel "கொண்டார்-வளநாடு"@ta ;
     skos:hiddenLabel "koṇṭār-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Koṇṭār-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -943,7 +943,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/manavira-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "மானவீர-வளனாடு"@ta ;
+    skos:altLabel "மானவீர-வளநாடு"@ta ;
     skos:hiddenLabel "māṉavīra-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Māṉavīra-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -996,7 +996,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/mani-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "மணி-வளனாடு"@ta ;
+    skos:altLabel "மணி-வளநாடு"@ta ;
     skos:hiddenLabel "maṇi-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Maṇi-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -1069,7 +1069,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/maturantaka-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "மதுராந்தக-வளனாடு"@ta ;
+    skos:altLabel "மதுராந்தக-வளநாடு"@ta ;
     skos:hiddenLabel "maturāntaka-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Maturāntaka-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 4 ;
@@ -1086,7 +1086,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/maturotaya-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "மதுரோதய-வளனாடு"@ta ;
+    skos:altLabel "மதுரோதய-வளநாடு"@ta ;
     skos:hiddenLabel "maturōtaya-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Maturōtaya-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 2 ;
@@ -1575,7 +1575,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/ntiracinka-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "ந்திர-சிங்க-வளனாடு"@ta ;
+    skos:altLabel "ந்திர-சிங்க-வளநாடு"@ta ;
     skos:hiddenLabel "ntira-ciṅka-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Ntira-ciṅka-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -1609,7 +1609,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/palkunrak-kottam> a owl:NamedIndividual,
         ez:Kottam ;
-    skos:altLabel "பல்குன்ற-க்-கோட்டம்"@ta ;
+    skos:altLabel "பல்·குன்·ற-க்·-கோட்டம்"@ta ;
     skos:hiddenLabel "pal·kuṉ·ṟa-k·-kōṭṭattu"@ta-Latn ;
     skos:prefLabel "Pal·kuṉ·ṟa-k·-kōṭṭam"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -1684,7 +1684,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/panur-kurram> a owl:NamedIndividual,
         ez:Kurram ;
-    skos:altLabel "பானூற்-கூற்றம்"@ta ;
+    skos:altLabel "பாநூற்-கூற்றம்"@ta ;
     skos:hiddenLabel "pānūṟ-kūṟṟattu"@ta-Latn ;
     skos:prefLabel "Pānūṟ-kūṟṟam"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -1857,7 +1857,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/rairajentracimha-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "ரை-ராஜெந்த்ர-ஸிம்ʼஹ-வளனாடு"@ta ;
+    skos:altLabel "ரை-ராஜெந்த்ர-ஸிம்ʼஹ-வளநாடு"@ta ;
     skos:hiddenLabel "rai-rājentra-siṁha-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Rai-rājentra-siṁha-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -1865,7 +1865,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/rajanarayana-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "ராஜ-நாராயண-வளனாடு"@ta ;
+    skos:altLabel "ராஜ-நாராயண-வளநாடு"@ta ;
     skos:hiddenLabel "rāja-nārāyaṇa-vaḷanāṭṭu"@ta-Latn,
         "rājanārāyaṇa-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Rāja-nārāyaṇa-vaḷanāṭu"@ta-Latn ;
@@ -1884,7 +1884,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/rajarajanarayana-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "ராஜராஜ-நாராயண-வளனாடு"@ta ;
+    skos:altLabel "ராஜராஜ-நாராயண-வளநாடு"@ta ;
     skos:hiddenLabel "rājarāja-nārāyaṇa-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Rājarāja-nārāyaṇa-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -1901,7 +1901,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/rajatiraja-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "ராஜாதிராஜ-வளனாடு"@ta ;
+    skos:altLabel "ராஜாதிராஜ-வளநாடு"@ta ;
     skos:hiddenLabel "rājātirāja-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Rājātirāja-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -1909,7 +1909,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/rantaka-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "ராந்தக-வளனாடு"@ta ;
+    skos:altLabel "ராந்தக-வளநாடு"@ta ;
     skos:hiddenLabel "rāntaka-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Rāntaka-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -2244,7 +2244,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/uttiramerucca-caturvedimangalam> a owl:NamedIndividual,
         ez:Caturvedimangalam ;
-    skos:altLabel "உத்திரமேரு-ச்-ச-சதுர்வேதிமங்கலம்"@ta ;
+    skos:altLabel "உத்திரமேரு-ச்·-ச-சதுர்வேதிமங்கலம்"@ta ;
     skos:hiddenLabel "Uttiramēru-c·-ca-caturvēdimaṅkalattu"@ta-Latn ;
     skos:prefLabel "Uttiramēru-c·-ca-caturvēdimaṅkalam"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -2252,7 +2252,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/uyakkontar-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "உயக்கொண்டார்-வளனாடு"@ta ;
+    skos:altLabel "உயக்கொண்டார்-வளநாடு"@ta ;
     skos:hiddenLabel "Uyakkoṇṭār-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Uyakkoṇṭār-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -2260,7 +2260,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/uyyakkontacozha-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "உய்ய-க்-கொண்ட-சோழ-வளனாடு"@ta ;
+    skos:altLabel "உய்ய-க்-கொண்ட-சோழ-வளநாடு"@ta ;
     skos:hiddenLabel "Uyya-k-koṇṭa-cōḻa-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Uyya-k-koṇṭa-cōḻa-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -2268,7 +2268,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/uyyakkontarr-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "உய்ய-க்-கொண்டார்ர்-வளனாடு"@ta ;
+    skos:altLabel "உய்ய-க்-கொண்டார்ர்-வளநாடு"@ta ;
     skos:hiddenLabel "Uyya-k-koṇṭārr-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Uyya-k-koṇṭārr-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -2276,7 +2276,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/uyyakonta-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "உய்ய-கொண்டா-வளனாடு"@ta ;
+    skos:altLabel "உய்ய-கொண்டா-வளநாடு"@ta ;
     skos:hiddenLabel "Uyya-koṇṭā-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Uyya-koṇṭā-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -2284,7 +2284,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/uyyakontar-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "உய்யகொண்டார்-வளனாடு"@ta ;
+    skos:altLabel "உய்யகொண்டார்-வளநாடு"@ta ;
     skos:hiddenLabel "Uyyakoṇṭār-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Uyyakoṇṭār-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 2 ;
@@ -2303,7 +2303,7 @@ ez:Ur a owl:Class ;
 <https://w3id.org/ezhuthu/admin_unit/valanadu> a owl:NamedIndividual,
         ez:AdministrativeUnit ;
     skos:altLabel "vaḷanāṭu (Cōḻa administrative division above the nāṭu)"@en,
-        "வளனாடு"@ta ;
+        "வளநாடு"@ta ;
     skos:hiddenLabel "vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 101 ;
@@ -2441,7 +2441,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/vijayarajendracozha-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "விஜய-ராஜெந்த்ர-சோழ-வளனாடு"@ta ;
+    skos:altLabel "விஜய-ராஜெந்த்ர-சோழ-வளநாடு"@ta ;
     skos:hiddenLabel "vijaya-rājendra-cōḻa-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Vijaya-rājendra-cōḻa-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -2449,7 +2449,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/vikkiramacozha-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "விக்கிரம-சோழ-வளனாடு"@ta ;
+    skos:altLabel "விக்கிரம-சோழ-வளநாடு"@ta ;
     skos:hiddenLabel "vikkirama-cōḻa-vaḷanāṭṭu"@ta-Latn,
         "vikkiṟama-cōḻa-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Vikkirama-cōḻa-vaḷanāṭu"@ta-Latn ;
@@ -2461,7 +2461,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/vikramacozha-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "விக்ரம-சோழ-வளனாடு"@ta ;
+    skos:altLabel "விக்ரம-சோழ-வளநாடு"@ta ;
     skos:hiddenLabel "vikrama-cōḻa-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Vikrama-cōḻa-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -2469,7 +2469,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/vikramarama-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "விக்ரம-ராம-வளனாடு"@ta ;
+    skos:altLabel "விக்ரம-ராம-வளநாடு"@ta ;
     skos:hiddenLabel "vikrama-rāma-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Vikrama-rāma-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 3 ;
@@ -2487,7 +2487,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/yankara-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "யங்கர-வளனாடு"@ta ;
+    skos:altLabel "யங்கர-வளநாடு"@ta ;
     skos:hiddenLabel "yaṅkara-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Yaṅkara-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -2513,7 +2513,7 @@ ez:Ur a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/zhuti-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "ழுதி-வளனாடு"@ta ;
+    skos:altLabel "ழுதி-வளநாடு"@ta ;
     skos:hiddenLabel "ḻuti-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Ḻuti-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -3340,7 +3340,7 @@ ez:dedicatedTo a owl:ObjectProperty ;
 <https://w3id.org/ezhuthu/deity/jina> a owl:NamedIndividual,
         ez:Deity ;
     skos:altLabel "Jain Tīrthaṅkara"@en,
-        "ஜின"@ta ;
+        "ஜிந"@ta ;
     skos:hiddenLabel "arukar"@ta-Latn,
         "ciṉa"@ta-Latn,
         "jina"@ta-Latn ;
@@ -11190,7 +11190,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/art-institute-of-chicago> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "அர்த் இன்ஸ்திதுதெ ஒஃப் சிசகொ"@ta ;
+    skos:altLabel "அர்த் இந்ஸ்திதுதெ ஒஃப் சிசகொ"@ta ;
     skos:hiddenLabel "Art Institute of Chicago"@ta-Latn ;
     skos:prefLabel "Art Institute of Chicago"@ta-Latn ;
     ez:attestationCount 2 ;
@@ -11215,7 +11215,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/azhvar-tirunakari> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "ஆழ்வார் திருனகரி"@ta ;
+    skos:altLabel "ஆழ்வார் திருநகரி"@ta ;
     skos:hiddenLabel "Āḻvār Tirunakari"@ta-Latn ;
     skos:prefLabel "Āḻvār Tirunakari"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -11377,7 +11377,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/cinnanakapunti> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "சின்னனாகபூண்டி"@ta ;
+    skos:altLabel "சின்னநாகபூண்டி"@ta ;
     skos:hiddenLabel "Ciṉṉanākapūṇṭi"@ta-Latn ;
     skos:prefLabel "Ciṉṉanākapūṇṭi"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -11419,7 +11419,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/cirunavalur> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "சிறுனாவலூர்"@ta ;
+    skos:altLabel "சிறுநாவலூர்"@ta ;
     skos:hiddenLabel "Ciṟunāvalūr"@ta-Latn ;
     skos:prefLabel "Ciṟunāvalūr"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -11531,7 +11531,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/devasthanam> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "தேவஸ்தானம்"@ta ;
+    skos:altLabel "தேவஸ்தாநம்"@ta ;
     skos:exactMatch wd:Q111345235 ;
     skos:hiddenLabel "Dēvasthānam"@ta-Latn ;
     skos:prefLabel "Dēvasthānam"@ta-Latn ;
@@ -11590,7 +11590,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/etutta-vaynattam> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "எடுத்த வாய்னத்தம்"@ta ;
+    skos:altLabel "எடுத்த வாய்நத்தம்"@ta ;
     skos:hiddenLabel "Eṭutta Vāynattam"@ta-Latn ;
     skos:prefLabel "Eṭutta Vāynattam"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -11615,7 +11615,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/hanumantapuram> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "ஹனுமந்தபுரம்"@ta ;
+    skos:altLabel "ஹநுமந்தபுரம்"@ta ;
     skos:hiddenLabel "Hanumantapuram"@ta-Latn ;
     skos:prefLabel "Hanumantapuram"@ta-Latn ;
     ez:attestationCount 2 ;
@@ -11648,7 +11648,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/ilaiyanallur> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "இளையனல்லூர்"@ta ;
+    skos:altLabel "இளையநல்லூர்"@ta ;
     skos:hiddenLabel "Iḷaiyanallūr"@ta-Latn ;
     skos:prefLabel "Iḷaiyanallūr"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -11715,7 +11715,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/kalcirunakalur> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "கல்சிறுனாகலூர்"@ta ;
+    skos:altLabel "கல்சிறுநாகலூர்"@ta ;
     skos:hiddenLabel "Kalciṟunākalūr"@ta-Latn ;
     skos:prefLabel "Kalciṟunākalūr"@ta-Latn ;
     ez:attestationCount 4 ;
@@ -11927,7 +11927,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/kizhmuttukur-hero-stone> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "கீழ்முட்டுகூர் ஹெரொ-ஸ்தொனெ"@ta ;
+    skos:altLabel "கீழ்முட்டுகூர் ஹெரொ-ஸ்தொநெ"@ta ;
     skos:hiddenLabel "Kīḻmuṭṭukūr hero-stone"@ta-Latn ;
     skos:prefLabel "Kīḻmuṭṭukūr hero-stone"@ta-Latn ;
     ez:attestationCount 2 ;
@@ -11968,7 +11968,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/kollur-land-measuring-rod> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "கொல்லூர் லந்த்-மெஅஸுரின்க் ரொத்"@ta ;
+    skos:altLabel "கொல்லூர் லந்த்-மெஅஸுரிந்க் ரொத்"@ta ;
     skos:hiddenLabel "Kollūr land-measuring rod"@ta-Latn ;
     skos:prefLabel "Kollūr land-measuring rod"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -12036,7 +12036,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/kunnantar-koyil> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "குன்னாண்டார் கோயில்"@ta ;
+    skos:altLabel "குந்நாண்டார் கோயில்"@ta ;
     skos:hiddenLabel "Kunnāṇṭār Kōyil"@ta-Latn ;
     skos:prefLabel "Kunnāṇṭār Kōyil"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -12044,7 +12044,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/kunnantarkoyil> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "குன்னாண்டார்கோயில்"@ta ;
+    skos:altLabel "குந்நாண்டார்கோயில்"@ta ;
     skos:hiddenLabel "Kunnāṇṭārkōyil"@ta-Latn,
         "Kuṇṇāṇṭārkōyil"@ta-Latn ;
     skos:prefLabel "Kunnāṇṭārkōyil"@ta-Latn ;
@@ -12054,7 +12054,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/kuppalnattam> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "குப்பல்னத்தம்"@ta ;
+    skos:altLabel "குப்பல்நத்தம்"@ta ;
     skos:hiddenLabel "Kuppalnattam"@ta-Latn ;
     skos:prefLabel "Kuppalnattam"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -12302,7 +12302,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/mukkanahalli> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "மூக்கனஹள்ளி"@ta ;
+    skos:altLabel "மூக்கநஹள்ளி"@ta ;
     skos:hiddenLabel "Mūkkanahaḷḷi"@ta-Latn ;
     skos:prefLabel "Mūkkanahaḷḷi"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -12335,7 +12335,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/naracinkanallur> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "நரசிங்கனல்லூர்"@ta ;
+    skos:altLabel "நரசிங்கநல்லூர்"@ta ;
     skos:hiddenLabel "Naraciṅkanallūr"@ta-Latn ;
     skos:prefLabel "Naraciṅkanallūr"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -12376,7 +12376,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/omgodu> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "ஒங்கொடு"@ta ;
+    skos:altLabel "ஒம்ʼகொடு"@ta ;
     skos:hiddenLabel "Oṁgoḍu"@ta-Latn ;
     skos:prefLabel "Oṁgoḍu"@ta-Latn ;
     ez:attestationCount 2 ;
@@ -12669,7 +12669,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/poykainallur> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "பொய்கைனல்லூர்"@ta ;
+    skos:altLabel "பொய்கைநல்லூர்"@ta ;
     skos:hiddenLabel "Poykainallūr"@ta-Latn ;
     skos:prefLabel "Poykainallūr"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -12779,7 +12779,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/sakrepatna> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "ஸக்ரெபட்ன"@ta ;
+    skos:altLabel "ஸக்ரெபட்ந"@ta ;
     skos:hiddenLabel "Sakrepaṭna"@ta-Latn ;
     skos:prefLabel "Sakrepaṭna"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -12803,7 +12803,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/sii-12-42-original-edition-by-v-venkatasubba-ayyar> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "ஸிஇ 12.42: ஒரிகினல் எதிதிஒன் ப்ய் வ். வென்கதஸுப்ப அய்யர்"@ta ;
+    skos:altLabel "ஸிஇ 12.42: ஒரிகிநல் எதிதிஒன் ப்ய் வ். வெந்கதஸுப்ப அய்யர்"@ta ;
     skos:hiddenLabel "SII 12.42: original edition by V. Venkatasubba Ayyar"@ta-Latn ;
     skos:prefLabel "SII 12.42: original edition by V. Venkatasubba Ayyar"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -13052,7 +13052,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/tirunamanallur> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "திருநாமனல்லூர்"@ta ;
+    skos:altLabel "திருநாமநல்லூர்"@ta ;
     skos:hiddenLabel "Tirunāmanallūr"@ta-Latn,
         "Tirunāvalūr"@ta-Latn ;
     skos:prefLabel "Tirunāmanallūr"@ta-Latn ;
@@ -13162,7 +13162,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/tontamanur> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "தொண்டமனூர்"@ta ;
+    skos:altLabel "தொண்டமநூர்"@ta ;
     skos:hiddenLabel "Toṇṭamanūr"@ta-Latn ;
     skos:prefLabel "Toṇṭamanūr"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -13188,7 +13188,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/triplicane> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "த்ரிப்லிசனெ"@ta ;
+    skos:altLabel "த்ரிப்லிசநெ"@ta ;
     skos:exactMatch wd:Q2454031 ;
     skos:hiddenLabel "Triplicane"@ta-Latn ;
     skos:prefLabel "Triplicane"@ta-Latn ;
@@ -13267,7 +13267,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/vannava-matevi> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "வான்னவ-மாதேவி"@ta ;
+    skos:altLabel "வாந்னவ-மாதேவி"@ta ;
     skos:hiddenLabel "vānṉava-mātēvi"@ta-Latn ;
     skos:prefLabel "Vānṉava-mātēvi"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -13391,7 +13391,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/viranattam-fragment> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "வீரனத்தம் ஃப்ரக்மெந்த்"@ta ;
+    skos:altLabel "வீரநத்தம் ஃப்ரக்மெந்த்"@ta ;
     skos:hiddenLabel "Vīranattam fragment"@ta-Latn ;
     skos:prefLabel "Vīranattam fragment"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -13425,7 +13425,7 @@ ez:paidIn a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/vunna-guruvapalem> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "வுன்ன குருவபாளெம்"@ta ;
+    skos:altLabel "வுந்ந குருவபாளெம்"@ta ;
     skos:hiddenLabel "Vunna Guruvapāḷem"@ta-Latn ;
     skos:prefLabel "Vunna Guruvapāḷem"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -13888,7 +13888,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/allur-pancanadesvara> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "பஞ்சனதெஶ்வர"@ta ;
+    skos:altLabel "பஞ்சநதெஶ்வர"@ta ;
     skos:hiddenLabel "Pañcanadeśvara"@ta-Latn ;
     skos:prefLabel "Pañcanadeśvara"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -14026,7 +14026,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/campur-vatakari-mulasthanesvara> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "மூலஸ்தானெஶ்வர தெம்ப்லெ"@ta ;
+    skos:altLabel "மூலஸ்தாநெஶ்வர தெம்ப்லெ"@ta ;
     skos:hiddenLabel "Mūlasthāneśvara temple"@ta-Latn ;
     skos:prefLabel "Mūlasthāneśvara temple"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -14046,7 +14046,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/canpai-jambunata> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "ஜம்புனாத தெம்ப்லெ"@ta ;
+    skos:altLabel "ஜம்புநாத தெம்ப்லெ"@ta ;
     skos:hiddenLabel "Jambunāta temple"@ta-Latn ;
     skos:prefLabel "Jambunāta temple"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -14136,7 +14136,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/cennivanam-saliyavanesvarar> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "ஸாலியவனேஶ்வரர் தெம்ப்லெ"@ta ;
+    skos:altLabel "ஸாலியவநேஶ்வரர் தெம்ப்லெ"@ta ;
     skos:hiddenLabel "Sāliyavanēśvarar temple"@ta-Latn ;
     skos:prefLabel "Sāliyavanēśvarar temple"@ta-Latn ;
     ez:attestationCount 2 ;
@@ -14443,7 +14443,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/kanyakumari-kanyakumari> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "கன்யாகுமாரி தெம்ப்லெ"@ta ;
+    skos:altLabel "கந்யாகுமாரி தெம்ப்லெ"@ta ;
     skos:hiddenLabel "Kanyākumāri temple"@ta-Latn ;
     skos:prefLabel "Kanyākumāri temple"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -14486,7 +14486,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/katalur-on-a-stone-outside> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "ஒன் அ ஸ்தொனெ ஒஉத்ஸிதெ தெம்ப்லெ"@ta ;
+    skos:altLabel "ஒன் அ ஸ்தொநெ ஒஉத்ஸிதெ தெம்ப்லெ"@ta ;
     skos:hiddenLabel "On a stone outside temple"@ta-Latn ;
     skos:prefLabel "On a stone outside temple"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -14505,7 +14505,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/kizhur-virattanesvara> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "வீரட்டானேஶ்வர"@ta ;
+    skos:altLabel "வீரட்டாநேஶ்வர"@ta ;
     skos:hiddenLabel "Vīraṭṭānēśvara"@ta-Latn,
         "Vīraṭṭāṉeśvara temple"@ta-Latn ;
     skos:prefLabel "Vīraṭṭānēśvara"@ta-Latn ;
@@ -14652,7 +14652,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/madurai-minaksi> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "மினாக்ஷி தெம்ப்லெ"@ta ;
+    skos:altLabel "மிநாக்ஷி தெம்ப்லெ"@ta ;
     skos:hiddenLabel "Minākṣi temple"@ta-Latn ;
     skos:prefLabel "Minākṣi temple"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -14850,7 +14850,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/paccil-kopurappatti-avanisvara-amalisvara> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "அவனீஶ்வர/அமலீஶ்வர தெம்ப்லெ"@ta ;
+    skos:altLabel "அவநீஶ்வர/அமலீஶ்வர தெம்ப்லெ"@ta ;
     skos:hiddenLabel "Avanīśvara/Amalīśvara temple"@ta-Latn ;
     skos:prefLabel "Avanīśvara/Amalīśvara temple"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -14959,7 +14959,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/piranmalai-cokkanatar> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "சொக்கனாதர் தெம்ப்லெ"@ta ;
+    skos:altLabel "சொக்கநாதர் தெம்ப்லெ"@ta ;
     skos:hiddenLabel "Cokkanātar temple"@ta-Latn ;
     skos:prefLabel "Cokkanātar temple"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -15105,7 +15105,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/sankaranayinarkoyil-sankaralingasvami-temple> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "ஶன்கரலின்கஸ்வாமி தெம்ப்லெ."@ta ;
+    skos:altLabel "ஶந்கரலிந்கஸ்வாமி தெம்ப்லெ."@ta ;
     skos:hiddenLabel "Śankaralingasvāmi temple."@ta-Latn ;
     skos:prefLabel "Śankaralingasvāmi temple."@ta-Latn ;
     ez:attestationCount 1 ;
@@ -15134,7 +15134,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/somanathapuram-temple-s-tank-fragment> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "தெம்ப்லெ'ஸ் தன்க் ஃப்ரக்மெந்த்"@ta ;
+    skos:altLabel "தெம்ப்லெ'ஸ் தந்க் ஃப்ரக்மெந்த்"@ta ;
     skos:hiddenLabel "temple's tank fragment"@ta-Latn ;
     skos:prefLabel "temple's tank fragment"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -15287,7 +15287,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/tenkarai-mulasthanesvara> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "மூலஸ்தானேஶ்வர தெம்ப்லெ"@ta ;
+    skos:altLabel "மூலஸ்தாநேஶ்வர தெம்ப்லெ"@ta ;
     skos:hiddenLabel "Mūlasthānēśvara temple"@ta-Latn ;
     skos:prefLabel "Mūlasthānēśvara temple"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -15348,7 +15348,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/tiruccirrampalam-puratanavanesvara> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "புராதனவனெஶ்வர தெம்ப்லெ"@ta ;
+    skos:altLabel "புராதநவனெஶ்வர தெம்ப்லெ"@ta ;
     skos:hiddenLabel "Purātanavaṉeśvara temple"@ta-Latn ;
     skos:prefLabel "Purātanavaṉeśvara temple"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -15358,7 +15358,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/tirukantecuvaram-natanapadesvara> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "நடனபாதெஶ்வர"@ta ;
+    skos:altLabel "நடநபாதெஶ்வர"@ta ;
     skos:hiddenLabel "Naṭanapādeśvara"@ta-Latn ;
     skos:prefLabel "Naṭanapādeśvara"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -15368,7 +15368,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/tirukantecuvaram-tirumulanatar> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "திருமூலனாதர் தெம்ப்லெ"@ta ;
+    skos:altLabel "திருமூலநாதர் தெம்ப்லெ"@ta ;
     skos:hiddenLabel "Tirumūlanātar temple"@ta-Latn ;
     skos:prefLabel "Tirumūlanātar temple"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -15387,7 +15387,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/tirukkalar-parijatanesvarasvamin> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "பாரிஜாதனெஶ்வரஸ்வாமின்"@ta ;
+    skos:altLabel "பாரிஜாதநெஶ்வரஸ்வாமின்"@ta ;
     skos:hiddenLabel "Pārijātaneśvarasvāmin"@ta-Latn ;
     skos:prefLabel "Pārijātaneśvarasvāmin"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -15406,7 +15406,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/tirukkattupalli-agnisvara> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "அக்னீஶ்வர தெம்ப்லெ"@ta ;
+    skos:altLabel "அக்நீஶ்வர தெம்ப்லெ"@ta ;
     skos:hiddenLabel "Agnīśvara temple"@ta-Latn ;
     skos:prefLabel "Agnīśvara temple"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -15455,7 +15455,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/tirumalpuram-ruined-visnu> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "ருஇனெத் விஷ்ணு தெம்ப்லெ"@ta ;
+    skos:altLabel "ருஇநெத் விஷ்ணு தெம்ப்லெ"@ta ;
     skos:hiddenLabel "ruined Viṣṇu temple"@ta-Latn ;
     skos:prefLabel "ruined Viṣṇu temple"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -15503,7 +15503,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/tirumeynanam-jnanaparamesvara> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "ஜ்ஞானபரமேஶ்வர தெம்ப்லெ"@ta ;
+    skos:altLabel "ஜ்ஞாநபரமேஶ்வர தெம்ப்லெ"@ta ;
     skos:hiddenLabel "Jñānaparamēśvara temple"@ta-Latn ;
     skos:prefLabel "Jñānaparamēśvara temple"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -15620,7 +15620,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/tirunetunkalam-tirunetunkalanatar> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "திருனெடுங்களனாதர் தெம்ப்லெ"@ta ;
+    skos:altLabel "திருநெடுங்களநாதர் தெம்ப்லெ"@ta ;
     skos:hiddenLabel "Tiruneṭuṅkaḷanātar temple"@ta-Latn ;
     skos:prefLabel "Tiruneṭuṅkaḷanātar temple"@ta-Latn ;
     ez:attestationCount 2 ;
@@ -15738,7 +15738,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/tiruvaiyaru-pancanatisvara> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "பஞ்சனாதீஶ்வர தெம்ப்லெ"@ta ;
+    skos:altLabel "பஞ்சநாதீஶ்வர தெம்ப்லெ"@ta ;
     skos:hiddenLabel "Pañcanātīśvara temple"@ta-Latn ;
     skos:prefLabel "Pañcanātīśvara temple"@ta-Latn ;
     ez:attestationCount 3 ;
@@ -15769,7 +15769,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/tiruvalankatu-vataranesvara> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "வடாரனேஶ்வர தெம்ப்லெ"@ta ;
+    skos:altLabel "வடாரநேஶ்வர தெம்ப்லெ"@ta ;
     skos:hiddenLabel "Vaṭāranēśvara temple"@ta-Latn ;
     skos:prefLabel "Vaṭāranēśvara temple"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -15838,7 +15838,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/tiruvatavur-tirumarainata> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "திருமறைனாத தெம்ப்லெ"@ta ;
+    skos:altLabel "திருமறைநாத தெம்ப்லெ"@ta ;
     skos:hiddenLabel "Tirumaṟaināta temple"@ta-Latn ;
     skos:prefLabel "Tirumaṟaināta temple"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -16089,7 +16089,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/urrattur-siddharatnesvara> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "ஸித்தரத்னேஶ்வர தெம்ப்லெ"@ta ;
+    skos:altLabel "ஸித்தரத்நேஶ்வர தெம்ப்லெ"@ta ;
     skos:hiddenLabel "Siddharatnēśvara temple"@ta-Latn ;
     skos:prefLabel "Siddharatnēśvara temple"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -16099,7 +16099,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/utaiyarkuti-anantesvarasvamin> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "அனந்தெஶ்வரஸ்வாமின் தெம்ப்லெ"@ta ;
+    skos:altLabel "அநந்தெஶ்வரஸ்வாமின் தெம்ப்லெ"@ta ;
     skos:hiddenLabel "Ananteśvarasvāmin temple"@ta-Latn ;
     skos:prefLabel "Ananteśvarasvāmin temple"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -16109,7 +16109,7 @@ ez:stageOrder a owl:DatatypeProperty ;
 
 <https://w3id.org/ezhuthu/temple/utaiyarkuti-anantisvara> a owl:NamedIndividual,
         ez:Temple ;
-    skos:altLabel "அனந்தீஶ்வர தெம்ப்லெ"@ta ;
+    skos:altLabel "அநந்தீஶ்வர தெம்ப்லெ"@ta ;
     skos:hiddenLabel "Anantīśvara temple"@ta-Latn ;
     skos:prefLabel "Anantīśvara temple"@ta-Latn ;
     ez:attestationCount 2 ;
@@ -16615,7 +16615,7 @@ ez:Line a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/arumozhideva-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "அருமொழி-தெவ-வளனாடு"@ta ;
+    skos:altLabel "அருமொழி-தெவ-வளநாடு"@ta ;
     skos:hiddenLabel "Arumoḻi-deva-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Arumoḻi-deva-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -16623,7 +16623,7 @@ ez:Line a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/cimha-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "ஸிம்ʼஹ-வளனாடு"@ta ;
+    skos:altLabel "ஸிம்ʼஹ-வளநாடு"@ta ;
     skos:hiddenLabel "siṁha-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Siṁha-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -16639,7 +16639,7 @@ ez:Line a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/irajentiracozha-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "இராஜெந்திர-சோழ-வளனாடு"@ta ;
+    skos:altLabel "இராஜெந்திர-சோழ-வளநாடு"@ta ;
     skos:hiddenLabel "Irājentira-cōḻa-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Irājentira-cōḻa-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -16647,7 +16647,7 @@ ez:Line a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/jananata-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "ஜன-நாத-வளனாடு"@ta ;
+    skos:altLabel "ஜன-நாத-வளநாடு"@ta ;
     skos:hiddenLabel "jaṉa-nāta-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Jaṉa-nāta-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 2 ;
@@ -16665,7 +16665,7 @@ ez:Line a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/katalataiyatuilankaikontacozha-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "கடல்-அடையாது-இலங்கை-கொண்ட-சோழ-வளனாடு"@ta ;
+    skos:altLabel "கடல்-அடையாது-இலங்கை-கொண்ட-சோழ-வளநாடு"@ta ;
     skos:hiddenLabel "kaṭal-aṭaiyātu-Ilaṅkai-koṇṭa-cōḻa-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Kaṭal-aṭaiyātu-Ilaṅkai-koṇṭa-cōḻa-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -16673,7 +16673,7 @@ ez:Line a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/keralacinka-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "கேரள-சிங்க-வளனாடு"@ta ;
+    skos:altLabel "கேரள-சிங்க-வளநாடு"@ta ;
     skos:hiddenLabel "kēraḷa-ciṅka-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Kēraḷa-ciṅka-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 8 ;
@@ -16686,7 +16686,7 @@ ez:Line a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/keralantaka-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "கேரளாந்தக-வளனாடு"@ta ;
+    skos:altLabel "கேரளாந்தக-வளநாடு"@ta ;
     skos:hiddenLabel "kēraḷāntaka-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Kēraḷāntaka-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -16694,7 +16694,7 @@ ez:Line a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/kunravattana-kottam> a owl:NamedIndividual,
         ez:Kottam ;
-    skos:altLabel "குன்றவத்தன-கோட்டம்"@ta ;
+    skos:altLabel "குன்றவத்தந-கோட்டம்"@ta ;
     skos:hiddenLabel "kuṉṟavattana-kōṭṭattu"@ta-Latn,
         "kuṉṟavattaṉa-kōṭṭattu"@ta-Latn ;
     skos:prefLabel "Kuṉṟavattana-kōṭṭam"@ta-Latn ;
@@ -16705,7 +16705,7 @@ ez:Line a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/mutikontacozha-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "முடிகொண்டசோழ-வளனாடு"@ta ;
+    skos:altLabel "முடிகொண்டசோழ-வளநாடு"@ta ;
     skos:hiddenLabel "muṭikoṇṭa-cōḻa-vaḷanāṭṭu"@ta-Latn,
         "muṭikoṇṭacōḻa-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Muṭikoṇṭacōḻa-vaḷanāṭu"@ta-Latn ;
@@ -16731,7 +16731,7 @@ ez:Line a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/ntar-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "ண்டார்-வளனாடு"@ta ;
+    skos:altLabel "ண்டார்-வளநாடு"@ta ;
     skos:hiddenLabel "ṇṭār-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Ṇṭār-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 2 ;
@@ -16749,7 +16749,7 @@ ez:Line a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/rajadhiraja-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "ராஜாதிராஜ-வளனாடு"@ta ;
+    skos:altLabel "ராஜாதிராஜ-வளநாடு"@ta ;
     skos:hiddenLabel "rājādhirāja-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Rājādhirāja-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -16757,7 +16757,7 @@ ez:Line a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/rajaraja-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "ராஜராஜ-வளனாடு"@ta ;
+    skos:altLabel "ராஜராஜ-வளநாடு"@ta ;
     skos:hiddenLabel "rājarāja-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Rājarāja-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -16765,7 +16765,7 @@ ez:Line a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/rajendracozha-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "ராஜெந்த்ரசோழ-வளனாடு"@ta ;
+    skos:altLabel "ராஜெந்த்ரசோழ-வளநாடு"@ta ;
     skos:hiddenLabel "rājendracōḻa-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Rājendracōḻa-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -16773,7 +16773,7 @@ ez:Line a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/rajentiracozha-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "ராஜெந்திர-சோழ-வளனாடு"@ta ;
+    skos:altLabel "ராஜெந்திர-சோழ-வளநாடு"@ta ;
     skos:hiddenLabel "rājentira-cōḻa-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Rājentira-cōḻa-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 2 ;
@@ -16801,7 +16801,7 @@ ez:Line a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/vinota-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "வினோத-வளனாடு"@ta ;
+    skos:altLabel "வினோத-வளநாடு"@ta ;
     skos:hiddenLabel "viṉōta-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Viṉōta-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -16809,7 +16809,7 @@ ez:Line a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/virutaracapayankara-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "விருதராச-பயங்கர-வளனாடு"@ta ;
+    skos:altLabel "விருதராச-பயங்கர-வளநாடு"@ta ;
     skos:hiddenLabel "viruta-rāca-payaṅkara-vaḷanāṭṭu"@ta-Latn,
         "virutarāca-payaṅkara-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Virutarāca-payaṅkara-vaḷanāṭu"@ta-Latn ;
@@ -16819,7 +16819,7 @@ ez:Line a owl:Class ;
 
 <https://w3id.org/ezhuthu/admin_unit/virutarajapayankara-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "விருத-ராஜ-பயங்கர-வளனாடு"@ta ;
+    skos:altLabel "விருத-ராஜ-பயங்கர-வளநாடு"@ta ;
     skos:hiddenLabel "viruta-rāja-payaṅkara-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Viruta-rāja-payaṅkara-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -17163,7 +17163,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/cankaramanallur> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "சங்கரமனல்லூர்"@ta ;
+    skos:altLabel "சங்கரமநல்லூர்"@ta ;
     skos:hiddenLabel "Caṅkaramanallūr"@ta-Latn,
         "Sangrāmanallūr"@ta-Latn ;
     skos:prefLabel "Caṅkaramanallūr"@ta-Latn ;
@@ -17234,7 +17234,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/ceytunkanallur> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "செய்துங்கனல்லூர்"@ta ;
+    skos:altLabel "செய்துங்கநல்லூர்"@ta ;
     skos:hiddenLabel "Ceytuṅkanallūr"@ta-Latn,
         "Seydunganallur"@ta-Latn ;
     skos:prefLabel "Ceytuṅkanallūr"@ta-Latn ;
@@ -17335,7 +17335,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/kanyakumari> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "கன்யாகுமாரி"@ta ;
+    skos:altLabel "கந்யாகுமாரி"@ta ;
     skos:hiddenLabel "Kanyākumāri"@ta-Latn ;
     skos:prefLabel "Kanyākumāri"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -17483,7 +17483,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/marutanallur> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "மருதனல்லூர்"@ta ;
+    skos:altLabel "மருதநல்லூர்"@ta ;
     skos:hiddenLabel "Marutanallūr"@ta-Latn ;
     skos:prefLabel "Marutanallūr"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -17491,7 +17491,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/muniyur> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "முனியுர்"@ta ;
+    skos:altLabel "முநியுர்"@ta ;
     skos:hiddenLabel "Muniyur"@ta-Latn ;
     skos:prefLabel "Muniyur"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -17587,7 +17587,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/pantanallur> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "பந்தனல்லூர்"@ta ;
+    skos:altLabel "பந்தநல்லூர்"@ta ;
     skos:hiddenLabel "Pantanallūr"@ta-Latn ;
     skos:prefLabel "Pantanallūr"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -17639,7 +17639,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/sankaranayinarkoyil> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "ஸன்கரனயினர்கோயில்"@ta ;
+    skos:altLabel "ஸந்கரநயிநர்கோயில்"@ta ;
     skos:hiddenLabel "Sankaranayinarkōyil"@ta-Latn ;
     skos:prefLabel "Sankaranayinarkōyil"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -17655,7 +17655,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/shrimushnam> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "ஸ்ஹ்ரிமுஸ்ஹ்னம்"@ta ;
+    skos:altLabel "ஸ்ஹ்ரிமுஸ்ஹ்நம்"@ta ;
     skos:hiddenLabel "Shrimushnam"@ta-Latn ;
     skos:prefLabel "Shrimushnam"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -17734,7 +17734,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/tanjore> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "தன்ஜொரெ"@ta ;
+    skos:altLabel "தந்ஜொரெ"@ta ;
     skos:exactMatch wd:Q41496 ;
     skos:hiddenLabel "Tanjore"@ta-Latn ;
     skos:prefLabel "Tanjore"@ta-Latn ;
@@ -17789,7 +17789,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/thanjavur> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "தன்ஜவுர்"@ta ;
+    skos:altLabel "தந்ஜவுர்"@ta ;
     skos:exactMatch wd:Q41496 ;
     skos:hiddenLabel "Thanjavur"@ta-Latn ;
     skos:prefLabel "Thanjavur"@ta-Latn ;
@@ -17799,7 +17799,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/tillaisthanam> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "தில்லைஸ்தானம்"@ta ;
+    skos:altLabel "தில்லைஸ்தாநம்"@ta ;
     skos:hiddenLabel "Tillaisthānam"@ta-Latn ;
     skos:prefLabel "Tillaisthānam"@ta-Latn ;
     ez:attestationCount 2 ;
@@ -17939,7 +17939,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/tirumeynanam> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "திருமெய்ஞானம்"@ta ;
+    skos:altLabel "திருமெய்ஞாநம்"@ta ;
     skos:hiddenLabel "Tirumeyñānam"@ta-Latn ;
     skos:prefLabel "Tirumeyñānam"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -17956,7 +17956,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/tirunallaru> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "திருனள்ளாறு"@ta ;
+    skos:altLabel "திருநள்ளாறு"@ta ;
     skos:hiddenLabel "Tirunaḷḷāṟu"@ta-Latn ;
     skos:prefLabel "Tirunaḷḷāṟu"@ta-Latn ;
     ez:attestationCount 59 ;
@@ -18022,7 +18022,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/tirunelveli> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "திருனெல்வேலி"@ta ;
+    skos:altLabel "திருநெல்வேலி"@ta ;
     skos:exactMatch wd:Q213248 ;
     skos:hiddenLabel "Tirunelveli"@ta-Latn,
         "Tirunelvēli"@ta-Latn ;
@@ -18033,7 +18033,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/tirunetunkalam> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "திருனெடுங்களம்"@ta ;
+    skos:altLabel "திருநெடுங்களம்"@ta ;
     skos:hiddenLabel "Tiruneṭuṅkalam"@ta-Latn,
         "Tiruneṭuṅkaḷam"@ta-Latn ;
     skos:prefLabel "Tiruneṭuṅkaḷam"@ta-Latn ;
@@ -18044,7 +18044,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/tirunirankonrai> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "திருனிறங்கொன்றை"@ta ;
+    skos:altLabel "திருநிறங்கொன்றை"@ta ;
     skos:hiddenLabel "Tiruniṟaṅkoṉṟai"@ta-Latn ;
     skos:prefLabel "Tiruniṟaṅkoṉṟai"@ta-Latn ;
     ez:attestationCount 2 ;
@@ -18348,7 +18348,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/valappurnatu> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "வளப்பூர்னாடு"@ta ;
+    skos:altLabel "வளப்பூர்நாடு"@ta ;
     skos:hiddenLabel "Vaḷappūrnāṭu"@ta-Latn ;
     skos:prefLabel "Vaḷappūrnāṭu"@ta-Latn ;
     ez:attestationCount 1 ;
@@ -18470,7 +18470,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/admin_unit/rajendracinka-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "ராஜெந்த்ர-சிங்க-வளனாடு"@ta ;
+    skos:altLabel "ராஜெந்த்ர-சிங்க-வளநாடு"@ta ;
     skos:hiddenLabel "rājendra-ciṅka-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Rājendra-ciṅka-vaḷanāṭu"@ta-Latn ;
     ez:attestationCount 3 ;
@@ -19543,7 +19543,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/place/tirunaraiyur> a owl:NamedIndividual,
         ez:Place ;
-    skos:altLabel "திருனறையூர்"@ta ;
+    skos:altLabel "திருநறையூர்"@ta ;
     skos:hiddenLabel "Tirunaṟaiyūr"@ta-Latn ;
     skos:prefLabel "Tirunaṟaiyūr"@ta-Latn ;
     ez:attestationCount 2 ;
@@ -19766,7 +19766,7 @@ ez:hasMember a owl:ObjectProperty ;
 <https://w3id.org/ezhuthu/title/tribhuvanacakravartin> a owl:NamedIndividual,
         ez:Title ;
     skos:altLabel "emperor of the three worlds"@en,
-        "த்ரிபுவனசக்ரவர்தின்"@ta ;
+        "த்ரிபுவநசக்ரவர்தின்"@ta ;
     skos:hiddenLabel "tiripuvaṉacakkaravartti"@ta-Latn,
         "tiripuvaṉaccakkaravartti"@ta-Latn,
         "tiripuvaṉaccakkaravatti"@ta-Latn,
@@ -19848,7 +19848,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/admin_unit/uyyakkontar-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "உய்யக்கொண்டார்-வளனாடு"@ta ;
+    skos:altLabel "உய்யக்கொண்டார்-வளநாடு"@ta ;
     skos:hiddenLabel "Uyya-k-koṇṭār-vaḷanāṭṭu"@ta-Latn,
         "Uyyak-koṇṭār-vaḷanāṭṭu"@ta-Latn,
         "Uyyakkoṇṭār-vaḷanāṭṭu"@ta-Latn ;
@@ -20626,7 +20626,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/admin_unit/arumozhiteva-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "அருமொழிதேவ-வளனாடு"@ta ;
+    skos:altLabel "அருமொழிதேவ-வளநாடு"@ta ;
     skos:hiddenLabel "Arumoḻi-tēva-vaḷanāṭṭu"@ta-Latn,
         "Arumoḻitēva-vaḷanāṭṭu"@ta-Latn ;
     skos:prefLabel "Arumoḻitēva-vaḷanāṭu"@ta-Latn ;
@@ -20653,7 +20653,7 @@ ez:hasMember a owl:ObjectProperty ;
 
 <https://w3id.org/ezhuthu/admin_unit/nittavinota-valanadu> a owl:NamedIndividual,
         ez:Valanadu ;
-    skos:altLabel "நித்தவினொத-வளனாடு"@ta ;
+    skos:altLabel "நித்தவினொத-வளநாடு"@ta ;
     skos:hiddenLabel "nitta-vinōta-vaḷanāṭṭu"@ta-Latn,
         "nitta-viṉōta-vaḷanāṭṭu"@ta-Latn,
         "nittavinota-vaḷanāṭṭu"@ta-Latn,

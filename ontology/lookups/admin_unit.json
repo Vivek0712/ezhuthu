@@ -93,7 +93,7 @@
   "id": "ez:admin_unit/ancunilai-nadu",
   "kind": "admin_unit",
   "label_iso": "Añcunilai-nāṭu",
-  "label_ta": "அஞ்சுனிலை-நாடு",
+  "label_ta": "அஞ்சுநிலை-நாடு",
   "variants": [
    "Añcunilai-nāṭṭu"
   ],
@@ -179,7 +179,7 @@
   "id": "ez:admin_unit/arumozhideva-valanadu",
   "kind": "admin_unit",
   "label_iso": "Arumoḻi-deva-vaḷanāṭu",
-  "label_ta": "அருமொழி-தெவ-வளனாடு",
+  "label_ta": "அருமொழி-தெவ-வளநாடு",
   "variants": [
    "Arumoḻi-deva-vaḷanāṭṭu"
   ],
@@ -199,7 +199,7 @@
   "id": "ez:admin_unit/arumozhiteva-valanadu",
   "kind": "admin_unit",
   "label_iso": "Arumoḻitēva-vaḷanāṭu",
-  "label_ta": "அருமொழிதேவ-வளனாடு",
+  "label_ta": "அருமொழிதேவ-வளநாடு",
   "variants": [
    "Arumoḻitēva-vaḷanāṭṭu",
    "Arumoḻi-tēva-vaḷanāṭṭu"
@@ -226,7 +226,7 @@
   "id": "ez:admin_unit/arumozhitevavalanattuttakkalur-nadu",
   "kind": "admin_unit",
   "label_iso": "Arumoḻitevavaḷanāṭṭuttakkaḷur-nāṭu",
-  "label_ta": "அருமொழிதெவவளனாட்டுத்தக்களுர்-நாடு",
+  "label_ta": "அருமொழிதெவவளநாட்டுத்தக்களுர்-நாடு",
   "variants": [
    "Arumoḻitevavaḷanāṭṭuttakkaḷur-nāṭṭu"
   ],
@@ -266,7 +266,7 @@
   "id": "ez:admin_unit/arvala-kurram",
   "kind": "admin_unit",
   "label_iso": "Ār·vala-kūṟṟam",
-  "label_ta": "ஆர்வல-கூற்றம்",
+  "label_ta": "ஆர்·வல-கூற்றம்",
   "variants": [
    "Ār·vala-kūṟṟattu"
   ],
@@ -326,7 +326,7 @@
   "id": "ez:admin_unit/atirajaraja-valanadu",
   "kind": "admin_unit",
   "label_iso": "Atirājarāja-vaḷanāṭu",
-  "label_ta": "அதிராஜராஜ-வளனாடு",
+  "label_ta": "அதிராஜராஜ-வளநாடு",
   "variants": [
    "Atirājarāja-vaḷanāṭṭu"
   ],
@@ -511,7 +511,7 @@
   "id": "ez:admin_unit/cimha-valanadu",
   "kind": "admin_unit",
   "label_iso": "Siṁha-vaḷanāṭu",
-  "label_ta": "ஸிம்ʼஹ-வளனாடு",
+  "label_ta": "ஸிம்ʼஹ-வளநாடு",
   "variants": [
    "siṁha-vaḷanāṭṭu"
   ],
@@ -622,7 +622,7 @@
   "id": "ez:admin_unit/cozha-valanadu",
   "kind": "admin_unit",
   "label_iso": "Cōḻa-vaḷanāṭu",
-  "label_ta": "சோழ-வளனாடு",
+  "label_ta": "சோழ-வளநாடு",
   "variants": [
    "cōḻa-vaḷanāṭṭu"
   ],
@@ -642,7 +642,7 @@
   "id": "ez:admin_unit/cozhapantiya-valanadu",
   "kind": "admin_unit",
   "label_iso": "Cōḻa-pāṇṭiya-vaḷanāṭu",
-  "label_ta": "சோழ-பாண்டிய-வளனாடு",
+  "label_ta": "சோழ-பாண்டிய-வளநாடு",
   "variants": [
    "cōḻa-pāṇṭiya-vaḷanāṭṭu"
   ],
@@ -783,7 +783,7 @@
   "id": "ez:admin_unit/crivanavanmahadevica-caturvedimangalam",
   "kind": "admin_unit",
   "label_iso": "Śrī-vānavaṉ-mahādevi-ca-caturvēdimaṅkalam",
-  "label_ta": "ஶ்ரீ-வானவன்-மஹாதெவி-ச-சதுர்வேதிமங்கலம்",
+  "label_ta": "ஶ்ரீ-வாநவன்-மஹாதெவி-ச-சதுர்வேதிமங்கலம்",
   "variants": [
    "śrī-vānavaṉ-mahādevi-ca-caturvēdimaṅkalattu"
   ],
@@ -930,7 +930,7 @@
   "id": "ez:admin_unit/ilaiyanur-nadu",
   "kind": "admin_unit",
   "label_iso": "Iḷaiyanūr-nāṭu",
-  "label_ta": "இளையனூர்-நாடு",
+  "label_ta": "இளையநூர்-நாடு",
   "variants": [
    "Iḷaiyanūr-nāṭṭu"
   ],
@@ -991,7 +991,7 @@
   "id": "ez:admin_unit/iracentiracozha-valanadu",
   "kind": "admin_unit",
   "label_iso": "Irācentiracoḻa-vaḷanāṭu",
-  "label_ta": "இராசெந்திரசொழ-வளனாடு",
+  "label_ta": "இராசெந்திரசொழ-வளநாடு",
   "variants": [
    "Irācentiracoḻa-vaḷanāṭṭu"
   ],
@@ -1031,7 +1031,7 @@
   "id": "ez:admin_unit/irajentiracozha-valanadu",
   "kind": "admin_unit",
   "label_iso": "Irājentira-cōḻa-vaḷanāṭu",
-  "label_ta": "இராஜெந்திர-சோழ-வளனாடு",
+  "label_ta": "இராஜெந்திர-சோழ-வளநாடு",
   "variants": [
    "Irājentira-cōḻa-vaḷanāṭṭu"
   ],
@@ -1134,7 +1134,7 @@
   "id": "ez:admin_unit/jananata-valanadu",
   "kind": "admin_unit",
   "label_iso": "Jaṉa-nāta-vaḷanāṭu",
-  "label_ta": "ஜன-நாத-வளனாடு",
+  "label_ta": "ஜன-நாத-வளநாடு",
   "variants": [
    "jaṉa-nāta-vaḷanāṭṭu"
   ],
@@ -1192,7 +1192,7 @@
   "id": "ez:admin_unit/jayankontacozha-valanadu",
   "kind": "admin_unit",
   "label_iso": "Jayaṅ-koṇṭa-cōḻa-vaḷanāṭu",
-  "label_ta": "ஜயங்-கொண்ட-சோழ-வளனாடு",
+  "label_ta": "ஜயங்-கொண்ட-சோழ-வளநாடு",
   "variants": [
    "jayaṅ-koṇṭa-cōḻa-vaḷanāṭṭu"
   ],
@@ -1520,7 +1520,7 @@
   "id": "ez:admin_unit/karunkula-valanadu",
   "kind": "admin_unit",
   "label_iso": "Karuṅkuḷa-vaḷanāṭu",
-  "label_ta": "கருங்குள-வளனாடு",
+  "label_ta": "கருங்குள-வளநாடு",
   "variants": [
    "karuṅkuḷa-vaḷanāṭṭu"
   ],
@@ -1540,7 +1540,7 @@
   "id": "ez:admin_unit/katalataiyatuilankaikontacozha-valanadu",
   "kind": "admin_unit",
   "label_iso": "Kaṭal-aṭaiyātu-Ilaṅkai-koṇṭa-cōḻa-vaḷanāṭu",
-  "label_ta": "கடல்-அடையாது-இலங்கை-கொண்ட-சோழ-வளனாடு",
+  "label_ta": "கடல்-அடையாது-இலங்கை-கொண்ட-சோழ-வளநாடு",
   "variants": [
    "kaṭal-aṭaiyātu-Ilaṅkai-koṇṭa-cōḻa-vaḷanāṭṭu"
   ],
@@ -1600,7 +1600,7 @@
   "id": "ez:admin_unit/kcatriyacikhamani-valanadu",
   "kind": "admin_unit",
   "label_iso": "Kṣatriya-cikhāmaṇi-vaḷanāṭu",
-  "label_ta": "க்ஷத்ரிய-சிகாமணி-வளனாடு",
+  "label_ta": "க்ஷத்ரிய-சிகாமணி-வளநாடு",
   "variants": [
    "kṣatriya-cikhāmaṇi-vaḷanāṭṭu",
    "kṣatriya-śikhāmaṇi-vaḷanāṭṭu"
@@ -1622,7 +1622,7 @@
   "id": "ez:admin_unit/kcattracikamani-valanadu",
   "kind": "admin_unit",
   "label_iso": "Kṣattra-cikāmaṇi-vaḷanāṭu",
-  "label_ta": "க்ஷத்த்ர-சிகாமணி-வளனாடு",
+  "label_ta": "க்ஷத்த்ர-சிகாமணி-வளநாடு",
   "variants": [
    "kṣattra-cikāmaṇi-vaḷanāṭṭu"
   ],
@@ -1642,7 +1642,7 @@
   "id": "ez:admin_unit/keralacinka-valanadu",
   "kind": "admin_unit",
   "label_iso": "Kēraḷa-ciṅka-vaḷanāṭu",
-  "label_ta": "கேரள-சிங்க-வளனாடு",
+  "label_ta": "கேரள-சிங்க-வளநாடு",
   "variants": [
    "kēraḷa-ciṅka-vaḷanāṭṭu"
   ],
@@ -1669,7 +1669,7 @@
   "id": "ez:admin_unit/keralacinkava-valanadu",
   "kind": "admin_unit",
   "label_iso": "Kēraḷa-ciṅka-va-vaḷanāṭu",
-  "label_ta": "கேரள-சிங்க-வ-வளனாடு",
+  "label_ta": "கேரள-சிங்க-வ-வளநாடு",
   "variants": [
    "kēraḷa-ciṅka-va-vaḷanāṭṭu"
   ],
@@ -1689,7 +1689,7 @@
   "id": "ez:admin_unit/keralantaka-valanadu",
   "kind": "admin_unit",
   "label_iso": "Kēraḷāntaka-vaḷanāṭu",
-  "label_ta": "கேரளாந்தக-வளனாடு",
+  "label_ta": "கேரளாந்தக-வளநாடு",
   "variants": [
    "kēraḷāntaka-vaḷanāṭṭu"
   ],
@@ -1709,7 +1709,7 @@
   "id": "ez:admin_unit/khamani-valanadu",
   "kind": "admin_unit",
   "label_iso": "Khāmaṇi-vaḷanāṭu",
-  "label_ta": "காமணி-வளனாடு",
+  "label_ta": "காமணி-வளநாடு",
   "variants": [
    "khāmaṇi-vaḷanāṭṭu"
   ],
@@ -1849,7 +1849,7 @@
   "id": "ez:admin_unit/kontacozha-valanadu",
   "kind": "admin_unit",
   "label_iso": "Koṇṭa-cōḻa-vaḷanāṭu",
-  "label_ta": "கொண்ட-சோழ-வளனாடு",
+  "label_ta": "கொண்ட-சோழ-வளநாடு",
   "variants": [
    "koṇṭa-cōḻa-vaḷanāṭṭu"
   ],
@@ -1889,7 +1889,7 @@
   "id": "ez:admin_unit/kontar-valanadu",
   "kind": "admin_unit",
   "label_iso": "Koṇṭār-vaḷanāṭu",
-  "label_ta": "கொண்டார்-வளனாடு",
+  "label_ta": "கொண்டார்-வளநாடு",
   "variants": [
    "koṇṭār-vaḷanāṭṭu"
   ],
@@ -2071,7 +2071,7 @@
   "id": "ez:admin_unit/kunravattana-kottam",
   "kind": "admin_unit",
   "label_iso": "Kuṉṟavattana-kōṭṭam",
-  "label_ta": "குன்றவத்தன-கோட்டம்",
+  "label_ta": "குன்றவத்தந-கோட்டம்",
   "variants": [
    "kuṉṟavattana-kōṭṭattu",
    "kuṉṟavattaṉa-kōṭṭattu"
@@ -2361,7 +2361,7 @@
   "id": "ez:admin_unit/manavira-valanadu",
   "kind": "admin_unit",
   "label_iso": "Māṉavīra-vaḷanāṭu",
-  "label_ta": "மானவீர-வளனாடு",
+  "label_ta": "மானவீர-வளநாடு",
   "variants": [
    "māṉavīra-vaḷanāṭṭu"
   ],
@@ -2442,7 +2442,7 @@
   "id": "ez:admin_unit/mani-valanadu",
   "kind": "admin_unit",
   "label_iso": "Maṇi-vaḷanāṭu",
-  "label_ta": "மணி-வளனாடு",
+  "label_ta": "மணி-வளநாடு",
   "variants": [
    "maṇi-vaḷanāṭṭu"
   ],
@@ -2606,7 +2606,7 @@
   "id": "ez:admin_unit/maturantaka-valanadu",
   "kind": "admin_unit",
   "label_iso": "Maturāntaka-vaḷanāṭu",
-  "label_ta": "மதுராந்தக-வளனாடு",
+  "label_ta": "மதுராந்தக-வளநாடு",
   "variants": [
    "maturāntaka-vaḷanāṭṭu"
   ],
@@ -2649,7 +2649,7 @@
   "id": "ez:admin_unit/maturotaya-valanadu",
   "kind": "admin_unit",
   "label_iso": "Maturōtaya-vaḷanāṭu",
-  "label_ta": "மதுரோதய-வளனாடு",
+  "label_ta": "மதுரோதய-வளநாடு",
   "variants": [
    "maturōtaya-vaḷanāṭṭu"
   ],
@@ -3021,7 +3021,7 @@
   "id": "ez:admin_unit/mutikontacozha-valanadu",
   "kind": "admin_unit",
   "label_iso": "Muṭikoṇṭacōḻa-vaḷanāṭu",
-  "label_ta": "முடிகொண்டசோழ-வளனாடு",
+  "label_ta": "முடிகொண்டசோழ-வளநாடு",
   "variants": [
    "muṭikoṇṭacōḻa-vaḷanāṭṭu",
    "muṭikoṇṭa-cōḻa-vaḷanāṭṭu"
@@ -3388,7 +3388,7 @@
   "id": "ez:admin_unit/nittavinota-valanadu",
   "kind": "admin_unit",
   "label_iso": "Nittaviṉota-vaḷanāṭu",
-  "label_ta": "நித்தவினொத-வளனாடு",
+  "label_ta": "நித்தவினொத-வளநாடு",
   "variants": [
    "nittaviṉota-vaḷanāṭṭu",
    "nittavinota-vaḷanāṭṭu",
@@ -3457,7 +3457,7 @@
   "id": "ez:admin_unit/ntar-valanadu",
   "kind": "admin_unit",
   "label_iso": "Ṇṭār-vaḷanāṭu",
-  "label_ta": "ண்டார்-வளனாடு",
+  "label_ta": "ண்டார்-வளநாடு",
   "variants": [
    "ṇṭār-vaḷanāṭṭu"
   ],
@@ -3478,7 +3478,7 @@
   "id": "ez:admin_unit/ntiracinka-valanadu",
   "kind": "admin_unit",
   "label_iso": "Ntira-ciṅka-vaḷanāṭu",
-  "label_ta": "ந்திர-சிங்க-வளனாடு",
+  "label_ta": "ந்திர-சிங்க-வளநாடு",
   "variants": [
    "ntira-ciṅka-vaḷanāṭṭu"
   ],
@@ -3561,7 +3561,7 @@
   "id": "ez:admin_unit/palkunrak-kottam",
   "kind": "admin_unit",
   "label_iso": "Pal·kuṉ·ṟa-k·-kōṭṭam",
-  "label_ta": "பல்குன்ற-க்-கோட்டம்",
+  "label_ta": "பல்·குன்·ற-க்·-கோட்டம்",
   "variants": [
    "pal·kuṉ·ṟa-k·-kōṭṭattu"
   ],
@@ -3730,7 +3730,7 @@
   "id": "ez:admin_unit/panur-kurram",
   "kind": "admin_unit",
   "label_iso": "Pānūṟ-kūṟṟam",
-  "label_ta": "பானூற்-கூற்றம்",
+  "label_ta": "பாநூற்-கூற்றம்",
   "variants": [
    "pānūṟ-kūṟṟattu"
   ],
@@ -4215,7 +4215,7 @@
   "id": "ez:admin_unit/rairajentracimha-valanadu",
   "kind": "admin_unit",
   "label_iso": "Rai-rājentra-siṁha-vaḷanāṭu",
-  "label_ta": "ரை-ராஜெந்த்ர-ஸிம்ʼஹ-வளனாடு",
+  "label_ta": "ரை-ராஜெந்த்ர-ஸிம்ʼஹ-வளநாடு",
   "variants": [
    "rai-rājentra-siṁha-vaḷanāṭṭu"
   ],
@@ -4235,7 +4235,7 @@
   "id": "ez:admin_unit/rajadhiraja-valanadu",
   "kind": "admin_unit",
   "label_iso": "Rājādhirāja-vaḷanāṭu",
-  "label_ta": "ராஜாதிராஜ-வளனாடு",
+  "label_ta": "ராஜாதிராஜ-வளநாடு",
   "variants": [
    "rājādhirāja-vaḷanāṭṭu"
   ],
@@ -4255,7 +4255,7 @@
   "id": "ez:admin_unit/rajanarayana-valanadu",
   "kind": "admin_unit",
   "label_iso": "Rāja-nārāyaṇa-vaḷanāṭu",
-  "label_ta": "ராஜ-நாராயண-வளனாடு",
+  "label_ta": "ராஜ-நாராயண-வளநாடு",
   "variants": [
    "rāja-nārāyaṇa-vaḷanāṭṭu",
    "rājanārāyaṇa-vaḷanāṭṭu"
@@ -4298,7 +4298,7 @@
   "id": "ez:admin_unit/rajaraja-valanadu",
   "kind": "admin_unit",
   "label_iso": "Rājarāja-vaḷanāṭu",
-  "label_ta": "ராஜராஜ-வளனாடு",
+  "label_ta": "ராஜராஜ-வளநாடு",
   "variants": [
    "rājarāja-vaḷanāṭṭu"
   ],
@@ -4318,7 +4318,7 @@
   "id": "ez:admin_unit/rajarajanarayana-valanadu",
   "kind": "admin_unit",
   "label_iso": "Rājarāja-nārāyaṇa-vaḷanāṭu",
-  "label_ta": "ராஜராஜ-நாராயண-வளனாடு",
+  "label_ta": "ராஜராஜ-நாராயண-வளநாடு",
   "variants": [
    "rājarāja-nārāyaṇa-vaḷanāṭṭu"
   ],
@@ -4360,7 +4360,7 @@
   "id": "ez:admin_unit/rajatiraja-valanadu",
   "kind": "admin_unit",
   "label_iso": "Rājātirāja-vaḷanāṭu",
-  "label_ta": "ராஜாதிராஜ-வளனாடு",
+  "label_ta": "ராஜாதிராஜ-வளநாடு",
   "variants": [
    "rājātirāja-vaḷanāṭṭu"
   ],
@@ -4380,7 +4380,7 @@
   "id": "ez:admin_unit/rajendracinka-valanadu",
   "kind": "admin_unit",
   "label_iso": "Rājendra-ciṅka-vaḷanāṭu",
-  "label_ta": "ராஜெந்த்ர-சிங்க-வளனாடு",
+  "label_ta": "ராஜெந்த்ர-சிங்க-வளநாடு",
   "variants": [
    "rājendra-ciṅka-vaḷanāṭṭu"
   ],
@@ -4402,7 +4402,7 @@
   "id": "ez:admin_unit/rajendracozha-valanadu",
   "kind": "admin_unit",
   "label_iso": "Rājendracōḻa-vaḷanāṭu",
-  "label_ta": "ராஜெந்த்ரசோழ-வளனாடு",
+  "label_ta": "ராஜெந்த்ரசோழ-வளநாடு",
   "variants": [
    "rājendracōḻa-vaḷanāṭṭu"
   ],
@@ -4422,7 +4422,7 @@
   "id": "ez:admin_unit/rajentiracozha-valanadu",
   "kind": "admin_unit",
   "label_iso": "Rājentira-cōḻa-vaḷanāṭu",
-  "label_ta": "ராஜெந்திர-சோழ-வளனாடு",
+  "label_ta": "ராஜெந்திர-சோழ-வளநாடு",
   "variants": [
    "rājentira-cōḻa-vaḷanāṭṭu"
   ],
@@ -4443,7 +4443,7 @@
   "id": "ez:admin_unit/rantaka-valanadu",
   "kind": "admin_unit",
   "label_iso": "Rāntaka-vaḷanāṭu",
-  "label_ta": "ராந்தக-வளனாடு",
+  "label_ta": "ராந்தக-வளநாடு",
   "variants": [
    "rāntaka-vaḷanāṭṭu"
   ],
@@ -5251,7 +5251,7 @@
   "id": "ez:admin_unit/uttiramerucca-caturvedimangalam",
   "kind": "admin_unit",
   "label_iso": "Uttiramēru-c·-ca-caturvēdimaṅkalam",
-  "label_ta": "உத்திரமேரு-ச்-ச-சதுர்வேதிமங்கலம்",
+  "label_ta": "உத்திரமேரு-ச்·-ச-சதுர்வேதிமங்கலம்",
   "variants": [
    "Uttiramēru-c·-ca-caturvēdimaṅkalattu"
   ],
@@ -5271,7 +5271,7 @@
   "id": "ez:admin_unit/uyakkontar-valanadu",
   "kind": "admin_unit",
   "label_iso": "Uyakkoṇṭār-vaḷanāṭu",
-  "label_ta": "உயக்கொண்டார்-வளனாடு",
+  "label_ta": "உயக்கொண்டார்-வளநாடு",
   "variants": [
    "Uyakkoṇṭār-vaḷanāṭṭu"
   ],
@@ -5291,7 +5291,7 @@
   "id": "ez:admin_unit/uyyakkontacozha-valanadu",
   "kind": "admin_unit",
   "label_iso": "Uyya-k-koṇṭa-cōḻa-vaḷanāṭu",
-  "label_ta": "உய்ய-க்-கொண்ட-சோழ-வளனாடு",
+  "label_ta": "உய்ய-க்-கொண்ட-சோழ-வளநாடு",
   "variants": [
    "Uyya-k-koṇṭa-cōḻa-vaḷanāṭṭu"
   ],
@@ -5311,7 +5311,7 @@
   "id": "ez:admin_unit/uyyakkontar-valanadu",
   "kind": "admin_unit",
   "label_iso": "Uyyakkoṇṭār-vaḷanāṭu",
-  "label_ta": "உய்யக்கொண்டார்-வளனாடு",
+  "label_ta": "உய்யக்கொண்டார்-வளநாடு",
   "variants": [
    "Uyyakkoṇṭār-vaḷanāṭṭu",
    "Uyyak-koṇṭār-vaḷanāṭṭu",
@@ -5342,7 +5342,7 @@
   "id": "ez:admin_unit/uyyakkontarr-valanadu",
   "kind": "admin_unit",
   "label_iso": "Uyya-k-koṇṭārr-vaḷanāṭu",
-  "label_ta": "உய்ய-க்-கொண்டார்ர்-வளனாடு",
+  "label_ta": "உய்ய-க்-கொண்டார்ர்-வளநாடு",
   "variants": [
    "Uyya-k-koṇṭārr-vaḷanāṭṭu"
   ],
@@ -5362,7 +5362,7 @@
   "id": "ez:admin_unit/uyyakonta-valanadu",
   "kind": "admin_unit",
   "label_iso": "Uyya-koṇṭā-vaḷanāṭu",
-  "label_ta": "உய்ய-கொண்டா-வளனாடு",
+  "label_ta": "உய்ய-கொண்டா-வளநாடு",
   "variants": [
    "Uyya-koṇṭā-vaḷanāṭṭu"
   ],
@@ -5382,7 +5382,7 @@
   "id": "ez:admin_unit/uyyakontar-valanadu",
   "kind": "admin_unit",
   "label_iso": "Uyyakoṇṭār-vaḷanāṭu",
-  "label_ta": "உய்யகொண்டார்-வளனாடு",
+  "label_ta": "உய்யகொண்டார்-வளநாடு",
   "variants": [
    "Uyyakoṇṭār-vaḷanāṭṭu"
   ],
@@ -5424,7 +5424,7 @@
   "id": "ez:admin_unit/valanadu",
   "kind": "admin_unit",
   "label_iso": "vaḷanāṭu",
-  "label_ta": "வளனாடு",
+  "label_ta": "வளநாடு",
   "variants": [
    "vaḷanāṭṭu"
   ],
@@ -5651,7 +5651,7 @@
   "id": "ez:admin_unit/vijayarajendracozha-valanadu",
   "kind": "admin_unit",
   "label_iso": "Vijaya-rājendra-cōḻa-vaḷanāṭu",
-  "label_ta": "விஜய-ராஜெந்த்ர-சோழ-வளனாடு",
+  "label_ta": "விஜய-ராஜெந்த்ர-சோழ-வளநாடு",
   "variants": [
    "vijaya-rājendra-cōḻa-vaḷanāṭṭu"
   ],
@@ -5671,7 +5671,7 @@
   "id": "ez:admin_unit/vikkiramacozha-valanadu",
   "kind": "admin_unit",
   "label_iso": "Vikkirama-cōḻa-vaḷanāṭu",
-  "label_ta": "விக்கிரம-சோழ-வளனாடு",
+  "label_ta": "விக்கிரம-சோழ-வளநாடு",
   "variants": [
    "vikkirama-cōḻa-vaḷanāṭṭu",
    "vikkiṟama-cōḻa-vaḷanāṭṭu"
@@ -5694,7 +5694,7 @@
   "id": "ez:admin_unit/vikramacozha-valanadu",
   "kind": "admin_unit",
   "label_iso": "Vikrama-cōḻa-vaḷanāṭu",
-  "label_ta": "விக்ரம-சோழ-வளனாடு",
+  "label_ta": "விக்ரம-சோழ-வளநாடு",
   "variants": [
    "vikrama-cōḻa-vaḷanāṭṭu"
   ],
@@ -5714,7 +5714,7 @@
   "id": "ez:admin_unit/vikramarama-valanadu",
   "kind": "admin_unit",
   "label_iso": "Vikrama-rāma-vaḷanāṭu",
-  "label_ta": "விக்ரம-ராம-வளனாடு",
+  "label_ta": "விக்ரம-ராம-வளநாடு",
   "variants": [
    "vikrama-rāma-vaḷanāṭṭu"
   ],
@@ -5756,7 +5756,7 @@
   "id": "ez:admin_unit/vinota-valanadu",
   "kind": "admin_unit",
   "label_iso": "Viṉōta-vaḷanāṭu",
-  "label_ta": "வினோத-வளனாடு",
+  "label_ta": "வினோத-வளநாடு",
   "variants": [
    "viṉōta-vaḷanāṭṭu"
   ],
@@ -5776,7 +5776,7 @@
   "id": "ez:admin_unit/virutaracapayankara-valanadu",
   "kind": "admin_unit",
   "label_iso": "Virutarāca-payaṅkara-vaḷanāṭu",
-  "label_ta": "விருதராச-பயங்கர-வளனாடு",
+  "label_ta": "விருதராச-பயங்கர-வளநாடு",
   "variants": [
    "virutarāca-payaṅkara-vaḷanāṭṭu",
    "viruta-rāca-payaṅkara-vaḷanāṭṭu"
@@ -5798,7 +5798,7 @@
   "id": "ez:admin_unit/virutarajapayankara-valanadu",
   "kind": "admin_unit",
   "label_iso": "Viruta-rāja-payaṅkara-vaḷanāṭu",
-  "label_ta": "விருத-ராஜ-பயங்கர-வளனாடு",
+  "label_ta": "விருத-ராஜ-பயங்கர-வளநாடு",
   "variants": [
    "viruta-rāja-payaṅkara-vaḷanāṭṭu"
   ],
@@ -5818,7 +5818,7 @@
   "id": "ez:admin_unit/yankara-valanadu",
   "kind": "admin_unit",
   "label_iso": "Yaṅkara-vaḷanāṭu",
-  "label_ta": "யங்கர-வளனாடு",
+  "label_ta": "யங்கர-வளநாடு",
   "variants": [
    "yaṅkara-vaḷanāṭṭu"
   ],
@@ -5880,7 +5880,7 @@
   "id": "ez:admin_unit/zhuti-valanadu",
   "kind": "admin_unit",
   "label_iso": "Ḻuti-vaḷanāṭu",
-  "label_ta": "ழுதி-வளனாடு",
+  "label_ta": "ழுதி-வளநாடு",
   "variants": [
    "ḻuti-vaḷanāṭṭu"
   ],

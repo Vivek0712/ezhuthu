@@ -67,7 +67,9 @@ def _ta(iso: str) -> str | None:
             continue
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            out.append(transliterate.process("ISO", "Tamil", tok.lower(), post_options=["TamilRemoveNumbers"]))
+            ta = transliterate.process("ISO", "Tamil", tok.lower(), nativize=False, post_options=["TamilRemoveNumbers"])
+            # faithful ISO mapping (n -> ந, ṉ -> ன); Tamil never ends a word in ந், so Sanskrit final n -> ன்
+            out.append(re.sub(r"ந்(?=$|[-\s])", "ன்", ta))
     return " ".join(o for o in out if o) or None
 
 

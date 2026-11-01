@@ -376,7 +376,7 @@
   "id": "ez:place/art-institute-of-chicago",
   "kind": "place",
   "label_iso": "Art Institute of Chicago",
-  "label_ta": "அர்த் இன்ஸ்திதுதெ ஒஃப் சிசகொ",
+  "label_ta": "அர்த் இந்ஸ்திதுதெ ஒஃப் சிசகொ",
   "variants": [
    "Art Institute of Chicago"
   ],
@@ -480,7 +480,7 @@
   "id": "ez:place/azhvar-tirunakari",
   "kind": "place",
   "label_iso": "Āḻvār Tirunakari",
-  "label_ta": "ஆழ்வார் திருனகரி",
+  "label_ta": "ஆழ்வார் திருநகரி",
   "variants": [
    "Āḻvār Tirunakari"
   ],
@@ -646,7 +646,7 @@
   "id": "ez:place/cankaramanallur",
   "kind": "place",
   "label_iso": "Caṅkaramanallūr",
-  "label_ta": "சங்கரமனல்லூர்",
+  "label_ta": "சங்கரமநல்லூர்",
   "variants": [
    "Caṅkaramanallūr",
    "Sangrāmanallūr"
@@ -1052,7 +1052,7 @@
   "id": "ez:place/ceytunkanallur",
   "kind": "place",
   "label_iso": "Ceytuṅkanallūr",
-  "label_ta": "செய்துங்கனல்லூர்",
+  "label_ta": "செய்துங்கநல்லூர்",
   "variants": [
    "Ceytuṅkanallūr",
    "Seydunganallur"
@@ -1111,7 +1111,7 @@
   "id": "ez:place/cinnanakapunti",
   "kind": "place",
   "label_iso": "Ciṉṉanākapūṇṭi",
-  "label_ta": "சின்னனாகபூண்டி",
+  "label_ta": "சின்னநாகபூண்டி",
   "variants": [
    "Ciṉṉanākapūṇṭi"
   ],
@@ -1208,7 +1208,7 @@
   "id": "ez:place/cirunavalur",
   "kind": "place",
   "label_iso": "Ciṟunāvalūr",
-  "label_ta": "சிறுனாவலூர்",
+  "label_ta": "சிறுநாவலூர்",
   "variants": [
    "Ciṟunāvalūr"
   ],
@@ -1504,7 +1504,7 @@
   "id": "ez:place/devasthanam",
   "kind": "place",
   "label_iso": "Dēvasthānam",
-  "label_ta": "தேவஸ்தானம்",
+  "label_ta": "தேவஸ்தாநம்",
   "variants": [
    "Dēvasthānam"
   ],
@@ -1722,7 +1722,7 @@
   "id": "ez:place/etutta-vaynattam",
   "kind": "place",
   "label_iso": "Eṭutta Vāynattam",
-  "label_ta": "எடுத்த வாய்னத்தம்",
+  "label_ta": "எடுத்த வாய்நத்தம்",
   "variants": [
    "Eṭutta Vāynattam"
   ],
@@ -1840,7 +1840,7 @@
   "id": "ez:place/hanumantapuram",
   "kind": "place",
   "label_iso": "Hanumantapuram",
-  "label_ta": "ஹனுமந்தபுரம்",
+  "label_ta": "ஹநுமந்தபுரம்",
   "variants": [
    "Hanumantapuram"
   ],
@@ -1917,7 +1917,7 @@
   "id": "ez:place/ilaiyanallur",
   "kind": "place",
   "label_iso": "Iḷaiyanallūr",
-  "label_ta": "இளையனல்லூர்",
+  "label_ta": "இளையநல்லூர்",
   "variants": [
    "Iḷaiyanallūr"
   ],
@@ -2091,7 +2091,7 @@
   "id": "ez:place/kalcirunakalur",
   "kind": "place",
   "label_iso": "Kalciṟunākalūr",
-  "label_ta": "கல்சிறுனாகலூர்",
+  "label_ta": "கல்சிறுநாகலூர்",
   "variants": [
    "Kalciṟunākalūr"
   ],
@@ -2305,7 +2305,7 @@
   "id": "ez:place/kanyakumari",
   "kind": "place",
   "label_iso": "Kanyākumāri",
-  "label_ta": "கன்யாகுமாரி",
+  "label_ta": "கந்யாகுமாரி",
   "variants": [
    "Kanyākumāri"
   ],
@@ -2763,7 +2763,7 @@
   "id": "ez:place/kizhmuttukur-hero-stone",
   "kind": "place",
   "label_iso": "Kīḻmuṭṭukūr hero-stone",
-  "label_ta": "கீழ்முட்டுகூர் ஹெரொ-ஸ்தொனெ",
+  "label_ta": "கீழ்முட்டுகூர் ஹெரொ-ஸ்தொநெ",
   "variants": [
    "Kīḻmuṭṭukūr hero-stone"
   ],
@@ -2888,7 +2888,7 @@
   "id": "ez:place/kollur-land-measuring-rod",
   "kind": "place",
   "label_iso": "Kollūr land-measuring rod",
-  "label_ta": "கொல்லூர் லந்த்-மெஅஸுரின்க் ரொத்",
+  "label_ta": "கொல்லூர் லந்த்-மெஅஸுரிந்க் ரொத்",
   "variants": [
    "Kollūr land-measuring rod"
   ],
@@ -3143,7 +3143,7 @@
   "id": "ez:place/kunnantar-koyil",
   "kind": "place",
   "label_iso": "Kunnāṇṭār Kōyil",
-  "label_ta": "குன்னாண்டார் கோயில்",
+  "label_ta": "குந்நாண்டார் கோயில்",
   "variants": [
    "Kunnāṇṭār Kōyil"
   ],
@@ -3162,7 +3162,7 @@
   "id": "ez:place/kunnantarkoyil",
   "kind": "place",
   "label_iso": "Kunnāṇṭārkōyil",
-  "label_ta": "குன்னாண்டார்கோயில்",
+  "label_ta": "குந்நாண்டார்கோயில்",
   "variants": [
    "Kunnāṇṭārkōyil",
    "Kuṇṇāṇṭārkōyil"
@@ -3183,7 +3183,7 @@
   "id": "ez:place/kuppalnattam",
   "kind": "place",
   "label_iso": "Kuppalnattam",
-  "label_ta": "குப்பல்னத்தம்",
+  "label_ta": "குப்பல்நத்தம்",
   "variants": [
    "Kuppalnattam"
   ],
@@ -3723,7 +3723,7 @@
   "id": "ez:place/marutanallur",
   "kind": "place",
   "label_iso": "Marutanallūr",
-  "label_ta": "மருதனல்லூர்",
+  "label_ta": "மருதநல்லூர்",
   "variants": [
    "Marutanallūr"
   ],
@@ -3939,7 +3939,7 @@
   "id": "ez:place/mukkanahalli",
   "kind": "place",
   "label_iso": "Mūkkanahaḷḷi",
-  "label_ta": "மூக்கனஹள்ளி",
+  "label_ta": "மூக்கநஹள்ளி",
   "variants": [
    "Mūkkanahaḷḷi"
   ],
@@ -3977,7 +3977,7 @@
   "id": "ez:place/muniyur",
   "kind": "place",
   "label_iso": "Muniyur",
-  "label_ta": "முனியுர்",
+  "label_ta": "முநியுர்",
   "variants": [
    "Muniyur"
   ],
@@ -4129,7 +4129,7 @@
   "id": "ez:place/naracinkanallur",
   "kind": "place",
   "label_iso": "Naraciṅkanallūr",
-  "label_ta": "நரசிங்கனல்லூர்",
+  "label_ta": "நரசிங்கநல்லூர்",
   "variants": [
    "Naraciṅkanallūr"
   ],
@@ -4248,7 +4248,7 @@
   "id": "ez:place/omgodu",
   "kind": "place",
   "label_iso": "Oṁgoḍu",
-  "label_ta": "ஒங்கொடு",
+  "label_ta": "ஒம்ʼகொடு",
   "variants": [
    "Oṁgoḍu"
   ],
@@ -4575,7 +4575,7 @@
   "id": "ez:place/pantanallur",
   "kind": "place",
   "label_iso": "Pantanallūr",
-  "label_ta": "பந்தனல்லூர்",
+  "label_ta": "பந்தநல்லூர்",
   "variants": [
    "Pantanallūr"
   ],
@@ -5177,7 +5177,7 @@
   "id": "ez:place/poykainallur",
   "kind": "place",
   "label_iso": "Poykainallūr",
-  "label_ta": "பொய்கைனல்லூர்",
+  "label_ta": "பொய்கைநல்லூர்",
   "variants": [
    "Poykainallūr"
   ],
@@ -5449,7 +5449,7 @@
   "id": "ez:place/sakrepatna",
   "kind": "place",
   "label_iso": "Sakrepaṭna",
-  "label_ta": "ஸக்ரெபட்ன",
+  "label_ta": "ஸக்ரெபட்ந",
   "variants": [
    "Sakrepaṭna"
   ],
@@ -5468,7 +5468,7 @@
   "id": "ez:place/sankaranayinarkoyil",
   "kind": "place",
   "label_iso": "Sankaranayinarkōyil",
-  "label_ta": "ஸன்கரனயினர்கோயில்",
+  "label_ta": "ஸந்கரநயிநர்கோயில்",
   "variants": [
    "Sankaranayinarkōyil"
   ],
@@ -5544,7 +5544,7 @@
   "id": "ez:place/shrimushnam",
   "kind": "place",
   "label_iso": "Shrimushnam",
-  "label_ta": "ஸ்ஹ்ரிமுஸ்ஹ்னம்",
+  "label_ta": "ஸ்ஹ்ரிமுஸ்ஹ்நம்",
   "variants": [
    "Shrimushnam"
   ],
@@ -5563,7 +5563,7 @@
   "id": "ez:place/sii-12-42-original-edition-by-v-venkatasubba-ayyar",
   "kind": "place",
   "label_iso": "SII 12.42: original edition by V. Venkatasubba Ayyar",
-  "label_ta": "ஸிஇ 12.42: ஒரிகினல் எதிதிஒன் ப்ய் வ். வென்கதஸுப்ப அய்யர்",
+  "label_ta": "ஸிஇ 12.42: ஒரிகிநல் எதிதிஒன் ப்ய் வ். வெந்கதஸுப்ப அய்யர்",
   "variants": [
    "SII 12.42: original edition by V. Venkatasubba Ayyar"
   ],
@@ -5917,7 +5917,7 @@
   "id": "ez:place/tanjore",
   "kind": "place",
   "label_iso": "Tanjore",
-  "label_ta": "தன்ஜொரெ",
+  "label_ta": "தந்ஜொரெ",
   "variants": [
    "Tanjore"
   ],
@@ -6228,7 +6228,7 @@
   "id": "ez:place/thanjavur",
   "kind": "place",
   "label_iso": "Thanjavur",
-  "label_ta": "தன்ஜவுர்",
+  "label_ta": "தந்ஜவுர்",
   "variants": [
    "Thanjavur"
   ],
@@ -6248,7 +6248,7 @@
   "id": "ez:place/tillaisthanam",
   "kind": "place",
   "label_iso": "Tillaisthānam",
-  "label_ta": "தில்லைஸ்தானம்",
+  "label_ta": "தில்லைஸ்தாநம்",
   "variants": [
    "Tillaisthānam"
   ],
@@ -6761,7 +6761,7 @@
   "id": "ez:place/tirumeynanam",
   "kind": "place",
   "label_iso": "Tirumeyñānam",
-  "label_ta": "திருமெய்ஞானம்",
+  "label_ta": "திருமெய்ஞாநம்",
   "variants": [
    "Tirumeyñānam"
   ],
@@ -6819,7 +6819,7 @@
   "id": "ez:place/tirunallaru",
   "kind": "place",
   "label_iso": "Tirunaḷḷāṟu",
-  "label_ta": "திருனள்ளாறு",
+  "label_ta": "திருநள்ளாறு",
   "variants": [
    "Tirunaḷḷāṟu"
   ],
@@ -6877,7 +6877,7 @@
   "id": "ez:place/tirunamanallur",
   "kind": "place",
   "label_iso": "Tirunāmanallūr",
-  "label_ta": "திருநாமனல்லூர்",
+  "label_ta": "திருநாமநல்லூர்",
   "variants": [
    "Tirunāmanallūr",
    "Tirunāvalūr"
@@ -6897,7 +6897,7 @@
   "id": "ez:place/tirunaraiyur",
   "kind": "place",
   "label_iso": "Tirunaṟaiyūr",
-  "label_ta": "திருனறையூர்",
+  "label_ta": "திருநறையூர்",
   "variants": [
    "Tirunaṟaiyūr"
   ],
@@ -6917,7 +6917,7 @@
   "id": "ez:place/tirunelveli",
   "kind": "place",
   "label_iso": "Tirunelvēli",
-  "label_ta": "திருனெல்வேலி",
+  "label_ta": "திருநெல்வேலி",
   "variants": [
    "Tirunelvēli",
    "Tirunelveli"
@@ -6938,7 +6938,7 @@
   "id": "ez:place/tirunetunkalam",
   "kind": "place",
   "label_iso": "Tiruneṭuṅkaḷam",
-  "label_ta": "திருனெடுங்களம்",
+  "label_ta": "திருநெடுங்களம்",
   "variants": [
    "Tiruneṭuṅkalam",
    "Tiruneṭuṅkaḷam"
@@ -6960,7 +6960,7 @@
   "id": "ez:place/tirunirankonrai",
   "kind": "place",
   "label_iso": "Tiruniṟaṅkoṉṟai",
-  "label_ta": "திருனிறங்கொன்றை",
+  "label_ta": "திருநிறங்கொன்றை",
   "variants": [
    "Tiruniṟaṅkoṉṟai"
   ],
@@ -7844,7 +7844,7 @@
   "id": "ez:place/tontamanur",
   "kind": "place",
   "label_iso": "Toṇṭamanūr",
-  "label_ta": "தொண்டமனூர்",
+  "label_ta": "தொண்டமநூர்",
   "variants": [
    "Toṇṭamanūr"
   ],
@@ -7929,7 +7929,7 @@
   "id": "ez:place/triplicane",
   "kind": "place",
   "label_iso": "Triplicane",
-  "label_ta": "த்ரிப்லிசனெ",
+  "label_ta": "த்ரிப்லிசநெ",
   "variants": [
    "Triplicane"
   ],
@@ -8234,7 +8234,7 @@
   "id": "ez:place/valappurnatu",
   "kind": "place",
   "label_iso": "Vaḷappūrnāṭu",
-  "label_ta": "வளப்பூர்னாடு",
+  "label_ta": "வளப்பூர்நாடு",
   "variants": [
    "Vaḷappūrnāṭu"
   ],
@@ -8313,7 +8313,7 @@
   "id": "ez:place/vannava-matevi",
   "kind": "place",
   "label_iso": "Vānṉava-mātēvi",
-  "label_ta": "வான்னவ-மாதேவி",
+  "label_ta": "வாந்னவ-மாதேவி",
   "variants": [
    "vānṉava-mātēvi"
   ],
@@ -8685,7 +8685,7 @@
   "id": "ez:place/viranattam-fragment",
   "kind": "place",
   "label_iso": "Vīranattam fragment",
-  "label_ta": "வீரனத்தம் ஃப்ரக்மெந்த்",
+  "label_ta": "வீரநத்தம் ஃப்ரக்மெந்த்",
   "variants": [
    "Vīranattam fragment"
   ],
@@ -8803,7 +8803,7 @@
   "id": "ez:place/vunna-guruvapalem",
   "kind": "place",
   "label_iso": "Vunna Guruvapāḷem",
-  "label_ta": "வுன்ன குருவபாளெம்",
+  "label_ta": "வுந்ந குருவபாளெம்",
   "variants": [
    "Vunna Guruvapāḷem"
   ],
