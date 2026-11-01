@@ -131,7 +131,7 @@ test('about credits DHARMA and is reachable from navigation', async ({ page }) =
   await setEnglish(page);
   await page.goto('/');
   await gotoNav(page, 'About');
-  await expect(page.getByTestId('credits')).toContainText('CC BY 4.0');
+  await expect(page.getByTestId('credits')).toContainText('CC BY-SA 4.0');
   await expect(page.getByTestId('credits')).toContainText('Built with Strands Agents');
   await expectNoHorizontalScroll(page);
 });

@@ -222,11 +222,16 @@ export function LearnPage() {
             )}
           </dl>
           <p>{pick(ctx.explain_ta, ctx.explain_en)}</p>
-          <h3>{t('learn.restoredText')}</h3>
-          <p className="inscription-line script-chola" lang="ta">
-            {insc.restored_text_tamil}
-          </p>
-          <p className="iso">{insc.restored_text}</p>
+          {/* The restored text contains the answer to the current item: show it only once that item is resolved. */}
+          {(done || result?.next_action === 'advance') && (
+            <div data-testid="restored-text">
+              <h3>{t('learn.restoredText')}</h3>
+              <p className="inscription-line script-chola" lang="ta">
+                {insc.restored_text_tamil}
+              </p>
+              <p className="iso">{insc.restored_text}</p>
+            </div>
+          )}
         </aside>
       </div>
     </>

@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
 import { setTokenGetter } from '../api/client';
-import { getConfig } from '../lib/runtimeConfig';
+import { getConfig, isMockMode } from '../lib/runtimeConfig';
 import { authorizeUrl, codeChallenge, decodeJwt, groupsFromClaims, normalizeDomain, randomString } from './pkce';
 
 export interface User {
@@ -24,7 +24,6 @@ interface Auth {
 
 const KEY = 'ezhuthu.session';
 const PKCE_KEY = 'ezhuthu.pkce';
-const MOCK = import.meta.env.VITE_API_MOCK === '1';
 
 function redirectUri(): string {
   return `${window.location.origin}/auth/callback`;
@@ -70,7 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signIn = useCallback(async (returnTo = window.location.pathname) => {
     const { cognitoDomain: DOMAIN, cognitoClientId: CLIENT_ID } = getConfig();
-    if (MOCK) {
+    if (isMockMode()) {
       // Demo identity for mock mode only; the mock API accepts this token.
       setSession({
         user: { name: 'demo-expert', groups: ['experts'] },
@@ -123,7 +122,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signOut = useCallback(() => {
     const { cognitoDomain: DOMAIN, cognitoClientId: CLIENT_ID } = getConfig();
     setSession(null);
-    if (!MOCK && DOMAIN && CLIENT_ID) {
+    if (!isMockMode() && DOMAIN && CLIENT_ID) {
       const u = new URL('/logout', normalizeDomain(DOMAIN));
       u.searchParams.set('client_id', CLIENT_ID);
       u.searchParams.set('logout_uri', `${window.location.origin}/`);
@@ -135,8 +134,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     () => ({
       user: session?.user ?? null,
       isExpert: !!session?.user.groups.includes('experts'),
-      mock: MOCK,
-      configured: MOCK || (!!getConfig().cognitoDomain && !!getConfig().cognitoClientId),
+      mock: isMockMode(),
+      configured: isMockMode() || (!!getConfig().cognitoDomain && !!getConfig().cognitoClientId),
       signIn,
       signOut,
       completeSignIn,
