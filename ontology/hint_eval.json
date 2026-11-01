@@ -1,0 +1,10 @@
+{
+ "k": 5,
+ "gaps": 1985,
+ "gaps_with_any_hint": 346,
+ "hit_at_k": 0.066,
+ "hits": 131,
+ "gaps_inside_entity_mention": 308,
+ "hit_at_k_inside_entity_mention": 0.4221,
+ "note": "in-corpus (not held-out): ontology built from the same editions; see module docstring"
+}
