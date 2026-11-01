@@ -1,11 +1,12 @@
 admins: [u:lead]
 teams:
   ezhuthu:
-    members: [u:lead, u:data, u:onto, u:agent, u:app, u:qa]
-    roles: { em: [u:lead], ic: [u:data, u:onto, u:agent, u:app, u:qa] }
-    services: [corpus, ontology, agent, app]
+    members: [u:lead, u:data, u:onto, u:agent, u:app, u:qa, u:design]
+    roles: { em: [u:lead], ic: [u:data, u:onto, u:agent, u:app, u:qa, u:design] }
+    services: [corpus, ontology, agent, app, design]
 services:
   corpus:   { owners: [ezhuthu], contributors: [], repos: [ { name: ezhuthu, paths: [corpus/, benchmark/] } ], depends_on: [] }
   ontology: { owners: [ezhuthu], contributors: [], repos: [ { name: ezhuthu, paths: [ontology/] } ], depends_on: [corpus] }
   agent:    { owners: [ezhuthu], contributors: [], repos: [ { name: ezhuthu, paths: [agent/, eval/] } ], depends_on: [corpus, ontology] }
   app:      { owners: [ezhuthu], contributors: [], repos: [ { name: ezhuthu, paths: [app/, infra/] } ], depends_on: [agent] }
+  design:   { owners: [ezhuthu], contributors: [], repos: [ { name: ezhuthu, paths: [design/, README.md] } ], depends_on: [] }

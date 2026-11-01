@@ -1,0 +1,5 @@
+# Python deps for the design build (not needed by the app or CI). Python 3.9+.
+fonttools>=4.50
+uharfbuzz>=0.39
+skia-pathops>=0.8
+brotli>=1.1

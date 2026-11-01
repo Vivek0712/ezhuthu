@@ -1,0 +1,247 @@
+[
+ {
+  "src": "glyphs/evolution-strip-light.svg",
+  "out": "renders/glyphs/evolution-strip-light.png",
+  "w": 1440,
+  "h": 940,
+  "bg": "#F4EEE2"
+ },
+ {
+  "src": "glyphs/evolution-strip-dark.svg",
+  "out": "renders/glyphs/evolution-strip-dark.png",
+  "w": 1440,
+  "h": 940,
+  "bg": "#13100D"
+ },
+ {
+  "src": "brand/logo/construction.svg",
+  "out": "renders/brand/construction.png",
+  "w": 900,
+  "h": 380,
+  "bg": "#FBF8F1"
+ },
+ {
+  "src": "brand/banners/readme-hero-light.svg",
+  "out": "brand/banners/readme-hero-light.png",
+  "w": 1280,
+  "h": 400,
+  "scale": 2
+ },
+ {
+  "src": "brand/banners/readme-hero-dark.svg",
+  "out": "brand/banners/readme-hero-dark.png",
+  "w": 1280,
+  "h": 400,
+  "scale": 2
+ },
+ {
+  "src": "brand/banners/og-image.svg",
+  "out": "brand/icons/og-image.png",
+  "w": 1200,
+  "h": 630
+ },
+ {
+  "src": "brand/banners/builder-center-header.svg",
+  "out": "brand/banners/builder-center-header.png",
+  "w": 1600,
+  "h": 900
+ },
+ {
+  "src": "brand/banners/video/00-title-dark.svg",
+  "out": "brand/banners/video/00-title-dark.png",
+  "w": 1920,
+  "h": 1080
+ },
+ {
+  "src": "brand/banners/video/00-title-light.svg",
+  "out": "brand/banners/video/00-title-light.png",
+  "w": 1920,
+  "h": 1080
+ },
+ {
+  "src": "brand/banners/video/01-problem.svg",
+  "out": "brand/banners/video/01-problem.png",
+  "w": 1920,
+  "h": 1080
+ },
+ {
+  "src": "brand/banners/video/02-how.svg",
+  "out": "brand/banners/video/02-how.png",
+  "w": 1920,
+  "h": 1080
+ },
+ {
+  "src": "brand/banners/video/03-restore.svg",
+  "out": "brand/banners/video/03-restore.png",
+  "w": 1920,
+  "h": 1080
+ },
+ {
+  "src": "brand/banners/video/04-results.svg",
+  "out": "brand/banners/video/04-results.png",
+  "w": 1920,
+  "h": 1080
+ },
+ {
+  "src": "brand/banners/video/05-credits.svg",
+  "out": "brand/banners/video/05-credits.png",
+  "w": 1920,
+  "h": 1080
+ },
+ {
+  "src": "brand/icons/favicon-16.svg",
+  "out": "brand/icons/favicon-16.png",
+  "w": 16,
+  "h": 16
+ },
+ {
+  "src": "brand/icons/favicon.svg",
+  "out": "brand/icons/favicon-32.png",
+  "w": 32,
+  "h": 32
+ },
+ {
+  "src": "brand/icons/apple-touch-icon.svg",
+  "out": "brand/icons/apple-touch-icon-180.png",
+  "w": 180,
+  "h": 180
+ },
+ {
+  "src": "brand/icons/icon.svg",
+  "out": "brand/icons/icon-192.png",
+  "w": 192,
+  "h": 192
+ },
+ {
+  "src": "brand/icons/icon.svg",
+  "out": "brand/icons/icon-512.png",
+  "w": 512,
+  "h": 512
+ },
+ {
+  "src": "brand/icons/icon-maskable.svg",
+  "out": "brand/icons/icon-maskable-512.png",
+  "w": 512,
+  "h": 512
+ },
+ {
+  "src": "brand/icons/icon-maskable.svg",
+  "out": "brand/icons/icon-maskable-192.png",
+  "w": 192,
+  "h": 192
+ },
+ {
+  "src": "brand/logo/mark-color.svg",
+  "out": "brand/logo/png/mark-color.png",
+  "w": 325,
+  "h": 224,
+  "scale": 2
+ },
+ {
+  "src": "brand/logo/lockup-horizontal-color.svg",
+  "out": "brand/logo/png/lockup-horizontal-color.png",
+  "w": 796,
+  "h": 155,
+  "bg": "#F4EEE2",
+  "scale": 2
+ },
+ {
+  "src": "brand/logo/lockup-horizontal-reversed.svg",
+  "out": "brand/logo/png/lockup-horizontal-reversed.png",
+  "w": 796,
+  "h": 155,
+  "bg": "#13100D",
+  "scale": 2
+ },
+ {
+  "src": "brand/logo/lockup-stacked-color.svg",
+  "out": "brand/logo/png/lockup-stacked-color.png",
+  "w": 486,
+  "h": 205,
+  "bg": "#F4EEE2",
+  "scale": 2
+ },
+ {
+  "src": "brand/logo/wordmark-ta-color.svg",
+  "out": "brand/logo/png/wordmark-ta-color.png",
+  "w": 765,
+  "h": 241,
+  "scale": 2
+ },
+ {
+  "src": "ux/wireframes/01-learn.svg",
+  "out": "renders/ux/01-learn.png",
+  "w": 1000,
+  "h": 980
+ },
+ {
+  "src": "ux/wireframes/02-lesson.svg",
+  "out": "renders/ux/02-lesson.png",
+  "w": 1000,
+  "h": 980
+ },
+ {
+  "src": "ux/wireframes/03-restore.svg",
+  "out": "renders/ux/03-restore.png",
+  "w": 1000,
+  "h": 980
+ },
+ {
+  "src": "ux/wireframes/04-progress.svg",
+  "out": "renders/ux/04-progress.png",
+  "w": 1000,
+  "h": 980
+ },
+ {
+  "src": "ux/wireframes/05-review.svg",
+  "out": "renders/ux/05-review.png",
+  "w": 1000,
+  "h": 980
+ },
+ {
+  "src": "ux/wireframes/06-states.svg",
+  "out": "renders/ux/06-states.png",
+  "w": 1000,
+  "h": 520
+ },
+ {
+  "src": "preview.html",
+  "out": "renders/preview-light.png",
+  "w": 1280,
+  "h": 900,
+  "page": true,
+  "full": true,
+  "hash": "#light"
+ },
+ {
+  "src": "preview.html",
+  "out": "renders/preview-dark.png",
+  "w": 1280,
+  "h": 900,
+  "page": true,
+  "full": true,
+  "hash": "#dark"
+ },
+ {
+  "src": "preview.html",
+  "out": "renders/preview-mobile.png",
+  "w": 390,
+  "h": 844,
+  "page": true,
+  "full": false,
+  "scale": 2,
+  "hash": "#light"
+ },
+ {
+  "src": "brand/banners/social-preview-light.svg",
+  "out": "brand/banners/social-preview.png",
+  "w": 1280,
+  "h": 640
+ },
+ {
+  "src": "brand/banners/social-preview-dark.svg",
+  "out": "brand/banners/social-preview-dark.png",
+  "w": 1280,
+  "h": 640
+ }
+]
