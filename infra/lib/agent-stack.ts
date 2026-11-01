@@ -90,6 +90,13 @@ export class EzhuthuAgentStack extends cdk.Stack {
         EZHUTHU_MODEL_DEFAULT: props.models.llm.default!,
         EZHUTHU_MODEL_ESCALATE: props.models.llm.escalate!,
         EZHUTHU_MODEL_CHEAP: props.models.llm.cheap ?? props.models.llm.default!,
+        EZHUTHU_LIVE: '1',
+        EZHUTHU_CACHE_DIR: '/tmp/ezhuthu-cache', // the bundle directory is read-only
+        // The tutor's DynamoStore expects a pk-only table with a kind-index GSI; the shared table is pk+sk/gsi1,
+        // so tutor sessions live in the microVM (one AgentCore session per learner keeps them warm).
+        EZHUTHU_STORE: 'memory',
+        // No hosted decider yet: confidences use the flagged fallback (decider_model "fallback:...").
+        EZHUTHU_DECIDER: 'off',
       },
     });
     this.runtime.node.addDependency(role);

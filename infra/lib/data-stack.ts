@@ -1,4 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
+import * as budgets from 'aws-cdk-lib/aws-budgets';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import { Construct } from 'constructs';
 
@@ -30,5 +31,22 @@ export class EzhuthuDataStack extends cdk.Stack {
       ],
     });
     new cdk.CfnOutput(this, 'TableName', { value: this.table.tableName });
+
+    // Monthly cost guardrail: USD 50 for resources tagged Project=ezhuthu, email at 80% of actual spend.
+    new budgets.CfnBudget(this, 'MonthlyBudget', {
+      budget: {
+        budgetName: 'ezhuthu-monthly',
+        budgetType: 'COST',
+        timeUnit: 'MONTHLY',
+        budgetLimit: { amount: 50, unit: 'USD' },
+        costFilters: { TagKeyValue: ['user:Project$ezhuthu'] },
+      },
+      notificationsWithSubscribers: [
+        {
+          notification: { notificationType: 'ACTUAL', comparisonOperator: 'GREATER_THAN', threshold: 80, thresholdType: 'PERCENTAGE' },
+          subscribers: [{ subscriptionType: 'EMAIL', address: 'vivekraja98@gmail.com' }],
+        },
+      ],
+    });
   }
 }

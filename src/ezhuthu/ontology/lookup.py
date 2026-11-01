@@ -31,7 +31,16 @@ from ezhuthu.ontology.letters import letter_count
 from ezhuthu.ontology.matcher import MIN_KEY, KeyedText, VariantIndex
 from ezhuthu.ontology.normalize import key
 
-DEFAULT_DIR = Path(__file__).resolve().parents[3] / "ontology"
+def _default_dir() -> Path:
+    """Checkout layout (src/ezhuthu/ontology -> repo/ontology) or an AgentCore bundle (ezhuthu/ -> bundle/ontology)."""
+    here = Path(__file__).resolve()
+    for base in (here.parents[3], here.parents[2]):
+        if (base / "ontology" / "letters_by_era.json").is_file():
+            return base / "ontology"
+    return here.parents[3] / "ontology"
+
+
+DEFAULT_DIR = _default_dir()
 # Kinds worth proposing as gap fills (letters and script stages are not text content).
 FILL_KINDS = {
     "ruler", "title", "formula", "dynasty", "place", "admin_unit", "temple", "deity",

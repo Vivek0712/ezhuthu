@@ -107,6 +107,40 @@ def handle(payload: dict[str, Any], svc: EzhuthuService | None = None) -> dict[s
         return {"error": {"status": 500, "detail": f"{type(exc).__name__}: {exc}"}}
 
 
+_ROUTE_ACTIONS = {
+    "/api/restore": "restore", "/api/lesson": "lesson", "/api/answer": "answer", "/api/assessment": "assessment",
+    "/api/progress/{session_id}": "progress", "/api/evaluate": "evaluate", "/api/corrections": "corrections",
+    "/api/queue": "queue", "/api/queue/{id}": "review", "/health": "health",
+}
+
+
+def handle_proxy(payload: dict[str, Any], svc: EzhuthuService | None = None) -> dict[str, Any]:
+    """Adapt the infra Lambda proxy envelope (infra/README.md "Proxy to agent contract") to :func:`handle`.
+
+    In: ``{"version": 1, "route": "/api/...", "body": {...}, "path_params": {...}, "session_id"?, "user"?}``.
+    Out: ``{"status": <http status>, "body": <contract body | {"error": {"code", "message"}}>}``.
+    Payloads that already carry ``action`` are passed through unchanged (AgentCore CLI / local use).
+    """
+    if not isinstance(payload, dict) or "action" in payload or "route" not in payload:
+        return handle(payload, svc)
+    action = _ROUTE_ACTIONS.get(str(payload.get("route")))
+    if action is None:
+        return {"status": 404, "body": {"error": {"code": "not_found", "message": f"no agent route {payload.get('route')}"}}}
+    body = payload.get("body") if isinstance(payload.get("body"), dict) else {}
+    flat: dict[str, Any] = {**body, **(payload.get("path_params") or {}), "action": action}
+    if payload.get("session_id"):  # the proxy mints the lesson session id; the agent must reuse it
+        flat["session_id"] = payload["session_id"]
+    if action == "review" and "action" in body:
+        flat["review_action"] = body["action"]
+    out = handle(flat, svc)
+    err = out.get("error") if isinstance(out, dict) else None
+    if isinstance(err, dict) and "status" in err and "detail" in err and len(out) == 1:
+        status = int(err["status"])
+        code = {403: "forbidden", 404: "not_found", 422: "bad_request"}.get(status, "internal")
+        return {"status": status, "body": {"error": {"code": code, "message": str(err["detail"])}}}
+    return {"status": 200, "body": out}
+
+
 def create_agentcore_app():
     from bedrock_agentcore.runtime import BedrockAgentCoreApp
 
@@ -114,7 +148,7 @@ def create_agentcore_app():
 
     @app.entrypoint
     def invoke(payload: dict[str, Any]) -> dict[str, Any]:
-        return handle(payload)
+        return handle_proxy(payload)
 
     return app
 
