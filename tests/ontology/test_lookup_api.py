@@ -61,3 +61,52 @@ def test_entity_lookup():
     assert rec["wikidata"] == "Q2128757" and rec["dynasty"] == "ez:dynasty/chola"
     assert rec["attested_in"]
     assert lookup.entity("ez:ruler/nobody") is None
+
+
+def test_tamil_script_input_is_rejected_not_silently_empty():
+    with pytest.raises(ValueError, match="ISO-15919"):
+        lookup.find_entities("ஸ்வஸ்தி ஸ்ரீ")
+    with pytest.raises(ValueError, match="ISO-15919"):
+        lookup.hints_for_gap("கோப்பர", "rkku yāṇṭu")
+    with pytest.raises(ValueError):
+        lookup.hints_for_gap("kō-p-para", "ர்க்கு யாண்டு")
+
+
+@pytest.mark.parametrize("bad", [0, -3, True, 2.5])
+def test_gap_chars_must_be_positive_int(bad):
+    with pytest.raises(ValueError, match="gap_chars"):
+        lookup.hints_for_gap("svasti śrī maturai koṇṭa kō-p-para", "rkku yāṇṭu", gap_chars=bad)
+
+
+def test_results_are_copies_of_the_cached_ontology():
+    rec = lookup.entity("ez:ruler/rajaraja-i")
+    rec["label_iso"] = "HACKED"
+    rec["variants"].append("HACKED")
+    again = lookup.entity("ez:ruler/rajaraja-i")
+    assert again["label_iso"] != "HACKED" and "HACKED" not in again["variants"]
+
+    onto = lookup.load()
+    onto.by_kind("ruler")[0]["label_iso"] = "HACKED"
+    assert all(r["label_iso"] != "HACKED" for r in onto.by_kind("ruler"))
+
+    letters = lookup.valid_letters("chola-tamil")
+    letters[0]["iso_values"].append("HACKED")
+    assert "HACKED" not in lookup.valid_letters("chola-tamil")[0]["iso_values"]
+
+    lookup.formulas_for("ez:ruler/rajaraja-i")[0]["label_iso"] = "HACKED"
+    assert lookup.formulas_for("ez:ruler/rajaraja-i")[0]["label_iso"] != "HACKED"
+    onto.exceptions("chola-tamil").clear()
+    assert onto.exceptions("chola-tamil")
+
+
+def test_inputs_are_bounded():
+    with pytest.raises(ValueError, match="at most"):
+        lookup.find_entities("a" * (lookup.MAX_TEXT_CHARS + 1))
+    left, right = "svasti śrī maturai koṇṭa kō-p-para", "rkku yāṇṭu paṉṉiraṇṭu"
+    pad = "kaṭamai " * 50_000  # 400k chars of context on each side
+    import time
+
+    t0 = time.perf_counter()
+    big = lookup.hints_for_gap(pad + left, right + " " + pad, gap_chars=7)
+    assert time.perf_counter() - t0 < 2.0
+    assert big[0]["id"] == lookup.hints_for_gap(left, right, gap_chars=7)[0]["id"] == "ez:title/parakesarivarman"

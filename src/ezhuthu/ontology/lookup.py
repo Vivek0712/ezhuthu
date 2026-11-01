@@ -7,13 +7,20 @@
     lookup.entity("ez:ruler/rajaraja-i")
     lookup.hints_for_gap("kō-p-para", "rkku yāṇṭu", gap_chars=8)
 
-All text is ISO-15919 (contracts/restore-api.md). Results are plain dicts so they serialise
-straight into API responses; each hint carries ``id``, ``kind`` and ``label`` as the restore
-contract's ``ontology_hints`` expects.
+All text is ISO-15919 (contracts/restore-api.md). Tamil-script input raises ``ValueError``:
+transliterate it first (``ezhuthu.corpus.script``) rather than getting a silent empty result.
+Inputs are bounded (``MAX_TEXT_CHARS`` for ``find_entities``; ``hints_for_gap`` only reads the
+``CONTEXT_CHARS`` nearest the gap on each side), so a public API cannot be slowed down with huge
+payloads. Results are fresh copies: mutating them never changes the cached ontology. Each hint
+carries ``id``, ``kind`` and ``label`` as the restore contract's ``ontology_hints`` expects.
+
+The shipped artefacts are built from the benchmark's train split only (``coverage.json`` ->
+``splits``), so hints never contain variants seen only in val/test editions.
 """
 
 from __future__ import annotations
 
+import copy
 import functools
 import json
 import re
@@ -32,6 +39,17 @@ FILL_KINDS = {
 }  # fmt: skip
 # After these (folded) stems a regnal year follows: ``<royal name>-kku yāṇṭu``.
 _REGNAL_RIGHT = re.compile(r"^(?:[ṟr]k|k)?k?u?yāṇṭu")
+_TAMIL_BLOCK = re.compile(r"[\u0B80-\u0BFF]")
+MAX_TEXT_CHARS = 50_000  # find_entities input cap (longest DHARMA edition is ~24k chars)
+CONTEXT_CHARS = 2_000  # hints_for_gap reads at most this much context on each side of the gap
+
+
+def _check_text(text: str, name: str = "text") -> None:
+    if not isinstance(text, str):
+        raise TypeError(f"{name} must be str, got {type(text).__name__}")
+    if _TAMIL_BLOCK.search(text):
+        raise ValueError(f"{name} is in Tamil script; the ontology lookups take ISO-15919 "
+                         "(transliterate with ezhuthu.corpus.script first)")
 
 
 class Ontology:
@@ -64,13 +82,20 @@ class Ontology:
 
     # -- basic lookups ----------------------------------------------------------------------
     def entity(self, eid: str) -> dict | None:
-        return self.entities.get(eid)
+        rec = self.entities.get(eid)
+        return copy.deepcopy(rec) if rec is not None else None
 
     def by_kind(self, kind: str) -> list[dict]:
-        return [r for r in self.entities.values() if r["kind"] == kind]
+        return [copy.deepcopy(r) for r in self.entities.values() if r["kind"] == kind]
 
     def find_entities(self, text: str) -> list[dict]:
         """Entities mentioned in ISO-15919 ``text``, with char spans, in text order."""
+        _check_text(text)
+        if len(text) > MAX_TEXT_CHARS:
+            raise ValueError(f"text is {len(text)} chars; find_entities accepts at most {MAX_TEXT_CHARS}")
+        return self._find(text)
+
+    def _find(self, text: str) -> list[dict]:
         out = []
         for m in self.index.scan(text):
             rec = self.entities[m.entity_id]
@@ -85,11 +110,11 @@ class Ontology:
             if st not in self.letters["stages"]:
                 raise KeyError(f"unknown script stage or level: {stage!r}")
             for letter in self.letters["stages"][st]["letters"]:
-                out.append({**letter, "stage": st, "id": f"ez:letter/{st}-{_letter_slug(letter['iso'])}"})
+                out.append({**copy.deepcopy(letter), "stage": st, "id": f"ez:letter/{st}-{_letter_slug(letter['iso'])}"})
         return out
 
     def exceptions(self, stage: str) -> list[dict]:
-        return list(self.letters["stages"][stage]["exceptions"])
+        return copy.deepcopy(self.letters["stages"][stage]["exceptions"])
 
     def formulas_for(self, ruler: str) -> list[dict]:
         """Formulas a ruler's inscriptions use: his own meykkīrtti/epithets first, then his dynasty's
@@ -99,7 +124,7 @@ class Ontology:
             raise KeyError(ruler)
         dyn = rec.get("dynasty") if rec["kind"] in ("ruler", "title") else rec["id"] if rec["kind"] == "dynasty" else None
         own, dynastic, common = [], [], []
-        for f in self.by_kind("formula"):
+        for f in self.by_kind("formula"):  # copies
             if f.get("ruler") == ruler:
                 own.append(f)
             elif f.get("ruler") is None and dyn and f.get("dynasty") == dyn:
@@ -125,12 +150,20 @@ class Ontology:
             dynasty are proposed. Without an anchor these carry no ``fill``.
         ``gap_chars`` is in Tamil letters (uyir/mey/uyirmey, as in the benchmark and DHARMA's
         ``<gap unit="character">``); a fill more than ~30% (min 1 letter) off is dropped.
-        Hints are ranked by anchor length and fit to ``gap_chars`` (when given).
+        Hints are ranked by anchor length and fit to ``gap_chars`` (when given; must be >= 1).
+        Only the ``CONTEXT_CHARS`` nearest the gap on each side are read.
         """
+        _check_text(left, "left")
+        _check_text(right, "right")
+        if gap_chars is not None and (isinstance(gap_chars, bool) or not isinstance(gap_chars, int) or gap_chars < 1):
+            raise ValueError(f"gap_chars must be a positive int or None, got {gap_chars!r}")
+        if limit < 1:
+            raise ValueError(f"limit must be >= 1, got {limit!r}")
+        left, right = left[-CONTEXT_CHARS:], right[:CONTEXT_CHARS]
         lk = KeyedText.of(left)
         L, R = lk.joined, key(right)
         regnal = bool(_REGNAL_RIGHT.search(R))
-        context = self.find_entities(left + " " + right)
+        context = self._find(left + " " + right)
         dyns = {self.entities[c["id"]].get("dynasty") or (c["id"] if c["kind"] == "dynasty" else None)
                 for c in context} - {None}
         left_boundary = not left or bool(re.search(r"[\s\-]$", left))
@@ -140,7 +173,7 @@ class Ontology:
             if not fill:
                 return
             fit = 1.0
-            if gap_chars:
+            if gap_chars is not None:
                 tol = max(1, round(0.3 * gap_chars))
                 diff = abs(letter_count(fill) - gap_chars)
                 if diff > tol:
