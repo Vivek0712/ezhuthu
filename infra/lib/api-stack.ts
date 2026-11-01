@@ -53,7 +53,7 @@ export class EzhuthuApiStack extends cdk.Stack {
         NODE_OPTIONS: '--enable-source-maps',
       },
       bundling: { minify: true, sourceMap: true, format: OutputFormat.CJS, target: 'node22', externalModules: [] },
-      logGroup: new logs.LogGroup(this, 'ProxyLogs', { retention: logs.RetentionDays.ONE_MONTH, removalPolicy: cdk.RemovalPolicy.DESTROY }),
+      logGroup: new logs.LogGroup(this, 'ProxyLogs', { retention: logs.RetentionDays.TWO_WEEKS, removalPolicy: cdk.RemovalPolicy.DESTROY }),
     });
     props.table.grantReadWriteData(fn);
     fn.addToRolePolicy(
@@ -83,16 +83,19 @@ export class EzhuthuApiStack extends cdk.Stack {
     const integration = new HttpLambdaIntegration('ProxyIntegration', fn, {
       payloadFormatVersion: apigw.PayloadFormatVersion.VERSION_2_0,
     });
+    const routes: apigw.HttpRoute[] = [];
     for (const r of ROUTES) {
-      this.api.addRoutes({
+      routes.push(...this.api.addRoutes({
         path: r.path,
         methods: [r.method === 'GET' ? apigw.HttpMethod.GET : apigw.HttpMethod.POST],
         integration,
         ...(r.access === 'public' ? {} : { authorizer }),
-      });
+      }));
     }
 
     const stage = this.api.defaultStage!.node.defaultChild as apigw.CfnStage;
+    // RouteSettings reference route keys, so the stage must be created after the routes.
+    for (const route of routes) stage.node.addDependency(route);
     stage.defaultRouteSettings = { throttlingRateLimit: THROTTLE.default.rate, throttlingBurstLimit: THROTTLE.default.burst };
     // RouteSettings is a raw JSON map in CloudFormation: CDK does not PascalCase its values, so write them as-is.
     stage.routeSettings = Object.fromEntries(
@@ -100,7 +103,7 @@ export class EzhuthuApiStack extends cdk.Stack {
         .filter(([k]) => k !== 'default')
         .map(([k, v]) => [k, { ThrottlingRateLimit: v.rate, ThrottlingBurstLimit: v.burst }]),
     );
-    const accessLogs = new logs.LogGroup(this, 'AccessLogs', { retention: logs.RetentionDays.ONE_MONTH, removalPolicy: cdk.RemovalPolicy.DESTROY });
+    const accessLogs = new logs.LogGroup(this, 'AccessLogs', { retention: logs.RetentionDays.TWO_WEEKS, removalPolicy: cdk.RemovalPolicy.DESTROY });
     stage.accessLogSettings = {
       destinationArn: accessLogs.logGroupArn,
       format: JSON.stringify({

@@ -41,8 +41,14 @@ def predict(item: BenchmarkItem, router: str, restorer: Restorer, llm: LLMClient
     t0 = time.perf_counter()
     meta: dict[str, Any] = {}
     if router in (*LLM_ROUTERS, "none"):
-        g = restorer.restore_gap(item.left, item.right, item.gap_chars, router=router, max_candidates=k,
-                                 exclude_inscription=item.inscription_id, dynasty=item.dynasty)
+        try:
+            g = restorer.restore_gap(item.left, item.right, item.gap_chars, router=router, max_candidates=k,
+                                     exclude_inscription=item.inscription_id, dynasty=item.dynasty)
+        except Exception as e:  # noqa: BLE001 - one throttled/truncated item must not kill a live run
+            log.warning("item %s failed: %s", item.id, type(e).__name__)
+            return {"item": item, "candidates": [], "abstained": True,
+                    "meta": {"error": f"{type(e).__name__}: {str(e)[:200]}"},
+                    "latency_ms": round((time.perf_counter() - t0) * 1000, 1)}
         cands = [(c.text, c.confidence) for c in g.candidates]
         abstained = g.decision == "abstain"
         meta = {"decider_model": g.decider_model, "models_used": g.models_used, "escalated": g.escalated,
@@ -87,7 +93,9 @@ def evaluate_items(items: list[BenchmarkItem], *, router: str, restorer: Restore
          "latency_ms": r["latency_ms"], **r["meta"]}
         for p, r in zip(preds, raw, strict=True)
     ]
-    return {**summary, "by_subset": by_subset(preds), "by_router": {router: summary}, "items": rows}
+    errors = sum(1 for r in raw if r["meta"].get("error"))
+    return {**summary, "errors": errors, "by_subset": by_subset(preds), "by_router": {router: summary},
+            "items": rows}
 
 
 def build_restorer(router: str, *, use_ontology: bool = True, decider: Decider | None = None,
@@ -119,6 +127,8 @@ def write_report(result: dict[str, Any], meta: dict[str, Any], out_dir: Path, na
     lines += ["", "Coverage-accuracy (full):", "", "| threshold | coverage | accuracy |", "|---|---|---|"]
     for c in result["coverage"]:
         lines.append(f"| {c['threshold']} | {c['coverage']} | {c['accuracy']} |")
+    if result.get("errors"):
+        lines += ["", f"Item errors (LLM throttling/truncation; scored as wrong + abstained): {result['errors']}"]
     if meta.get("usage"):
         u = meta["usage"]
         usage = (f"LLM usage: {u['calls']} live calls, {u['cached_calls']} cached; input tokens "
@@ -187,7 +197,7 @@ def main(argv: list[str] | None = None) -> int:
     _, mp = write_report(result, meta, Path(args.out) if args.out else root / "eval" / "reports", name)
     print(json.dumps({"n": result["n"], "top1": result["top1"], "top20": result["top20"], "cer": result["cer"],
                       "cer_clipped": result["cer_clipped"],
-                      "ece": result["ece"], "report": str(mp)}, ensure_ascii=False))
+                      "ece": result["ece"], "errors": result.get("errors", 0), "report": str(mp)}, ensure_ascii=False))
     return 0
 
 

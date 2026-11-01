@@ -17,6 +17,7 @@ dependencies = [
   "uvicorn>=0.30",
   "pydantic>=2.7",
   "python-multipart>=0.0.9",
+  "mcp>=2.0,<2.4",  # ontology MCP server + agent MCPClient (strands-agents also pins <2.4)
 ]
 
 [project.optional-dependencies]

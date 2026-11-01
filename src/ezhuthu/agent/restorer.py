@@ -146,6 +146,11 @@ class Restorer:
         out: list[tuple[str, Hint]] = []
         lt = normalize_iso(left)[-40:] + (" " if left.endswith(" ") else "")
         for h in self.ontology.hints_for_gap(left, right):
+            if h.fill:  # the real API computes the gap text itself (anchored on both contexts)
+                rest = normalize_iso(h.fill).strip()
+                if rest and abs(len(rest) - gap_chars) <= length_tolerance(gap_chars):
+                    out.append((rest, h))
+                continue
             rec = self.ontology.entity(h.id) or {}
             for surface in [rec.get("label_iso", h.label), *rec.get("variants", [])]:
                 s = normalize_iso(surface)

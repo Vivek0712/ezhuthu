@@ -31,7 +31,17 @@ from ezhuthu.ontology.letters import letter_count
 from ezhuthu.ontology.matcher import MIN_KEY, KeyedText, VariantIndex
 from ezhuthu.ontology.normalize import key
 
-DEFAULT_DIR = Path(__file__).resolve().parents[3] / "ontology"
+
+def _default_dir() -> Path:
+    """Checkout layout (src/ezhuthu/ontology -> repo/ontology) or an AgentCore bundle (ezhuthu/ -> bundle/ontology)."""
+    here = Path(__file__).resolve()
+    for base in (here.parents[3], here.parents[2]):
+        if (base / "ontology" / "letters_by_era.json").is_file():
+            return base / "ontology"
+    return here.parents[3] / "ontology"
+
+
+DEFAULT_DIR = _default_dir()
 # Kinds worth proposing as gap fills (letters and script stages are not text content).
 FILL_KINDS = {
     "ruler", "title", "formula", "dynasty", "place", "admin_unit", "temple", "deity",
@@ -69,7 +79,7 @@ class Ontology:
             forms = set(rec.get("variants") or [])
             if rec["kind"] not in ("admin_unit",) or not rec.get("is_type"):
                 forms.add(rec["label_iso"])
-            for v in forms:
+            for v in sorted(forms):  # sorted: index order (and ties) must not depend on hash seed
                 if "…" in v:
                     continue
                 self.index.add(eid, v)

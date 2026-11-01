@@ -1,27 +1,27 @@
 # Eval: baseline-copy-test-full
 
-- Date: 2026-11-01T20:20:22+00:00
+- Date: 2026-11-01T20:24:15+00:00
 - Router: `baseline-copy`
-- Split/subset: test/full, n = 383
-- Data: `/private/tmp/claude-501/-Users-vivekrajaps-tamil-script/310306a5-bec0-4456-b84a-fd0e629aed33/scratchpad/bench/benchmark` (team/data/v1@fd69669 (PR #6))
+- Split/subset: test/full, n = 413
+- Data: `/Users/vivekrajaps/tamil-script/ezhuthu-wt/evalq/benchmark` (8e5f4a8005e4d5dd6dc2641e2dd7019e4c592f11)
 - Decider: none (fallback confidence)
-- Ontology constraints/hints: True (lookups-json, team/onto/v1@7d85a30 (PR #9, train-only build))
-- Command: `python -m ezhuthu.eval.run --split test --router baseline-copy --no-decider --data-ref team/data/v1@fd69669 (PR #6) --ontology-ref team/onto/v1@7d85a30 (PR #9, train-only build)`
+- Ontology constraints/hints: True (ezhuthu.ontology.lookup)
+- Command: `python -m ezhuthu.eval.run --router baseline-copy --split test --no-decider`
 
 | subset | n | top-1 | top-20 | CER (mean) | CER (clipped 1.0) | CER (median) | ECE | abstain |
 |---|---|---|---|---|---|---|---|---|
-| full | 383 | 0.4125 | 0.5614 | 0.4946 | 0.4606 | 0.5 | 0.072 | 0.0339 |
-| hard | 301 | 0.3322 | 0.485 | 0.5754 | 0.5322 | 0.5 | 0.0613 | 0.0432 |
-| age | 42 | 0.2857 | 0.4524 | 0.6571 | 0.5619 | 0.6682 | 0.1519 | 0.0952 |
+| full | 413 | 0.4165 | 0.5569 | 0.4736 | 0.4494 | 0.5 | 0.0734 | 0.0315 |
+| hard | 317 | 0.3407 | 0.4795 | 0.5505 | 0.5221 | 0.5 | 0.072 | 0.041 |
+| age | 51 | 0.2745 | 0.4706 | 0.6286 | 0.5501 | 0.5385 | 0.2164 | 0.0784 |
 
 Coverage-accuracy (full):
 
 | threshold | coverage | accuracy |
 |---|---|---|
-| 0.0 | 1.0 | 0.4125 |
-| 0.3 | 0.6658 | 0.549 |
-| 0.5 | 0.2559 | 0.7347 |
-| 0.6 | 0.141 | 0.7963 |
-| 0.7 | 0.0783 | 0.8 |
-| 0.8 | 0.0444 | 0.8235 |
-| 0.9 | 0.0261 | 0.8 |
+| 0.0 | 1.0 | 0.4165 |
+| 0.3 | 0.6901 | 0.5439 |
+| 0.5 | 0.2615 | 0.7037 |
+| 0.6 | 0.1477 | 0.8033 |
+| 0.7 | 0.0872 | 0.7778 |
+| 0.8 | 0.0412 | 0.7647 |
+| 0.9 | 0.0242 | 0.7 |

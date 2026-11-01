@@ -8,6 +8,7 @@
 | Agent + Eval | u:agent | `src/ezhuthu/agent/`, `src/ezhuthu/eval/`, `src/ezhuthu/api/`, `eval/reports/` | M3 Agent, M4 Evaluation |
 | App + Infra | u:app | `app/web/` (React), `infra/` (AgentCore + CDK) | M5 App + AgentCore |
 | QA | u:qa | `tests/e2e/`, review comments, `eval/reports/qa-*.md` | M6 QA + Release |
+| Design & Brand | u:design | `design/` (brand, tokens, glyph art, banners, UX spec), root `README.md` presentation | M5 App + AgentCore, M6 QA + Release |
 
 ## Rules every team follows
 1. **Contracts first.** Build against `contracts/*`. To change a contract, open a PR labelled `contract-change` and send a KrewHQ handoff to every affected team. Never change a contract silently.

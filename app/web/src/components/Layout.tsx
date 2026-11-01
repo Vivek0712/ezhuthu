@@ -104,6 +104,10 @@ export function Layout() {
             {t('about.data1')}{' '}
             <a href="https://dharmalekha.info" rel="noreferrer" target="_blank">
               DHARMA
+            </a>{' '}
+            ·{' '}
+            <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noreferrer" target="_blank">
+              CC BY-SA 4.0
             </a>
           </span>
         </div>

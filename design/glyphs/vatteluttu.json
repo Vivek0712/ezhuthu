@@ -1,0 +1,42 @@
+{
+  "$comment": "Vatteluttu teaching glyphs. Centre-line paths on a 100x100 grid; stroke with round caps/joins, width 'stroke'. Keys are ISO-15919 (the API's glyph_svg is 'vatteluttu:<iso>'). Pending epigrapher review; see design/glyphs/REFERENCES.md.",
+  "stroke": 8,
+  "viewBox": "0 0 100 100",
+  "glyphs": {
+    "a": {
+      "tamil": "அ",
+      "brahmi": "𑀅",
+      "d": "M66 14C68 40 68 64 64 88M65 50C50 50 35 43 33 31C32 22 38 16 46 18M65 54C49 56 34 64 34 77C34 86 42 90 50 85"
+    },
+    "ka": {
+      "tamil": "க",
+      "brahmi": "𑀓",
+      "d": "M50 13V87M17 47C25 38 39 39 50 50C61 61 75 62 83 53"
+    },
+    "ma": {
+      "tamil": "ம",
+      "brahmi": "𑀫",
+      "d": "M30 16C26 30 35 43 50 44C65 43 74 30 70 16M50 44C35 44 26 54 26 66C26 78 37 87 50 87C63 87 74 78 74 66C74 54 65 44 50 44"
+    },
+    "e": {
+      "tamil": "எ",
+      "brahmi": "𑀏",
+      "d": "M50 16C42 32 29 55 24 70C20 81 26 86 37 86H63C74 86 80 81 77 71C73 57 61 34 50 16Z"
+    },
+    "ḻa": {
+      "tamil": "ழ",
+      "brahmi": "𑀵",
+      "d": "M58 42C58 27 51 18 40 18C30 18 24 25 25 33C26 42 36 46 45 42C53 38 58 34 58 42V72C58 83 50 88 41 87C33 86 28 81 27 75"
+    },
+    "ta": {
+      "tamil": "த",
+      "brahmi": "𑀢",
+      "d": "M20 85C26 58 38 20 51 20C62 20 68 46 72 69C74 82 81 87 90 80"
+    },
+    "pa": {
+      "tamil": "ப",
+      "brahmi": "𑀧",
+      "d": "M27 17V58C27 78 37 87 50 87C63 87 73 78 73 58V17"
+    }
+  }
+}

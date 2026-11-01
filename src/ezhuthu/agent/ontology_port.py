@@ -1,8 +1,10 @@
-"""Ontology interface used by the agent, with a stub until issue #2 lands.
+"""Ontology interface used by the agent: the ontology MCP server (default), the direct
+``ezhuthu.ontology.lookup`` API (flagged offline fallback), or a stub for fixtures.
 
-The Ontology team's API (issue #2) is ``ezhuthu.ontology.lookup`` with ``find_entities(text)``,
-``valid_letters(stage)``, ``formulas_for(ruler)``, ``entity(id)`` and ``hints_for_gap(left, right)``.
-``get_ontology()`` uses it when importable; otherwise it serves ``fixtures/ontology_stub.json``
+The Ontology team's API is ``ezhuthu.ontology.lookup`` with ``find_entities(text)``, ``valid_letters(stage)``,
+``formulas_for(ruler)``, ``entity(id)`` and ``hints_for_gap(left, right)``; ``ezhuthu.ontology.mcp_server``
+serves the same functions as MCP tools. ``get_ontology()`` picks the backend (see its docstring); when the
+ontology package is missing it serves ``ontology/lookups/*.json`` or ``fixtures/ontology_stub.json``
 (records in contracts/ontology-lookup.schema.json format).
 """
 
@@ -12,6 +14,7 @@ import importlib
 import json
 import logging
 import os
+import threading
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
@@ -33,6 +36,7 @@ class Hint:
     kind: str
     label: str
     label_ta: str | None = None
+    fill: str | None = None  # the real API's proposed gap text for this entity, when it has one
 
     def to_api(self) -> dict[str, str]:
         kind = _API_KIND.get(self.kind, self.kind)
@@ -129,7 +133,8 @@ class ModuleOntology:
         if isinstance(x, Hint):
             return x
         d = x if isinstance(x, dict) else vars(x)
-        return Hint(d["id"], d.get("kind", ""), d.get("label_iso") or d.get("label", ""), d.get("label_ta"))
+        return Hint(d["id"], d.get("kind", ""), d.get("label_iso") or d.get("label", ""), d.get("label_ta"),
+                    d.get("fill") or None)
 
     def hints_for_gap(self, left: str, right: str) -> list[Hint]:
         return [self._to_hint(x) for x in self.m.hints_for_gap(left, right)]
@@ -139,30 +144,77 @@ class ModuleOntology:
 
     def valid_letters(self, stage: str) -> set[str] | None:
         v = self.m.valid_letters(stage)
-        return set(v) if v is not None else None
+        if v is None:
+            return None
+        # the real API returns letter records ({"iso": ..., ...}); older shapes return plain strings
+        return {x.get("iso") or x.get("letter") or x.get("id") if isinstance(x, dict) else x for x in v} - {None}
 
     def entity(self, entity_id: str) -> dict[str, Any] | None:
         e = self.m.entity(entity_id)
         return e if e is None or isinstance(e, dict) else vars(e)
 
 
-@lru_cache(maxsize=1)
+ONTOLOGY_MODE_ENV = "EZHUTHU_ONTOLOGY"  # mcp (default) | direct | stub
+ONTOLOGY_MODES = ("mcp", "direct", "stub")
+
+
+def _fixture_stub() -> StubOntology:
+    return StubOntology(json.loads((FIXTURES_DIR / "ontology_stub.json").read_text(encoding="utf-8")))
+
+
+_ONTOLOGY_LOCK = threading.Lock()
+
+
 def get_ontology() -> OntologyPort:
+    """The agent's ontology, built once per process (``get_ontology.cache_clear()`` resets it). The first build
+    is under a lock: two FastAPI threadpool workers asking at once would otherwise each start an MCP server
+    and leak one."""
+    with _ONTOLOGY_LOCK:
+        return _build_ontology()
+
+
+@lru_cache(maxsize=1)
+def _build_ontology() -> OntologyPort:
+    """The agent's ontology. Default: the ontology MCP server over stdio via a Strands MCPClient
+    (``ezhuthu.agent.ontology_mcp``). ``EZHUTHU_ONTOLOGY=direct`` uses the in-process lookup API instead
+    (offline fallback, flagged in ``name``); so does a failed MCP start, flagged ``fallback:direct``.
+    ``EZHUTHU_ONTOLOGY=stub`` (or ``EZHUTHU_FIXTURES=1`` with no mode set) uses the fixture stub."""
+    mode = os.environ.get(ONTOLOGY_MODE_ENV, "").strip().lower()
+    if mode and mode not in ONTOLOGY_MODES:
+        raise ValueError(f"{ONTOLOGY_MODE_ENV}={mode!r}; expected one of {ONTOLOGY_MODES}")
+    # The synthetic fixture corpus names synthetic entities (fixtures/ontology_stub.json); pair it with
+    # that stub so fixture runs stay self-consistent. Real benchmark data uses the real ontology.
+    if mode == "stub" or (not mode and os.environ.get("EZHUTHU_FIXTURES") == "1"):
+        return _fixture_stub()
+    flag = "direct:ezhuthu.ontology.lookup"
+    if mode in ("", "mcp"):
+        try:
+            from .ontology_mcp import McpOntology
+
+            return McpOntology()
+        except Exception as exc:  # noqa: BLE001 - the direct API is the flagged offline fallback
+            log.warning("ontology MCP server unavailable (%s); falling back to the direct lookup API", exc)
+            flag = "fallback:direct (mcp unavailable)"
     try:
         mod = importlib.import_module("ezhuthu.ontology.lookup")
         if all(hasattr(mod, f) for f in ("hints_for_gap", "find_entities", "valid_letters", "entity")):
-            return ModuleOntology(mod)
-    except Exception as exc:  # noqa: BLE001 - any import failure means "not merged yet"
+            onto = ModuleOntology(mod)
+            onto.name = flag
+            return onto
+    except Exception as exc:  # noqa: BLE001 - any import failure means the ontology package is missing
         log.info("ontology API unavailable (%s); using stub", exc)
     root = repo_root()
-    env_dir = os.environ.get("EZHUTHU_ONTOLOGY_DIR")  # e.g. the Ontology team's ontology/lookups before #9 merges
+    env_dir = os.environ.get("EZHUTHU_ONTOLOGY_DIR")  # a lookups/ dir in the contract schema
     lookups = Path(env_dir) if env_dir else (root / "ontology" / "lookups" if root else None)
     if lookups and lookups.is_dir():
-        onto = StubOntology.from_dir(lookups)
-        if onto.records:
-            onto.name = "lookups-json"
-            return onto
-    return StubOntology(json.loads((FIXTURES_DIR / "ontology_stub.json").read_text(encoding="utf-8")))
+        stub = StubOntology.from_dir(lookups)
+        if stub.records:
+            stub.name = "lookups-json"
+            return stub
+    return _fixture_stub()
+
+
+get_ontology.cache_clear = _build_ontology.cache_clear  # type: ignore[attr-defined]
 
 
 def letters_ok_for_dynasty(text: str, dynasty: str | None) -> bool:

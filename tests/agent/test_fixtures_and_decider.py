@@ -27,9 +27,11 @@ def test_fixture_ontology_validates_against_lookup_schema():
         jsonschema.validate(rec, schema)
 
 
-DECIDER_URL = os.environ.get("EZHUTHU_DECIDER_URL", "http://127.0.0.1:8765")
-needs_decider = pytest.mark.skipif(not HttpDecider(DECIDER_URL).available(),
-                                   reason=f"no strands-decider serve at {DECIDER_URL}")
+# Opt-in only: a strands-decider left running on the default port by another session must not turn
+# `make check` red (QA on #20). Set EZHUTHU_DECIDER_URL to a running `strands-decider serve` to run these.
+DECIDER_URL = os.environ.get("EZHUTHU_DECIDER_URL", "")
+needs_decider = pytest.mark.skipif(not DECIDER_URL or not HttpDecider(DECIDER_URL).available(),
+                                   reason="set EZHUTHU_DECIDER_URL to a running strands-decider serve")
 
 
 @needs_decider

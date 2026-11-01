@@ -8,7 +8,7 @@ For each `[?]` / `[?N]` gap:
 
 1. `retrieve_parallels`: BM25 over character 3-grams of `benchmark/corpus_lines.jsonl` (train lines), re-ranked by
    exact anchor length and rapidfuzz; each parallel also yields the text aligned with the gap.
-2. Candidates from parallels, ontology completions (an entity that starts in the left context and runs into
+2. Candidates from parallels, ontology completions (the ontology is reached over MCP, see "Ontology" below) (an entity that starts in the left context and runs into
    the gap), a character 5-gram model, and `propose_fills` (a Strands `Agent` on Bedrock, `llm.py`).
 3. `check_constraints`: drops candidates with non-ISO characters or Grantha letters in early-Tamil contexts,
    flags length outside `max(2, 34%)` of `[?N]`.
@@ -22,6 +22,18 @@ For each `[?]` / `[?N]` gap:
 
 `tools.py` exposes the same steps as Strands `@tool`s and `build_restorer_agent()` builds an agentic Restorer.
 Baselines (`baselines.py`): copy-from-best-parallel, character n-gram, zero-shot LLM.
+
+## Ontology (`ontology_port.py`, `ontology_mcp.py`)
+
+`get_ontology()` starts `python -m ezhuthu.ontology.mcp_server` as a stdio subprocess of the same interpreter and
+talks to it with a Strands `MCPClient` (`McpOntology`). `build_restorer_agent()` also gives the agentic Restorer the
+server's tools (`find_entities`, `valid_letters`, `formulas_for`, `entity`, `hints_for_gap`) from that session.
+The in-process `ezhuthu.ontology.lookup` API is only an offline fallback and is flagged in `/health` `ontology`:
+`EZHUTHU_ONTOLOGY=direct` gives `direct:ezhuthu.ontology.lookup`, a failed MCP start gives
+`fallback:direct (mcp unavailable)`. If the server process dies later, the next call restarts it once and retries;
+if it stays dead, the same instance answers from the direct API and `/health` shows `fallback:direct (mcp died)`.
+`EZHUTHU_ONTOLOGY=stub` (or `EZHUTHU_FIXTURES=1` with no mode) uses the
+fixture stub. Runtime needs: `ontology/COA.md` section 3.
 
 ## Tutor (`tutor/`)
 
@@ -64,6 +76,7 @@ python -m ezhuthu.agentcore_app                             # AgentCore runtime 
 Environment: `EZHUTHU_LIVE=1` (allow Bedrock), `EZHUTHU_DECIDER_BACKEND=local|hosted|fallback`,
 `EZHUTHU_DECIDER_URL` (local), `EZHUTHU_DECIDER_API_KEY` or the Secrets Manager secret (hosted),
 `EZHUTHU_DECIDER_CLOUD_URL` (override), `EZHUTHU_DECIDER=off`,
+`EZHUTHU_ONTOLOGY=mcp|direct|stub` (default `mcp`), `EZHUTHU_ONTOLOGY_ROOT` (ontology build dir for the MCP server),
 `EZHUTHU_STORE=memory|sqlite:<path>|dynamodb:<table>`, `EZHUTHU_BENCHMARK_DIR`, `EZHUTHU_FIXTURES=1`,
 `EZHUTHU_CONFIG` (path to models.yaml when the bundle is not a checkout).
 

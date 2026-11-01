@@ -116,7 +116,8 @@ class TutorService:
         graph = build_lesson_graph(restore_fn=restore_fn, build_fn=build_fn, model=model)
         run_lesson_graph(graph, ctx)
 
-        s = self._load(session_id) if session_id else self._new_session()
+        # An unknown session_id starts a session with that id (the cloud proxy mints ids as "s-<uuid>").
+        s = (self.store.get("session", session_id) or self._new_session(session_id)) if session_id else self._new_session()
         self._add_items(s, ctx["items"])
         s["lessons"].append({"inscription_id": meta.get("id"), "level": level, "lang": lang,
                              "item_ids": [i.item_id for i in ctx["items"]], "explained_by": ctx["explained_by"]})

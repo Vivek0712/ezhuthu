@@ -1,0 +1,1855 @@
+{
+ "meta": {
+  "date": "2026-11-01T20:35:40+00:00",
+  "router": "routed",
+  "split": "test",
+  "subset": "hard",
+  "limit": 30,
+  "data_dir": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/evalq/benchmark",
+  "data_is_fixture": false,
+  "data_commit": "8e5f4a8005e4d5dd6dc2641e2dd7019e4c592f11",
+  "ontology_ref": null,
+  "decider": "strands-decider-2B-qwen3.5-v1-2610",
+  "use_ontology": true,
+  "ontology": "ezhuthu.ontology.lookup",
+  "models": {
+   "default": "us.anthropic.claude-sonnet-4-6",
+   "escalate": "us.anthropic.claude-opus-4-6-v1",
+   "cheap": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+   "future_default": "us.anthropic.claude-sonnet-5-5",
+   "future_escalate": "us.anthropic.claude-opus-5-5"
+  },
+  "routing": {
+   "escalate_if_confidence_below": 0.6,
+   "escalate_if_gap_chars_over": 12,
+   "escalate_if_no_parallel": true,
+   "abstain_if_confidence_below": 0.5
+  },
+  "usage": {
+   "calls": 2,
+   "cached_calls": 19,
+   "input_tokens": {
+    "opus": 972
+   },
+   "output_tokens": {
+    "opus": 395
+   },
+   "estimated_cost_usd": 0.0147,
+   "price_basis": "USD/MTok list prices in ezhuthu.agent.llm.PRICE_PER_MTOK"
+  },
+  "command": "python -m ezhuthu.eval.run --split test --subset hard --limit 30 --workers 3 --router routed"
+ },
+ "n": 30,
+ "top1": 0.1,
+ "top20": 0.3667,
+ "cer": 1.0744,
+ "cer_clipped": 0.8411,
+ "cer_median": 1.0,
+ "ece": 0.0471,
+ "coverage": [
+  {
+   "threshold": 0.0,
+   "coverage": 1.0,
+   "accuracy": 0.1
+  },
+  {
+   "threshold": 0.3,
+   "coverage": 0.0,
+   "accuracy": null
+  },
+  {
+   "threshold": 0.5,
+   "coverage": 0.0,
+   "accuracy": null
+  },
+  {
+   "threshold": 0.6,
+   "coverage": 0.0,
+   "accuracy": null
+  },
+  {
+   "threshold": 0.7,
+   "coverage": 0.0,
+   "accuracy": null
+  },
+  {
+   "threshold": 0.8,
+   "coverage": 0.0,
+   "accuracy": null
+  },
+  {
+   "threshold": 0.9,
+   "coverage": 0.0,
+   "accuracy": null
+  }
+ ],
+ "reliability": [
+  {
+   "bin": [
+    0.0,
+    0.1
+   ],
+   "n": 18,
+   "accuracy": 0.0,
+   "confidence": 0.0
+  },
+  {
+   "bin": [
+    0.1,
+    0.2
+   ],
+   "n": 6,
+   "accuracy": 0.3333,
+   "confidence": 0.1606
+  },
+  {
+   "bin": [
+    0.2,
+    0.3
+   ],
+   "n": 6,
+   "accuracy": 0.1667,
+   "confidence": 0.2296
+  },
+  {
+   "bin": [
+    0.3,
+    0.4
+   ],
+   "n": 0,
+   "accuracy": null,
+   "confidence": null
+  },
+  {
+   "bin": [
+    0.4,
+    0.5
+   ],
+   "n": 0,
+   "accuracy": null,
+   "confidence": null
+  },
+  {
+   "bin": [
+    0.5,
+    0.6
+   ],
+   "n": 0,
+   "accuracy": null,
+   "confidence": null
+  },
+  {
+   "bin": [
+    0.6,
+    0.7
+   ],
+   "n": 0,
+   "accuracy": null,
+   "confidence": null
+  },
+  {
+   "bin": [
+    0.7,
+    0.8
+   ],
+   "n": 0,
+   "accuracy": null,
+   "confidence": null
+  },
+  {
+   "bin": [
+    0.8,
+    0.9
+   ],
+   "n": 0,
+   "accuracy": null,
+   "confidence": null
+  },
+  {
+   "bin": [
+    0.9,
+    1.0
+   ],
+   "n": 0,
+   "accuracy": null,
+   "confidence": null
+  }
+ ],
+ "abstain_rate": 1.0,
+ "accuracy_when_filled": 0.0,
+ "errors": 18,
+ "by_subset": {
+  "full": {
+   "n": 30,
+   "top1": 0.1,
+   "top20": 0.3667,
+   "cer": 1.0744,
+   "cer_clipped": 0.8411,
+   "cer_median": 1.0,
+   "ece": 0.0471,
+   "coverage": [
+    {
+     "threshold": 0.0,
+     "coverage": 1.0,
+     "accuracy": 0.1
+    },
+    {
+     "threshold": 0.3,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.5,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.6,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.7,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.8,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.9,
+     "coverage": 0.0,
+     "accuracy": null
+    }
+   ],
+   "reliability": [
+    {
+     "bin": [
+      0.0,
+      0.1
+     ],
+     "n": 18,
+     "accuracy": 0.0,
+     "confidence": 0.0
+    },
+    {
+     "bin": [
+      0.1,
+      0.2
+     ],
+     "n": 6,
+     "accuracy": 0.3333,
+     "confidence": 0.1606
+    },
+    {
+     "bin": [
+      0.2,
+      0.3
+     ],
+     "n": 6,
+     "accuracy": 0.1667,
+     "confidence": 0.2296
+    },
+    {
+     "bin": [
+      0.3,
+      0.4
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.4,
+      0.5
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.5,
+      0.6
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.6,
+      0.7
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.7,
+      0.8
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.8,
+      0.9
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.9,
+      1.0
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    }
+   ],
+   "abstain_rate": 1.0,
+   "accuracy_when_filled": 0.0
+  },
+  "hard": {
+   "n": 30,
+   "top1": 0.1,
+   "top20": 0.3667,
+   "cer": 1.0744,
+   "cer_clipped": 0.8411,
+   "cer_median": 1.0,
+   "ece": 0.0471,
+   "coverage": [
+    {
+     "threshold": 0.0,
+     "coverage": 1.0,
+     "accuracy": 0.1
+    },
+    {
+     "threshold": 0.3,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.5,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.6,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.7,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.8,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.9,
+     "coverage": 0.0,
+     "accuracy": null
+    }
+   ],
+   "reliability": [
+    {
+     "bin": [
+      0.0,
+      0.1
+     ],
+     "n": 18,
+     "accuracy": 0.0,
+     "confidence": 0.0
+    },
+    {
+     "bin": [
+      0.1,
+      0.2
+     ],
+     "n": 6,
+     "accuracy": 0.3333,
+     "confidence": 0.1606
+    },
+    {
+     "bin": [
+      0.2,
+      0.3
+     ],
+     "n": 6,
+     "accuracy": 0.1667,
+     "confidence": 0.2296
+    },
+    {
+     "bin": [
+      0.3,
+      0.4
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.4,
+      0.5
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.5,
+      0.6
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.6,
+      0.7
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.7,
+      0.8
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.8,
+      0.9
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.9,
+      1.0
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    }
+   ],
+   "abstain_rate": 1.0,
+   "accuracy_when_filled": 0.0
+  },
+  "age": {
+   "n": 21,
+   "top1": 0.0952,
+   "top20": 0.2381,
+   "cer": 0.8444,
+   "cer_clipped": 0.8444,
+   "cer_median": 1.0,
+   "ece": 0.0369,
+   "coverage": [
+    {
+     "threshold": 0.0,
+     "coverage": 1.0,
+     "accuracy": 0.0952
+    },
+    {
+     "threshold": 0.3,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.5,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.6,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.7,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.8,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.9,
+     "coverage": 0.0,
+     "accuracy": null
+    }
+   ],
+   "reliability": [
+    {
+     "bin": [
+      0.0,
+      0.1
+     ],
+     "n": 15,
+     "accuracy": 0.0,
+     "confidence": 0.0
+    },
+    {
+     "bin": [
+      0.1,
+      0.2
+     ],
+     "n": 2,
+     "accuracy": 0.5,
+     "confidence": 0.1606
+    },
+    {
+     "bin": [
+      0.2,
+      0.3
+     ],
+     "n": 4,
+     "accuracy": 0.25,
+     "confidence": 0.2258
+    },
+    {
+     "bin": [
+      0.3,
+      0.4
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.4,
+      0.5
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.5,
+      0.6
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.6,
+      0.7
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.7,
+      0.8
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.8,
+      0.9
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.9,
+      1.0
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    }
+   ],
+   "abstain_rate": 1.0,
+   "accuracy_when_filled": 0.0
+  }
+ },
+ "by_router": {
+  "routed": {
+   "n": 30,
+   "top1": 0.1,
+   "top20": 0.3667,
+   "cer": 1.0744,
+   "cer_clipped": 0.8411,
+   "cer_median": 1.0,
+   "ece": 0.0471,
+   "coverage": [
+    {
+     "threshold": 0.0,
+     "coverage": 1.0,
+     "accuracy": 0.1
+    },
+    {
+     "threshold": 0.3,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.5,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.6,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.7,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.8,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.9,
+     "coverage": 0.0,
+     "accuracy": null
+    }
+   ],
+   "reliability": [
+    {
+     "bin": [
+      0.0,
+      0.1
+     ],
+     "n": 18,
+     "accuracy": 0.0,
+     "confidence": 0.0
+    },
+    {
+     "bin": [
+      0.1,
+      0.2
+     ],
+     "n": 6,
+     "accuracy": 0.3333,
+     "confidence": 0.1606
+    },
+    {
+     "bin": [
+      0.2,
+      0.3
+     ],
+     "n": 6,
+     "accuracy": 0.1667,
+     "confidence": 0.2296
+    },
+    {
+     "bin": [
+      0.3,
+      0.4
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.4,
+      0.5
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.5,
+      0.6
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.6,
+      0.7
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.7,
+      0.8
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.8,
+      0.9
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.9,
+      1.0
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    }
+   ],
+   "abstain_rate": 1.0,
+   "accuracy_when_filled": 0.0
+  }
+ },
+ "items": [
+  {
+   "id": "DHARMA_INSKotumpalur00010:1:0",
+   "target": "śrī",
+   "top1": "śrī",
+   "confidence": 0.1427,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "śrī",
+     0.1427
+    ],
+    [
+     "śrī a",
+     0.1248
+    ],
+    [
+     "śrī u",
+     0.0831
+    ],
+    [
+     "śrī i",
+     0.0445
+    ],
+    [
+     "śrī n",
+     0.0444
+    ],
+    [
+     "śrī r",
+     0.042
+    ],
+    [
+     "ti",
+     0.0404
+    ],
+    [
+     "śrī v",
+     0.0387
+    ],
+    [
+     "kō",
+     0.0363
+    ],
+    [
+     "śrī t",
+     0.0358
+    ],
+    [
+     "śrī-",
+     0.0336
+    ],
+    [
+     "śrī y",
+     0.0318
+    ],
+    [
+     "śrī k",
+     0.0283
+    ],
+    [
+     "śr",
+     0.0269
+    ],
+    [
+     "śrī m",
+     0.0244
+    ],
+    [
+     "śrī p",
+     0.0208
+    ],
+    [
+     "śrī o",
+     0.0204
+    ],
+    [
+     "śrī ṭ",
+     0.0189
+    ],
+    [
+     "śrī ś",
+     0.0184
+    ],
+    [
+     "śrī e",
+     0.0126
+    ]
+   ],
+   "latency_ms": 12402.0,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "us.anthropic.claude-opus-4-6-v1",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": true,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSKotumpalur00037:2:0",
+   "target": "t'",
+   "top1": "tam",
+   "confidence": 0.1674,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "tam",
+     0.1674
+    ],
+    [
+     "ta",
+     0.1225
+    ],
+    [
+     "tu",
+     0.1098
+    ],
+    [
+     "u",
+     0.0987
+    ],
+    [
+     "t",
+     0.0856
+    ],
+    [
+     "ti",
+     0.0734
+    ],
+    [
+     "ṭu",
+     0.0472
+    ],
+    [
+     "t'",
+     0.0466
+    ],
+    [
+     "i",
+     0.0369
+    ],
+    [
+     "ttu",
+     0.0303
+    ],
+    [
+     "t' araiyar tam muṭiyum āṅkavar tēviyaroṅkeḻil muṭiyum",
+     0.0271
+    ],
+    [
+     "ṭ",
+     0.0225
+    ],
+    [
+     "tt'",
+     0.0147
+    ]
+   ],
+   "latency_ms": 11047.0,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "us.anthropic.claude-opus-4-6-v1",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": true,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSKotumpalur00037:3:0",
+   "target": "m",
+   "top1": "m teṇtirai",
+   "confidence": 0.2479,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 8.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "m teṇtirai",
+     0.2479
+    ],
+    [
+     "mu",
+     0.128
+    ],
+    [
+     "n",
+     0.122
+    ],
+    [
+     "ṁ",
+     0.1014
+    ],
+    [
+     "m",
+     0.1008
+    ],
+    [
+     "n teṇtirai",
+     0.0724
+    ],
+    [
+     "ṉ",
+     0.0639
+    ],
+    [
+     "m teṇ-ṭirai",
+     0.0442
+    ],
+    [
+     "ṅ",
+     0.0191
+    ]
+   ],
+   "latency_ms": 13777.1,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "us.anthropic.claude-opus-4-6-v1",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": true,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSKotumpalur00037:3:1",
+   "target": "ra-kēcari",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": false,
+   "candidates": [],
+   "latency_ms": 8734.5,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSKotumpalur00037:4:0",
+   "target": "k",
+   "top1": "ṉ",
+   "confidence": 0.1418,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "ṉ",
+     0.1418
+    ],
+    [
+     "ka",
+     0.094
+    ],
+    [
+     "r",
+     0.0898
+    ],
+    [
+     "k",
+     0.0839
+    ],
+    [
+     "ki",
+     0.0649
+    ],
+    [
+     "h",
+     0.0478
+    ],
+    [
+     "l",
+     0.0458
+    ],
+    [
+     "ḵ",
+     0.0456
+    ],
+    [
+     "v",
+     0.0448
+    ],
+    [
+     "t",
+     0.0436
+    ],
+    [
+     "ṣ",
+     0.0377
+    ]
+   ],
+   "latency_ms": 2626.6,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-opus-4-6-v1",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": true,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSKotumpalur00037:5:0",
+   "target": "bra",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": false,
+   "candidates": [],
+   "latency_ms": 14928.6,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSKotumpalur00037:6:0",
+   "target": "ā",
+   "top1": "a",
+   "confidence": 0.2265,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "a",
+     0.2265
+    ],
+    [
+     "ā",
+     0.1454
+    ],
+    [
+     "ī",
+     0.0875
+    ],
+    [
+     "o",
+     0.0657
+    ]
+   ],
+   "latency_ms": 701.1,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-opus-4-6-v1",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": true,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSKotumpalur00037:6:1",
+   "target": "ma",
+   "top1": "m",
+   "confidence": 0.1903,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 0.5,
+   "abstained": true,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "m",
+     0.1903
+    ],
+    [
+     "mā",
+     0.1748
+    ],
+    [
+     "ma",
+     0.1486
+    ],
+    [
+     "ā",
+     0.1197
+    ],
+    [
+     "ma-",
+     0.0778
+    ],
+    [
+     "a",
+     0.0522
+    ],
+    [
+     "i",
+     0.0236
+    ]
+   ],
+   "latency_ms": 732.9,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-opus-4-6-v1",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": true,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSKotumpalur00037:6:2",
+   "target": "n",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": false,
+   "candidates": [],
+   "latency_ms": 14626.6,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSPallava00119:1:0",
+   "target": "ja-kula-ti",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [],
+   "latency_ms": 14850.2,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSPallava00119:2:0",
+   "target": "ādhirāja-pa",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [],
+   "latency_ms": 14845.3,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSPallava00119:3:0",
+   "target": "ṟku",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [],
+   "latency_ms": 14633.6,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSPallava00119:3:1",
+   "target": "āṇṭ’ ā",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [],
+   "latency_ms": 15744.6,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSPallava00119:4:0",
+   "target": "i",
+   "top1": "i",
+   "confidence": 0.178,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "i",
+     0.178
+    ],
+    [
+     "ī",
+     0.1665
+    ],
+    [
+     "a",
+     0.1389
+    ],
+    [
+     "u",
+     0.1064
+    ],
+    [
+     "e",
+     0.0917
+    ],
+    [
+     "y",
+     0.0805
+    ]
+   ],
+   "latency_ms": 1703.5,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-opus-4-6-v1",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": true,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00119:8:0",
+   "target": "ṇ",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [],
+   "latency_ms": 14419.7,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSPallava00119:12:0",
+   "target": "ṟ",
+   "top1": "ṟ",
+   "confidence": 0.2647,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "ṟ",
+     0.2647
+    ],
+    [
+     "k",
+     0.1632
+    ],
+    [
+     "ṉ",
+     0.132
+    ],
+    [
+     "r",
+     0.0993
+    ],
+    [
+     "u",
+     0.0621
+    ],
+    [
+     "ṭ",
+     0.0497
+    ],
+    [
+     "l",
+     0.0438
+    ]
+   ],
+   "latency_ms": 1032.6,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-opus-4-6-v1",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": true,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00129:4:0",
+   "target": "ru-vīraṭṭā",
+   "top1": "ru-vīr",
+   "confidence": 0.1432,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 0.4,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "ru-vīr",
+     0.1432
+    ],
+    [
+     "ru-vīraṭṭa",
+     0.0808
+    ],
+    [
+     "ru-vīraṭṭā",
+     0.0776
+    ],
+    [
+     "ruvīr",
+     0.0598
+    ],
+    [
+     "ruvīra",
+     0.0503
+    ],
+    [
+     "ttā",
+     0.0452
+    ],
+    [
+     "ru-vīraṭā",
+     0.0404
+    ],
+    [
+     "ru vīraṭṭā",
+     0.0401
+    ],
+    [
+     "ruvī",
+     0.0369
+    ],
+    [
+     "ru vīr",
+     0.0313
+    ],
+    [
+     "ru-vī",
+     0.0284
+    ],
+    [
+     "ruvīraṭṭā",
+     0.0276
+    ],
+    [
+     "ru-vi",
+     0.0267
+    ],
+    [
+     "ru-ma",
+     0.024
+    ],
+    [
+     "ru vī",
+     0.0232
+    ],
+    [
+     "ru-va",
+     0.021
+    ],
+    [
+     "ru-vīraṭṭāt",
+     0.0198
+    ],
+    [
+     "ru-vīraṭṭāṉ",
+     0.0187
+    ],
+    [
+     "ru-nā",
+     0.0145
+    ],
+    [
+     "ru-vīraṭṭam",
+     0.0114
+    ]
+   ],
+   "latency_ms": 3177.2,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "us.anthropic.claude-opus-4-6-v1",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": true,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00129:5:0",
+   "target": "k’ oru nantā-vi",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [],
+   "latency_ms": 16101.4,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSPallava00129:5:1",
+   "target": "kku",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [],
+   "latency_ms": 28141.2,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSPallava00129:6:0",
+   "target": "m cantirātitta-varai Erippa",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [],
+   "latency_ms": 30207.4,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSPallava00129:7:0",
+   "target": "ṅkō-vēḷār-āyiṉa",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [],
+   "latency_ms": 36462.2,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSPallava00129:8:0",
+   "target": "poṉ",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [],
+   "latency_ms": 34778.3,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSPallava00129:10:0",
+   "target": "ṟai",
+   "top1": "ṟ",
+   "confidence": 0.2087,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 0.6667,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "ṟ",
+     0.2087
+    ],
+    [
+     "ṟai",
+     0.148
+    ],
+    [
+     "ṉ",
+     0.1233
+    ],
+    [
+     "u",
+     0.0904
+    ],
+    [
+     "ṟu",
+     0.07
+    ],
+    [
+     "l",
+     0.0592
+    ],
+    [
+     "ṭu",
+     0.0567
+    ],
+    [
+     "r",
+     0.0448
+    ],
+    [
+     "ṉu",
+     0.0292
+    ],
+    [
+     "ḷ",
+     0.0235
+    ]
+   ],
+   "latency_ms": 1620.8,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-opus-4-6-v1",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": true,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00129:11:0",
+   "target": "nā",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [],
+   "latency_ms": 33439.4,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSPallava00177:19:0",
+   "target": "U",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [],
+   "latency_ms": 33691.0,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSPallava00177:20:0",
+   "target": "ḻa",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [],
+   "latency_ms": 37782.9,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSPallava00177:23:0",
+   "target": "ya",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [],
+   "latency_ms": 36223.4,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSPallava00177:33:0",
+   "target": "poṉ",
+   "top1": "pa",
+   "confidence": 0.2035,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.6667,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "pa",
+     0.2035
+    ],
+    [
+     "paṅ",
+     0.0936
+    ],
+    [
+     "paṭ",
+     0.0723
+    ],
+    [
+     "paṭi",
+     0.0689
+    ],
+    [
+     "pacu",
+     0.0601
+    ],
+    [
+     "pā",
+     0.0586
+    ],
+    [
+     "par",
+     0.0551
+    ],
+    [
+     "paṉ",
+     0.0546
+    ],
+    [
+     "pari",
+     0.0318
+    ],
+    [
+     "pū",
+     0.0225
+    ],
+    [
+     "paṇ",
+     0.0222
+    ],
+    [
+     "pō",
+     0.0178
+    ],
+    [
+     "pak",
+     0.0168
+    ],
+    [
+     "pal",
+     0.0167
+    ],
+    [
+     "pu",
+     0.0166
+    ],
+    [
+     "paṟ",
+     0.0157
+    ],
+    [
+     "po",
+     0.0151
+    ],
+    [
+     "paṉi",
+     0.0149
+    ],
+    [
+     "paṭṭa",
+     0.0148
+    ],
+    [
+     "paḷ",
+     0.0145
+    ]
+   ],
+   "latency_ms": 28185.1,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "us.anthropic.claude-opus-4-6-v1",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": true,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00177:37:0",
+   "target": "cu",
+   "top1": "ciṉ",
+   "confidence": 0.2265,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "ciṉ",
+     0.2265
+    ],
+    [
+     "ci",
+     0.2132
+    ],
+    [
+     "cu",
+     0.0819
+    ],
+    [
+     "c",
+     0.0594
+    ],
+    [
+     "u",
+     0.0565
+    ],
+    [
+     "i",
+     0.053
+    ],
+    [
+     "ñc",
+     0.0485
+    ],
+    [
+     "ñcu",
+     0.0471
+    ],
+    [
+     "cē",
+     0.0275
+    ],
+    [
+     "k",
+     0.0266
+    ],
+    [
+     "ē",
+     0.0247
+    ],
+    [
+     "a",
+     0.0198
+    ],
+    [
+     "ñ",
+     0.0177
+    ],
+    [
+     "kaḷ",
+     0.0126
+    ],
+    [
+     "cam",
+     0.0082
+    ]
+   ],
+   "latency_ms": 35819.6,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "us.anthropic.claude-opus-4-6-v1",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": true,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00178:1:0",
+   "target": "mum",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [],
+   "latency_ms": 26407.5,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  }
+ ]
+}

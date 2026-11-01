@@ -1,17 +1,17 @@
 {
  "meta": {
-  "date": "2026-11-01T20:20:22+00:00",
+  "date": "2026-11-01T20:24:15+00:00",
   "router": "baseline-copy",
   "split": "test",
   "subset": "full",
   "limit": null,
-  "data_dir": "/private/tmp/claude-501/-Users-vivekrajaps-tamil-script/310306a5-bec0-4456-b84a-fd0e629aed33/scratchpad/bench/benchmark",
+  "data_dir": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/evalq/benchmark",
   "data_is_fixture": false,
-  "data_commit": "team/data/v1@fd69669 (PR #6)",
-  "ontology_ref": "team/onto/v1@7d85a30 (PR #9, train-only build)",
+  "data_commit": "8e5f4a8005e4d5dd6dc2641e2dd7019e4c592f11",
+  "ontology_ref": null,
   "decider": "none (fallback confidence)",
   "use_ontology": true,
-  "ontology": "lookups-json",
+  "ontology": "ezhuthu.ontology.lookup",
   "models": {
    "default": "us.anthropic.claude-sonnet-4-6",
    "escalate": "us.anthropic.claude-opus-4-6-v1",
@@ -26,50 +26,50 @@
    "abstain_if_confidence_below": 0.5
   },
   "usage": null,
-  "command": "python -m ezhuthu.eval.run --split test --router baseline-copy --no-decider --data-ref team/data/v1@fd69669 (PR #6) --ontology-ref team/onto/v1@7d85a30 (PR #9, train-only build)"
+  "command": "python -m ezhuthu.eval.run --router baseline-copy --split test --no-decider"
  },
- "n": 383,
- "top1": 0.4125,
- "top20": 0.5614,
- "cer": 0.4946,
- "cer_clipped": 0.4606,
+ "n": 413,
+ "top1": 0.4165,
+ "top20": 0.5569,
+ "cer": 0.4736,
+ "cer_clipped": 0.4494,
  "cer_median": 0.5,
- "ece": 0.072,
+ "ece": 0.0734,
  "coverage": [
   {
    "threshold": 0.0,
    "coverage": 1.0,
-   "accuracy": 0.4125
+   "accuracy": 0.4165
   },
   {
    "threshold": 0.3,
-   "coverage": 0.6658,
-   "accuracy": 0.549
+   "coverage": 0.6901,
+   "accuracy": 0.5439
   },
   {
    "threshold": 0.5,
-   "coverage": 0.2559,
-   "accuracy": 0.7347
+   "coverage": 0.2615,
+   "accuracy": 0.7037
   },
   {
    "threshold": 0.6,
-   "coverage": 0.141,
-   "accuracy": 0.7963
+   "coverage": 0.1477,
+   "accuracy": 0.8033
   },
   {
    "threshold": 0.7,
-   "coverage": 0.0783,
-   "accuracy": 0.8
+   "coverage": 0.0872,
+   "accuracy": 0.7778
   },
   {
    "threshold": 0.8,
-   "coverage": 0.0444,
-   "accuracy": 0.8235
+   "coverage": 0.0412,
+   "accuracy": 0.7647
   },
   {
    "threshold": 0.9,
-   "coverage": 0.0261,
-   "accuracy": 0.8
+   "coverage": 0.0242,
+   "accuracy": 0.7
   }
  ],
  "reliability": [
@@ -87,63 +87,63 @@
     0.1,
     0.2
    ],
-   "n": 8,
-   "accuracy": 0.125,
-   "confidence": 0.1845
+   "n": 7,
+   "accuracy": 0.1429,
+   "confidence": 0.1856
   },
   {
    "bin": [
     0.2,
     0.3
    ],
-   "n": 107,
-   "accuracy": 0.1589,
-   "confidence": 0.2534
+   "n": 108,
+   "accuracy": 0.1481,
+   "confidence": 0.2542
   },
   {
    "bin": [
     0.3,
     0.4
    ],
-   "n": 95,
-   "accuracy": 0.3789,
-   "confidence": 0.3515
+   "n": 101,
+   "accuracy": 0.396,
+   "confidence": 0.3505
   },
   {
    "bin": [
     0.4,
     0.5
    ],
-   "n": 62,
-   "accuracy": 0.5161,
-   "confidence": 0.4535
+   "n": 76,
+   "accuracy": 0.5132,
+   "confidence": 0.4555
   },
   {
    "bin": [
     0.5,
     0.6
    ],
-   "n": 44,
-   "accuracy": 0.6591,
-   "confidence": 0.5514
+   "n": 47,
+   "accuracy": 0.5745,
+   "confidence": 0.5533
   },
   {
    "bin": [
     0.6,
     0.7
    ],
-   "n": 24,
-   "accuracy": 0.7917,
-   "confidence": 0.6457
+   "n": 25,
+   "accuracy": 0.84,
+   "confidence": 0.6422
   },
   {
    "bin": [
     0.7,
     0.8
    ],
-   "n": 13,
-   "accuracy": 0.7692,
-   "confidence": 0.7413
+   "n": 19,
+   "accuracy": 0.7895,
+   "confidence": 0.7502
   },
   {
    "bin": [
@@ -152,7 +152,7 @@
    ],
    "n": 7,
    "accuracy": 0.8571,
-   "confidence": 0.8341
+   "confidence": 0.8324
   },
   {
    "bin": [
@@ -160,56 +160,56 @@
     1.0
    ],
    "n": 10,
-   "accuracy": 0.8,
-   "confidence": 0.9723
+   "accuracy": 0.7,
+   "confidence": 0.9733
   }
  ],
- "abstain_rate": 0.0339,
- "accuracy_when_filled": 0.427,
+ "abstain_rate": 0.0315,
+ "accuracy_when_filled": 0.43,
  "by_subset": {
   "full": {
-   "n": 383,
-   "top1": 0.4125,
-   "top20": 0.5614,
-   "cer": 0.4946,
-   "cer_clipped": 0.4606,
+   "n": 413,
+   "top1": 0.4165,
+   "top20": 0.5569,
+   "cer": 0.4736,
+   "cer_clipped": 0.4494,
    "cer_median": 0.5,
-   "ece": 0.072,
+   "ece": 0.0734,
    "coverage": [
     {
      "threshold": 0.0,
      "coverage": 1.0,
-     "accuracy": 0.4125
+     "accuracy": 0.4165
     },
     {
      "threshold": 0.3,
-     "coverage": 0.6658,
-     "accuracy": 0.549
+     "coverage": 0.6901,
+     "accuracy": 0.5439
     },
     {
      "threshold": 0.5,
-     "coverage": 0.2559,
-     "accuracy": 0.7347
+     "coverage": 0.2615,
+     "accuracy": 0.7037
     },
     {
      "threshold": 0.6,
-     "coverage": 0.141,
-     "accuracy": 0.7963
+     "coverage": 0.1477,
+     "accuracy": 0.8033
     },
     {
      "threshold": 0.7,
-     "coverage": 0.0783,
-     "accuracy": 0.8
+     "coverage": 0.0872,
+     "accuracy": 0.7778
     },
     {
      "threshold": 0.8,
-     "coverage": 0.0444,
-     "accuracy": 0.8235
+     "coverage": 0.0412,
+     "accuracy": 0.7647
     },
     {
      "threshold": 0.9,
-     "coverage": 0.0261,
-     "accuracy": 0.8
+     "coverage": 0.0242,
+     "accuracy": 0.7
     }
    ],
    "reliability": [
@@ -227,63 +227,63 @@
       0.1,
       0.2
      ],
-     "n": 8,
-     "accuracy": 0.125,
-     "confidence": 0.1845
+     "n": 7,
+     "accuracy": 0.1429,
+     "confidence": 0.1856
     },
     {
      "bin": [
       0.2,
       0.3
      ],
-     "n": 107,
-     "accuracy": 0.1589,
-     "confidence": 0.2534
+     "n": 108,
+     "accuracy": 0.1481,
+     "confidence": 0.2542
     },
     {
      "bin": [
       0.3,
       0.4
      ],
-     "n": 95,
-     "accuracy": 0.3789,
-     "confidence": 0.3515
+     "n": 101,
+     "accuracy": 0.396,
+     "confidence": 0.3505
     },
     {
      "bin": [
       0.4,
       0.5
      ],
-     "n": 62,
-     "accuracy": 0.5161,
-     "confidence": 0.4535
+     "n": 76,
+     "accuracy": 0.5132,
+     "confidence": 0.4555
     },
     {
      "bin": [
       0.5,
       0.6
      ],
-     "n": 44,
-     "accuracy": 0.6591,
-     "confidence": 0.5514
+     "n": 47,
+     "accuracy": 0.5745,
+     "confidence": 0.5533
     },
     {
      "bin": [
       0.6,
       0.7
      ],
-     "n": 24,
-     "accuracy": 0.7917,
-     "confidence": 0.6457
+     "n": 25,
+     "accuracy": 0.84,
+     "confidence": 0.6422
     },
     {
      "bin": [
       0.7,
       0.8
      ],
-     "n": 13,
-     "accuracy": 0.7692,
-     "confidence": 0.7413
+     "n": 19,
+     "accuracy": 0.7895,
+     "confidence": 0.7502
     },
     {
      "bin": [
@@ -292,7 +292,7 @@
      ],
      "n": 7,
      "accuracy": 0.8571,
-     "confidence": 0.8341
+     "confidence": 0.8324
     },
     {
      "bin": [
@@ -300,46 +300,46 @@
       1.0
      ],
      "n": 10,
-     "accuracy": 0.8,
-     "confidence": 0.9723
+     "accuracy": 0.7,
+     "confidence": 0.9733
     }
    ],
-   "abstain_rate": 0.0339,
-   "accuracy_when_filled": 0.427
+   "abstain_rate": 0.0315,
+   "accuracy_when_filled": 0.43
   },
   "hard": {
-   "n": 301,
-   "top1": 0.3322,
-   "top20": 0.485,
-   "cer": 0.5754,
-   "cer_clipped": 0.5322,
+   "n": 317,
+   "top1": 0.3407,
+   "top20": 0.4795,
+   "cer": 0.5505,
+   "cer_clipped": 0.5221,
    "cer_median": 0.5,
-   "ece": 0.0613,
+   "ece": 0.072,
    "coverage": [
     {
      "threshold": 0.0,
      "coverage": 1.0,
-     "accuracy": 0.3322
+     "accuracy": 0.3407
     },
     {
      "threshold": 0.3,
-     "coverage": 0.5914,
-     "accuracy": 0.4607
+     "coverage": 0.6057,
+     "accuracy": 0.474
     },
     {
      "threshold": 0.5,
      "coverage": 0.1262,
-     "accuracy": 0.5789
+     "accuracy": 0.575
     },
     {
      "threshold": 0.6,
-     "coverage": 0.0365,
-     "accuracy": 0.5455
+     "coverage": 0.0505,
+     "accuracy": 0.625
     },
     {
      "threshold": 0.7,
-     "coverage": 0.0133,
-     "accuracy": 0.25
+     "coverage": 0.0221,
+     "accuracy": 0.4286
     },
     {
      "threshold": 0.8,
@@ -367,63 +367,63 @@
       0.1,
       0.2
      ],
-     "n": 8,
-     "accuracy": 0.125,
-     "confidence": 0.1845
+     "n": 7,
+     "accuracy": 0.1429,
+     "confidence": 0.1856
     },
     {
      "bin": [
       0.2,
       0.3
      ],
-     "n": 102,
-     "accuracy": 0.1667,
-     "confidence": 0.2534
+     "n": 105,
+     "accuracy": 0.1524,
+     "confidence": 0.2546
     },
     {
      "bin": [
       0.3,
       0.4
      ],
-     "n": 88,
-     "accuracy": 0.3864,
-     "confidence": 0.3524
+     "n": 91,
+     "accuracy": 0.4066,
+     "confidence": 0.3528
     },
     {
      "bin": [
       0.4,
       0.5
      ],
-     "n": 52,
-     "accuracy": 0.5,
-     "confidence": 0.4526
+     "n": 61,
+     "accuracy": 0.5082,
+     "confidence": 0.4545
     },
     {
      "bin": [
       0.5,
       0.6
      ],
-     "n": 27,
-     "accuracy": 0.5926,
-     "confidence": 0.5452
+     "n": 24,
+     "accuracy": 0.5417,
+     "confidence": 0.546
     },
     {
      "bin": [
       0.6,
       0.7
      ],
-     "n": 7,
-     "accuracy": 0.7143,
-     "confidence": 0.6516
+     "n": 9,
+     "accuracy": 0.7778,
+     "confidence": 0.6391
     },
     {
      "bin": [
       0.7,
       0.8
      ],
-     "n": 4,
-     "accuracy": 0.25,
-     "confidence": 0.7389
+     "n": 7,
+     "accuracy": 0.4286,
+     "confidence": 0.7542
     },
     {
      "bin": [
@@ -444,52 +444,52 @@
      "confidence": null
     }
    ],
-   "abstain_rate": 0.0432,
-   "accuracy_when_filled": 0.3472
+   "abstain_rate": 0.041,
+   "accuracy_when_filled": 0.3553
   },
   "age": {
-   "n": 42,
-   "top1": 0.2857,
-   "top20": 0.4524,
-   "cer": 0.6571,
-   "cer_clipped": 0.5619,
-   "cer_median": 0.6682,
-   "ece": 0.1519,
+   "n": 51,
+   "top1": 0.2745,
+   "top20": 0.4706,
+   "cer": 0.6286,
+   "cer_clipped": 0.5501,
+   "cer_median": 0.5385,
+   "ece": 0.2164,
    "coverage": [
     {
      "threshold": 0.0,
      "coverage": 1.0,
-     "accuracy": 0.2857
+     "accuracy": 0.2745
     },
     {
      "threshold": 0.3,
-     "coverage": 0.5952,
-     "accuracy": 0.36
+     "coverage": 0.6667,
+     "accuracy": 0.3235
     },
     {
      "threshold": 0.5,
-     "coverage": 0.2381,
-     "accuracy": 0.4
+     "coverage": 0.3529,
+     "accuracy": 0.2778
     },
     {
      "threshold": 0.6,
-     "coverage": 0.1429,
-     "accuracy": 0.5
-    },
-    {
-     "threshold": 0.7,
-     "coverage": 0.1429,
-     "accuracy": 0.5
-    },
-    {
-     "threshold": 0.8,
-     "coverage": 0.119,
+     "coverage": 0.1961,
      "accuracy": 0.4
     },
     {
-     "threshold": 0.9,
-     "coverage": 0.0714,
+     "threshold": 0.7,
+     "coverage": 0.1961,
+     "accuracy": 0.4
+    },
+    {
+     "threshold": 0.8,
+     "coverage": 0.1176,
      "accuracy": 0.3333
+    },
+    {
+     "threshold": 0.9,
+     "coverage": 0.0784,
+     "accuracy": 0.25
     }
    ],
    "reliability": [
@@ -509,7 +509,7 @@
      ],
      "n": 1,
      "accuracy": 0.0,
-     "confidence": 0.1853
+     "confidence": 0.1925
     },
     {
      "bin": [
@@ -518,16 +518,16 @@
      ],
      "n": 12,
      "accuracy": 0.25,
-     "confidence": 0.2616
+     "confidence": 0.2585
     },
     {
      "bin": [
       0.3,
       0.4
      ],
-     "n": 7,
-     "accuracy": 0.4286,
-     "confidence": 0.3668
+     "n": 8,
+     "accuracy": 0.5,
+     "confidence": 0.3602
     },
     {
      "bin": [
@@ -543,9 +543,9 @@
       0.5,
       0.6
      ],
-     "n": 4,
-     "accuracy": 0.25,
-     "confidence": 0.5579
+     "n": 8,
+     "accuracy": 0.125,
+     "confidence": 0.5643
     },
     {
      "bin": [
@@ -561,9 +561,9 @@
       0.7,
       0.8
      ],
-     "n": 1,
-     "accuracy": 1.0,
-     "confidence": 0.7312
+     "n": 4,
+     "accuracy": 0.5,
+     "confidence": 0.7472
     },
     {
      "bin": [
@@ -579,59 +579,59 @@
       0.9,
       1.0
      ],
-     "n": 3,
-     "accuracy": 0.3333,
-     "confidence": 0.9762
+     "n": 4,
+     "accuracy": 0.25,
+     "confidence": 0.9821
     }
    ],
-   "abstain_rate": 0.0952,
-   "accuracy_when_filled": 0.3158
+   "abstain_rate": 0.0784,
+   "accuracy_when_filled": 0.2979
   }
  },
  "by_router": {
   "baseline-copy": {
-   "n": 383,
-   "top1": 0.4125,
-   "top20": 0.5614,
-   "cer": 0.4946,
-   "cer_clipped": 0.4606,
+   "n": 413,
+   "top1": 0.4165,
+   "top20": 0.5569,
+   "cer": 0.4736,
+   "cer_clipped": 0.4494,
    "cer_median": 0.5,
-   "ece": 0.072,
+   "ece": 0.0734,
    "coverage": [
     {
      "threshold": 0.0,
      "coverage": 1.0,
-     "accuracy": 0.4125
+     "accuracy": 0.4165
     },
     {
      "threshold": 0.3,
-     "coverage": 0.6658,
-     "accuracy": 0.549
+     "coverage": 0.6901,
+     "accuracy": 0.5439
     },
     {
      "threshold": 0.5,
-     "coverage": 0.2559,
-     "accuracy": 0.7347
+     "coverage": 0.2615,
+     "accuracy": 0.7037
     },
     {
      "threshold": 0.6,
-     "coverage": 0.141,
-     "accuracy": 0.7963
+     "coverage": 0.1477,
+     "accuracy": 0.8033
     },
     {
      "threshold": 0.7,
-     "coverage": 0.0783,
-     "accuracy": 0.8
+     "coverage": 0.0872,
+     "accuracy": 0.7778
     },
     {
      "threshold": 0.8,
-     "coverage": 0.0444,
-     "accuracy": 0.8235
+     "coverage": 0.0412,
+     "accuracy": 0.7647
     },
     {
      "threshold": 0.9,
-     "coverage": 0.0261,
-     "accuracy": 0.8
+     "coverage": 0.0242,
+     "accuracy": 0.7
     }
    ],
    "reliability": [
@@ -649,63 +649,63 @@
       0.1,
       0.2
      ],
-     "n": 8,
-     "accuracy": 0.125,
-     "confidence": 0.1845
+     "n": 7,
+     "accuracy": 0.1429,
+     "confidence": 0.1856
     },
     {
      "bin": [
       0.2,
       0.3
      ],
-     "n": 107,
-     "accuracy": 0.1589,
-     "confidence": 0.2534
+     "n": 108,
+     "accuracy": 0.1481,
+     "confidence": 0.2542
     },
     {
      "bin": [
       0.3,
       0.4
      ],
-     "n": 95,
-     "accuracy": 0.3789,
-     "confidence": 0.3515
+     "n": 101,
+     "accuracy": 0.396,
+     "confidence": 0.3505
     },
     {
      "bin": [
       0.4,
       0.5
      ],
-     "n": 62,
-     "accuracy": 0.5161,
-     "confidence": 0.4535
+     "n": 76,
+     "accuracy": 0.5132,
+     "confidence": 0.4555
     },
     {
      "bin": [
       0.5,
       0.6
      ],
-     "n": 44,
-     "accuracy": 0.6591,
-     "confidence": 0.5514
+     "n": 47,
+     "accuracy": 0.5745,
+     "confidence": 0.5533
     },
     {
      "bin": [
       0.6,
       0.7
      ],
-     "n": 24,
-     "accuracy": 0.7917,
-     "confidence": 0.6457
+     "n": 25,
+     "accuracy": 0.84,
+     "confidence": 0.6422
     },
     {
      "bin": [
       0.7,
       0.8
      ],
-     "n": 13,
-     "accuracy": 0.7692,
-     "confidence": 0.7413
+     "n": 19,
+     "accuracy": 0.7895,
+     "confidence": 0.7502
     },
     {
      "bin": [
@@ -714,7 +714,7 @@
      ],
      "n": 7,
      "accuracy": 0.8571,
-     "confidence": 0.8341
+     "confidence": 0.8324
     },
     {
      "bin": [
@@ -722,415 +722,15 @@
       1.0
      ],
      "n": 10,
-     "accuracy": 0.8,
-     "confidence": 0.9723
+     "accuracy": 0.7,
+     "confidence": 0.9733
     }
    ],
-   "abstain_rate": 0.0339,
-   "accuracy_when_filled": 0.427
+   "abstain_rate": 0.0315,
+   "accuracy_when_filled": 0.43
   }
  },
  "items": [
-  {
-   "id": "DHARMA_INSCirkali00014:1:0",
-   "target": "Āvatu tai",
-   "top1": "āvatu",
-   "confidence": 0.5128,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 0.375,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "āvatu",
-     0.5128
-    ],
-    [
-     "ṭāti",
-     0.2479
-    ],
-    [
-     "ēyya",
-     0.2187
-    ],
-    [
-     "āṭi",
-     0.2167
-    ],
-    [
-     "kuṉi",
-     0.2167
-    ]
-   ],
-   "latency_ms": 396.8
-  },
-  {
-   "id": "DHARMA_INSCirkali00014:2:0",
-   "target": "eṉ",
-   "top1": "aṉ",
-   "confidence": 0.2359,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 0.5,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "aṉ",
-     0.2359
-    ],
-    [
-     "ka",
-     0.2131
-    ],
-    [
-     "um",
-     0.2046
-    ],
-    [
-     "ir",
-     0.1832
-    ]
-   ],
-   "latency_ms": 62.7
-  },
-  {
-   "id": "DHARMA_INSCirkali00014:2:1",
-   "target": "āl",
-   "top1": "tu",
-   "confidence": 0.5865,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 1.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "tu",
-     0.5865
-    ],
-    [
-     "um",
-     0.5528
-    ],
-    [
-     "ta",
-     0.465
-    ],
-    [
-     "ōm",
-     0.4407
-    ],
-    [
-     "āḷ",
-     0.4368
-    ],
-    [
-     "ai",
-     0.4368
-    ],
-    [
-     "-a",
-     0.2682
-    ],
-    [
-     "-u",
-     0.2033
-    ]
-   ],
-   "latency_ms": 63.5
-  },
-  {
-   "id": "DHARMA_INSCirkali00014:2:2",
-   "target": "yāṉ",
-   "top1": "yā",
-   "confidence": 0.3043,
-   "top1_correct": false,
-   "in_top20": true,
-   "cer": 0.3333,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "yā",
-     0.3043
-    ],
-    [
-     "yāṉ",
-     0.3038
-    ],
-    [
-     "ya",
-     0.2801
-    ],
-    [
-     "]",
-     0.2367
-    ],
-    [
-     "yār",
-     0.2096
-    ],
-    [
-     "-k",
-     0.1868
-    ]
-   ],
-   "latency_ms": 65.5
-  },
-  {
-   "id": "DHARMA_INSCirkali00014:3:0",
-   "target": "tta",
-   "top1": "ttu",
-   "confidence": 0.2445,
-   "top1_correct": false,
-   "in_top20": true,
-   "cer": 0.3333,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "ttu",
-     0.2445
-    ],
-    [
-     "tta",
-     0.2158
-    ],
-    [
-     "kk",
-     0.2037
-    ],
-    [
-     "īr",
-     0.1938
-    ],
-    [
-     "um",
-     0.1884
-    ],
-    [
-     "ām",
-     0.1884
-    ]
-   ],
-   "latency_ms": 71.8
-  },
-  {
-   "id": "DHARMA_INSCirkali00014:4:1",
-   "target": "ṭi",
-   "top1": "ṭi",
-   "confidence": 0.3525,
-   "top1_correct": true,
-   "in_top20": true,
-   "cer": 0.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "ṭi",
-     0.3525
-    ],
-    [
-     "ṭ",
-     0.2291
-    ],
-    [
-     "i-t",
-     0.2241
-    ],
-    [
-     "r",
-     0.2221
-    ],
-    [
-     "ṇ",
-     0.2165
-    ],
-    [
-     "ṉ",
-     0.2109
-    ],
-    [
-     "l",
-     0.2101
-    ],
-    [
-     "ṇṭa",
-     0.2037
-    ],
-    [
-     "ṅ",
-     0.1925
-    ],
-    [
-     "i",
-     0.1925
-    ],
-    [
-     "m",
-     0.1798
-    ],
-    [
-     "yir",
-     0.1797
-    ],
-    [
-     "y",
-     0.1797
-    ]
-   ],
-   "latency_ms": 61.9
-  },
-  {
-   "id": "DHARMA_INSCirkali00014:8:0",
-   "target": "perum",
-   "top1": "veṇ",
-   "confidence": 0.4457,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 0.8,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "veṇ",
-     0.4457
-    ],
-    [
-     "tir",
-     0.4414
-    ],
-    [
-     "[?5]",
-     0.4323
-    ],
-    [
-     "cak",
-     0.4228
-    ],
-    [
-     "pēr",
-     0.4222
-    ],
-    [
-     "pai",
-     0.4153
-    ],
-    [
-     "piṟ",
-     0.4106
-    ],
-    [
-     "karā",
-     0.4101
-    ],
-    [
-     "kura",
-     0.4101
-    ],
-    [
-     "mām",
-     0.409
-    ],
-    [
-     "ci",
-     0.4047
-    ],
-    [
-     "iḻa",
-     0.4021
-    ],
-    [
-     "poṉ",
-     0.4019
-    ],
-    [
-     "[?2]",
-     0.3783
-    ],
-    [
-     "cī-",
-     0.3677
-    ],
-    [
-     "kōy",
-     0.3486
-    ],
-    [
-     "pār",
-     0.3486
-    ],
-    [
-     "kur",
-     0.3439
-    ]
-   ],
-   "latency_ms": 60.8
-  },
-  {
-   "id": "DHARMA_INSCirkali00014:8:2",
-   "target": "ṇṭa",
-   "top1": "-p",
-   "confidence": 0.3125,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 1.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "-p",
-     0.3125
-    ],
-    [
-     "ḻi",
-     0.2771
-    ],
-    [
-     "ra",
-     0.2603
-    ],
-    [
-     "ṉa",
-     0.2456
-    ],
-    [
-     "ṭa",
-     0.2427
-    ],
-    [
-     "ma",
-     0.24
-    ],
-    [
-     "ya",
-     0.2336
-    ],
-    [
-     "tt",
-     0.2062
-    ],
-    [
-     "yi",
-     0.2062
-    ],
-    [
-     "ṭk",
-     0.1816
-    ]
-   ],
-   "latency_ms": 65.1
-  },
   {
    "id": "DHARMA_INSCirkali00053:9:0",
    "target": "tapā",
@@ -1172,7 +772,7 @@
      0.1752
     ]
    ],
-   "latency_ms": 66.6
+   "latency_ms": 317.0
   },
   {
    "id": "DHARMA_INSKotumpalur00010:1:0",
@@ -1191,7 +791,7 @@
      0.5533
     ]
    ],
-   "latency_ms": 28.6
+   "latency_ms": 26.4
   },
   {
    "id": "DHARMA_INSKotumpalur00037:2:0",
@@ -1232,9 +832,13 @@
     [
      "a",
      0.1947
+    ],
+    [
+     "n",
+     0.1822
     ]
    ],
-   "latency_ms": 65.6
+   "latency_ms": 68.4
   },
   {
    "id": "DHARMA_INSKotumpalur00037:3:0",
@@ -1265,7 +869,7 @@
      0.2283
     ]
    ],
-   "latency_ms": 64.6
+   "latency_ms": 67.1
   },
   {
    "id": "DHARMA_INSKotumpalur00037:3:1",
@@ -1322,13 +926,9 @@
     [
      "[?8]",
      0.244
-    ],
-    [
-     "ṇṭāṟ",
-     0.2221
     ]
    ],
-   "latency_ms": 62.6
+   "latency_ms": 60.6
   },
   {
    "id": "DHARMA_INSKotumpalur00037:4:0",
@@ -1363,7 +963,7 @@
      0.1875
     ]
    ],
-   "latency_ms": 76.5
+   "latency_ms": 65.0
   },
   {
    "id": "DHARMA_INSKotumpalur00037:5:0",
@@ -1390,12 +990,12 @@
      0.3165
     ],
     [
-     "rā",
-     0.3059
-    ],
-    [
      "oṉ",
      0.2874
+    ],
+    [
+     "rā",
+     0.2834
     ],
     [
      "ka",
@@ -1406,13 +1006,13 @@
      0.2424
     ]
    ],
-   "latency_ms": 73.9
+   "latency_ms": 64.1
   },
   {
    "id": "DHARMA_INSKotumpalur00037:6:0",
    "target": "ā",
    "top1": "ā",
-   "confidence": 0.3064,
+   "confidence": 0.3008,
    "top1_correct": true,
    "in_top20": true,
    "cer": 0.0,
@@ -1422,14 +1022,14 @@
    "candidates": [
     [
      "ā",
-     0.3064
+     0.3008
     ],
     [
      "a",
      0.1787
     ]
    ],
-   "latency_ms": 59.2
+   "latency_ms": 56.7
   },
   {
    "id": "DHARMA_INSKotumpalur00037:6:1",
@@ -1443,7 +1043,7 @@
    "hard": true,
    "age_set": false,
    "candidates": [],
-   "latency_ms": 57.9
+   "latency_ms": 51.4
   },
   {
    "id": "DHARMA_INSKotumpalur00037:6:2",
@@ -1490,7 +1090,7 @@
      0.191
     ]
    ],
-   "latency_ms": 52.0
+   "latency_ms": 48.9
   },
   {
    "id": "DHARMA_INSMelKil00012:1:0",
@@ -1513,7 +1113,7 @@
      0.3354
     ]
    ],
-   "latency_ms": 64.6
+   "latency_ms": 60.9
   },
   {
    "id": "DHARMA_INSMelKil00012:1:1",
@@ -1532,7 +1132,7 @@
      0.7104
     ]
    ],
-   "latency_ms": 66.6
+   "latency_ms": 61.3
   },
   {
    "id": "DHARMA_INSMelKil00012:2:0",
@@ -1559,7 +1159,7 @@
      0.6137
     ]
    ],
-   "latency_ms": 97.0
+   "latency_ms": 61.1
   },
   {
    "id": "DHARMA_INSMelKil00012:7:0",
@@ -1594,7 +1194,7 @@
      0.2383
     ]
    ],
-   "latency_ms": 68.9
+   "latency_ms": 62.2
   },
   {
    "id": "DHARMA_INSPallava00110:3:0",
@@ -1613,7 +1213,7 @@
      0.814
     ]
    ],
-   "latency_ms": 54.1
+   "latency_ms": 48.0
   },
   {
    "id": "DHARMA_INSPallava00119:1:0",
@@ -1627,7 +1227,7 @@
    "hard": true,
    "age_set": true,
    "candidates": [],
-   "latency_ms": 62.2
+   "latency_ms": 57.0
   },
   {
    "id": "DHARMA_INSPallava00119:2:0",
@@ -1678,7 +1278,7 @@
      0.289
     ]
    ],
-   "latency_ms": 65.1
+   "latency_ms": 69.5
   },
   {
    "id": "DHARMA_INSPallava00119:3:0",
@@ -1697,7 +1297,7 @@
      0.2331
     ]
    ],
-   "latency_ms": 67.0
+   "latency_ms": 68.5
   },
   {
    "id": "DHARMA_INSPallava00119:3:1",
@@ -1711,7 +1311,7 @@
    "hard": true,
    "age_set": true,
    "candidates": [],
-   "latency_ms": 63.5
+   "latency_ms": 66.3
   },
   {
    "id": "DHARMA_INSPallava00119:4:0",
@@ -1754,7 +1354,7 @@
      0.1634
     ]
    ],
-   "latency_ms": 61.1
+   "latency_ms": 63.5
   },
   {
    "id": "DHARMA_INSPallava00119:8:0",
@@ -1801,7 +1401,7 @@
      0.1745
     ]
    ],
-   "latency_ms": 66.0
+   "latency_ms": 64.1
   },
   {
    "id": "DHARMA_INSPallava00119:12:0",
@@ -1852,7 +1452,7 @@
      0.1688
     ]
    ],
-   "latency_ms": 74.1
+   "latency_ms": 71.0
   },
   {
    "id": "DHARMA_INSPallava00129:4:0",
@@ -1907,7 +1507,7 @@
      0.2585
     ]
    ],
-   "latency_ms": 76.8
+   "latency_ms": 57.6
   },
   {
    "id": "DHARMA_INSPallava00129:5:0",
@@ -1928,6 +1528,10 @@
     [
      "ku mēṟ-",
      0.2923
+    ],
+    [
+     "ku-p pa",
+     0.28
     ],
     [
      "ku tiru",
@@ -1956,13 +1560,9 @@
     [
      "ittāluḷ",
      0.2175
-    ],
-    [
-     "kum put",
-     0.195
     ]
    ],
-   "latency_ms": 85.6
+   "latency_ms": 56.7
   },
   {
    "id": "DHARMA_INSPallava00129:5:1",
@@ -2017,6 +1617,10 @@
      0.2351
     ],
     [
+     "ṟē",
+     0.2336
+    ],
+    [
      "ḻē",
      0.2257
     ],
@@ -2025,7 +1629,7 @@
      0.1989
     ]
    ],
-   "latency_ms": 50.7
+   "latency_ms": 54.0
   },
   {
    "id": "DHARMA_INSPallava00129:6:0",
@@ -2092,7 +1696,7 @@
      0.1857
     ]
    ],
-   "latency_ms": 59.1
+   "latency_ms": 58.4
   },
   {
    "id": "DHARMA_INSPallava00129:7:0",
@@ -2139,15 +1743,15 @@
      0.1884
     ],
     [
-     "kk' eriya",
-     0.1822
+     "kku oṉṟ",
+     0.1882
     ],
     [
-     "m cuṟṟu",
+     "kk' eriya",
      0.1822
     ]
    ],
-   "latency_ms": 67.9
+   "latency_ms": 65.0
   },
   {
    "id": "DHARMA_INSPallava00129:8:0",
@@ -2210,7 +1814,7 @@
      0.2694
     ]
    ],
-   "latency_ms": 65.1
+   "latency_ms": 63.1
   },
   {
    "id": "DHARMA_INSPallava00129:10:0",
@@ -2241,7 +1845,7 @@
      0.1974
     ]
    ],
-   "latency_ms": 67.5
+   "latency_ms": 65.1
   },
   {
    "id": "DHARMA_INSPallava00129:11:0",
@@ -2276,7 +1880,7 @@
      0.1608
     ]
    ],
-   "latency_ms": 64.7
+   "latency_ms": 62.6
   },
   {
    "id": "DHARMA_INSPallava00176:1:0",
@@ -2303,7 +1907,280 @@
      0.8889
     ]
    ],
-   "latency_ms": 14.5
+   "latency_ms": 13.7
+  },
+  {
+   "id": "DHARMA_INSPallava00177:1:0",
+   "target": "svas",
+   "top1": "vas",
+   "confidence": 1.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.25,
+   "abstained": false,
+   "hard": false,
+   "age_set": true,
+   "candidates": [
+    [
+     "vas",
+     1.0
+    ]
+   ],
+   "latency_ms": 18.0
+  },
+  {
+   "id": "DHARMA_INSPallava00177:17:0",
+   "target": "hā",
+   "top1": "hā-",
+   "confidence": 0.5437,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 0.5,
+   "abstained": false,
+   "hard": false,
+   "age_set": true,
+   "candidates": [
+    [
+     "hā-",
+     0.5437
+    ],
+    [
+     "hā",
+     0.5037
+    ],
+    [
+     "-",
+     0.4588
+    ],
+    [
+     "a",
+     0.428
+    ],
+    [
+     "ā",
+     0.4013
+    ]
+   ],
+   "latency_ms": 36.8
+  },
+  {
+   "id": "DHARMA_INSPallava00177:19:0",
+   "target": "U",
+   "top1": "i",
+   "confidence": 0.5818,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 1.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "i",
+     0.5818
+    ],
+    [
+     "k",
+     0.5682
+    ],
+    [
+     "u",
+     0.5549
+    ],
+    [
+     "p",
+     0.5375
+    ],
+    [
+     "[?]",
+     0.53
+    ],
+    [
+     "a",
+     0.525
+    ],
+    [
+     "n",
+     0.4094
+    ],
+    [
+     "t",
+     0.2955
+    ]
+   ],
+   "latency_ms": 33.0
+  },
+  {
+   "id": "DHARMA_INSPallava00177:20:0",
+   "target": "ḻa",
+   "top1": "uḻa",
+   "confidence": 0.7776,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.5,
+   "abstained": false,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "uḻa",
+     0.7776
+    ],
+    [
+     "a",
+     0.5197
+    ],
+    [
+     "u",
+     0.4579
+    ],
+    [
+     "p",
+     0.4379
+    ],
+    [
+     "n",
+     0.4363
+    ],
+    [
+     "k",
+     0.4246
+    ]
+   ],
+   "latency_ms": 28.8
+  },
+  {
+   "id": "DHARMA_INSPallava00177:23:0",
+   "target": "ya",
+   "top1": "p",
+   "confidence": 0.5808,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "p",
+     0.5808
+    ],
+    [
+     "u",
+     0.506
+    ],
+    [
+     "ppō",
+     0.4875
+    ],
+    [
+     "ṉ",
+     0.4802
+    ],
+    [
+     "m",
+     0.4583
+    ],
+    [
+     "yum",
+     0.3482
+    ],
+    [
+     "ppa",
+     0.326
+    ]
+   ],
+   "latency_ms": 34.6
+  },
+  {
+   "id": "DHARMA_INSPallava00177:33:0",
+   "target": "poṉ",
+   "top1": "pacu",
+   "confidence": 0.7022,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 1.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "pacu",
+     0.7022
+    ],
+    [
+     "pa",
+     0.6375
+    ],
+    [
+     "paṭi",
+     0.6375
+    ],
+    [
+     "po",
+     0.6245
+    ],
+    [
+     "poṉ",
+     0.6213
+    ],
+    [
+     "ru",
+     0.6055
+    ],
+    [
+     "nila",
+     0.6
+    ],
+    [
+     "nel",
+     0.5938
+    ]
+   ],
+   "latency_ms": 25.6
+  },
+  {
+   "id": "DHARMA_INSPallava00177:37:0",
+   "target": "cu",
+   "top1": "cu",
+   "confidence": 0.7778,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "cu",
+     0.7778
+    ],
+    [
+     "ciṉ",
+     0.7333
+    ],
+    [
+     "cum",
+     0.7
+    ],
+    [
+     "cuṅ",
+     0.7
+    ],
+    [
+     "cē",
+     0.7
+    ],
+    [
+     "cā",
+     0.7
+    ],
+    [
+     "c'",
+     0.6917
+    ]
+   ],
+   "latency_ms": 15.4
   },
   {
    "id": "DHARMA_INSPallava00178:1:0",
@@ -2342,10 +2219,6 @@
      0.1759
     ],
     [
-     "ir",
-     0.1748
-    ],
-    [
      "mum",
      0.1717
     ],
@@ -2354,7 +2227,109 @@
      0.1572
     ]
    ],
-   "latency_ms": 65.6
+   "latency_ms": 64.7
+  },
+  {
+   "id": "DHARMA_INSPallava00205:4:0",
+   "target": "ka",
+   "top1": "u",
+   "confidence": 0.2596,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "u",
+     0.2596
+    ],
+    [
+     "ṉ",
+     0.2566
+    ],
+    [
+     "]",
+     0.2379
+    ],
+    [
+     "m",
+     0.2361
+    ],
+    [
+     "i",
+     0.1721
+    ]
+   ],
+   "latency_ms": 62.0
+  },
+  {
+   "id": "DHARMA_INSPallava00205:4:1",
+   "target": "nasan‧",
+   "top1": "nasaṉ",
+   "confidence": 0.5762,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.3333,
+   "abstained": false,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "nasaṉ",
+     0.5762
+    ],
+    [
+     "ṣaḥ",
+     0.2814
+    ],
+    [
+     "raḥ",
+     0.2765
+    ],
+    [
+     "taḥ",
+     0.2626
+    ],
+    [
+     "paḥ",
+     0.26
+    ],
+    [
+     "sa",
+     0.2509
+    ],
+    [
+     "śaḥ",
+     0.2504
+    ],
+    [
+     "kai",
+     0.237
+    ],
+    [
+     "ḥ .",
+     0.2245
+    ],
+    [
+     "tta",
+     0.2057
+    ],
+    [
+     "naḥ",
+     0.2057
+    ],
+    [
+     "sti",
+     0.2033
+    ],
+    [
+     "tiḥ",
+     0.202
+    ]
+   ],
+   "latency_ms": 62.0
   },
   {
    "id": "DHARMA_INSPallava00230:1:0",
@@ -2397,7 +2372,7 @@
      0.3763
     ]
    ],
-   "latency_ms": 67.8
+   "latency_ms": 63.0
   },
   {
    "id": "DHARMA_INSPallava00230:1:1",
@@ -2420,7 +2395,7 @@
      0.2047
     ]
    ],
-   "latency_ms": 63.6
+   "latency_ms": 64.7
   },
   {
    "id": "DHARMA_INSPallava00230:1:3",
@@ -2459,7 +2434,7 @@
      0.2245
     ]
    ],
-   "latency_ms": 64.6
+   "latency_ms": 68.9
   },
   {
    "id": "DHARMA_INSPallava00230:2:0",
@@ -2498,7 +2473,7 @@
      0.1697
     ]
    ],
-   "latency_ms": 67.6
+   "latency_ms": 71.1
   },
   {
    "id": "DHARMA_INSPallava00230:2:2",
@@ -2529,8 +2504,16 @@
      0.2158
     ],
     [
+     "ṟpū",
+     0.2072
+    ],
+    [
      "ṟṟu",
      0.2047
+    ],
+    [
+     "āle",
+     0.2033
     ],
     [
      "poṉ",
@@ -2541,20 +2524,24 @@
      0.198
     ]
    ],
-   "latency_ms": 66.8
+   "latency_ms": 66.9
   },
   {
    "id": "DHARMA_INSPallava00230:3:1",
    "target": "lattu",
-   "top1": "ṉār",
-   "confidence": 0.2973,
-   "top1_correct": false,
+   "top1": "lattu",
+   "confidence": 0.3142,
+   "top1_correct": true,
    "in_top20": true,
-   "cer": 1.0,
+   "cer": 0.0,
    "abstained": false,
    "hard": true,
    "age_set": true,
    "candidates": [
+    [
+     "lattu",
+     0.3142
+    ],
     [
      "ṉār",
      0.2973
@@ -2562,10 +2549,6 @@
     [
      "m",
      0.2932
-    ],
-    [
-     "lattu",
-     0.2725
     ],
     [
      "yam",
@@ -2604,26 +2587,30 @@
      0.1885
     ]
    ],
-   "latency_ms": 65.1
+   "latency_ms": 62.3
   },
   {
    "id": "DHARMA_INSPallava00230:3:2",
    "target": "vittaṉēṉ",
-   "top1": "iyō",
-   "confidence": 0.1853,
+   "top1": "ttu s",
+   "confidence": 0.1925,
    "top1_correct": false,
    "in_top20": false,
-   "cer": 0.875,
+   "cer": 0.75,
    "abstained": false,
    "hard": true,
    "age_set": true,
    "candidates": [
     [
+     "ttu s",
+     0.1925
+    ],
+    [
      "iyō",
      0.1853
     ]
    ],
-   "latency_ms": 66.3
+   "latency_ms": 68.0
   },
   {
    "id": "DHARMA_INSPallava00230:3:3",
@@ -2637,7 +2624,7 @@
    "hard": true,
    "age_set": true,
    "candidates": [],
-   "latency_ms": 61.1
+   "latency_ms": 65.5
   },
   {
    "id": "DHARMA_INSPallava00230:4:0",
@@ -2676,7 +2663,7 @@
      0.2629
     ]
    ],
-   "latency_ms": 65.3
+   "latency_ms": 69.2
   },
   {
    "id": "DHARMA_INSPallava00230:5:0",
@@ -2703,7 +2690,7 @@
      0.2375
     ]
    ],
-   "latency_ms": 34.6
+   "latency_ms": 38.0
   },
   {
    "id": "DHARMA_INSPallava00334:1:0",
@@ -2722,7 +2709,7 @@
      1.0
     ]
    ],
-   "latency_ms": 21.5
+   "latency_ms": 25.5
   },
   {
    "id": "DHARMA_INSPallava00334:3:0",
@@ -2749,7 +2736,7 @@
      0.5675
     ]
    ],
-   "latency_ms": 59.1
+   "latency_ms": 59.2
   },
   {
    "id": "DHARMA_INSPallava00334:7:0",
@@ -2776,7 +2763,7 @@
      0.3545
     ]
    ],
-   "latency_ms": 55.7
+   "latency_ms": 56.6
   },
   {
    "id": "DHARMA_INSPallava00334:8:0",
@@ -2807,7 +2794,7 @@
      0.2241
     ]
    ],
-   "latency_ms": 59.2
+   "latency_ms": 59.9
   },
   {
    "id": "DHARMA_INSPallava00334:9:0",
@@ -2839,7 +2826,7 @@
     ],
     [
      "m",
-     0.2451
+     0.2427
     ],
     [
      "aṟu",
@@ -2858,7 +2845,7 @@
      0.2032
     ]
    ],
-   "latency_ms": 45.2
+   "latency_ms": 47.2
   },
   {
    "id": "DHARMA_INSPallava00334:12:0",
@@ -2885,7 +2872,7 @@
      0.3378
     ]
    ],
-   "latency_ms": 50.5
+   "latency_ms": 49.4
   },
   {
    "id": "DHARMA_INSPallava00334:13:0",
@@ -2928,7 +2915,7 @@
      0.2439
     ]
    ],
-   "latency_ms": 47.5
+   "latency_ms": 48.8
   },
   {
    "id": "DHARMA_INSPallava00334:15:0",
@@ -2936,7 +2923,7 @@
    "top1": "-p",
    "confidence": 0.3864,
    "top1_correct": false,
-   "in_top20": false,
+   "in_top20": true,
    "cer": 1.0,
    "abstained": false,
    "hard": true,
@@ -2955,6 +2942,10 @@
      0.3045
     ],
     [
+     "ttu",
+     0.2986
+    ],
+    [
      "ṉ",
      0.2883
     ],
@@ -2963,7 +2954,7 @@
      0.2727
     ]
    ],
-   "latency_ms": 33.5
+   "latency_ms": 33.6
   },
   {
    "id": "DHARMA_INSPallava00419:2:0",
@@ -2977,7 +2968,7 @@
    "hard": true,
    "age_set": true,
    "candidates": [],
-   "latency_ms": 45.2
+   "latency_ms": 49.4
   },
   {
    "id": "DHARMA_INSPallava00419:2:2",
@@ -2996,7 +2987,7 @@
      0.4029
     ]
    ],
-   "latency_ms": 42.0
+   "latency_ms": 49.4
   },
   {
    "id": "DHARMA_INSPallava00419:2:3",
@@ -3019,7 +3010,7 @@
      0.439
     ]
    ],
-   "latency_ms": 33.2
+   "latency_ms": 36.0
   },
   {
    "id": "DHARMA_INSTamilNadu00016:1:0",
@@ -3033,7 +3024,7 @@
    "hard": true,
    "age_set": false,
    "candidates": [],
-   "latency_ms": 31.7
+   "latency_ms": 36.1
   },
   {
    "id": "DHARMA_INSTamilNadu00016:16:0",
@@ -3072,7 +3063,7 @@
      0.4401
     ]
    ],
-   "latency_ms": 32.5
+   "latency_ms": 35.7
   },
   {
    "id": "DHARMA_INSTamilNadu00020:1:0",
@@ -3080,7 +3071,7 @@
    "top1": "m",
    "confidence": 0.6097,
    "top1_correct": false,
-   "in_top20": true,
+   "in_top20": false,
    "cer": 1.0,
    "abstained": false,
    "hard": false,
@@ -3095,15 +3086,11 @@
      0.5995
     ],
     [
-     "pā",
-     0.4115
-    ],
-    [
      "ā",
      0.3971
     ]
    ],
-   "latency_ms": 39.3
+   "latency_ms": 44.8
   },
   {
    "id": "DHARMA_INSTamilNadu00020:39:0",
@@ -3126,10 +3113,6 @@
      0.418
     ],
     [
-     "ā",
-     0.3885
-    ],
-    [
      "vi",
      0.3855
     ],
@@ -3138,7 +3121,7 @@
      0.3744
     ]
    ],
-   "latency_ms": 53.4
+   "latency_ms": 59.2
   },
   {
    "id": "DHARMA_INSTamilNadu00032:1:0",
@@ -3165,7 +3148,7 @@
      0.5855
     ]
    ],
-   "latency_ms": 39.3
+   "latency_ms": 48.5
   },
   {
    "id": "DHARMA_INSTamilNadu00032:4:0",
@@ -3196,7 +3179,7 @@
      0.2067
     ]
    ],
-   "latency_ms": 75.2
+   "latency_ms": 77.2
   },
   {
    "id": "DHARMA_INSTamilNadu00032:6:0",
@@ -3243,7 +3226,7 @@
      0.1807
     ]
    ],
-   "latency_ms": 67.3
+   "latency_ms": 70.2
   },
   {
    "id": "DHARMA_INSTamilNadu00032:7:0",
@@ -3306,7 +3289,7 @@
      0.1944
     ]
    ],
-   "latency_ms": 59.7
+   "latency_ms": 65.5
   },
   {
    "id": "DHARMA_INSTamilNadu00032:10:0",
@@ -3347,13 +3330,9 @@
     [
      "śiva-",
      0.1812
-    ],
-    [
-     "kāl a",
-     0.1807
     ]
    ],
-   "latency_ms": 68.1
+   "latency_ms": 75.6
   },
   {
    "id": "DHARMA_INSTamilNadu00032:11:0",
@@ -3424,7 +3403,7 @@
      0.2734
     ]
    ],
-   "latency_ms": 63.4
+   "latency_ms": 72.4
   },
   {
    "id": "DHARMA_INSTamilNadu00032:17:0",
@@ -3447,8 +3426,12 @@
      0.405
     ],
     [
+     "yan",
+     0.3703
+    ],
+    [
      "i",
-     0.2521
+     0.1985
     ],
     [
      "t",
@@ -3463,7 +3446,7 @@
      0.1688
     ]
    ],
-   "latency_ms": 64.9
+   "latency_ms": 72.8
   },
   {
    "id": "DHARMA_INSTamilNadu00032:17:1",
@@ -3486,7 +3469,7 @@
      0.1833
     ]
    ],
-   "latency_ms": 62.3
+   "latency_ms": 79.2
   },
   {
    "id": "DHARMA_INSTamilNadu00032:18:0",
@@ -3519,13 +3502,9 @@
     [
      "ā",
      0.1891
-    ],
-    [
-     "-",
-     0.1688
     ]
    ],
-   "latency_ms": 64.2
+   "latency_ms": 73.0
   },
   {
    "id": "DHARMA_INSTamilNadu00033:1:0",
@@ -3544,7 +3523,7 @@
      0.4054
     ]
    ],
-   "latency_ms": 21.7
+   "latency_ms": 24.4
   },
   {
    "id": "DHARMA_INSTamilNadu00033:1:1",
@@ -3563,11 +3542,11 @@
      0.4812
     ],
     [
-     "ā",
-     0.451
+     "iyā",
+     0.4625
     ],
     [
-     "iyā",
+     "ā",
      0.451
     ],
     [
@@ -3587,7 +3566,7 @@
      0.3188
     ]
    ],
-   "latency_ms": 21.9
+   "latency_ms": 25.3
   },
   {
    "id": "DHARMA_INSTamilNadu00033:2:0",
@@ -3626,7 +3605,7 @@
      0.3326
     ]
    ],
-   "latency_ms": 38.3
+   "latency_ms": 44.6
   },
   {
    "id": "DHARMA_INSTamilNadu00033:3:0",
@@ -3653,7 +3632,7 @@
      0.1812
     ]
    ],
-   "latency_ms": 67.6
+   "latency_ms": 74.0
   },
   {
    "id": "DHARMA_INSTamilNadu00033:4:0",
@@ -3680,7 +3659,7 @@
      0.3299
     ]
    ],
-   "latency_ms": 59.3
+   "latency_ms": 68.8
   },
   {
    "id": "DHARMA_INSTamilNadu00033:6:0",
@@ -3711,7 +3690,7 @@
      0.1988
     ]
    ],
-   "latency_ms": 56.8
+   "latency_ms": 66.7
   },
   {
    "id": "DHARMA_INSTamilNadu00033:6:1",
@@ -3750,6 +3729,10 @@
      0.3522
     ],
     [
+     "ākavum",
+     0.3
+    ],
+    [
      "irupatt'",
      0.2739
     ],
@@ -3770,7 +3753,7 @@
      0.2348
     ]
    ],
-   "latency_ms": 32.4
+   "latency_ms": 36.1
   },
   {
    "id": "DHARMA_INSTamilNadu00033:7:0",
@@ -3837,7 +3820,7 @@
      0.1667
     ]
    ],
-   "latency_ms": 64.2
+   "latency_ms": 71.9
   },
   {
    "id": "DHARMA_INSTamilNadu00033:9:0",
@@ -3864,17 +3847,21 @@
      0.2594
     ],
     [
+     "n",
+     0.2374
+    ],
+    [
      "a",
      0.2328
     ]
    ],
-   "latency_ms": 64.0
+   "latency_ms": 108.2
   },
   {
    "id": "DHARMA_INSTamilNadu00033:10:0",
    "target": "ā",
    "top1": "ā",
-   "confidence": 0.4335,
+   "confidence": 0.4635,
    "top1_correct": true,
    "in_top20": true,
    "cer": 0.0,
@@ -3884,7 +3871,7 @@
    "candidates": [
     [
      "ā",
-     0.4335
+     0.4635
     ],
     [
      "āya",
@@ -3899,7 +3886,7 @@
      0.1935
     ]
    ],
-   "latency_ms": 44.1
+   "latency_ms": 50.6
   },
   {
    "id": "DHARMA_INSTamilNadu00033:11:0",
@@ -3970,7 +3957,7 @@
      0.1922
     ]
    ],
-   "latency_ms": 58.7
+   "latency_ms": 71.9
   },
   {
    "id": "DHARMA_INSTamilNadu00033:12:0",
@@ -4017,293 +4004,7 @@
      0.4339
     ]
    ],
-   "latency_ms": 58.0
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00037:1:0",
-   "target": "i",
-   "top1": "i",
-   "confidence": 0.9897,
-   "top1_correct": true,
-   "in_top20": true,
-   "cer": 0.0,
-   "abstained": false,
-   "hard": false,
-   "age_set": false,
-   "candidates": [
-    [
-     "i",
-     0.9897
-    ]
-   ],
-   "latency_ms": 42.8
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00037:3:0",
-   "target": "ā",
-   "top1": "ā",
-   "confidence": 0.7354,
-   "top1_correct": true,
-   "in_top20": true,
-   "cer": 0.0,
-   "abstained": false,
-   "hard": false,
-   "age_set": false,
-   "candidates": [
-    [
-     "ā",
-     0.7354
-    ],
-    [
-     "ṇ",
-     0.2597
-    ],
-    [
-     "·",
-     0.2284
-    ],
-    [
-     "ṭ",
-     0.2221
-    ]
-   ],
-   "latency_ms": 65.9
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00037:3:1",
-   "target": "ṭu",
-   "top1": "ṭuk",
-   "confidence": 0.3451,
-   "top1_correct": false,
-   "in_top20": true,
-   "cer": 0.5,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "ṭuk",
-     0.3451
-    ],
-    [
-     "ṭu",
-     0.3441
-    ],
-    [
-     "ṭ’",
-     0.309
-    ]
-   ],
-   "latency_ms": 61.9
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00037:3:2",
-   "target": "kī",
-   "top1": null,
-   "confidence": 0.0,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 1.0,
-   "abstained": true,
-   "hard": true,
-   "age_set": false,
-   "candidates": [],
-   "latency_ms": 60.5
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00037:6:0",
-   "target": "ā",
-   "top1": "ā",
-   "confidence": 0.5229,
-   "top1_correct": true,
-   "in_top20": true,
-   "cer": 0.0,
-   "abstained": false,
-   "hard": false,
-   "age_set": false,
-   "candidates": [
-    [
-     "ā",
-     0.5229
-    ],
-    [
-     "āṉ",
-     0.3574
-    ],
-    [
-     "ār",
-     0.3346
-    ],
-    [
-     "a",
-     0.2783
-    ]
-   ],
-   "latency_ms": 60.9
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00037:7:0",
-   "target": "tā",
-   "top1": "-tā",
-   "confidence": 0.3872,
-   "top1_correct": false,
-   "in_top20": true,
-   "cer": 0.5,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "-tā",
-     0.3872
-    ],
-    [
-     "t",
-     0.334
-    ],
-    [
-     "tā",
-     0.2872
-    ],
-    [
-     "k",
-     0.234
-    ],
-    [
-     "r",
-     0.2257
-    ]
-   ],
-   "latency_ms": 61.8
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00037:7:1",
-   "target": "i",
-   "top1": "iṉ",
-   "confidence": 0.2229,
-   "top1_correct": false,
-   "in_top20": true,
-   "cer": 1.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "iṉ",
-     0.2229
-    ],
-    [
-     "ā",
-     0.1875
-    ],
-    [
-     "a",
-     0.1849
-    ],
-    [
-     "i",
-     0.179
-    ],
-    [
-     "aṉ",
-     0.1701
-    ],
-    [
-     "a-p",
-     0.1696
-    ]
-   ],
-   "latency_ms": 64.2
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00037:15:1",
-   "target": "u",
-   "top1": "u",
-   "confidence": 0.2268,
-   "top1_correct": true,
-   "in_top20": true,
-   "cer": 0.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "u",
-     0.2268
-    ],
-    [
-     "r",
-     0.2171
-    ],
-    [
-     "p",
-     0.2052
-    ],
-    [
-     "ṇ",
-     0.2043
-    ],
-    [
-     "c",
-     0.2035
-    ],
-    [
-     "āki",
-     0.1979
-    ],
-    [
-     "āka",
-     0.1957
-    ]
-   ],
-   "latency_ms": 61.4
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00037:15:2",
-   "target": "yā",
-   "top1": "a",
-   "confidence": 0.2312,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 1.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "a",
-     0.2312
-    ],
-    [
-     "yāṉ",
-     0.2083
-    ],
-    [
-     "-",
-     0.2033
-    ],
-    [
-     "yaṉ",
-     0.2
-    ],
-    [
-     "yār",
-     0.1956
-    ],
-    [
-     "ya",
-     0.1938
-    ],
-    [
-     "y",
-     0.1812
-    ],
-    [
-     "ē",
-     0.1735
-    ]
-   ],
-   "latency_ms": 64.4
+   "latency_ms": 66.0
   },
   {
    "id": "DHARMA_INSTamilNadu00042:1:0",
@@ -4338,7 +4039,7 @@
      0.2955
     ]
    ],
-   "latency_ms": 61.6
+   "latency_ms": 73.9
   },
   {
    "id": "DHARMA_INSTamilNadu00042:1:1",
@@ -4346,7 +4047,7 @@
    "top1": "kaḷ",
    "confidence": 0.2702,
    "top1_correct": false,
-   "in_top20": false,
+   "in_top20": true,
    "cer": 0.5,
    "abstained": false,
    "hard": true,
@@ -4355,9 +4056,13 @@
     [
      "kaḷ",
      0.2702
+    ],
+    [
+     "ka",
+     0.2405
     ]
    ],
-   "latency_ms": 58.8
+   "latency_ms": 70.0
   },
   {
    "id": "DHARMA_INSTamilNadu00042:1:2",
@@ -4376,7 +4081,7 @@
      0.2923
     ]
    ],
-   "latency_ms": 64.2
+   "latency_ms": 101.6
   },
   {
    "id": "DHARMA_INSTamilNadu00042:1:3",
@@ -4395,7 +4100,7 @@
      0.4074
     ]
    ],
-   "latency_ms": 60.2
+   "latency_ms": 73.8
   },
   {
    "id": "DHARMA_INSTamilNadu00042:2:0",
@@ -4430,7 +4135,7 @@
      0.408
     ]
    ],
-   "latency_ms": 58.7
+   "latency_ms": 75.9
   },
   {
    "id": "DHARMA_INSTamilNadu00042:2:1",
@@ -4457,7 +4162,7 @@
      0.3496
     ]
    ],
-   "latency_ms": 62.4
+   "latency_ms": 71.9
   },
   {
    "id": "DHARMA_INSTamilNadu00042:2:2",
@@ -4476,7 +4181,7 @@
      0.4783
     ]
    ],
-   "latency_ms": 63.4
+   "latency_ms": 74.1
   },
   {
    "id": "DHARMA_INSTamilNadu00042:3:0",
@@ -4507,7 +4212,7 @@
      0.2766
     ]
    ],
-   "latency_ms": 61.7
+   "latency_ms": 76.6
   },
   {
    "id": "DHARMA_INSTamilNadu00042:3:1",
@@ -4538,7 +4243,7 @@
      0.2798
     ]
    ],
-   "latency_ms": 62.3
+   "latency_ms": 74.8
   },
   {
    "id": "DHARMA_INSTamilNadu00042:3:2",
@@ -4557,12 +4262,12 @@
      0.3088
     ],
     [
-     "i",
-     0.2878
-    ],
-    [
      "u",
      0.2854
+    ],
+    [
+     "i",
+     0.2833
     ],
     [
      "k",
@@ -4573,7 +4278,7 @@
      0.2335
     ]
    ],
-   "latency_ms": 64.6
+   "latency_ms": 74.4
   },
   {
    "id": "DHARMA_INSTamilNadu00042:10:0",
@@ -4600,7 +4305,7 @@
      0.2089
     ]
    ],
-   "latency_ms": 62.3
+   "latency_ms": 89.7
   },
   {
    "id": "DHARMA_INSTamilNadu00042:11:0",
@@ -4627,7 +4332,7 @@
      0.217
     ]
    ],
-   "latency_ms": 61.8
+   "latency_ms": 82.4
   },
   {
    "id": "DHARMA_INSTamilNadu00042:11:1",
@@ -4666,7 +4371,7 @@
      0.2208
     ]
    ],
-   "latency_ms": 70.3
+   "latency_ms": 81.3
   },
   {
    "id": "DHARMA_INSTamilNadu00042:13:0",
@@ -4685,8 +4390,8 @@
      0.5089
     ],
     [
-     "k",
-     0.3701
+     "ip-",
+     0.347
     ],
     [
      "itu",
@@ -4701,7 +4406,7 @@
      0.2128
     ]
    ],
-   "latency_ms": 62.2
+   "latency_ms": 80.9
   },
   {
    "id": "DHARMA_INSTamilNadu00042:13:1",
@@ -4724,186 +4429,7 @@
      0.6202
     ]
    ],
-   "latency_ms": 48.6
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00104:19:0",
-   "target": "u",
-   "top1": "uḷa",
-   "confidence": 0.3188,
-   "top1_correct": false,
-   "in_top20": true,
-   "cer": 2.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "uḷa",
-     0.3188
-    ],
-    [
-     "uḷi",
-     0.2995
-    ],
-    [
-     "a",
-     0.2338
-    ],
-    [
-     "u",
-     0.1956
-    ]
-   ],
-   "latency_ms": 63.2
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00104:26:0",
-   "target": "lat",
-   "top1": "lat",
-   "confidence": 0.4085,
-   "top1_correct": true,
-   "in_top20": true,
-   "cer": 0.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "lat",
-     0.4085
-    ],
-    [
-     "pa",
-     0.3745
-    ],
-    [
-     "lam",
-     0.3604
-    ],
-    [
-     "at",
-     0.2961
-    ],
-    [
-     "lānē",
-     0.2844
-    ]
-   ],
-   "latency_ms": 64.0
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00104:28:0",
-   "target": "ni",
-   "top1": "ni",
-   "confidence": 0.482,
-   "top1_correct": true,
-   "in_top20": true,
-   "cer": 0.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "ni",
-     0.482
-    ],
-    [
-     "n",
-     0.3767
-    ],
-    [
-     "i",
-     0.2915
-    ]
-   ],
-   "latency_ms": 61.6
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00104:32:0",
-   "target": "I",
-   "top1": "v",
-   "confidence": 0.3306,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 1.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "v",
-     0.3306
-    ],
-    [
-     "t",
-     0.3224
-    ],
-    [
-     "m",
-     0.3174
-    ],
-    [
-     "c",
-     0.2832
-    ],
-    [
-     "a",
-     0.2828
-    ],
-    [
-     "p",
-     0.2676
-    ],
-    [
-     "u",
-     0.2344
-    ],
-    [
-     "mēl",
-     0.2332
-    ]
-   ],
-   "latency_ms": 61.5
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00104:33:0",
-   "target": "lattukku",
-   "top1": "ṅkaḷu",
-   "confidence": 0.3102,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 0.875,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "ṅkaḷu",
-     0.3102
-    ],
-    [
-     "laṅkaḷ",
-     0.3021
-    ],
-    [
-     "laṅ k",
-     0.2745
-    ],
-    [
-     "van=tam",
-     0.2647
-    ],
-    [
-     "lattāl",
-     0.2553
-    ],
-    [
-     "la [?3]",
-     0.2489
-    ]
-   ],
-   "latency_ms": 62.6
+   "latency_ms": 65.0
   },
   {
    "id": "DHARMA_INSTamilNadu00123:16:0",
@@ -4930,7 +4456,7 @@
      0.2243
     ]
    ],
-   "latency_ms": 66.8
+   "latency_ms": 76.5
   },
   {
    "id": "DHARMA_INSTamilNadu00123:17:0",
@@ -4961,7 +4487,7 @@
      0.3502
     ]
    ],
-   "latency_ms": 65.8
+   "latency_ms": 73.3
   },
   {
    "id": "DHARMA_INSTamilNadu00123:20:0",
@@ -4988,7 +4514,7 @@
      0.3917
     ]
    ],
-   "latency_ms": 62.8
+   "latency_ms": 73.0
   },
   {
    "id": "DHARMA_INSTamilNadu00123:22:0",
@@ -5015,7 +4541,7 @@
      0.3702
     ]
    ],
-   "latency_ms": 60.9
+   "latency_ms": 74.6
   },
   {
    "id": "DHARMA_INSTamilNadu00123:23:0",
@@ -5058,7 +4584,7 @@
      0.3271
     ]
    ],
-   "latency_ms": 61.3
+   "latency_ms": 81.5
   },
   {
    "id": "DHARMA_INSTamilNadu00123:23:1",
@@ -5077,7 +4603,7 @@
      0.7901
     ]
    ],
-   "latency_ms": 59.2
+   "latency_ms": 84.3
   },
   {
    "id": "DHARMA_INSTamilNadu00123:24:0",
@@ -5096,7 +4622,7 @@
      0.3583
     ]
    ],
-   "latency_ms": 59.6
+   "latency_ms": 78.2
   },
   {
    "id": "DHARMA_INSTamilNadu00123:24:1",
@@ -5110,7 +4636,7 @@
    "hard": true,
    "age_set": false,
    "candidates": [],
-   "latency_ms": 59.5
+   "latency_ms": 77.4
   },
   {
    "id": "DHARMA_INSTamilNadu00123:25:0",
@@ -5153,6 +4679,10 @@
      0.4471
     ],
     [
+     "yōm u",
+     0.3709
+    ],
+    [
      "ḷāṟ-u",
      0.357
     ],
@@ -5165,20 +4695,24 @@
      0.3375
     ]
    ],
-   "latency_ms": 65.1
+   "latency_ms": 82.1
   },
   {
    "id": "DHARMA_INSTamilNadu00123:25:1",
    "target": "ṭ",
-   "top1": "-",
-   "confidence": 0.2729,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 1.0,
+   "top1": "ṭ",
+   "confidence": 0.3661,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
    "abstained": false,
    "hard": true,
    "age_set": false,
    "candidates": [
+    [
+     "ṭ",
+     0.3661
+    ],
     [
      "-",
      0.2729
@@ -5204,15 +4738,11 @@
      0.2187
     ],
     [
-     "ḷ",
-     0.2187
-    ],
-    [
      "k",
      0.202
     ]
    ],
-   "latency_ms": 59.5
+   "latency_ms": 85.5
   },
   {
    "id": "DHARMA_INSTamilNadu00123:25:2",
@@ -5235,11 +4765,11 @@
      0.2422
     ],
     [
-     "ṭa",
-     0.2197
+     "ēṉ",
+     0.2009
     ]
    ],
-   "latency_ms": 59.2
+   "latency_ms": 84.9
   },
   {
    "id": "DHARMA_INSTamilNadu00123:26:0",
@@ -5298,7 +4828,7 @@
      0.2125
     ]
    ],
-   "latency_ms": 60.0
+   "latency_ms": 78.8
   },
   {
    "id": "DHARMA_INSTamilNadu00123:26:1",
@@ -5321,7 +4851,7 @@
      0.1915
     ]
    ],
-   "latency_ms": 61.8
+   "latency_ms": 79.7
   },
   {
    "id": "DHARMA_INSTamilNadu00123:27:0",
@@ -5348,13 +4878,13 @@
      0.1792
     ]
    ],
-   "latency_ms": 65.1
+   "latency_ms": 88.8
   },
   {
    "id": "DHARMA_INSTamilNadu00123:28:0",
    "target": "naḷ",
    "top1": "naḷ",
-   "confidence": 0.3189,
+   "confidence": 0.4228,
    "top1_correct": true,
    "in_top20": true,
    "cer": 0.0,
@@ -5364,7 +4894,7 @@
    "candidates": [
     [
      "naḷ",
-     0.3189
+     0.4228
     ],
     [
      "ma",
@@ -5391,7 +4921,7 @@
      0.2529
     ]
    ],
-   "latency_ms": 66.6
+   "latency_ms": 77.1
   },
   {
    "id": "DHARMA_INSTamilNadu00123:29:0",
@@ -5458,7 +4988,7 @@
      0.26
     ]
    ],
-   "latency_ms": 62.5
+   "latency_ms": 75.7
   },
   {
    "id": "DHARMA_INSTamilNadu00123:30:0",
@@ -5498,7 +5028,7 @@
     ],
     [
      "nd",
-     0.2758
+     0.2855
     ],
     [
      "ha",
@@ -5519,13 +5049,9 @@
     [
      "va",
      0.225
-    ],
-    [
-     "ṭā",
-     0.2031
     ]
    ],
-   "latency_ms": 71.8
+   "latency_ms": 67.9
   },
   {
    "id": "DHARMA_INSTamilNadu00123:32:0",
@@ -5548,7 +5074,7 @@
      0.3596
     ]
    ],
-   "latency_ms": 62.4
+   "latency_ms": 68.6
   },
   {
    "id": "DHARMA_INSTamilNadu00123:35:0",
@@ -5567,7 +5093,7 @@
      0.5938
     ]
    ],
-   "latency_ms": 59.0
+   "latency_ms": 70.5
   },
   {
    "id": "DHARMA_INSTamilNadu00123:36:0",
@@ -5586,7 +5112,7 @@
      0.2375
     ]
    ],
-   "latency_ms": 77.6
+   "latency_ms": 69.4
   },
   {
    "id": "DHARMA_INSTamilNadu00134:6:0",
@@ -5621,7 +5147,7 @@
      0.213
     ]
    ],
-   "latency_ms": 61.3
+   "latency_ms": 70.4
   },
   {
    "id": "DHARMA_INSTamilNadu00134:7:0",
@@ -5652,7 +5178,7 @@
      0.191
     ]
    ],
-   "latency_ms": 62.1
+   "latency_ms": 68.5
   },
   {
    "id": "DHARMA_INSTamilNadu00134:8:0",
@@ -5683,7 +5209,7 @@
      0.3708
     ]
    ],
-   "latency_ms": 62.1
+   "latency_ms": 65.9
   },
   {
    "id": "DHARMA_INSTamilNadu00134:8:2",
@@ -5730,6 +5256,10 @@
      0.256
     ],
     [
+     "attuk",
+     0.2519
+    ],
+    [
      "viṭṭa",
      0.2504
     ],
@@ -5740,29 +5270,33 @@
     [
      "nicatam",
      0.2496
-    ],
-    [
-     "kuṭut",
-     0.248
     ]
    ],
-   "latency_ms": 64.3
+   "latency_ms": 66.6
   },
   {
    "id": "DHARMA_INSTamilNadu00134:9:0",
    "target": "neṉma",
-   "top1": "nilam",
-   "confidence": 0.2452,
+   "top1": "y-i",
+   "confidence": 0.2506,
    "top1_correct": false,
    "in_top20": false,
-   "cer": 0.8,
+   "cer": 1.0,
    "abstained": false,
    "hard": true,
    "age_set": false,
    "candidates": [
     [
+     "y-i",
+     0.2506
+    ],
+    [
      "nilam",
      0.2452
+    ],
+    [
+     "nil",
+     0.2409
     ],
     [
      "nā",
@@ -5777,7 +5311,7 @@
      0.2
     ]
    ],
-   "latency_ms": 64.4
+   "latency_ms": 68.2
   },
   {
    "id": "DHARMA_INSTamilNadu00172:4:0",
@@ -5822,13 +5356,9 @@
     [
      "tu",
      0.1739
-    ],
-    [
-     "ku",
-     0.1722
     ]
    ],
-   "latency_ms": 64.6
+   "latency_ms": 67.3
   },
   {
    "id": "DHARMA_INSTamilNadu00175:1:0",
@@ -5863,7 +5393,7 @@
      0.1875
     ]
    ],
-   "latency_ms": 59.5
+   "latency_ms": 65.6
   },
   {
    "id": "DHARMA_INSTamilNadu00175:2:0",
@@ -5898,7 +5428,7 @@
      0.1936
     ]
    ],
-   "latency_ms": 58.7
+   "latency_ms": 66.7
   },
   {
    "id": "DHARMA_INSTamilNadu00175:7:0",
@@ -5949,7 +5479,7 @@
      0.1742
     ]
    ],
-   "latency_ms": 57.1
+   "latency_ms": 77.5
   },
   {
    "id": "DHARMA_INSTamilNadu00175:8:0",
@@ -5980,10 +5510,6 @@
      0.2732
     ],
     [
-     "p",
-     0.2674
-    ],
-    [
      "c",
      0.2653
     ],
@@ -6004,7 +5530,7 @@
      0.1939
     ]
    ],
-   "latency_ms": 59.3
+   "latency_ms": 72.1
   },
   {
    "id": "DHARMA_INSTamilNadu00175:8:1",
@@ -6033,13 +5559,9 @@
     [
      "ūr",
      0.1831
-    ],
-    [
-     "-p",
-     0.1826
     ]
    ],
-   "latency_ms": 59.8
+   "latency_ms": 65.5
   },
   {
    "id": "DHARMA_INSTamilNadu00175:8:2",
@@ -6063,7 +5585,7 @@
     ],
     [
      "t",
-     0.3848
+     0.3939
     ],
     [
      "n",
@@ -6090,7 +5612,7 @@
      0.2273
     ]
    ],
-   "latency_ms": 43.9
+   "latency_ms": 49.5
   },
   {
    "id": "DHARMA_INSTamilNadu00402:2:0",
@@ -6115,13 +5637,9 @@
     [
      "[?]",
      0.3043
-    ],
-    [
-     "p",
-     0.2901
     ]
    ],
-   "latency_ms": 57.8
+   "latency_ms": 64.7
   },
   {
    "id": "DHARMA_INSTamilNadu00402:3:1",
@@ -6164,7 +5682,7 @@
      0.1653
     ]
    ],
-   "latency_ms": 59.9
+   "latency_ms": 68.7
   },
   {
    "id": "DHARMA_INSTamilNadu00402:4:1",
@@ -6203,7 +5721,7 @@
      0.1938
     ]
    ],
-   "latency_ms": 62.9
+   "latency_ms": 68.1
   },
   {
    "id": "DHARMA_INSTamilNadu00402:8:1",
@@ -6238,7 +5756,7 @@
      0.2927
     ]
    ],
-   "latency_ms": 62.9
+   "latency_ms": 67.5
   },
   {
    "id": "DHARMA_INSTamilNadu00402:12:3",
@@ -6281,7 +5799,66 @@
      0.1915
     ]
    ],
-   "latency_ms": 62.3
+   "latency_ms": 75.1
+  },
+  {
+   "id": "DHARMA_INSTamilNadu00413:1:0",
+   "target": "um porucaya maṭa",
+   "top1": "ila-maṭa",
+   "confidence": 0.2811,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.6429,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "ila-maṭa",
+     0.2811
+    ],
+    [
+     "aṭi vāḻka",
+     0.2512
+    ],
+    [
+     "um poruḷ",
+     0.2257
+    ],
+    [
+     "um poru-",
+     0.2216
+    ],
+    [
+     "vīṟ ṟiru",
+     0.2108
+    ],
+    [
+     "aṟkum śa",
+     0.2072
+    ],
+    [
+     "iya tiru",
+     0.1946
+    ],
+    [
+     "iṟ ṟikaḻnt’",
+     0.1946
+    ],
+    [
+     "mato tya",
+     0.1922
+    ],
+    [
+     "aitta cu",
+     0.1901
+    ],
+    [
+     "kavu=m i",
+     0.1865
+    ]
+   ],
+   "latency_ms": 52.5
   },
   {
    "id": "DHARMA_INSTamilNadu00417:3:0",
@@ -6306,9 +5883,13 @@
     [
      "ṉ",
      0.6513
+    ],
+    [
+     "a",
+     0.5574
     ]
    ],
-   "latency_ms": 57.5
+   "latency_ms": 63.6
   },
   {
    "id": "DHARMA_INSTamilNadu00417:4:0",
@@ -6343,7 +5924,7 @@
      0.2106
     ]
    ],
-   "latency_ms": 58.9
+   "latency_ms": 63.4
   },
   {
    "id": "DHARMA_INSTamilNadu00417:5:0",
@@ -6386,7 +5967,7 @@
      0.2006
     ]
    ],
-   "latency_ms": 63.7
+   "latency_ms": 65.6
   },
   {
    "id": "DHARMA_INSTamilNadu00417:5:1",
@@ -6407,9 +5988,13 @@
     [
      "(",
      0.2125
+    ],
+    [
+     "uṭ",
+     0.2125
     ]
    ],
-   "latency_ms": 65.0
+   "latency_ms": 65.9
   },
   {
    "id": "DHARMA_INSTamilNadu00417:6:0",
@@ -6452,7 +6037,7 @@
      0.1884
     ]
    ],
-   "latency_ms": 65.3
+   "latency_ms": 65.6
   },
   {
    "id": "DHARMA_INSTamilNadu00417:7:0",
@@ -6479,11 +6064,15 @@
      0.3064
     ],
     [
+     "i",
+     0.2875
+    ],
+    [
      "mu",
      0.2761
     ]
    ],
-   "latency_ms": 60.3
+   "latency_ms": 69.6
   },
   {
    "id": "DHARMA_INSTamilNadu00417:7:1",
@@ -6522,7 +6111,7 @@
      0.2
     ]
    ],
-   "latency_ms": 62.1
+   "latency_ms": 71.4
   },
   {
    "id": "DHARMA_INSTamilNadu00417:9:0",
@@ -6579,9 +6168,13 @@
     [
      "ṟam-uṭaiya nāyaṉār-kōyil tiru-malaiyilē",
      0.5553
+    ],
+    [
+     "ṟam-uṭaiya ṉā [?3] ṟkum nalla-maṅkai",
+     0.4558
     ]
    ],
-   "latency_ms": 59.4
+   "latency_ms": 63.6
   },
   {
    "id": "DHARMA_INSTamilNadu00417:10:0",
@@ -6636,7 +6229,7 @@
      0.4
     ]
    ],
-   "latency_ms": 36.3
+   "latency_ms": 37.4
   },
   {
    "id": "DHARMA_INSTamilNadu00417:10:1",
@@ -6655,6 +6248,10 @@
      0.44
     ],
     [
+     "ti",
+     0.3626
+    ],
+    [
      "kācu",
      0.3383
     ],
@@ -6669,13 +6266,9 @@
     [
      "vē",
      0.281
-    ],
-    [
-     "ka",
-     0.2717
     ]
    ],
-   "latency_ms": 44.6
+   "latency_ms": 47.6
   },
   {
    "id": "DHARMA_INSTamilNadu00417:10:2",
@@ -6722,7 +6315,7 @@
      0.1875
     ]
    ],
-   "latency_ms": 65.4
+   "latency_ms": 59.1
   },
   {
    "id": "DHARMA_INSTamilNadu00417:11:0",
@@ -6757,7 +6350,7 @@
      0.2676
     ]
    ],
-   "latency_ms": 60.4
+   "latency_ms": 63.0
   },
   {
    "id": "DHARMA_INSTamilNadu00417:11:1",
@@ -6780,7 +6373,7 @@
      0.6587
     ]
    ],
-   "latency_ms": 58.6
+   "latency_ms": 62.9
   },
   {
    "id": "DHARMA_INSTamilNadu00417:11:2",
@@ -6803,7 +6396,7 @@
      0.3458
     ]
    ],
-   "latency_ms": 62.6
+   "latency_ms": 63.9
   },
   {
    "id": "DHARMA_INSTamilNadu00417:12:0",
@@ -6834,7 +6427,7 @@
      0.1562
     ]
    ],
-   "latency_ms": 61.8
+   "latency_ms": 65.4
   },
   {
    "id": "DHARMA_INSTamilNadu00417:13:0",
@@ -6873,10 +6466,6 @@
      0.2445
     ],
     [
-     "aṟ",
-     0.2093
-    ],
-    [
      "aṭ",
      0.2037
     ],
@@ -6897,7 +6486,7 @@
      0.1893
     ]
    ],
-   "latency_ms": 60.1
+   "latency_ms": 61.3
   },
   {
    "id": "DHARMA_INSTamilNadu00417:13:1",
@@ -6916,6 +6505,10 @@
      0.3762
     ],
     [
+     "anta",
+     0.3624
+    ],
+    [
      "iv-",
      0.3573
     ],
@@ -6928,12 +6521,12 @@
      0.3502
     ],
     [
-     "ik-k",
-     0.3436
+     "ṉāḷ",
+     0.3473
     ],
     [
-     "ṉai",
-     0.2828
+     "ik-k",
+     0.3436
     ],
     [
      "it-",
@@ -6968,7 +6561,7 @@
      0.1884
     ]
    ],
-   "latency_ms": 69.9
+   "latency_ms": 64.6
   },
   {
    "id": "DHARMA_INSTamilNadu00417:14:0",
@@ -7019,7 +6612,7 @@
      0.2104
     ]
    ],
-   "latency_ms": 61.6
+   "latency_ms": 65.7
   },
   {
    "id": "DHARMA_INSTamilNadu00417:14:1",
@@ -7042,7 +6635,7 @@
      0.4689
     ]
    ],
-   "latency_ms": 62.0
+   "latency_ms": 65.3
   },
   {
    "id": "DHARMA_INSTamilNadu00417:14:2",
@@ -7077,7 +6670,7 @@
      0.2362
     ]
    ],
-   "latency_ms": 62.0
+   "latency_ms": 62.9
   },
   {
    "id": "DHARMA_INSTamilNadu00417:15:0",
@@ -7128,7 +6721,7 @@
      0.2381
     ]
    ],
-   "latency_ms": 60.8
+   "latency_ms": 62.9
   },
   {
    "id": "DHARMA_INSTamilNadu00417:15:1",
@@ -7147,7 +6740,7 @@
      0.2458
     ]
    ],
-   "latency_ms": 62.9
+   "latency_ms": 64.2
   },
   {
    "id": "DHARMA_INSTamilNadu00417:16:0",
@@ -7186,7 +6779,7 @@
      0.2149
     ]
    ],
-   "latency_ms": 61.2
+   "latency_ms": 63.0
   },
   {
    "id": "DHARMA_INSTamilNadu00417:16:1",
@@ -7237,7 +6830,7 @@
      0.1562
     ]
    ],
-   "latency_ms": 61.5
+   "latency_ms": 63.9
   },
   {
    "id": "DHARMA_INSTamilNadu00417:16:2",
@@ -7264,7 +6857,7 @@
      0.1999
     ]
    ],
-   "latency_ms": 61.7
+   "latency_ms": 64.8
   },
   {
    "id": "DHARMA_INSTamilNadu00417:17:0",
@@ -7313,9 +6906,13 @@
     [
      "u pat",
      0.1792
+    ],
+    [
+     "varkaḷ",
+     0.1764
     ]
    ],
-   "latency_ms": 58.8
+   "latency_ms": 64.8
   },
   {
    "id": "DHARMA_INSTamilNadu00417:17:1",
@@ -7366,7 +6963,7 @@
      0.1759
     ]
    ],
-   "latency_ms": 58.8
+   "latency_ms": 64.2
   },
   {
    "id": "DHARMA_INSTamilNadu00417:17:2",
@@ -7433,7 +7030,7 @@
      0.1697
     ]
    ],
-   "latency_ms": 57.3
+   "latency_ms": 62.9
   },
   {
    "id": "DHARMA_INSTamilNadu00417:17:3",
@@ -7447,7 +7044,7 @@
    "hard": true,
    "age_set": false,
    "candidates": [],
-   "latency_ms": 62.2
+   "latency_ms": 60.3
   },
   {
    "id": "DHARMA_INSTamilNadu00417:17:4",
@@ -7474,7 +7071,7 @@
      0.1896
     ]
    ],
-   "latency_ms": 61.2
+   "latency_ms": 63.9
   },
   {
    "id": "DHARMA_INSTamilNadu00417:17:5",
@@ -7505,7 +7102,7 @@
      0.2023
     ]
    ],
-   "latency_ms": 53.2
+   "latency_ms": 59.4
   },
   {
    "id": "DHARMA_INSTamilNadu00417:18:0",
@@ -7536,7 +7133,7 @@
      0.2237
     ]
    ],
-   "latency_ms": 57.8
+   "latency_ms": 62.9
   },
   {
    "id": "DHARMA_INSTamilNadu00417:18:2",
@@ -7555,7 +7152,7 @@
      0.5699
     ]
    ],
-   "latency_ms": 58.7
+   "latency_ms": 63.0
   },
   {
    "id": "DHARMA_INSTamilNadu00417:18:4",
@@ -7586,7 +7183,7 @@
      0.3278
     ]
    ],
-   "latency_ms": 58.1
+   "latency_ms": 67.9
   },
   {
    "id": "DHARMA_INSTamilNadu00417:19:0",
@@ -7661,7 +7258,30 @@
      0.3977
     ]
    ],
-   "latency_ms": 29.7
+   "latency_ms": 32.5
+  },
+  {
+   "id": "DHARMA_INSTamilNadu00447:2:0",
+   "target": "ē",
+   "top1": "ē",
+   "confidence": 0.4292,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "ē",
+     0.4292
+    ],
+    [
+     "ēl",
+     0.3458
+    ]
+   ],
+   "latency_ms": 63.6
   },
   {
    "id": "DHARMA_INSTamilNadu00455:2:0",
@@ -7684,7 +7304,7 @@
      0.4273
     ]
    ],
-   "latency_ms": 59.7
+   "latency_ms": 62.3
   },
   {
    "id": "DHARMA_INSTamilNadu00455:4:1",
@@ -7707,7 +7327,7 @@
      0.2072
     ]
    ],
-   "latency_ms": 58.9
+   "latency_ms": 65.7
   },
   {
    "id": "DHARMA_INSTamilNadu00455:4:2",
@@ -7738,19 +7358,19 @@
      0.2954
     ],
     [
+     "turv",
+     0.2795
+    ],
+    [
      "rve",
      0.2668
     ],
     [
      "uppe",
      0.2604
-    ],
-    [
-     "?5]",
-     0.2419
     ]
    ],
-   "latency_ms": 62.4
+   "latency_ms": 63.8
   },
   {
    "id": "DHARMA_INSTamilNadu00455:4:3",
@@ -7769,7 +7389,7 @@
      0.1764
     ]
    ],
-   "latency_ms": 62.4
+   "latency_ms": 62.7
   },
   {
    "id": "DHARMA_INSTamilNadu00455:6:0",
@@ -7788,19 +7408,19 @@
      0.5254
     ],
     [
+     "ā",
+     0.1853
+    ],
+    [
      "d",
      0.1796
     ],
     [
      "a",
      0.1723
-    ],
-    [
-     "ā",
-     0.1723
     ]
    ],
-   "latency_ms": 59.6
+   "latency_ms": 62.7
   },
   {
    "id": "DHARMA_INSTamilNadu00455:6:1",
@@ -7831,7 +7451,7 @@
      0.1668
     ]
    ],
-   "latency_ms": 60.8
+   "latency_ms": 62.6
   },
   {
    "id": "DHARMA_INSTamilNadu00455:6:2",
@@ -7854,7 +7474,7 @@
      0.1816
     ]
    ],
-   "latency_ms": 63.0
+   "latency_ms": 60.9
   },
   {
    "id": "DHARMA_INSTamilNadu00465:20:0",
@@ -7877,7 +7497,7 @@
      0.2766
     ]
    ],
-   "latency_ms": 61.2
+   "latency_ms": 64.1
   },
   {
    "id": "DHARMA_INSTamilNadu00483:1:0",
@@ -7896,7 +7516,7 @@
      0.4208
     ]
    ],
-   "latency_ms": 30.7
+   "latency_ms": 33.1
   },
   {
    "id": "DHARMA_INSTamilNadu00483:1:1",
@@ -7923,7 +7543,7 @@
      0.4836
     ]
    ],
-   "latency_ms": 38.1
+   "latency_ms": 39.4
   },
   {
    "id": "DHARMA_INSTamilNadu00493:2:0",
@@ -7958,243 +7578,7 @@
      0.172
     ]
    ],
-   "latency_ms": 61.4
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00526:2:0",
-   "target": "ki",
-   "top1": "i",
-   "confidence": 0.3998,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 0.5,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "i",
-     0.3998
-    ]
-   ],
-   "latency_ms": 60.5
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00526:2:1",
-   "target": "t",
-   "top1": "mum",
-   "confidence": 0.3521,
-   "top1_correct": false,
-   "in_top20": true,
-   "cer": 3.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "mum",
-     0.3521
-    ],
-    [
-     "ṅ",
-     0.3266
-    ],
-    [
-     "t",
-     0.3264
-    ],
-    [
-     "ttu",
-     0.3037
-    ],
-    [
-     "m",
-     0.1938
-    ],
-    [
-     "ḷi",
-     0.1938
-    ]
-   ],
-   "latency_ms": 61.7
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00526:2:2",
-   "target": "ē",
-   "top1": "-",
-   "confidence": 0.2521,
-   "top1_correct": false,
-   "in_top20": true,
-   "cer": 1.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "-",
-     0.2521
-    ],
-    [
-     "iru",
-     0.2162
-    ],
-    [
-     "a",
-     0.2125
-    ],
-    [
-     "i",
-     0.2015
-    ],
-    [
-     "ē",
-     0.1875
-    ]
-   ],
-   "latency_ms": 62.0
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00526:3:0",
-   "target": "ja",
-   "top1": "ja-",
-   "confidence": 0.6362,
-   "top1_correct": false,
-   "in_top20": true,
-   "cer": 0.5,
-   "abstained": false,
-   "hard": false,
-   "age_set": false,
-   "candidates": [
-    [
-     "ja-",
-     0.6362
-    ],
-    [
-     "ja",
-     0.3695
-    ],
-    [
-     "jā",
-     0.3646
-    ],
-    [
-     "c",
-     0.2617
-    ],
-    [
-     "m",
-     0.2599
-    ],
-    [
-     "a",
-     0.2442
-    ],
-    [
-     "-",
-     0.2434
-    ],
-    [
-     "j",
-     0.2411
-    ],
-    [
-     "t",
-     0.1972
-    ]
-   ],
-   "latency_ms": 61.7
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00526:4:6",
-   "target": "yi",
-   "top1": "n",
-   "confidence": 0.184,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 1.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "n",
-     0.184
-    ]
-   ],
-   "latency_ms": 62.8
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00526:5:0",
-   "target": "e",
-   "top1": "e",
-   "confidence": 0.2511,
-   "top1_correct": true,
-   "in_top20": true,
-   "cer": 0.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "e",
-     0.2511
-    ]
-   ],
-   "latency_ms": 60.5
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00526:5:1",
-   "target": "u",
-   "top1": "u",
-   "confidence": 0.5186,
-   "top1_correct": true,
-   "in_top20": true,
-   "cer": 0.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "u",
-     0.5186
-    ],
-    [
-     "um",
-     0.3812
-    ],
-    [
-     "a",
-     0.225
-    ]
-   ],
-   "latency_ms": 61.4
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00526:5:7",
-   "target": "kō",
-   "top1": "kō",
-   "confidence": 0.293,
-   "top1_correct": true,
-   "in_top20": true,
-   "cer": 0.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "kō",
-     0.293
-    ],
-    [
-     "ō",
-     0.2279
-    ],
-    [
-     "i",
-     0.1981
-    ]
-   ],
-   "latency_ms": 62.9
+   "latency_ms": 63.7
   },
   {
    "id": "DHARMA_INSTiruvavatuturai00018:6r=6:0",
@@ -8217,7 +7601,7 @@
      0.3574
     ]
    ],
-   "latency_ms": 60.9
+   "latency_ms": 64.3
   },
   {
    "id": "DHARMA_INSTiruvavatuturai10102:A.1:0",
@@ -8246,9 +7630,13 @@
     [
      "n",
      0.182
+    ],
+    [
+     "n=",
+     0.1772
     ]
    ],
-   "latency_ms": 59.8
+   "latency_ms": 66.6
   },
   {
    "id": "DHARMA_INSTiruvavatuturai10102:A.4:0",
@@ -8275,7 +7663,7 @@
      0.2751
     ]
    ],
-   "latency_ms": 70.5
+   "latency_ms": 67.5
   },
   {
    "id": "DHARMA_INSTiruvavatuturai10102:A.4:2",
@@ -8306,7 +7694,7 @@
      0.1972
     ]
    ],
-   "latency_ms": 61.6
+   "latency_ms": 63.8
   },
   {
    "id": "DHARMA_INSTiruvavatuturai10102:A.6:0",
@@ -8357,11 +7745,15 @@
      0.198
     ],
     [
+     "ṭiyaṉ",
+     0.1971
+    ],
+    [
      "tti",
      0.1917
     ]
    ],
-   "latency_ms": 60.6
+   "latency_ms": 65.8
   },
   {
    "id": "DHARMA_INSTiruvavatuturai10102:A.7:0",
@@ -8400,7 +7792,7 @@
      0.1991
     ]
    ],
-   "latency_ms": 60.9
+   "latency_ms": 64.6
   },
   {
    "id": "DHARMA_INSTiruvavatuturai10102:A.7:1",
@@ -8443,7 +7835,7 @@
      0.1993
     ]
    ],
-   "latency_ms": 62.8
+   "latency_ms": 66.4
   },
   {
    "id": "DHARMA_INSTiruvavatuturai10102:A.7:2",
@@ -8470,7 +7862,7 @@
      0.2062
     ]
    ],
-   "latency_ms": 63.7
+   "latency_ms": 63.5
   },
   {
    "id": "DHARMA_INSTiruvavatuturai10102:A.7:3",
@@ -8497,7 +7889,7 @@
      0.2062
     ]
    ],
-   "latency_ms": 63.4
+   "latency_ms": 62.9
   },
   {
    "id": "DHARMA_INSTiruvavatuturai10102:A.7:5",
@@ -8522,9 +7914,13 @@
     [
      "aṉ",
      0.1938
+    ],
+    [
+     "um",
+     0.1762
     ]
    ],
-   "latency_ms": 62.2
+   "latency_ms": 65.1
   },
   {
    "id": "DHARMA_INSTiruvavatuturai10102:A.7:6",
@@ -8551,7 +7947,7 @@
      0.1938
     ]
    ],
-   "latency_ms": 62.2
+   "latency_ms": 67.6
   },
   {
    "id": "DHARMA_INSTiruvavatuturai10102:A.8:1",
@@ -8578,7 +7974,7 @@
      0.1938
     ]
    ],
-   "latency_ms": 59.6
+   "latency_ms": 68.4
   },
   {
    "id": "DHARMA_INSTiruvavatuturai10102:B.0:0",
@@ -8609,291 +8005,7 @@
      0.2691
     ]
    ],
-   "latency_ms": 64.9
-  },
-  {
-   "id": "DHARMA_INSTiruvavatuturai10142:7:0",
-   "target": "k",
-   "top1": "k",
-   "confidence": 0.3287,
-   "top1_correct": true,
-   "in_top20": true,
-   "cer": 0.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "k",
-     0.3287
-    ],
-    [
-     "u",
-     0.262
-    ],
-    [
-     "p",
-     0.2221
-    ],
-    [
-     "i",
-     0.2197
-    ],
-    [
-     "m",
-     0.2182
-    ],
-    [
-     "ṉ",
-     0.1951
-    ]
-   ],
-   "latency_ms": 63.2
-  },
-  {
-   "id": "DHARMA_INSTiruvavatuturai10142:7:1",
-   "target": "i",
-   "top1": "i",
-   "confidence": 0.3057,
-   "top1_correct": true,
-   "in_top20": true,
-   "cer": 0.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "i",
-     0.3057
-    ]
-   ],
-   "latency_ms": 63.4
-  },
-  {
-   "id": "DHARMA_INSTiruvavatuturai10142:10:0",
-   "target": "ci",
-   "top1": "ci",
-   "confidence": 0.45,
-   "top1_correct": true,
-   "in_top20": true,
-   "cer": 0.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "ci",
-     0.45
-    ],
-    [
-     "ai",
-     0.3966
-    ],
-    [
-     "i",
-     0.2118
-    ]
-   ],
-   "latency_ms": 61.6
-  },
-  {
-   "id": "DHARMA_INSTiruvavatuturai10142:13:0",
-   "target": "mu",
-   "top1": "k",
-   "confidence": 0.3691,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 1.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "k",
-     0.3691
-    ],
-    [
-     "a",
-     0.2617
-    ],
-    [
-     "ni",
-     0.2605
-    ],
-    [
-     "ka",
-     0.2382
-    ],
-    [
-     "r",
-     0.2228
-    ],
-    [
-     "ē",
-     0.2141
-    ],
-    [
-     "v",
-     0.2134
-    ]
-   ],
-   "latency_ms": 61.9
-  },
-  {
-   "id": "DHARMA_INSTiruvavatuturai10142:16:0",
-   "target": "mē",
-   "top1": "mē",
-   "confidence": 0.5734,
-   "top1_correct": true,
-   "in_top20": true,
-   "cer": 0.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "mē",
-     0.5734
-    ],
-    [
-     "k",
-     0.4257
-    ],
-    [
-     "m",
-     0.406
-    ],
-    [
-     "me",
-     0.4045
-    ],
-    [
-     "v",
-     0.3869
-    ],
-    [
-     "ē",
-     0.3497
-    ],
-    [
-     "te",
-     0.3397
-    ]
-   ],
-   "latency_ms": 64.3
-  },
-  {
-   "id": "DHARMA_INSTiruvavatuturai10142:23:0",
-   "target": "p",
-   "top1": "p",
-   "confidence": 0.6979,
-   "top1_correct": true,
-   "in_top20": true,
-   "cer": 0.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "p",
-     0.6979
-    ],
-    [
-     "a",
-     0.2083
-    ],
-    [
-     "u",
-     0.207
-    ],
-    [
-     "i",
-     0.1979
-    ]
-   ],
-   "latency_ms": 62.3
-  },
-  {
-   "id": "DHARMA_INSTiruvavatuturai10142:28:1",
-   "target": "na",
-   "top1": "a",
-   "confidence": 0.2327,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 0.5,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "a",
-     0.2327
-    ],
-    [
-     "n",
-     0.2135
-    ],
-    [
-     "v",
-     0.2115
-    ],
-    [
-     "m",
-     0.1884
-    ],
-    [
-     "u",
-     0.1822
-    ],
-    [
-     "o",
-     0.181
-    ]
-   ],
-   "latency_ms": 67.5
-  },
-  {
-   "id": "DHARMA_INSTiruvavatuturai10142:28:2",
-   "target": "ā",
-   "top1": "a-",
-   "confidence": 0.3696,
-   "top1_correct": false,
-   "in_top20": true,
-   "cer": 2.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "a-",
-     0.3696
-    ],
-    [
-     "a",
-     0.3116
-    ],
-    [
-     "-",
-     0.2235
-    ],
-    [
-     "ē",
-     0.1827
-    ],
-    [
-     "ū",
-     0.1812
-    ],
-    [
-     "i",
-     0.1805
-    ],
-    [
-     "ā",
-     0.1801
-    ]
-   ],
-   "latency_ms": 66.2
+   "latency_ms": 61.3
   },
   {
    "id": "DHARMA_INSUttiramerur00014:1:0",
@@ -8969,9 +8081,13 @@
     [
      "nti",
      0.1965
+    ],
+    [
+     "end",
+     0.1882
     ]
    ],
-   "latency_ms": 62.0
+   "latency_ms": 61.5
   },
   {
    "id": "DHARMA_INSUttiramerur00090:4:0",
@@ -9026,189 +8142,7 @@
      0.2993
     ]
    ],
-   "latency_ms": 61.9
-  },
-  {
-   "id": "DHARMA_INStfaSIIv02p0i0002:1.1=1:0",
-   "target": "pā",
-   "top1": "pā",
-   "confidence": 0.9875,
-   "top1_correct": true,
-   "in_top20": true,
-   "cer": 0.0,
-   "abstained": false,
-   "hard": false,
-   "age_set": false,
-   "candidates": [
-    [
-     "pā",
-     0.9875
-    ],
-    [
-     "v",
-     0.391
-    ],
-    [
-     "p",
-     0.3508
-    ]
-   ],
-   "latency_ms": 68.2
-  },
-  {
-   "id": "DHARMA_INStfaSIIv02p0i0002:1.6=6:0",
-   "target": "ṟṟu",
-   "top1": "ṟu",
-   "confidence": 0.3404,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 0.3333,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "ṟu",
-     0.3404
-    ],
-    [
-     "tu",
-     0.2602
-    ],
-    [
-     "ai",
-     0.2116
-    ]
-   ],
-   "latency_ms": 63.3
-  },
-  {
-   "id": "DHARMA_INStfaSIIv02p0i0002:1.6=6:1",
-   "target": "ūṟ",
-   "top1": "ūṟ",
-   "confidence": 0.3723,
-   "top1_correct": true,
-   "in_top20": true,
-   "cer": 0.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "ūṟ",
-     0.3723
-    ],
-    [
-     "ūṟṟu",
-     0.3149
-    ]
-   ],
-   "latency_ms": 58.9
-  },
-  {
-   "id": "DHARMA_INStfaSIIv02p0i0002:1.6=6:2",
-   "target": "e",
-   "top1": "e",
-   "confidence": 0.382,
-   "top1_correct": true,
-   "in_top20": true,
-   "cer": 0.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "e",
-     0.382
-    ],
-    [
-     "i",
-     0.2563
-    ],
-    [
-     "eḻu",
-     0.2435
-    ],
-    [
-     "m",
-     0.2371
-    ],
-    [
-     "ēḻu",
-     0.2348
-    ],
-    [
-     "o",
-     0.2286
-    ],
-    [
-     "a",
-     0.2116
-    ]
-   ],
-   "latency_ms": 61.0
-  },
-  {
-   "id": "DHARMA_INStfaSIIv02p0i0002:1.7=7:1",
-   "target": "āva",
-   "top1": "āva",
-   "confidence": 0.5617,
-   "top1_correct": true,
-   "in_top20": true,
-   "cer": 0.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "āva",
-     0.5617
-    ],
-    [
-     "va",
-     0.5043
-    ],
-    [
-     "āv",
-     0.4128
-    ],
-    [
-     "at",
-     0.2804
-    ],
-    [
-     "in",
-     0.2524
-    ]
-   ],
    "latency_ms": 63.7
-  },
-  {
-   "id": "DHARMA_INStfaSIIv02p0i0002:1.7=7:2",
-   "target": "ā",
-   "top1": "-ā",
-   "confidence": 0.7042,
-   "top1_correct": false,
-   "in_top20": true,
-   "cer": 1.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "-ā",
-     0.7042
-    ],
-    [
-     "ā",
-     0.4497
-    ],
-    [
-     "iṉ",
-     0.3803
-    ]
-   ],
-   "latency_ms": 62.1
   },
   {
    "id": "DHARMA_INStfaSIIv02p0i0023:A.A2:0",
@@ -9239,15 +8173,11 @@
      0.2646
     ],
     [
-     "āṭu",
-     0.228
-    ],
-    [
      "attu",
      0.2232
     ]
    ],
-   "latency_ms": 60.0
+   "latency_ms": 62.1
   },
   {
    "id": "DHARMA_INStfaSIIv02p0i0023:A.A5:0",
@@ -9306,7 +8236,7 @@
      0.1714
     ]
    ],
-   "latency_ms": 64.5
+   "latency_ms": 62.4
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:1:0",
@@ -9325,7 +8255,7 @@
      0.9919
     ]
    ],
-   "latency_ms": 51.2
+   "latency_ms": 49.4
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:1:1",
@@ -9346,9 +8276,13 @@
     [
      "d",
      0.4558
+    ],
+    [
+     "r",
+     0.2752
     ]
    ],
-   "latency_ms": 66.7
+   "latency_ms": 64.6
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:2:0",
@@ -9371,7 +8305,7 @@
      0.3589
     ]
    ],
-   "latency_ms": 61.6
+   "latency_ms": 61.8
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:2:1",
@@ -9402,7 +8336,7 @@
      0.2141
     ]
    ],
-   "latency_ms": 63.3
+   "latency_ms": 66.6
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:2:2",
@@ -9433,7 +8367,7 @@
      0.3267
     ]
    ],
-   "latency_ms": 65.0
+   "latency_ms": 62.9
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:3:0",
@@ -9460,7 +8394,7 @@
      0.3696
     ]
    ],
-   "latency_ms": 64.5
+   "latency_ms": 62.5
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:3:1",
@@ -9511,7 +8445,7 @@
      0.2182
     ]
    ],
-   "latency_ms": 62.8
+   "latency_ms": 61.2
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:3:2",
@@ -9566,7 +8500,7 @@
      0.1917
     ]
    ],
-   "latency_ms": 65.4
+   "latency_ms": 63.7
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:3:3",
@@ -9605,7 +8539,7 @@
      0.151
     ]
    ],
-   "latency_ms": 68.1
+   "latency_ms": 63.0
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:3:4",
@@ -9648,13 +8582,13 @@
      0.1833
     ]
    ],
-   "latency_ms": 78.3
+   "latency_ms": 64.3
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:4:0",
    "target": "y",
-   "top1": "v",
-   "confidence": 0.2146,
+   "top1": "k",
+   "confidence": 0.2104,
    "top1_correct": false,
    "in_top20": false,
    "cer": 1.0,
@@ -9663,12 +8597,12 @@
    "age_set": false,
    "candidates": [
     [
-     "v",
-     0.2146
-    ],
-    [
      "k",
      0.2104
+    ],
+    [
+     "v",
+     0.2062
     ],
     [
      "c",
@@ -9683,7 +8617,7 @@
      0.1916
     ]
    ],
-   "latency_ms": 62.7
+   "latency_ms": 62.9
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:4:1",
@@ -9719,14 +8653,18 @@
     ],
     [
      "r",
-     0.1812
+     0.1753
     ],
     [
      "ṇ",
      0.169
+    ],
+    [
+     "c",
+     0.1575
     ]
    ],
-   "latency_ms": 65.6
+   "latency_ms": 64.4
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:5:0",
@@ -9745,7 +8683,7 @@
      0.1908
     ]
    ],
-   "latency_ms": 64.6
+   "latency_ms": 64.0
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:6:0",
@@ -9776,7 +8714,7 @@
      0.3221
     ]
    ],
-   "latency_ms": 62.6
+   "latency_ms": 63.3
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:6:1",
@@ -9831,7 +8769,7 @@
      0.1983
     ]
    ],
-   "latency_ms": 63.2
+   "latency_ms": 65.0
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:6:2",
@@ -9854,6 +8792,10 @@
      0.2243
     ],
     [
+     "c",
+     0.2121
+    ],
+    [
      "v",
      0.1911
     ],
@@ -9866,15 +8808,11 @@
      0.1881
     ],
     [
-     "c",
-     0.1751
-    ],
-    [
-     "e",
-     0.1634
+     "i",
+     0.1851
     ]
    ],
-   "latency_ms": 61.6
+   "latency_ms": 62.0
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:6:3",
@@ -9929,7 +8867,7 @@
      0.2798
     ]
    ],
-   "latency_ms": 62.7
+   "latency_ms": 63.9
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:8:0",
@@ -9956,7 +8894,7 @@
      0.3877
     ]
    ],
-   "latency_ms": 63.9
+   "latency_ms": 64.1
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:8:1",
@@ -9983,7 +8921,7 @@
      0.425
     ]
    ],
-   "latency_ms": 64.6
+   "latency_ms": 62.8
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:9:0",
@@ -10030,7 +8968,7 @@
      0.2543
     ]
    ],
-   "latency_ms": 61.0
+   "latency_ms": 65.7
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:9:1",
@@ -10077,7 +9015,7 @@
      0.1831
     ]
    ],
-   "latency_ms": 62.1
+   "latency_ms": 67.9
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:9:2",
@@ -10140,7 +9078,7 @@
      0.1739
     ]
    ],
-   "latency_ms": 63.4
+   "latency_ms": 69.7
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:10:0",
@@ -10181,13 +9119,9 @@
     [
      "li",
      0.2033
-    ],
-    [
-     "nā",
-     0.1971
     ]
    ],
-   "latency_ms": 62.7
+   "latency_ms": 61.6
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:10:1",
@@ -10218,7 +9152,7 @@
      0.2769
     ]
    ],
-   "latency_ms": 61.4
+   "latency_ms": 63.1
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:11:0",
@@ -10257,7 +9191,7 @@
      0.2074
     ]
    ],
-   "latency_ms": 61.1
+   "latency_ms": 62.5
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0010:12:0",
@@ -10276,7 +9210,7 @@
      0.2986
     ]
    ],
-   "latency_ms": 62.0
+   "latency_ms": 64.4
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:1:0",
@@ -10293,13 +9227,9 @@
     [
      "pūṇ",
      0.8919
-    ],
-    [
-     "pū",
-     0.3355
     ]
    ],
-   "latency_ms": 61.7
+   "latency_ms": 61.3
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:1:1",
@@ -10335,14 +9265,14 @@
     ],
     [
      "la",
-     0.3208
+     0.3271
     ],
     [
      "ḷuṟ",
      0.2856
     ]
    ],
-   "latency_ms": 65.0
+   "latency_ms": 63.6
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:1:2",
@@ -10361,7 +9291,7 @@
      0.5979
     ]
    ],
-   "latency_ms": 62.3
+   "latency_ms": 64.0
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:1:3",
@@ -10380,7 +9310,7 @@
      0.558
     ]
    ],
-   "latency_ms": 63.0
+   "latency_ms": 63.4
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:1:4",
@@ -10403,7 +9333,7 @@
      0.6174
     ]
    ],
-   "latency_ms": 61.7
+   "latency_ms": 62.4
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:1:5",
@@ -10430,7 +9360,7 @@
      0.5972
     ]
    ],
-   "latency_ms": 64.2
+   "latency_ms": 62.7
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:1:6",
@@ -10457,7 +9387,7 @@
      0.2549
     ]
    ],
-   "latency_ms": 60.0
+   "latency_ms": 61.2
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:1:7",
@@ -10477,27 +9407,23 @@
     ],
     [
      "ā",
-     0.2234
+     0.2184
     ]
    ],
-   "latency_ms": 60.8
+   "latency_ms": 62.6
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:1:8",
    "target": "ē",
-   "top1": "ē",
-   "confidence": 0.6688,
-   "top1_correct": true,
+   "top1": "a",
+   "confidence": 0.2312,
+   "top1_correct": false,
    "in_top20": true,
-   "cer": 0.0,
+   "cer": 1.0,
    "abstained": false,
    "hard": false,
    "age_set": false,
    "candidates": [
-    [
-     "ē",
-     0.6688
-    ],
     [
      "a",
      0.2312
@@ -10511,17 +9437,21 @@
      0.225
     ],
     [
+     "ē",
+     0.2212
+    ],
+    [
      "i",
      0.2083
     ]
    ],
-   "latency_ms": 61.8
+   "latency_ms": 62.2
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:1:9",
    "target": "ki",
    "top1": "ṉa",
-   "confidence": 0.3688,
+   "confidence": 0.3609,
    "top1_correct": false,
    "in_top20": false,
    "cer": 1.0,
@@ -10531,7 +9461,7 @@
    "candidates": [
     [
      "ṉa",
-     0.3688
+     0.3609
     ],
     [
      "i",
@@ -10546,24 +9476,20 @@
      0.2042
     ]
    ],
-   "latency_ms": 61.9
+   "latency_ms": 64.1
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:1:10",
    "target": "ti",
-   "top1": "ti",
-   "confidence": 0.8292,
-   "top1_correct": true,
-   "in_top20": true,
-   "cer": 0.0,
+   "top1": "i",
+   "confidence": 0.3095,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.5,
    "abstained": false,
-   "hard": false,
+   "hard": true,
    "age_set": false,
    "candidates": [
-    [
-     "ti",
-     0.8292
-    ],
     [
      "i",
      0.3095
@@ -10581,13 +9507,13 @@
      0.1812
     ]
    ],
-   "latency_ms": 63.3
+   "latency_ms": 63.5
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:1:11",
    "target": "ḷi",
    "top1": "ḷi",
-   "confidence": 0.5167,
+   "confidence": 0.4558,
    "top1_correct": true,
    "in_top20": true,
    "cer": 0.0,
@@ -10597,7 +9523,7 @@
    "candidates": [
     [
      "ḷi",
-     0.5167
+     0.4558
     ],
     [
      "ḷ",
@@ -10612,7 +9538,7 @@
      0.1812
     ]
    ],
-   "latency_ms": 63.0
+   "latency_ms": 62.8
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:1:12",
@@ -10631,10 +9557,6 @@
      0.3186
     ],
     [
-     "ś",
-     0.3072
-    ],
-    [
      "i",
      0.2018
     ],
@@ -10647,7 +9569,7 @@
      0.1822
     ]
    ],
-   "latency_ms": 68.3
+   "latency_ms": 62.7
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:1:13",
@@ -10686,7 +9608,7 @@
      0.1979
     ]
    ],
-   "latency_ms": 64.6
+   "latency_ms": 63.2
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:1:14",
@@ -10729,11 +9651,11 @@
      0.2083
     ],
     [
-     "ād",
-     0.2078
+     "ma",
+     0.1947
     ]
    ],
-   "latency_ms": 62.0
+   "latency_ms": 62.5
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:1:15",
@@ -10762,9 +9684,13 @@
     [
      "v",
      0.2047
+    ],
+    [
+     "y",
+     0.1851
     ]
    ],
-   "latency_ms": 66.6
+   "latency_ms": 61.4
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:1:16",
@@ -10787,7 +9713,7 @@
      0.3028
     ]
    ],
-   "latency_ms": 63.2
+   "latency_ms": 63.1
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:1:17",
@@ -10814,7 +9740,7 @@
      0.2519
     ]
    ],
-   "latency_ms": 69.4
+   "latency_ms": 61.8
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:1:18",
@@ -10841,24 +9767,20 @@
      0.2581
     ]
    ],
-   "latency_ms": 63.5
+   "latency_ms": 64.3
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:0",
    "target": "ka",
-   "top1": "ṉa",
-   "confidence": 0.2744,
-   "top1_correct": false,
+   "top1": "ka",
+   "confidence": 0.2626,
+   "top1_correct": true,
    "in_top20": true,
-   "cer": 0.5,
+   "cer": 0.0,
    "abstained": false,
    "hard": true,
    "age_set": false,
    "candidates": [
-    [
-     "ṉa",
-     0.2744
-    ],
     [
      "ka",
      0.2626
@@ -10872,6 +9794,10 @@
      0.2471
     ],
     [
+     "m",
+     0.2196
+    ],
+    [
      "l",
      0.2033
     ],
@@ -10880,7 +9806,7 @@
      0.2009
     ]
    ],
-   "latency_ms": 61.7
+   "latency_ms": 65.1
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:1",
@@ -10891,7 +9817,7 @@
    "in_top20": false,
    "cer": 1.0,
    "abstained": false,
-   "hard": false,
+   "hard": true,
    "age_set": false,
    "candidates": [
     [
@@ -10903,7 +9829,7 @@
      0.1822
     ]
    ],
-   "latency_ms": 63.8
+   "latency_ms": 66.4
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:2",
@@ -10934,6 +9860,10 @@
      0.278
     ],
     [
+     "m",
+     0.2406
+    ],
+    [
      "n",
      0.1971
     ],
@@ -10946,7 +9876,7 @@
      0.1822
     ]
    ],
-   "latency_ms": 59.7
+   "latency_ms": 67.6
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:3",
@@ -10965,7 +9895,7 @@
      0.5295
     ]
    ],
-   "latency_ms": 65.8
+   "latency_ms": 65.6
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:4",
@@ -10984,12 +9914,12 @@
      0.2404
     ],
     [
-     "ṭi",
-     0.2303
+     "ṉ",
+     0.234
     ],
     [
-     "ṉ",
-     0.2114
+     "ṭi",
+     0.2303
     ],
     [
      "ḻiṉ",
@@ -11020,7 +9950,7 @@
      0.1787
     ]
    ],
-   "latency_ms": 62.4
+   "latency_ms": 61.8
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:5",
@@ -11071,7 +10001,7 @@
      0.1822
     ]
    ],
-   "latency_ms": 62.4
+   "latency_ms": 60.8
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:6",
@@ -11102,7 +10032,7 @@
      0.1697
     ]
    ],
-   "latency_ms": 63.5
+   "latency_ms": 62.7
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:7",
@@ -11125,7 +10055,7 @@
      0.231
     ]
    ],
-   "latency_ms": 69.7
+   "latency_ms": 64.1
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:8",
@@ -11156,7 +10086,7 @@
      0.2301
     ]
    ],
-   "latency_ms": 65.5
+   "latency_ms": 65.2
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:9",
@@ -11195,7 +10125,7 @@
      0.2245
     ]
    ],
-   "latency_ms": 63.4
+   "latency_ms": 65.5
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:10",
@@ -11226,7 +10156,7 @@
      0.1754
     ]
    ],
-   "latency_ms": 61.5
+   "latency_ms": 64.9
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:11",
@@ -11240,7 +10170,7 @@
    "hard": true,
    "age_set": false,
    "candidates": [],
-   "latency_ms": 58.8
+   "latency_ms": 63.9
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:12",
@@ -11267,7 +10197,7 @@
      0.1938
     ]
    ],
-   "latency_ms": 62.3
+   "latency_ms": 65.1
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:13",
@@ -11294,7 +10224,7 @@
      0.1812
     ]
    ],
-   "latency_ms": 63.1
+   "latency_ms": 63.9
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:14",
@@ -11337,7 +10267,7 @@
      0.1938
     ]
    ],
-   "latency_ms": 62.6
+   "latency_ms": 63.3
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:15",
@@ -11388,7 +10318,7 @@
      0.2695
     ]
    ],
-   "latency_ms": 63.0
+   "latency_ms": 63.4
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:16",
@@ -11431,7 +10361,7 @@
      0.2341
     ]
    ],
-   "latency_ms": 62.4
+   "latency_ms": 63.0
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:17",
@@ -11450,7 +10380,7 @@
      0.5723
     ]
    ],
-   "latency_ms": 60.6
+   "latency_ms": 61.8
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:18",
@@ -11473,7 +10403,7 @@
      0.2106
     ]
    ],
-   "latency_ms": 57.3
+   "latency_ms": 60.9
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:19",
@@ -11504,7 +10434,7 @@
      0.1807
     ]
    ],
-   "latency_ms": 59.6
+   "latency_ms": 63.0
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:20",
@@ -11518,7 +10448,7 @@
    "hard": true,
    "age_set": false,
    "candidates": [],
-   "latency_ms": 59.7
+   "latency_ms": 60.9
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:2:21",
@@ -11549,27 +10479,27 @@
      0.1868
     ]
    ],
-   "latency_ms": 58.6
+   "latency_ms": 60.8
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:3:0",
    "target": "ai",
-   "top1": "u",
-   "confidence": 0.2345,
+   "top1": "a",
+   "confidence": 0.2417,
    "top1_correct": false,
-   "in_top20": true,
-   "cer": 1.0,
+   "in_top20": false,
+   "cer": 0.5,
    "abstained": false,
    "hard": true,
    "age_set": false,
    "candidates": [
     [
-     "u",
-     0.2345
+     "a",
+     0.2417
     ],
     [
-     "a",
-     0.234
+     "u",
+     0.2392
     ],
     [
      "r",
@@ -11582,13 +10512,9 @@
     [
      "ā",
      0.2064
-    ],
-    [
-     "ai",
-     0.2044
     ]
    ],
-   "latency_ms": 61.4
+   "latency_ms": 63.4
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:3:1",
@@ -11631,7 +10557,7 @@
      0.2009
     ]
    ],
-   "latency_ms": 63.2
+   "latency_ms": 61.6
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:3:2",
@@ -11650,7 +10576,7 @@
      0.4979
     ]
    ],
-   "latency_ms": 63.0
+   "latency_ms": 63.1
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0015:3:3",
@@ -11681,7 +10607,1018 @@
      0.3254
     ]
    ],
-   "latency_ms": 56.3
+   "latency_ms": 55.8
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:1:0",
+   "target": "r-c cālai",
+   "top1": "ālai",
+   "confidence": 0.5949,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.5,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "ālai",
+     0.5949
+    ],
+    [
+     "lai",
+     0.5654
+    ]
+   ],
+   "latency_ms": 63.5
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:1:1",
+   "target": "ṭi",
+   "top1": "ṭi",
+   "confidence": 0.7979,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "ṭi",
+     0.7979
+    ],
+    [
+     "ṭ",
+     0.625
+    ],
+    [
+     "i",
+     0.3816
+    ]
+   ],
+   "latency_ms": 64.1
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:1:2",
+   "target": "mu",
+   "top1": "mu",
+   "confidence": 0.9875,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "mu",
+     0.9875
+    ],
+    [
+     "mum",
+     0.3542
+    ],
+    [
+     "-",
+     0.3375
+    ]
+   ],
+   "latency_ms": 64.1
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:1:3",
+   "target": "cu",
+   "top1": "cu",
+   "confidence": 0.8174,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "cu",
+     0.8174
+    ],
+    [
+     "c",
+     0.4484
+    ],
+    [
+     "u",
+     0.3603
+    ]
+   ],
+   "latency_ms": 62.3
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:1:4",
+   "target": "v-i",
+   "top1": "v-i",
+   "confidence": 0.5147,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "v-i",
+     0.5147
+    ],
+    [
+     "ō",
+     0.475
+    ],
+    [
+     "r",
+     0.4438
+    ],
+    [
+     "v",
+     0.4046
+    ],
+    [
+     "i",
+     0.3825
+    ],
+    [
+     "-",
+     0.3039
+    ]
+   ],
+   "latency_ms": 63.8
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:1:5",
+   "target": "Ā",
+   "top1": "ā",
+   "confidence": 0.6846,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "ā",
+     0.6846
+    ],
+    [
+     "-",
+     0.5802
+    ]
+   ],
+   "latency_ms": 62.4
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:1:6",
+   "target": "Ā",
+   "top1": "i",
+   "confidence": 0.4862,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 1.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "i",
+     0.4862
+    ],
+    [
+     "itu",
+     0.3287
+    ],
+    [
+     "c",
+     0.327
+    ],
+    [
+     "p",
+     0.3233
+    ],
+    [
+     "y",
+     0.3162
+    ],
+    [
+     "ā",
+     0.2533
+    ]
+   ],
+   "latency_ms": 66.5
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:1:7",
+   "target": "ñ",
+   "top1": "ñ",
+   "confidence": 0.3952,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "ñ",
+     0.3952
+    ],
+    [
+     "k",
+     0.2229
+    ],
+    [
+     "v",
+     0.2
+    ],
+    [
+     "ṟ",
+     0.1602
+    ]
+   ],
+   "latency_ms": 63.1
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:1:8",
+   "target": "ai",
+   "top1": "ai",
+   "confidence": 0.7285,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "ai",
+     0.7285
+    ],
+    [
+     "i",
+     0.3871
+    ]
+   ],
+   "latency_ms": 61.4
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:1:9",
+   "target": "tu",
+   "top1": "tu",
+   "confidence": 0.6122,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "tu",
+     0.6122
+    ],
+    [
+     "ṇam",
+     0.3278
+    ],
+    [
+     "i",
+     0.2816
+    ],
+    [
+     "m",
+     0.2519
+    ],
+    [
+     "ḷ",
+     0.2517
+    ],
+    [
+     "u",
+     0.2494
+    ],
+    [
+     "ṉa",
+     0.2394
+    ],
+    [
+     "a",
+     0.2289
+    ]
+   ],
+   "latency_ms": 63.4
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:1:10",
+   "target": "ṟ",
+   "top1": "ṟ",
+   "confidence": 0.3104,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "ṟ",
+     0.3104
+    ],
+    [
+     "ṟṟu",
+     0.2625
+    ],
+    [
+     "ā",
+     0.2325
+    ],
+    [
+     "ṟa",
+     0.2321
+    ],
+    [
+     "ṇ",
+     0.2308
+    ],
+    [
+     "r",
+     0.2188
+    ],
+    [
+     "ṟṟa",
+     0.1956
+    ]
+   ],
+   "latency_ms": 64.3
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:1:11",
+   "target": "v-ūru",
+   "top1": "ka",
+   "confidence": 0.2887,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "ka",
+     0.2887
+    ],
+    [
+     "ma",
+     0.2789
+    ],
+    [
+     "ku",
+     0.2691
+    ],
+    [
+     "āt",
+     0.2629
+    ],
+    [
+     "peru",
+     0.2566
+    ],
+    [
+     "[?]",
+     0.2566
+    ],
+    [
+     "vaṟ",
+     0.2504
+    ],
+    [
+     "ak",
+     0.2394
+    ],
+    [
+     "oru",
+     0.2394
+    ],
+    [
+     "kū",
+     0.2388
+    ],
+    [
+     "iṅ",
+     0.2221
+    ]
+   ],
+   "latency_ms": 64.6
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:1:12",
+   "target": "pu",
+   "top1": "n",
+   "confidence": 0.3765,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "n",
+     0.3765
+    ],
+    [
+     "k",
+     0.271
+    ],
+    [
+     "t",
+     0.2336
+    ],
+    [
+     "l",
+     0.1997
+    ]
+   ],
+   "latency_ms": 60.5
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:1:13",
+   "target": "k",
+   "top1": "ṇ",
+   "confidence": 0.2934,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 1.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "ṇ",
+     0.2934
+    ],
+    [
+     "l",
+     0.2875
+    ],
+    [
+     "=",
+     0.2829
+    ],
+    [
+     "u",
+     0.2812
+    ],
+    [
+     "ṅ",
+     0.2684
+    ],
+    [
+     "v",
+     0.192
+    ],
+    [
+     "k",
+     0.1875
+    ]
+   ],
+   "latency_ms": 62.3
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:1:14",
+   "target": "p",
+   "top1": "p",
+   "confidence": 0.4829,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "p",
+     0.4829
+    ]
+   ],
+   "latency_ms": 61.8
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:1:15",
+   "target": "k",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": false,
+   "candidates": [],
+   "latency_ms": 62.8
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:2:0",
+   "target": "ṉ-pāṟ",
+   "top1": "ṉ-pāṟ",
+   "confidence": 0.5354,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "ṉ-pāṟ",
+     0.5354
+    ],
+    [
+     "ṉ-p",
+     0.3646
+    ],
+    [
+     "ṉpāṟ",
+     0.3582
+    ],
+    [
+     "ṉ",
+     0.3464
+    ],
+    [
+     "pāṟ",
+     0.3244
+    ],
+    [
+     "rik",
+     0.3083
+    ],
+    [
+     "ṉ-pāl",
+     0.3054
+    ]
+   ],
+   "latency_ms": 66.5
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:2:1",
+   "target": "m",
+   "top1": "m",
+   "confidence": 0.7376,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "m",
+     0.7376
+    ],
+    [
+     "n",
+     0.3074
+    ],
+    [
+     "v",
+     0.2956
+    ]
+   ],
+   "latency_ms": 63.3
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:2:2",
+   "target": "ṉ",
+   "top1": "ṉ",
+   "confidence": 0.2562,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "ṉ",
+     0.2562
+    ],
+    [
+     "n",
+     0.2352
+    ]
+   ],
+   "latency_ms": 62.2
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:2:3",
+   "target": "p",
+   "top1": "p",
+   "confidence": 0.4938,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "p",
+     0.4938
+    ]
+   ],
+   "latency_ms": 63.7
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:2:4",
+   "target": "vu",
+   "top1": "vu",
+   "confidence": 0.3932,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "vu",
+     0.3932
+    ],
+    [
+     "ṭ",
+     0.2875
+    ],
+    [
+     "v",
+     0.2604
+    ],
+    [
+     "p",
+     0.1958
+    ],
+    [
+     "viṉ",
+     0.1909
+    ],
+    [
+     "ī",
+     0.175
+    ],
+    [
+     "a",
+     0.1625
+    ]
+   ],
+   "latency_ms": 62.0
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:2:5",
+   "target": "mu",
+   "top1": "mum",
+   "confidence": 0.3338,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.5,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "mum",
+     0.3338
+    ],
+    [
+     "m",
+     0.2958
+    ],
+    [
+     "u",
+     0.2773
+    ],
+    [
+     "ṉum",
+     0.2702
+    ],
+    [
+     "ttu",
+     0.2271
+    ]
+   ],
+   "latency_ms": 64.3
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:2:6",
+   "target": "v-uṇṇilam o",
+   "top1": "ilam o",
+   "confidence": 0.3289,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.5,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "ilam o",
+     0.3289
+    ],
+    [
+     "nel-p",
+     0.2874
+    ],
+    [
+     "[?1] m",
+     0.2144
+    ],
+    [
+     "nila [?]",
+     0.2066
+    ],
+    [
+     "nilattu",
+     0.1884
+    ],
+    [
+     "nilattiṟ",
+     0.1859
+    ],
+    [
+     "nañcai",
+     0.1844
+    ],
+    [
+     "aṉaittu",
+     0.1831
+    ],
+    [
+     "nīru-n",
+     0.1831
+    ],
+    [
+     "nattamum",
+     0.1788
+    ],
+    [
+     "kuḷamum",
+     0.1759
+    ]
+   ],
+   "latency_ms": 63.0
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:2:7",
+   "target": "ē",
+   "top1": "ē",
+   "confidence": 0.2486,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "ē",
+     0.2486
+    ],
+    [
+     "e",
+     0.2338
+    ],
+    [
+     "u",
+     0.2172
+    ],
+    [
+     "ā",
+     0.1947
+    ]
+   ],
+   "latency_ms": 62.6
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:2:8",
+   "target": "pa",
+   "top1": "a",
+   "confidence": 0.2582,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.5,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "a",
+     0.2582
+    ],
+    [
+     "ō",
+     0.2348
+    ],
+    [
+     "i",
+     0.1957
+    ]
+   ],
+   "latency_ms": 68.3
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:2:9",
+   "target": "ṟ",
+   "top1": "ṟ",
+   "confidence": 0.6146,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "ṟ",
+     0.6146
+    ]
+   ],
+   "latency_ms": 63.2
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:2:10",
+   "target": "ṭi",
+   "top1": "ṭi",
+   "confidence": 0.6625,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "ṭi",
+     0.6625
+    ],
+    [
+     "i",
+     0.2771
+    ],
+    [
+     "t",
+     0.1976
+    ],
+    [
+     "ṭu",
+     0.1913
+    ]
+   ],
+   "latency_ms": 63.5
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:2:11",
+   "target": "ā",
+   "top1": "āṉ",
+   "confidence": 0.3479,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 1.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "āṉ",
+     0.3479
+    ],
+    [
+     "a",
+     0.3332
+    ],
+    [
+     "ā",
+     0.2542
+    ],
+    [
+     "u",
+     0.2125
+    ]
+   ],
+   "latency_ms": 64.0
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:2:12",
+   "target": "ṭai",
+   "top1": "i",
+   "confidence": 0.2375,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.6667,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "i",
+     0.2375
+    ],
+    [
+     "o",
+     0.2152
+    ],
+    [
+     "a",
+     0.2125
+    ],
+    [
+     "ṟ",
+     0.1996
+    ]
+   ],
+   "latency_ms": 64.5
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:2:13",
+   "target": "ṉ-ēṉ",
+   "top1": "ṉ",
+   "confidence": 0.2342,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.75,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "ṉ",
+     0.2342
+    ],
+    [
+     "ra",
+     0.2158
+    ],
+    [
+     "kōṭi",
+     0.2054
+    ],
+    [
+     "ti",
+     0.2009
+    ],
+    [
+     "aṉ",
+     0.1963
+    ],
+    [
+     "ya",
+     0.1947
+    ]
+   ],
+   "latency_ms": 60.6
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:2:14",
+   "target": "I",
+   "top1": "i",
+   "confidence": 0.3552,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "i",
+     0.3552
+    ]
+   ],
+   "latency_ms": 63.4
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0016:2:15",
+   "target": "ḻu",
+   "top1": "ḻu",
+   "confidence": 0.3378,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "ḻu",
+     0.3378
+    ]
+   ],
+   "latency_ms": 63.7
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:2:0",
@@ -11716,7 +11653,7 @@
      0.263
     ]
    ],
-   "latency_ms": 81.4
+   "latency_ms": 61.5
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:2:1",
@@ -11743,7 +11680,7 @@
      0.166
     ]
    ],
-   "latency_ms": 59.3
+   "latency_ms": 60.0
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:2:2",
@@ -11763,7 +11700,7 @@
     ],
     [
      "r",
-     0.2083
+     0.2281
     ],
     [
      "k",
@@ -11771,14 +11708,14 @@
     ],
     [
      "l",
-     0.1973
+     0.1958
     ],
     [
      "ṟ",
      0.1938
     ]
    ],
-   "latency_ms": 62.7
+   "latency_ms": 60.6
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:2:3",
@@ -11813,11 +11750,15 @@
      0.2132
     ],
     [
+     "v",
+     0.1875
+    ],
+    [
      "ri",
      0.1805
     ]
    ],
-   "latency_ms": 67.1
+   "latency_ms": 62.6
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:3:0",
@@ -11837,7 +11778,7 @@
     ],
     [
      "c",
-     0.3083
+     0.2474
     ],
     [
      "y",
@@ -11856,7 +11797,7 @@
      0.1908
     ]
    ],
-   "latency_ms": 70.7
+   "latency_ms": 62.4
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:3:1",
@@ -11899,7 +11840,7 @@
      0.2244
     ]
    ],
-   "latency_ms": 59.5
+   "latency_ms": 61.6
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:4:0",
@@ -11940,9 +11881,13 @@
     [
      "e",
      0.2088
+    ],
+    [
+     "-k",
+     0.2065
     ]
    ],
-   "latency_ms": 60.7
+   "latency_ms": 64.5
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:4:1",
@@ -11977,7 +11922,7 @@
      0.2338
     ]
    ],
-   "latency_ms": 61.0
+   "latency_ms": 62.7
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:4:2",
@@ -11996,7 +11941,7 @@
      0.8354
     ]
    ],
-   "latency_ms": 59.6
+   "latency_ms": 64.0
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:5:0",
@@ -12039,7 +11984,7 @@
      0.2674
     ]
    ],
-   "latency_ms": 61.4
+   "latency_ms": 63.8
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:7:0",
@@ -12067,10 +12012,10 @@
     ],
     [
      "n",
-     0.1971
+     0.1822
     ]
    ],
-   "latency_ms": 60.8
+   "latency_ms": 63.2
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:7:1",
@@ -12098,14 +12043,18 @@
     ],
     [
      "i",
-     0.191
+     0.1912
+    ],
+    [
+     "a",
+     0.1822
     ],
     [
      "m",
      0.1674
     ]
    ],
-   "latency_ms": 59.9
+   "latency_ms": 63.1
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:10:0",
@@ -12128,21 +12077,25 @@
      0.2521
     ],
     [
-     "ṅ",
-     0.2078
+     "m",
+     0.2108
+    ],
+    [
+     "yt'",
+     0.2069
     ],
     [
      "l",
-     0.2008
+     0.1769
     ]
    ],
-   "latency_ms": 61.0
+   "latency_ms": 64.3
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:12:0",
    "target": "ā",
    "top1": "ā",
-   "confidence": 0.5064,
+   "confidence": 0.4106,
    "top1_correct": true,
    "in_top20": true,
    "cer": 0.0,
@@ -12152,7 +12105,7 @@
    "candidates": [
     [
      "ā",
-     0.5064
+     0.4106
     ],
     [
      "e",
@@ -12179,11 +12132,11 @@
      0.1915
     ],
     [
-     "u",
-     0.1903
+     "ē",
+     0.1796
     ]
    ],
-   "latency_ms": 63.3
+   "latency_ms": 62.4
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:12:1",
@@ -12203,7 +12156,7 @@
     ],
     [
      "ṟ",
-     0.3396
+     0.2812
     ],
     [
      "oṉ",
@@ -12222,7 +12175,7 @@
      0.1822
     ]
    ],
-   "latency_ms": 62.5
+   "latency_ms": 65.1
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:13:0",
@@ -12265,7 +12218,7 @@
      0.1767
     ]
    ],
-   "latency_ms": 60.9
+   "latency_ms": 61.1
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:13:1",
@@ -12296,13 +12249,13 @@
      0.1787
     ]
    ],
-   "latency_ms": 63.5
+   "latency_ms": 61.1
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:13:2",
    "target": "mu",
    "top1": "mu",
-   "confidence": 0.6411,
+   "confidence": 0.5753,
    "top1_correct": true,
    "in_top20": true,
    "cer": 0.0,
@@ -12312,7 +12265,7 @@
    "candidates": [
     [
      "mu",
-     0.6411
+     0.5753
     ],
     [
      "i",
@@ -12347,7 +12300,7 @@
      0.1755
     ]
    ],
-   "latency_ms": 59.1
+   "latency_ms": 62.3
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:14:0",
@@ -12366,15 +12319,11 @@
      0.3074
     ],
     [
-     "p",
-     0.2777
-    ],
-    [
      "c",
      0.2308
     ]
    ],
-   "latency_ms": 60.1
+   "latency_ms": 62.3
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:14:1",
@@ -12413,7 +12362,7 @@
      0.1796
     ]
    ],
-   "latency_ms": 62.1
+   "latency_ms": 64.6
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:15:0",
@@ -12444,7 +12393,7 @@
      0.1787
     ]
    ],
-   "latency_ms": 69.3
+   "latency_ms": 63.3
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:15:1",
@@ -12471,11 +12420,15 @@
      0.2381
     ],
     [
+     "i",
+     0.2186
+    ],
+    [
      "ā",
      0.2129
     ]
    ],
-   "latency_ms": 58.8
+   "latency_ms": 62.4
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:15:2",
@@ -12506,7 +12459,7 @@
      0.2129
     ]
    ],
-   "latency_ms": 152.5
+   "latency_ms": 63.4
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:15:3",
@@ -12525,7 +12478,7 @@
      0.2812
     ]
    ],
-   "latency_ms": 60.4
+   "latency_ms": 62.8
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:15:4",
@@ -12552,13 +12505,13 @@
      0.1872
     ]
    ],
-   "latency_ms": 59.0
+   "latency_ms": 63.5
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:15:5",
    "target": "ṭā",
    "top1": "ṭā",
-   "confidence": 0.3298,
+   "confidence": 0.3234,
    "top1_correct": true,
    "in_top20": true,
    "cer": 0.0,
@@ -12568,7 +12521,7 @@
    "candidates": [
     [
      "ṭā",
-     0.3298
+     0.3234
     ],
     [
      "ṭāl",
@@ -12579,7 +12532,7 @@
      0.2331
     ]
    ],
-   "latency_ms": 58.2
+   "latency_ms": 63.6
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:15:6",
@@ -12606,7 +12559,7 @@
      0.4279
     ]
    ],
-   "latency_ms": 59.4
+   "latency_ms": 62.3
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:15:7",
@@ -12625,19 +12578,19 @@
      0.4917
     ],
     [
-     "va",
-     0.4521
-    ],
-    [
      "a",
      0.4427
     ],
     [
      "p",
      0.4167
+    ],
+    [
+     "va",
+     0.4091
     ]
    ],
-   "latency_ms": 59.9
+   "latency_ms": 63.0
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:16:0",
@@ -12664,7 +12617,7 @@
      0.3502
     ]
    ],
-   "latency_ms": 61.7
+   "latency_ms": 65.4
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:16:1",
@@ -12687,7 +12640,7 @@
      0.4458
     ]
    ],
-   "latency_ms": 64.6
+   "latency_ms": 63.6
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:17:0",
@@ -12712,9 +12665,13 @@
     [
      "m",
      0.3394
+    ],
+    [
+     "mum",
+     0.3058
     ]
    ],
-   "latency_ms": 77.9
+   "latency_ms": 67.1
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:17:1",
@@ -12741,7 +12698,7 @@
      0.1979
     ]
    ],
-   "latency_ms": 64.4
+   "latency_ms": 65.3
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:18:0",
@@ -12784,7 +12741,7 @@
      0.2426
     ]
    ],
-   "latency_ms": 62.7
+   "latency_ms": 62.5
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:18:1",
@@ -12811,7 +12768,7 @@
      0.1745
     ]
    ],
-   "latency_ms": 65.1
+   "latency_ms": 63.2
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:19:0",
@@ -12832,9 +12789,13 @@
     [
      "āl",
      0.2271
+    ],
+    [
+     "a",
+     0.2021
     ]
    ],
-   "latency_ms": 63.6
+   "latency_ms": 69.6
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:19:1",
@@ -12885,7 +12846,7 @@
      0.2715
     ]
    ],
-   "latency_ms": 59.9
+   "latency_ms": 65.0
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:20:0",
@@ -12902,6 +12863,10 @@
     [
      "ni",
      0.2852
+    ],
+    [
+     "vai",
+     0.2457
     ],
     [
      "[?6]",
@@ -12932,10 +12897,6 @@
      0.2013
     ],
     [
-     "kuḻi",
-     0.2013
-    ],
-    [
      "v-",
      0.1993
     ],
@@ -12948,7 +12909,7 @@
      0.1949
     ]
    ],
-   "latency_ms": 60.0
+   "latency_ms": 60.1
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:20:1",
@@ -12975,7 +12936,7 @@
      0.1822
     ]
    ],
-   "latency_ms": 60.2
+   "latency_ms": 61.3
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:21:0",
@@ -12994,7 +12955,7 @@
      0.2504
     ]
    ],
-   "latency_ms": 60.0
+   "latency_ms": 61.8
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:21:1",
@@ -13037,7 +12998,7 @@
      0.2167
     ]
    ],
-   "latency_ms": 63.0
+   "latency_ms": 64.4
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:22:0",
@@ -13056,7 +13017,7 @@
      0.175
     ]
    ],
-   "latency_ms": 62.5
+   "latency_ms": 66.8
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:22:1",
@@ -13075,7 +13036,7 @@
      0.2439
     ]
    ],
-   "latency_ms": 60.0
+   "latency_ms": 62.5
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:22:2",
@@ -13114,7 +13075,7 @@
      0.1723
     ]
    ],
-   "latency_ms": 61.5
+   "latency_ms": 62.8
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:24:0",
@@ -13153,7 +13114,7 @@
      0.2
     ]
    ],
-   "latency_ms": 62.6
+   "latency_ms": 64.2
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:25:0",
@@ -13172,7 +13133,7 @@
      0.3521
     ]
    ],
-   "latency_ms": 61.2
+   "latency_ms": 63.9
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:26:0",
@@ -13203,7 +13164,7 @@
      0.2182
     ]
    ],
-   "latency_ms": 62.3
+   "latency_ms": 62.2
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:26:1",
@@ -13234,7 +13195,7 @@
      0.2292
     ]
    ],
-   "latency_ms": 61.9
+   "latency_ms": 64.1
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:26:2",
@@ -13273,7 +13234,7 @@
      0.3142
     ]
    ],
-   "latency_ms": 59.8
+   "latency_ms": 65.7
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:26:3",
@@ -13312,7 +13273,7 @@
      0.2196
     ]
    ],
-   "latency_ms": 61.9
+   "latency_ms": 68.4
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:27:0",
@@ -13326,7 +13287,7 @@
    "hard": true,
    "age_set": false,
    "candidates": [],
-   "latency_ms": 60.0
+   "latency_ms": 60.8
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:27:1",
@@ -13340,7 +13301,7 @@
    "hard": true,
    "age_set": false,
    "candidates": [],
-   "latency_ms": 59.2
+   "latency_ms": 58.1
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:28:0",
@@ -13360,14 +13321,14 @@
     ],
     [
      "ru",
-     0.3
+     0.315
     ],
     [
      "r",
      0.2187
     ]
    ],
-   "latency_ms": 63.4
+   "latency_ms": 62.1
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:29:0",
@@ -13402,7 +13363,7 @@
      0.1685
     ]
    ],
-   "latency_ms": 60.5
+   "latency_ms": 62.1
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:29:1",
@@ -13421,27 +13382,27 @@
      0.3396
     ]
    ],
-   "latency_ms": 63.1
+   "latency_ms": 66.1
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:29:2",
    "target": "A",
-   "top1": "a",
-   "confidence": 0.2113,
-   "top1_correct": true,
+   "top1": "c",
+   "confidence": 0.2072,
+   "top1_correct": false,
    "in_top20": true,
-   "cer": 0.0,
+   "cer": 1.0,
    "abstained": false,
    "hard": true,
    "age_set": false,
    "candidates": [
     [
-     "a",
-     0.2113
-    ],
-    [
      "c",
      0.2072
+    ],
+    [
+     "a",
+     0.1924
     ],
     [
      "ā",
@@ -13452,7 +13413,7 @@
      0.1697
     ]
    ],
-   "latency_ms": 62.6
+   "latency_ms": 63.3
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:30:0",
@@ -13479,7 +13440,7 @@
      0.3
     ]
    ],
-   "latency_ms": 62.8
+   "latency_ms": 63.0
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:30:1",
@@ -13514,7 +13475,7 @@
      0.2154
     ]
    ],
-   "latency_ms": 51.9
+   "latency_ms": 53.3
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:30:2",
@@ -13577,7 +13538,7 @@
      0.204
     ]
    ],
-   "latency_ms": 48.7
+   "latency_ms": 47.7
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0018:30:3",
@@ -13596,7 +13557,7 @@
      0.2613
     ]
    ],
-   "latency_ms": 44.4
+   "latency_ms": 45.1
   },
   {
    "id": "DHARMA_INStfaSIIv03p0i0108:B.7:0",
@@ -13623,58 +13584,7 @@
      0.5144
     ]
    ],
-   "latency_ms": 64.3
-  },
-  {
-   "id": "DHARMA_INStfaSIIv04p0i0153:6:0",
-   "target": "r tar",
-   "top1": "-p-",
-   "confidence": 0.3464,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 1.0,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "-p-",
-     0.3464
-    ],
-    [
-     "arm",
-     0.3346
-    ],
-    [
-     "ṉ-āṉa",
-     0.3115
-    ],
-    [
-     "haṉ",
-     0.2606
-    ],
-    [
-     "unā",
-     0.2577
-    ],
-    [
-     "taṉ",
-     0.2522
-    ],
-    [
-     "eḻ",
-     0.2474
-    ],
-    [
-     "tar",
-     0.2474
-    ],
-    [
-     "ṉ v",
-     0.2423
-    ]
-   ],
-   "latency_ms": 36.3
+   "latency_ms": 69.2
   },
   {
    "id": "DHARMA_INStfaSIIv04p0i0159:4:0",
@@ -13705,7 +13615,7 @@
      0.2
     ]
    ],
-   "latency_ms": 54.0
+   "latency_ms": 56.5
   },
   {
    "id": "DHARMA_INStfaSIIv04p0i0159:6:0",
@@ -13736,7 +13646,7 @@
      0.2074
     ]
    ],
-   "latency_ms": 54.8
+   "latency_ms": 58.2
   },
   {
    "id": "DHARMA_INStfaSIIv04p0i0159:6:1",
@@ -13779,291 +13689,84 @@
      0.1938
     ]
    ],
-   "latency_ms": 57.4
+   "latency_ms": 52.8
   },
   {
-   "id": "DHARMA_INStfaSIIv19p0i0292:1:0",
-   "target": "ra-kēcari-paṉmakku yāṇṭu 10",
-   "top1": "rakēsari",
-   "confidence": 0.5528,
+   "id": "DHARMA_INStfaSIIv38p0i0139:1:0",
+   "target": "svasti śrī",
+   "top1": "ti śrī",
+   "confidence": 0.5591,
    "top1_correct": false,
    "in_top20": false,
-   "cer": 0.72,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "rakēsari",
-     0.5528
-    ],
-    [
-     "rakēcari-paṉ",
-     0.5173
-    ],
-    [
-     "ra-kēsari-pa",
-     0.516
-    ],
-    [
-     "ra-kēcari-pa",
-     0.516
-    ],
-    [
-     "ra-kesari-pa",
-     0.516
-    ],
-    [
-     "‡ra-kēsari-p",
-     0.513
-    ],
-    [
-     "rakēcari‡-pa",
-     0.5103
-    ],
-    [
-     "rakēcari-pan",
-     0.5103
-    ]
-   ],
-   "latency_ms": 57.4
-  },
-  {
-   "id": "DHARMA_INStfaSIIv19p0i0292:1:1",
-   "target": "ṭikāvil mahā",
-   "top1": "a-cōḻa",
-   "confidence": 0.2868,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 0.9091,
+   "cer": 0.4444,
    "abstained": false,
    "hard": false,
    "age_set": false,
    "candidates": [
     [
-     "a-cōḻa",
-     0.2868
+     "ti śrī",
+     0.5591
     ],
     [
-     "-cōḻa-",
-     0.2812
+     "arn=tu",
+     0.4136
     ],
     [
-     "u mahā",
-     0.2761
+     "ārattu",
+     0.4061
     ],
     [
-     "i mahā",
-     0.2729
+     "śrī .",
+     0.4045
     ],
     [
-     "endra-",
-     0.2625
+     "ṭṭaḷai",
+     0.4
     ],
     [
-     "valūr-",
-     0.258
+     "avaṉam",
+     0.4
     ],
     [
-     "ṭṭattu",
-     0.2354
+     "raṇṭum",
+     0.3983
     ],
     [
-     "ṭṭattu-k",
-     0.2229
+     "irācar",
+     0.3864
     ],
     [
-     "mahā-",
-     0.2167
+     "iyai-t",
+     0.3864
+    ],
+    [
+     "ṭaiyār",
+     0.3776
+    ],
+    [
+     "ētaṉam",
+     0.3723
+    ],
+    [
+     "ākiya",
+     0.3656
+    ],
+    [
+     "vātita",
+     0.3639
+    ],
+    [
+     "?2] -t",
+     0.3511
     ]
    ],
-   "latency_ms": 64.1
+   "latency_ms": 29.8
   },
   {
-   "id": "DHARMA_INStfaSIIv19p0i0292:1:2",
-   "target": "varai tiru-vayiṟu vāytta ma",
-   "top1": "varkku yāṇṭu",
-   "confidence": 0.2562,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 0.75,
-   "abstained": false,
-   "hard": true,
-   "age_set": false,
-   "candidates": [
-    [
-     "varkku yāṇṭu",
-     0.2562
-    ],
-    [
-     "vark=ku yāṇṭu",
-     0.2108
-    ],
-    [
-     "aranallūr ki",
-     0.1971
-    ]
-   ],
-   "latency_ms": 68.8
-  },
-  {
-   "id": "DHARMA_INStfaSIIv19p0i0292:2:0",
-   "target": "ṉ mātēvaṭikaḷār-āna cem",
-   "top1": "ṉār ari",
-   "confidence": 0.2538,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 0.8095,
-   "abstained": false,
-   "hard": false,
-   "age_set": false,
-   "candidates": [
-    [
-     "ṉār ari",
-     0.2538
-    ],
-    [
-     "ṉāṉa karuvi",
-     0.2488
-    ],
-    [
-     "ḷār pirā",
-     0.2483
-    ],
-    [
-     "uṭaiyār cem",
-     0.2369
-    ],
-    [
-     "tta cem",
-     0.2285
-    ],
-    [
-     "aḷ ācci cem",
-     0.2271
-    ],
-    [
-     "ṉār mā-tēva",
-     0.2196
-    ],
-    [
-     "ṉ cevan",
-     0.2118
-    ],
-    [
-     "ḷār piḷḷai",
-     0.2093
-    ],
-    [
-     "āṉa śrī-cem",
-     0.2051
-    ],
-    [
-     "ṉār śrī-kaṇ",
-     0.2
-    ],
-    [
-     "ttīśvaram-u",
-     0.1899
-    ]
-   ],
-   "latency_ms": 68.4
-  },
-  {
-   "id": "DHARMA_INStfaSIIv19p0i0292:2:1",
-   "target": "p paṭaiyāluḷḷa śrī",
-   "top1": "āṟkum ik-",
-   "confidence": 0.2292,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 0.9375,
-   "abstained": false,
-   "hard": false,
-   "age_set": false,
-   "candidates": [
-    [
-     "āṟkum ik-",
-     0.2292
-    ],
-    [
-     "kku ivai",
-     0.2229
-    ],
-    [
-     "aṉmi poṟ-",
-     0.2167
-    ],
-    [
-     "pākkattu",
-     0.2104
-    ],
-    [
-     "ahādevar",
-     0.1903
-    ],
-    [
-     "oṉṟu mēṟ",
-     0.1896
-    ],
-    [
-     "t-tiru-k-",
-     0.1886
-    ],
-    [
-     "niyāyam",
-     0.1875
-    ],
-    [
-     "iṭṭu mēl",
-     0.1875
-    ]
-   ],
-   "latency_ms": 72.1
-  },
-  {
-   "id": "DHARMA_INStfaSIIv19p0i0292:2:2",
-   "target": "śrī-vimāṉam amaippi",
-   "top1": "viṇṇappañ cey",
-   "confidence": 0.248,
-   "top1_correct": false,
-   "in_top20": false,
-   "cer": 0.7778,
-   "abstained": false,
-   "hard": false,
-   "age_set": false,
-   "candidates": [
-    [
-     "viṇṇappañ cey",
-     0.248
-    ],
-    [
-     "ḷai tavirt",
-     0.2134
-    ],
-    [
-     "aṭṭaṉ eḻut",
-     0.2033
-    ],
-    [
-     "aiyāṉ eḻut",
-     0.2033
-    ],
-    [
-     "āyaka eḻut",
-     0.2024
-    ],
-    [
-     "aṭi tavirn",
-     0.2009
-    ]
-   ],
-   "latency_ms": 61.6
-  },
-  {
-   "id": "DHARMA_INStfaSIIv19p0i0292:5:0",
-   "target": "vara",
-   "top1": "ku",
-   "confidence": 0.5812,
+   "id": "DHARMA_INStfaSIIv38p0i0139:1:1",
+   "target": "lviyum",
+   "top1": "taṉ",
+   "confidence": 0.2934,
    "top1_correct": false,
    "in_top20": false,
    "cer": 1.0,
@@ -14072,73 +13775,96 @@
    "age_set": false,
    "candidates": [
     [
-     "ku",
-     0.5812
+     "taṉ",
+     0.2934
     ],
     [
-     "cāvā",
-     0.4301
+     "[?3]",
+     0.2479
     ],
     [
-     "ve",
-     0.3732
+     "-p",
+     0.23
     ],
     [
-     "tāḻi",
-     0.3728
+     "avar",
+     0.2237
     ],
     [
-     "[?7]",
-     0.3681
+     "ivar",
+     0.2227
     ],
     [
-     "va",
-     0.3522
+     "akar",
+     0.2135
     ],
     [
-     "na",
-     0.3269
+     "la-p",
+     0.2088
     ],
     [
-     "i",
-     0.2894
+     "li-p",
+     0.2049
+    ]
+   ],
+   "latency_ms": 61.4
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:2:0",
+   "target": "taṉ",
+   "top1": "aṉ",
+   "confidence": 0.3163,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.3333,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "aṉ",
+     0.3163
     ],
     [
-     "oru",
-     0.2844
+     "tu",
+     0.278
     ],
     [
-     "vait",
-     0.2792
+     "p",
+     0.2561
     ],
     [
-     "paṭi",
-     0.2678
-    ],
-    [
-     "vai",
-     0.262
-    ],
-    [
-     "ca",
-     0.2609
+     "3]",
+     0.2498
     ],
     [
      "ar",
-     0.2609
+     0.2246
     ],
     [
-     "aṭ",
-     0.2607
+     "ip",
+     0.2226
+    ],
+    [
+     "ta",
+     0.2161
+    ],
+    [
+     "ai",
+     0.2071
+    ],
+    [
+     "-p",
+     0.2015
     ]
    ],
-   "latency_ms": 60.0
+   "latency_ms": 60.7
   },
   {
-   "id": "DHARMA_INStfaSIIv19p0i0292:5:3",
-   "target": "Ippo",
-   "top1": "kaḻa",
-   "confidence": 0.3578,
+   "id": "DHARMA_INStfaSIIv38p0i0139:2:1",
+   "target": "āki iṉpu",
+   "top1": "niccavi",
+   "confidence": 0.3191,
    "top1_correct": false,
    "in_top20": false,
    "cer": 1.0,
@@ -14147,33 +13873,53 @@
    "age_set": false,
    "candidates": [
     [
-     "kaḻa",
-     0.3578
+     "niccavi",
+     0.3191
     ],
     [
-     "kaḻ",
-     0.3007
+     "āki i",
+     0.3066
     ],
     [
-     "ka",
-     0.284
+     "-iṉpu",
+     0.3016
     ],
     [
-     "ōr",
-     0.2439
+     "[?] ā",
+     0.2816
     ],
     [
-     "mu-",
-     0.2339
+     "ōṅkeḻil",
+     0.2668
+    ],
+    [
+     "v-ūḻiyu",
+     0.2374
+    ],
+    [
+     "deviy",
+     0.2246
+    ],
+    [
+     "cēvakar",
+     0.2245
+    ],
+    [
+     "pirit",
+     0.2166
+    ],
+    [
+     "peṟ",
+     0.2012
     ]
    ],
-   "latency_ms": 59.4
+   "latency_ms": 62.3
   },
   {
-   "id": "DHARMA_INStfaSIIv19p0i0292:7:0",
-   "target": "U",
-   "top1": "u",
-   "confidence": 0.4419,
+   "id": "DHARMA_INStfaSIIv38p0i0139:3:0",
+   "target": "vā",
+   "top1": "vā",
+   "confidence": 0.4765,
    "top1_correct": true,
    "in_top20": true,
    "cer": 0.0,
@@ -14182,43 +13928,1647 @@
    "age_set": false,
    "candidates": [
     [
-     "u",
-     0.4419
+     "vā",
+     0.4765
     ],
     [
-     "mā⌈",
-     0.294
+     "v",
+     0.3191
     ],
     [
-     "p",
-     0.2852
-    ],
-    [
-     "t",
-     0.2748
+     "vē",
+     0.2801
     ],
     [
      "ā",
-     0.2541
+     0.2778
+    ],
+    [
+     "cem",
+     0.2026
+    ],
+    [
+     "c",
+     0.1897
+    ],
+    [
+     "vik",
+     0.1831
+    ]
+   ],
+   "latency_ms": 62.1
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:3:1",
+   "target": "pākkaiyu",
+   "top1": "amum",
+   "confidence": 0.3195,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.875,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "amum",
+     0.3195
+    ],
+    [
+     "iyum",
+     0.3195
+    ],
+    [
+     "yum",
+     0.3154
+    ],
+    [
+     "vaṇṇa",
+     0.2154
+    ],
+    [
+     "teru",
+     0.1999
+    ],
+    [
+     "aṟai",
+     0.1963
+    ],
+    [
+     "cūḻ",
+     0.1878
+    ],
+    [
+     "mayil",
+     0.1853
+    ],
+    [
+     "taṉ",
+     0.1809
+    ],
+    [
+     "ukku",
+     0.1743
+    ],
+    [
+     "maru",
+     0.172
+    ]
+   ],
+   "latency_ms": 59.4
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:3:2",
+   "target": "m",
+   "top1": "m",
+   "confidence": 0.4695,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "m",
+     0.4695
+    ],
+    [
+     "ku",
+     0.2221
+    ],
+    [
+     "u",
+     0.2178
     ],
     [
      "n",
-     0.2533
+     0.2121
     ],
     [
-     "k",
-     0.2469
+     "ē",
+     0.2057
     ],
     [
-     "e",
-     0.2406
+     "a",
+     0.2057
     ],
     [
-     "100",
-     0.2344
+     "r",
+     0.2002
+    ]
+   ],
+   "latency_ms": 63.5
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:4:0",
+   "target": "kaṭal ī",
+   "top1": "pari-t",
+   "confidence": 0.234,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.8333,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "pari-t",
+     0.234
+    ],
+    [
+     "kaṭal",
+     0.2176
+    ],
+    [
+     "taṇ",
+     0.2064
+    ],
+    [
+     "nāḻi",
+     0.2043
+    ],
+    [
+     "tar",
+     0.2002
+    ],
+    [
+     "taṇṭāṟ",
+     0.2
+    ],
+    [
+     "paṇ",
+     0.1979
+    ],
+    [
+     "ttar",
+     0.1979
+    ],
+    [
+     "nūṟṟu",
+     0.1915
+    ]
+   ],
+   "latency_ms": 64.0
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:4:1",
+   "target": "l",
+   "top1": "l",
+   "confidence": 0.7641,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "l",
+     0.7641
+    ],
+    [
+     "r",
+     0.2799
+    ],
+    [
+     "u",
+     0.2629
+    ],
+    [
+     "t",
+     0.2629
+    ],
+    [
+     "lum",
+     0.2611
+    ],
+    [
+     "-t",
+     0.2543
+    ],
+    [
+     "ṉ",
+     0.2396
+    ],
+    [
+     "m",
+     0.2273
+    ]
+   ],
+   "latency_ms": 63.4
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:5:0",
+   "target": "Intiraṉ āramu",
+   "top1": "in=ti",
+   "confidence": 0.3533,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.75,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "in=ti",
+     0.3533
+    ],
+    [
+     "āṅkavar",
+     0.3397
+    ],
+    [
+     "in=tiraṉ",
+     0.3092
+    ],
+    [
+     "intiraṉ",
+     0.3058
+    ],
+    [
+     "āṅkavan",
+     0.2932
+    ],
+    [
+     "payaṅkoṭu",
+     0.2801
+    ],
+    [
+     "vicaiyā",
+     0.2448
+    ],
+    [
+     "eṟi-paṭai-k",
+     0.2425
+    ],
+    [
+     "naṭakka-k",
+     0.2278
+    ],
+    [
+     "pāmpaṇaiy",
+     0.2261
+    ],
+    [
+     "camaittu",
+     0.2189
+    ],
+    [
+     "eṟi paṭai-k",
+     0.2134
+    ],
+    [
+     "[?] mā-p",
+     0.2125
+    ],
+    [
+     "naṇṇaṟk’",
+     0.2047
+    ],
+    [
+     "tiru-non=tā",
+     0.2004
     ]
    ],
    "latency_ms": 61.1
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:5:1",
+   "target": "teṇṭirai y-īḻa-ma",
+   "top1": "in=ti",
+   "confidence": 0.3507,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.9375,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "in=ti",
+     0.3507
+    ],
+    [
+     "amiḻ ma",
+     0.3177
+    ],
+    [
+     "intiraṉ",
+     0.3032
+    ],
+    [
+     "āṅkavan",
+     0.2903
+    ],
+    [
+     "payaṅkoṭu",
+     0.2772
+    ],
+    [
+     "eṟi-paṭ",
+     0.2478
+    ],
+    [
+     "naṭakka-k",
+     0.2262
+    ],
+    [
+     "camaittu",
+     0.2173
+    ],
+    [
+     "eṟi paṭ",
+     0.2124
+    ]
+   ],
+   "latency_ms": 63.5
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:5:2",
+   "target": "Eṟipa",
+   "top1": "eṟi",
+   "confidence": 0.4827,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.4,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "eṟi",
+     0.4827
+    ],
+    [
+     "aṭa",
+     0.2247
+    ],
+    [
+     "paṉ",
+     0.2057
+    ],
+    [
+     "poṉ",
+     0.2009
+    ],
+    [
+     "muṟ",
+     0.1953
+    ],
+    [
+     "pām",
+     0.1884
+    ],
+    [
+     "ceṅ",
+     0.1882
+    ],
+    [
+     "por",
+     0.1872
+    ],
+    [
+     "pāṇ",
+     0.1849
+    ],
+    [
+     "pay",
+     0.1849
+    ],
+    [
+     "mut",
+     0.1846
+    ],
+    [
+     "cam",
+     0.1831
+    ],
+    [
+     "naṇ",
+     0.1826
+    ]
+   ],
+   "latency_ms": 61.7
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:6:0",
+   "target": "ai",
+   "top1": "i",
+   "confidence": 0.5125,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.5,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "i",
+     0.5125
+    ],
+    [
+     "a",
+     0.2271
+    ],
+    [
+     "u",
+     0.1958
+    ]
+   ],
+   "latency_ms": 63.7
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:11:0",
+   "target": "ṇamum",
+   "top1": "ṇamum",
+   "confidence": 0.4075,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "ṇamum",
+     0.4075
+    ],
+    [
+     "yum",
+     0.3034
+    ],
+    [
+     "ṉai",
+     0.2293
+    ],
+    [
+     "ṉar",
+     0.2156
+    ],
+    [
+     "ṟai",
+     0.2101
+    ],
+    [
+     "kai",
+     0.1988
+    ],
+    [
+     "ṭūr",
+     0.1975
+    ],
+    [
+     "mai",
+     0.1935
+    ],
+    [
+     "rpu",
+     0.1861
+    ],
+    [
+     "āli",
+     0.183
+    ],
+    [
+     "ñci",
+     0.1797
+    ],
+    [
+     "mpi",
+     0.1797
+    ],
+    [
+     "m",
+     0.1733
+    ],
+    [
+     "yil",
+     0.1733
+    ]
+   ],
+   "latency_ms": 61.4
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:12:0",
+   "target": "-p pa",
+   "top1": "-p",
+   "confidence": 0.4833,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.5,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "-p",
+     0.4833
+    ],
+    [
+     "v",
+     0.3083
+    ],
+    [
+     "-t",
+     0.2146
+    ],
+    [
+     "ttu",
+     0.2021
+    ],
+    [
+     "pa",
+     0.1988
+    ],
+    [
+     "ya",
+     0.1875
+    ]
+   ],
+   "latency_ms": 61.5
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:13:0",
+   "target": "ṭa",
+   "top1": "a",
+   "confidence": 0.256,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 0.5,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "a",
+     0.256
+    ],
+    [
+     "ṭa",
+     0.2413
+    ],
+    [
+     "m",
+     0.209
+    ],
+    [
+     "ā",
+     0.1949
+    ],
+    [
+     "r",
+     0.1925
+    ],
+    [
+     "um",
+     0.1885
+    ],
+    [
+     "u",
+     0.1797
+    ]
+   ],
+   "latency_ms": 59.0
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:15:0",
+   "target": "ṟa",
+   "top1": "ka-",
+   "confidence": 0.4958,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 1.0,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "ka-",
+     0.4958
+    ],
+    [
+     "r-",
+     0.4208
+    ],
+    [
+     "ṟa",
+     0.3729
+    ],
+    [
+     "ka",
+     0.3527
+    ],
+    [
+     "-",
+     0.2114
+    ],
+    [
+     "i",
+     0.1875
+    ],
+    [
+     "r",
+     0.1712
+    ]
+   ],
+   "latency_ms": 62.4
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:15:1",
+   "target": "k",
+   "top1": "k",
+   "confidence": 0.6286,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "k",
+     0.6286
+    ],
+    [
+     "k=",
+     0.3229
+    ],
+    [
+     "ṅ",
+     0.261
+    ],
+    [
+     "mm",
+     0.2428
+    ],
+    [
+     "a",
+     0.2354
+    ],
+    [
+     "i-t",
+     0.226
+    ],
+    [
+     "v",
+     0.2152
+    ],
+    [
+     "p",
+     0.207
+    ]
+   ],
+   "latency_ms": 63.5
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:16:0",
+   "target": "ḷi",
+   "top1": "ḷi",
+   "confidence": 0.301,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "ḷi",
+     0.301
+    ],
+    [
+     "m",
+     0.271
+    ],
+    [
+     "v",
+     0.214
+    ],
+    [
+     "mam",
+     0.1988
+    ],
+    [
+     "p",
+     0.1925
+    ],
+    [
+     "-",
+     0.1797
+    ],
+    [
+     "n",
+     0.1797
+    ],
+    [
+     "i",
+     0.178
+    ]
+   ],
+   "latency_ms": 60.6
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:20:0",
+   "target": "ka",
+   "top1": "k",
+   "confidence": 0.5316,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.5,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "k",
+     0.5316
+    ],
+    [
+     "u",
+     0.3086
+    ],
+    [
+     "r",
+     0.266
+    ],
+    [
+     "ṉ",
+     0.2509
+    ],
+    [
+     "i",
+     0.2328
+    ],
+    [
+     "a",
+     0.2033
+    ],
+    [
+     "m",
+     0.1908
+    ]
+   ],
+   "latency_ms": 62.0
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:23:0",
+   "target": "pa",
+   "top1": "a",
+   "confidence": 0.3307,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.5,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "a",
+     0.3307
+    ],
+    [
+     "i",
+     0.3293
+    ]
+   ],
+   "latency_ms": 61.5
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:23:1",
+   "target": "ka",
+   "top1": "ka",
+   "confidence": 0.7707,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "ka",
+     0.7707
+    ],
+    [
+     "ā",
+     0.1897
+    ],
+    [
+     "ṇ",
+     0.1859
+    ],
+    [
+     "p",
+     0.1697
+    ]
+   ],
+   "latency_ms": 59.6
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:25:0",
+   "target": "ru",
+   "top1": "ṭu",
+   "confidence": 0.4396,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.5,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "ṭu",
+     0.4396
+    ],
+    [
+     "u",
+     0.2271
+    ],
+    [
+     "ṭ",
+     0.225
+    ],
+    [
+     "ṭal",
+     0.2062
+    ],
+    [
+     "ṭai",
+     0.2062
+    ],
+    [
+     "ṅ",
+     0.2055
+    ],
+    [
+     "l",
+     0.205
+    ],
+    [
+     "r",
+     0.202
+    ]
+   ],
+   "latency_ms": 63.0
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:25:1",
+   "target": "ṭ",
+   "top1": "-k",
+   "confidence": 0.514,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 2.0,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "-k",
+     0.514
+    ],
+    [
+     "ṭ",
+     0.514
+    ],
+    [
+     "]",
+     0.4021
+    ],
+    [
+     "m",
+     0.3206
+    ],
+    [
+     "a",
+     0.2533
+    ],
+    [
+     "tta",
+     0.225
+    ],
+    [
+     "ṇ",
+     0.2204
+    ],
+    [
+     "ḻ",
+     0.2141
+    ],
+    [
+     "r",
+     0.2013
+    ],
+    [
+     "ṅ",
+     0.2013
+    ]
+   ],
+   "latency_ms": 60.4
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:25:2",
+   "target": "koṇṭa",
+   "top1": "koṇṭa",
+   "confidence": 0.559,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": false,
+   "age_set": false,
+   "candidates": [
+    [
+     "koṇṭa",
+     0.559
+    ],
+    [
+     "ṇṭa",
+     0.4811
+    ],
+    [
+     "· .",
+     0.4763
+    ],
+    [
+     "śrī",
+     0.4642
+    ],
+    [
+     "ṭa",
+     0.4326
+    ],
+    [
+     "=ta",
+     0.4223
+    ]
+   ],
+   "latency_ms": 63.1
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:28:0",
+   "target": "la",
+   "top1": "la",
+   "confidence": 0.3915,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "la",
+     0.3915
+    ],
+    [
+     "ṟṟi",
+     0.3191
+    ],
+    [
+     "r",
+     0.266
+    ],
+    [
+     "n",
+     0.2566
+    ],
+    [
+     "-",
+     0.2544
+    ],
+    [
+     "t",
+     0.2504
+    ],
+    [
+     "ṇ",
+     0.2255
+    ],
+    [
+     "ṇṇi",
+     0.2053
+    ],
+    [
+     "ṇi",
+     0.2047
+    ]
+   ],
+   "latency_ms": 64.4
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:40:1",
+   "target": "ṉa",
+   "top1": "m",
+   "confidence": 0.2792,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "m",
+     0.2792
+    ],
+    [
+     "v",
+     0.2423
+    ],
+    [
+     "-",
+     0.2292
+    ],
+    [
+     "k",
+     0.2026
+    ]
+   ],
+   "latency_ms": 64.1
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:40:2",
+   "target": "r",
+   "top1": "r",
+   "confidence": 0.347,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "r",
+     0.347
+    ],
+    [
+     "u",
+     0.3255
+    ],
+    [
+     "i",
+     0.284
+    ],
+    [
+     "a",
+     0.2596
+    ]
+   ],
+   "latency_ms": 62.3
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:41:0",
+   "target": "Iru",
+   "top1": "nā-",
+   "confidence": 0.436,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 1.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "nā-",
+     0.436
+    ],
+    [
+     "iru",
+     0.4325
+    ],
+    [
+     "ēḻu",
+     0.3959
+    ],
+    [
+     "iru-",
+     0.3751
+    ],
+    [
+     "i",
+     0.3549
+    ],
+    [
+     "oru",
+     0.3424
+    ],
+    [
+     "nā",
+     0.3359
+    ]
+   ],
+   "latency_ms": 60.2
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:41:1",
+   "target": "pa",
+   "top1": "a",
+   "confidence": 0.3646,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.5,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "a",
+     0.3646
+    ],
+    [
+     "u",
+     0.1938
+    ],
+    [
+     "o",
+     0.1771
+    ]
+   ],
+   "latency_ms": 64.4
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:43:0",
+   "target": "ci",
+   "top1": "k",
+   "confidence": 0.365,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "k",
+     0.365
+    ],
+    [
+     "a",
+     0.3263
+    ],
+    [
+     "p",
+     0.3215
+    ],
+    [
+     "v",
+     0.3153
+    ],
+    [
+     "t",
+     0.3114
+    ],
+    [
+     "m",
+     0.309
+    ],
+    [
+     "[",
+     0.3025
+    ],
+    [
+     "āka",
+     0.2941
+    ],
+    [
+     "n",
+     0.2879
+    ],
+    [
+     "ney",
+     0.273
+    ]
+   ],
+   "latency_ms": 61.4
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:43:1",
+   "target": "vā",
+   "top1": "ā",
+   "confidence": 0.25,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.5,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "ā",
+     0.25
+    ],
+    [
+     "k",
+     0.1667
+    ]
+   ],
+   "latency_ms": 66.3
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:44:0",
+   "target": "ṭu",
+   "top1": "u",
+   "confidence": 0.3521,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.5,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "u",
+     0.3521
+    ],
+    [
+     "y",
+     0.2187
+    ],
+    [
+     "a",
+     0.2179
+    ],
+    [
+     "-",
+     0.2026
+    ],
+    [
+     "ḻ",
+     0.1902
+    ]
+   ],
+   "latency_ms": 66.1
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:47:3",
+   "target": "kai",
+   "top1": "m",
+   "confidence": 0.2778,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "m",
+     0.2778
+    ],
+    [
+     "a",
+     0.2629
+    ],
+    [
+     "u",
+     0.2072
+    ],
+    [
+     "kum",
+     0.1908
+    ],
+    [
+     "ku",
+     0.1822
+    ]
+   ],
+   "latency_ms": 62.4
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:48:1",
+   "target": "ṇiyum",
+   "top1": "ṇi",
+   "confidence": 0.471,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 0.6,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "ṇi",
+     0.471
+    ],
+    [
+     "ṇiyum",
+     0.396
+    ],
+    [
+     "rar",
+     0.2394
+    ],
+    [
+     "ṇi nā",
+     0.236
+    ],
+    [
+     "vūr",
+     0.2344
+    ],
+    [
+     "maṉ",
+     0.199
+    ],
+    [
+     "ici",
+     0.172
+    ]
+   ],
+   "latency_ms": 63.1
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:50:0",
+   "target": "nā",
+   "top1": "nā",
+   "confidence": 0.4724,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "nā",
+     0.4724
+    ],
+    [
+     "iru",
+     0.4532
+    ],
+    [
+     "n",
+     0.3835
+    ],
+    [
+     "u",
+     0.2915
+    ],
+    [
+     "oru",
+     0.2887
+    ],
+    [
+     "ēḻu",
+     0.2868
+    ],
+    [
+     "ā",
+     0.284
+    ]
+   ],
+   "latency_ms": 62.5
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:50:1",
+   "target": "kucavaṉukkum",
+   "top1": "tiru-p",
+   "confidence": 0.3106,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.9167,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "tiru-p",
+     0.3106
+    ],
+    [
+     "paṭṭiyum",
+     0.2807
+    ],
+    [
+     "nāccimā",
+     0.2792
+    ],
+    [
+     "poṉ arai",
+     0.2751
+    ],
+    [
+     "ceṅkatir",
+     0.2712
+    ],
+    [
+     "tevaraṭ",
+     0.2683
+    ],
+    [
+     "āka eṇṇai",
+     0.2574
+    ],
+    [
+     "veṇpā",
+     0.2492
+    ],
+    [
+     "mattaḷa",
+     0.2457
+    ],
+    [
+     "veṟuṅkāy",
+     0.2386
+    ],
+    [
+     "kaṟikkum",
+     0.2344
+    ],
+    [
+     "mañcaḷ",
+     0.2323
+    ],
+    [
+     "maṉaiyum",
+     0.2323
+    ],
+    [
+     "kaṇakk-",
+     0.2323
+    ],
+    [
+     "nampiyā",
+     0.2316
+    ]
+   ],
+   "latency_ms": 61.3
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:50:2",
+   "target": "kki vāḷ",
+   "top1": "kum·",
+   "confidence": 0.2072,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.8333,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "kum·",
+     0.2072
+    ],
+    [
+     "kkaṉ",
+     0.2061
+    ],
+    [
+     "ṇṭu",
+     0.2026
+    ],
+    [
+     "eṇpā",
+     0.2008
+    ],
+    [
+     "kkum",
+     0.1947
+    ],
+    [
+     "ṇi .",
+     0.1947
+    ],
+    [
+     "avum",
+     0.1947
+    ],
+    [
+     "ṅkaḷ",
+     0.1908
+    ],
+    [
+     "vēli",
+     0.1733
+    ]
+   ],
+   "latency_ms": 63.2
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:51:3",
+   "target": "Aṭikaḷ mā",
+   "top1": "uttir",
+   "confidence": 0.3436,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "uttir",
+     0.3436
+    ],
+    [
+     "aviṭṭ",
+     0.3055
+    ],
+    [
+     "panmā",
+     0.2984
+    ],
+    [
+     "tayir",
+     0.298
+    ],
+    [
+     "patta",
+     0.2965
+    ],
+    [
+     "viṟaku",
+     0.278
+    ],
+    [
+     "ukacca",
+     0.273
+    ],
+    [
+     "iru-ś",
+     0.2691
+    ],
+    [
+     "aṉaiccu",
+     0.2653
+    ],
+    [
+     "arici",
+     0.2382
+    ],
+    [
+     "pirām",
+     0.2259
+    ]
+   ],
+   "latency_ms": 62.9
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:54:0",
+   "target": "ka",
+   "top1": "k",
+   "confidence": 0.4278,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 0.5,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "k",
+     0.4278
+    ],
+    [
+     "ka",
+     0.3475
+    ],
+    [
+     "a",
+     0.3025
+    ]
+   ],
+   "latency_ms": 68.1
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:54:1",
+   "target": "tū",
+   "top1": "tū",
+   "confidence": 0.4566,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": false,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "tū",
+     0.4566
+    ],
+    [
+     "ū",
+     0.3726
+    ],
+    [
+     "p",
+     0.2612
+    ],
+    [
+     "a",
+     0.239
+    ],
+    [
+     "e",
+     0.2357
+    ]
+   ],
+   "latency_ms": 68.6
   },
   {
    "id": "DHARMA_INStfaSIIv38p0i0140:37:0",
@@ -14265,7 +15615,7 @@
      0.2043
     ]
    ],
-   "latency_ms": 60.9
+   "latency_ms": 63.5
   }
  ]
 }
