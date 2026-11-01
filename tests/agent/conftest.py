@@ -12,8 +12,7 @@ from strands.models.model import Model
 
 os.environ.setdefault("EZHUTHU_FIXTURES", "1")
 os.environ.setdefault("EZHUTHU_DECIDER", "off")
-os.environ.setdefault("EZHUTHU_NO_CACHE", "1")
-os.environ.pop("EZHUTHU_LIVE", None)
+os.environ.setdefault("EZHUTHU_NO_CACHE", "0" if os.environ.get("EZHUTHU_LIVE") == "1" else "1")
 
 
 class ScriptedModel(Model):
