@@ -1,0 +1,9 @@
+# Manual review of ontology/wikidata/snapshot.json (2026-11-02, onto team).
+# reject: QIDs that matched a label form but are not the entity. accept: reviewed picks among candidates.
+reject:
+  ez:place/vijayamangalam: {qid: Q369303, reason: "matched alias of Vijayapuri, a different village"}
+  ez:place/tirupporur: {qid: Q7785417, reason: "assembly constituency, not the town"}
+  ez:temple/kancipuram-kailasanatha: {qid: Q97481043, reason: "undescribed item also matched for Pullalur; not verifiable as the Kanchipuram temple"}
+  ez:temple/pullalur-kailasanatha: {qid: Q97481043, reason: "same undescribed item as above; not verifiable"}
+accept:
+  ez:dynasty/vijayanagara: {qid: Q167639, reason: "Vijayanagara Empire; other candidates were architecture styles"}

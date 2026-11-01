@@ -1,0 +1,1038 @@
+{
+ "queried_at": "2026-11-01T19:59:58Z",
+ "endpoint": "https://query.wikidata.org/sparql",
+ "filters": {
+  "ruler": "?item wdt:P31 wd:Q5 .",
+  "dynasty": "",
+  "place": "?item wdt:P131+ wd:Q1445 .",
+  "temple": "?item wdt:P131+ wd:Q1445 . ?item wdt:P31/wdt:P279* wd:Q44539 ."
+ },
+ "rule": "QID assigned only when exactly one item matches an English label/alias form under the kind filter",
+ "resolved": {
+  "ez:dynasty/chola": "Q151148",
+  "ez:dynasty/kadava": "Q6345221",
+  "ez:dynasty/pallava": "Q466803",
+  "ez:dynasty/pandya": "Q844910",
+  "ez:dynasty/rashtrakuta": "Q856691",
+  "ez:dynasty/vijayanagara": "Q167639",
+  "ez:place/allur": "Q4733348",
+  "ez:place/ambasamudram": "Q590143",
+  "ez:place/devasthanam": "Q111345235",
+  "ez:place/ennayiram": "Q5379136",
+  "ez:place/kancipuram": "Q212332",
+  "ez:place/kappalur": "Q29025864",
+  "ez:place/kiliyanur": "Q6407008",
+  "ez:place/madras-museum": "Q3536763",
+  "ez:place/madurai": "Q228405",
+  "ez:place/mahabalipuram": "Q208000",
+  "ez:place/manalurpet": "Q2540962",
+  "ez:place/maraneri": "Q16384047",
+  "ez:place/pallavaram": "Q1752584",
+  "ez:place/pallikonda": "Q282347",
+  "ez:place/pariyur": "Q7137562",
+  "ez:place/piranmalai": "Q65090503",
+  "ez:place/puliyanur": "Q120490846",
+  "ez:place/pullalur": "Q7259405",
+  "ez:place/srirangam": "Q2304639",
+  "ez:place/srivanciyam": "Q12989543",
+  "ez:place/tanjore": "Q41496",
+  "ez:place/taracuram": "Q224850",
+  "ez:place/tarankampati": "Q732594",
+  "ez:place/thanjavur": "Q41496",
+  "ez:place/tirukkattupalli": "Q4358967",
+  "ez:place/tirumananceri": "Q7785330",
+  "ez:place/tirunelveli": "Q213248",
+  "ez:place/tiruppuvanam": "Q3535783",
+  "ez:place/tiruttani": "Q1557417",
+  "ez:place/tiruttankal": "Q2715599",
+  "ez:place/tiruvaikavur": "Q7809441",
+  "ez:place/tiruvaiyaru": "Q2229514",
+  "ez:place/tiruvakkarai": "Q30624194",
+  "ez:place/tiruvalanjuli": "Q17075180",
+  "ez:place/tiruvannamalai": "Q162830",
+  "ez:place/tiruvarur": "Q1025399",
+  "ez:place/tiruvizhimizhalai": "Q7785536",
+  "ez:place/trichy": "Q207754",
+  "ez:place/triplicane": "Q2454031",
+  "ez:place/vallam": "Q2231085",
+  "ez:ruler/acyuta-raya": "Q2336272",
+  "ez:ruler/aditya-i": "Q3535800",
+  "ez:ruler/aparajita": "Q4779124",
+  "ez:ruler/dantivarman": "Q1267307",
+  "ez:ruler/gandaraditya": "Q5520608",
+  "ez:ruler/kulottunga-i": "Q2119008",
+  "ez:ruler/kulottunga-iii": "Q335836",
+  "ez:ruler/parantaka-i": "Q7135564",
+  "ez:ruler/rajadhiraja-i": "Q2128678",
+  "ez:ruler/rajaraja-i": "Q2128757",
+  "ez:ruler/rajaraja-ii": "Q7285772",
+  "ez:ruler/rajasimha": "Q707745",
+  "ez:ruler/rajendra-i": "Q211483",
+  "ez:ruler/rajendra-ii": "Q3536611",
+  "ez:ruler/sadasiva-raya": "Q1452340",
+  "ez:ruler/simhavishnu": "Q3537060",
+  "ez:ruler/uttama-chola": "Q3536701",
+  "ez:ruler/vijayalaya": "Q7929271",
+  "ez:ruler/vikrama-chola": "Q7929581",
+  "ez:ruler/virarajendra": "Q7933646",
+  "ez:temple/citamparam-nataraja": "Q1966341",
+  "ez:temple/kancipuram-muktesvara": "Q6933613",
+  "ez:temple/mahabalipuram-shore": "Q1144279",
+  "ez:temple/srirangam-ranganatha": "Q97481257",
+  "ez:temple/tanjore-brhadisvara": "Q916943",
+  "ez:temple/taracuram-airavatesvara": "Q3437182",
+  "ez:temple/thanjavur-brhadisvara": "Q916943",
+  "ez:temple/tiruvalisvaram-valisvara": "Q7911723"
+ },
+ "candidates": {
+  "ez:dynasty/vijayanagara": [
+   {
+    "qid": "Q137127113",
+    "label": "Kadamba architecture style",
+    "description": "Characterized by its unique Kadamba Shikara, a stepped pyramidal tower, and influences from both Dravidian and Chalukya styles, primarily using stone. (ID: INHF-465301521-18-11-25-KE)",
+    "matched": "Vijayanagara Empire"
+   },
+   {
+    "qid": "Q137127247",
+    "label": "Kerala architecture style",
+    "description": "Characterized by sloping roofs, gabled windows, and the use of locally sourced materials like laterite and wood, Kerala architecture reflects the region's climate and cultural traditions. (ID: INHF-230819213-18-11-25-KE)",
+    "matched": "Vijayanagara Empire"
+   },
+   {
+    "qid": "Q167639",
+    "label": "Vijayanagara Empire",
+    "description": "Hindu kingdom in Southern India (14th-17th century)",
+    "matched": "Vijayanagara Empire"
+   }
+  ],
+  "ez:place/allur": [
+   {
+    "qid": "Q4733348",
+    "label": "Allur",
+    "description": "Village in Tiruchirappalli District, Tamil Nadu, India",
+    "matched": "Allur"
+   }
+  ],
+  "ez:place/ambasamudram": [
+   {
+    "qid": "Q590143",
+    "label": "Ambasamudram",
+    "description": "Muncipality in Ambusandram Taluk, Tirunelveli district, Tamil Nadu",
+    "matched": "Ambasamudram"
+   }
+  ],
+  "ez:place/ariyur": [
+   {
+    "qid": "Q269663",
+    "label": "Ariyur",
+    "description": "Village in Karur District, Tamil Nadu, India",
+    "matched": "Ariyur"
+   },
+   {
+    "qid": "Q4791205",
+    "label": "Ariyur",
+    "description": "Village in Pudukkottai District, Tamil Nadu, India",
+    "matched": "Ariyur"
+   }
+  ],
+  "ez:place/brahmadesam": [
+   {
+    "qid": "Q10963280",
+    "label": "Brahmadesam",
+    "description": "village in Tamil Nadu, India",
+    "matched": "Brahmadesam"
+   },
+   {
+    "qid": "Q257363",
+    "label": "Brahmadesam",
+    "description": "village in Thirunelveli District, Tamil Nadu, India",
+    "matched": "Brahmadesam"
+   },
+   {
+    "qid": "Q4955522",
+    "label": "Brahmadesam",
+    "description": "village in Erode district, Tamil Nadu, India",
+    "matched": "Brahmadesam"
+   },
+   {
+    "qid": "Q4955524",
+    "label": "Brahmadesam",
+    "description": "town panchayat in Tamil Nadu, India",
+    "matched": "Brahmadesam"
+   },
+   {
+    "qid": "Q4955526",
+    "label": "Brahmadesam",
+    "description": "human settlement in India",
+    "matched": "Brahmadesam"
+   }
+  ],
+  "ez:place/devasthanam": [
+   {
+    "qid": "Q111345235",
+    "label": "Devasthanam",
+    "description": "Village in Tirupathur district, Tamil Nadu",
+    "matched": "Devasthanam"
+   }
+  ],
+  "ez:place/ennayiram": [
+   {
+    "qid": "Q5379136",
+    "label": "Ennayiram",
+    "description": "village in Tamil Nadu, India",
+    "matched": "Ennayiram"
+   }
+  ],
+  "ez:place/kancipuram": [
+   {
+    "qid": "Q212332",
+    "label": "Kanchipuram",
+    "description": "city in Tamil Nadu, India",
+    "matched": "Kanchipuram"
+   }
+  ],
+  "ez:place/kappalur": [
+   {
+    "qid": "Q29025864",
+    "label": "Kappalur",
+    "description": "human settlement in India",
+    "matched": "Kappalur"
+   }
+  ],
+  "ez:place/kattur": [
+   {
+    "qid": "Q108081004",
+    "label": "Kattur",
+    "description": null,
+    "matched": "Kattur"
+   },
+   {
+    "qid": "Q6378392",
+    "label": "Kattur",
+    "description": "Village in Thanjavur District, Tamil Nadu, India",
+    "matched": "Kattur"
+   }
+  ],
+  "ez:place/kiliyanur": [
+   {
+    "qid": "Q6407008",
+    "label": "Kiliyanur",
+    "description": "Village in Nagapattinam District, Tamil Nadu, India",
+    "matched": "Kiliyanur"
+   }
+  ],
+  "ez:place/kottaiyur": [
+   {
+    "qid": "Q583767",
+    "label": "Kottaiyur",
+    "description": "Village in Sivaganga District, Tamil Nadu, India",
+    "matched": "Kottaiyur"
+   },
+   {
+    "qid": "Q61066152",
+    "label": "Kottaiyur",
+    "description": "Village in Krishnagiri District, Tamil Nadu, India",
+    "matched": "Kottaiyur"
+   }
+  ],
+  "ez:place/madras-museum": [
+   {
+    "qid": "Q3536763",
+    "label": "Government Museum, Chennai",
+    "description": "museum of human history and culture in India",
+    "matched": "Madras Museum"
+   }
+  ],
+  "ez:place/madurai": [
+   {
+    "qid": "Q228405",
+    "label": "Madurai",
+    "description": "city of Tamil Nadu in southern India",
+    "matched": "Madurai"
+   }
+  ],
+  "ez:place/mahabalipuram": [
+   {
+    "qid": "Q208000",
+    "label": "Mahabalipuram",
+    "description": "Village in Kanchipuram District, Tamil Nadu, India",
+    "matched": "Mahabalipuram"
+   }
+  ],
+  "ez:place/manalurpet": [
+   {
+    "qid": "Q2540962",
+    "label": "Manalurpet",
+    "description": "Village in Kallakurichi District, Tamil Nadu, India",
+    "matched": "Manalurpet"
+   }
+  ],
+  "ez:place/maraneri": [
+   {
+    "qid": "Q16384047",
+    "label": "Maraneri",
+    "description": "village in Tamil Nadu, India",
+    "matched": "Maraneri"
+   }
+  ],
+  "ez:place/nallur": [
+   {
+    "qid": "Q109048826",
+    "label": "Nallur",
+    "description": "village in Tamil Nadu, India",
+    "matched": "Nallur"
+   },
+   {
+    "qid": "Q119977590",
+    "label": "Nallur",
+    "description": "Village in Salem District, Tamil Nadu, India",
+    "matched": "Nallur"
+   },
+   {
+    "qid": "Q119978953",
+    "label": "Nallur",
+    "description": null,
+    "matched": "Nallur"
+   },
+   {
+    "qid": "Q15971282",
+    "label": "Nallur",
+    "description": "Village in Tenkasi District, Tamil Nadu, India",
+    "matched": "Nallur"
+   },
+   {
+    "qid": "Q2718116",
+    "label": "Nallur",
+    "description": "Village in Kanniyakumari District, Tamil Nadu, India",
+    "matched": "Nallur"
+   },
+   {
+    "qid": "Q6960984",
+    "label": "Nallur",
+    "description": "Village in Tiruppur District, Tamil Nadu, India",
+    "matched": "Nallur"
+   }
+  ],
+  "ez:place/pallavaram": [
+   {
+    "qid": "Q1752584",
+    "label": "Pallavaram",
+    "description": "suburb and former municipality in Tambaram, India",
+    "matched": "Pallavaram"
+   }
+  ],
+  "ez:place/pallikonda": [
+   {
+    "qid": "Q282347",
+    "label": "Pallikonda",
+    "description": "Village in Vellore District, Tamil Nadu, India",
+    "matched": "Pallikonda"
+   }
+  ],
+  "ez:place/pariyur": [
+   {
+    "qid": "Q7137562",
+    "label": "Pariyur",
+    "description": "panchayat village in Tamil Nadu, India",
+    "matched": "Pariyur"
+   }
+  ],
+  "ez:place/perur": [
+   {
+    "qid": "Q2716122",
+    "label": "Perur",
+    "description": "Village in Coimbatore District, Tamil Nadu, India",
+    "matched": "Perur"
+   },
+   {
+    "qid": "Q7171113",
+    "label": "Perur",
+    "description": "Village in Tiruchirappalli District, Tamil Nadu, India",
+    "matched": "Perur"
+   }
+  ],
+  "ez:place/pirammatecam": [
+   {
+    "qid": "Q10963280",
+    "label": "Brahmadesam",
+    "description": "village in Tamil Nadu, India",
+    "matched": "Brahmadesam"
+   },
+   {
+    "qid": "Q257363",
+    "label": "Brahmadesam",
+    "description": "village in Thirunelveli District, Tamil Nadu, India",
+    "matched": "Brahmadesam"
+   },
+   {
+    "qid": "Q4955522",
+    "label": "Brahmadesam",
+    "description": "village in Erode district, Tamil Nadu, India",
+    "matched": "Brahmadesam"
+   },
+   {
+    "qid": "Q4955524",
+    "label": "Brahmadesam",
+    "description": "town panchayat in Tamil Nadu, India",
+    "matched": "Brahmadesam"
+   },
+   {
+    "qid": "Q4955526",
+    "label": "Brahmadesam",
+    "description": "human settlement in India",
+    "matched": "Brahmadesam"
+   }
+  ],
+  "ez:place/piranmalai": [
+   {
+    "qid": "Q65090503",
+    "label": "Piranmalai",
+    "description": "Village in Sivaganga District, Tamil Nadu, India",
+    "matched": "Piranmalai"
+   }
+  ],
+  "ez:place/ponneri": [
+   {
+    "qid": "Q2715009",
+    "label": "Ponneri",
+    "description": "Village in Tiruvallur District, Tamil Nadu, India",
+    "matched": "Ponneri"
+   },
+   {
+    "qid": "Q61060173",
+    "label": "Ponneri",
+    "description": null,
+    "matched": "Ponneri"
+   }
+  ],
+  "ez:place/puliyanur": [
+   {
+    "qid": "Q120490846",
+    "label": "Puliyanur",
+    "description": "Village in Krishnagiri District, Tamil Nadu, India",
+    "matched": "Puliyanur"
+   }
+  ],
+  "ez:place/pullalur": [
+   {
+    "qid": "Q7259405",
+    "label": "Pullalur",
+    "description": "Village in Kanchipuram District, Tamil Nadu, India",
+    "matched": "Pullalur"
+   }
+  ],
+  "ez:place/srirangam": [
+   {
+    "qid": "Q2304639",
+    "label": "Srirangam",
+    "description": "human settlement in India",
+    "matched": "Srirangam"
+   }
+  ],
+  "ez:place/srivanciyam": [
+   {
+    "qid": "Q12989543",
+    "label": "Srivanchiyam",
+    "description": "village in Tamil Nadu, India",
+    "matched": "Srivanchiyam"
+   }
+  ],
+  "ez:place/tanjore": [
+   {
+    "qid": "Q41496",
+    "label": "Thanjavur",
+    "description": "City in Tamil Nadu, India",
+    "matched": "Tanjore"
+   }
+  ],
+  "ez:place/taracuram": [
+   {
+    "qid": "Q224850",
+    "label": "Darasuram",
+    "description": "town in Tamil Nadu, India",
+    "matched": "Darasuram"
+   }
+  ],
+  "ez:place/tarankampati": [
+   {
+    "qid": "Q732594",
+    "label": "Tharangambadi",
+    "description": "town",
+    "matched": "Tranquebar"
+   }
+  ],
+  "ez:place/thanjavur": [
+   {
+    "qid": "Q41496",
+    "label": "Thanjavur",
+    "description": "City in Tamil Nadu, India",
+    "matched": "Thanjavur"
+   }
+  ],
+  "ez:place/tirukkattupalli": [
+   {
+    "qid": "Q4358967",
+    "label": "Thirukkattupalli",
+    "description": "Village in Thanjavur District, Tamil Nadu, India",
+    "matched": "Thirukkattupalli"
+   }
+  ],
+  "ez:place/tirumananceri": [
+   {
+    "qid": "Q7785330",
+    "label": "Thirumanancheri",
+    "description": "village in Tamil Nadu, India",
+    "matched": "Thirumanancheri"
+   }
+  ],
+  "ez:place/tirunelveli": [
+   {
+    "qid": "Q213248",
+    "label": "Tirunelveli",
+    "description": "city in Tamil Nadu, South India",
+    "matched": "Tirunelveli"
+   }
+  ],
+  "ez:place/tiruppattur": [
+   {
+    "qid": "Q1109865",
+    "label": "Tiruppattur",
+    "description": "Village in Tirupathur district, Tamil Nadu",
+    "matched": "Tiruppattur"
+   },
+   {
+    "qid": "Q16258664",
+    "label": "Thiruppattur",
+    "description": "village in Tamil Nadu, India",
+    "matched": "Thiruppattur"
+   }
+  ],
+  "ez:place/tirupporur": [
+   {
+    "qid": "Q7785417",
+    "label": "Thiruporur Assembly constituency",
+    "description": "constituency of the Tamil Nadu legislative assembly in India",
+    "matched": "Tirupporur"
+   }
+  ],
+  "ez:place/tiruppuvanam": [
+   {
+    "qid": "Q3535783",
+    "label": "Thirupuvanam",
+    "description": "Village in Sivaganga District, Tamil Nadu, India",
+    "matched": "Tiruppuvanam"
+   }
+  ],
+  "ez:place/tiruttani": [
+   {
+    "qid": "Q1557417",
+    "label": "Tiruttani",
+    "description": "Village in Tiruvallur District, Tamil Nadu, India",
+    "matched": "Tiruttani"
+   }
+  ],
+  "ez:place/tiruttankal": [
+   {
+    "qid": "Q2715599",
+    "label": "Thiruthangal",
+    "description": "Village in Virudhanagar District, Tamil Nadu, India",
+    "matched": "Tiruttangal"
+   }
+  ],
+  "ez:place/tiruvaikavur": [
+   {
+    "qid": "Q7809441",
+    "label": "Tiruvaikavur",
+    "description": "village in Tamil Nadu, India",
+    "matched": "Tiruvaikavur"
+   }
+  ],
+  "ez:place/tiruvaiyaru": [
+   {
+    "qid": "Q2229514",
+    "label": "Thiruvaiyaru",
+    "description": "town in Thanjavur district, Tamil Nadu, India",
+    "matched": "Thiruvaiyaru"
+   }
+  ],
+  "ez:place/tiruvakkarai": [
+   {
+    "qid": "Q30624194",
+    "label": "Thiruvakkarai",
+    "description": "human settlement in India",
+    "matched": "Thiruvakkarai"
+   }
+  ],
+  "ez:place/tiruvalanjuli": [
+   {
+    "qid": "Q17075180",
+    "label": "Thiruvalanjuli",
+    "description": "village in Tamil Nadu, India",
+    "matched": "Thiruvalanjuli"
+   }
+  ],
+  "ez:place/tiruvannamalai": [
+   {
+    "qid": "Q162830",
+    "label": "Tiruvannamalai",
+    "description": "city in Tamil Nadu, India",
+    "matched": "Tiruvannamalai"
+   }
+  ],
+  "ez:place/tiruvarur": [
+   {
+    "qid": "Q1025399",
+    "label": "Thiruvarur",
+    "description": "town",
+    "matched": "Tiruvarur"
+   }
+  ],
+  "ez:place/tiruvizhimizhalai": [
+   {
+    "qid": "Q7785536",
+    "label": "Thiruvizhimizhalai",
+    "description": "Village in Tiruvarur District, Tamil Nadu, India",
+    "matched": "Thiruvizhimizhalai"
+   }
+  ],
+  "ez:place/trichy": [
+   {
+    "qid": "Q207754",
+    "label": "Tiruchirappalli",
+    "description": "metropolis in Tamil Nadu, India",
+    "matched": "Trichy"
+   }
+  ],
+  "ez:place/triplicane": [
+   {
+    "qid": "Q2454031",
+    "label": "Triplicane",
+    "description": "Neighbourhood in Chennai, Tamil Nadu, India",
+    "matched": "Triplicane"
+   }
+  ],
+  "ez:place/vallam": [
+   {
+    "qid": "Q2231085",
+    "label": "Vallam",
+    "description": "Village in Thanjavur District, Tamil Nadu, India",
+    "matched": "Vallam"
+   }
+  ],
+  "ez:place/vellalur": [
+   {
+    "qid": "Q2540943",
+    "label": "Vellalore",
+    "description": "Village in Coimbatore District, Tamil Nadu, India",
+    "matched": "Vellalur"
+   },
+   {
+    "qid": "Q7919127",
+    "label": "Vellalur",
+    "description": "Village in Madurai District, Tamil Nadu, India",
+    "matched": "Vellalur"
+   }
+  ],
+  "ez:place/velur": [
+   {
+    "qid": "Q2541007",
+    "label": "Velur",
+    "description": "Village in Namakkal District, Tamil Nadu, India",
+    "matched": "Velur"
+   },
+   {
+    "qid": "Q7919348",
+    "label": "Velur",
+    "description": "village in Tamil Nadu, India",
+    "matched": "Velur"
+   }
+  ],
+  "ez:place/vijayamangalam": [
+   {
+    "qid": "Q369303",
+    "label": "Vijayapuri",
+    "description": "Village in Erode District, Tamil Nadu, India",
+    "matched": "Vijayamangalam"
+   }
+  ],
+  "ez:ruler/acyuta-raya": [
+   {
+    "qid": "Q2336272",
+    "label": "Achyuta Deva Raya",
+    "description": "Ruler of a Vijayanagara Empire of South India",
+    "matched": "Achyuta Deva Raya"
+   }
+  ],
+  "ez:ruler/aditya-i": [
+   {
+    "qid": "Q3535800",
+    "label": "Aditya I",
+    "description": "Chola king of South India",
+    "matched": "Aditya I"
+   }
+  ],
+  "ez:ruler/aparajita": [
+   {
+    "qid": "Q4779124",
+    "label": "Aparajitavarman",
+    "description": "last ruling king of the Pallava dynasty",
+    "matched": "Aparajitavarman"
+   }
+  ],
+  "ez:ruler/dantivarman": [
+   {
+    "qid": "Q1267307",
+    "label": "Dantivarman",
+    "description": "Indian monarch who ruled the Pallava kingdom from 795 to 846",
+    "matched": "Dantivarman"
+   }
+  ],
+  "ez:ruler/gandaraditya": [
+   {
+    "qid": "Q5520608",
+    "label": "Gandaraditya",
+    "description": "Chola king",
+    "matched": "Gandaraditya"
+   }
+  ],
+  "ez:ruler/kulottunga-i": [
+   {
+    "qid": "Q2119008",
+    "label": "Kulothunga Chola I",
+    "description": "Emperor of the Chola kingdom",
+    "matched": "Kulothunga Chola I"
+   }
+  ],
+  "ez:ruler/kulottunga-iii": [
+   {
+    "qid": "Q335836",
+    "label": "Kulothunga Chola III",
+    "description": "King of the Chola empire",
+    "matched": "Kulothunga Chola III"
+   }
+  ],
+  "ez:ruler/parantaka-i": [
+   {
+    "qid": "Q7135564",
+    "label": "Parantaka I",
+    "description": "Chola king",
+    "matched": "Parantaka I"
+   }
+  ],
+  "ez:ruler/rajadhiraja-i": [
+   {
+    "qid": "Q2128678",
+    "label": "Rajadhiraja Chola",
+    "description": "Chola king",
+    "matched": "Rajadhiraja Chola"
+   }
+  ],
+  "ez:ruler/rajaraja-i": [
+   {
+    "qid": "Q2128757",
+    "label": "Rajaraja I",
+    "description": "Chola Emperor",
+    "matched": "Rajaraja I"
+   }
+  ],
+  "ez:ruler/rajaraja-ii": [
+   {
+    "qid": "Q7285772",
+    "label": "Rajaraja II",
+    "description": "Chola king",
+    "matched": "Rajaraja II"
+   }
+  ],
+  "ez:ruler/rajasimha": [
+   {
+    "qid": "Q707745",
+    "label": "Narasimhavarman II",
+    "description": "Pallava king who ruled in South India during the 6th century",
+    "matched": "Narasimhavarman II"
+   }
+  ],
+  "ez:ruler/rajendra-i": [
+   {
+    "qid": "Q211483",
+    "label": "Rajendra Chola I",
+    "description": "Chola emperor from 1014 to 1044",
+    "matched": "Rajendra Chola I"
+   }
+  ],
+  "ez:ruler/rajendra-ii": [
+   {
+    "qid": "Q3536611",
+    "label": "Rajendra Chola II",
+    "description": "chola emperor from 1051–1063",
+    "matched": "Rajendra Chola II"
+   }
+  ],
+  "ez:ruler/sadasiva-raya": [
+   {
+    "qid": "Q1452340",
+    "label": "Sadasiva Raya",
+    "description": "Emperor of the Vijayanagara Empire",
+    "matched": "Sadasiva Raya"
+   }
+  ],
+  "ez:ruler/simhavishnu": [
+   {
+    "qid": "Q3537060",
+    "label": "Simhavishnu",
+    "description": "son of Simhavarman III and one of the Pallava kings of India",
+    "matched": "Simhavishnu"
+   }
+  ],
+  "ez:ruler/uttama-chola": [
+   {
+    "qid": "Q3536701",
+    "label": "Uththama Chola",
+    "description": "Chola king",
+    "matched": "Uththama Chola"
+   }
+  ],
+  "ez:ruler/vijayalaya": [
+   {
+    "qid": "Q7929271",
+    "label": "Vijayalaya Chola",
+    "description": "Chola king",
+    "matched": "Vijayalaya Chola"
+   }
+  ],
+  "ez:ruler/vikrama-chola": [
+   {
+    "qid": "Q7929581",
+    "label": "Vikrama Chola",
+    "description": "koParakesarivarman, Tyagasamudra",
+    "matched": "Vikrama Chola"
+   }
+  ],
+  "ez:ruler/virarajendra": [
+   {
+    "qid": "Q7933646",
+    "label": "Virarajendra Chola",
+    "description": "King of the Chola",
+    "matched": "Virarajendra Chola"
+   }
+  ],
+  "ez:temple/cenkottai-siva": [
+   {
+    "qid": "Q31368618",
+    "label": "Valikandapuram Valeeswarar Temple",
+    "description": "Hindu Temple in Valikandapuram, Tamil Nadu",
+    "matched": "Siva Temple"
+   },
+   {
+    "qid": "Q97480338",
+    "label": "Siva Temple",
+    "description": null,
+    "matched": "Siva Temple"
+   },
+   {
+    "qid": "Q97480359",
+    "label": "Siva Temple",
+    "description": null,
+    "matched": "Siva Temple"
+   },
+   {
+    "qid": "Q97480559",
+    "label": "Siva Temple",
+    "description": null,
+    "matched": "Siva Temple"
+   },
+   {
+    "qid": "Q97481045",
+    "label": "Siva Temple",
+    "description": "Shiva temple in Pudukkottai district, Tamil Nadu",
+    "matched": "Siva Temple"
+   }
+  ],
+  "ez:temple/citamparam-nataraja": [
+   {
+    "qid": "Q1966341",
+    "label": "Nataraja Temple",
+    "description": "Hindu temple famed for its Nataraja Shiva",
+    "matched": "Nataraja Temple"
+   }
+  ],
+  "ez:temple/kancipuram-kailasanatha": [
+   {
+    "qid": "Q97481043",
+    "label": "Kailasanatha Temple",
+    "description": null,
+    "matched": "Kailasanatha Temple"
+   }
+  ],
+  "ez:temple/kancipuram-muktesvara": [
+   {
+    "qid": "Q6933613",
+    "label": "Muktheshwarar Temple, Kanchipuram",
+    "description": "shiva temple in Tamil Nadu, India",
+    "matched": "Muktesvara Temple"
+   }
+  ],
+  "ez:temple/kuram-siva": [
+   {
+    "qid": "Q31368618",
+    "label": "Valikandapuram Valeeswarar Temple",
+    "description": "Hindu Temple in Valikandapuram, Tamil Nadu",
+    "matched": "Siva Temple"
+   },
+   {
+    "qid": "Q97480338",
+    "label": "Siva Temple",
+    "description": null,
+    "matched": "Siva Temple"
+   },
+   {
+    "qid": "Q97480359",
+    "label": "Siva Temple",
+    "description": null,
+    "matched": "Siva Temple"
+   },
+   {
+    "qid": "Q97480559",
+    "label": "Siva Temple",
+    "description": null,
+    "matched": "Siva Temple"
+   },
+   {
+    "qid": "Q97481045",
+    "label": "Siva Temple",
+    "description": "Shiva temple in Pudukkottai district, Tamil Nadu",
+    "matched": "Siva Temple"
+   }
+  ],
+  "ez:temple/mahabalipuram-shore": [
+   {
+    "qid": "Q1144279",
+    "label": "Shore Temple",
+    "description": "Indian 8th century granite block building",
+    "matched": "Shore Temple"
+   }
+  ],
+  "ez:temple/pullalur-kailasanatha": [
+   {
+    "qid": "Q97481043",
+    "label": "Kailasanatha Temple",
+    "description": null,
+    "matched": "Kailasanatha Temple"
+   }
+  ],
+  "ez:temple/sripuranthan-siva": [
+   {
+    "qid": "Q31368618",
+    "label": "Valikandapuram Valeeswarar Temple",
+    "description": "Hindu Temple in Valikandapuram, Tamil Nadu",
+    "matched": "Siva Temple"
+   },
+   {
+    "qid": "Q97480338",
+    "label": "Siva Temple",
+    "description": null,
+    "matched": "Siva Temple"
+   },
+   {
+    "qid": "Q97480359",
+    "label": "Siva Temple",
+    "description": null,
+    "matched": "Siva Temple"
+   },
+   {
+    "qid": "Q97480559",
+    "label": "Siva Temple",
+    "description": null,
+    "matched": "Siva Temple"
+   },
+   {
+    "qid": "Q97481045",
+    "label": "Siva Temple",
+    "description": "Shiva temple in Pudukkottai district, Tamil Nadu",
+    "matched": "Siva Temple"
+   }
+  ],
+  "ez:temple/srirangam-ranganatha": [
+   {
+    "qid": "Q97481257",
+    "label": "Ranganatha Temple",
+    "description": "Ranganatha Temple (Aranganathar Temple) along with adjoining areacomprised in a portion.",
+    "matched": "Ranganatha Temple"
+   }
+  ],
+  "ez:temple/tanjore-brhadisvara": [
+   {
+    "qid": "Q916943",
+    "label": "Prahadisvarar Temple",
+    "description": "11th century Tamil Chola Dynasty Temple and UNESCO World Heritage Site",
+    "matched": "Brhadisvara Temple"
+   }
+  ],
+  "ez:temple/taracuram-airavatesvara": [
+   {
+    "qid": "Q3437182",
+    "label": "Airavatesvara Temple",
+    "description": "12th century Chola Hindu temple, UNESCO world heritage site",
+    "matched": "Airavatesvara Temple"
+   }
+  ],
+  "ez:temple/thanjavur-brhadisvara": [
+   {
+    "qid": "Q916943",
+    "label": "Prahadisvarar Temple",
+    "description": "11th century Tamil Chola Dynasty Temple and UNESCO World Heritage Site",
+    "matched": "Brhadisvara Temple"
+   }
+  ],
+  "ez:temple/tiruvalisvaram-valisvara": [
+   {
+    "qid": "Q7911723",
+    "label": "Valisvara Temple",
+    "description": "temple in India",
+    "matched": "Valisvara Temple"
+   }
+  ]
+ },
+ "unresolved_with_multiple_candidates": [
+  "ez:dynasty/vijayanagara",
+  "ez:place/ariyur",
+  "ez:place/brahmadesam",
+  "ez:place/kattur",
+  "ez:place/kottaiyur",
+  "ez:place/nallur",
+  "ez:place/perur",
+  "ez:place/pirammatecam",
+  "ez:place/ponneri",
+  "ez:place/tiruppattur",
+  "ez:place/vellalur",
+  "ez:place/velur",
+  "ez:temple/cenkottai-siva",
+  "ez:temple/kuram-siva",
+  "ez:temple/sripuranthan-siva"
+ ],
+ "review": {
+  "reject": {
+   "ez:place/vijayamangalam": {
+    "qid": "Q369303",
+    "reason": "matched alias of Vijayapuri, a different village"
+   },
+   "ez:place/tirupporur": {
+    "qid": "Q7785417",
+    "reason": "assembly constituency, not the town"
+   },
+   "ez:temple/kancipuram-kailasanatha": {
+    "qid": "Q97481043",
+    "reason": "undescribed item also matched for Pullalur; not verifiable as the Kanchipuram temple"
+   },
+   "ez:temple/pullalur-kailasanatha": {
+    "qid": "Q97481043",
+    "reason": "same undescribed item as above; not verifiable"
+   }
+  },
+  "accept": {
+   "ez:dynasty/vijayanagara": {
+    "qid": "Q167639",
+    "reason": "Vijayanagara Empire; other candidates were architecture styles"
+   }
+  }
+ }
+}
