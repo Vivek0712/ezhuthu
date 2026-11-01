@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ezhuthu style guide</title>
+<meta name="description" content="Ezhuthu brand and design system: logos, colour, type, glyph cards, components and banners. Static page, no build step.">
+<link rel="icon" type="image/svg+xml" href="brand/icons/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Instrument+Sans:wght@400..700&family=Noto+Sans+Brahmi&family=Noto+Sans+Grantha&family=Noto+Sans+Tamil:wght@400..700&family=Noto+Serif+Tamil:wght@400..800&display=swap">
+<link rel="stylesheet" href="tokens/tokens.css">
+<style>
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--ez-bg); color: var(--ez-text); font-family: var(--ez-font-body); font-size: var(--ez-text-md); line-height: var(--ez-lh-md); }
+  .grain { position: fixed; inset: 0; pointer-events: none; opacity: .5; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .25  0 0 0 0 .15  0 0 0 .08 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  .wrap { max-width: var(--ez-space-page-max); margin: 0 auto; padding: 0 var(--ez-space-gutter); position: relative; }
+  @media (min-width: 720px) { .wrap { padding: 0 var(--ez-space-gutter-wide); } }
+  header.top { display: flex; align-items: center; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--ez-border); }
+  header.top img { height: 40px; }
+  header.top .sp { flex: 1; }
+  .theme-btn { font: inherit; font-weight: 600; font-size: var(--ez-text-sm); padding: 8px 14px; min-height: 40px; border-radius: var(--ez-radius-pill); border: 1px solid var(--ez-border-strong); background: var(--ez-surface); color: var(--ez-text); cursor: pointer; }
+  .theme-btn:focus-visible, a:focus-visible { outline: 3px solid var(--ez-focus); outline-offset: 2px; }
+  .hero { padding: 56px 0 32px; display: grid; gap: 32px; }
+  @media (min-width: 900px) { .hero { grid-template-columns: 1.2fr 1fr; align-items: end; } }
+  .kicker { font-size: var(--ez-text-xs); letter-spacing: .16em; text-transform: uppercase; font-weight: 700; color: var(--ez-accent-text); margin: 0 0 12px; }
+  h1, h2, h3 { font-family: var(--ez-font-display-latin); font-weight: 500; letter-spacing: -.01em; margin: 0 0 .4em; font-optical-sizing: auto; }
+  h1 { font-size: clamp(2.2rem, 6vw, var(--ez-text-4xl)); line-height: 1.05; }
+  h1 em, h2 em { font-style: italic; color: var(--ez-accent-text); }
+  h2 { font-size: var(--ez-text-2xl); line-height: 1.2; }
+  h3 { font-size: var(--ez-text-lg); }
+  .ta { font-family: var(--ez-font-body-ta); line-height: var(--ez-lh-md-ta); }
+  .lede { color: var(--ez-text-muted); font-size: var(--ez-text-lg); max-width: 60ch; }
+  section { padding: 48px 0; border-top: 1px solid var(--ez-border); }
+  section > .head { display: grid; gap: 4px; margin-bottom: 24px; max-width: 70ch; }
+  section > .head p { color: var(--ez-text-muted); margin: 0; }
+  .num { font-family: var(--ez-font-display-latin); color: var(--ez-lamp-text); font-size: var(--ez-text-sm); font-weight: 600; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 640px) { .g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: repeat(3, 1fr); } .g4 { grid-template-columns: repeat(4, 1fr); } .g5 { grid-template-columns: repeat(5, 1fr); } }
+  .tile { border-radius: var(--ez-radius-lg); border: 1px solid var(--ez-border); background: var(--ez-surface); padding: 20px; box-shadow: var(--ez-shadow-1); min-width: 0; }
+  .tile.dark { background: #13100D; border-color: #40362B; }
+  .tile.leaf { background: var(--ez-leaf); }
+  /* On-light artwork (colour, mono) always sits on a fixed light tile, so dark mode never puts ink on ink. */
+  .tile.paper { background: var(--ez-stone-50); border-color: var(--ez-stone-200); }
+  .tile.paper .cap { color: var(--ez-stone-600); }
+  .tile img { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+  .cap { font-size: var(--ez-text-xs); color: var(--ez-text-faint); margin-top: 10px; }
+  .tile.dark .cap { color: #A8997F; }
+  .logo-box { display: grid; place-items: center; min-height: 140px; }
+  .icons { display: flex; flex-wrap: wrap; align-items: end; gap: 20px; }
+  .icons figure { margin: 0; text-align: center; }
+  /* colour */
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 8px; }
+  .sw { border-radius: var(--ez-radius-md); overflow: hidden; border: 1px solid var(--ez-border); background: var(--ez-surface); font-size: 11.5px; }
+  .sw i { display: block; height: 56px; }
+  .sw span { display: block; padding: 6px 8px; color: var(--ez-text-muted); font-family: var(--ez-font-mono); }
+  .sw b { display: block; padding: 6px 8px 0; font-weight: 600; color: var(--ez-text); font-family: var(--ez-font-body); }
+  .fam { margin: 18px 0 8px; font-weight: 700; font-size: var(--ez-text-sm); }
+  .fam small { font-weight: 400; color: var(--ez-text-muted); }
+  .pairs { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+  .pair { border-radius: var(--ez-radius-md); padding: 14px; border: 1px solid var(--ez-border); }
+  .pair b { display: block; font-size: var(--ez-text-lg); }
+  .pair code { font-size: 11.5px; opacity: .85; }
+  /* type */
+  .spec { display: grid; gap: 6px; padding: 18px 0; border-bottom: 1px dashed var(--ez-border); }
+  .spec .meta { font-size: var(--ez-text-xs); color: var(--ez-text-faint); display: flex; gap: 12px; flex-wrap: wrap; }
+  .scale-row { display: grid; grid-template-columns: 64px 1fr; align-items: baseline; gap: 12px; padding: 6px 0; }
+  .scale-row code { font-size: 12px; color: var(--ez-text-faint); }
+  .ell { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  /* glyph cards */
+  .gcard { border-radius: var(--ez-radius-lg); background: var(--ez-surface-raised); border: 1px solid var(--ez-border); box-shadow: var(--ez-shadow-2); padding: 12px; display: grid; gap: 10px; align-content: start; }
+  .gwell { border-radius: var(--ez-radius-md); background: var(--ez-surface-sunk); display: grid; place-items: center; height: 132px; position: relative; box-shadow: var(--ez-shadow-carved); }
+  .gwell.v { background: var(--ez-leaf); }
+  .gwell .g { font-size: 64px; line-height: 1; color: var(--ez-text); text-shadow: 0 1px 0 var(--ez-carve-hi); }
+  .gwell svg { width: 84px; height: 84px; color: var(--ez-text); }
+  .gwell .lvl { position: absolute; top: 8px; left: 8px; font-size: 11.5px; font-weight: 700; color: var(--ez-accent-text); background: var(--ez-surface); border-radius: var(--ez-radius-pill); padding: 2px 8px; }
+  .gmeta { display: flex; align-items: baseline; gap: 8px; padding: 0 4px; }
+  .gmeta .t { font-family: var(--ez-font-body-ta); font-size: 1.6rem; font-weight: 600; }
+  .gmeta .iso { font-family: var(--ez-font-display-latin); font-style: italic; color: var(--ez-text-muted); }
+  .gera { font-size: var(--ez-text-xs); color: var(--ez-text-faint); padding: 0 4px 4px; }
+  /* components */
+  .btn { appearance: none; font: inherit; font-weight: 600; border-radius: var(--ez-radius-pill); min-height: var(--ez-space-tap); padding: 10px 20px; border: 1px solid transparent; cursor: pointer; transition: transform var(--ez-dur-fast) var(--ez-ease-standard), background var(--ez-dur-fast) var(--ez-ease-standard); }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--ez-accent); color: var(--ez-on-accent); }
+  .btn-primary:hover { background: var(--ez-accent-hover); }
+  .btn-ghost { background: transparent; color: var(--ez-text); border-color: var(--ez-border-strong); }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; font-size: var(--ez-text-xs); font-weight: 600; border-radius: var(--ez-radius-pill); padding: 4px 10px; }
+  .chip.ok { background: var(--ez-ok-soft); color: var(--ez-ok); }
+  .chip.unsure { background: var(--ez-unsure-soft); color: var(--ez-unsure); }
+  .chip.err { background: var(--ez-error-soft); color: var(--ez-error); }
+  .chip.lamp { background: var(--ez-lamp-soft); color: var(--ez-lamp-text); }
+  .chip.n { background: var(--ez-surface-sunk); color: var(--ez-text-muted); }
+  .meter { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px; width: 100%; max-width: 280px; }
+  .meter i { height: 8px; border-radius: 2px; background: var(--ez-surface-sunk); }
+  .meter i.on { background: var(--ez-accent); }
+  .cand { display: grid; gap: 8px; }
+  .cand .top { display: flex; align-items: baseline; gap: 8px; }
+  .cand .top b { font-family: var(--ez-font-display-ta); font-size: 1.4rem; }
+  .abstain { border: 1.5px dashed var(--ez-unsure); background: var(--ez-unsure-soft); border-radius: var(--ez-radius-lg); padding: 16px 18px; }
+  .abstain h4 { margin: 0 0 4px; font-family: var(--ez-font-display-ta); font-size: 1.15rem; color: var(--ez-text); }
+  .abstain p { margin: 0; color: var(--ez-text-muted); font-size: var(--ez-text-sm); }
+  .feedback { border: 1px solid var(--ez-ok); background: var(--ez-ok-soft); border-radius: var(--ez-radius-lg); padding: 14px 16px; }
+  .feedback strong { color: var(--ez-ok); }
+  .line { font-family: var(--ez-font-display-ta); font-size: 1.35rem; line-height: 2.1; }
+  .gap-fill { border: 1.5px dashed var(--ez-lamp); background: var(--ez-lamp-soft); color: var(--ez-lamp-text); border-radius: 8px; padding: 0 6px; font-weight: 700; }
+  .gap-unsure { border: 1.5px dashed var(--ez-unsure); background: var(--ez-unsure-soft); color: var(--ez-unsure); border-radius: 8px; padding: 0 10px; font-weight: 700; font-family: var(--ez-font-body); }
+  .banners { display: grid; gap: 16px; }
+  .banners img { width: 100%; height: auto; border-radius: var(--ez-radius-md); border: 1px solid var(--ez-border); display: block; }
+  footer { padding: 40px 0 64px; border-top: 1px solid var(--ez-border); color: var(--ez-text-muted); font-size: var(--ez-text-sm); }
+  a { color: var(--ez-accent-text); text-underline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<div class="wrap">
+  <header class="top">
+    <img src="brand/logo/lockup-horizontal-color.svg" alt="எழுத்து · Ezhuthu" class="only-light" id="lockup">
+    <span class="sp"></span>
+    <button class="theme-btn" id="theme" type="button" aria-pressed="false">Dark · இருள்</button>
+  </header>
+
+  <div class="hero">
+    <div>
+      <p class="kicker">Brand &amp; design system · v1</p>
+      <h1>A letter that remembers <em>where it came from.</em></h1>
+      <p class="lede">Ezhuthu teaches learners to read 2,000 years of Tamil inscriptions, in Tamil. The system borrows its materials from the inscriptions themselves: stone, palm leaf, laterite, lamp-black ink, and the temple lamp that lets you read them.</p>
+      <p class="ta lede" lang="ta">கல், ஓலை, செங்கல் நிறக் கல், விளக்குக் கரி மை, கோயில் விளக்கு: கல்வெட்டுகளின் பொருள்களே இதன் வடிவமைப்பு.</p>
+    </div>
+    <div class="tile leaf logo-box"><img src="brand/logo/mark-color.svg" alt="Ezhuthu mark" width="260"></div>
+  </div>
+
+  <section id="logo">
+    <div class="head"><span class="num">01</span><h2>Logo system</h2><p>The mark is the modern Tamil letter எ (e) with its own ancestor, the Tamil-Brahmi e (a triangle), set inside its bowl. The Tamil wordmark carries the same letter. All logos are pure paths: no font is needed to display them.</p></div>
+    <div class="grid g3">
+      <div class="tile paper logo-box"><img src="brand/logo/mark-color.svg" alt="Mark, colour" width="150"><div class="cap">mark-color.svg</div></div>
+      <div class="tile paper logo-box"><img src="brand/logo/mark-mono.svg" alt="Mark, mono" width="150"><div class="cap">mark-mono.svg (triangle knocked out)</div></div>
+      <div class="tile dark logo-box"><img src="brand/logo/mark-reversed.svg" alt="Mark, reversed" width="150"><div class="cap">mark-reversed.svg</div></div>
+      <div class="tile paper logo-box"><img src="brand/logo/wordmark-ta-color.svg" alt="Tamil wordmark" width="300"><div class="cap">wordmark-ta-color.svg</div></div>
+      <div class="tile paper logo-box"><img src="brand/logo/wordmark-en-color.svg" alt="Latin wordmark" width="300"><div class="cap">wordmark-en-color.svg</div></div>
+      <div class="tile dark logo-box"><img src="brand/logo/wordmark-ta-reversed.svg" alt="Tamil wordmark reversed" width="300"><div class="cap">wordmark-ta-reversed.svg</div></div>
+    </div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="tile paper logo-box"><img src="brand/logo/lockup-horizontal-color.svg" alt="Horizontal lockup" width="440"><div class="cap">lockup-horizontal-color.svg</div></div>
+      <div class="tile dark logo-box"><img src="brand/logo/lockup-stacked-reversed.svg" alt="Stacked lockup reversed" width="300"><div class="cap">lockup-stacked-reversed.svg</div></div>
+    </div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="tile">
+        <h3>App icons &amp; favicons</h3>
+        <div class="icons">
+          <figure><img src="brand/icons/icon-512.png" width="112" height="112" alt="App icon"><figcaption class="cap">icon 512 / 192</figcaption></figure>
+          <figure><img src="brand/icons/icon-maskable-512.png" width="112" height="112" alt="Maskable icon" style="border-radius:50%"><figcaption class="cap">maskable (circle crop)</figcaption></figure>
+          <figure><img src="brand/icons/apple-touch-icon-180.png" width="72" height="72" alt="Apple touch icon" style="border-radius:16px"><figcaption class="cap">apple 180</figcaption></figure>
+          <figure><img src="brand/icons/favicon-32.png" width="32" height="32" alt="Favicon 32"><figcaption class="cap">32</figcaption></figure>
+          <figure><img src="brand/icons/favicon-16.png" width="16" height="16" alt="Favicon 16"><figcaption class="cap">16</figcaption></figure>
+        </div>
+      </div>
+      <div class="tile"><h3>Clear space &amp; minimum size</h3><img src="brand/logo/construction.svg" alt="Clear space construction" width="520"></div>
+    </div>
+  </section>
+
+  <section id="colour">
+    <div class="head"><span class="num">02</span><h2>Colour</h2><p>Primitives are named for materials. Components use semantic roles only, which switch for dark mode. Every text pair is checked to WCAG AA: see <a href="tokens/CONTRAST.md">tokens/CONTRAST.md</a>.</p></div>
+    <div id="prims"></div>
+    <h3 style="margin-top:28px">Semantic pairs</h3>
+    <div class="pairs" id="pairs"></div>
+  </section>
+
+  <section id="type">
+    <div class="head"><span class="num">03</span><h2>Typography</h2><p>Tamil leads. Noto Serif Tamil for display, Noto Sans Tamil for reading, Fraunces as the single Latin display face, Instrument Sans for UI. Era scripts use Noto Sans Brahmi and Noto Sans Grantha. All SIL Open Font License: see <a href="brand/FONTS.md">brand/FONTS.md</a>.</p></div>
+    <div class="spec"><div style="font-family:var(--ez-font-display-ta);font-weight:700;font-size:var(--ez-text-3xl);line-height:var(--ez-lh-3xl-ta)" lang="ta">உங்கள் ஊர்க் கல்வெட்டை நீங்களே படியுங்கள்</div><div class="meta"><span>Display Tamil · Noto Serif Tamil 700</span><span>3xl · line-height 1.4</span></div></div>
+    <div class="spec"><div style="font-family:var(--ez-font-display-latin);font-size:var(--ez-text-3xl);line-height:var(--ez-lh-3xl)">Read the stone, <em style="color:var(--ez-accent-text)">in Tamil.</em></div><div class="meta"><span>Display Latin · Fraunces 500, opsz auto, italic for emphasis</span><span>3xl · line-height 1.12</span></div></div>
+    <div class="spec"><p class="ta" lang="ta" style="margin:0;max-width:60ch">கல்வெட்டு என்பது கல்லில் வெட்டப்பட்ட எழுத்து. சோழர் காலக் கோயில் சுவர்களில் நிலக்கொடை, விளக்குக்கொடை, ஊர்ச் சபையின் முடிவுகள் எழுதப்பட்டுள்ளன.</p><div class="meta"><span>Body Tamil · Noto Sans Tamil 400</span><span>md 17px · line-height 1.8 · measure 60ch</span></div></div>
+    <div class="spec"><p style="margin:0;max-width:68ch">An inscription is writing cut into stone. Chola temple walls record land grants, gifts of lamps and the decisions of village assemblies.</p><div class="meta"><span>Body Latin · Instrument Sans 400</span><span>md 17px · line-height 1.6 · measure 68ch</span></div></div>
+    <div class="spec"><div style="display:flex;gap:28px;flex-wrap:wrap;align-items:baseline"><span style="font-family:var(--ez-font-brahmi);font-size:2.6rem" lang="ta-Brah">𑀏𑀵𑀼𑀢𑁰𑀢𑀼</span><span style="font-family:var(--ez-font-grantha);font-size:2.6rem">𑌕𑌮𑌅</span><span style="font-family:var(--ez-font-chola);font-size:2.6rem;font-weight:600" lang="ta">எழுத்து</span></div><div class="meta"><span>Era scripts · Noto Sans Brahmi · Noto Sans Grantha · Noto Serif Tamil</span><span>Tamil-Brahmi pulli: U+11070 (old Tamil virama)</span></div></div>
+    <h3 style="margin-top:24px">Scale (major third, 16px root)</h3>
+    <div id="scale"></div>
+  </section>
+
+  <section id="glyphs">
+    <div class="head"><span class="num">04</span><h2>Era glyphs &amp; glyph cards</h2><p>One letter, five stages. Vatteluttu has no Unicode, so it is drawn (design/glyphs/vatteluttu.json), with sources in <a href="glyphs/REFERENCES.md">glyphs/REFERENCES.md</a>.</p></div>
+    <div class="grid g5" id="cards"></div>
+    <div class="tile" style="margin-top:16px;padding:8px"><picture><source srcset="glyphs/evolution-strip-dark.svg" media="(prefers-color-scheme: dark)"><img id="strip" src="glyphs/evolution-strip-light.svg" alt="Evolution of a, ka, ma, e and ḻa across five stages" style="width:100%"></picture></div>
+    <p class="cap" style="margin:8px 4px 0">Chola stage shown in modern type (Noto Serif Tamil), not traced from an inscription. Vatteluttu is drawn; see <a href="glyphs/REFERENCES.md">REFERENCES.md</a>.</p>
+  </section>
+
+  <section id="components">
+    <div class="head"><span class="num">05</span><h2>Components</h2><p>Restoration and tutoring states. Confidence is shown as a 10-step meter with a word, never as colour alone. Restorations "match expert restorations"; they are never "correct".</p></div>
+    <div class="grid g2">
+      <div class="tile grid">
+        <div class="row"><button class="btn btn-primary">கற்கத் தொடங்கு</button><button class="btn btn-ghost">Restore a line</button></div>
+        <div class="row"><span class="chip ok">✓ நிரப்பு · fill</span><span class="chip unsure">? விலகல் · abstain</span><span class="chip lamp">proposed</span><span class="chip err">! error</span><span class="chip n">ruler: Parantaka I</span></div>
+        <p class="line" lang="ta" style="margin:0">…மதிரைகொண்ட கோப்<span class="gap-fill">பர</span>கேசரிவர்மற்கு யாண்டு <span class="gap-unsure">?</span> ஆவது</p>
+      </div>
+      <div class="tile cand">
+        <div class="top"><b lang="ta">பர</b><span class="iso" style="font-family:var(--ez-font-display-latin);font-style:italic;color:var(--ez-text-muted)">para</span><span class="sp" style="flex:1"></span><span class="chip ok">தேர்வு · chosen</span></div>
+        <div class="row"><div class="meter" aria-label="confidence: high"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><span style="font-size:var(--ez-text-sm);color:var(--ez-text-muted);font-weight:600">high</span></div>
+        <div class="feedback" lang="ta"><strong>✓ சரியாகப் படித்தீர்கள்!</strong><br>குறுக்குக் கோடு வளைந்து க ஆனது.</div>
+      </div>
+      <div class="abstain" style="grid-column:1/-1"><h4 lang="ta">வல்லுநர்களுக்கும் உறுதியில்லை</h4><p>Experts are unsure. No candidate is confident enough: this is an honest gap, and experts leave it open too.</p></div>
+    </div>
+  </section>
+
+  <section id="banners">
+    <div class="head"><span class="num">06</span><h2>Banners</h2><p>README hero (1280 × 400, light and dark), social preview (1280 × 640), video cards (1920 × 1080) and the Builder Center header (1600 × 900).</p></div>
+    <div class="banners">
+      <img src="brand/banners/readme-hero-light.svg" alt="README hero, light">
+      <img src="brand/banners/readme-hero-dark.svg" alt="README hero, dark">
+      <div class="grid g2"><img src="brand/banners/social-preview-dark.svg" alt="Social preview"><img src="brand/banners/builder-center-header.svg" alt="Builder Center header"></div>
+      <div class="grid g3"><img src="brand/banners/video/00-title-dark.svg" alt="Video title card"><img src="brand/banners/video/03-restore.svg" alt="Video section card"><img src="brand/banners/video/05-credits.svg" alt="Video credits card"></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Built with Strands Agents. Inscription texts from <a href="https://dharmalekha.info">DHARMA</a> (CC BY-SA 4.0). Fonts: Noto, Fraunces and Instrument Sans (SIL OFL 1.1).</p>
+    <p class="ta" lang="ta">எழுத்து · Ezhuthu design system · design/</p>
+  </footer>
+</div>
+<script>
+  const VAT = { ka: 'M50 13V87M17 47C25 38 39 39 50 50C61 61 75 62 83 53' };
+  const root = document.documentElement;
+  const btn = document.getElementById('theme');
+  const lockup = document.getElementById('lockup');
+  const strip = document.getElementById('strip');
+  function isDark() { return root.dataset.theme === 'dark' || (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches); }
+  function sync() {
+    const d = isDark();
+    btn.textContent = d ? 'Light · ஒளி' : 'Dark · இருள்';
+    btn.setAttribute('aria-pressed', String(d));
+    lockup.src = d ? 'brand/logo/lockup-horizontal-reversed.svg' : 'brand/logo/lockup-horizontal-color.svg';
+    strip.src = d ? 'glyphs/evolution-strip-dark.svg' : 'glyphs/evolution-strip-light.svg';
+    paint();
+  }
+  btn.addEventListener('click', () => { root.dataset.theme = isDark() ? 'light' : 'dark'; try { localStorage.setItem('ez-theme', root.dataset.theme); } catch (e) {} sync(); });
+  try { const s = localStorage.getItem('ez-theme'); if (s) root.dataset.theme = s; } catch (e) {}
+  if (location.hash === '#dark') root.dataset.theme = 'dark';
+  if (location.hash === '#light') root.dataset.theme = 'light';
+
+  const fams = { stone: ['50','100','200','300','400','500','600','700','800','900'], granite: ['950','900','850','800','700','600'], palm: ['100','200','300','500','700'], laterite: ['100','300','400','500','600','700','900'], ink: ['900','700'], lamp: ['200','300','400','500','700'], neem: ['100','300','700','900'], neelam: ['100','300','700','900'], kumkum: ['100','300','700','900'] };
+  const notes = { stone: 'limestone, the page', granite: 'dark mode', palm: 'ola leaf, panels', laterite: 'brand, actions', ink: 'lamp-black, text', lamp: 'temple lamp, focus', neem: 'success', neelam: 'abstain / unsure', kumkum: 'error' };
+  const pairs = [['text','bg'],['text-muted','surface'],['accent-text','surface'],['on-accent','accent'],['lamp-text','lamp-soft'],['ok','ok-soft'],['unsure','unsure-soft'],['error','error-soft']];
+  const cs = () => getComputedStyle(root);
+  function hex(v) { return v.trim().toUpperCase(); }
+  function lum(h) { h = h.replace('#',''); const c = [0,2,4].map(i => parseInt(h.slice(i,i+2),16)/255).map(v => v <= .03928 ? v/12.92 : Math.pow((v+.055)/1.055, 2.4)); return .2126*c[0]+.7152*c[1]+.0722*c[2]; }
+  function ratio(a,b) { const [x,y] = [lum(a),lum(b)].sort((m,n)=>n-m); return (x+.05)/(y+.05); }
+  function paint() {
+    const s = cs();
+    document.getElementById('prims').innerHTML = Object.entries(fams).map(([f, shades]) =>
+      `<div class="fam">${f} <small>· ${notes[f]}</small></div><div class="swatches">` +
+      shades.map(k => { const v = hex(s.getPropertyValue(`--ez-${f}-${k}`)); return `<div class="sw"><i style="background:${v}"></i><b>${f}-${k}</b><span>${v}</span></div>`; }).join('') + '</div>').join('');
+    document.getElementById('pairs').innerHTML = pairs.map(([fg,bg]) => { const a = hex(s.getPropertyValue(`--ez-${fg}`)), b = hex(s.getPropertyValue(`--ez-${bg}`)); return `<div class="pair" style="background:${b};color:${a}"><b>Aa அ ${ratio(a,b).toFixed(2)}:1</b><code>${fg} on ${bg}</code></div>`; }).join('');
+  }
+  const scale = ['4xl','3xl','2xl','xl','lg','md','sm','xs'];
+  document.getElementById('scale').innerHTML = scale.map(k => `<div class="scale-row"><code>${k}</code><div class="ell" style="font-size:var(--ez-text-${k});line-height:var(--ez-lh-${k}-ta);font-family:${['4xl','3xl','2xl'].includes(k) ? 'var(--ez-font-display-ta)' : 'var(--ez-font-body-ta)'}" lang="ta">எழுத்து · Ezhuthu</div></div>`).join('');
+  const cards = [
+    ['L5','தமிழ்-பிராமி','Tamil-Brahmi','from c. 3rd c. BCE','<span class="g" style="font-family:var(--ez-font-brahmi)">𑀓</span>', false],
+    ['L4','வட்டெழுத்து','Vatteluttu','c. 6th–11th c. CE · drawn',`<svg viewBox="0 0 100 100" aria-label="Vatteluttu ka"><path d="${VAT.ka}" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg>`, true],
+    ['L3','பல்லவர்','Pallava (Grantha)','c. 6th–9th c. CE','<span class="g" style="font-family:var(--ez-font-grantha)">𑌕</span>', false],
+    ['L2','சோழர்','Chola Tamil','c. 9th–13th c. CE','<span class="g" style="font-family:var(--ez-font-chola);font-weight:600">க</span>', false],
+    ['L1','இன்று','Modern Tamil','today','<span class="g" style="font-family:var(--ez-font-body-ta);font-weight:600;color:var(--ez-accent-text)">க</span>', false],
+  ];
+  document.getElementById('cards').innerHTML = cards.map(([l,ta,en,era,g,v]) => `<article class="gcard"><div class="gwell${v ? ' v' : ''}"><span class="lvl" lang="ta">${l} · ${ta}</span>${g}</div><div class="gmeta"><span class="t" lang="ta">க</span><span class="iso">ka</span></div><div class="gera">${en} · ${era}</div></article>`).join('');
+  sync();
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', sync);
+</script>
+</body>
+</html>
