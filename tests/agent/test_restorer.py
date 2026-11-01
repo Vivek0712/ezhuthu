@@ -176,6 +176,7 @@ def test_real_ontology_port_and_fill_candidates(monkeypatch):
     """Without fixtures the agent uses the real ezhuthu.ontology.lookup API, and its gap fills become
     ontology-sourced candidates (cantirātittavar[aiyum] is the real moon-and-sun formula)."""
     monkeypatch.delenv("EZHUTHU_FIXTURES", raising=False)
+    monkeypatch.setenv("EZHUTHU_ONTOLOGY", "direct")  # the in-process API; MCP is tested in test_ontology_mcp.py
     get_ontology.cache_clear()
     try:
         onto = get_ontology()

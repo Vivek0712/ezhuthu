@@ -1,8 +1,10 @@
-"""Ontology interface used by the agent: the real ``ezhuthu.ontology.lookup`` API, or a stub for fixtures.
+"""Ontology interface used by the agent: the ontology MCP server (default), the direct
+``ezhuthu.ontology.lookup`` API (flagged offline fallback), or a stub for fixtures.
 
-The Ontology team's API (issue #2) is ``ezhuthu.ontology.lookup`` with ``find_entities(text)``,
-``valid_letters(stage)``, ``formulas_for(ruler)``, ``entity(id)`` and ``hints_for_gap(left, right)``.
-``get_ontology()`` uses it when importable; otherwise it serves ``fixtures/ontology_stub.json``
+The Ontology team's API is ``ezhuthu.ontology.lookup`` with ``find_entities(text)``, ``valid_letters(stage)``,
+``formulas_for(ruler)``, ``entity(id)`` and ``hints_for_gap(left, right)``; ``ezhuthu.ontology.mcp_server``
+serves the same functions as MCP tools. ``get_ontology()`` picks the backend (see its docstring); when the
+ontology package is missing it serves ``ontology/lookups/*.json`` or ``fixtures/ontology_stub.json``
 (records in contracts/ontology-lookup.schema.json format).
 """
 
@@ -151,27 +153,53 @@ class ModuleOntology:
         return e if e is None or isinstance(e, dict) else vars(e)
 
 
+ONTOLOGY_MODE_ENV = "EZHUTHU_ONTOLOGY"  # mcp (default) | direct | stub
+ONTOLOGY_MODES = ("mcp", "direct", "stub")
+
+
+def _fixture_stub() -> StubOntology:
+    return StubOntology(json.loads((FIXTURES_DIR / "ontology_stub.json").read_text(encoding="utf-8")))
+
+
 @lru_cache(maxsize=1)
 def get_ontology() -> OntologyPort:
+    """The agent's ontology. Default: the ontology MCP server over stdio via a Strands MCPClient
+    (``ezhuthu.agent.ontology_mcp``). ``EZHUTHU_ONTOLOGY=direct`` uses the in-process lookup API instead
+    (offline fallback, flagged in ``name``); so does a failed MCP start, flagged ``fallback:direct``.
+    ``EZHUTHU_ONTOLOGY=stub`` (or ``EZHUTHU_FIXTURES=1`` with no mode set) uses the fixture stub."""
+    mode = os.environ.get(ONTOLOGY_MODE_ENV, "").strip().lower()
+    if mode and mode not in ONTOLOGY_MODES:
+        raise ValueError(f"{ONTOLOGY_MODE_ENV}={mode!r}; expected one of {ONTOLOGY_MODES}")
     # The synthetic fixture corpus names synthetic entities (fixtures/ontology_stub.json); pair it with
     # that stub so fixture runs stay self-consistent. Real benchmark data uses the real ontology.
-    if os.environ.get("EZHUTHU_FIXTURES") == "1":
-        return StubOntology(json.loads((FIXTURES_DIR / "ontology_stub.json").read_text(encoding="utf-8")))
+    if mode == "stub" or (not mode and os.environ.get("EZHUTHU_FIXTURES") == "1"):
+        return _fixture_stub()
+    flag = "direct:ezhuthu.ontology.lookup"
+    if mode in ("", "mcp"):
+        try:
+            from .ontology_mcp import McpOntology
+
+            return McpOntology()
+        except Exception as exc:  # noqa: BLE001 - the direct API is the flagged offline fallback
+            log.warning("ontology MCP server unavailable (%s); falling back to the direct lookup API", exc)
+            flag = "fallback:direct (mcp unavailable)"
     try:
         mod = importlib.import_module("ezhuthu.ontology.lookup")
         if all(hasattr(mod, f) for f in ("hints_for_gap", "find_entities", "valid_letters", "entity")):
-            return ModuleOntology(mod)
-    except Exception as exc:  # noqa: BLE001 - any import failure means "not merged yet"
+            onto = ModuleOntology(mod)
+            onto.name = flag
+            return onto
+    except Exception as exc:  # noqa: BLE001 - any import failure means the ontology package is missing
         log.info("ontology API unavailable (%s); using stub", exc)
     root = repo_root()
-    env_dir = os.environ.get("EZHUTHU_ONTOLOGY_DIR")  # e.g. the Ontology team's ontology/lookups before #9 merges
+    env_dir = os.environ.get("EZHUTHU_ONTOLOGY_DIR")  # a lookups/ dir in the contract schema
     lookups = Path(env_dir) if env_dir else (root / "ontology" / "lookups" if root else None)
     if lookups and lookups.is_dir():
-        onto = StubOntology.from_dir(lookups)
-        if onto.records:
-            onto.name = "lookups-json"
-            return onto
-    return StubOntology(json.loads((FIXTURES_DIR / "ontology_stub.json").read_text(encoding="utf-8")))
+        stub = StubOntology.from_dir(lookups)
+        if stub.records:
+            stub.name = "lookups-json"
+            return stub
+    return _fixture_stub()
 
 
 def letters_ok_for_dynasty(text: str, dynasty: str | None) -> bool:
