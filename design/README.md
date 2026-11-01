@@ -54,9 +54,9 @@ python3 design/tools/build_tokens.py                         # tokens.css, app-c
 cd design/tools && /tmp/ez-design/bin/python build_logos.py && /tmp/ez-design/bin/python build_glyphs.py \
   && /tmp/ez-design/bin/python build_banners.py && python3 build_wireframes.py && cd -
 cd design/tools && npm install && npx playwright install chromium && node render.mjs && cd -   # all PNGs
-python3 design/tools/check_design.py                         # validation (stdlib only)
+python3 design/tools/check_design.py                         # validation (stdlib only); also runs in `make check`
 ```
 
 **Render tool (recorded for the acceptance criteria).** PNGs are rasterised with **headless Chromium 141.0.7390.37 through Playwright 1.56.1** (`design/tools/render.mjs`). It opens each SVG, or `preview.html`, sizes it to the job in `tools/renders.json`, and takes a screenshot. Wireframes and `preview.html` load their fonts from Google Fonts. Logos and banners need no fonts, because their text is outlined to paths with HarfBuzz shaping (`tools/outline.py`), so Tamil conjuncts are shaped correctly.
 
-`check_design.py` checks that every SVG is valid XML with a viewBox, that every render exists at the expected pixel size, that the token files are current and all contrast pairs pass, that the banned brand phrases (listed in `BANNED` in the script) are absent, and that relative links in the docs resolve.
+`check_design.py` (run by `make check`, so CI runs it too) checks that every SVG is valid XML with a viewBox, that no banner artwork leaves its safe area (140 px side margins on video cards, 4 % on other banners; measured from the outlined path, rect and circle bounds, so a too-long headline fails), that every render exists at the expected pixel size, that the token files are current and all contrast pairs pass, that the banned brand phrases (listed in `BANNED` in the script) are absent, and that relative links in the docs resolve.

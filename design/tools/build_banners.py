@@ -262,17 +262,18 @@ def video_card(theme: str, kicker_ta: str, kicker_en: str, title_ta: str, title_
     out.append(wm)
     if num:
         out.append(p(text(num, FRAUNCES, 300, W - 140, 980, {"wght": 300, "opsz": 144}, anchor="end"), t["lamp"]))
-    out.append(p(text(kicker_en.upper(), SANS, 26, x, 470, {"wght": 650}, tracking=0.2), t["accent"]))
-    out.append(p(text(kicker_ta, TA_SANS, 26, x, 520, {"wght": 600}), t["accent"]))
     ta_ax = {"wght": 700}
     lines, fs = fit_lines(title_ta, TA_SERIF, 84, ta_ax, W - 2 * x)
+    ky = 470 if len(lines) == 1 else 430  # a two-line headline needs more air below the kicker
+    out.append(p(text(kicker_en.upper(), SANS, 26, x, ky, {"wght": 650}, tracking=0.2), t["accent"]))
+    out.append(p(text(kicker_ta, TA_SANS, 26, x, ky + 50, {"wght": 600}), t["accent"]))
     if len(lines) == 1:
         out.append(p(text(title_ta, TA_SERIF, fs, x, 660, ta_ax), t["ink"]))
         en_y = 760
     else:
         for i, line in enumerate(lines):
             out.append(p(text(line, TA_SERIF, fs, x, 615 + i * fs * 1.3, ta_ax), t["ink"]))
-        en_y = 820
+        en_y = 832
     out.append(p(text(title_en, FRAUNCES, 58, x, en_y, LAT), t["muted"]))
     out.append(f'<path d="M{x} 880h120" stroke="{t["lamp"]}" stroke-width="4" stroke-linecap="round"/>')
     out.append(p(text(foot, SANS, 24, x, 940, {"wght": 500}), t["faint"]))
@@ -316,7 +317,8 @@ def builder_header(theme: str) -> str:
     out.append(p(text("A restoration engine that abstains when experts would, and a tutor that teaches in Tamil.",
                       SANS, 24, 110, 550, {"wght": 450}), t["muted"]))
     out.append(inscription_slab(t, 110, 620, 760, 180, 1.25))
-    out.append(ka_row(t, 1010, 710, 92, 22, letter="ka"))
+    cell, gap = 92, 22
+    out.append(ka_row(t, W - 110 - (5 * cell + 4 * gap), 710, cell, gap, letter="ka"))  # right edge on the 110 margin
     out.append(p(text("Built with Strands Agents · Amazon Bedrock AgentCore · DHARMA texts, CC BY-SA 4.0", SANS, 18,
                       W - 110, H - 50, {"wght": 500}, anchor="end"), t["faint"]))
     return svg(W, H, "".join(out), "Ezhuthu article header", "Builder Center article header.")
