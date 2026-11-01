@@ -101,7 +101,7 @@ def build_server(root: str | None = None) -> MCPServer:
 
     @server.tool()
     @_input_errors
-    def entity(id: str) -> dict[str, Any]:  # noqa: A002 - the MCP argument name is part of the contract
+    def entity(id: str) -> dict[str, Any]:
         """The full lookup record of one entity (contracts/ontology-lookup.schema.json), or null.
 
         Args:
