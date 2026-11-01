@@ -110,3 +110,17 @@ def test_inputs_are_bounded():
     big = lookup.hints_for_gap(pad + left, right + " " + pad, gap_chars=7)
     assert time.perf_counter() - t0 < 2.0
     assert big[0]["id"] == lookup.hints_for_gap(left, right, gap_chars=7)[0]["id"] == "ez:title/parakesarivarman"
+
+
+def test_hints_do_not_depend_on_hash_seed():
+    """Two processes (e.g. the agent and the MCP server) must rank ties and order alt_fills identically."""
+    import os
+    import subprocess
+    import sys
+
+    code = ("import json; from ezhuthu.ontology import lookup; print(json.dumps(lookup.hints_for_gap("
+            "'svasti śrī maturai koṇṭa kō-p-para', 'rkku yāṇṭu', 7), ensure_ascii=False))")
+    outs = {subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, check=True,
+                           env={**os.environ, "PYTHONHASHSEED": seed}).stdout
+            for seed in ("1", "2", "3")}
+    assert len(outs) == 1

@@ -78,7 +78,7 @@ class Ontology:
             forms = set(rec.get("variants") or [])
             if rec["kind"] not in ("admin_unit",) or not rec.get("is_type"):
                 forms.add(rec["label_iso"])
-            for v in forms:
+            for v in sorted(forms):  # sorted: index order (and ties) must not depend on hash seed
                 if "…" in v:
                     continue
                 self.index.add(eid, v)
