@@ -1,6 +1,8 @@
 """Baselines for the restoration benchmark.
 
-- ``copy``: copy the aligned text from the best parallel passage (retrieval only).
+- ``copy``: copy the aligned text from the best parallel passage (retrieval only). Fills whose length is
+  outside the gap's tolerance (``length_tolerance``, the same rule the restorer uses) are dropped: alignment
+  can return the rest of a line (150 characters for a 1-character gap), which is not a restoration.
 - ``ngram``: character 5-gram model with beam search, trained on the train corpus lines.
 - ``zeroshot``: the default LLM with no parallels and no ontology hints.
 
@@ -13,7 +15,7 @@ import math
 
 from .llm import LLMClient
 from .prompts import RESTORER_SYSTEM, parse_candidates, zero_shot_prompt
-from .restorer import Restorer
+from .restorer import Restorer, length_tolerance
 from .text import normalize_iso
 
 BASELINES = ("copy", "ngram", "zeroshot")
@@ -22,8 +24,11 @@ BASELINES = ("copy", "ngram", "zeroshot")
 def copy_best_parallel(restorer: Restorer, left: str, right: str, gap_chars: int | None, *,
                        exclude_inscription: str | None = None, k: int = 20) -> list[tuple[str, float]]:
     ps = restorer.retrieve_parallels(left, right, gap_chars, k=k, exclude_inscription=exclude_inscription)
+    tol = length_tolerance(gap_chars) if gap_chars else None
     out: dict[str, float] = {}
     for p in ps:
+        if tol is not None and p.fill and abs(len(p.fill) - gap_chars) > tol:
+            continue
         if p.fill and p.fill not in out:
             out[p.fill] = round(p.score / 100.0, 4)
     return sorted(out.items(), key=lambda x: x[1], reverse=True)

@@ -1,7 +1,13 @@
-"""Restoration metrics: top-1 exact, top-20, character error rate, ECE (10 bins), coverage-accuracy."""
+"""Restoration metrics: top-1 exact, top-20, character error rate, ECE (10 bins), coverage-accuracy.
+
+CER is reported three ways because raw per-item CER is unbounded (a 150-character fill for a 1-character
+target scores 149) and a few such outliers dominate the mean: ``cer`` (raw mean), ``cer_clipped`` (mean of
+per-item CER clipped to 1.0) and ``cer_median``.
+"""
 
 from __future__ import annotations
 
+import statistics
 from collections.abc import Sequence
 from dataclasses import dataclass
 
@@ -87,7 +93,8 @@ def coverage_curve(confidences: Sequence[float], correct: Sequence[bool],
 def summarize(preds: Sequence[Prediction]) -> dict:
     n = len(preds)
     if n == 0:
-        return {"n": 0, "top1": None, "top20": None, "cer": None, "ece": None, "coverage": [], "reliability": [],
+        return {"n": 0, "top1": None, "top20": None, "cer": None, "cer_clipped": None, "cer_median": None,
+                "ece": None, "coverage": [], "reliability": [],
                 "abstain_rate": None}
     conf = [p.confidence for p in preds]
     ok = [p.top1_correct for p in preds]
@@ -96,6 +103,8 @@ def summarize(preds: Sequence[Prediction]) -> dict:
         "top1": round(sum(ok) / n, 4),
         "top20": round(sum(p.in_top(20) for p in preds) / n, 4),
         "cer": round(sum(p.cer for p in preds) / n, 4),
+        "cer_clipped": round(sum(min(1.0, p.cer) for p in preds) / n, 4),
+        "cer_median": round(statistics.median(p.cer for p in preds), 4),
         "ece": round(ece(conf, ok), 4),
         "coverage": coverage_curve(conf, ok),
         "reliability": reliability(conf, ok),

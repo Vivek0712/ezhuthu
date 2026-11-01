@@ -14,6 +14,7 @@ import argparse
 import datetime as dt
 import json
 import logging
+import subprocess
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor
@@ -103,14 +104,17 @@ def write_report(result: dict[str, Any], meta: dict[str, Any], out_dir: Path, na
     if meta.get("data_is_fixture"):
         lines += [FIXTURE_BANNER, ""]
     lines += [f"- Date: {meta['date']}", f"- Router: `{meta['router']}`",
-              f"- Split/subset: {meta['split']}/{meta['subset']}, n = {result['n']}", f"- Data: `{meta['data_dir']}`",
-              f"- Decider: {meta['decider']}", f"- Ontology constraints/hints: {meta['use_ontology']}",
-              f"- Command: `{meta['command']}`", "", "| subset | n | top-1 | top-20 | CER | ECE | abstain |",
-              "|---|---|---|---|---|---|---|"]
+              f"- Split/subset: {meta['split']}/{meta['subset']}, n = {result['n']}", f"- Data: `{meta['data_dir']}`"
+              + (f" (git {meta['data_commit'][:10]})" if meta.get("data_commit") else ""),
+              f"- Decider: {meta['decider']}",
+              f"- Ontology constraints/hints: {meta['use_ontology']}"
+              + (f" ({meta['ontology']})" if meta.get("ontology") else ""),
+              f"- Command: `{meta['command']}`", "", "| subset | n | top-1 | top-20 | CER (mean) | CER (clipped 1.0) | CER (median) | ECE | abstain |",
+              "|---|---|---|---|---|---|---|---|---|"]
     for sub, s in result["by_subset"].items():
         if s["n"]:
-            lines.append(f"| {sub} | {s['n']} | {s['top1']} | {s['top20']} | {s['cer']} | {s['ece']} | "
-                         f"{s['abstain_rate']} |")
+            lines.append(f"| {sub} | {s['n']} | {s['top1']} | {s['top20']} | {s['cer']} | {s['cer_clipped']} | "
+                         f"{s['cer_median']} | {s['ece']} | {s['abstain_rate']} |")
     lines += ["", "Coverage-accuracy (full):", "", "| threshold | coverage | accuracy |", "|---|---|---|"]
     for c in result["coverage"]:
         lines.append(f"| {c['threshold']} | {c['coverage']} | {c['accuracy']} |")
@@ -122,6 +126,16 @@ def write_report(result: dict[str, Any], meta: dict[str, Any], out_dir: Path, na
         lines += ["", usage]
     mp.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return jp, mp
+
+
+def git_commit(path: Path) -> str | None:
+    """HEAD commit of the git checkout holding ``path`` (data provenance for reports), if any."""
+    try:
+        out = subprocess.run(["git", "-C", str(path), "rev-parse", "HEAD"], capture_output=True, text=True,
+                             timeout=10, check=True)
+        return out.stdout.strip() or None
+    except (OSError, subprocess.SubprocessError):
+        return None
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -158,6 +172,7 @@ def main(argv: list[str] | None = None) -> int:
     meta = {
         "date": dt.datetime.now(dt.UTC).isoformat(timespec="seconds"), "router": args.router, "split": args.split,
         "subset": args.subset, "limit": args.limit, "data_dir": str(src.path), "data_is_fixture": src.is_fixture,
+        "data_commit": None if src.is_fixture else git_commit(src.path),
         "decider": (health or {}).get("model", "none (fallback confidence)"), "use_ontology": not args.no_ontology,
         "ontology": restorer.ontology.name if not args.no_ontology else None,
         "models": restorer.config.llm, "routing": vars(restorer.config.routing),
@@ -167,6 +182,7 @@ def main(argv: list[str] | None = None) -> int:
     root = repo_root() or Path.cwd()
     _, mp = write_report(result, meta, Path(args.out) if args.out else root / "eval" / "reports", name)
     print(json.dumps({"n": result["n"], "top1": result["top1"], "top20": result["top20"], "cer": result["cer"],
+                      "cer_clipped": result["cer_clipped"],
                       "ece": result["ece"], "report": str(mp)}, ensure_ascii=False))
     return 0
 
