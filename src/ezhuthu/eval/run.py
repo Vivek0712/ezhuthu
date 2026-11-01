@@ -105,10 +105,11 @@ def write_report(result: dict[str, Any], meta: dict[str, Any], out_dir: Path, na
         lines += [FIXTURE_BANNER, ""]
     lines += [f"- Date: {meta['date']}", f"- Router: `{meta['router']}`",
               f"- Split/subset: {meta['split']}/{meta['subset']}, n = {result['n']}", f"- Data: `{meta['data_dir']}`"
-              + (f" (git {meta['data_commit'][:10]})" if meta.get("data_commit") else ""),
+              + (f" ({meta['data_commit']})" if meta.get("data_commit") else ""),
               f"- Decider: {meta['decider']}",
               f"- Ontology constraints/hints: {meta['use_ontology']}"
-              + (f" ({meta['ontology']})" if meta.get("ontology") else ""),
+              + (f" ({meta['ontology']}" + (f", {meta['ontology_ref']}" if meta.get("ontology_ref") else "") + ")"
+                 if meta.get("ontology") else ""),
               f"- Command: `{meta['command']}`", "", "| subset | n | top-1 | top-20 | CER (mean) | CER (clipped 1.0) | CER (median) | ECE | abstain |",
               "|---|---|---|---|---|---|---|---|---|"]
     for sub, s in result["by_subset"].items():
@@ -150,6 +151,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--workers", type=int, default=1)
     ap.add_argument("--name", default=None)
     ap.add_argument("--out", default=None, help="report dir (default eval/reports)")
+    ap.add_argument("--data-ref", default=None, help="provenance of the benchmark files (e.g. branch@commit)")
+    ap.add_argument("--ontology-ref", default=None, help="provenance of the ontology lookups")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 
@@ -172,7 +175,8 @@ def main(argv: list[str] | None = None) -> int:
     meta = {
         "date": dt.datetime.now(dt.UTC).isoformat(timespec="seconds"), "router": args.router, "split": args.split,
         "subset": args.subset, "limit": args.limit, "data_dir": str(src.path), "data_is_fixture": src.is_fixture,
-        "data_commit": None if src.is_fixture else git_commit(src.path),
+        "data_commit": None if src.is_fixture else (args.data_ref or git_commit(src.path)),
+        "ontology_ref": args.ontology_ref,
         "decider": (health or {}).get("model", "none (fallback confidence)"), "use_ontology": not args.no_ontology,
         "ontology": restorer.ontology.name if not args.no_ontology else None,
         "models": restorer.config.llm, "routing": vars(restorer.config.routing),
