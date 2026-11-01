@@ -78,7 +78,7 @@
   "ez:temple/citamparam-nataraja": "Q1966341",
   "ez:temple/kancipuram-muktesvara": "Q6933613",
   "ez:temple/mahabalipuram-shore": "Q1144279",
-  "ez:temple/srirangam-ranganatha": "Q97481257",
+  "ez:temple/srirangam-ranganatha": "Q2671548",
   "ez:temple/tanjore-brhadisvara": "Q916943",
   "ez:temple/taracuram-airavatesvara": "Q3437182",
   "ez:temple/thanjavur-brhadisvara": "Q916943",
@@ -1026,12 +1026,20 @@
    "ez:temple/pullalur-kailasanatha": {
     "qid": "Q97481043",
     "reason": "same undescribed item as above; not verifiable"
+   },
+   "ez:temple/srirangam-ranganatha": {
+    "qid": "Q97481257",
+    "reason": "ASI monument item N-TN-C217 at Erukkampattu (Commons 'Ranganatha Temple, Erukkampattu', 13.09N 79.26E), not Srirangam (QA, PR #9)"
    }
   },
   "accept": {
    "ez:dynasty/vijayanagara": {
     "qid": "Q167639",
     "reason": "Vijayanagara Empire; other candidates were architecture styles"
+   },
+   "ez:temple/srirangam-ranganatha": {
+    "qid": "Q2671548",
+    "reason": "Ranganathaswamy Temple, Srirangam (Hindu temple, P625 10.86N 78.69E); checked live 2026-11-02"
    }
   }
  }

@@ -5,5 +5,7 @@ reject:
   ez:place/tirupporur: {qid: Q7785417, reason: "assembly constituency, not the town"}
   ez:temple/kancipuram-kailasanatha: {qid: Q97481043, reason: "undescribed item also matched for Pullalur; not verifiable as the Kanchipuram temple"}
   ez:temple/pullalur-kailasanatha: {qid: Q97481043, reason: "same undescribed item as above; not verifiable"}
+  ez:temple/srirangam-ranganatha: {qid: Q97481257, reason: "ASI monument item N-TN-C217 at Erukkampattu (Commons 'Ranganatha Temple, Erukkampattu', 13.09N 79.26E), not Srirangam (QA, PR #9)"}
 accept:
   ez:dynasty/vijayanagara: {qid: Q167639, reason: "Vijayanagara Empire; other candidates were architecture styles"}
+  ez:temple/srirangam-ranganatha: {qid: Q2671548, reason: "Ranganathaswamy Temple, Srirangam (Hindu temple, P625 10.86N 78.69E); checked live 2026-11-02"}
