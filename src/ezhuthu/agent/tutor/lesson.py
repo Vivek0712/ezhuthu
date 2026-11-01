@@ -8,6 +8,7 @@ import uuid
 from dataclasses import asdict, dataclass
 from typing import Any
 
+from ..glyphs import covered as vatteluttu_covered
 from ..text import (
     LEVELS,
     aksharas,
@@ -50,9 +51,11 @@ class Item:
     def to_api(self) -> dict[str, Any]:
         d = {"item_id": self.item_id, "type": self.type, "prompt_ta": self.prompt_ta, "prompt_en": self.prompt_en,
              "script_level": self.script_level, "answer_hidden": True, "font": self.font}
+        # Exactly one glyph field (contract: "glyph_svg"|"glyph_text"). Never the answer: L4 sends drawn SVG only.
         if self.glyph_svg:
             d["glyph_svg"] = self.glyph_svg
-        d["glyph_text"] = self.glyph_text
+        else:
+            d["glyph_text"] = self.glyph_text
         return d
 
     def to_dict(self) -> dict[str, Any]:
@@ -76,8 +79,15 @@ def words_of(text: str) -> list[str]:
     return [w for w in _WORD_RE.findall(normalize_iso(clean)) if len(w) >= 2]
 
 
+def _teachable(iso: str, level: str) -> bool:
+    """L4 (Vatteluttu) can only show letters the server has drawings for; other levels use Unicode fonts."""
+    return level != "L4" or vatteluttu_covered(iso)
+
+
 def build_items(text: str, level: str, *, n_letters: int = 6, n_words: int = 3, seed: int | None = None) -> list[Item]:
-    """Letters first (distinct aksharas in order of appearance), then words, then one line."""
+    """Letters first (distinct aksharas in order of appearance), then words, then one line.
+
+    At L4 only letters, words and lines whose every letter has a Vatteluttu drawing are used."""
     if level not in LEVELS:
         raise ValueError(f"level must be one of {LEVELS}")
     rng = random.Random(seed)
@@ -90,15 +100,17 @@ def build_items(text: str, level: str, *, n_letters: int = 6, n_words: int = 3, 
                 letters.append(a)
     # Prefer consonant+vowel and vowel letters (what learners read first); pure consonants fill the rest.
     voiced = [a for a in letters if a[-1] in "aāiīuūeēoō"] + [a for a in letters if a[-1] not in "aāiīuūeēoō"]
+    voiced = [a for a in voiced if _teachable(a, level)]
     items = [make_item("letter", a, level) for a in voiced[:n_letters]]
     # Prefer mid-length words (3-6 aksharas): long compounds are for the line item.
-    uniq = list(dict.fromkeys(words))
+    uniq = [w for w in dict.fromkeys(words) if _teachable(w, level)]
     pool = [w for w in uniq if 3 <= len(aksharas(w)) <= 6]
     picked = rng.sample(pool, min(n_words, len(pool)))
     picked += [w for w in uniq if w not in picked][: n_words - len(picked)]
     for w in picked:
         items.append(make_item("word", w, level))
     clean_lines = [ln for ln in lines if "[?" not in ln] or lines
+    clean_lines = [ln for ln in clean_lines if _teachable(normalize_iso(ln), level)]
     if clean_lines:
         line = min(clean_lines, key=lambda x: abs(len(x) - 40))
         items.append(make_item("line", normalize_iso(re.sub(r"\[\?\d*\]", "…", line)), level))
@@ -109,7 +121,8 @@ def assessment_items(phase: str, seed: int) -> list[Item]:
     rng = random.Random(f"{seed}:{phase}")
     out = []
     for level in LEVELS:
-        for a in rng.sample(LETTER_BANK, ASSESSMENT_ITEMS_PER_LEVEL):
+        bank = [a for a in LETTER_BANK if _teachable(a, level)]
+        for a in rng.sample(bank, ASSESSMENT_ITEMS_PER_LEVEL):
             out.append(make_item("letter", a, level, phase=phase))
     return out
 

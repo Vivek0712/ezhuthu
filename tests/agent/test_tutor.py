@@ -68,9 +68,13 @@ def test_policy_rules_and_guardrails():
 
 def test_hints_do_not_reveal_answer():
     ta, en = hint_for("letter", "kō")
-    assert "கோ" not in ta and "«க»" in ta
+    assert "கோ" not in ta and "க" not in ta.replace("குறிப்பு", "") and "vallinam" in en and "«ō»" in en
     ta, en = hint_for("word", "nantā")
     assert "nantā" not in en and "3 letters" in en
+    for letter in ("ka", "ṉa", "pa", "ma", "ta", "śa"):  # consonant+a: "k" alone is graded correct for "ka"
+        ta, en = hint_for("letter", letter)
+        cons = letter[:-1]
+        assert f"«{cons}" not in en and f" {cons} " not in en and f"«{cons}a»" not in en
 
 
 def test_explain_template_uses_only_facts():

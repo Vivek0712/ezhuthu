@@ -36,7 +36,10 @@ def test_tamil_roundtrip_keeps_gap_markers_and_dental_n():
 def test_render_levels():
     assert render_level("kō", "L1")["glyph_text"] == "கோ"
     assert render_level("kōyil", "L2")["glyph_text"] == "கொயில"  # no e/o length, no pulli
-    assert render_level("ka", "L4")["glyph_svg"] == "vatteluttu:ka"
+    l4 = render_level("ka", "L4")
+    assert l4["glyph_svg"].startswith("<svg") and l4["glyph_text"] is None and "ka" not in l4["glyph_svg"]
+    assert render_level("ki", "L4") == {"glyph_text": None, "glyph_svg": None, "font": None}  # no drawing yet
+    assert "\U00011300" not in render_level("ke", "L3")["glyph_text"]  # no candrabindu on short e
     assert render_level("ka", "L5")["glyph_text"] == "\U00011013"  # BRAHMI LETTER KA
     assert render_level("ka", "L3")["font"] == "Noto Sans Grantha"
 

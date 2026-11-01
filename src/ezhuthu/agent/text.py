@@ -13,6 +13,7 @@ from dataclasses import dataclass
 from functools import lru_cache
 
 GAP_RE = re.compile(r"\[\?(\d*)\]")
+GRANTHA_CANDRABINDU = "\U00011300"
 DEFAULT_UNKNOWN_GAP = 6  # used only when neither the marker nor a parallel gives a length
 
 # Script stage per tutor level (contracts/restore-api.md, "Tutor").
@@ -113,8 +114,12 @@ def render_level(iso: str, level: str) -> dict[str, str | None]:
     """Render ISO text for a tutor level. Returns ``glyph_text`` and/or ``glyph_svg``.
 
     L1 modern Tamil; L2 Tamil script in Chola orthography (no e/ō length contrast, no pulli);
-    L3 Grantha (Noto Sans Grantha), the closest Unicode script to Pallava-Grantha;
-    L4 Vatteluttu has no Unicode block, so the app draws SVG glyphs keyed by ISO value;
+    L3 Grantha (Noto Sans Grantha), the closest Unicode script to Pallava-Grantha. Aksharamukha marks short
+    e/o with a combining candrabindu (U+11300); Pallava-Grantha did not write the short/long contrast, so the
+    mark is dropped for teaching (grading at L3 ignores e/ē, o/ō length anyway);
+    L4 Vatteluttu has no Unicode block: ``glyph_svg`` is SVG markup drawn server side (see ``glyphs``) and
+    ``glyph_text`` is None, so the payload never carries the answer. Letters without a drawing return None
+    for both;
     L5 Tamil-Brahmi (Unicode Brahmi with Tamil-Brahmi letters).
     """
     if level == "L1":
@@ -123,9 +128,12 @@ def render_level(iso: str, level: str) -> dict[str, str | None]:
         ta = iso_to_tamil(chola_orthography(iso)).replace("்", "")
         return {"glyph_text": ta, "glyph_svg": None, "font": "Noto Sans Tamil"}
     if level == "L3":
-        return {"glyph_text": _translit("ISO", "Grantha", iso), "glyph_svg": None, "font": "Noto Sans Grantha"}
+        grantha = _translit("ISO", "Grantha", iso).replace(GRANTHA_CANDRABINDU, "")
+        return {"glyph_text": grantha, "glyph_svg": None, "font": "Noto Sans Grantha"}
     if level == "L4":
-        return {"glyph_text": iso, "glyph_svg": f"vatteluttu:{iso}", "font": None}
+        from .glyphs import vatteluttu_svg
+
+        return {"glyph_text": None, "glyph_svg": vatteluttu_svg(iso), "font": None}
     if level == "L5":
         return {"glyph_text": _translit("ISO", "TamilBrahmi", iso), "glyph_svg": None, "font": "Noto Sans Brahmi"}
     raise ValueError(f"unknown level {level!r}")
@@ -150,11 +158,12 @@ def aksharas(iso: str) -> list[str]:
 ISO_LETTER_CHARS = set("aāiīuūeēoōkṅcñṭṇtnpmyrlvḻḷṟṉśṣsjhgdbḍḥṃ" + "̥̄")
 
 
-def non_iso_chars(text: str) -> set[str]:
+def non_iso_chars(text: str, *, extra_allowed: str = "") -> set[str]:
     """Characters that are not Tamil/Grantha ISO letters, digits, spaces or punctuation."""
     out = set()
+    allowed = ".,-|/'()" + extra_allowed
     for ch in unicodedata.normalize("NFD", text.lower()):
-        if ch.isspace() or ch.isdigit() or ch in ".,-|/'()":
+        if ch.isspace() or ch.isdigit() or ch in allowed:
             continue
         if unicodedata.normalize("NFC", ch) in ISO_LETTER_CHARS or ch in ISO_LETTER_CHARS:
             continue
