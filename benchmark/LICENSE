@@ -1,0 +1,14 @@
+The files in this directory (benchmark/) are a derived dataset of the DHARMA project's TEI/EpiDoc
+editions and are licensed under the Creative Commons Attribution-ShareAlike 4.0 International
+licence (CC BY-SA 4.0): https://creativecommons.org/licenses/by-sa/4.0/legalcode
+
+Attribution: DHARMA, "The Domestication of 'Hindu' Asceticism and the Religious Making of South
+and Southeast Asia" (ERC grant 809994), https://dharmalekha.info, and the named editors of each
+edition (see the source_url field of every record). Pinned source commits: config/dharma.lock.json.
+
+Changes made: text extracted from the editions, split into train/val/test, restorations turned into
+benchmark items, and Tamil-script display forms added. See DATA_CARD.md.
+
+Most edition files declare CC BY-SA 4.0 in their <availability> header (counts in DATA_CARD.md),
+so this derived work is shared under the same licence. The repository's Apache-2.0 licence covers
+the code, not the files in this directory.
