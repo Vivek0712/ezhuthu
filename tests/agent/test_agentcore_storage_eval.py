@@ -15,7 +15,8 @@ from ezhuthu.eval.metrics import Prediction, coverage_curve, ece, summarize
 
 @pytest.fixture
 def service():
-    return EzhuthuService(store=MemoryStore(), llm=None, decider=NoDecider(), model_factory=None)
+    return EzhuthuService(store=MemoryStore(), llm=None, decider=NoDecider(), model_factory=None,
+                          admin_token="s3cret", open_review=False)
 
 
 def test_agentcore_routes_every_action(service):
@@ -31,9 +32,11 @@ def test_agentcore_routes_every_action(service):
     assert "gain" in handle({"action": "progress", "session_id": sid}, service)
     ev = handle({"action": "evaluate", "benchmark": "test", "limit": 2, "router": "baseline-copy"}, service)
     assert ev["n"] == 2
-    c = handle({"action": "corrections", "gap_ref": "t:0", "corrected_text": "x"}, service)
+    c = handle({"action": "corrections", "gap_ref": "t:0", "corrected_text": "paṉmaṟku"}, service)
     assert handle({"action": "queue"}, service)["pending"] == 1
-    rv = handle({"action": "review", "id": c["id"], "review_action": "approve"}, service)
+    denied = handle({"action": "review", "id": c["id"], "review_action": "approve"}, service)
+    assert denied["error"]["status"] == 403
+    rv = handle({"action": "review", "id": c["id"], "review_action": "approve", "admin_token": "s3cret"}, service)
     assert rv["status"] == "approved"
     assert handle({"action": "review", "id": c["id"]}, service)["error"]["status"] == 422
 

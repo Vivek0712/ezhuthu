@@ -23,8 +23,11 @@ def pedagogy_or_restore(state, options):
 def client():
     dec = FakeDecider(pedagogy_or_restore)
     svc = EzhuthuService(store=MemoryStore(), llm=None, decider=dec, restorer=Restorer(decider=dec),
-                         model_factory=None)
+                         model_factory=None, admin_token="s3cret", open_review=False)
     return TestClient(create_app(svc))
+
+
+ADMIN = {"X-Ezhuthu-Admin-Token": "s3cret"}
 
 
 def test_health(client):
@@ -106,10 +109,13 @@ def test_corrections_and_queue(client):
     client.post("/api/corrections", json={"gap_ref": "trace1:1", "corrected_text": "oṉṟukku"})
     q = client.get("/api/queue").json()
     assert q["pending"] == 2 and q["items"][0]["status"] == "pending"
-    r = client.post(f"/api/queue/{qid}", json={"action": "edit", "text": "paṉmaṟku "})
+    assert client.post(f"/api/queue/{qid}", json={"action": "approve"}).status_code == 403
+    assert client.post(f"/api/queue/{qid}", json={"action": "approve"},
+                       headers={"X-Ezhuthu-Admin-Token": "wrong"}).status_code == 403
+    r = client.post(f"/api/queue/{qid}", json={"action": "edit", "text": "paṉmaṟku "}, headers=ADMIN)
     assert r.status_code == 200 and r.json()["status"] == "edited" and r.json()["history"]
-    assert client.post(f"/api/queue/{qid}", json={"action": "edit"}).status_code == 422
-    assert client.post("/api/queue/nope", json={"action": "approve"}).status_code == 404
+    assert client.post(f"/api/queue/{qid}", json={"action": "edit"}, headers=ADMIN).status_code == 422
+    assert client.post("/api/queue/nope", json={"action": "approve"}, headers=ADMIN).status_code == 404
     assert client.post("/api/corrections", json={"gap_ref": "x"}).status_code == 422
     assert client.get("/api/queue").json()["pending"] == 1
 
@@ -144,7 +150,9 @@ def test_tutor_endpoints(client):
     assert client.get("/api/progress/nope").status_code == 404
 
 
-def test_vatteluttu_items_carry_svg_key(client):
-    body = client.post("/api/lesson", json={"inscription_id": "FIXTURE_PANDYA_001", "level": "L4"}).json()
-    assert all(i["glyph_svg"].startswith("vatteluttu:") for i in body["items"])
+def test_vatteluttu_items_are_drawn_svg_without_text(client):
+    body = client.post("/api/lesson", json={"text": "kapa mata ṉaka paka", "level": "L4"}).json()
+    assert body["items"]
+    for i in body["items"]:
+        assert i["glyph_svg"].startswith("<svg") and "glyph_text" not in i
     json.dumps(body, ensure_ascii=False)  # serialisable

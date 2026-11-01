@@ -3,7 +3,8 @@
 Payload: ``{"action": "restore|lesson|answer|assessment|progress|evaluate|corrections|queue|review|health", ...}``
 with the same fields as the matching endpoint in contracts/restore-api.md (``review`` = POST /api/queue/{id}:
 ``{"action": "review", "id": ..., "review_action": "approve|edit|reject", "text"?}``). The response is the endpoint's JSON
-body, or ``{"error": {"status": 404|422|500, "detail": "..."}}``.
+body, or ``{"error": {"status": 403|404|422|500, "detail": "..."}}``. ``review`` and LLM-router ``evaluate`` need
+``"admin_token"`` (the runtime's ``EZHUTHU_ADMIN_TOKEN``); request size limits are in ``ezhuthu.api.limits``.
 
 Local run: ``python -m ezhuthu.agentcore_app`` (serves POST /invocations and GET /ping on :8080).
 """
@@ -14,7 +15,7 @@ import logging
 from collections.abc import Callable
 from typing import Any
 
-from .api.service import BadRequest, EzhuthuService, NotFound
+from .api.service import BadRequest, EzhuthuService, Forbidden, NotFound
 
 log = logging.getLogger(__name__)
 _service: EzhuthuService | None = None
@@ -63,7 +64,7 @@ def _progress(s: EzhuthuService, p: dict[str, Any]) -> Any:
 
 def _evaluate(s: EzhuthuService, p: dict[str, Any]) -> Any:
     return s.evaluate(benchmark=p.get("benchmark"), limit=p.get("limit"), router=p.get("router", "routed"),
-                      records=p.get("records"))
+                      records=p.get("records"), admin_token=p.get("admin_token"))
 
 
 def _corrections(s: EzhuthuService, p: dict[str, Any]) -> Any:
@@ -75,7 +76,7 @@ def _corrections(s: EzhuthuService, p: dict[str, Any]) -> Any:
 def _review(s: EzhuthuService, p: dict[str, Any]) -> Any:
     # "action" routes the invocation, so the queue action travels as "review_action" (approve|edit|reject).
     _require(p, "id", "review_action")
-    return s.review(p["id"], p["review_action"], p.get("text"), p.get("reviewer"))
+    return s.review(p["id"], p["review_action"], p.get("text"), p.get("reviewer"), admin_token=p.get("admin_token"))
 
 
 ACTIONS: dict[str, Callable[[EzhuthuService, dict[str, Any]], Any]] = {
@@ -97,6 +98,8 @@ def handle(payload: dict[str, Any], svc: EzhuthuService | None = None) -> dict[s
         return fn(svc or service(), payload)
     except NotFound as exc:
         return {"error": {"status": 404, "detail": str(exc)}}
+    except Forbidden as exc:
+        return {"error": {"status": 403, "detail": str(exc)}}
     except (BadRequest, ValueError, TypeError) as exc:
         return {"error": {"status": 422, "detail": str(exc)}}
     except Exception as exc:

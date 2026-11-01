@@ -6,19 +6,31 @@
 from __future__ import annotations
 
 import json
-from typing import Any, Literal
+import os
+from typing import Annotated, Any, Literal
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, Header, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from ..agent.data import parse_jsonl_text
-from .service import BadRequest, EzhuthuService, NotFound
+from ..eval.run import ROUTERS
+from . import limits
+from .service import BadRequest, EzhuthuService, Forbidden, NotFound
+
+AdminToken = Annotated[str | None, Header(alias="X-Ezhuthu-Admin-Token")]
+DEV_ORIGINS = ("http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:4173", "http://127.0.0.1:4173")
+
+
+def cors_origins() -> list[str]:
+    """``EZHUTHU_CORS_ORIGINS`` (comma-separated; infra sets the CloudFront origin), else the Vite dev origins."""
+    env = os.environ.get("EZHUTHU_CORS_ORIGINS", "")
+    return [o.strip() for o in env.split(",") if o.strip()] or list(DEV_ORIGINS)
 
 
 class RestoreRequest(BaseModel):
-    text: str
+    text: str = Field(max_length=limits.MAX_TEXT_CHARS)
     script: Literal["iso15919", "tamil"] = "iso15919"
     max_candidates: int = Field(5, ge=1, le=20)
     allow_escalation: bool = True
@@ -38,17 +50,27 @@ class QueueAction(BaseModel):
 
 
 class LessonRequest(BaseModel):
-    inscription_id: str | None = None
-    text: str | None = None
+    inscription_id: str | None = Field(None, max_length=200)
+    text: str | None = Field(None, max_length=limits.MAX_TEXT_CHARS)
     level: Literal["L1", "L2", "L3", "L4", "L5"] = "L1"
     lang: Literal["ta", "en"] = "ta"
     session_id: str | None = None
 
 
 class AnswerRequest(BaseModel):
-    session_id: str
-    item_id: str
-    answer: str
+    session_id: str = Field(max_length=100)
+    item_id: str = Field(max_length=100)
+    answer: str = Field(max_length=500)
+
+
+class EvaluateRequest(BaseModel):
+    """JSON body of /api/evaluate. ``records`` are checked in the service (shared with AgentCore)."""
+
+    model_config = ConfigDict(extra="forbid")
+    benchmark: str = Field("test", max_length=40)
+    limit: int | None = Field(None, ge=1)
+    router: Literal[ROUTERS] = "routed"  # type: ignore[valid-type]
+    records: list[Any] | None = None
 
 
 class AssessmentRequest(BaseModel):
@@ -59,7 +81,8 @@ class AssessmentRequest(BaseModel):
 def create_app(service: EzhuthuService | None = None) -> FastAPI:
     app = FastAPI(title="Ezhuthu API", version="0.1.0",
                   description="Restore and tutor API for ancient Tamil inscriptions (contracts/restore-api.md).")
-    app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+    app.add_middleware(CORSMiddleware, allow_origins=cors_origins(), allow_methods=["GET", "POST"],
+                       allow_headers=["Content-Type", "Authorization", "X-Ezhuthu-Admin-Token"])
     holder: dict[str, EzhuthuService] = {}
 
     def svc() -> EzhuthuService:
@@ -75,6 +98,10 @@ def create_app(service: EzhuthuService | None = None) -> FastAPI:
     async def _br(_: Request, exc: BadRequest) -> JSONResponse:
         return JSONResponse({"detail": str(exc)}, status_code=422)
 
+    @app.exception_handler(Forbidden)
+    async def _fb(_: Request, exc: Forbidden) -> JSONResponse:
+        return JSONResponse({"detail": str(exc)}, status_code=403)
+
     @app.get("/health")
     def health() -> dict[str, Any]:
         return svc().health()
@@ -84,9 +111,10 @@ def create_app(service: EzhuthuService | None = None) -> FastAPI:
         return svc().restore(req.text, req.script, req.max_candidates, req.allow_escalation)
 
     @app.post("/api/evaluate")
-    async def evaluate(request: Request) -> dict[str, Any]:
-        """JSON ``{benchmark, limit, router}``, a JSONL body (application/x-ndjson), or a multipart upload
-        (field ``file``, optional form fields ``router`` and ``limit``)."""
+    async def evaluate(request: Request, admin_token: AdminToken = None) -> dict[str, Any]:
+        """JSON ``{benchmark, limit, router}`` or ``{records, limit, router}``, a JSONL body (application/x-ndjson,
+        ``router``/``limit`` as query parameters), or a multipart upload (field ``file``, optional form fields
+        ``router`` and ``limit``). Malformed input is a 422, never a 500."""
         ctype = request.headers.get("content-type", "")
         try:
             if ctype.startswith("multipart/form-data"):
@@ -94,26 +122,25 @@ def create_app(service: EzhuthuService | None = None) -> FastAPI:
                 upload = form.get("file")
                 if upload is None or isinstance(upload, str):
                     raise BadRequest("multipart upload needs a 'file' field")
-                records = parse_jsonl_text((await upload.read()).decode("utf-8"))
-                limit = int(form["limit"]) if form.get("limit") else None
-                return svc().evaluate(records=records, limit=limit, router=str(form.get("router") or "routed"))
-            body = (await request.body()).decode("utf-8")
-            if "ndjson" in ctype or "jsonl" in ctype:
-                params = request.query_params
-                return svc().evaluate(records=parse_jsonl_text(body), router=params.get("router", "routed"),
-                                      limit=int(params["limit"]) if params.get("limit") else None)
-            data = json.loads(body or "{}")
-        except (json.JSONDecodeError, UnicodeDecodeError, ValueError) as exc:
-            if isinstance(exc, BadRequest):
-                raise
-            raise HTTPException(422, f"bad evaluate request: {exc}") from exc
-        if not isinstance(data, dict):
-            raise HTTPException(422, "expected a JSON object")
-        if "records" in data:
-            return svc().evaluate(records=data["records"], limit=data.get("limit"),
-                                  router=data.get("router", "routed"))
-        return svc().evaluate(benchmark=data.get("benchmark", "test"), limit=data.get("limit"),
-                              router=data.get("router", "routed"))
+                params = {"router": form.get("router") or "routed", "limit": form.get("limit") or None,
+                          "records": parse_jsonl_text((await upload.read()).decode("utf-8"))}
+            elif "ndjson" in ctype or "jsonl" in ctype:
+                q = request.query_params
+                params = {"router": q.get("router", "routed"), "limit": q.get("limit"),
+                          "records": parse_jsonl_text((await request.body()).decode("utf-8"))}
+            else:
+                params = json.loads((await request.body()).decode("utf-8") or "{}")
+                if not isinstance(params, dict):
+                    raise BadRequest("expected a JSON object")
+            req = EvaluateRequest.model_validate(params)
+        except ValidationError as exc:
+            first = exc.errors()[0]
+            loc = ".".join(str(x) for x in first.get("loc", ()))
+            raise BadRequest(f"bad evaluate request: {loc}: {first.get('msg')}") from exc
+        except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+            raise BadRequest(f"bad evaluate request: {exc}") from exc
+        return svc().evaluate(benchmark=req.benchmark, limit=req.limit, router=req.router, records=req.records,
+                              admin_token=admin_token)
 
     @app.post("/api/corrections")
     def corrections(req: CorrectionRequest) -> dict[str, Any]:
@@ -125,8 +152,8 @@ def create_app(service: EzhuthuService | None = None) -> FastAPI:
         return svc().queue()
 
     @app.post("/api/queue/{qid}")
-    def review(qid: str, req: QueueAction) -> dict[str, Any]:
-        return svc().review(qid, req.action, req.text, req.reviewer)
+    def review(qid: str, req: QueueAction, admin_token: AdminToken = None) -> dict[str, Any]:
+        return svc().review(qid, req.action, req.text, req.reviewer, admin_token=admin_token)
 
     @app.post("/api/lesson")
     def lesson(req: LessonRequest) -> dict[str, Any]:
