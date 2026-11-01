@@ -184,8 +184,14 @@ def test_key_from_secret_json_or_raw(monkeypatch):
     monkeypatch.delenv("EZHUTHU_DECIDER_API_KEY", raising=False)
     monkeypatch.setattr(dec, "_secret_api_key", lambda name, region, profile: KEY if name == "s" else 1 / 0)
     assert HostedDecider("http://x", MODEL, secret_name="s").api_key == KEY
+    bad = HostedDecider("http://x", MODEL, secret_name="bad")
     with pytest.raises(DeciderUnavailable, match="ZeroDivisionError"):
-        HostedDecider("http://x", MODEL, secret_name="bad").api_key  # noqa: B018
+        bad.api_key  # noqa: B018
+    calls = []
+    monkeypatch.setattr(dec, "_secret_api_key", lambda *a: calls.append(a) or 1 / 0)
+    with pytest.raises(DeciderUnavailable, match="cached failure"):
+        bad.api_key  # noqa: B018
+    assert calls == []  # no Secrets Manager call while the failure is cached
 
 
 CFG = parse_models_config({"llm": {"default": "m"}, "decider": {

@@ -202,6 +202,7 @@ class HostedDecider:
         self._health: dict[str, Any] | None = None
         self._health_checked = 0.0
         self.last_headers: dict[str, str] = {}
+        self._key_failed_at = 0.0
 
     @property
     def api_key(self) -> str:
@@ -210,9 +211,13 @@ class HostedDecider:
             if env:
                 self._api_key = env
             elif self._secret_name:
+                # A missing secret must not cost a Secrets Manager round trip on every request.
+                if self._key_failed_at and time.monotonic() - self._key_failed_at < 60:
+                    raise DeciderUnavailable("hosted decider key unavailable (cached failure)")
                 try:
                     self._api_key = _secret_api_key(self._secret_name, self._region, self._profile)
                 except Exception as exc:  # any AWS/auth error means "no hosted decider"
+                    self._key_failed_at = time.monotonic()
                     raise DeciderUnavailable(f"hosted decider key unavailable ({type(exc).__name__})") from exc
             else:
                 raise DeciderUnavailable("hosted decider needs EZHUTHU_DECIDER_API_KEY or decider.cloud.secret_name")
