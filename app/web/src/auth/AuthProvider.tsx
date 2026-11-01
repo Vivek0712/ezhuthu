@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
 import { setTokenGetter } from '../api/client';
+import { getConfig } from '../lib/runtimeConfig';
 import { authorizeUrl, codeChallenge, decodeJwt, groupsFromClaims, normalizeDomain, randomString } from './pkce';
 
 export interface User {
@@ -24,8 +25,6 @@ interface Auth {
 const KEY = 'ezhuthu.session';
 const PKCE_KEY = 'ezhuthu.pkce';
 const MOCK = import.meta.env.VITE_API_MOCK === '1';
-const DOMAIN = (import.meta.env.VITE_COGNITO_DOMAIN as string | undefined) ?? '';
-const CLIENT_ID = (import.meta.env.VITE_COGNITO_CLIENT_ID as string | undefined) ?? '';
 
 function redirectUri(): string {
   return `${window.location.origin}/auth/callback`;
@@ -70,6 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signIn = useCallback(async (returnTo = window.location.pathname) => {
+    const { cognitoDomain: DOMAIN, cognitoClientId: CLIENT_ID } = getConfig();
     if (MOCK) {
       // Demo identity for mock mode only; the mock API accepts this token.
       setSession({
@@ -89,6 +89,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [setSession]);
 
   const completeSignIn = useCallback(async (code: string, state: string) => {
+    const { cognitoDomain: DOMAIN, cognitoClientId: CLIENT_ID } = getConfig();
     const raw = window.sessionStorage.getItem(PKCE_KEY);
     window.sessionStorage.removeItem(PKCE_KEY);
     if (!raw) throw new Error('sign-in was not started from this browser tab');
@@ -120,6 +121,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [setSession]);
 
   const signOut = useCallback(() => {
+    const { cognitoDomain: DOMAIN, cognitoClientId: CLIENT_ID } = getConfig();
     setSession(null);
     if (!MOCK && DOMAIN && CLIENT_ID) {
       const u = new URL('/logout', normalizeDomain(DOMAIN));
@@ -134,7 +136,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user: session?.user ?? null,
       isExpert: !!session?.user.groups.includes('experts'),
       mock: MOCK,
-      configured: MOCK || (!!DOMAIN && !!CLIENT_ID),
+      configured: MOCK || (!!getConfig().cognitoDomain && !!getConfig().cognitoClientId),
       signIn,
       signOut,
       completeSignIn,
