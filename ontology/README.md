@@ -31,18 +31,23 @@ find_entities("svasti śrī maturai koṇṭa kō-p-parakēcari-varmmarkku yā�
 valid_letters("L2")            # or a stage id, e.g. "chola-tamil", "vatteluttu", "tamil-brahmi-1"
 formulas_for("ez:ruler/rajaraja-i")   # own meykkīrtti/epithets, then dynasty formulas, then common ones
 entity("ez:ruler/rajaraja-i")         # full lookup record (wikidata Q2128757, attested_in, era, ...)
-hints_for_gap("svasti śrī maturai koṇṭa kō-p-para", "rkku yāṇṭu", gap_chars=11)
+hints_for_gap("svasti śrī maturai koṇṭa kō-p-para", "rkku yāṇṭu", gap_chars=7)
 # -> [{id: ez:title/parakesarivarman, kind: title, label: Parakēsarivarman, fill: "kecarivarma",
 #      alt_fills: [...], score, reason: "overlap"}, ...]
 ```
 
 Each hint has `id`, `kind` and `label`, the shape of `ontology_hints` in `contracts/restore-api.md`.
 `fill` is in folded key form (see Normalisation), so compare with `ezhuthu.ontology.normalize.key(candidate)`.
+`gap_chars` counts Tamil letters (uyir, mey, uyirmey), the unit of the benchmark's `gap_chars` and of
+DHARMA's `<gap unit="character">` (`ezhuthu.ontology.letters.letter_count`). Hints also get a boost
+when their dynasty matches an entity named in `left`/`right`.
 A gap right before `-kku yāṇṭu` (regnal-year formula) also returns `reason: "regnal_slot"` hints: the
 rulers and titles of the dynasty named in the context, with `fill: null`.
 
-All text is ISO-15919. `label_ta` is Aksharamukha's Tamil rendering of `label_iso`
-(Sanskrit sounds in Grantha letters; regnal numerals kept as I/II/III).
+All text is ISO-15919. `label_ta` is Aksharamukha's faithful ISO→Tamil mapping of `label_iso`
+(`nativize=False`, no superscript digits, so n→ந and ṉ→ன as DHARMA writes them; word-final ந் is
+written ன்; Sanskrit sounds in Grantha letters; regnal numerals kept as I/II/III). The data team's
+`ezhuthu.corpus.script.iso_to_tamil` is the reference renderer for running text.
 
 ## Scope and model
 
