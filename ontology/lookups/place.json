@@ -1,0 +1,7284 @@
+[
+ {
+  "id": "ez:place/accaravakkam",
+  "kind": "place",
+  "label_iso": "Accaravākkam",
+  "label_ta": "அச்சரவாக்கம்",
+  "variants": [
+   "Accaravākkam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00192"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/acur",
+  "kind": "place",
+  "label_iso": "Ācūr",
+  "label_ta": "ஆசூர்",
+  "variants": [
+   "Ācūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00459"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/akalur",
+  "kind": "place",
+  "label_iso": "Akaḷūr",
+  "label_ta": "அகளூர்",
+  "variants": [
+   "Akaḷūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00084",
+   "DHARMA_INSPallava00430"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/alankuppam",
+  "kind": "place",
+  "label_iso": "Ālaṅkuppam",
+  "label_ta": "ஆலங்குப்பம்",
+  "variants": [
+   "Ālaṅkuppam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00435"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/alantur",
+  "kind": "place",
+  "label_iso": "Ālantūr",
+  "label_ta": "ஆலந்தூர்",
+  "variants": [
+   "Ālantūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00460"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/alavakonda",
+  "kind": "place",
+  "label_iso": "Alavakoṇḍa",
+  "label_ta": "அலவகொண்ட",
+  "variants": [
+   "Alavakoṇḍa"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00376"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/ambasamudram",
+  "kind": "place",
+  "label_iso": "Ambasamudram",
+  "label_ta": "அம்பஸமுத்ரம்",
+  "variants": [
+   "Ambasamudram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q590143",
+  "attested_in": [
+   "DHARMA_INSPandya00508"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/ampal",
+  "kind": "place",
+  "label_iso": "Ampal",
+  "label_ta": "அம்பல்",
+  "variants": [
+   "Ampal"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00504"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/ampur",
+  "kind": "place",
+  "label_iso": "Āmpūr",
+  "label_ta": "ஆம்பூர்",
+  "variants": [
+   "Āmpūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00188",
+   "DHARMA_INSPallava00189"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/anaikkattu",
+  "kind": "place",
+  "label_iso": "Aṇaikkaṭṭu",
+  "label_ta": "அணைக்கட்டு",
+  "variants": [
+   "Aṇaikkaṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00436"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/anattur",
+  "kind": "place",
+  "label_iso": "Āṉattūr",
+  "label_ta": "ஆனத்தூர்",
+  "variants": [
+   "Āṉattūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00421"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/anpil",
+  "kind": "place",
+  "label_iso": "Aṉpil",
+  "label_ta": "அன்பில்",
+  "variants": [
+   "Aṉpil"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu01003"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/aracalapuram",
+  "kind": "place",
+  "label_iso": "Aracalāpuram",
+  "label_ta": "அரசலாபுரம்",
+  "variants": [
+   "Aracalāpuram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00397"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/arappakkam",
+  "kind": "place",
+  "label_iso": "Arappākkam",
+  "label_ta": "அரப்பாக்கம்",
+  "variants": [
+   "Arappākkam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv01p0i0043"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/ariyur",
+  "kind": "place",
+  "label_iso": "Ariyūr",
+  "label_ta": "அரியூர்",
+  "variants": [
+   "Ariyūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv01p0i0044"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/art-institute-of-chicago",
+  "kind": "place",
+  "label_iso": "Art Institute of Chicago",
+  "label_ta": "அர்த் இந்ஸ்திதுதெ ஒஃப் சிசகொ",
+  "variants": [
+   "Art Institute of Chicago"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00168"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/arumparitti",
+  "kind": "place",
+  "label_iso": "Arumparitti",
+  "label_ta": "அரும்பரித்தி",
+  "variants": [
+   "Arumparitti"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv01p0i0045"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/atuturai",
+  "kind": "place",
+  "label_iso": "Āṭutuṟai",
+  "label_ta": "ஆடுதுறை",
+  "variants": [
+   "Āṭutuṟai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00462",
+   "DHARMA_INSPandya00006",
+   "DHARMA_INSPandya00007",
+   "DHARMA_INStfaSIIv28p0i0034"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 4,
+  "inscription_count": 4
+ },
+ {
+  "id": "ez:place/avilala",
+  "kind": "place",
+  "label_iso": "Avilāla",
+  "label_ta": "அவிலால",
+  "variants": [
+   "Avilāla"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00330"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/avutaiyarkoyil",
+  "kind": "place",
+  "label_iso": "Āvuṭaiyārkōyil",
+  "label_ta": "ஆவுடையார்கோயில்",
+  "variants": [
+   "Āvuṭaiyārkōyil"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00702",
+   "DHARMA_INSTamilNadu00712",
+   "DHARMA_INSTamilNadu00731",
+   "DHARMA_INSTamilNadu00733"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 4,
+  "inscription_count": 4
+ },
+ {
+  "id": "ez:place/azhvar-tirunakari",
+  "kind": "place",
+  "label_iso": "Āḻvār Tirunakari",
+  "label_ta": "ஆழ்வார் திருநகரி",
+  "variants": [
+   "Āḻvār Tirunakari"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv26p0i0491"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/babbepalli",
+  "kind": "place",
+  "label_iso": "Babbēpalli",
+  "label_ta": "பப்பேபல்லி",
+  "variants": [
+   "Babbēpalli"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00377"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/badami",
+  "kind": "place",
+  "label_iso": "Bādāmi",
+  "label_ta": "பாதாமி",
+  "variants": [
+   "Bādāmi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00037"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/bangavadi",
+  "kind": "place",
+  "label_iso": "Baṅgavāḍi",
+  "label_ta": "பங்கவாடி",
+  "variants": [
+   "Baṅgavāḍi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00256"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/caluvan-kuppam",
+  "kind": "place",
+  "label_iso": "Cāḷuvaṉ Kuppam",
+  "label_ta": "சாளுவன் குப்பம்",
+  "variants": [
+   "Cāḷuvaṉ Kuppam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00065",
+   "DHARMA_INSPallava00066",
+   "DHARMA_INSPallava00506",
+   "DHARMA_INSPallava00507",
+   "DHARMA_INSPallava00508",
+   "DHARMA_INSPallava00521",
+   "DHARMA_INSPallava00523",
+   "DHARMA_INSPallava00524",
+   "DHARMA_INSTamilNadu00203",
+   "DHARMA_INStfaSIIv04p0i0380",
+   "DHARMA_INStfaSIIv04p0i0381"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 11,
+  "inscription_count": 11
+ },
+ {
+  "id": "ez:place/campur-vatakari",
+  "kind": "place",
+  "label_iso": "Cāmpūr Vaṭakari",
+  "label_ta": "சாம்பூர் வடகரி",
+  "variants": [
+   "Cāmpūr Vaṭakari"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya01018"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/canankuppam",
+  "kind": "place",
+  "label_iso": "Cāṇaṅkuppam",
+  "label_ta": "சாணங்குப்பம்",
+  "variants": [
+   "Cāṇaṅkuppam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00425",
+   "DHARMA_INSPallava00451"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/cankaramanallur",
+  "kind": "place",
+  "label_iso": "Caṅkaramanallūr",
+  "label_ta": "சங்கரமநல்லூர்",
+  "variants": [
+   "Caṅkaramanallūr",
+   "Sangrāmanallūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv26p0i0174"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/canpai",
+  "kind": "place",
+  "label_iso": "Caṇpai",
+  "label_ta": "சண்பை",
+  "variants": [
+   "Caṇpai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv22p0i0103"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/carala",
+  "kind": "place",
+  "label_iso": "Cārāla",
+  "label_ta": "சாரால",
+  "variants": [
+   "Cārāla"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu01010"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/caram",
+  "kind": "place",
+  "label_iso": "Cāram",
+  "label_ta": "சாரம்",
+  "variants": [
+   "Cāram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00464"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/cattamankalam",
+  "kind": "place",
+  "label_iso": "Cāttamaṅkalam",
+  "label_ta": "சாத்தமங்கலம்",
+  "variants": [
+   "Cāttamaṅkalam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00074",
+   "DHARMA_INSPallava00082",
+   "DHARMA_INSPallava00088",
+   "DHARMA_INSPallava00198"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 4,
+  "inscription_count": 4
+ },
+ {
+  "id": "ez:place/cattanur",
+  "kind": "place",
+  "label_iso": "Cāttaṉūr",
+  "label_ta": "சாத்தனூர்",
+  "variants": [
+   "Cāttaṉūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00304"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/catupperi",
+  "kind": "place",
+  "label_iso": "Cātuppēri",
+  "label_ta": "சாதுப்பேரி",
+  "variants": [
+   "Cātuppēri",
+   "Catuppēri"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00087",
+   "DHARMA_INStfaSIIv01p0i0046"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/ce-kutalur",
+  "kind": "place",
+  "label_iso": "Cē. Kūṭalūr",
+  "label_ta": "சே. கூடலூர்",
+  "variants": [
+   "Cē. Kūṭalūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00285"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/celam",
+  "kind": "place",
+  "label_iso": "Cēlam",
+  "label_ta": "சேலம்",
+  "variants": [
+   "Cēlam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv04p0i0140",
+   "DHARMA_INStfaSIIv04p0i0141",
+   "DHARMA_INStfaSIIv04p0i0142",
+   "DHARMA_INStfaSIIv04p0i0144",
+   "DHARMA_INStfaSIIv04p0i0145",
+   "DHARMA_INStfaSIIv04p0i0146",
+   "DHARMA_INStfaSIIv04p0i0147",
+   "DHARMA_INStfaSIIv04p0i0148",
+   "DHARMA_INStfaSIIv04p0i0149",
+   "DHARMA_INStfaSIIv04p0i0150-A",
+   "DHARMA_INStfaSIIv04p0i0151",
+   "DHARMA_INStfaSIIv04p0i0152",
+   "DHARMA_INStfaSIIv04p0i0155",
+   "DHARMA_INStfaSIIv04p0i0156",
+   "DHARMA_INStfaSIIv04p0i0158",
+   "DHARMA_INStfaSIIv04p0i0160",
+   "DHARMA_INStfaSIIv04p0i0161",
+   "DHARMA_INStfaSIIv04p0i0162"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 18,
+  "inscription_count": 18
+ },
+ {
+  "id": "ez:place/cellur",
+  "kind": "place",
+  "label_iso": "Cellūr",
+  "label_ta": "செல்லூர்",
+  "variants": [
+   "Cellūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00001"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/cenkalipuram",
+  "kind": "place",
+  "label_iso": "Cēṅkālipuram",
+  "label_ta": "சேங்காலிபுரம்",
+  "variants": [
+   "Cēṅkālipuram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00438"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/cenkama",
+  "kind": "place",
+  "label_iso": "Ceṅkama",
+  "label_ta": "செங்கம",
+  "variants": [
+   "Ceṅkama"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv07p0i0118"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/cennivanam",
+  "kind": "place",
+  "label_iso": "Ceṉṉivaṉam",
+  "label_ta": "சென்னிவனம்",
+  "variants": [
+   "Ceṉṉivaṉam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv39p0i0030",
+   "DHARMA_INStfaSIIv39p0i0031"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/cennivayakkal",
+  "kind": "place",
+  "label_iso": "Ceṉṉivāyakkāl",
+  "label_ta": "சென்னிவாயக்கால்",
+  "variants": [
+   "Ceṉṉivāyakkāl"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00141"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/centalai",
+  "kind": "place",
+  "label_iso": "Centalai",
+  "label_ta": "செந்தலை",
+  "variants": [
+   "Centalai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00509",
+   "DHARMA_INStfaSIIv06p0i0012"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/centiyampakkam",
+  "kind": "place",
+  "label_iso": "Ceṇṭiyampākkam",
+  "label_ta": "செண்டியம்பாக்கம்",
+  "variants": [
+   "Ceṇṭiyampākkam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00433"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/ceytunkanallur",
+  "kind": "place",
+  "label_iso": "Ceytuṅkanallūr",
+  "label_ta": "செய்துங்கநல்லூர்",
+  "variants": [
+   "Ceytuṅkanallūr",
+   "Seydunganallur"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00071"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/cinnakkavanam",
+  "kind": "place",
+  "label_iso": "Ciṉṉakkāvaṉam",
+  "label_ta": "சின்னக்காவனம்",
+  "variants": [
+   "Ciṉṉakkāvaṉam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00502"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/cinnamanur",
+  "kind": "place",
+  "label_iso": "Ciṉṉamaṉūr",
+  "label_ta": "சின்னமனூர்",
+  "variants": [
+   "Ciṉṉamaṉūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya10004",
+   "DHARMA_INSPandya10006"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/cinnanakapunti",
+  "kind": "place",
+  "label_iso": "Ciṉṉanākapūṇṭi",
+  "label_ta": "சின்னநாகபூண்டி",
+  "variants": [
+   "Ciṉṉanākapūṇṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00349"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/cinnayyan-pettai",
+  "kind": "place",
+  "label_iso": "Ciṉṉayyāṉ Pēṭṭai",
+  "label_ta": "சின்னய்யான் பேட்டை",
+  "variants": [
+   "Ciṉṉayyāṉ Pēṭṭai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00310",
+   "DHARMA_INSPallava00528"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/cirrampakkam",
+  "kind": "place",
+  "label_iso": "Ciṟṟampākkam",
+  "label_ta": "சிற்றம்பாக்கம்",
+  "variants": [
+   "Ciṟṟampākkam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00044"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/cirrur",
+  "kind": "place",
+  "label_iso": "Ciṟṟūr",
+  "label_ta": "சிற்றூர்",
+  "variants": [
+   "Ciṟṟūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00152"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/cirunavalur",
+  "kind": "place",
+  "label_iso": "Ciṟunāvalūr",
+  "label_ta": "சிறுநாவலூர்",
+  "variants": [
+   "Ciṟunāvalūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00326"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/cirutavur",
+  "kind": "place",
+  "label_iso": "Ciṟutāvūr",
+  "label_ta": "சிறுதாவூர்",
+  "variants": [
+   "Ciṟutāvūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00371"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/ciruvakkam",
+  "kind": "place",
+  "label_iso": "Ciṟuvākkam",
+  "label_ta": "சிறுவாக்கம்",
+  "variants": [
+   "Ciṟuvākkam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00357",
+   "DHARMA_INSPallava00450"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/citamparam",
+  "kind": "place",
+  "label_iso": "Citamparam",
+  "label_ta": "சிதம்பரம்",
+  "variants": [
+   "Citamparam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv04p0i0223",
+   "DHARMA_INStfaSIIv08p0i0043"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/cittilinkamatam",
+  "kind": "place",
+  "label_iso": "Cittiliṅkamaṭam",
+  "label_ta": "சித்திலிங்கமடம்",
+  "variants": [
+   "Cittiliṅkamaṭam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00414"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/civakaci",
+  "kind": "place",
+  "label_iso": "Civakāci",
+  "label_ta": "சிவகாசி",
+  "variants": [
+   "Civakāci"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya10007"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/civan-vayal",
+  "kind": "place",
+  "label_iso": "Civaṉ Vāyal",
+  "label_ta": "சிவன் வாயல்",
+  "variants": [
+   "Civaṉ Vāyal"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00041",
+   "DHARMA_INSPallava00337",
+   "DHARMA_INSPallava00356",
+   "DHARMA_INSPallava00372"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 4,
+  "inscription_count": 4
+ },
+ {
+  "id": "ez:place/ciyamankalam",
+  "kind": "place",
+  "label_iso": "Cīyamaṅkalam",
+  "label_ta": "சீயமங்கலம்",
+  "variants": [
+   "Cīyamaṅkalam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00029",
+   "DHARMA_INSPallava00117",
+   "DHARMA_INSPallava00323",
+   "DHARMA_INSPallava00465"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 4,
+  "inscription_count": 4
+ },
+ {
+  "id": "ez:place/corakolatur",
+  "kind": "place",
+  "label_iso": "Corakōlatūr",
+  "label_ta": "சொரகோலதூர்",
+  "variants": [
+   "Corakōlatūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00548"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/cozhapuram",
+  "kind": "place",
+  "label_iso": "Cōḻapuram",
+  "label_ta": "சோழபுரம்",
+  "variants": [
+   "Cōḻapuram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00228",
+   "DHARMA_INSTamilNadu00005"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/cozhavantipuram",
+  "kind": "place",
+  "label_iso": "Cōḻavaṇṭipuram",
+  "label_ta": "சோழவண்டிபுரம்",
+  "variants": [
+   "Cōḻavaṇṭipuram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00194"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/cura",
+  "kind": "place",
+  "label_iso": "Cūra",
+  "label_ta": "சூர",
+  "variants": [
+   "Cūra"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00016"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/cuvviuru",
+  "kind": "place",
+  "label_iso": "Cuvviūru",
+  "label_ta": "சுவ்விஊரு",
+  "variants": [
+   "Cuvviūru"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00393"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/darsi",
+  "kind": "place",
+  "label_iso": "Darśi",
+  "label_ta": "தர்ஶி",
+  "variants": [
+   "Darśi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00247"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/devasthanam",
+  "kind": "place",
+  "label_iso": "Dēvasthānam",
+  "label_ta": "தேவஸ்தாநம்",
+  "variants": [
+   "Dēvasthānam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q111345235",
+  "attested_in": [
+   "DHARMA_INSPallava00383"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/duddukkuru",
+  "kind": "place",
+  "label_iso": "Duddukkūru",
+  "label_ta": "துத்துக்கூரு",
+  "variants": [
+   "Duddukkūru"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00394",
+   "DHARMA_INSPallava00395"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/elavanacur",
+  "kind": "place",
+  "label_iso": "Elavaṉācūr",
+  "label_ta": "எலவனாசூர்",
+  "variants": [
+   "Elavaṉācūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv22p0i0165"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/ellapputaiyan-patti",
+  "kind": "place",
+  "label_iso": "Ellappuṭaiyāṉ Paṭṭi",
+  "label_ta": "எல்லப்புடையான் பட்டி",
+  "variants": [
+   "Ellappuṭaiyāṉ Paṭṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00466"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/empalam-oil-press",
+  "kind": "place",
+  "label_iso": "Ēmpalam Oil-Press",
+  "label_ta": "ஏம்பலம் ஒஇல்-ப்ரெஸ்ஸ்",
+  "variants": [
+   "Ēmpalam Oil-Press"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00434"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/ennayiram",
+  "kind": "place",
+  "label_iso": "Eṇṇāyiram",
+  "label_ta": "எண்ணாயிரம்",
+  "variants": [
+   "Eṇṇāyiram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q5379136",
+  "attested_in": [
+   "DHARMA_INSPallava00446"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/erumpur",
+  "kind": "place",
+  "label_iso": "Eṟumpūr",
+  "label_ta": "எறும்பூர்",
+  "variants": [
+   "Eṟumpūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00205",
+   "DHARMA_INStfaSIIv13p0i0049",
+   "DHARMA_INStfaSIIv13p0i0206",
+   "DHARMA_INStfaSIIv19p0i0135",
+   "DHARMA_INStfaSIIv19p0i0229",
+   "DHARMA_INStfaSIIv19p0i0230",
+   "DHARMA_INStfaSIIv19p0i0394"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 7,
+  "inscription_count": 7
+ },
+ {
+  "id": "ez:place/etakkal",
+  "kind": "place",
+  "label_iso": "Eṭakkal",
+  "label_ta": "எடக்கல்",
+  "variants": [
+   "Eṭakkal"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00288"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/ettiyattali",
+  "kind": "place",
+  "label_iso": "Ettiyattali",
+  "label_ta": "எத்தியத்தலி",
+  "variants": [
+   "Ettiyattali"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv39p0i0130"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/etutta-vaynattam",
+  "kind": "place",
+  "label_iso": "Eṭutta Vāynattam",
+  "label_ta": "எடுத்த வாய்நத்தம்",
+  "variants": [
+   "Eṭutta Vāynattam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00402"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/gudimallam",
+  "kind": "place",
+  "label_iso": "Guḍimallam",
+  "label_ta": "குடிமல்லம்",
+  "variants": [
+   "Guḍimallam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00144",
+   "DHARMA_INSPallava00181"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/gudimallur",
+  "kind": "place",
+  "label_iso": "Guḍimallūr",
+  "label_ta": "குடிமல்லூர்",
+  "variants": [
+   "Guḍimallūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv41p0i0201",
+   "DHARMA_INStfaSIIv41p0i0204"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/gunapadeya",
+  "kind": "place",
+  "label_iso": "Guṇapadēya",
+  "label_ta": "குணபதேய",
+  "variants": [
+   "Guṇapadēya"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00004"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/hanumantapuram",
+  "kind": "place",
+  "label_iso": "Hanumantapuram",
+  "label_ta": "ஹநுமந்தபுரம்",
+  "variants": [
+   "Hanumantapuram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00253",
+   "DHARMA_INSPallava00513"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/hirahadagalli",
+  "kind": "place",
+  "label_iso": "Hīrahaḍagaḷḷi",
+  "label_ta": "ஹீரஹடகள்ளி",
+  "variants": [
+   "Hīrahaḍagaḷḷi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00003"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/ilaiyan-puttur",
+  "kind": "place",
+  "label_iso": "Iḷaiyāṉ Puttūr",
+  "label_ta": "இளையான் புத்தூர்",
+  "variants": [
+   "Iḷaiyāṉ Puttūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya10001"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/ilaiyanallur",
+  "kind": "place",
+  "label_iso": "Iḷaiyanallūr",
+  "label_ta": "இளையநல்லூர்",
+  "variants": [
+   "Iḷaiyanallūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00444"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/ilankatu",
+  "kind": "place",
+  "label_iso": "Ilaṅkāṭu",
+  "label_ta": "இலங்காடு",
+  "variants": [
+   "Ilaṅkāṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00448",
+   "DHARMA_INSTamilNadu00002"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/ilankunni",
+  "kind": "place",
+  "label_iso": "Iḷaṅkuṇṇi",
+  "label_ta": "இளங்குண்ணி",
+  "variants": [
+   "Iḷaṅkuṇṇi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00313"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/intalur",
+  "kind": "place",
+  "label_iso": "Intaḷūr",
+  "label_ta": "இந்தளூர்",
+  "variants": [
+   "Intaḷūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00401"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/ireland",
+  "kind": "place",
+  "label_iso": "Ireland",
+  "label_ta": "இரெலந்த்",
+  "variants": [
+   "Ireland"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00170"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/javantinathapuram",
+  "kind": "place",
+  "label_iso": "Javantināthapuram",
+  "label_ta": "ஜவந்திநாதபுரம்",
+  "variants": [
+   "Javantināthapuram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00341"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kalampakkam",
+  "kind": "place",
+  "label_iso": "Kaḷāmpākkam",
+  "label_ta": "களாம்பாக்கம்",
+  "variants": [
+   "Kaḷāmpākkam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00348"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kalattur",
+  "kind": "place",
+  "label_iso": "Kaḷattūr",
+  "label_ta": "களத்தூர்",
+  "variants": [
+   "Kaḷattūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00127"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kalcirunakalur",
+  "kind": "place",
+  "label_iso": "Kalciṟunākalūr",
+  "label_ta": "கல்சிறுநாகலூர்",
+  "variants": [
+   "Kalciṟunākalūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00416",
+   "DHARMA_INSPallava00429",
+   "DHARMA_INSPallava00439",
+   "DHARMA_INSPallava00501"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 4,
+  "inscription_count": 4
+ },
+ {
+  "id": "ez:place/kalincur",
+  "kind": "place",
+  "label_iso": "Kaḷiñcūr",
+  "label_ta": "களிஞ்சூர்",
+  "variants": [
+   "Kaḷiñcūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00338"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kamaracavalli",
+  "kind": "place",
+  "label_iso": "Kāmaracavalli",
+  "label_ta": "காமரசவல்லி",
+  "variants": [
+   "Kāmaracavalli"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv19p0i0231"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kanai",
+  "kind": "place",
+  "label_iso": "Kāṇai",
+  "label_ta": "காணை",
+  "variants": [
+   "Kāṇai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00456"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kanankatu",
+  "kind": "place",
+  "label_iso": "Kāṇāṅkāṭu",
+  "label_ta": "காணாங்காடு",
+  "variants": [
+   "Kāṇāṅkāṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00431"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kancipuram",
+  "kind": "place",
+  "label_iso": "Kāñcipuram",
+  "label_ta": "காஞ்சிபுரம்",
+  "variants": [
+   "Kāñcipuram",
+   "Kāñcīpuram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q212332",
+  "attested_in": [
+   "DHARMA_INSPallava00021",
+   "DHARMA_INSPallava00055",
+   "DHARMA_INSPallava00070",
+   "DHARMA_INSPallava00080",
+   "DHARMA_INSPallava00107",
+   "DHARMA_INSPallava00135",
+   "DHARMA_INSPallava00262",
+   "DHARMA_INSPallava00314",
+   "DHARMA_INSPallava00358",
+   "DHARMA_INSPallava00385",
+   "DHARMA_INSPallava00387",
+   "DHARMA_INSPallava00392",
+   "DHARMA_INSPallava00489",
+   "DHARMA_INSTamilNadu00201",
+   "DHARMA_INSTamilNadu00202",
+   "DHARMA_INSTamilNadu00801",
+   "DHARMA_INSTamilNadu00802",
+   "DHARMA_INSTamilNadu00803",
+   "DHARMA_INSTamilNadu00804",
+   "DHARMA_INSTamilNadu00805",
+   "DHARMA_INSTamilNadu00807",
+   "DHARMA_INSTamilNadu00809",
+   "DHARMA_INSTamilNadu00810",
+   "DHARMA_INSTamilNadu00811",
+   "DHARMA_INSTamilNadu00812",
+   "DHARMA_INSTamilNadu00824",
+   "DHARMA_INSTamilNadu00826",
+   "DHARMA_INStfaSIIv04p0i0133",
+   "DHARMA_INStfaSIIv04p0i0828",
+   "DHARMA_INStfaSIIv04p0i0829"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 30,
+  "inscription_count": 30
+ },
+ {
+  "id": "ez:place/kannakantal",
+  "kind": "place",
+  "label_iso": "Kaṇṇakantal",
+  "label_ta": "கண்ணகந்தல்",
+  "variants": [
+   "Kaṇṇakantal"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00287"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kannikaipper",
+  "kind": "place",
+  "label_iso": "Kaṉṉikaippēr",
+  "label_ta": "கன்னிகைப்பேர்",
+  "variants": [
+   "Kaṉṉikaippēr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00354"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kantiyur",
+  "kind": "place",
+  "label_iso": "Kaṇṭiyūr",
+  "label_ta": "கண்டியூர்",
+  "variants": [
+   "Kaṇṭiyūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00171"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kanyakumari",
+  "kind": "place",
+  "label_iso": "Kanyākumāri",
+  "label_ta": "கந்யாகுமாரி",
+  "variants": [
+   "Kanyākumāri"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya01001"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kappalur",
+  "kind": "place",
+  "label_iso": "Kāppalūr",
+  "label_ta": "காப்பலூர்",
+  "variants": [
+   "Kāppalūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q29025864",
+  "attested_in": [
+   "DHARMA_INSPallava00322",
+   "DHARMA_INSPallava00340",
+   "DHARMA_INSPallava00517",
+   "DHARMA_INSPallava00518",
+   "DHARMA_INSTamilNadu00021",
+   "DHARMA_INSTamilNadu00022"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 6,
+  "inscription_count": 6
+ },
+ {
+  "id": "ez:place/karantai-tamil-cankam",
+  "kind": "place",
+  "label_iso": "Karantai Tamil Caṅkam",
+  "label_ta": "கரந்தை தமில் சங்கம்",
+  "variants": [
+   "Karantai Tamil Caṅkam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu01006"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/karati",
+  "kind": "place",
+  "label_iso": "Karaṭi",
+  "label_ta": "கரடி",
+  "variants": [
+   "Karaṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSCempiyanMahadevi00002"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kariyalur",
+  "kind": "place",
+  "label_iso": "Kariyāḷūr",
+  "label_ta": "கரியாளூர்",
+  "variants": [
+   "Kariyāḷūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00491"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/karunkalippatipatti",
+  "kind": "place",
+  "label_iso": "Karuṅkālippāṭipaṭṭi",
+  "label_ta": "கருங்காலிப்பாடிபட்டி",
+  "variants": [
+   "Karuṅkālippāṭipaṭṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00278"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/karuvur",
+  "kind": "place",
+  "label_iso": "Karuvūr",
+  "label_ta": "கருவூர்",
+  "variants": [
+   "Karuvūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv03p0i0020",
+   "DHARMA_INStfaSIIv03p0i0021",
+   "DHARMA_INStfaSIIv03p0i0024",
+   "DHARMA_INStfaSIIv03p0i0025",
+   "DHARMA_INStfaSIIv03p0i0026"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 5,
+  "inscription_count": 5
+ },
+ {
+  "id": "ez:place/katalati",
+  "kind": "place",
+  "label_iso": "Kaṭalāṭi",
+  "label_ta": "கடலாடி",
+  "variants": [
+   "Kaṭalāṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00291"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/katalur",
+  "kind": "place",
+  "label_iso": "Kaṭalūr",
+  "label_ta": "கடலூர்",
+  "variants": [
+   "Kaṭalūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv30p0i0206"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/katirampatti",
+  "kind": "place",
+  "label_iso": "Katirampaṭṭi",
+  "label_ta": "கதிரம்பட்டி",
+  "variants": [
+   "Katirampaṭṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00400"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/katpati",
+  "kind": "place",
+  "label_iso": "Kāṭpāṭi",
+  "label_ta": "காட்பாடி",
+  "variants": [
+   "Kāṭpāṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00467"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kattumalaiyanur",
+  "kind": "place",
+  "label_iso": "Kāṭṭumalaiyaṉūr",
+  "label_ta": "காட்டுமலையனூர்",
+  "variants": [
+   "Kāṭṭumalaiyaṉūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00492"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kattur",
+  "kind": "place",
+  "label_iso": "Kāṭṭūr",
+  "label_ta": "காட்டூர்",
+  "variants": [
+   "Kāṭṭūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv38p0i0256"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kavantantalam",
+  "kind": "place",
+  "label_iso": "Kāvantaṇṭalam",
+  "label_ta": "காவந்தண்டலம்",
+  "variants": [
+   "Kāvantaṇṭalam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00214",
+   "DHARMA_INSPallava00222"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/kaverippakkam",
+  "kind": "place",
+  "label_iso": "Kāvērippākkam",
+  "label_ta": "காவேரிப்பாக்கம்",
+  "variants": [
+   "Kāvērippākkam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00126",
+   "DHARMA_INSPallava00158",
+   "DHARMA_INSPallava00169",
+   "DHARMA_INSPallava00186",
+   "DHARMA_INSPallava00197",
+   "DHARMA_INSPallava00220"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 6,
+  "inscription_count": 6
+ },
+ {
+  "id": "ez:place/kayampattu",
+  "kind": "place",
+  "label_iso": "Kāyampaṭṭu",
+  "label_ta": "காயம்பட்டு",
+  "variants": [
+   "Kāyampaṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00469"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kiliyanur",
+  "kind": "place",
+  "label_iso": "Kiḷiyaṉūr",
+  "label_ta": "கிளியனூர்",
+  "variants": [
+   "Kiḷiyaṉūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q6407008",
+  "attested_in": [
+   "DHARMA_INSPallava00115"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kirappakkam",
+  "kind": "place",
+  "label_iso": "Kīrappākkam",
+  "label_ta": "கீரப்பாக்கம்",
+  "variants": [
+   "Kīrappākkam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00336",
+   "DHARMA_INSPallava00366"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/kizh-iravantavati",
+  "kind": "place",
+  "label_iso": "Kīḻ Irāvantavāṭi",
+  "label_ta": "கீழ் இராவந்தவாடி",
+  "variants": [
+   "Kīḻ Irāvantavāṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00307"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kizhkottaiyur",
+  "kind": "place",
+  "label_iso": "Kīḻkoṭṭaiyūr",
+  "label_ta": "கீழ்கொட்டையூர்",
+  "variants": [
+   "Kīḻkoṭṭaiyūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00365"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kizhmuttukur",
+  "kind": "place",
+  "label_iso": "Kīḻmuṭṭukūr",
+  "label_ta": "கீழ்முட்டுகூர்",
+  "variants": [
+   "Kīḻmuṭṭukūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00254",
+   "DHARMA_INSPallava00255"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/kizhmuttukur-hero-stone",
+  "kind": "place",
+  "label_iso": "Kīḻmuṭṭukūr hero-stone",
+  "label_ta": "கீழ்முட்டுகூர் ஹெரொ-ஸ்தொநெ",
+  "variants": [
+   "Kīḻmuṭṭukūr hero-stone"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00160",
+   "DHARMA_INSTamilNadu00161"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/kizhputtur",
+  "kind": "place",
+  "label_iso": "Kīḻputtūr",
+  "label_ta": "கீழ்புத்தூர்",
+  "variants": [
+   "Kīḻputtūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00212"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kizhur",
+  "kind": "place",
+  "label_iso": "Kīḻūr",
+  "label_ta": "கீழூர்",
+  "variants": [
+   "Kīḻūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00108",
+   "DHARMA_INSPallava00130",
+   "DHARMA_INSPallava00150",
+   "DHARMA_INSPallava00151",
+   "DHARMA_INSPallava00165",
+   "DHARMA_INSPallava00172",
+   "DHARMA_INSPallava00173",
+   "DHARMA_INStfaSIIv41p0i0012"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 8,
+  "inscription_count": 8
+ },
+ {
+  "id": "ez:place/kollur-land-measuring-rod",
+  "kind": "place",
+  "label_iso": "Kollūr land-measuring rod",
+  "label_ta": "கொல்லூர் லந்த்-மெஅஸுரிந்க் ரொத்",
+  "variants": [
+   "Kollūr land-measuring rod"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00195"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/konerirajapuram",
+  "kind": "place",
+  "label_iso": "Kōṉērirājapuram",
+  "label_ta": "கோனேரிராஜபுரம்",
+  "variants": [
+   "Kōṉērirājapuram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSCempiyanMahadevi00055"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/koraiyaru",
+  "kind": "place",
+  "label_iso": "Kōraiyāṟu",
+  "label_ta": "கோரையாறு",
+  "variants": [
+   "Kōraiyāṟu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00273",
+   "DHARMA_INSPallava00275"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/kottaiyur",
+  "kind": "place",
+  "label_iso": "Koṭṭaiyūr",
+  "label_ta": "கொட்டையூர்",
+  "variants": [
+   "Koṭṭaiyūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00272",
+   "DHARMA_INSPallava00282",
+   "DHARMA_INSPallava00283"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 3,
+  "inscription_count": 3
+ },
+ {
+  "id": "ez:place/kovintapputtur",
+  "kind": "place",
+  "label_iso": "Kōvintapputtūr",
+  "label_ta": "கோவிந்தப்புத்தூர்",
+  "variants": [
+   "Kōvintapputtūr",
+   "Govindapputtur",
+   "Govindapputtūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00511",
+   "DHARMA_INSTamilNadu00512",
+   "DHARMA_INSTamilNadu00513",
+   "DHARMA_INSTamilNadu00514",
+   "DHARMA_INSTamilNadu00515",
+   "DHARMA_INSTamilNadu00516",
+   "DHARMA_INSTamilNadu00518",
+   "DHARMA_INSTamilNadu00519",
+   "DHARMA_INSTamilNadu00523",
+   "DHARMA_INSTamilNadu00524",
+   "DHARMA_INSTamilNadu00525"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 11,
+  "inscription_count": 11
+ },
+ {
+  "id": "ez:place/kovintaputtur",
+  "kind": "place",
+  "label_iso": "Kōvintaputtūr",
+  "label_ta": "கோவிந்தபுத்தூர்",
+  "variants": [
+   "Kōvintaputtūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv19p0i0357"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/koyil-tevarayan-pettai",
+  "kind": "place",
+  "label_iso": "Kōyil-Tēvarāyaṉ-Pēṭṭai",
+  "label_ta": "கோயில்-தேவராயன்-பேட்டை",
+  "variants": [
+   "Kōyil-Tēvarāyaṉ-Pēṭṭai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSCempiyanMahadevi00006"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kulitikki",
+  "kind": "place",
+  "label_iso": "Kuḷitikki",
+  "label_ta": "குளிதிக்கி",
+  "variants": [
+   "Kuḷitikki"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00086"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kumaravati",
+  "kind": "place",
+  "label_iso": "Kumāravāṭi",
+  "label_ta": "குமாரவாடி",
+  "variants": [
+   "Kumāravāṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00447"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kumpakonam",
+  "kind": "place",
+  "label_iso": "Kumpakōṇam",
+  "label_ta": "கும்பகோணம்",
+  "variants": [
+   "Kumpakōṇam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00008"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kunnantar-koyil",
+  "kind": "place",
+  "label_iso": "Kunnāṇṭār Kōyil",
+  "label_ta": "குந்நாண்டார் கோயில்",
+  "variants": [
+   "Kunnāṇṭār Kōyil"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00116"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kunnantarkoyil",
+  "kind": "place",
+  "label_iso": "Kunnāṇṭārkōyil",
+  "label_ta": "குந்நாண்டார்கோயில்",
+  "variants": [
+   "Kunnāṇṭārkōyil",
+   "Kuṇṇāṇṭārkōyil"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00099",
+   "DHARMA_INSPallava00360"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/kuppalnattam",
+  "kind": "place",
+  "label_iso": "Kuppalnattam",
+  "label_ta": "குப்பல்நத்தம்",
+  "variants": [
+   "Kuppalnattam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00171"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kuram",
+  "kind": "place",
+  "label_iso": "Kūram",
+  "label_ta": "கூரம்",
+  "variants": [
+   "Kūram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00038",
+   "DHARMA_INSPallava00046",
+   "DHARMA_INSPallava00104",
+   "DHARMA_INSPallava00140",
+   "DHARMA_INSPallava00164",
+   "DHARMA_INSPallava00174"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 6,
+  "inscription_count": 6
+ },
+ {
+  "id": "ez:place/kurankanilmuttam",
+  "kind": "place",
+  "label_iso": "Kuraṅkaṇilmuttam",
+  "label_ta": "குரங்கணில்முத்தம்",
+  "variants": [
+   "Kuraṅkaṇilmuttam",
+   "Kuranganilmuttam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00065"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/kuttalam",
+  "kind": "place",
+  "label_iso": "Kuttālam",
+  "label_ta": "குத்தாலம்",
+  "variants": [
+   "Kuttālam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv13p0i0170",
+   "DHARMA_INStfaSIIv23p0i0488"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/kutumiyamalai",
+  "kind": "place",
+  "label_iso": "Kuṭumiyāmalai",
+  "label_ta": "குடுமியாமலை",
+  "variants": [
+   "Kuṭumiyāmalai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00022",
+   "DHARMA_INSPallava00023"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/kuvalalam",
+  "kind": "place",
+  "label_iso": "Kuvaḷālam",
+  "label_ta": "குவளாலம்",
+  "variants": [
+   "kuvaḷālam",
+   "kuvalāḷam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv19p0i0357"
+  ],
+  "source": "dharma-placeName",
+  "attestation_count": 2,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/lalkuti",
+  "kind": "place",
+  "label_iso": "Lālkuṭi",
+  "label_ta": "லால்குடி",
+  "variants": [
+   "Lālkuṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00149",
+   "DHARMA_INSPallava00180"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/larger-leiden",
+  "kind": "place",
+  "label_iso": "Larger Leiden",
+  "label_ta": "லர்கெர் லெஇதென்",
+  "variants": [
+   "Larger Leiden"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu01008"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/madras-museum",
+  "kind": "place",
+  "label_iso": "Madras Museum",
+  "label_ta": "மத்ரஸ் முஸெஉம்",
+  "variants": [
+   "Madras Museum"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q3536763",
+  "attested_in": [
+   "DHARMA_INSTamilNadu01004"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/mahabalipuram",
+  "kind": "place",
+  "label_iso": "Mahābalipuram",
+  "label_ta": "மஹாபலிபுரம்",
+  "variants": [
+   "Mahābalipuram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q208000",
+  "attested_in": [
+   "DHARMA_INSPallava00039",
+   "DHARMA_INSPallava00061",
+   "DHARMA_INSPallava00092",
+   "DHARMA_INSPallava00250",
+   "DHARMA_INSPallava00316",
+   "DHARMA_INSPallava00317",
+   "DHARMA_INSPallava00319",
+   "DHARMA_INSPallava00361",
+   "DHARMA_INSPallava00363",
+   "DHARMA_INSPallava00380",
+   "DHARMA_INSPallava00381",
+   "DHARMA_INSPallava00478",
+   "DHARMA_INSPallava00479",
+   "DHARMA_INSPallava00511",
+   "DHARMA_INSPallava00512",
+   "DHARMA_INStfaSIIv01p0i0040",
+   "DHARMA_INStfaSIIv01p0i0042"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 17,
+  "inscription_count": 17
+ },
+ {
+  "id": "ez:place/makentiravati",
+  "kind": "place",
+  "label_iso": "Makēntiravāṭi",
+  "label_ta": "மகேந்திரவாடி",
+  "variants": [
+   "Makēntiravāṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00494"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/malayakkovil",
+  "kind": "place",
+  "label_iso": "Malayakkōvil",
+  "label_ta": "மலயக்கோவில்",
+  "variants": [
+   "Malayakkōvil"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00025"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/malayanur",
+  "kind": "place",
+  "label_iso": "Malayaṉūr",
+  "label_ta": "மலயனூர்",
+  "variants": [
+   "Malayaṉūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00367",
+   "DHARMA_INSPallava00368"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/mallam",
+  "kind": "place",
+  "label_iso": "Mallām",
+  "label_ta": "மல்லாம்",
+  "variants": [
+   "Mallām"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00075",
+   "DHARMA_INSPallava00226"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/mamantur",
+  "kind": "place",
+  "label_iso": "Māmaṇṭūr",
+  "label_ta": "மாமண்டூர்",
+  "variants": [
+   "Māmaṇṭūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00026",
+   "DHARMA_INStfaSIIv04p0i0137",
+   "DHARMA_INStfaSIIv04p0i0138"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 3,
+  "inscription_count": 3
+ },
+ {
+  "id": "ez:place/mampakkam",
+  "kind": "place",
+  "label_iso": "Māmpākkam",
+  "label_ta": "மாம்பாக்கம்",
+  "variants": [
+   "Māmpākkam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00481"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/manalurpet",
+  "kind": "place",
+  "label_iso": "Maṇalūrpēṭ",
+  "label_ta": "மணலூர்பேட்",
+  "variants": [
+   "Maṇalūrpēṭ"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q2540962",
+  "attested_in": [
+   "DHARMA_INSPallava00325",
+   "DHARMA_INSPallava00327",
+   "DHARMA_INSPallava00328"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 3,
+  "inscription_count": 3
+ },
+ {
+  "id": "ez:place/manampunti",
+  "kind": "place",
+  "label_iso": "Maṇampūṇṭi",
+  "label_ta": "மணம்பூண்டி",
+  "variants": [
+   "Maṇampūṇṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00266"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/mangadur",
+  "kind": "place",
+  "label_iso": "Māṅgaḍūr",
+  "label_ta": "மாங்கடூர்",
+  "variants": [
+   "Māṅgaḍūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00014"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/manikkal",
+  "kind": "place",
+  "label_iso": "Maṇikkal",
+  "label_ta": "மணிக்கல்",
+  "variants": [
+   "Maṇikkal"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00305"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/mankatu",
+  "kind": "place",
+  "label_iso": "Māṅkāṭu",
+  "label_ta": "மாங்காடு",
+  "variants": [
+   "Māṅkāṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00131",
+   "DHARMA_INSPallava00235"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/mantakapattu",
+  "kind": "place",
+  "label_iso": "Maṇṭakapaṭṭu",
+  "label_ta": "மண்டகபட்டு",
+  "variants": [
+   "Maṇṭakapaṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00027"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/maraneri",
+  "kind": "place",
+  "label_iso": "Māraṉēri",
+  "label_ta": "மாரனேரி",
+  "variants": [
+   "Māraṉēri"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q16384047",
+  "attested_in": [
+   "DHARMA_INSPallava00484"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/marutanallur",
+  "kind": "place",
+  "label_iso": "Marutanallūr",
+  "label_ta": "மருதநல்லூர்",
+  "variants": [
+   "Marutanallūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00068"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/marutatu",
+  "kind": "place",
+  "label_iso": "Marutāṭu",
+  "label_ta": "மருதாடு",
+  "variants": [
+   "Marutāṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00157"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/matam",
+  "kind": "place",
+  "label_iso": "Maṭam",
+  "label_ta": "மடம்",
+  "variants": [
+   "Maṭam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00232"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/matavalam",
+  "kind": "place",
+  "label_iso": "Maṭavāḷam",
+  "label_ta": "மடவாளம்",
+  "variants": [
+   "Maṭavāḷam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00549"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/mayidavolu",
+  "kind": "place",
+  "label_iso": "Mayidavōlu",
+  "label_ta": "மயிதவோலு",
+  "variants": [
+   "Mayidavōlu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00002"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/mel-pallippattu",
+  "kind": "place",
+  "label_iso": "Mēl Paḷḷippaṭṭu",
+  "label_ta": "மேல் பள்ளிப்பட்டு",
+  "variants": [
+   "Mēl Paḷḷippaṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00298"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/mel-puncai",
+  "kind": "place",
+  "label_iso": "Mēl Puñcai",
+  "label_ta": "மேல் புஞ்சை",
+  "variants": [
+   "Mēl Puñcai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00292"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/melacceri",
+  "kind": "place",
+  "label_iso": "Mēlaccēri",
+  "label_ta": "மேலச்சேரி",
+  "variants": [
+   "Mēlaccēri"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00249"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/melpati",
+  "kind": "place",
+  "label_iso": "Mēlpāṭi",
+  "label_ta": "மேல்பாடி",
+  "variants": [
+   "Mēlpāṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv03p0i0017",
+   "DHARMA_INStfaSIIv03p0i0019"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/melpatti",
+  "kind": "place",
+  "label_iso": "Mēlpaṭṭi",
+  "label_ta": "மேல்பட்டி",
+  "variants": [
+   "Mēlpaṭṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00209"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/mottakal",
+  "kind": "place",
+  "label_iso": "Mōttakal",
+  "label_ta": "மோத்தகல்",
+  "variants": [
+   "Mōttakal"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00280"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/mukkanahalli",
+  "kind": "place",
+  "label_iso": "Mūkkanahaḷḷi",
+  "label_ta": "மூக்கநஹள்ளி",
+  "variants": [
+   "Mūkkanahaḷḷi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00410"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/muncurpattu",
+  "kind": "place",
+  "label_iso": "Muñcūrpaṭṭu",
+  "label_ta": "முஞ்சூர்பட்டு",
+  "variants": [
+   "Muñcūrpaṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv04p0i0025"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/muniyur",
+  "kind": "place",
+  "label_iso": "Muniyur",
+  "label_ta": "முநியுர்",
+  "variants": [
+   "Muniyur"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv08p0i0205"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/nakappattinam",
+  "kind": "place",
+  "label_iso": "Nākappaṭṭiṉam",
+  "label_ta": "நாகப்பட்டினம்",
+  "variants": [
+   "Nākappaṭṭiṉam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00165",
+   "DHARMA_INSTamilNadu00166",
+   "DHARMA_INSTamilNadu00167",
+   "DHARMA_INSTamilNadu00301",
+   "DHARMA_INSTamilNadu00302",
+   "DHARMA_INSTamilNadu00303",
+   "DHARMA_INSTamilNadu00304",
+   "DHARMA_INSTamilNadu00318",
+   "DHARMA_INSTamilNadu00319",
+   "DHARMA_INSTamilNadu00320",
+   "DHARMA_INSTamilNadu00322",
+   "DHARMA_INSTamilNadu00343",
+   "DHARMA_INSTamilNadu00345",
+   "DHARMA_INSTamilNadu00346",
+   "DHARMA_INSTamilNadu00347",
+   "DHARMA_INSTamilNadu00348",
+   "DHARMA_INSTamilNadu00349",
+   "DHARMA_INSTamilNadu00350",
+   "DHARMA_INSTamilNadu00351",
+   "DHARMA_INSTamilNadu00352",
+   "DHARMA_INSTamilNadu00353",
+   "DHARMA_INSTamilNadu00375",
+   "DHARMA_INSTamilNadu00376",
+   "DHARMA_INSTamilNadu00377",
+   "DHARMA_INSTamilNadu00380",
+   "DHARMA_INSTamilNadu00381",
+   "DHARMA_INSTamilNadu00382"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 27,
+  "inscription_count": 27
+ },
+ {
+  "id": "ez:place/nakapuram",
+  "kind": "place",
+  "label_iso": "Nākapuram",
+  "label_ta": "நாகபுரம்",
+  "variants": [
+   "Nākapuram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00490",
+   "DHARMA_INSPallava00499"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/nallur",
+  "kind": "place",
+  "label_iso": "Nallūr",
+  "label_ta": "நல்லூர்",
+  "variants": [
+   "Nallūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00028",
+   "DHARMA_INSTamilNadu00029",
+   "DHARMA_INSTamilNadu00030",
+   "DHARMA_INSTamilNadu00031",
+   "DHARMA_INSTamilNadu00034",
+   "DHARMA_INSTamilNadu00035",
+   "DHARMA_INSTamilNadu00036",
+   "DHARMA_INSTamilNadu00038",
+   "DHARMA_INSTamilNadu00039",
+   "DHARMA_INSTamilNadu00040",
+   "DHARMA_INSTamilNadu00041",
+   "DHARMA_INSTamilNadu00044",
+   "DHARMA_INSTamilNadu00045",
+   "DHARMA_INSTamilNadu00046",
+   "DHARMA_INSTamilNadu00047",
+   "DHARMA_INSTamilNadu00048",
+   "DHARMA_INSTamilNadu00049",
+   "DHARMA_INSTamilNadu00050",
+   "DHARMA_INSTamilNadu00051",
+   "DHARMA_INSTamilNadu00053",
+   "DHARMA_INSTamilNadu00174"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 21,
+  "inscription_count": 21
+ },
+ {
+  "id": "ez:place/naracinkanallur",
+  "kind": "place",
+  "label_iso": "Naraciṅkanallūr",
+  "label_ta": "நரசிங்கநல்லூர்",
+  "variants": [
+   "Naraciṅkanallūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00276"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/narttamalai",
+  "kind": "place",
+  "label_iso": "Nārttāmalai",
+  "label_ta": "நார்த்தாமலை",
+  "variants": [
+   "Nārttāmalai",
+   "Nārttamalai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00154",
+   "DHARMA_INSPallava00268",
+   "DHARMA_INSTamilNadu00019",
+   "DHARMA_INStfaSIIv17p0i0387"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 4,
+  "inscription_count": 4
+ },
+ {
+  "id": "ez:place/nedungaraya",
+  "kind": "place",
+  "label_iso": "Neḍuṅgarāya",
+  "label_ta": "நெடுங்கராய",
+  "variants": [
+   "Neḍuṅgarāya"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00007"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/netu-vayil",
+  "kind": "place",
+  "label_iso": "Neṭu-vāyil",
+  "label_ta": "நெடு-வாயில்",
+  "variants": [
+   "neṭu-vāyil"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv19p0i0357"
+  ],
+  "source": "dharma-placeName",
+  "attestation_count": 2,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/omgodu",
+  "kind": "place",
+  "label_iso": "Oṁgoḍu",
+  "label_ta": "ஒம்ʼகொடு",
+  "variants": [
+   "Oṁgoḍu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00005"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/onkur",
+  "kind": "place",
+  "label_iso": "Ōṅkūr",
+  "label_ta": "ஓங்கூர்",
+  "variants": [
+   "Ōṅkūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00398",
+   "DHARMA_INSPallava00442"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/otalavati",
+  "kind": "place",
+  "label_iso": "Ōtalavāṭi",
+  "label_ta": "ஓதலவாடி",
+  "variants": [
+   "Ōtalavāṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00369"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/otukattur",
+  "kind": "place",
+  "label_iso": "Oṭukattūr",
+  "label_ta": "ஒடுகத்தூர்",
+  "variants": [
+   "Oṭukattūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00551"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/palaiyankottai",
+  "kind": "place",
+  "label_iso": "Pāḷaiyaṅkōṭṭai",
+  "label_ta": "பாளையங்கோட்டை",
+  "variants": [
+   "Pāḷaiyaṅkōṭṭai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00177"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/palekuppam",
+  "kind": "place",
+  "label_iso": "Pālēkuppam",
+  "label_ta": "பாலேகுப்பம்",
+  "variants": [
+   "Pālēkuppam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00510"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/palincarahalli",
+  "kind": "place",
+  "label_iso": "Paḷiñcarahaḷḷi",
+  "label_ta": "பளிஞ்சரஹள்ளி",
+  "variants": [
+   "Paḷiñcarahaḷḷi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00411"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/pallan-kovil",
+  "kind": "place",
+  "label_iso": "Paḷḷaṉ Kōvil",
+  "label_ta": "பள்ளன் கோவில்",
+  "variants": [
+   "Paḷḷaṉ Kōvil"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00017"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/pallavaram",
+  "kind": "place",
+  "label_iso": "Pallāvaram",
+  "label_ta": "பல்லாவரம்",
+  "variants": [
+   "Pallāvaram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q1752584",
+  "attested_in": [
+   "DHARMA_INSPallava00028"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/pallikonda",
+  "kind": "place",
+  "label_iso": "Paḷḷikoṇḍa",
+  "label_ta": "பள்ளிகொண்ட",
+  "variants": [
+   "Paḷḷikoṇḍa"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q282347",
+  "attested_in": [
+   "DHARMA_INSPallava00114"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/panaimalai",
+  "kind": "place",
+  "label_iso": "Paṉaimalai",
+  "label_ta": "பனைமலை",
+  "variants": [
+   "Paṉaimalai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00062"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/pandura",
+  "kind": "place",
+  "label_iso": "Pāṇḍūra",
+  "label_ta": "பாண்டூர",
+  "variants": [
+   "Pāṇḍūra"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00396"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/pappampati",
+  "kind": "place",
+  "label_iso": "Pāppampāṭi",
+  "label_ta": "பாப்பம்பாடி",
+  "variants": [
+   "Pāppampāṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00529",
+   "DHARMA_INSPallava00530"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/paramesvaramangalam",
+  "kind": "place",
+  "label_iso": "Parameśvaramaṅgalam",
+  "label_ta": "பரமெஶ்வரமங்கலம்",
+  "variants": [
+   "Parameśvaramaṅgalam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00159",
+   "DHARMA_INSPallava00161"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/pati",
+  "kind": "place",
+  "label_iso": "Pāṭi",
+  "label_ta": "பாடி",
+  "variants": [
+   "Pāṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv36p0i0215",
+   "DHARMA_INStfaSIIv36p0i0221"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/pattattal-mankalam",
+  "kind": "place",
+  "label_iso": "Paṭṭattāḷ Maṅkalam",
+  "label_ta": "பட்டத்தாள் மங்கலம்",
+  "variants": [
+   "Paṭṭattāḷ Maṅkalam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00090"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/patur",
+  "kind": "place",
+  "label_iso": "Paṭūr",
+  "label_ta": "படூர்",
+  "variants": [
+   "Paṭūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00136"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/pazhuvur",
+  "kind": "place",
+  "label_iso": "Paḻuvūr",
+  "label_ta": "பழுவூர்",
+  "variants": [
+   "paḻuvūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv19p0i0357"
+  ],
+  "source": "dharma-placeName",
+  "attestation_count": 2,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/peddamudiyam-stray",
+  "kind": "place",
+  "label_iso": "Peddamuḍiyam stray",
+  "label_ta": "பெத்தமுடியம் ஸ்த்ரய்",
+  "variants": [
+   "Peddamuḍiyam stray"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00378"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/peranakkavur",
+  "kind": "place",
+  "label_iso": "Pēraṇakkāvūr",
+  "label_ta": "பேரணக்காவூர்",
+  "variants": [
+   "Pēraṇakkāvūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00182"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/perattur",
+  "kind": "place",
+  "label_iso": "Pērattūr",
+  "label_ta": "பேரத்தூர்",
+  "variants": [
+   "Pērattūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00341"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/perazhi",
+  "kind": "place",
+  "label_iso": "Pēraḻi",
+  "label_ta": "பேரழி",
+  "variants": [
+   "Pēraḻi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00063"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/periya-kolappati",
+  "kind": "place",
+  "label_iso": "Periya Kōḷappāṭi",
+  "label_ta": "பெரிய கோளப்பாடி",
+  "variants": [
+   "Periya Kōḷappāṭi",
+   "Periya Kōḷāppāṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00296",
+   "DHARMA_INSPallava00297"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/perumantur",
+  "kind": "place",
+  "label_iso": "Perumāṇṭūr",
+  "label_ta": "பெருமாண்டூர்",
+  "variants": [
+   "Perumāṇṭūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00138"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/perur",
+  "kind": "place",
+  "label_iso": "Pērūr",
+  "label_ta": "பேரூர்",
+  "variants": [
+   "Pērūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv05p1i0241"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/pikira",
+  "kind": "place",
+  "label_iso": "Pīkira",
+  "label_ta": "பீகிர",
+  "variants": [
+   "Pīkira"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00013"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/pillaipalaiyam",
+  "kind": "place",
+  "label_iso": "Piḷḷaipāḷaiyam",
+  "label_ta": "பிள்ளைபாளையம்",
+  "variants": [
+   "Piḷḷaipāḷaiyam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00112"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/pillaippakkam",
+  "kind": "place",
+  "label_iso": "Piḷḷaippākkam",
+  "label_ta": "பிள்ளைப்பாக்கம்",
+  "variants": [
+   "Piḷḷaippākkam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00170",
+   "DHARMA_INSPallava00191",
+   "DHARMA_INSPallava00193"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 3,
+  "inscription_count": 3
+ },
+ {
+  "id": "ez:place/pincur",
+  "kind": "place",
+  "label_iso": "Piñcūr",
+  "label_ta": "பிஞ்சூர்",
+  "variants": [
+   "Piñcūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00308"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/pirammatecam",
+  "kind": "place",
+  "label_iso": "Pirammatēcam",
+  "label_ta": "பிரம்மதேசம்",
+  "variants": [
+   "Pirammatēcam",
+   "Brahmadesam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00196",
+   "DHARMA_INSTamilNadu00197"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/piranmalai",
+  "kind": "place",
+  "label_iso": "Pirāṉmalai",
+  "label_ta": "பிரான்மலை",
+  "variants": [
+   "Pirāṉmalai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q65090503",
+  "attested_in": [
+   "DHARMA_INSTamilNadu00401",
+   "DHARMA_INSTamilNadu00403",
+   "DHARMA_INSTamilNadu00404",
+   "DHARMA_INSTamilNadu00405",
+   "DHARMA_INSTamilNadu00406",
+   "DHARMA_INSTamilNadu00407",
+   "DHARMA_INSTamilNadu00408",
+   "DHARMA_INSTamilNadu00409",
+   "DHARMA_INSTamilNadu00410",
+   "DHARMA_INSTamilNadu00411",
+   "DHARMA_INSTamilNadu00415",
+   "DHARMA_INSTamilNadu00416",
+   "DHARMA_INSTamilNadu00418",
+   "DHARMA_INSTamilNadu00420",
+   "DHARMA_INSTamilNadu00421",
+   "DHARMA_INSTamilNadu00422",
+   "DHARMA_INSTamilNadu00423",
+   "DHARMA_INSTamilNadu00424",
+   "DHARMA_INSTamilNadu00425",
+   "DHARMA_INSTamilNadu00426",
+   "DHARMA_INSTamilNadu00427",
+   "DHARMA_INSTamilNadu00428",
+   "DHARMA_INSTamilNadu00429",
+   "DHARMA_INSTamilNadu00432",
+   "DHARMA_INSTamilNadu00433",
+   "DHARMA_INSTamilNadu00434",
+   "DHARMA_INSTamilNadu00435",
+   "DHARMA_INSTamilNadu00438",
+   "DHARMA_INSTamilNadu00439",
+   "DHARMA_INSTamilNadu00440",
+   "DHARMA_INSTamilNadu00441",
+   "DHARMA_INSTamilNadu00442",
+   "DHARMA_INSTamilNadu00443",
+   "DHARMA_INSTamilNadu00449",
+   "DHARMA_INSTamilNadu00450",
+   "DHARMA_INSTamilNadu00451",
+   "DHARMA_INSTamilNadu00452",
+   "DHARMA_INSTamilNadu00453",
+   "DHARMA_INSTamilNadu00454",
+   "DHARMA_INSTamilNadu00458"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 67,
+  "inscription_count": 67
+ },
+ {
+  "id": "ez:place/polakam",
+  "kind": "place",
+  "label_iso": "Pōlakam",
+  "label_ta": "போலகம்",
+  "variants": [
+   "Pōlakam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00073"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/ponneri",
+  "kind": "place",
+  "label_iso": "Poṉṉēri",
+  "label_ta": "பொன்னேரி",
+  "variants": [
+   "Poṉṉēri"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00370"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/pontai",
+  "kind": "place",
+  "label_iso": "Pōntai",
+  "label_ta": "போந்தை",
+  "variants": [
+   "Pōntai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00290",
+   "DHARMA_INSPallava00301",
+   "DHARMA_INSPallava00302"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 3,
+  "inscription_count": 3
+ },
+ {
+  "id": "ez:place/porkunam",
+  "kind": "place",
+  "label_iso": "Poṟkuṇam",
+  "label_ta": "பொற்குணம்",
+  "variants": [
+   "Poṟkuṇam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00504"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/porpantal",
+  "kind": "place",
+  "label_iso": "Poṟpantal",
+  "label_ta": "பொற்பந்தல்",
+  "variants": [
+   "Poṟpantal"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00196"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/poykainallur",
+  "kind": "place",
+  "label_iso": "Poykainallūr",
+  "label_ta": "பொய்கைநல்லூர்",
+  "variants": [
+   "Poykainallūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00483"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/poyyanur",
+  "kind": "place",
+  "label_iso": "Poyyaṉūr",
+  "label_ta": "பொய்யனூர்",
+  "variants": [
+   "Poyyaṉūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00264"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/puliyanur",
+  "kind": "place",
+  "label_iso": "Puḷiyaṉūr",
+  "label_ta": "புளியனூர்",
+  "variants": [
+   "Puḷiyaṉūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q120490846",
+  "attested_in": [
+   "DHARMA_INSPallava00406",
+   "DHARMA_INSPallava00407",
+   "DHARMA_INSPallava00408",
+   "DHARMA_INSPallava00409"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 4,
+  "inscription_count": 4
+ },
+ {
+  "id": "ez:place/pullalur",
+  "kind": "place",
+  "label_iso": "Puḷḷalūr",
+  "label_ta": "புள்ளலூர்",
+  "variants": [
+   "Puḷḷalūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q7259405",
+  "attested_in": [
+   "DHARMA_INSTamilNadu00064"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/pullur",
+  "kind": "place",
+  "label_iso": "Pullūr",
+  "label_ta": "புல்லூர்",
+  "variants": [
+   "Pullūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00081"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/punceri",
+  "kind": "place",
+  "label_iso": "Pūñcēri",
+  "label_ta": "பூஞ்சேரி",
+  "variants": [
+   "Pūñcēri"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00052",
+   "DHARMA_INSPallava00487"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/punkanur",
+  "kind": "place",
+  "label_iso": "Puṅkaṉūr",
+  "label_ta": "புங்கனூர்",
+  "variants": [
+   "Puṅkaṉūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00331"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/putukkottai",
+  "kind": "place",
+  "label_iso": "Putukkōṭṭai",
+  "label_ta": "புதுக்கோட்டை",
+  "variants": [
+   "Putukkōṭṭai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya01004"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/putuppakkam",
+  "kind": "place",
+  "label_iso": "Putuppākkam",
+  "label_ta": "புதுப்பாக்கம்",
+  "variants": [
+   "Putuppākkam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00236"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/racentirapattinam",
+  "kind": "place",
+  "label_iso": "Rācēntirapaṭṭiṇam",
+  "label_ta": "ராசேந்திரபட்டிணம்",
+  "variants": [
+   "Rācēntirapaṭṭiṇam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00359"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/reyuru",
+  "kind": "place",
+  "label_iso": "Rēyūru",
+  "label_ta": "ரேயூரு",
+  "variants": [
+   "Rēyūru"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00053"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/sakrepatna",
+  "kind": "place",
+  "label_iso": "Sakrepaṭna",
+  "label_ta": "ஸக்ரெபட்ந",
+  "variants": [
+   "Sakrepaṭna"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00009"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/satyavedu",
+  "kind": "place",
+  "label_iso": "Satyavēḍu",
+  "label_ta": "ஸத்யவேடு",
+  "variants": [
+   "Satyavēḍu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00240"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/shiyali",
+  "kind": "place",
+  "label_iso": "Shiyali",
+  "label_ta": "ஸ்ஹியலி",
+  "variants": [
+   "Shiyali"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv12p0i0252"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/shrimushnam",
+  "kind": "place",
+  "label_iso": "Shrimushnam",
+  "label_ta": "ஸ்ஹ்ரிமுஸ்ஹ்நம்",
+  "variants": [
+   "Shrimushnam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv39p0i0255"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/sii-12-42-original-edition-by-v-venkatasubba-ayyar",
+  "kind": "place",
+  "label_iso": "SII 12.42: original edition by V. Venkatasubba Ayyar",
+  "label_ta": "ஸிஇ 12.42: ஒரிகிநல் எதிதிஒன் ப்ய் வ். வெந்கதஸுப்ப அய்யர்",
+  "variants": [
+   "SII 12.42: original edition by V. Venkatasubba Ayyar"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv12p0i0042"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/smaller-leiden",
+  "kind": "place",
+  "label_iso": "Smaller Leiden",
+  "label_ta": "ஸ்மல்லெர் லெஇதென்",
+  "variants": [
+   "Smaller Leiden"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu01011"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/somanathapuram",
+  "kind": "place",
+  "label_iso": "Somanāthapuram",
+  "label_ta": "ஸொமநாதபுரம்",
+  "variants": [
+   "Somanāthapuram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00342"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/sripuranthan",
+  "kind": "place",
+  "label_iso": "Sripuranthan",
+  "label_ta": "ஸ்ரிபுரந்தன்",
+  "variants": [
+   "Sripuranthan"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00072"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/srirangam",
+  "kind": "place",
+  "label_iso": "Śrīraṅgam",
+  "label_ta": "ஶ்ரீரங்கம்",
+  "variants": [
+   "Śrīraṅgam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q2304639",
+  "attested_in": [
+   "DHARMA_INSPandya01003",
+   "DHARMA_INStfaSIIv04p0i0508",
+   "DHARMA_INStfaSIIv24p0i0053",
+   "DHARMA_INStfaSIIv24p0i0182"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 4,
+  "inscription_count": 4
+ },
+ {
+  "id": "ez:place/srivanciyam",
+  "kind": "place",
+  "label_iso": "Śrīvañciyam",
+  "label_ta": "ஶ்ரீவஞ்சியம்",
+  "variants": [
+   "Śrīvañciyam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q12989543",
+  "attested_in": [
+   "DHARMA_INSTamilNadu00066"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/srivanjiyam",
+  "kind": "place",
+  "label_iso": "Śrīvāñjiyam",
+  "label_ta": "ஶ்ரீவாஞ்ஜியம்",
+  "variants": [
+   "Śrīvāñjiyam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00062"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/srivaramangala",
+  "kind": "place",
+  "label_iso": "Śrīvaramaṅgala",
+  "label_ta": "ஶ்ரீவரமங்கல",
+  "variants": [
+   "Śrīvaramaṅgala"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya10003"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/srivillipputtur",
+  "kind": "place",
+  "label_iso": "Śrīvillipputtūr",
+  "label_ta": "ஶ்ரீவில்லிப்புத்தூர்",
+  "variants": [
+   "Śrīvillipputtūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya01012"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/sumangali",
+  "kind": "place",
+  "label_iso": "Sumaṅgali",
+  "label_ta": "ஸுமங்கலி",
+  "variants": [
+   "Sumaṅgali"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00352"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/ta-velur",
+  "kind": "place",
+  "label_iso": "Tā-Veḷūr",
+  "label_ta": "தா-வெளூர்",
+  "variants": [
+   "Tā-Veḷūr",
+   "Tā. Vēḷūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00202",
+   "DHARMA_INSPallava00299"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/taccur",
+  "kind": "place",
+  "label_iso": "Taccūr",
+  "label_ta": "தச்சூர்",
+  "variants": [
+   "Taccūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00536"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/takkolam",
+  "kind": "place",
+  "label_iso": "Takkōlam",
+  "label_ta": "தக்கோலம்",
+  "variants": [
+   "Takkōlam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00345"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/takua-pa",
+  "kind": "place",
+  "label_iso": "Takua Pa",
+  "label_ta": "தகுஅ ப",
+  "variants": [
+   "Takua Pa"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00148"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/talavanur",
+  "kind": "place",
+  "label_iso": "Taḷavāṉūr",
+  "label_ta": "தளவானூர்",
+  "variants": [
+   "Taḷavāṉūr",
+   "Talavāṉūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00019",
+   "DHARMA_INSPallava00020",
+   "DHARMA_INSPallava00128"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 3,
+  "inscription_count": 3
+ },
+ {
+  "id": "ez:place/talavay-agrahara",
+  "kind": "place",
+  "label_iso": "Talavāy Agrahāra",
+  "label_ta": "தலவாய் அக்ரஹார",
+  "variants": [
+   "Talavāy Agrahāra"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya01015"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tanjore",
+  "kind": "place",
+  "label_iso": "Tanjore",
+  "label_ta": "தந்ஜொரெ",
+  "variants": [
+   "Tanjore"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q41496",
+  "attested_in": [
+   "DHARMA_INStfaSIIv02p0i0001",
+   "DHARMA_INStfaSIIv02p0i0065"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/tantalam",
+  "kind": "place",
+  "label_iso": "Taṇṭalam",
+  "label_ta": "தண்டலம்",
+  "variants": [
+   "Taṇṭalam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00261"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tantampattu",
+  "kind": "place",
+  "label_iso": "Taṇṭampaṭṭu",
+  "label_ta": "தண்டம்பட்டு",
+  "variants": [
+   "Taṇṭampaṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00279"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tantanttottam",
+  "kind": "place",
+  "label_iso": "Taṇṭanttōṭṭam",
+  "label_ta": "தண்டந்த்தோட்டம்",
+  "variants": [
+   "Taṇṭanttōṭṭam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00089"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tantarampattu",
+  "kind": "place",
+  "label_iso": "Taṇṭarāmpaṭṭu",
+  "label_ta": "தண்டராம்பட்டு",
+  "variants": [
+   "Taṇṭarāmpaṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00293",
+   "DHARMA_INSPallava00294"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/taracuram",
+  "kind": "place",
+  "label_iso": "Tārācuram",
+  "label_ta": "தாராசுரம்",
+  "variants": [
+   "Tārācuram",
+   "Darasuram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q224850",
+  "attested_in": [
+   "DHARMA_INSTamilNadu00601",
+   "DHARMA_INSTamilNadu00602",
+   "DHARMA_INSTamilNadu00603",
+   "DHARMA_INSTamilNadu00604",
+   "DHARMA_INSTamilNadu00610",
+   "DHARMA_INSTamilNadu00611",
+   "DHARMA_INSTamilNadu00616",
+   "DHARMA_INSTamilNadu00618",
+   "DHARMA_INSTamilNadu00619",
+   "DHARMA_INSTamilNadu00620",
+   "DHARMA_INSTamilNadu00634"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 11,
+  "inscription_count": 11
+ },
+ {
+  "id": "ez:place/tarankampati",
+  "kind": "place",
+  "label_iso": "Taraṅkampāṭi",
+  "label_ta": "தரங்கம்பாடி",
+  "variants": [
+   "Taraṅkampāṭi",
+   "Tranquebar"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q732594",
+  "attested_in": [
+   "DHARMA_INStfaSIIv04p0i0400"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tazhaiyuttu",
+  "kind": "place",
+  "label_iso": "Tāḻaiyūttu",
+  "label_ta": "தாழையூத்து",
+  "variants": [
+   "Tāḻaiyūttu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00300"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/ten-centamankalam",
+  "kind": "place",
+  "label_iso": "Teṉ Cēntamaṅkalam",
+  "label_ta": "தென் சேந்தமங்கலம்",
+  "variants": [
+   "Teṉ Cēntamaṅkalam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00003"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tenkaci",
+  "kind": "place",
+  "label_iso": "Teṉkāci",
+  "label_ta": "தென்காசி",
+  "variants": [
+   "Teṉkāci"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya01005",
+   "DHARMA_INSPandya01006",
+   "DHARMA_INSPandya01007",
+   "DHARMA_INSPandya01008",
+   "DHARMA_INSPandya01010",
+   "DHARMA_INSPandya01011",
+   "DHARMA_INSPandya01013",
+   "DHARMA_INSPandya01017"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 8,
+  "inscription_count": 8
+ },
+ {
+  "id": "ez:place/tenkarai",
+  "kind": "place",
+  "label_iso": "Teṉkarai",
+  "label_ta": "தென்கரை",
+  "variants": [
+   "Teṉkarai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00251"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tenmankalam",
+  "kind": "place",
+  "label_iso": "Teṉmaṅkalam",
+  "label_ta": "தென்மங்கலம்",
+  "variants": [
+   "Teṉmaṅkalam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00428"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tenmutiyanur",
+  "kind": "place",
+  "label_iso": "Teṉmuṭiyaṉūr",
+  "label_ta": "தென்முடியனூர்",
+  "variants": [
+   "Teṉmuṭiyaṉūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00289"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/thanjavur",
+  "kind": "place",
+  "label_iso": "Thanjavur",
+  "label_ta": "தந்ஜவுர்",
+  "variants": [
+   "Thanjavur"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q41496",
+  "attested_in": [
+   "DHARMA_INStfaSIIv02p0i0004",
+   "DHARMA_INStfaSIIv02p0i0005"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/tillaisthanam",
+  "kind": "place",
+  "label_iso": "Tillaisthānam",
+  "label_ta": "தில்லைஸ்தாநம்",
+  "variants": [
+   "Tillaisthānam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00122"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tinnanur",
+  "kind": "place",
+  "label_iso": "Tiṉṉaṉūr",
+  "label_ta": "தின்னனூர்",
+  "variants": [
+   "Tiṉṉaṉūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00332",
+   "DHARMA_INSPallava00333"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/tiruccanur",
+  "kind": "place",
+  "label_iso": "Tiruccāṉūr",
+  "label_ta": "திருச்சானூர்",
+  "variants": [
+   "Tiruccāṉūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00111",
+   "DHARMA_INSPallava00113"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/tiruccennampunti",
+  "kind": "place",
+  "label_iso": "Tirucceṉṉampūṇṭi",
+  "label_ta": "திருச்சென்னம்பூண்டி",
+  "variants": [
+   "Tirucceṉṉampūṇṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00137",
+   "DHARMA_INSPallava00145",
+   "DHARMA_INSPallava00146",
+   "DHARMA_INSPallava00147",
+   "DHARMA_INSPallava00194"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 5,
+  "inscription_count": 5
+ },
+ {
+  "id": "ez:place/tirukantecuvaram",
+  "kind": "place",
+  "label_iso": "Tirukaṇṭēcuvaram",
+  "label_ta": "திருகண்டேசுவரம்",
+  "variants": [
+   "Tirukaṇṭēcuvaram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00006"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tirukkaccur",
+  "kind": "place",
+  "label_iso": "Tirukkaccūr",
+  "label_ta": "திருக்கச்சூர்",
+  "variants": [
+   "Tirukkaccūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv26p0i0333"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tirukkalar",
+  "kind": "place",
+  "label_iso": "Tirukkaḷar",
+  "label_ta": "திருக்களர்",
+  "variants": [
+   "Tirukkaḷar"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu01014",
+   "DHARMA_INSTamilNadu01015",
+   "DHARMA_INStfaSIIv08p0i0260"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 3,
+  "inscription_count": 3
+ },
+ {
+  "id": "ez:place/tirukkattupalli",
+  "kind": "place",
+  "label_iso": "Tirukkāṭṭupaḷḷi",
+  "label_ta": "திருக்காட்டுபள்ளி",
+  "variants": [
+   "Tirukkāṭṭupaḷḷi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q4358967",
+  "attested_in": [
+   "DHARMA_INSPandya00337"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tirukkazhukkunram",
+  "kind": "place",
+  "label_iso": "Tirukkaḻukkuṉṟam",
+  "label_ta": "திருக்கழுக்குன்றம்",
+  "variants": [
+   "Tirukkaḻukkuṉṟam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00042"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tirukkokaranam",
+  "kind": "place",
+  "label_iso": "Tirukkōkaraṇam",
+  "label_ta": "திருக்கோகரணம்",
+  "variants": [
+   "Tirukkōkaraṇam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00251"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tirukkotikkaval",
+  "kind": "place",
+  "label_iso": "Tirukkōṭikkāval",
+  "label_ta": "திருக்கோடிக்காவல்",
+  "variants": [
+   "Tirukkōṭikkāval"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSCempiyanMahadevi00007",
+   "DHARMA_INSPallava00139",
+   "DHARMA_INSPallava00184",
+   "DHARMA_INSPandya00020",
+   "DHARMA_INSPandya00268",
+   "DHARMA_INSPandya00269"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 6,
+  "inscription_count": 6
+ },
+ {
+  "id": "ez:place/tirukkoyilur",
+  "kind": "place",
+  "label_iso": "Tirukkōyilūr",
+  "label_ta": "திருக்கோயிலூர்",
+  "variants": [
+   "Tirukkōyilūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00075"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tirukkuttalam",
+  "kind": "place",
+  "label_iso": "Tirukkuttalam",
+  "label_ta": "திருக்குத்தலம்",
+  "variants": [
+   "Tirukkuttalam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya01020"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tirumalpuram",
+  "kind": "place",
+  "label_iso": "Tirumālpuram",
+  "label_ta": "திருமால்புரம்",
+  "variants": [
+   "Tirumālpuram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv22p0i0333"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tirumayyam",
+  "kind": "place",
+  "label_iso": "Tirumayyam",
+  "label_ta": "திருமய்யம்",
+  "variants": [
+   "Tirumayyam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00030",
+   "DHARMA_INSPallava00031",
+   "DHARMA_INSPallava00260",
+   "DHARMA_INSPallava00514"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 4,
+  "inscription_count": 4
+ },
+ {
+  "id": "ez:place/tirumeynanam",
+  "kind": "place",
+  "label_iso": "Tirumeyñānam",
+  "label_ta": "திருமெய்ஞாநம்",
+  "variants": [
+   "Tirumeyñānam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv36p0i0332"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tirumukkutal",
+  "kind": "place",
+  "label_iso": "Tirumukkūṭal",
+  "label_ta": "திருமுக்கூடல்",
+  "variants": [
+   "Tirumukkūṭal"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00185"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tirumurukanpunti",
+  "kind": "place",
+  "label_iso": "Tirumurukaṉpūṇṭi",
+  "label_ta": "திருமுருகன்பூண்டி",
+  "variants": [
+   "Tirumurukaṉpūṇṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv30p0i0014",
+   "DHARMA_INStfaSIIv30p0i0054"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/tirunallaru",
+  "kind": "place",
+  "label_iso": "Tirunaḷḷāṟu",
+  "label_ta": "திருநள்ளாறு",
+  "variants": [
+   "Tirunaḷḷāṟu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00101",
+   "DHARMA_INSTamilNadu00102",
+   "DHARMA_INSTamilNadu00103",
+   "DHARMA_INSTamilNadu00105",
+   "DHARMA_INSTamilNadu00106",
+   "DHARMA_INSTamilNadu00107",
+   "DHARMA_INSTamilNadu00108",
+   "DHARMA_INSTamilNadu00109",
+   "DHARMA_INSTamilNadu00112",
+   "DHARMA_INSTamilNadu00113",
+   "DHARMA_INSTamilNadu00114",
+   "DHARMA_INSTamilNadu00115",
+   "DHARMA_INSTamilNadu00117",
+   "DHARMA_INSTamilNadu00118",
+   "DHARMA_INSTamilNadu00119",
+   "DHARMA_INSTamilNadu00120",
+   "DHARMA_INSTamilNadu00121",
+   "DHARMA_INSTamilNadu00122",
+   "DHARMA_INSTamilNadu00124",
+   "DHARMA_INSTamilNadu00126",
+   "DHARMA_INSTamilNadu00127",
+   "DHARMA_INSTamilNadu00128",
+   "DHARMA_INSTamilNadu00129",
+   "DHARMA_INSTamilNadu00130",
+   "DHARMA_INSTamilNadu00131",
+   "DHARMA_INSTamilNadu00132",
+   "DHARMA_INSTamilNadu00133",
+   "DHARMA_INSTamilNadu00135",
+   "DHARMA_INSTamilNadu00136",
+   "DHARMA_INSTamilNadu00137",
+   "DHARMA_INSTamilNadu00138",
+   "DHARMA_INSTamilNadu00139",
+   "DHARMA_INSTamilNadu00141",
+   "DHARMA_INSTamilNadu00142",
+   "DHARMA_INSTamilNadu00143",
+   "DHARMA_INSTamilNadu00144",
+   "DHARMA_INSTamilNadu00145",
+   "DHARMA_INSTamilNadu00146",
+   "DHARMA_INSTamilNadu00147",
+   "DHARMA_INSTamilNadu00149"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 48,
+  "inscription_count": 48
+ },
+ {
+  "id": "ez:place/tirunamanallur",
+  "kind": "place",
+  "label_iso": "Tirunāmanallūr",
+  "label_ta": "திருநாமநல்லூர்",
+  "variants": [
+   "Tirunāmanallūr",
+   "Tirunāvalūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00263"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tirunelveli",
+  "kind": "place",
+  "label_iso": "Tirunelvēli",
+  "label_ta": "திருநெல்வேலி",
+  "variants": [
+   "Tirunelvēli",
+   "Tirunelveli"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q213248",
+  "attested_in": [
+   "DHARMA_INSPandya01002",
+   "DHARMA_INStfaSIIv05p1i0420"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/tirunetunkalam",
+  "kind": "place",
+  "label_iso": "Tiruneṭuṅkaḷam",
+  "label_ta": "திருநெடுங்களம்",
+  "variants": [
+   "Tiruneṭuṅkalam",
+   "Tiruneṭuṅkaḷam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00497",
+   "DHARMA_INSPandya00502",
+   "DHARMA_INSPandya00503"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 3,
+  "inscription_count": 3
+ },
+ {
+  "id": "ez:place/tirunirankonrai",
+  "kind": "place",
+  "label_iso": "Tiruniṟaṅkoṉṟai",
+  "label_ta": "திருநிறங்கொன்றை",
+  "variants": [
+   "Tiruniṟaṅkoṉṟai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00453",
+   "DHARMA_INSPallava00455"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/tiruppaccanur",
+  "kind": "place",
+  "label_iso": "Tiruppāccaṉūr",
+  "label_ta": "திருப்பாச்சனூர்",
+  "variants": [
+   "Tiruppāccaṉūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00427"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiruppalatturai",
+  "kind": "place",
+  "label_iso": "Tiruppālattuṟai",
+  "label_ta": "திருப்பாலத்துறை",
+  "variants": [
+   "Tiruppālattuṟai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00142"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiruppampuram",
+  "kind": "place",
+  "label_iso": "Tiruppāmpuram",
+  "label_ta": "திருப்பாம்புரம்",
+  "variants": [
+   "Tiruppāmpuram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00018",
+   "DHARMA_INSTamilNadu00192"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/tiruppattur",
+  "kind": "place",
+  "label_iso": "Tiruppattūr",
+  "label_ta": "திருப்பத்தூர்",
+  "variants": [
+   "Tiruppattūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00501",
+   "DHARMA_INStfaSIIv25p0i0099"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/tirupporur",
+  "kind": "place",
+  "label_iso": "Tiruppōrūr",
+  "label_ta": "திருப்போரூர்",
+  "variants": [
+   "Tiruppōrūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00067"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiruppukuzhi",
+  "kind": "place",
+  "label_iso": "Tiruppukuḻi",
+  "label_ta": "திருப்புகுழி",
+  "variants": [
+   "Tiruppukuḻi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv39p0i0217"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiruppulivanam",
+  "kind": "place",
+  "label_iso": "Tiruppulivaṉam",
+  "label_ta": "திருப்புலிவனம்",
+  "variants": [
+   "Tiruppulivaṉam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv12p0i0096"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiruppuvanam",
+  "kind": "place",
+  "label_iso": "Tiruppūvaṇam",
+  "label_ta": "திருப்பூவணம்",
+  "variants": [
+   "Tiruppūvaṇam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q3535783",
+  "attested_in": [
+   "DHARMA_INSPandya10008"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiruttani",
+  "kind": "place",
+  "label_iso": "Tiruttaṇi",
+  "label_ta": "திருத்தணி",
+  "variants": [
+   "Tiruttaṇi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q1557417",
+  "attested_in": [
+   "DHARMA_INSPallava00245"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiruttankal",
+  "kind": "place",
+  "label_iso": "Tiruttaṅkāl",
+  "label_ta": "திருத்தங்கால்",
+  "variants": [
+   "Tiruttaṅkāl",
+   "Tiruttangal"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q2715599",
+  "attested_in": [
+   "DHARMA_INSTamilNadu00178",
+   "DHARMA_INSTamilNadu00179"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/tiruvaikavur",
+  "kind": "place",
+  "label_iso": "Tiruvaikāvūr",
+  "label_ta": "திருவைகாவூர்",
+  "variants": [
+   "Tiruvaikāvūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q7809441",
+  "attested_in": [
+   "DHARMA_INSPallava00143"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiruvaikur",
+  "kind": "place",
+  "label_iso": "Tiruvaikūr",
+  "label_ta": "திருவைகூர்",
+  "variants": [
+   "Tiruvaikūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv34p0i0059"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiruvaiyaru",
+  "kind": "place",
+  "label_iso": "Tiruvaiyāṟu",
+  "label_ta": "திருவையாறு",
+  "variants": [
+   "Tiruvaiyāṟu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q2229514",
+  "attested_in": [
+   "DHARMA_INSPallava00445"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiruvalanjuli",
+  "kind": "place",
+  "label_iso": "Tiruvalañjuli",
+  "label_ta": "திருவலஞ்ஜுலி",
+  "variants": [
+   "Tiruvalañjuli"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q17075180",
+  "attested_in": [
+   "DHARMA_INStfaSIIv08p0i0228"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiruvalankatu",
+  "kind": "place",
+  "label_iso": "Tiruvālaṅkāṭu",
+  "label_ta": "திருவாலங்காடு",
+  "variants": [
+   "Tiruvālaṅkāṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00156",
+   "DHARMA_INSPallava00160",
+   "DHARMA_INSTamilNadu01005",
+   "DHARMA_INStfaSIIv41p0i0265"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 4,
+  "inscription_count": 4
+ },
+ {
+  "id": "ez:place/tiruvalisvaram",
+  "kind": "place",
+  "label_iso": "Tiruvalīśvaram",
+  "label_ta": "திருவலீஶ்வரம்",
+  "variants": [
+   "Tiruvalīśvaram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00161"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiruvallam",
+  "kind": "place",
+  "label_iso": "Tiruvallam",
+  "label_ta": "திருவல்லம்",
+  "variants": [
+   "Tiruvallam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00091",
+   "DHARMA_INSPallava00132",
+   "DHARMA_INStfaSIIv04p0i0309"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 3,
+  "inscription_count": 3
+ },
+ {
+  "id": "ez:place/tiruvamattur",
+  "kind": "place",
+  "label_iso": "Tiruvāmāttūr",
+  "label_ta": "திருவாமாத்தூர்",
+  "variants": [
+   "Tiruvāmāttūr",
+   "Tiruvāmattūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00074",
+   "DHARMA_INSTamilNadu00162",
+   "DHARMA_INStfaSIIv08p0i0749"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 3,
+  "inscription_count": 3
+ },
+ {
+  "id": "ez:place/tiruvannamalai",
+  "kind": "place",
+  "label_iso": "Tiruvaṇṇāmalai",
+  "label_ta": "திருவண்ணாமலை",
+  "variants": [
+   "Tiruvaṇṇāmalai",
+   "Tiruvaṇṇamālai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q162830",
+  "attested_in": [
+   "DHARMA_INSPallava00134",
+   "DHARMA_INSTamilNadu00023",
+   "DHARMA_INStfaSIIv08p0i0127",
+   "DHARMA_INStfaSIIv08p0i0155",
+   "DHARMA_INStfaSIIv08p0i0163",
+   "DHARMA_INStfaSIIv08p0i0165"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 6,
+  "inscription_count": 6
+ },
+ {
+  "id": "ez:place/tiruvarur",
+  "kind": "place",
+  "label_iso": "Tiruvārūr",
+  "label_ta": "திருவாரூர்",
+  "variants": [
+   "Tiruvārūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q1025399",
+  "attested_in": [
+   "DHARMA_INStfaSIIv17p0i0603"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiruvatavur",
+  "kind": "place",
+  "label_iso": "Tiruvātavūr",
+  "label_ta": "திருவாதவூர்",
+  "variants": [
+   "Tiruvātavūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00076"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiruvatikai",
+  "kind": "place",
+  "label_iso": "Tiruvatikai",
+  "label_ta": "திருவதிகை",
+  "variants": [
+   "Tiruvatikai",
+   "Tiruvaṭikai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00071",
+   "DHARMA_INSPallava00123",
+   "DHARMA_INSPallava00179"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 3,
+  "inscription_count": 3
+ },
+ {
+  "id": "ez:place/tiruvatikkunram",
+  "kind": "place",
+  "label_iso": "Tiruvatikkuṉṟam",
+  "label_ta": "திருவதிக்குன்றம்",
+  "variants": [
+   "Tiruvatikkuṉṟam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00364"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiruvattatturai",
+  "kind": "place",
+  "label_iso": "Tiruvaṭṭattuṟai",
+  "label_ta": "திருவட்டத்துறை",
+  "variants": [
+   "Tiruvaṭṭattuṟai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00069"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiruvaymur",
+  "kind": "place",
+  "label_iso": "Tiruvāymūr",
+  "label_ta": "திருவாய்மூர்",
+  "variants": [
+   "Tiruvāymūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00506",
+   "DHARMA_INSPandya00507"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/tiruvellarai",
+  "kind": "place",
+  "label_iso": "Tiruveḷḷaṟai",
+  "label_ta": "திருவெள்ளறை",
+  "variants": [
+   "Tiruveḷḷaṟai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00073",
+   "DHARMA_INSPandya00012"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/tiruvellarai-s-well",
+  "kind": "place",
+  "label_iso": "Tiruveḷḷaṟai’s well",
+  "label_ta": null,
+  "variants": [
+   "Tiruveḷḷaṟai’s well"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00525"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiruvicalur",
+  "kind": "place",
+  "label_iso": "Tiruvicalūr",
+  "label_ta": "திருவிசலூர்",
+  "variants": [
+   "Tiruvicalūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSCempiyanMahadevi00004",
+   "DHARMA_INSPandya00024"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/tiruvintalur",
+  "kind": "place",
+  "label_iso": "Tiruvintaḷūr",
+  "label_ta": "திருவிந்தளூர்",
+  "variants": [
+   "Tiruvintaḷūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu01009"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiruvisalur",
+  "kind": "place",
+  "label_iso": "Tiruviśalūr",
+  "label_ta": "திருவிஶலூர்",
+  "variants": [
+   "Tiruviśalūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv23p0i0341"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiruvitaimarutur",
+  "kind": "place",
+  "label_iso": "Tiruviṭaimarutūr",
+  "label_ta": "திருவிடைமருதூர்",
+  "variants": [
+   "Tiruviṭaimarutūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv05p1i0705",
+   "DHARMA_INStfaSIIv19p0i0181"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/tiruvitaivacal",
+  "kind": "place",
+  "label_iso": "Tiruviṭaivācal",
+  "label_ta": "திருவிடைவாசல்",
+  "variants": [
+   "Tiruviṭaivācal"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00026",
+   "DHARMA_INSTamilNadu00198",
+   "DHARMA_INSTamilNadu00199"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 3,
+  "inscription_count": 3
+ },
+ {
+  "id": "ez:place/tiruvizhimizhalai",
+  "kind": "place",
+  "label_iso": "Tiruviḻimiḻalai",
+  "label_ta": "திருவிழிமிழலை",
+  "variants": [
+   "Tiruviḻimiḻalai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q7785536",
+  "attested_in": [
+   "DHARMA_INSTamilNadu00070"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiruvorriyur",
+  "kind": "place",
+  "label_iso": "Tiruvoṟṟiyūr",
+  "label_ta": "திருவொற்றியூர்",
+  "variants": [
+   "Tiruvoṟṟiyūr",
+   "Tiruvōṟṟiyūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00168",
+   "DHARMA_INSPallava00207",
+   "DHARMA_INSPallava00238",
+   "DHARMA_INSPallava00241",
+   "DHARMA_INSPallava00242",
+   "DHARMA_INSPallava00243",
+   "DHARMA_INSPallava00244",
+   "DHARMA_INSPallava00329",
+   "DHARMA_INSTamilNadu00007",
+   "DHARMA_INSTamilNadu00008",
+   "DHARMA_INSTamilNadu00009",
+   "DHARMA_INSTamilNadu00010",
+   "DHARMA_INSTamilNadu00011",
+   "DHARMA_INSTamilNadu00012",
+   "DHARMA_INSTamilNadu00013",
+   "DHARMA_INSTamilNadu00014",
+   "DHARMA_INSTamilNadu00017",
+   "DHARMA_INStfaSIIv03p0i0064",
+   "DHARMA_INStfaSIIv03p0i0103",
+   "DHARMA_INStfaSIIv03p0i0104",
+   "DHARMA_INStfaSIIv03p0i0105",
+   "DHARMA_INStfaSIIv03p0i0115",
+   "DHARMA_INStfaSIIv03p0i0143",
+   "DHARMA_INStfaSIIv03p0i0145",
+   "DHARMA_INStfaSIIv04p0i0556",
+   "DHARMA_INStfaSIIv04p0i0558",
+   "DHARMA_INStfaSIIv05p1i1354",
+   "DHARMA_INStfaSIIv05p1i1355",
+   "DHARMA_INStfaSIIv05p1i1356",
+   "DHARMA_INStfaSIIv05p1i1357",
+   "DHARMA_INStfaSIIv38p0i0128",
+   "DHARMA_INStfaSIIv38p0i0137",
+   "DHARMA_INStfaSIIv38p0i0195"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 33,
+  "inscription_count": 33
+ },
+ {
+  "id": "ez:place/tiruvottur",
+  "kind": "place",
+  "label_iso": "Tiruvōttūr",
+  "label_ta": "திருவோத்தூர்",
+  "variants": [
+   "Tiruvōttūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSCempiyanMahadevi00011"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tiyakai",
+  "kind": "place",
+  "label_iso": "Tiyākai",
+  "label_ta": "தியாகை",
+  "variants": [
+   "Tiyākai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00432",
+   "DHARMA_INSPallava00441"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/tontamanur",
+  "kind": "place",
+  "label_iso": "Toṇṭamanūr",
+  "label_ta": "தொண்டமநூர்",
+  "variants": [
+   "Toṇṭamanūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00413"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tontur",
+  "kind": "place",
+  "label_iso": "Toṇṭūr",
+  "label_ta": "தொண்டூர்",
+  "variants": [
+   "Toṇṭūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00100",
+   "DHARMA_INSPallava00482"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/toraippati",
+  "kind": "place",
+  "label_iso": "Toraippāṭi",
+  "label_ta": "தொரைப்பாடி",
+  "variants": [
+   "Toraippāṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00303"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/trichy",
+  "kind": "place",
+  "label_iso": "Trichy",
+  "label_ta": "த்ரிச்ய்",
+  "variants": [
+   "Trichy"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q207754",
+  "attested_in": [
+   "DHARMA_INSPallava00034",
+   "DHARMA_INSPallava00035",
+   "DHARMA_INSPandya00010",
+   "DHARMA_INSTamilNadu00027",
+   "DHARMA_INStfaSIIv17p0i0442"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 5,
+  "inscription_count": 5
+ },
+ {
+  "id": "ez:place/triplicane",
+  "kind": "place",
+  "label_iso": "Triplicane",
+  "label_ta": "த்ரிப்லிசநெ",
+  "variants": [
+   "Triplicane"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q2454031",
+  "attested_in": [
+   "DHARMA_INSPallava00105"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/tuci",
+  "kind": "place",
+  "label_iso": "Tūci",
+  "label_ta": "தூசி",
+  "variants": [
+   "Tūci"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00339"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/ukkal",
+  "kind": "place",
+  "label_iso": "Ukkal",
+  "label_ta": "உக்கல்",
+  "variants": [
+   "Ukkal"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00210",
+   "DHARMA_INStfaSIIv03p0i0001",
+   "DHARMA_INStfaSIIv03p0i0002",
+   "DHARMA_INStfaSIIv03p0i0004",
+   "DHARMA_INStfaSIIv03p0i0006",
+   "DHARMA_INStfaSIIv03p0i0007",
+   "DHARMA_INStfaSIIv03p0i0009",
+   "DHARMA_INStfaSIIv03p0i0011",
+   "DHARMA_INStfaSIIv03p0i0012",
+   "DHARMA_INStfaSIIv03p0i0013",
+   "DHARMA_INStfaSIIv03p0i0014"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 11,
+  "inscription_count": 11
+ },
+ {
+  "id": "ez:place/urrattur",
+  "kind": "place",
+  "label_iso": "Ūṟṟattūr",
+  "label_ta": "ஊற்றத்தூர்",
+  "variants": [
+   "Ūṟṟattūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv38p0i0489"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/uruvupalli",
+  "kind": "place",
+  "label_iso": "Uruvupalli",
+  "label_ta": "உருவுபல்லி",
+  "variants": [
+   "Uruvupalli"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00006"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/utaiyarkuti",
+  "kind": "place",
+  "label_iso": "Uṭaiyārkuṭi",
+  "label_ta": "உடையார்குடி",
+  "variants": [
+   "Uṭaiyārkuṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSCempiyanMahadevi00003"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/utayentiram",
+  "kind": "place",
+  "label_iso": "Utayēntiram",
+  "label_ta": "உதயேந்திரம்",
+  "variants": [
+   "Utayēntiram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00076",
+   "DHARMA_INSTamilNadu01001"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/uttiramerur",
+  "kind": "place",
+  "label_iso": "Uttiramērūr",
+  "label_ta": "உத்திரமேரூர்",
+  "variants": [
+   "Uttiramērūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00078",
+   "DHARMA_INSPallava00095",
+   "DHARMA_INSPallava00096",
+   "DHARMA_INSPallava00102",
+   "DHARMA_INSPallava00103",
+   "DHARMA_INSPallava00163",
+   "DHARMA_INSPallava00187",
+   "DHARMA_INSPallava00190",
+   "DHARMA_INSPallava00195",
+   "DHARMA_INSPallava00199",
+   "DHARMA_INSPallava00203",
+   "DHARMA_INSPallava00206",
+   "DHARMA_INSPallava00208",
+   "DHARMA_INSPallava00211",
+   "DHARMA_INSPallava00216",
+   "DHARMA_INSPallava00217",
+   "DHARMA_INSPallava00218",
+   "DHARMA_INSPallava00223",
+   "DHARMA_INSPallava00227",
+   "DHARMA_INSPallava00267",
+   "DHARMA_INSUttiramerur00001",
+   "DHARMA_INSUttiramerur00002",
+   "DHARMA_INSUttiramerur00017",
+   "DHARMA_INSUttiramerur00018",
+   "DHARMA_INSUttiramerur00019",
+   "DHARMA_INSUttiramerur00035",
+   "DHARMA_INSUttiramerur00041",
+   "DHARMA_INSUttiramerur00043",
+   "DHARMA_INSUttiramerur00044",
+   "DHARMA_INSUttiramerur00053",
+   "DHARMA_INSUttiramerur00054",
+   "DHARMA_INSUttiramerur00055",
+   "DHARMA_INSUttiramerur00061",
+   "DHARMA_INSUttiramerur00062",
+   "DHARMA_INSUttiramerur00065",
+   "DHARMA_INSUttiramerur00068",
+   "DHARMA_INSUttiramerur00075",
+   "DHARMA_INSUttiramerur00098"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 38,
+  "inscription_count": 38
+ },
+ {
+  "id": "ez:place/uttukkatu",
+  "kind": "place",
+  "label_iso": "Ūttukkāṭu",
+  "label_ta": "ஊத்துக்காடு",
+  "variants": [
+   "Ūttukkāṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00231"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/uyyakkontan-tirumalai",
+  "kind": "place",
+  "label_iso": "Uyyakkoṇṭāṉ Tirumalai",
+  "label_ta": "உய்யக்கொண்டான் திருமலை",
+  "variants": [
+   "Uyyakkoṇṭāṉ Tirumalai"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSCempiyanMahadevi00001"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/uzhalur",
+  "kind": "place",
+  "label_iso": "Uḻalūr",
+  "label_ta": "உழலூர்",
+  "variants": [
+   "Uḻalūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00094"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/vaitampati",
+  "kind": "place",
+  "label_iso": "Vaitāmpāṭi",
+  "label_ta": "வைதாம்பாடி",
+  "variants": [
+   "Vaitāmpāṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00422"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/vakur",
+  "kind": "place",
+  "label_iso": "Vākūr",
+  "label_ta": "வாகூர்",
+  "variants": [
+   "Vākūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00155"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/vallam",
+  "kind": "place",
+  "label_iso": "Vallam",
+  "label_ta": "வல்லம்",
+  "variants": [
+   "Vallam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": "Q2231085",
+  "attested_in": [
+   "DHARMA_INSPallava00036",
+   "DHARMA_INSPallava00461",
+   "DHARMA_INSPallava00475"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 3,
+  "inscription_count": 3
+ },
+ {
+  "id": "ez:place/valluru",
+  "kind": "place",
+  "label_iso": "Vallūru",
+  "label_ta": "வல்லூரு",
+  "variants": [
+   "Vallūru"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv24p0i0431"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/vancikkuzhi",
+  "kind": "place",
+  "label_iso": "Vañcikkuḻi",
+  "label_ta": "வஞ்சிக்குழி",
+  "variants": [
+   "Vañcikkuḻi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00498"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/vannava-matevi",
+  "kind": "place",
+  "label_iso": "Vānṉava-mātēvi",
+  "label_ta": "வாந்னவ-மாதேவி",
+  "variants": [
+   "vānṉava-mātēvi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv19p0i0357"
+  ],
+  "source": "dharma-placeName",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/vantavaci",
+  "kind": "place",
+  "label_iso": "Vantavāci",
+  "label_ta": "வந்தவாசி",
+  "variants": [
+   "Vantavāci"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00120"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/vata-tirumullaivayil",
+  "kind": "place",
+  "label_iso": "Vaṭa-Tirumullaivāyil",
+  "label_ta": "வட-திருமுல்லைவாயில்",
+  "variants": [
+   "Vaṭa-Tirumullaivāyil"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSCempiyanMahadevi00013"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/vayalaikkavur",
+  "kind": "place",
+  "label_iso": "Vayalaikkāvūr",
+  "label_ta": "வயலைக்காவூர்",
+  "variants": [
+   "Vayalaikkāvūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00097"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/vazhuvur",
+  "kind": "place",
+  "label_iso": "Vaḻuvūr",
+  "label_ta": "வழுவூர்",
+  "variants": [
+   "Vaḻuvūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00153",
+   "DHARMA_INSTamilNadu00163",
+   "DHARMA_INSTamilNadu00164",
+   "DHARMA_INStfaSIIv38p0i0418",
+   "DHARMA_INStfaSIIv38p0i0419",
+   "DHARMA_INStfaSIIv38p0i0423"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 6,
+  "inscription_count": 6
+ },
+ {
+  "id": "ez:place/velanceri",
+  "kind": "place",
+  "label_iso": "Vēḷañcēri",
+  "label_ta": "வேளஞ்சேரி",
+  "variants": [
+   "Vēḷañcēri"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00390",
+   "DHARMA_INSTamilNadu01002"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/velurpalaiyam",
+  "kind": "place",
+  "label_iso": "Vēlūrpāḷaiyam",
+  "label_ta": "வேலூர்பாளையம்",
+  "variants": [
+   "Vēlūrpāḷaiyam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00121"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/velvikkuti",
+  "kind": "place",
+  "label_iso": "Vēḷvikkuṭi",
+  "label_ta": "வேள்விக்குடி",
+  "variants": [
+   "Vēḷvikkuṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya10002"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/venmani",
+  "kind": "place",
+  "label_iso": "Veṇmaṇi",
+  "label_ta": "வெண்மணி",
+  "variants": [
+   "Veṇmaṇi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00373"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/veppurcekkati",
+  "kind": "place",
+  "label_iso": "Veppūrcekkaṭi",
+  "label_ta": "வெப்பூர்செக்கடி",
+  "variants": [
+   "Veppūrcekkaṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00423",
+   "DHARMA_INSPallava00424"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:place/veralur",
+  "kind": "place",
+  "label_iso": "Veralūr",
+  "label_ta": "வெரலூர்",
+  "variants": [
+   "Veralūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00454"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/vesanta",
+  "kind": "place",
+  "label_iso": "Vesanta",
+  "label_ta": "வெஸந்த",
+  "variants": [
+   "Vesanta"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00008"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/vetal",
+  "kind": "place",
+  "label_iso": "Vēṭal",
+  "label_ta": "வேடல்",
+  "variants": [
+   "Vēṭal"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00320"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/vetartattakkal",
+  "kind": "place",
+  "label_iso": "Vēṭartaṭṭakkal",
+  "label_ta": "வேடர்தட்டக்கல்",
+  "variants": [
+   "Vēṭartaṭṭakkal"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00418"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/viranam",
+  "kind": "place",
+  "label_iso": "Vīraṇam",
+  "label_ta": "வீரணம்",
+  "variants": [
+   "Vīraṇam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00312"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/virincipuram",
+  "kind": "place",
+  "label_iso": "Viriñcipuram",
+  "label_ta": "விரிஞ்சிபுரம்",
+  "variants": [
+   "Viriñcipuram"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00072"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/vitur",
+  "kind": "place",
+  "label_iso": "Vīṭūr",
+  "label_ta": "வீடூர்",
+  "variants": [
+   "Vīṭūr"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00004"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/vizhavatti",
+  "kind": "place",
+  "label_iso": "Viḻavaṭṭi",
+  "label_ta": "விழவட்டி",
+  "variants": [
+   "Viḻavaṭṭi"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00015"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/vrddhacalam",
+  "kind": "place",
+  "label_iso": "Vr̥ddhācalam",
+  "label_ta": "வ்ருʼத்தாசலம்",
+  "variants": [
+   "Vr̥ddhācalam",
+   "Viruttācalam"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSCempiyanMahadevi00008"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:place/vunna-guruvapalem",
+  "kind": "place",
+  "label_iso": "Vunna Guruvapāḷem",
+  "label_ta": "வுந்ந குருவபாளெம்",
+  "variants": [
+   "Vunna Guruvapāḷem"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00045"
+  ],
+  "source": "dharma-title",
+  "attestation_count": 1,
+  "inscription_count": 1
+ }
+]

@@ -1,0 +1,117 @@
+# Curated seed list: formulas, institutions and technical vocabulary of Tamil inscriptions.
+# Variants are ISO-15919 stems as written in DHARMA editions; matching is anchored at a word or
+# compound-member boundary and allows case endings after the stem (see normalize.py).
+# The build drops any entry that is not attested in the corpus and reports it in coverage.json.
+# label_en glosses are short curated glosses as commonly given in Tamil epigraphy (not quoted from DHARMA);
+# the tutor should prefer the DHARMA translation of the attesting inscription when it shows one.
+
+formulas:
+  - {slug: svasti-sri, label_iso: svasti śrī, label_en: "Prosperity! Fortune!", variants: [svasti śrī, svasti śri, svasticrī],
+     note: "auspicious opening of most inscriptions"}
+  - {slug: regnal-year, label_iso: yāṇṭu … āvatu, label_en: "in the … year (of the reign)", variants: [yāṇṭu],
+     note: "regnal-year formula: <title/name>-kku yāṇṭu <number>-āvatu; a gap just before 'yāṇṭu' usually hides a royal name"}
+  - {slug: ko-vicaiya, label_iso: kō-vicaiya-…-varmaṟku, label_en: "to the victorious king …", dynasty: pallava,
+     variants: [kō vicaiya, kōviśaiya, kōvijaya], note: "Pallava regnal-year formula prefix (kō-vicaiya-nanti-vikkirama-parumaṟku yāṇṭu …)"}
+  - {slug: matirai-konta, label_iso: matirai koṇṭa kō-p-parakēcari-varmaṉ, label_en: "Parakesarivarman who took Madurai",
+     dynasty: chola, ruler: parantaka-i, variants: [matirai koṇṭa, maturai koṇṭa]}
+  - {slug: kantalur-calai, label_iso: kāntaḷūr-c-cālai kalam aṟutta, label_en: "who destroyed the ships at Kāntaḷūr Cālai",
+     dynasty: chola, ruler: rajaraja-i, variants: [kāntaḷūrc cālai kalam aṟutta, cālai kalam aṟutta, kāntaḷūr cālai]}
+  - {slug: tirumakal-pola, label_iso: tirumakaḷ pōla, label_en: "as the goddess of fortune…", dynasty: chola, ruler: rajaraja-i,
+     variants: [tirumakaḷ pōla, tirumakaḷ pōlap peru nilac celvi], note: "meykkīrtti (royal praise) incipit of Rājarāja I"}
+  - {slug: tirumanni-valara, label_iso: tiru maṉṉi vaḷara, label_en: "while fortune grows and abides", dynasty: chola, ruler: rajendra-i,
+     variants: [tiru maṉṉi vaḷara, tirumaṉṉi vaḷara], note: "meykkīrtti incipit of Rājendra I"}
+  - {slug: tinkal-er-taru, label_iso: tiṅkaḷ ēr taru, dynasty: chola, ruler: rajadhiraja-i, variants: [tiṅkaḷ ēr taru, tiṅkaḷēr taru],
+     note: "meykkīrtti incipit of Rājādhirāja I"}
+  - {slug: pu-maruviya, label_iso: pū maruviya tirumātum, dynasty: chola, ruler: rajaraja-ii, variants: [pū maruviya tirumātum, pūmaruviya],
+     note: "meykkīrtti incipit; DHARMA attests it under Rājarāja II"}
+  - {slug: pukal-matu-vilanka, label_iso: pukaḻ mātu viḷaṅka, dynasty: chola, ruler: kulottunga-i, variants: [pukaḻ mātu viḷaṅka, pukaḻmātu viḷaṅka],
+     note: "meykkīrtti incipit; DHARMA attests it under Kulottuṅga Cōḻa"}
+  - {slug: kacciyum-tancaiyum, label_iso: kacciyun tañcaiyuṅ koṇṭa, label_en: "who took Kacci and Tañcai", dynasty: rashtrakuta,
+     ruler: kannaradeva, variants: [kacciyun tañcaiyuṅ koṇṭa, kacciyum tañcaiyum koṇṭa, kacciyun tañcai]}
+  - {slug: tiruvaykkelvi, label_iso: tiruvāykkēḻvi, label_en: "royal oral order", variants: [tiruvāykkēḻvi, tiruvāykkeḻvi, tiruvāy-k-kēḻvi]}
+  - {slug: candradityavat, label_iso: cantirātittavaraiyum, label_en: "as long as the moon and sun endure",
+     variants: [cantirātittavar, cantirātittar, candrādityavat, cantirātittaval], note: "duration clause of endowments"}
+  - {slug: imprecation, label_iso: … ceyvāṉ pāvam koḷvāṉ, label_en: "whoever harms this incurs the sin …",
+     variants: [kaṅkaiyiṭaik kumariyiṭai, ceyta pāvam], note: "imprecatory (curse) clause protecting the grant"}
+
+grant_types:
+  - {slug: devadana, label_iso: dēvatāṉam, label_en: "land granted to a temple deity", variants: [dēvatāṉa, devadāna, dēvadāna, tēvatāṉa]}
+  - {slug: brahmadeya, label_iso: brahmadēyam, label_en: "land or village granted to Brahmins", variants: [brahmadēya, brahmatēya, piramatēya, brahmadeya, pirammatēya]}
+  - {slug: pallichandam, label_iso: paḷḷiccantam, label_en: "land granted to a Jain or Buddhist institution", variants: [paḷḷiccanta, paḷḷiccantam]}
+  - {slug: iraiyili, label_iso: iṟaiyili, label_en: "tax-free (land)", variants: [iṟaiyili]}
+  - {slug: salabhoga, label_iso: śālābhōgam, label_en: "endowment for a feeding hall or school", variants: [cālābhōka, śālābhōga, cālāpōka]}
+  - {slug: kanimurruttu, label_iso: kaṇimuṟṟūṭṭu, label_en: "land for temple worship and maintenance", variants: [kaṇimuṟṟūṭṭu]}
+  - {slug: nibandha, label_iso: nibandham, label_en: "standing endowment", variants: [nibandha, nipanta]}
+  - {slug: nunda-vilakku, label_iso: nontāviḷakku, label_en: "perpetual lamp (endowment)", variants: [nontāviḷakku, nunttāviḷakku, nontāviḷakkuk]}
+  - {slug: tiruvamirtu, label_iso: tiruvamutu, label_en: "food offering to the deity", variants: [tiruvamutu, tiruvamirtu]}
+  - {slug: sale-deed, label_iso: vilaiyāka, label_en: "sale (deed)", variants: [vilaiyāka, vilaipiramāṇa, vilaippiramāṇa]}
+
+assemblies:
+  - {slug: sabha, label_iso: sabhai, label_en: "assembly of a Brahmin village (brahmadeya)", variants: [sabhai, capai, sabhaiyōm, mahāsabhai, perunkuṟi]}
+  - {slug: ur, label_iso: ūr, label_en: "assembly of a non-Brahmin village", variants: [ūrōm, ūrār], note: "matched in its assembly forms (ūrōm 'we of the ūr', ūrār) to avoid matching every village name ending in -ūr"}
+  - {slug: nagaram, label_iso: nakaram, label_en: "merchants' assembly of a market town", variants: [nakarattōm, nakarattār, nagaram, nakaram]}
+  - {slug: nattar, label_iso: nāṭṭār, label_en: "assembly of the nāṭu", variants: [nāṭṭār, nāṭṭōm]}
+  - {slug: variyam, label_iso: vāriyam, label_en: "committee of the assembly", variants: [vāriyam, vāriyar, vāriya-p-perumakkaḷ]}
+  - {slug: perumakkal, label_iso: perumakkaḷ, label_en: "great men (members of the assembly)", variants: [perumakkaḷ]}
+
+measures:
+  - {slug: kalanju, label_iso: kaḷañcu, label_en: "kaḷañcu (gold weight)", variants: [kaḷañcu, kaḻañcu], unit_of: weight}
+  - {slug: manjadi, label_iso: mañcāṭi, label_en: "mañcāṭi (gold weight, a fraction of the kaḷañcu)", variants: [mañcāṭi], unit_of: weight}
+  - {slug: kunri, label_iso: kuṉṟi, label_en: "kuṉṟi (smallest gold weight)", variants: [kuṉṟi], unit_of: weight}
+  - {slug: kalam, label_iso: kalam, label_en: "kalam (grain measure)", variants: [kalam nel, nel kalam, kalamum], unit_of: capacity,
+     note: "matched only next to nel (paddy) or with -um to avoid kalam 'ship'"}
+  - {slug: tuni, label_iso: tūṇi, label_en: "tūṇi (grain measure)", variants: [tūṇi], unit_of: capacity}
+  - {slug: patakku, label_iso: patakku, label_en: "patakku (grain measure)", variants: [patakku], unit_of: capacity}
+  - {slug: kuruni, label_iso: kuṟuṇi, label_en: "kuṟuṇi (grain measure)", variants: [kuṟuṇi], unit_of: capacity}
+  - {slug: nali, label_iso: nāḻi, label_en: "nāḻi (grain/oil/ghee measure)", variants: [nāḻi], unit_of: capacity}
+  - {slug: ulakku, label_iso: uḻakku, label_en: "uḻakku (quarter nāḻi)", variants: [uḻakku], unit_of: capacity}
+  - {slug: alakku, label_iso: āḻākku, label_en: "āḻākku (eighth of a nāḻi)", variants: [āḻākku], unit_of: capacity}
+  - {slug: velli, label_iso: vēli, label_en: "vēli (land measure)", variants: [vēli], unit_of: land}
+  - {slug: kuli, label_iso: kuḻi, label_en: "kuḻi (land measure)", variants: [kuḻi], unit_of: land}
+  - {slug: ma, label_iso: mā, label_en: "mā (land measure / fraction 1/20)", variants: [mā nilam, mā-v-araik], unit_of: land}
+  - {slug: kani, label_iso: kāṇi, label_en: "kāṇi (fraction 1/80; land share)", variants: [kāṇi], unit_of: fraction}
+  - {slug: pattam, label_iso: paṭṭam, label_en: "paṭṭam (plot)", variants: [], unit_of: land}
+
+coins:
+  - {slug: kasu, label_iso: kācu, label_en: "kācu (coin)", variants: [kācu]}
+  - {slug: anradu-narkasu, label_iso: aṉṟāṭu naṟkācu, label_en: "current good kācu", variants: [aṉṟāṭu naṟkācu, aṉṟāṭu naṟkāc]}
+  - {slug: ilakkasu, label_iso: īḻakkācu, label_en: "Ceylon kācu", variants: [īḻakkācu]}
+  - {slug: pon, label_iso: poṉ, label_en: "gold", variants: [poṉ], note: "gold as currency; matched at word start"}
+  - {slug: tiramam, label_iso: tiramam, label_en: "tiramam (drachma-derived coin)", variants: [tiramam, tiramma]}
+  - {slug: palankasu, label_iso: paḻaṅkācu, label_en: "old kācu", variants: [paḻaṅkācu]}
+
+taxes:
+  - {slug: irai, label_iso: iṟai, label_en: "tax, dues", variants: [iṟai], note: "matched at word start; also part of iṟaiyili"}
+  - {slug: kadamai, label_iso: kaṭamai, label_en: "kaṭamai (land revenue)", variants: [kaṭamai]}
+  - {slug: antarayam, label_iso: antarāyam, label_en: "antarāyam (minor dues)", variants: [antarāya]}
+  - {slug: kudimai, label_iso: kuṭimai, label_en: "kuṭimai (dues from tenants)", variants: [kuṭimai]}
+  - {slug: vetti, label_iso: veṭṭi, label_en: "veṭṭi (forced labour due)", variants: [veṭṭi]}
+  - {slug: eccoru, label_iso: eccōṟu, label_en: "eccōṟu (obligation to feed officials)", variants: [eccōṟu]}
+  - {slug: ayam, label_iso: āyam, label_en: "āyam (tolls, dues)", variants: [āyam]}
+  - {slug: vari, label_iso: vari, label_en: "vari (tax)", variants: [varippottakam, varipottakam], note: "matched via vari-p-pottakam (tax register)"}
+
+deities:
+  - {slug: mahadeva, label_iso: Mahādēva, label_en: "Śiva (the Great God)", variants: [mahādēva, makātēva, mahādevar], deity_of: siva}
+  - {slug: paramesvara, label_iso: Paramēśvara, label_en: Śiva, variants: [paramēśvara, paramēcuvara], deity_of: siva}
+  - {slug: siva, label_iso: Śiva, variants: [śiva, civa], deity_of: siva}
+  - {slug: vishnu, label_iso: Viṣṇu, variants: [viṣṇu, viṭṭuṇu], deity_of: vishnu}
+  - {slug: narayana, label_iso: Nārāyaṇa, label_en: Viṣṇu, variants: [nārāyaṇa], deity_of: vishnu}
+  - {slug: perumal, label_iso: Perumāḷ, label_en: "Viṣṇu (the Great One)", variants: [perumāḷ], deity_of: vishnu,
+     note: "also used of kings in later inscriptions (e.g. perumāḷ Abhirāma-parākrama-pāṇḍya-tēvar); disambiguate by context"}
+  - {slug: pillaiyar, label_iso: Piḷḷaiyār, label_en: Gaṇeśa, variants: [piḷḷaiyār, gaṇapati, kaṇapati]}
+  - {slug: durga, label_iso: Durgā, variants: [durggai, tuṟkkai, durgā, tukkai]}
+  - {slug: ksetrapala, label_iso: Kṣētrapāla, variants: [kṣētrapāla, kṣetrapāla, cettirapāla]}
+  - {slug: subrahmanya, label_iso: Subrahmaṇya, label_en: Murukaṉ, variants: [subrahmaṇya, cuppiramaṇiya, murukaṉ]}
+  - {slug: aiyanar, label_iso: Aiyaṉār, variants: [aiyaṉār, cāttaṉ, śāstā]}
+  - {slug: uma, label_iso: Umā, variants: [umā, umai, umāpaṭārakiyār]}
+  - {slug: jina, label_iso: Jina, label_en: "Jain Tīrthaṅkara", variants: [jina, ciṉa, arukar]}
+
+admin_unit_types:
+  - {slug: ur, label_iso: ūr, label_en: "village", rank: 1, suffixes: []}
+  - {slug: caturvedimangalam, label_iso: caturvēdimaṅkalam, label_en: "Brahmin village (brahmadeya) with a sabhā", rank: 1,
+     suffixes: [caturvēdimaṅkalattu, caturvvēdimaṅkalattu, caturvedimaṅkalattu, caturvvedimaṅkalattu]}
+  - {slug: nadu, label_iso: nāṭu, label_en: "nāṭu (district of villages)", rank: 2, suffixes: [nāṭṭu]}
+  - {slug: kurram, label_iso: kūṟṟam, label_en: "kūṟṟam (district, Cōḻa/Pāṇḍya country)", rank: 2, suffixes: [kūṟṟattu]}
+  - {slug: kottam, label_iso: kōṭṭam, label_en: "kōṭṭam (division of Toṇṭaimaṇṭalam)", rank: 3, suffixes: [kōṭṭattu]}
+  - {slug: valanadu, label_iso: vaḷanāṭu, label_en: "vaḷanāṭu (Cōḻa administrative division above the nāṭu)", rank: 3, suffixes: [vaḷanāṭṭu]}
+  - {slug: mandalam, label_iso: maṇṭalam, label_en: "maṇṭalam (province)", rank: 4, suffixes: [maṇṭalattu]}

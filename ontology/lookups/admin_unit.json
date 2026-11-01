@@ -1,0 +1,4350 @@
+[
+ {
+  "id": "ez:admin_unit/alarrur-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Ālaṟṟūr-kūṟṟam",
+  "label_ta": "ஆலற்றூர்-கூற்றம்",
+  "variants": [
+   "Ālaṟṟūr-kūṟṟattu",
+   "Ālāṟṟūr-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00049:3",
+   "DHARMA_INSTamilNadu00049:11"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 2,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/ampattur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Ampattūr-nāṭu",
+  "label_ta": "அம்பத்தூர்-நாடு",
+  "variants": [
+   "Ampattūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/vikramacozha-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv36p0i0215:10"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/amur-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Āmūr-kōṭṭam",
+  "label_ta": "ஆமூர்-கோட்டம்",
+  "variants": [
+   "āmūr-kōṭṭattu",
+   "Āmuṟ-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv04p0i0381:6",
+   "DHARMA_INStfaSIIv26p0i0333:3"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/ancunilai-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Añcunilai-nāṭu",
+  "label_ta": "அஞ்சுநிலை-நாடு",
+  "variants": [
+   "Añcunilai-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00461:7"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/arkattu-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Ārkkāṭṭu-kūṟṟam",
+  "label_ta": "ஆர்க்காட்டு-கூற்றம்",
+  "variants": [
+   "Ārkkāṭṭu-kūṟṟattu",
+   "Ārkāṭṭu-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00154:2",
+   "DHARMA_INStfaSIIv06p0i0012:1"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/arumozhiteva-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Arumoḻi-tēva-vaḷanāṭu",
+  "label_ta": "அருமொழி-தேவ-வளநாடு",
+  "variants": [
+   "Arumoḻi-tēva-vaḷanāṭṭu",
+   "Arumoḻitēva-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00070:4",
+   "DHARMA_INSTamilNadu00154:3",
+   "DHARMA_INSTamilNadu00199:1",
+   "DHARMA_INStfaSIIv02p0i0004:1.7=7",
+   "DHARMA_INStfaSIIv02p0i0004:4.1=28",
+   "DHARMA_INStfaSIIv04p0i0508:6"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 6,
+  "inscription_count": 5
+ },
+ {
+  "id": "ez:admin_unit/arumozhitevavalanattuttakkalur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Arumoḻitevavaḷanāṭṭuttakkaḷur-nāṭu",
+  "label_ta": "அருமொழிதெவவளநாட்டுத்தக்களுர்-நாடு",
+  "variants": [
+   "Arumoḻitevavaḷanāṭṭuttakkaḷur-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv02p0i0005:9"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/arvala-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Ār·vala-kūṟṟam",
+  "label_ta": "ஆர்·வல-கூற்றம்",
+  "variants": [
+   "Ār·vala-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00090:2v8=24"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/arvalar-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Ārvalar-kūṟṟam",
+  "label_ta": "ஆர்வலர்-கூற்றம்",
+  "variants": [
+   "Ārvalar-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/irajentiracozha-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00128:3"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/ataiyur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Āṭaiyūr-nāṭu",
+  "label_ta": "ஆடையூர்-நாடு",
+  "variants": [
+   "Āṭaiyūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv07p0i0118:1"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/atirajaraja-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Atirājarāja-vaḷanāṭu",
+  "label_ta": "அதிராஜராஜ-வளநாடு",
+  "variants": [
+   "Atirājarāja-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00108:1"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/avur-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Āvūr-kūṟṟam",
+  "label_ta": "ஆவூர்-கூற்றம்",
+  "variants": [
+   "Āvūr-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/vinota-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv03p0i0004:6"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/azhur-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Āḻūr-kūṟṟam",
+  "label_ta": "ஆழூர்-கூற்றம்",
+  "variants": [
+   "Āḻūr-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/nittavinota-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00126:4"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/cakkara-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Cakkara-kōṭṭam",
+  "label_ta": "சக்கர-கோட்டம்",
+  "variants": [
+   "cakkara-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv24p0i0053:1"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/caravur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Carāvūr-nāṭu",
+  "label_ta": "சராவூர்-நாடு",
+  "variants": [
+   "carāvūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00006:5"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/caturvedimangalam",
+  "kind": "admin_unit",
+  "label_iso": "caturvēdimaṅkalam",
+  "label_ta": "சதுர்வேதிமங்கலம்",
+  "variants": [
+   "caturvēdimaṅkalattu",
+   "caturvvēdimaṅkalattu",
+   "caturvedimaṅkalattu",
+   "caturvvedimaṅkalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00096:2",
+   "DHARMA_INSPallava00164:1",
+   "DHARMA_INSPallava00199:1",
+   "DHARMA_INSPallava00199:5",
+   "DHARMA_INSPandya01005:4",
+   "DHARMA_INSTamilNadu00071:3",
+   "DHARMA_INSUttiramerur00001:1",
+   "DHARMA_INStfaSIIv03p0i0011:2",
+   "DHARMA_INStfaSIIv04p0i0160:3",
+   "DHARMA_INStfaSIIv12p0i0096:2",
+   "DHARMA_INStfaSIIv17p0i0603:4",
+   "DHARMA_INStfaSIIv17p0i0603:11",
+   "DHARMA_INStfaSIIv19p0i0357:A16=16",
+   "DHARMA_INStfaSIIv24p0i0053:9"
+  ],
+  "unit_type": "caturvedimangalam",
+  "is_type": true,
+  "rank": 1,
+  "label_en": "Brahmin village (brahmadeya) with a sabhā",
+  "attestation_count": 14,
+  "inscription_count": 12
+ },
+ {
+  "id": "ez:admin_unit/cerrur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Cēṟṟūr-nāṭu",
+  "label_ta": "சேற்றூர்-நாடு",
+  "variants": [
+   "cēṟṟūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/rajendracinka-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00154:3"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/ceyankontacozha-mandalam",
+  "kind": "admin_unit",
+  "label_iso": "Ceyaṅ-koṇṭa-cōḻa-maṇṭalam",
+  "label_ta": "செயங்-கொண்ட-சோழ-மண்டலம்",
+  "variants": [
+   "ceyaṅ-koṇṭa-cōḻa-maṇṭalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00440:25"
+  ],
+  "unit_type": "mandalam",
+  "rank": 4,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/cimha-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Siṁha-vaḷanāṭu",
+  "label_ta": "ஸிம்ʼஹ-வளநாடு",
+  "variants": [
+   "siṁha-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv23p0i0341:1"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/cinkapura-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Ciṅkapura-nāṭu",
+  "label_ta": "சிங்கபுர-நாடு",
+  "variants": [
+   "ciṅkapura-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv12p0i0042:1"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/cola-mandalam",
+  "kind": "admin_unit",
+  "label_iso": "Cōḷa-maṇṭalam",
+  "label_ta": "சோள-மண்டலம்",
+  "variants": [
+   "cōḷa-maṇṭalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv03p0i0004:5"
+  ],
+  "unit_type": "mandalam",
+  "rank": 4,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/cozha-mandalam",
+  "kind": "admin_unit",
+  "label_iso": "Cōḻa-maṇṭalam",
+  "label_ta": "சோழ-மண்டலம்",
+  "variants": [
+   "cōḻa-maṇṭalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv04p0i0160:3",
+   "DHARMA_INStfaSIIv38p0i0128:3"
+  ],
+  "unit_type": "mandalam",
+  "rank": 4,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/cozha-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Cōḻa-nāṭu",
+  "label_ta": "சோழ-நாடு",
+  "variants": [
+   "cōḻa-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00243:9",
+   "DHARMA_INStfaSIIv22p0i0333:4"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/cozhapantiya-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Cōḻa-pāṇṭiya-vaḷanāṭu",
+  "label_ta": "சோழ-பாண்டிய-வளநாடு",
+  "variants": [
+   "cōḻa-pāṇṭiya-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00441:2"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/cripanti-mandalam",
+  "kind": "admin_unit",
+  "label_iso": "Śrī-pāṇṭi-maṇṭalam",
+  "label_ta": "ஶ்ரீ-பாண்டி-மண்டலம்",
+  "variants": [
+   "śrī-pāṇṭi-maṇṭalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00005:3"
+  ],
+  "unit_type": "mandalam",
+  "rank": 4,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/cripantikulantakaccatu-caturvedimangalam",
+  "kind": "admin_unit",
+  "label_iso": "Śrī-pāṇṭi-kulāntaka-c-catu-caturvēdimaṅkalam",
+  "label_ta": "ஶ்ரீ-பாண்டி-குலாந்தக-ச்-சது-சதுர்வேதிமங்கலம்",
+  "variants": [
+   "śrī-pāṇṭi-kulāntaka-c-catu-caturvēdimaṅkalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv17p0i0603:4"
+  ],
+  "unit_type": "caturvedimangalam",
+  "rank": 1,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/crirajadhirajaca-caturvedimangalam",
+  "kind": "admin_unit",
+  "label_iso": "Śrī-rājādhirāja-ca-caturvēdimaṅkalam",
+  "label_ta": "ஶ்ரீ-ராஜாதிராஜ-ச-சதுர்வேதிமங்கலம்",
+  "variants": [
+   "śrī-rājādhirāja-ca-caturvēdimaṅkalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv17p0i0603:11"
+  ],
+  "unit_type": "caturvedimangalam",
+  "rank": 1,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/crirajamahentracca-caturvedimangalam",
+  "kind": "admin_unit",
+  "label_iso": "Śrī-rāja-mahentra-c-ca-caturvēdimaṅkalam",
+  "label_ta": "ஶ்ரீ-ராஜ-மஹெந்த்ர-ச்-ச-சதுர்வேதிமங்கலம்",
+  "variants": [
+   "śrī-rāja-mahentra-c-ca-caturvēdimaṅkalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/kantara-nadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv24p0i0053:9"
+  ],
+  "unit_type": "caturvedimangalam",
+  "rank": 1,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/crivanavanmahadevica-caturvedimangalam",
+  "kind": "admin_unit",
+  "label_iso": "Śrī-vānavaṉ-mahādevi-ca-caturvēdimaṅkalam",
+  "label_ta": "ஶ்ரீ-வாநவன்-மஹாதெவி-ச-சதுர்வேதிமங்கலம்",
+  "variants": [
+   "śrī-vānavaṉ-mahādevi-ca-caturvēdimaṅkalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv19p0i0357:A16=16"
+  ],
+  "unit_type": "caturvedimangalam",
+  "rank": 1,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/crivikramabharanaca-caturvedimangalam",
+  "kind": "admin_unit",
+  "label_iso": "Śrī-vikramābharaṇa-ca-caturvēdimaṅkalam",
+  "label_ta": "ஶ்ரீ-விக்ரமாபரண-ச-சதுர்வேதிமங்கலம்",
+  "variants": [
+   "śrī-vikramābharaṇa-ca-caturvēdimaṅkalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv03p0i0011:2"
+  ],
+  "unit_type": "caturvedimangalam",
+  "rank": 1,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/curalur-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Cūralūr-kūṟṟam",
+  "label_ta": "சூரலூர்-கூற்றம்",
+  "variants": [
+   "cūralūr-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv17p0i0442:12"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/curapi-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Curapi-nāṭu",
+  "label_ta": "சுரபி-நாடு",
+  "variants": [
+   "curapi-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00401:3",
+   "DHARMA_INSTamilNadu00442:11"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/eyir-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Eyiṟ-kōṭṭam",
+  "label_ta": "எயிற்-கோட்டம்",
+  "variants": [
+   "Eyiṟ-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/jayankontacozha-mandalam",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00801:1",
+   "DHARMA_INSTamilNadu00802:2",
+   "DHARMA_INStfaSIIv04p0i0133:2",
+   "DHARMA_INStfaSIIv04p0i0828:12"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 4,
+  "inscription_count": 4
+ },
+ {
+  "id": "ez:admin_unit/illattur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Illattūr-nāṭu",
+  "label_ta": "இல்லத்தூர்-நாடு",
+  "variants": [
+   "Illattūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/kunravattana-kottam",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv41p0i0265:5"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/innampar-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Iṉṉampar-nāṭu",
+  "label_ta": "இன்னம்பர்-நாடு",
+  "variants": [
+   "Iṉṉampar-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/rajendracinka-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv02p0i0004:9.6=78",
+   "DHARMA_INStfaSIIv34p0i0059:5"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/irajendracozhac-caturvedimangalam",
+  "kind": "admin_unit",
+  "label_iso": "Irājendra-cōḻa-c-caturvēdimaṅkalam",
+  "label_ta": "இராஜெந்த்ர-சோழ-ச்-சதுர்வேதிமங்கலம்",
+  "variants": [
+   "Irājendra-cōḻa-c-caturvēdimaṅkalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/kaliyur-kottam",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv12p0i0096:2"
+  ],
+  "unit_type": "caturvedimangalam",
+  "rank": 1,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/irajentiracozha-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Irājentira-cōḻa-vaḷanāṭu",
+  "label_ta": "இராஜெந்திர-சோழ-வளநாடு",
+  "variants": [
+   "Irājentira-cōḻa-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00128:3"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/ivenni-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Iv-eṇṇi-nāṭu",
+  "label_ta": "இவ்-எண்ணி-நாடு",
+  "variants": [
+   "Iv-eṇṇi-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00161:2"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/jajacrayac-caturvedimangalam",
+  "kind": "admin_unit",
+  "label_iso": "Jājāśraya-c-caturvēdimaṅkalam",
+  "label_ta": "ஜாஜாஶ்ரய-ச்-சதுர்வேதிமங்கலம்",
+  "variants": [
+   "jājāśraya-c-caturvēdimaṅkalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/cozha-mandalam",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv04p0i0160:3"
+  ],
+  "unit_type": "caturvedimangalam",
+  "rank": 1,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/jananata-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Jaṉa-nāta-vaḷanāṭu",
+  "label_ta": "ஜன-நாத-வளநாடு",
+  "variants": [
+   "jaṉa-nāta-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv22p0i0165:1"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/jayankontacozha-mandalam",
+  "kind": "admin_unit",
+  "label_iso": "Jayaṅ-koṇṭa-cōḻa-maṇṭalam",
+  "label_ta": "ஜயங்-கொண்ட-சோழ-மண்டலம்",
+  "variants": [
+   "jayaṅ-koṇṭa-cōḻa-maṇṭalattu",
+   "jayaṅkoṇṭa-cōḻa-maṇṭalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00022:3=33",
+   "DHARMA_INSTamilNadu00154:2",
+   "DHARMA_INSTamilNadu00802:2",
+   "DHARMA_INSUttiramerur00068:1",
+   "DHARMA_INSUttiramerur00075:1",
+   "DHARMA_INStfaSIIv04p0i0133:1",
+   "DHARMA_INStfaSIIv04p0i0828:12",
+   "DHARMA_INStfaSIIv08p0i0155:4",
+   "DHARMA_INStfaSIIv26p0i0333:2",
+   "DHARMA_INStfaSIIv36p0i0221:2",
+   "DHARMA_INStfaSIIv38p0i0137:3",
+   "DHARMA_INStfaSIIv41p0i0201:1"
+  ],
+  "unit_type": "mandalam",
+  "rank": 4,
+  "attestation_count": 12,
+  "inscription_count": 12
+ },
+ {
+  "id": "ez:admin_unit/jayankontacozha-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Jayaṅ-koṇṭa-cōḻa-vaḷanāṭu",
+  "label_ta": "ஜயங்-கொண்ட-சோழ-வளநாடு",
+  "variants": [
+   "jayaṅ-koṇṭa-cōḻa-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00127:1",
+   "DHARMA_INSTamilNadu00127:3"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 2,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kakkalur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Kākkalūr-nāṭu",
+  "label_ta": "காக்கலூர்-நாடு",
+  "variants": [
+   "kākkalūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00156:2"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kakkuti-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Kākkuṭi-nāṭu",
+  "label_ta": "காக்குடி-நாடு",
+  "variants": [
+   "kākkuṭi-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya01007:83"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kalara-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Kalāra-kūṟṟam",
+  "label_ta": "கலார-கூற்றம்",
+  "variants": [
+   "kalāra-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00180:4"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kalattur-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Kaḷattūr-kōṭṭam",
+  "label_ta": "களத்தூர்-கோட்டம்",
+  "variants": [
+   "kaḷattūr-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00447:1"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kalavazhi-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Kaḷavaḻi-nāṭu",
+  "label_ta": "களவழி-நாடு",
+  "variants": [
+   "kaḷavaḻi-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00499:9"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kali-yur-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Kāli‡yūr-kōṭṭam",
+  "label_ta": "காலி‡யூர்-கோட்டம்",
+  "variants": [
+   "kāli‡yūr-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00208:1"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kaliyur-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Kāliyūr-kōṭṭam",
+  "label_ta": "காலியூர்-கோட்டம்",
+  "variants": [
+   "kāliyūr-kōṭṭattu",
+   "kāliyūṟ-kōṭṭattu",
+   "kāliyūr·-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/jayankontacozha-mandalam",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00206:1",
+   "DHARMA_INSPallava00217:2",
+   "DHARMA_INSPallava00218:1",
+   "DHARMA_INSPallava00223:1",
+   "DHARMA_INSUttiramerur00035:1",
+   "DHARMA_INSUttiramerur00041:1",
+   "DHARMA_INSUttiramerur00044:1",
+   "DHARMA_INSUttiramerur00053:4",
+   "DHARMA_INSUttiramerur00054:2",
+   "DHARMA_INSUttiramerur00055:2",
+   "DHARMA_INSUttiramerur00061:3",
+   "DHARMA_INSUttiramerur00062:2",
+   "DHARMA_INSUttiramerur00068:1",
+   "DHARMA_INSUttiramerur00075:1",
+   "DHARMA_INStfaSIIv03p0i0006:5",
+   "DHARMA_INStfaSIIv03p0i0014:1",
+   "DHARMA_INStfaSIIv12p0i0096:2"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 17,
+  "inscription_count": 17
+ },
+ {
+  "id": "ez:admin_unit/kaliyurk-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Kaliyūṟk‡-kōṭṭam",
+  "label_ta": "கலியூற்க்‡-கோட்டம்",
+  "variants": [
+   "kaliyūṟk‡-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00203:1"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kalmay-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Kalmāy-nāṭu",
+  "label_ta": "கல்மாய்-நாடு",
+  "variants": [
+   "kalmāy-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00207:7"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kankaikontacozhapperilamai-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Kaṅkai-koṇṭa-cōḻa-p-pēr-iḷamai-nāṭu",
+  "label_ta": "கங்கை-கொண்ட-சோழ-ப்-பேர்-இளமை-நாடு",
+  "variants": [
+   "kaṅkai-koṇṭa-cōḻa-p-pēr-iḷamai-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv08p0i0043:1"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kanrikaipperur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Kaṉṟikai-p-pēṟūr-nāṭu",
+  "label_ta": "கன்றிகை-ப்-பேறூர்-நாடு",
+  "variants": [
+   "kaṉṟikai-p-pēṟūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/puzhar-kottam",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv38p0i0137:3"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kantara-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Kāntāra-nāṭu",
+  "label_ta": "காந்தார-நாடு",
+  "variants": [
+   "kāntāra-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/nittavinota-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv24p0i0053:9"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/karunkula-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Karuṅkuḷa-vaḷanāṭu",
+  "label_ta": "கருங்குள-வளநாடு",
+  "variants": [
+   "karuṅkuḷa-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya01001:17"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/katalataiyatuilankaikontacozha-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Kaṭal-aṭaiyātu-Ilaṅkai-koṇṭa-cōḻa-vaḷanāṭu",
+  "label_ta": "கடல்-அடையாது-இலங்கை-கொண்ட-சோழ-வளநாடு",
+  "variants": [
+   "kaṭal-aṭaiyātu-Ilaṅkai-koṇṭa-cōḻa-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00423:2"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kattu-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Kāṭṭu-kūṟṟam",
+  "label_ta": "காட்டு-கூற்றம்",
+  "variants": [
+   "kāṭṭu-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00460:2"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kcatriyacikhamani-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Kṣatriya-cikhāmaṇi-vaḷanāṭu",
+  "label_ta": "க்ஷத்ரிய-சிகாமணி-வளநாடு",
+  "variants": [
+   "kṣatriya-cikhāmaṇi-vaḷanāṭṭu",
+   "kṣatriya-śikhāmaṇi-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00166:1",
+   "DHARMA_INSTamilNadu00167:18"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/kcattracikamani-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Kṣattra-cikāmaṇi-vaḷanāṭu",
+  "label_ta": "க்ஷத்த்ர-சிகாமணி-வளநாடு",
+  "variants": [
+   "kṣattra-cikāmaṇi-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00101:6"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/keralacinka-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Kēraḷa-ciṅka-vaḷanāṭu",
+  "label_ta": "கேரள-சிங்க-வளநாடு",
+  "variants": [
+   "kēraḷa-ciṅka-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00418:3",
+   "DHARMA_INSTamilNadu00461:6",
+   "DHARMA_INSTamilNadu00499:8",
+   "DHARMA_INSTamilNadu00499:9"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 4,
+  "inscription_count": 3
+ },
+ {
+  "id": "ez:admin_unit/khamani-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Khāmaṇi-vaḷanāṭu",
+  "label_ta": "காமணி-வளநாடு",
+  "variants": [
+   "khāmaṇi-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00103:99"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kizhvempa-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Kiḻvempa-nāṭu",
+  "label_ta": "கிழ்வெம்ப-நாடு",
+  "variants": [
+   "kiḻvempa-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv05p1i0420:1"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kkattu-kottam",
+  "kind": "admin_unit",
+  "label_iso": "K-kāṭṭu-kōṭṭam",
+  "label_ta": "க்-காட்டு-கோட்டம்",
+  "variants": [
+   "k-kāṭṭu-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00185:7"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kkizhvazhivakur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "K-kīḻ-vaḻi-vākūr-nāṭu",
+  "label_ta": "க்-கீழ்-வழி-வாகூர்-நாடு",
+  "variants": [
+   "k-kīḻ-vaḻi-vākūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00155:3v3=48"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/konrai-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Koṉṟai-nāṭu",
+  "label_ta": "கொன்றை-நாடு",
+  "variants": [
+   "koṉṟai-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00302:3"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kontacozha-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Koṇṭa-cōḻa-vaḷanāṭu",
+  "label_ta": "கொண்ட-சோழ-வளநாடு",
+  "variants": [
+   "koṇṭa-cōḻa-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00106:5"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kottam",
+  "kind": "admin_unit",
+  "label_iso": "kōṭṭam",
+  "label_ta": "கோட்டம்",
+  "variants": [
+   "kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00081:2v3=19",
+   "DHARMA_INSPallava00117:6",
+   "DHARMA_INSPallava00120:2",
+   "DHARMA_INSPallava00121:47",
+   "DHARMA_INSPallava00127:4",
+   "DHARMA_INSPallava00132:4",
+   "DHARMA_INSPallava00164:1",
+   "DHARMA_INSPallava00169:2",
+   "DHARMA_INSPallava00185:7",
+   "DHARMA_INSPallava00188:4",
+   "DHARMA_INSPallava00199:3",
+   "DHARMA_INSPallava00203:1",
+   "DHARMA_INSPallava00206:1",
+   "DHARMA_INSPallava00207:11",
+   "DHARMA_INSPallava00208:1",
+   "DHARMA_INSPallava00209:2",
+   "DHARMA_INSPallava00217:2",
+   "DHARMA_INSPallava00218:1",
+   "DHARMA_INSPallava00223:1",
+   "DHARMA_INSPallava00232:3",
+   "DHARMA_INSPallava00236:3",
+   "DHARMA_INSPallava00264:2",
+   "DHARMA_INSPallava00447:1",
+   "DHARMA_INSPallava00460:1",
+   "DHARMA_INSPallava00483:2",
+   "DHARMA_INSPallava00507:3",
+   "DHARMA_INSTamilNadu00008:3",
+   "DHARMA_INSTamilNadu00154:2",
+   "DHARMA_INSTamilNadu00407:2",
+   "DHARMA_INSTamilNadu00523:4",
+   "DHARMA_INSTamilNadu00801:1",
+   "DHARMA_INSTamilNadu00802:2",
+   "DHARMA_INSTamilNadu01001:6r2=73",
+   "DHARMA_INSTamilNadu01002:3r9=43",
+   "DHARMA_INSUttiramerur00035:1",
+   "DHARMA_INSUttiramerur00041:1",
+   "DHARMA_INSUttiramerur00044:1",
+   "DHARMA_INSUttiramerur00053:4",
+   "DHARMA_INSUttiramerur00054:2",
+   "DHARMA_INSUttiramerur00055:2"
+  ],
+  "unit_type": "kottam",
+  "is_type": true,
+  "rank": 3,
+  "label_en": "kōṭṭam (division of Toṇṭaimaṇṭalam)",
+  "attestation_count": 60,
+  "inscription_count": 57
+ },
+ {
+  "id": "ez:admin_unit/kovalur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Kōvalūr-nāṭu",
+  "label_ta": "கோவலூர்-நாடு",
+  "variants": [
+   "kōvalūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00312:10"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kulacanivila-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Kulācaṉi-viḷā-nāṭu",
+  "label_ta": "குலாசனி-விளா-நாடு",
+  "variants": [
+   "kulācaṉi-viḷā-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv04p0i0508:4"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kunra-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Kuṉṟa-kūṟṟam",
+  "label_ta": "குன்ற-கூற்றம்",
+  "variants": [
+   "kuṉṟa-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00513:3"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/kunravattana-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Kuṉṟavattana-kōṭṭam",
+  "label_ta": "குன்றவத்தந-கோட்டம்",
+  "variants": [
+   "kuṉṟavattana-kōṭṭattu",
+   "kuṉṟavattaṉa-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/ntacozha-mandalam",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu01002:3r9=43",
+   "DHARMA_INStfaSIIv41p0i0265:2",
+   "DHARMA_INStfaSIIv41p0i0265:5"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 3,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/kurram",
+  "kind": "admin_unit",
+  "label_iso": "kūṟṟam",
+  "label_ta": "கூற்றம்",
+  "variants": [
+   "kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00090:2v8=24",
+   "DHARMA_INSPallava00108:3",
+   "DHARMA_INSPallava00130:2",
+   "DHARMA_INSPallava00165:2",
+   "DHARMA_INSPallava00171:3",
+   "DHARMA_INSPallava00172:2",
+   "DHARMA_INSPallava00180:4",
+   "DHARMA_INSPallava00460:2",
+   "DHARMA_INSPandya00161:28",
+   "DHARMA_INSTamilNadu00049:3",
+   "DHARMA_INSTamilNadu00049:11",
+   "DHARMA_INSTamilNadu00126:4",
+   "DHARMA_INSTamilNadu00128:3",
+   "DHARMA_INSTamilNadu00144:2",
+   "DHARMA_INSTamilNadu00154:2",
+   "DHARMA_INSTamilNadu00167:19",
+   "DHARMA_INSTamilNadu00205:2",
+   "DHARMA_INSTamilNadu00513:3",
+   "DHARMA_INSTamilNadu01011:1v15=15",
+   "DHARMA_INSTamilNadu01011:1v6=6",
+   "DHARMA_INSTamilNadu01011:2r6=21",
+   "DHARMA_INStfaSIIv02p0i0005:3",
+   "DHARMA_INStfaSIIv02p0i0005:4",
+   "DHARMA_INStfaSIIv02p0i0005:6",
+   "DHARMA_INStfaSIIv03p0i0004:6",
+   "DHARMA_INStfaSIIv04p0i0508:9",
+   "DHARMA_INStfaSIIv06p0i0012:1",
+   "DHARMA_INStfaSIIv17p0i0442:7",
+   "DHARMA_INStfaSIIv17p0i0442:12",
+   "DHARMA_INStfaSIIv22p0i0165:1",
+   "DHARMA_INStfaSIIv28p0i0034:3",
+   "DHARMA_INStfaSIIv41p0i0012:10"
+  ],
+  "unit_type": "kurram",
+  "is_type": true,
+  "rank": 2,
+  "label_en": "kūṟṟam (district, Cōḻa/Pāṇḍya country)",
+  "attestation_count": 32,
+  "inscription_count": 26
+ },
+ {
+  "id": "ez:admin_unit/kurukkai-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Kuṟukkai-kūṟṟam",
+  "label_ta": "குறுக்கை-கூற்றம்",
+  "variants": [
+   "kuṟukkai-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00130:2",
+   "DHARMA_INSPallava00165:2",
+   "DHARMA_INSPallava00172:2",
+   "DHARMA_INStfaSIIv41p0i0012:10"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 4,
+  "inscription_count": 4
+ },
+ {
+  "id": "ez:admin_unit/kurumpur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Kuṟumpūr-nāṭu",
+  "label_ta": "குறும்பூர்-நாடு",
+  "variants": [
+   "kuṟumpūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00107:9"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/lataiyaru-nadu",
+  "kind": "admin_unit",
+  "label_iso": "L-aṭaiyāṟu-nāṭu",
+  "label_ta": "ல்-அடையாறு-நாடு",
+  "variants": [
+   "l-aṭaiyāṟu-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00188:5"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/lavazhi-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Ḷavaḻi-nāṭu",
+  "label_ta": "ளவழி-நாடு",
+  "variants": [
+   "ḷavaḻi-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00407:3"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/lkunra-kottam",
+  "kind": "admin_unit",
+  "label_iso": "L-kuṉṟa-kōṭṭam",
+  "label_ta": "ல்-குன்ற-கோட்டம்",
+  "variants": [
+   "l-kuṉṟa-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00232:3"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/mala-mandalam",
+  "kind": "admin_unit",
+  "label_iso": "Mala-maṇṭalam",
+  "label_ta": "மல-மண்டலம்",
+  "variants": [
+   "mala-maṇṭalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv04p0i0142:1"
+  ],
+  "unit_type": "mandalam",
+  "rank": 4,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/manaiyir-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Maṇaiyiṟ-kōṭṭam",
+  "label_ta": "மணையிற்-கோட்டம்",
+  "variants": [
+   "maṇaiyiṟ-kōṭṭattu",
+   "maṉaiyir-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00236:3",
+   "DHARMA_INSPallava00507:3"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/manavira-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Māṉavīra-vaḷanāṭu",
+  "label_ta": "மானவீர-வளநாடு",
+  "variants": [
+   "māṉavīra-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00161:2"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/mandalam",
+  "kind": "admin_unit",
+  "label_iso": "maṇṭalam",
+  "label_ta": "மண்டலம்",
+  "variants": [
+   "maṇṭalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00161:44",
+   "DHARMA_INSTamilNadu00005:3",
+   "DHARMA_INSTamilNadu00008:3",
+   "DHARMA_INSTamilNadu00022:3=33",
+   "DHARMA_INSTamilNadu00154:2",
+   "DHARMA_INSTamilNadu00166:2",
+   "DHARMA_INSTamilNadu00440:25",
+   "DHARMA_INSTamilNadu00442:5",
+   "DHARMA_INSTamilNadu00443:4",
+   "DHARMA_INSTamilNadu00802:2",
+   "DHARMA_INSUttiramerur00068:1",
+   "DHARMA_INSUttiramerur00075:1",
+   "DHARMA_INStfaSIIv03p0i0004:5",
+   "DHARMA_INStfaSIIv04p0i0133:1",
+   "DHARMA_INStfaSIIv04p0i0142:1",
+   "DHARMA_INStfaSIIv04p0i0160:3",
+   "DHARMA_INStfaSIIv04p0i0828:12",
+   "DHARMA_INStfaSIIv08p0i0155:4",
+   "DHARMA_INStfaSIIv26p0i0333:2",
+   "DHARMA_INStfaSIIv36p0i0221:2",
+   "DHARMA_INStfaSIIv38p0i0128:3",
+   "DHARMA_INStfaSIIv38p0i0137:3",
+   "DHARMA_INStfaSIIv39p0i0217:5",
+   "DHARMA_INStfaSIIv41p0i0201:1",
+   "DHARMA_INStfaSIIv41p0i0265:2"
+  ],
+  "unit_type": "mandalam",
+  "is_type": true,
+  "rank": 4,
+  "label_en": "maṇṭalam (province)",
+  "attestation_count": 25,
+  "inscription_count": 25
+ },
+ {
+  "id": "ez:admin_unit/mankala-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Maṅkala-nāṭu",
+  "label_ta": "மங்கல-நாடு",
+  "variants": [
+   "maṅkala-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/arumozhiteva-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00198:4",
+   "DHARMA_INSTamilNadu00198:5",
+   "DHARMA_INSTamilNadu00199:1"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 3,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/mankattu-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Māṅkāṭṭu-nāṭu",
+  "label_ta": "மாங்காட்டு-நாடு",
+  "variants": [
+   "māṅkāṭṭu-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/puliyur-kottam",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00460:1"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/mankatu-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Māṅkāṭu-nāṭu",
+  "label_ta": "மாங்காடு-நாடு",
+  "variants": [
+   "māṅkāṭu-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/patuvur-kottam",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00169:2"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/marukal-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Marukal-nāṭu",
+  "label_ta": "மருகல்-நாடு",
+  "variants": [
+   "marukal-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/rajaraja-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00106:3"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/maruta-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Maruta-nāṭu",
+  "label_ta": "மருத-நாடு",
+  "variants": [
+   "maruta-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/venkunra-kottam",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv03p0i0017:12"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/maturantaka-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Maturāntaka-vaḷanāṭu",
+  "label_ta": "மதுராந்தக-வளநாடு",
+  "variants": [
+   "maturāntaka-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00161:11"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/maturantakapperilamai-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Maturāntaka-p-periḷamai-nāṭu",
+  "label_ta": "மதுராந்தக-ப்-பெரிளமை-நாடு",
+  "variants": [
+   "maturāntaka-p-periḷamai-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv04p0i0223:19"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/maturotaya-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Maturōtaya-vaḷanāṭu",
+  "label_ta": "மதுரோதய-வளநாடு",
+  "variants": [
+   "maturōtaya-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00476:5"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/melur-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Mēlūr-kōṭṭam",
+  "label_ta": "மேலூர்-கோட்டம்",
+  "variants": [
+   "mēlūr-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00199:3"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/meruca-caturvedimangalam",
+  "kind": "admin_unit",
+  "label_iso": "Meru-ca-caturvēdimaṅkalam",
+  "label_ta": "மெரு-ச-சதுர்வேதிமங்கலம்",
+  "variants": [
+   "meru-ca-caturvēdimaṅkalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00096:2"
+  ],
+  "unit_type": "caturvedimangalam",
+  "rank": 1,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/mikonrai-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Mīkoṉṟai-nāṭu",
+  "label_ta": "மீகொன்றை-நாடு",
+  "variants": [
+   "mīkoṉṟai-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00301:3",
+   "DHARMA_INSPallava00310:5",
+   "DHARMA_INSPallava00423:2",
+   "DHARMA_INSPallava00424:2"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 4,
+  "inscription_count": 4
+ },
+ {
+  "id": "ez:admin_unit/mirvelur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Mīr-vēḷūr-nāṭu",
+  "label_ta": "மீர்-வேளூர்-நாடு",
+  "variants": [
+   "mīr-vēḷūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/urrukkattu-kottam",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv04p0i0828:12"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/miycenkili-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Miyceṅkiḷi-nāṭu",
+  "label_ta": "மிய்செங்கிளி-நாடு",
+  "variants": [
+   "miyceṅkiḷi-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv06p0i0012:4"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/miykonrai-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Mīykoṉṟai-nāṭu",
+  "label_ta": "மீய்கொன்றை-நாடு",
+  "variants": [
+   "mīykoṉṟai-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00202:4"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/mizhalai-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Miḻalai-kūṟṟam",
+  "label_ta": "மிழலை-கூற்றம்",
+  "variants": [
+   "miḻalai-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/rajentiracozha-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00161:28",
+   "DHARMA_INSTamilNadu00144:2"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/munaiyaraiyar-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Muṉaiyaraiyar-nāṭu",
+  "label_ta": "முனையரையர்-நாடு",
+  "variants": [
+   "muṉaiyaraiyar-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00439:3"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/muraicur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Muraicūr-nāṭu",
+  "label_ta": "முரைசூர்-நாடு",
+  "variants": [
+   "muraicūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv08p0i0127:3"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/murappu-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Murappu-nāṭu",
+  "label_ta": "முரப்பு-நாடு",
+  "variants": [
+   "murappu-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00071:2"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/mutikontacozha-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Muṭikoṇṭacōḻa-vaḷanāṭu",
+  "label_ta": "முடிகொண்டசோழ-வளநாடு",
+  "variants": [
+   "muṭikoṇṭacōḻa-vaḷanāṭṭu",
+   "muṭikoṇṭa-cōḻa-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00161:3",
+   "DHARMA_INSPandya00161:12"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 2,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/muttaraiyar-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Muttaraiyar-nāṭu",
+  "label_ta": "முத்தரையர்-நாடு",
+  "variants": [
+   "muttaraiyar-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00190:3"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/muzhaiyur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Muḻaiyūr-nāṭu",
+  "label_ta": "முழையூர்-நாடு",
+  "variants": [
+   "muḻaiyūr-nāṭṭu",
+   "mūḻaiyūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/uyyakkontar-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00103:90",
+   "DHARMA_INSTamilNadu00103:99",
+   "DHARMA_INSTamilNadu00105:6",
+   "DHARMA_INSTamilNadu00106:5",
+   "DHARMA_INSTamilNadu00107:13",
+   "DHARMA_INSTamilNadu00108:1",
+   "DHARMA_INSTamilNadu00109:9",
+   "DHARMA_INSTamilNadu00115:1",
+   "DHARMA_INSTamilNadu00117:6",
+   "DHARMA_INSTamilNadu00126:2",
+   "DHARMA_INSTamilNadu00128:2",
+   "DHARMA_INSTamilNadu00129:1",
+   "DHARMA_INSTamilNadu00130:1",
+   "DHARMA_INSTamilNadu00133:2",
+   "DHARMA_INSTamilNadu00146:2",
+   "DHARMA_INSTamilNadu00151:3",
+   "DHARMA_INSTamilNadu00154:1"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 18,
+  "inscription_count": 16
+ },
+ {
+  "id": "ez:admin_unit/nadu",
+  "kind": "admin_unit",
+  "label_iso": "nāṭu",
+  "label_ta": "நாடு",
+  "variants": [
+   "nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSCempiyanMahadevi00007:1",
+   "DHARMA_INSPallava00017:3r4=28",
+   "DHARMA_INSPallava00092:8",
+   "DHARMA_INSPallava00116:3",
+   "DHARMA_INSPallava00153:4",
+   "DHARMA_INSPallava00155:3v3=48",
+   "DHARMA_INSPallava00156:2",
+   "DHARMA_INSPallava00156:3",
+   "DHARMA_INSPallava00168:7",
+   "DHARMA_INSPallava00169:2",
+   "DHARMA_INSPallava00174:6",
+   "DHARMA_INSPallava00174:7",
+   "DHARMA_INSPallava00180:4",
+   "DHARMA_INSPallava00188:5",
+   "DHARMA_INSPallava00189:6",
+   "DHARMA_INSPallava00190:3",
+   "DHARMA_INSPallava00202:4",
+   "DHARMA_INSPallava00207:7",
+   "DHARMA_INSPallava00222:1",
+   "DHARMA_INSPallava00236:4",
+   "DHARMA_INSPallava00243:9",
+   "DHARMA_INSPallava00272:3",
+   "DHARMA_INSPallava00298:3",
+   "DHARMA_INSPallava00299:3",
+   "DHARMA_INSPallava00301:3",
+   "DHARMA_INSPallava00302:3",
+   "DHARMA_INSPallava00310:5",
+   "DHARMA_INSPallava00312:10",
+   "DHARMA_INSPallava00400:2",
+   "DHARMA_INSPallava00422:3",
+   "DHARMA_INSPallava00423:2",
+   "DHARMA_INSPallava00424:2",
+   "DHARMA_INSPallava00433:2",
+   "DHARMA_INSPallava00439:3",
+   "DHARMA_INSPallava00455:3",
+   "DHARMA_INSPallava00460:1",
+   "DHARMA_INSPandya00006:5",
+   "DHARMA_INSPandya00007:5",
+   "DHARMA_INSPandya00012:7",
+   "DHARMA_INSPandya00020:1"
+  ],
+  "unit_type": "nadu",
+  "is_type": true,
+  "rank": 2,
+  "label_en": "nāṭu (district of villages)",
+  "attestation_count": 164,
+  "inscription_count": 121
+ },
+ {
+  "id": "ez:admin_unit/nallaparuvur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Nalla-paruvūr-nāṭu",
+  "label_ta": "நல்ல-பருவூர்-நாடு",
+  "variants": [
+   "nalla-paruvūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00050:1"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/nallarrur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Nallāṟṟūr-nāṭu",
+  "label_ta": "நல்லாற்றூர்-நாடு",
+  "variants": [
+   "nallāṟṟūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSCempiyanMahadevi00007:1"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/nalvayalur-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Nal-vayalūr-kūṟṟam",
+  "label_ta": "நல்-வயலூர்-கூற்றம்",
+  "variants": [
+   "nal-vayalūr-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00205:2"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/nampar-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Nampar-nāṭu",
+  "label_ta": "நம்பர்-நாடு",
+  "variants": [
+   "nampar-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv08p0i0228:11"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/natilakkovur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Ṇāṭ-iḷa-k-kōvūr-nāṭu",
+  "label_ta": "ணாட்-இள-க்-கோவூர்-நாடு",
+  "variants": [
+   "ṇāṭ-iḷa-k-kōvūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00298:3"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/nemmali-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Nemmali-nāṭu",
+  "label_ta": "நெம்மலி-நாடு",
+  "variants": [
+   "nemmali-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/arumozhiteva-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv04p0i0508:6"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/nenmali-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Neṉmali-nāṭu",
+  "label_ta": "நென்மலி-நாடு",
+  "variants": [
+   "neṉmali-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/arumozhiteva-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv02p0i0004:4.1=28"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/nirvelur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Nirvēḷūr-nāṭu",
+  "label_ta": "நிர்வேளூர்-நாடு",
+  "variants": [
+   "nirvēḷūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/urrukatu-kottam",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00154:2"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/nittavinota-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Nitta-viṉōta-vaḷanāṭu",
+  "label_ta": "நித்த-வினோத-வளநாடு",
+  "variants": [
+   "nitta-viṉōta-vaḷanāṭṭu",
+   "nitta-vinōta-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00126:4",
+   "DHARMA_INStfaSIIv02p0i0005:4",
+   "DHARMA_INStfaSIIv24p0i0053:9"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 3,
+  "inscription_count": 3
+ },
+ {
+  "id": "ez:admin_unit/ntacozha-mandalam",
+  "kind": "admin_unit",
+  "label_iso": "Ṇṭa-cōḻa-maṇṭalam",
+  "label_ta": "ண்ட-சோழ-மண்டலம்",
+  "variants": [
+   "ṇṭa-cōḻa-maṇṭalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv39p0i0217:5",
+   "DHARMA_INStfaSIIv41p0i0265:2"
+  ],
+  "unit_type": "mandalam",
+  "rank": 4,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/ntar-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Ṇṭār-vaḷanāṭu",
+  "label_ta": "ண்டார்-வளநாடு",
+  "variants": [
+   "ṇṭār-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00133:2"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/paccir-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Pācciṟ-kūṟṟam",
+  "label_ta": "பாச்சிற்-கூற்றம்",
+  "variants": [
+   "pācciṟ-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv02p0i0005:3",
+   "DHARMA_INStfaSIIv02p0i0005:6"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 2,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/palkunrak-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Pal·kuṉ·ṟa-k·-kōṭṭam",
+  "label_ta": "பல்·குன்·ற-க்·-கோட்டம்",
+  "variants": [
+   "pal·kuṉ·ṟa-k·-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00081:2v3=19"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/pallavanarayanaca-caturvedimangalam",
+  "kind": "admin_unit",
+  "label_iso": "Pallava-nārāyaṇa-ca-caturvēdimaṅkalam",
+  "label_ta": "பல்லவ-நாராயண-ச-சதுர்வேதிமங்கலம்",
+  "variants": [
+   "pallava-nārāyaṇa-ca-caturvēdimaṅkalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/patuvur-kottam",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00164:1"
+  ],
+  "unit_type": "caturvedimangalam",
+  "rank": 1,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/palukur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Paḷukūr-nāṭu",
+  "label_ta": "பளுகூர்-நாடு",
+  "variants": [
+   "paḷukūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00236:4"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/pampuni-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Pāmpuṇi-nāṭu",
+  "label_ta": "பாம்புணி-நாடு",
+  "variants": [
+   "pāmpuṇi-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00499:24"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/pampur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Pāmpūr-nāṭu",
+  "label_ta": "பாம்பூர்-நாடு",
+  "variants": [
+   "pāmpūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/uyyakkontar-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv08p0i0228:7"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/panaiyur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Paṉaiyūr-nāṭu",
+  "label_ta": "பனையூர்-நாடு",
+  "variants": [
+   "paṉaiyūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv08p0i0749:6"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/panti-mandalam",
+  "kind": "admin_unit",
+  "label_iso": "Pāṇṭi-maṇṭalam",
+  "label_ta": "பாண்டி-மண்டலம்",
+  "variants": [
+   "pāṇṭi-maṇṭalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00442:5",
+   "DHARMA_INSTamilNadu00443:4"
+  ],
+  "unit_type": "mandalam",
+  "rank": 4,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/panti-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Pāṇṭi-nāṭu",
+  "label_ta": "பாண்டி-நாடு",
+  "variants": [
+   "pāṇṭi-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00161:40",
+   "DHARMA_INSPandya00504:9",
+   "DHARMA_INSTamilNadu00403:7"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 3,
+  "inscription_count": 3
+ },
+ {
+  "id": "ez:admin_unit/panur-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Pānūṟ-kūṟṟam",
+  "label_ta": "பாநூற்-கூற்றம்",
+  "variants": [
+   "pānūṟ-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/jananata-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv22p0i0165:1"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/parakramapandya-caturvedimangalam",
+  "kind": "admin_unit",
+  "label_iso": "Parākrama-pāṇḍya-caturvēdimaṅkalam",
+  "label_ta": "பராக்ரம-பாண்ட்ய-சதுர்வேதிமங்கலம்",
+  "variants": [
+   "parākrama-pāṇḍya-caturvēdimaṅkalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya01005:4"
+  ],
+  "unit_type": "caturvedimangalam",
+  "rank": 1,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/pattana-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Paṭṭaṉa-kūṟṟam",
+  "label_ta": "பட்டன-கூற்றம்",
+  "variants": [
+   "paṭṭaṉa-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu01011:1v15=15",
+   "DHARMA_INSTamilNadu01011:1v6=6"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 2,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/patuvur-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Paṭuvūr-kōṭṭam",
+  "label_ta": "படுவூர்-கோட்டம்",
+  "variants": [
+   "paṭuvūr-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/jayankontacozha-mandalam",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00164:1",
+   "DHARMA_INSPallava00169:2",
+   "DHARMA_INSPallava00188:4",
+   "DHARMA_INSPallava00209:2",
+   "DHARMA_INSTamilNadu01001:6r2=73",
+   "DHARMA_INStfaSIIv03p0i0019:7",
+   "DHARMA_INStfaSIIv41p0i0201:1"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 7,
+  "inscription_count": 7
+ },
+ {
+  "id": "ez:admin_unit/patuvurkompu-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Paṭuvūr-k-kompu-kōṭṭam",
+  "label_ta": "படுவூர்-க்-கொம்பு-கோட்டம்",
+  "variants": [
+   "paṭuvūr-k-kompu-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00132:4"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/pazhaiyanur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Paḻaiyaṉūr-nāṭu",
+  "label_ta": "பழையனூர்-நாடு",
+  "variants": [
+   "paḻaiyaṉūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00156:3"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/pazhuvur-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Paḻuvūr-kōṭṭam",
+  "label_ta": "பழுவூர்-கோட்டம்",
+  "variants": [
+   "paḻuvūr-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00523:4"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/peraiyur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Peraiyūr-nāṭu",
+  "label_ta": "பெரையூர்-நாடு",
+  "variants": [
+   "peraiyūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00020:1"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/perunakara-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Peru-nakara-nāṭu",
+  "label_ta": "பெரு-நகர-நாடு",
+  "variants": [
+   "peru-nakara-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00017:3r4=28"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/ponnamarapati-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Poṉṉamarāpati-nāṭu",
+  "label_ta": "பொன்னமராபதி-நாடு",
+  "variants": [
+   "poṉṉamarāpati-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00443:6"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/pozhakara-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Pōḻakāra-nāṭu",
+  "label_ta": "போழகார-நாடு",
+  "variants": [
+   "pōḻakāra-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00428:2"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/puliyur-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Puliyūr-kōṭṭam",
+  "label_ta": "புலியூர்-கோட்டம்",
+  "variants": [
+   "puliyūr-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00460:1"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/puliyurna-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Puliyūr-nā-nāṭu",
+  "label_ta": "புலியூர்-நா-நாடு",
+  "variants": [
+   "puliyūr-nā-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/arumozhiteva-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00154:3"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/puramalai-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Puṟa-malai-nāṭu",
+  "label_ta": "புற-மலை-நாடு",
+  "variants": [
+   "puṟa-malai-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00499:8"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/purankarampai-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Puṟaṅ-karampai-nāṭu",
+  "label_ta": "புறங்-கரம்பை-நாடு",
+  "variants": [
+   "puṟaṅ-karampai-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/rajendracozha-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu01014:29",
+   "DHARMA_INStfaSIIv08p0i0260:1"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/puzhar-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Puḻaṟ-kōṭṭam",
+  "label_ta": "புழற்-கோட்டம்",
+  "variants": [
+   "puḻaṟ-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/jayankontacozha-mandalam",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00121:47",
+   "DHARMA_INSPallava00207:11",
+   "DHARMA_INSTamilNadu00008:3",
+   "DHARMA_INStfaSIIv38p0i0137:3"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 4,
+  "inscription_count": 4
+ },
+ {
+  "id": "ez:admin_unit/rai-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Ṟai-nāṭu",
+  "label_ta": "றை-நாடு",
+  "variants": [
+   "ṟai-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00272:3",
+   "DHARMA_INSPallava00299:3"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/rajadhiraja-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Rājādhirāja-vaḷanāṭu",
+  "label_ta": "ராஜாதிராஜ-வளநாடு",
+  "variants": [
+   "rājādhirāja-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv08p0i0205:1"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/rajanarayana-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Rājanārāyaṇa-vaḷanāṭu",
+  "label_ta": "ராஜநாராயண-வளநாடு",
+  "variants": [
+   "rājanārāyaṇa-vaḷanāṭṭu",
+   "rāja-nārāyaṇa-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00115:1",
+   "DHARMA_INSTamilNadu00118:3"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/rajaraja-mandalam",
+  "kind": "admin_unit",
+  "label_iso": "Rājarāja-maṇṭalam",
+  "label_ta": "ராஜராஜ-மண்டலம்",
+  "variants": [
+   "rājarāja-maṇṭalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00166:2"
+  ],
+  "unit_type": "mandalam",
+  "rank": 4,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/rajaraja-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Rājarāja-vaḷanāṭu",
+  "label_ta": "ராஜராஜ-வளநாடு",
+  "variants": [
+   "rājarāja-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00106:3"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/rajarajanarayana-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Rājarāja-nārāyaṇa-vaḷanāṭu",
+  "label_ta": "ராஜராஜ-நாராயண-வளநாடு",
+  "variants": [
+   "rājarāja-nārāyaṇa-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00117:15"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/rajarajappanti-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Rājarāja-p-pāṇṭi-nāṭu",
+  "label_ta": "ராஜராஜ-ப்-பாண்டி-நாடு",
+  "variants": [
+   "rājarāja-p-pāṇṭi-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00161:3",
+   "DHARMA_INSPandya00161:28"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 2,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/rajatiraja-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Rājātirāja-vaḷanāṭu",
+  "label_ta": "ராஜாதிராஜ-வளநாடு",
+  "variants": [
+   "rājātirāja-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu01009:9v5=275=4"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/rajendracinka-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Rājendra-ciṅka-vaḷanāṭu",
+  "label_ta": "ராஜெந்த்ர-சிங்க-வளநாடு",
+  "variants": [
+   "rājendra-ciṅka-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00154:3",
+   "DHARMA_INStfaSIIv02p0i0004:9.6=78",
+   "DHARMA_INStfaSIIv02p0i0005:A2"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 3,
+  "inscription_count": 3
+ },
+ {
+  "id": "ez:admin_unit/rajendracozha-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Rājendracōḻa-vaḷanāṭu",
+  "label_ta": "ராஜெந்த்ரசோழ-வளநாடு",
+  "variants": [
+   "rājendracōḻa-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv08p0i0260:1"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/rajentiracozha-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Rājentira-cōḻa-vaḷanāṭu",
+  "label_ta": "ராஜெந்திர-சோழ-வளநாடு",
+  "variants": [
+   "rājentira-cōḻa-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00161:28"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/rantaka-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Rāntaka-vaḷanāṭu",
+  "label_ta": "ராந்தக-வளநாடு",
+  "variants": [
+   "rāntaka-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00161:2"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/rumalai-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Ru-malai-nāṭu",
+  "label_ta": "ரு-மலை-நாடு",
+  "variants": [
+   "ru-malai-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00468:12"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/tacozha-mandalam",
+  "kind": "admin_unit",
+  "label_iso": "Ṭa-cōḻa-maṇṭalam",
+  "label_ta": "ட-சோழ-மண்டலம்",
+  "variants": [
+   "ṭa-cōḻa-maṇṭalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00008:3"
+  ],
+  "unit_type": "mandalam",
+  "rank": 4,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/taiyaru-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Ṭaiyāṟu-nāṭu",
+  "label_ta": "டையாறு-நாடு",
+  "variants": [
+   "ṭaiyāṟu-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00189:6"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/takkalur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Takkaḷūr-nāṭu",
+  "label_ta": "தக்களூர்-நாடு",
+  "variants": [
+   "takkaḷūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00199:1"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/tamanur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Tamaṉūr-nāṭu",
+  "label_ta": "தமனூர்-நாடு",
+  "variants": [
+   "tamaṉūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00222:1"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/tamar-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Tāmaṟ-kōṭṭam",
+  "label_ta": "தாமற்-கோட்டம்",
+  "variants": [
+   "tāmaṟ-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00264:2",
+   "DHARMA_INSPallava00483:2"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/tenkarai-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Teṉ-karai-nāṭu",
+  "label_ta": "தென்-கரை-நாடு",
+  "variants": [
+   "teṉ-karai-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/cola-mandalam",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv03p0i0004:5",
+   "DHARMA_INStfaSIIv07p0i0118:3"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/tenko-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Teṉkō-nāṭu",
+  "label_ta": "தென்கோ-நாடு",
+  "variants": [
+   "teṉkō-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/katalataiyatuilankaikontacozha-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00423:2",
+   "DHARMA_INSTamilNadu00440:2",
+   "DHARMA_INSTamilNadu00440:22"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 3,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/tenparappu-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Teṉpaṟappu-nāṭu",
+  "label_ta": "தென்பறப்பு-நாடு",
+  "variants": [
+   "teṉpaṟappu-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00076:1"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/tenvari-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Teṉvāri-nāṭu",
+  "label_ta": "தென்வாரி-நாடு",
+  "variants": [
+   "teṉvāri-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya01005:2"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/tina-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Ṭiṉa-kūṟṟam",
+  "label_ta": "டின-கூற்றம்",
+  "variants": [
+   "ṭiṉa-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00167:19"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/tiraimur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Tiraimūr-nāṭu",
+  "label_ta": "திரைமூர்-நாடு",
+  "variants": [
+   "tiraimūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/uyyakkontar-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00007:5",
+   "DHARMA_INStfaSIIv05p1i0705:6",
+   "DHARMA_INStfaSIIv05p1i0705:10"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 3,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/tirukkama-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Tiru-k-kāma-kōṭṭam",
+  "label_ta": "திரு-க்-காம-கோட்டம்",
+  "variants": [
+   "tiru-k-kāma-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00407:2"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/tirukkazhumala-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Tirukkaḻumala-nāṭu",
+  "label_ta": "திருக்கழுமல-நாடு",
+  "variants": [
+   "tirukkaḻumala-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/rajadhiraja-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv08p0i0205:1"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/tirumalai-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Tiru-malai-nāṭu",
+  "label_ta": "திரு-மலை-நாடு",
+  "variants": [
+   "tiru-malai-nāṭṭu",
+   "tirumalai-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00407:1",
+   "DHARMA_INSTamilNadu00407:2",
+   "DHARMA_INSTamilNadu00423:1",
+   "DHARMA_INSTamilNadu00440:24",
+   "DHARMA_INSTamilNadu00450:2",
+   "DHARMA_INSTamilNadu00464:2"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 6,
+  "inscription_count": 5
+ },
+ {
+  "id": "ez:admin_unit/tirunaraiyur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Tirunaṟaiyūr-nāṭu",
+  "label_ta": "திருநறையூர்-நாடு",
+  "variants": [
+   "tirunaṟaiyūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00068:A2",
+   "DHARMA_INStfaSIIv02p0i0004:7.5=59"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/tiruvaranka-caturvedimangalam",
+  "kind": "admin_unit",
+  "label_iso": "Tiruvaraṅka-caturvēdimaṅkalam",
+  "label_ta": "திருவரங்க-சதுர்வேதிமங்கலம்",
+  "variants": [
+   "tiruvaraṅka-caturvēdimaṅkalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00071:3"
+  ],
+  "unit_type": "caturvedimangalam",
+  "rank": 1,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/tiruvarur-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Tiruvārūr-kūṟṟam",
+  "label_ta": "திருவாரூர்-கூற்றம்",
+  "variants": [
+   "tiruvārūr-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu01011:2r6=21"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/tiruvazhuntur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Tiruvaḻuntūr-nāṭu",
+  "label_ta": "திருவழுந்தூர்-நாடு",
+  "variants": [
+   "tiruvaḻuntūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00163:4"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/tontai-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Toṇṭai-nāṭu",
+  "label_ta": "தொண்டை-நாடு",
+  "variants": [
+   "toṇṭai-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00506:2"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/tuvarapati-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Tuvarāpati-nāṭu",
+  "label_ta": "துவராபதி-நாடு",
+  "variants": [
+   "tuvarāpati-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/keralacinka-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00462:2",
+   "DHARMA_INSTamilNadu00499:8"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/ukallur-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Ukaḷḷūṟ-kūṟṟam",
+  "label_ta": "உகள்ளூற்-கூற்றம்",
+  "variants": [
+   "Ukaḷḷūṟ-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv28p0i0034:3"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/umpala-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Umpaḷa-nāṭu",
+  "label_ta": "உம்பள-நாடு",
+  "variants": [
+   "Umpaḷa-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00168:7"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/uraiyur-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Uṟaiyūr-kūṟṟam",
+  "label_ta": "உறையூர்-கூற்றம்",
+  "variants": [
+   "Uṟaiyūr-kūṟṟattu",
+   "Ūṟaiyūr-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv04p0i0508:9",
+   "DHARMA_INStfaSIIv17p0i0442:7"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/urrukatu-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Ūṟṟukāṭu-kōṭṭam",
+  "label_ta": "ஊற்றுகாடு-கோட்டம்",
+  "variants": [
+   "Ūṟṟukāṭu-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/jayankontacozha-mandalam",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00154:2"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/urrukkattu-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Ūṟṟu-k-kāṭṭu-kōṭṭam",
+  "label_ta": "ஊற்று-க்-காட்டு-கோட்டம்",
+  "variants": [
+   "Ūṟṟu-k-kāṭṭu-kōṭṭattu",
+   "Uṟṟukkāṭṭu-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/jayankontacozha-mandalam",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv04p0i0133:1",
+   "DHARMA_INStfaSIIv04p0i0828:12"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/urrukkattu-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Ūṟṟu-k-kāṭṭu-nāṭu",
+  "label_ta": "ஊற்று-க்-காட்டு-நாடு",
+  "variants": [
+   "Ūṟṟu-k-kāṭṭu-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/urrukkattu-kottam",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv04p0i0133:1"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/utta-ramerucca-caturvedimangalam",
+  "kind": "admin_unit",
+  "label_iso": "Utta‡ramēru-c-ca-caturvēdimaṅkalam",
+  "label_ta": "உத்த‡ரமேரு-ச்-ச-சதுர்வேதிமங்கலம்",
+  "variants": [
+   "Utta‡ramēru-c-ca-caturvēdimaṅkalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00199:5"
+  ],
+  "unit_type": "caturvedimangalam",
+  "rank": 1,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/uttarameruca-caturvedimangalam",
+  "kind": "admin_unit",
+  "label_iso": "Uttaramēru-ca-caturvēdimaṅkalam",
+  "label_ta": "உத்தரமேரு-ச-சதுர்வேதிமங்கலம்",
+  "variants": [
+   "uttaramēru-ca-caturvēdimaṅkalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00199:1"
+  ],
+  "unit_type": "caturvedimangalam",
+  "rank": 1,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/uttiramerucca-caturvedimangalam",
+  "kind": "admin_unit",
+  "label_iso": "Uttiramēru-c·-ca-caturvēdimaṅkalam",
+  "label_ta": "உத்திரமேரு-ச்·-ச-சதுர்வேதிமங்கலம்",
+  "variants": [
+   "Uttiramēru-c·-ca-caturvēdimaṅkalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSUttiramerur00001:1"
+  ],
+  "unit_type": "caturvedimangalam",
+  "rank": 1,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/uyakkontar-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Uyakkoṇṭār-vaḷanāṭu",
+  "label_ta": "உயக்கொண்டார்-வளநாடு",
+  "variants": [
+   "Uyakkoṇṭār-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00102:14"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/uyyakkontacozha-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Uyya-k-koṇṭa-cōḻa-vaḷanāṭu",
+  "label_ta": "உய்ய-க்-கொண்ட-சோழ-வளநாடு",
+  "variants": [
+   "Uyya-k-koṇṭa-cōḻa-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00151:3"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/uyyakkontar-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Uyyakkoṇṭār-vaḷanāṭu",
+  "label_ta": "உய்யக்கொண்டார்-வளநாடு",
+  "variants": [
+   "Uyyakkoṇṭār-vaḷanāṭṭu",
+   "Uyyak-koṇṭār-vaḷanāṭṭu",
+   "Uyya-k-koṇṭār-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00126:2",
+   "DHARMA_INSTamilNadu00128:2",
+   "DHARMA_INSTamilNadu00129:1",
+   "DHARMA_INSTamilNadu00130:1",
+   "DHARMA_INSTamilNadu00143:1",
+   "DHARMA_INSTamilNadu00159:5",
+   "DHARMA_INSTamilNadu00192:1",
+   "DHARMA_INStfaSIIv05p1i0705:6",
+   "DHARMA_INStfaSIIv08p0i0228:7"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 9,
+  "inscription_count": 9
+ },
+ {
+  "id": "ez:admin_unit/uyyakkontarr-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Uyya-k-koṇṭārr-vaḷanāṭu",
+  "label_ta": "உய்ய-க்-கொண்டார்ர்-வளநாடு",
+  "variants": [
+   "Uyya-k-koṇṭārr-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00138:1"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/uyyakonta-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Uyya-koṇṭā-vaḷanāṭu",
+  "label_ta": "உய்ய-கொண்டா-வளநாடு",
+  "variants": [
+   "Uyya-koṇṭā-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00154:1"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/uyyakontar-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Uyyakoṇṭār-vaḷanāṭu",
+  "label_ta": "உய்யகொண்டார்-வளநாடு",
+  "variants": [
+   "Uyyakoṇṭār-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00068:B1",
+   "DHARMA_INStfaSIIv05p1i0705:10"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/valanadu",
+  "kind": "admin_unit",
+  "label_iso": "vaḷanāṭu",
+  "label_ta": "வளநாடு",
+  "variants": [
+   "vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00161:2",
+   "DHARMA_INSPandya00161:3",
+   "DHARMA_INSPandya00161:11",
+   "DHARMA_INSPandya00161:12",
+   "DHARMA_INSPandya00161:28",
+   "DHARMA_INSPandya01001:17",
+   "DHARMA_INSTamilNadu00068:B1",
+   "DHARMA_INSTamilNadu00070:4",
+   "DHARMA_INSTamilNadu00101:6",
+   "DHARMA_INSTamilNadu00102:14",
+   "DHARMA_INSTamilNadu00103:99",
+   "DHARMA_INSTamilNadu00106:3",
+   "DHARMA_INSTamilNadu00106:5",
+   "DHARMA_INSTamilNadu00108:1",
+   "DHARMA_INSTamilNadu00115:1",
+   "DHARMA_INSTamilNadu00117:15",
+   "DHARMA_INSTamilNadu00118:3",
+   "DHARMA_INSTamilNadu00126:2",
+   "DHARMA_INSTamilNadu00126:4",
+   "DHARMA_INSTamilNadu00127:1",
+   "DHARMA_INSTamilNadu00127:3",
+   "DHARMA_INSTamilNadu00128:2",
+   "DHARMA_INSTamilNadu00128:3",
+   "DHARMA_INSTamilNadu00129:1",
+   "DHARMA_INSTamilNadu00130:1",
+   "DHARMA_INSTamilNadu00133:2",
+   "DHARMA_INSTamilNadu00138:1",
+   "DHARMA_INSTamilNadu00143:1",
+   "DHARMA_INSTamilNadu00151:3",
+   "DHARMA_INSTamilNadu00154:1",
+   "DHARMA_INSTamilNadu00154:3",
+   "DHARMA_INSTamilNadu00159:5",
+   "DHARMA_INSTamilNadu00166:1",
+   "DHARMA_INSTamilNadu00167:18",
+   "DHARMA_INSTamilNadu00192:1",
+   "DHARMA_INSTamilNadu00199:1",
+   "DHARMA_INSTamilNadu00418:3",
+   "DHARMA_INSTamilNadu00423:2",
+   "DHARMA_INSTamilNadu00441:2",
+   "DHARMA_INSTamilNadu00461:6"
+  ],
+  "unit_type": "valanadu",
+  "is_type": true,
+  "rank": 3,
+  "label_en": "vaḷanāṭu (Cōḻa administrative division above the nāṭu)",
+  "attestation_count": 68,
+  "inscription_count": 51
+ },
+ {
+  "id": "ez:admin_unit/variyilitucozhacikamani-mandalam",
+  "kind": "admin_unit",
+  "label_iso": "Variyiliṭu-cōḻa-cikāmaṇi-maṇṭalam",
+  "label_ta": "வரியிலிடு-சோழ-சிகாமணி-மண்டலம்",
+  "variants": [
+   "variyiliṭu-cōḻa-cikāmaṇi-maṇṭalattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPandya00161:44"
+  ],
+  "unit_type": "mandalam",
+  "rank": 4,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/vatakaraimazha-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Vaṭa-karai-maḻa-nāṭu",
+  "label_ta": "வட-கரை-மழ-நாடு",
+  "variants": [
+   "vaṭa-karai-maḻa-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00180:4"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/vela-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Veḷā-nāṭu",
+  "label_ta": "வெளா-நாடு",
+  "variants": [
+   "veḷā-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu00163:4",
+   "DHARMA_INStfaSIIv02p0i0004:8.3=66"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/venkunra-kottam",
+  "kind": "admin_unit",
+  "label_iso": "Veṇ-kuṉṟa-kōṭṭam",
+  "label_ta": "வெண்-குன்ற-கோட்டம்",
+  "variants": [
+   "veṇ-kuṉṟa-kōṭṭattu",
+   "veṇkuṉṟa-kōṭṭattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSPallava00120:2",
+   "DHARMA_INStfaSIIv03p0i0017:12"
+  ],
+  "unit_type": "kottam",
+  "rank": 3,
+  "attestation_count": 2,
+  "inscription_count": 2
+ },
+ {
+  "id": "ez:admin_unit/vennik-kurram",
+  "kind": "admin_unit",
+  "label_iso": "Veṇṇik-kūṟṟam",
+  "label_ta": "வெண்ணிக்-கூற்றம்",
+  "variants": [
+   "veṇṇik-kūṟṟattu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/nittavinota-valanadu",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv02p0i0005:4"
+  ],
+  "unit_type": "kurram",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/vijayarajendracozha-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Vijaya-rājendra-cōḻa-vaḷanāṭu",
+  "label_ta": "விஜய-ராஜெந்த்ர-சோழ-வளநாடு",
+  "variants": [
+   "vijaya-rājendra-cōḻa-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INSTamilNadu01011:2v1=31"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/vikkiramacozha-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Vikkirama-cōḻa-vaḷanāṭu",
+  "label_ta": "விக்கிரம-சோழ-வளநாடு",
+  "variants": [
+   "vikkirama-cōḻa-vaḷanāṭṭu",
+   "vikkiṟama-cōḻa-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": "ez:admin_unit/jayankontacozha-mandalam",
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv08p0i0228:10",
+   "DHARMA_INStfaSIIv34p0i0059:5",
+   "DHARMA_INStfaSIIv36p0i0221:2"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 3,
+  "inscription_count": 3
+ },
+ {
+  "id": "ez:admin_unit/vikramacozha-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Vikrama-cōḻa-vaḷanāṭu",
+  "label_ta": "விக்ரம-சோழ-வளநாடு",
+  "variants": [
+   "vikrama-cōḻa-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv36p0i0215:10"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/vilattur-nadu",
+  "kind": "admin_unit",
+  "label_iso": "Viḷattūr-nāṭu",
+  "label_ta": "விளத்தூர்-நாடு",
+  "variants": [
+   "viḷattūr-nāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv17p0i0442:10"
+  ],
+  "unit_type": "nadu",
+  "rank": 2,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/vinota-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Viṉōta-vaḷanāṭu",
+  "label_ta": "வினோத-வளநாடு",
+  "variants": [
+   "viṉōta-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv03p0i0004:6"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/virutaracapayankara-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Virutarāca-payaṅkara-vaḷanāṭu",
+  "label_ta": "விருதராச-பயங்கர-வளநாடு",
+  "variants": [
+   "virutarāca-payaṅkara-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv28p0i0034:1"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ },
+ {
+  "id": "ez:admin_unit/zhuti-valanadu",
+  "kind": "admin_unit",
+  "label_iso": "Ḻuti-vaḷanāṭu",
+  "label_ta": "ழுதி-வளநாடு",
+  "variants": [
+   "ḻuti-vaḷanāṭṭu"
+  ],
+  "era": null,
+  "dynasty": null,
+  "broader": null,
+  "wikidata": null,
+  "attested_in": [
+   "DHARMA_INStfaSIIv26p0i0491:3"
+  ],
+  "unit_type": "valanadu",
+  "rank": 3,
+  "attestation_count": 1,
+  "inscription_count": 1
+ }
+]
