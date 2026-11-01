@@ -22,7 +22,7 @@ from strands.multiagent import GraphBuilder, Swarm
 from strands.multiagent.base import MultiAgentBase, MultiAgentResult, NodeResult, Status
 from strands.telemetry.metrics import EventLoopMetrics
 
-from ..prompts import ASSESSOR_SYSTEM, TUTOR_SYSTEM, explain_prompt, parse_json_object
+from ..prompts import ASSESSOR_SYSTEM, TUTOR_SYSTEM, explain_prompt, parse_json_object, sanitize_explanation
 from .feedback import explain_template
 
 log = logging.getLogger(__name__)
@@ -103,7 +103,10 @@ def swarm_explanation(result: Any) -> dict[str, str] | None:
             continue
         d = parse_json_object(str(nr.result))
         if d and isinstance(d.get("explain_ta"), str) and isinstance(d.get("explain_en"), str):
-            return {"explain_ta": d["explain_ta"].strip(), "explain_en": d["explain_en"].strip()}
+            out = {"explain_ta": sanitize_explanation(d["explain_ta"]),
+                   "explain_en": sanitize_explanation(d["explain_en"])}
+            if out["explain_ta"] and out["explain_en"]:
+                return out
     return None
 
 
