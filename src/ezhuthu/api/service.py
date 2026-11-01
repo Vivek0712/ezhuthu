@@ -14,7 +14,7 @@ from ..agent.decider import Decider, default_decider
 from ..agent.llm import LLMClient, default_llm
 from ..agent.restorer import Restorer
 from ..agent.tutor.service import BadRequest, NotFound, TutorService
-from ..eval.run import ROUTERS, evaluate_items
+from ..eval.run import LLM_ROUTERS, ROUTERS, evaluate_items
 from .storage import Store, store_from_env
 
 MAX_EVAL_ITEMS = int(os.environ.get("EZHUTHU_MAX_EVAL_ITEMS", "500"))
@@ -86,7 +86,14 @@ class EzhuthuService:
                 raise BadRequest(str(exc)) from exc
         if len(items) > MAX_EVAL_ITEMS:
             raise BadRequest(f"at most {MAX_EVAL_ITEMS} items per request; use the CLI for full runs")
-        return evaluate_items(items, router=router, restorer=self.restorer, llm=self._llm)
+        effective = router
+        if self._llm is None and router in (*LLM_ROUTERS, "baseline-zeroshot"):
+            if router == "baseline-zeroshot":
+                raise BadRequest("baseline-zeroshot needs a live LLM (EZHUTHU_LIVE=1 on the server)")
+            effective = "none"  # no live LLM here: say so instead of labelling LLM-free results "routed"
+        out = evaluate_items(items, router=effective, restorer=self.restorer, llm=self._llm)
+        out["router_requested"], out["router_effective"] = router, effective
+        return out
 
     # ---- corrections and review queue --------------------------------------------
     def add_correction(self, gap_ref: str, *, accepted_candidate: str | None = None,

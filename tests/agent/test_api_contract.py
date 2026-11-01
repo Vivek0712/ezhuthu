@@ -86,6 +86,12 @@ def test_evaluate_upload_jsonl(client):
     assert r.status_code == 200 and r.json()["n"] == 8
 
 
+def test_evaluate_offline_reports_effective_router(client):
+    b = client.post("/api/evaluate", json={"benchmark": "test", "limit": 2, "router": "routed"}).json()
+    assert b["router_requested"] == "routed" and b["router_effective"] == "none" and "none" in b["by_router"]
+    assert client.post("/api/evaluate", json={"router": "baseline-zeroshot"}).status_code == 422
+
+
 def test_evaluate_errors(client):
     assert client.post("/api/evaluate", json={"benchmark": "nosuch"}).status_code == 422
     assert client.post("/api/evaluate", json={"router": "gpt"}).status_code == 422
