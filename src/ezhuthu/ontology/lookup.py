@@ -31,6 +31,7 @@ from ezhuthu.ontology.letters import letter_count
 from ezhuthu.ontology.matcher import MIN_KEY, KeyedText, VariantIndex
 from ezhuthu.ontology.normalize import key
 
+
 def _default_dir() -> Path:
     """Checkout layout (src/ezhuthu/ontology -> repo/ontology) or an AgentCore bundle (ezhuthu/ -> bundle/ontology)."""
     here = Path(__file__).resolve()
