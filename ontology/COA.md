@@ -1,20 +1,33 @@
 # Context Ontology Accelerator (COA) and the ontology MCP server
 
-**Result, 2026-11-02 (issue #12, second attempt): COA was not run.** The user asked to "use S3 Vectors instead of
+**Result, 2026-11-02 (issue #12, attempts 2 and 3): COA was not run.** The user asked to "use S3 Vectors instead of
 Neptune", and the workflow brief for this attempt relayed approval to run COA's own code locally, with Amazon S3
 Vectors as the vector store and FalkorDB (Docker) as the graph store instead of OpenSearch Serverless and Neptune. The storage side is done: a COA v0.3.8 patch for S3 Vectors + FalkorDB
-([`coa/patches/`](coa/patches/README.md)), a tagged S3 vector bucket with three indexes sized for COA's embedding
-model, and a check of the patch's FalkorDB queries on a real FalkorDB. But COA's `make setup` was **denied again** by
+([`coa/patches/`](coa/patches/README.md)), a tagged S3 vector bucket with the two indexes COA writes by default
+(chunk, topic) sized for COA's embedding model, a check that the embedding model answers on this account, and an
+asserting check of the patch's FalkorDB queries on a real FalkorDB. But COA's `make setup` was **denied again** by
 this session's permission classifier ("Code from External"). That denial is not overridden by approvals relayed
 through the workflow, and it was not worked around. Without `make setup` there is no COA environment, so Scan, Model,
 the export, the reconciliation with `ezhuthu.ttl` and a COA Serve query were **not** run. No ontology was induced,
 nothing was imported into `ezhuthu.ttl`, and there is no `coa/RECONCILE.md` (no counts to report).
 Do not use "built with AWS Context Ontology Accelerator" (charter branding rule) until a run is recorded here;
-`tests/ontology/test_coa_store.py` fails if the READMEs claim it while this file says COA was not run.
+`tests/ontology/test_coa_store.py` fails if the READMEs or this file make that claim while `coa/RECONCILE.md`
+(the record of a real run) does not exist.
 
 The rdflib build (`python -m ezhuthu.ontology.build --splits train`, `ontology/ezhuthu.ttl` + `lookups/`) stays the
 source of truth. Serving over MCP is done by our own server, `ezhuthu.ontology.mcp_server` (section 3), which **did**
 run and is tested.
+
+## 0. Attempt 3 (2026-11-02, QA follow-up on PR #21)
+
+| # | Command | Outcome |
+| --- | --- | --- |
+| 1 | `uv sync --all-packages` in `~/tamil-script/.coa-scratch/coa` (scratch uv 0.13.6) | **Denied** by the permission classifier ("Code from External"), as in attempts 1 and 2. Not retried, not worked around. Scan, Model and Serve therefore still have not run; issue #12 stays open. |
+| 2 | `aws bedrock-runtime invoke-model --model-id us.cohere.embed-v4:0` (one sentence, `output_dimension` 1024), profile heisenberg, us-east-1 | **Worked**: one 1024-d float embedding returned. `GetFoundationModelAvailability(cohere.embed-v4:0)` reports `agreementAvailability: NOT_AVAILABLE`, `authorizationStatus: AUTHORIZED`, `entitlementAvailability: AVAILABLE`, `regionAvailability: AVAILABLE`; the invoke succeeds regardless, so no Marketplace agreement step is needed today. Cost: one embedding call (well under $0.001). |
+| 3 | `EMBEDDING_INDEXES`: back to COA's default `chunk,topic` | Nothing in COA v0.3.8 or the patch reads a statement index (no semantic-guided Serve strategy), so embedding statements would only add Bedrock cost. The empty `ezhuthu.statement-b0310331b8d553b7b3ebfbf51` index was checked empty (`ListVectors` → 0) and deleted. |
+| 4 | `python -m ezhuthu.ontology.coa_store --create` (now verifies) | Bucket and `ezhuthu.chunk-`/`ezhuthu.topic-b0310331b8d553b7b3ebfbf51` verified: 1024, cosine, float32, all four cost tags on bucket and indexes. Existing resources are now checked: a dimension/metric/data-type mismatch raises `PlanMismatch`, missing tags are re-applied (unit-tested with a fake client). |
+| 5 | Patch: `falkordb://` without `host:port` | Now rejected in Scan, Model and Serve with a clear error (graphrag's `FalkorDBGraphStoreFactory.try_create` returns `None` for an empty endpoint). Patch regenerated from scratch commit `0ebd178`; `git apply --check` on pristine v0.3.8 is clean; patched files parse. |
+| 6 | `bash ontology/coa/falkordb_query_check.sh` (image pinned to `falkordb/falkordb@sha256:725b74d400124862c9e0f318c56bfb3c55b97cd7f301d9dfe8685980fb3c8195`) | Prints `OK` and exits 0; every expected value is now asserted (plus `id(e) <> entityId`). With one expected value altered it exits 1 (`FAIL get_class_nodes: missing '3'`). |
 
 ## 1. Attempt 2 (2026-11-02): S3 Vectors + FalkorDB. Every command, outcome and evidence
 
@@ -31,13 +44,16 @@ local branch `ezhuthu-s3v-falkor` (commit `5d2aa16`, exported as the patch).
 | 6 | `docker run falkordb/falkordb:latest` (digest `sha256:725b74d4…c8195`, graph module 4.22.3), then the 5 queries `FalkorDBLexicalStore` sends, on a hand-built 2-entity graph with graphrag's tenant-scoped labels; script: [`coa/falkordb_query_check.sh`](coa/falkordb_query_check.sh) | All five returned the expected rows: classes `Ruler 2, Temple 1`; relation `Ruler built Temple 1`; entity `e1 Rajaraja I Ruler`; fact `Rajaraja I built Brihadisvara` with object `Brihadisvara Temple`; topic `t1 Chola temples 1`. Unrewritten `id(e)` returned internal integers (`2`, `3`), which confirms that the `entityId`/`topicId` rewrite is needed. This checks the openCypher dialect only, not graphrag's write path into FalkorDB. Container removed. |
 | 7 | Neptune / OpenSearch | Nothing created. |
 
+(Attempt 3 deleted the statement index created in step 5; see section 0.)
+
 **Not run** (all blocked by step 3): `uv sync`, COA unit tests, Scan of the train-split DHARMA text +
 `ezhuthu.ttl` seed, Model (induction), export, reconciliation (`coa/RECONCILE.md`), COA Serve/MCP query.
 
 **AWS cost of this attempt: about $0.00.** S3 Vectors bills storage ($0.06/GB-month), PUT ($0.20/GB logical)
 and queries ($2.50 per million requests plus data processed). This attempt wrote 2 vectors (~8 KB), ran 1 query
-and deleted both, so the cost is under $0.0001. Empty indexes cost nothing. No Bedrock calls were made, and
-FalkorDB ran locally. To remove the resources, delete the three indexes and then the bucket (`s3vectors
+and deleted both, so the cost is under $0.0001. Empty indexes cost nothing. No Bedrock calls were made in attempt 2
+(attempt 3 made one embedding call), and FalkorDB ran locally. To remove the resources, delete the two indexes and
+then the bucket (`s3vectors
 delete-index` / `delete-vector-bucket`, boto3 or AWS CLI ≥ 2.27).
 
 ### What finishing needs

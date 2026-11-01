@@ -28,8 +28,14 @@ def test_fixture_ontology_validates_against_lookup_schema():
 
 
 DECIDER_URL = os.environ.get("EZHUTHU_DECIDER_URL", "http://127.0.0.1:8765")
-needs_decider = pytest.mark.skipif(not HttpDecider(DECIDER_URL).available(),
-                                   reason=f"no strands-decider serve at {DECIDER_URL}")
+# Talks to a live Decider over the network, so it can flake: marked ``network`` and
+# deselected in ``make check``. Run with ``pytest -m network`` against a running serve.
+_decider_up = pytest.mark.skipif(not HttpDecider(DECIDER_URL).available(),
+                                 reason=f"no strands-decider serve at {DECIDER_URL}")
+
+
+def needs_decider(fn):
+    return pytest.mark.network(_decider_up(fn))
 
 
 @needs_decider

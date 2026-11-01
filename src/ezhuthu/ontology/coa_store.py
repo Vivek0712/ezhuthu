@@ -1,11 +1,16 @@
 """S3 Vectors store for a local Context Ontology Accelerator (COA) run.
 
-COA v0.3.8 writes chunk/statement/topic embeddings through graphrag-toolkit. With
+COA v0.3.8 writes chunk and topic embeddings through graphrag-toolkit. With
 ``VECTOR_STORE_URI=s3vectors://<bucket>/<prefix>`` (see ``ontology/coa/patches``)
 the toolkit names each index ``<prefix>.<index>-<tenant>`` and the tenant is COA's
 ``to_graphrag_tenant_id(namespace)``. This module computes those names and, with
 ``--create``, provisions the tagged vector bucket + indexes ahead of time (COA's
-default embedding model is Cohere Embed v4 at 1024 dimensions, cosine).
+default embedding model is Cohere Embed v4 at 1024 dimensions, cosine). Existing
+resources are verified: an index whose dimension, metric or data type differs from
+the plan is an error, and missing cost tags are re-applied.
+
+Indexes follow COA's own default ``EMBEDDING_INDEXES=chunk,topic`` (kg-build and
+Serve's ``READ_EMBEDDING_INDEXES``); no COA Serve strategy reads a statement index.
 
     python -m ezhuthu.ontology.coa_store              # print the plan (no AWS call)
     python -m ezhuthu.ontology.coa_store --create     # create/verify on profile heisenberg
@@ -23,7 +28,7 @@ PREFIX = "ezhuthu"
 NAMESPACE_SEED = "https://w3id.org/ezhuthu/coa"
 EMBED_MODEL_ID = "us.cohere.embed-v4:0"  # coa_common.constants.DEFAULT_EMBED_MODEL_ID (v0.3.8)
 DIMENSIONS = 1024  # coa_common.constants.DEFAULT_EMBED_DIMENSIONS (v0.3.8)
-INDEXES = ("chunk", "statement", "topic")  # graphrag ALL_EMBEDDING_INDEXES
+INDEXES = ("chunk", "topic")  # COA kg-build default EMBEDDING_INDEXES (v0.3.8)
 NON_FILTERABLE = ["value", "metadata"]  # graphrag s3_vector_indexes.NON_FILTERABLE_FIELDS
 TAGS = {"Project": "ezhuthu", "Owner": "vivekraja", "Env": "hackathon", "CostCenter": "hero-credits"}
 _INDEX_NAME_RE = re.compile(r"^[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]$")
@@ -71,19 +76,43 @@ def plan(namespace: str | None = None) -> dict:
     }
 
 
-def create(p: dict, profile: str = "heisenberg", region: str = "us-east-1") -> dict:  # pragma: no cover - live AWS
-    import boto3
-    from botocore.exceptions import ClientError
+class PlanMismatch(RuntimeError):
+    """An existing S3 Vectors resource does not match the plan."""
 
-    c = boto3.Session(profile_name=profile, region_name=region).client("s3vectors")
+
+def _ensure_tags(c, arn: str, tags: dict) -> dict:
+    """Re-apply any plan tag that is missing or different; return the tags now set."""
+    have = c.list_tags_for_resource(resourceArn=arn).get("tags", {})
+    missing = {k: v for k, v in tags.items() if have.get(k) != v}
+    if missing:
+        c.tag_resource(resourceArn=arn, tags=missing)
+        have = c.list_tags_for_resource(resourceArn=arn).get("tags", {})
+    if any(have.get(k) != v for k, v in tags.items()):
+        raise PlanMismatch(f"tags on {arn} are {have}, expected {tags}")
+    return {k: have[k] for k in tags}
+
+
+def create(p: dict, client=None, profile: str = "heisenberg", region: str = "us-east-1") -> dict:
+    """Create the bucket and indexes, or verify existing ones against the plan.
+
+    Raises ``PlanMismatch`` when an existing index has another dimension, metric or
+    data type (those cannot be changed in place), or when tags cannot be set.
+    """
+    if client is None:  # pragma: no cover - live AWS
+        import boto3
+
+        client = boto3.Session(profile_name=profile, region_name=region).client("s3vectors")
+    c = client
+    conflict = c.exceptions.ConflictException
     try:
         c.create_vector_bucket(
             vectorBucketName=p["bucket"], encryptionConfiguration={"sseType": "AES256"}, tags=p["tags"]
         )
-    except ClientError as e:
-        if e.response["Error"]["Code"] != "ConflictException":
-            raise
-    out = []
+    except conflict:
+        pass
+    bucket = c.get_vector_bucket(vectorBucketName=p["bucket"])["vectorBucket"]
+    out = {"bucket": p["bucket"], "bucket_tags": _ensure_tags(c, bucket["vectorBucketArn"], p["tags"]), "indexes": []}
+    want = {"dimension": p["dimension"], "distanceMetric": "cosine", "dataType": "float32"}
     for name in p["indexes"]:
         try:
             c.create_index(
@@ -91,12 +120,14 @@ def create(p: dict, profile: str = "heisenberg", region: str = "us-east-1") -> d
                 distanceMetric="cosine", metadataConfiguration={"nonFilterableMetadataKeys": NON_FILTERABLE},
                 tags=p["tags"],
             )
-        except ClientError as e:
-            if e.response["Error"]["Code"] != "ConflictException":
-                raise
+        except conflict:
+            pass
         idx = c.get_index(vectorBucketName=p["bucket"], indexName=name)["index"]
-        out.append({k: idx[k] for k in ("indexName", "dimension", "distanceMetric", "dataType")})
-    return {"bucket": p["bucket"], "indexes": out}
+        got = {k: idx.get(k) for k in want}
+        if got != want:
+            raise PlanMismatch(f"index {name} has {got}, plan needs {want}; delete and re-create it")
+        out["indexes"].append({"indexName": name, **got, "tags": _ensure_tags(c, idx["indexArn"], p["tags"])})
+    return out
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -106,7 +137,7 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("--region", default="us-east-1")
     args = ap.parse_args(argv)
     p = plan()
-    print(json.dumps(create(p, args.profile, args.region) if args.create else p, indent=1))
+    print(json.dumps(create(p, profile=args.profile, region=args.region) if args.create else p, indent=1))
 
 
 if __name__ == "__main__":

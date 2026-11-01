@@ -1,23 +1,23 @@
-From 5d2aa168b7543ce0ad6c39a5350036512685f84d Mon Sep 17 00:00:00 2001
+From 0ebd178bd20642720c84d8676db2911d9cd73b17 Mon Sep 17 00:00:00 2001
 From: Vivek Raja <vivekraja98@gmail.com>
 Date: Mon, 2 Nov 2026 03:12:04 +0530
 Subject: [PATCH] ezhuthu: S3 Vectors + FalkorDB storage seams and local
  Scan/Model drivers
 
 ---
- .../src/coa_serve/clients/factory.py          | 21 ++++-
+ .../src/coa_serve/clients/factory.py          | 24 ++++-
  .../inducer/routers/induce_unstructured.py    | 14 +++
- .../unstructured/stores/falkordb_lexical.py   | 93 +++++++++++++++++++
- .../documents/kg_build/graph_build.py         | 74 +++++++++++----
- scripts/ezhuthu_local/model_local.py          | 66 +++++++++++++
- scripts/ezhuthu_local/scan_local.py           | 86 +++++++++++++++++
- 6 files changed, 334 insertions(+), 20 deletions(-)
+ .../unstructured/stores/falkordb_lexical.py   | 91 +++++++++++++++++++
+ .../documents/kg_build/graph_build.py         | 78 ++++++++++++----
+ scripts/ezhuthu_local/model_local.py          | 66 ++++++++++++++
+ scripts/ezhuthu_local/scan_local.py           | 86 ++++++++++++++++++
+ 6 files changed, 339 insertions(+), 20 deletions(-)
  create mode 100644 packages/ontology-engine/src/coa_ontology/inducer/unstructured/stores/falkordb_lexical.py
  create mode 100644 scripts/ezhuthu_local/model_local.py
  create mode 100644 scripts/ezhuthu_local/scan_local.py
 
 diff --git a/packages/context-manager/src/coa_serve/clients/factory.py b/packages/context-manager/src/coa_serve/clients/factory.py
-index 1caed35..468d32b 100644
+index 1caed35..bc28f20 100644
 --- a/packages/context-manager/src/coa_serve/clients/factory.py
 +++ b/packages/context-manager/src/coa_serve/clients/factory.py
 @@ -157,7 +157,14 @@ def build_lexical_retriever(
@@ -36,7 +36,7 @@ index 1caed35..468d32b 100644
          return None
  
      # Standard-mode path (timeout_s is None): honor LEXICAL_RETRIEVER_TIMEOUT_S so
-@@ -181,8 +188,16 @@ def build_lexical_retriever(
+@@ -181,8 +188,19 @@ def build_lexical_retriever(
      from ..lexical import BaselineLexicalRetriever
      from ..lexical.strategies import DEFAULT_SPEC
  
@@ -45,6 +45,9 @@ index 1caed35..468d32b 100644
 +    graph_uri = graph_uri_override or _graph_store_uri(config.neptune_endpoint)
 +    vector_store_uri = vector_uri_override or f"aoss://{config.opensearch_endpoint}"
 +    if graph_uri.startswith("falkordb://"):
++        host, _, port = graph_uri[len("falkordb://") :].strip("/").rpartition(":")
++        if not host or not port.isdigit():
++            raise ValueError(f"GRAPH_STORE_URI needs host:port, e.g. falkordb://localhost:6379; got {graph_uri!r}")
 +        # FalkorDB is a graphrag-toolkit contrib store; register it before use.
 +        # Note: the contrib store supports semantic-guided search only, while every
 +        # COA retriever strategy (lexical/strategies.py) is traversal-based.
@@ -89,10 +92,10 @@ index 8c6e89f..21c18e8 100644
      if graph_arn.startswith(_VALID_ARN_PREFIX):
 diff --git a/packages/ontology-engine/src/coa_ontology/inducer/unstructured/stores/falkordb_lexical.py b/packages/ontology-engine/src/coa_ontology/inducer/unstructured/stores/falkordb_lexical.py
 new file mode 100644
-index 0000000..c36e129
+index 0000000..2b70c60
 --- /dev/null
 +++ b/packages/ontology-engine/src/coa_ontology/inducer/unstructured/stores/falkordb_lexical.py
-@@ -0,0 +1,93 @@
+@@ -0,0 +1,91 @@
 +# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 +# SPDX-License-Identifier: Apache-2.0
 +
@@ -105,8 +108,9 @@ index 0000000..c36e129
 +(``entityId``, ``topicId``) on every other graph store, so ``id(n)`` (FalkorDB's
 +internal integer id) is replaced by those properties.
 +
-+Connection string: ``falkordb://host:port`` (``falkordb://`` alone means
-+``localhost:6379``); graph name defaults to ``graphrag``, the contrib store's
++Connection string: ``falkordb://host:port``; both parts are required (the
++graphrag-toolkit FalkorDB factory returns no store for a bare ``falkordb://``, so
++Scan would fail on it). Graph name defaults to ``graphrag``, the contrib store's
 +default database.
 +"""
 +
@@ -126,15 +130,12 @@ index 0000000..c36e129
 +
 +
 +def parse_falkordb_uri(uri: str) -> tuple[str, int]:
-+    """Return (host, port) for ``falkordb://[host:port]``."""
++    """Return (host, port) for ``falkordb://host:port`` (both required)."""
 +    if not uri.startswith(FALKORDB_PREFIX):
 +        raise ValueError(f"not a falkordb:// URI: {uri!r}")
-+    rest = uri[len(FALKORDB_PREFIX) :].strip("/")
-+    if not rest:
-+        return "localhost", 6379
-+    host, _, port = rest.rpartition(":")
-+    if not host:
-+        return rest, 6379
++    host, _, port = uri[len(FALKORDB_PREFIX) :].strip("/").rpartition(":")
++    if not host or not port.isdigit():
++        raise ValueError(f"FalkorDB URI needs host:port, e.g. falkordb://localhost:6379; got {uri!r}")
 +    return host, int(port)
 +
 +
@@ -187,10 +188,10 @@ index 0000000..c36e129
 +        except Exception as e:
 +            return {"status": "unhealthy", "backend": "falkordb", "error": str(e)}
 diff --git a/packages/sources/src/coa_sources/documents/kg_build/graph_build.py b/packages/sources/src/coa_sources/documents/kg_build/graph_build.py
-index 0e479c5..bc4aa51 100644
+index 0e479c5..c9dcbc8 100644
 --- a/packages/sources/src/coa_sources/documents/kg_build/graph_build.py
 +++ b/packages/sources/src/coa_sources/documents/kg_build/graph_build.py
-@@ -1054,6 +1054,43 @@ def _patch_graphrag_bulk_ingest_retry() -> None:
+@@ -1054,6 +1054,47 @@ def _patch_graphrag_bulk_ingest_retry() -> None:
      _graphrag_bulk_ingest_patched = True
  
  
@@ -203,6 +204,10 @@ index 0e479c5..bc4aa51 100644
 +    """
 +    if not graph_store_uri.startswith("falkordb://"):
 +        return
++    host, _, port = graph_store_uri[len("falkordb://") :].strip("/").rpartition(":")
++    if not host or not port.isdigit():
++        # graphrag's FalkorDBGraphStoreFactory returns None for an empty endpoint.
++        raise ValueError(f"GRAPH_STORE_URI needs host:port, e.g. falkordb://localhost:6379; got {graph_store_uri!r}")
 +    from graphrag_toolkit.lexical_graph.storage import GraphStoreFactory
 +    from graphrag_toolkit_contrib.lexical_graph.storage.graph.falkordb import FalkorDBGraphStoreFactory
 +
@@ -234,7 +239,7 @@ index 0e479c5..bc4aa51 100644
  def _setup_graphrag(tenant_id: str):
      """Configure GraphRAG and return (graph_store_uri, vector_store_uri)."""
      # Patch BEFORE importing graphrag — the monkey-patch must replace index_exists
-@@ -1165,13 +1202,7 @@ def _setup_graphrag(tenant_id: str):
+@@ -1165,13 +1206,7 @@ def _setup_graphrag(tenant_id: str):
      if USE_BATCH_INFERENCE:
          GraphRAGConfig.extraction_batch_size = EXTRACTION_BATCH_SIZE
  
@@ -249,7 +254,7 @@ index 0e479c5..bc4aa51 100644
  
      # NOTE: chunking is intentionally NOT overridden here. With no SentenceSplitter
      # in the IndexingConfig, the toolkit falls back to its default
-@@ -1500,18 +1531,27 @@ def _check_backend_health(
+@@ -1500,18 +1535,27 @@ def _check_backend_health(
          )
          return False
  

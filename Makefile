@@ -7,7 +7,7 @@ data:
 lint:
 	.venv/bin/ruff check src tests
 test:
-	.venv/bin/pytest -q -m "not live"
+	.venv/bin/pytest -q -m "not live and not network"
 check: lint test
 web-check:
 	cd app/web && npm ci && npm run lint --if-present && npm test --if-present && npm run build
