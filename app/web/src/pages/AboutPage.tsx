@@ -28,8 +28,8 @@ export function AboutPage() {
               dharmalekha.info
             </a>{' '}
             ·{' '}
-            <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">
-              CC BY 4.0
+            <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">
+              CC BY-SA 4.0
             </a>
           </p>
           <p>{t('about.data2')}</p>

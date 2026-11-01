@@ -1,4 +1,4 @@
-"""Ontology interface used by the agent, with a stub until issue #2 lands.
+"""Ontology interface used by the agent: the real ``ezhuthu.ontology.lookup`` API, or a stub for fixtures.
 
 The Ontology team's API (issue #2) is ``ezhuthu.ontology.lookup`` with ``find_entities(text)``,
 ``valid_letters(stage)``, ``formulas_for(ruler)``, ``entity(id)`` and ``hints_for_gap(left, right)``.
@@ -33,6 +33,7 @@ class Hint:
     kind: str
     label: str
     label_ta: str | None = None
+    fill: str | None = None  # the real API's proposed gap text for this entity, when it has one
 
     def to_api(self) -> dict[str, str]:
         kind = _API_KIND.get(self.kind, self.kind)
@@ -129,7 +130,8 @@ class ModuleOntology:
         if isinstance(x, Hint):
             return x
         d = x if isinstance(x, dict) else vars(x)
-        return Hint(d["id"], d.get("kind", ""), d.get("label_iso") or d.get("label", ""), d.get("label_ta"))
+        return Hint(d["id"], d.get("kind", ""), d.get("label_iso") or d.get("label", ""), d.get("label_ta"),
+                    d.get("fill") or None)
 
     def hints_for_gap(self, left: str, right: str) -> list[Hint]:
         return [self._to_hint(x) for x in self.m.hints_for_gap(left, right)]
@@ -139,7 +141,10 @@ class ModuleOntology:
 
     def valid_letters(self, stage: str) -> set[str] | None:
         v = self.m.valid_letters(stage)
-        return set(v) if v is not None else None
+        if v is None:
+            return None
+        # the real API returns letter records ({"iso": ..., ...}); older shapes return plain strings
+        return {x.get("iso") or x.get("letter") or x.get("id") if isinstance(x, dict) else x for x in v} - {None}
 
     def entity(self, entity_id: str) -> dict[str, Any] | None:
         e = self.m.entity(entity_id)
@@ -148,6 +153,10 @@ class ModuleOntology:
 
 @lru_cache(maxsize=1)
 def get_ontology() -> OntologyPort:
+    # The synthetic fixture corpus names synthetic entities (fixtures/ontology_stub.json); pair it with
+    # that stub so fixture runs stay self-consistent. Real benchmark data uses the real ontology.
+    if os.environ.get("EZHUTHU_FIXTURES") == "1":
+        return StubOntology(json.loads((FIXTURES_DIR / "ontology_stub.json").read_text(encoding="utf-8")))
     try:
         mod = importlib.import_module("ezhuthu.ontology.lookup")
         if all(hasattr(mod, f) for f in ("hints_for_gap", "find_entities", "valid_letters", "entity")):

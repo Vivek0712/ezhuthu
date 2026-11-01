@@ -7,7 +7,7 @@ from ezhuthu.agent.baselines import copy_best_parallel, ngram_fill, zero_shot
 from ezhuthu.agent.config import load_models_config
 from ezhuthu.agent.decider import FakeDecider, HttpDecider, NoDecider
 from ezhuthu.agent.llm import BedrockLLM, FakeLLM, LiveCallsDisabled
-from ezhuthu.agent.ontology_port import StubOntology, get_ontology
+from ezhuthu.agent.ontology_port import ModuleOntology, StubOntology, get_ontology
 from ezhuthu.agent.prompts import parse_candidates
 from ezhuthu.agent.restorer import Restorer
 from ezhuthu.agent.tools import make_tools
@@ -160,7 +160,7 @@ def test_strands_tools_wrap_engine():
 
 
 def test_ontology_stub_and_port():
-    onto = get_ontology()
+    onto = get_ontology()  # EZHUTHU_FIXTURES=1 (conftest): the synthetic corpus pairs with the stub
     assert isinstance(onto, StubOntology)
     hints = onto.hints_for_gap("cantirātittavar ", " ivai")
     assert any(h.id == "ez:formula/candradityavar" for h in hints)
@@ -170,3 +170,29 @@ def test_ontology_stub_and_port():
 def test_http_decider_unreachable_is_unavailable():
     d = HttpDecider("http://127.0.0.1:9")
     assert d.available() is False
+
+
+def test_real_ontology_port_and_fill_candidates(monkeypatch):
+    """Without fixtures the agent uses the real ezhuthu.ontology.lookup API, and its gap fills become
+    ontology-sourced candidates (cantirātittavar[aiyum] is the real moon-and-sun formula)."""
+    monkeypatch.delenv("EZHUTHU_FIXTURES", raising=False)
+    get_ontology.cache_clear()
+    try:
+        onto = get_ontology()
+        assert isinstance(onto, ModuleOntology)
+        hints = onto.hints_for_gap("cantirātittavar", " ivai")
+        h = next(h for h in hints if h.id == "ez:formula/candradityavat")
+        assert h.fill == "aiyum" and h.to_api()["kind"] == "formula"
+        ents = {h.id for h in onto.find_entities("svasti śrī rājakēsari yāṇṭu")}
+        assert {"ez:formula/svasti-sri", "ez:title/rajakesarivarman"} <= ents
+        letters = onto.valid_letters("tamil-brahmi-1")
+        assert letters and "a" in letters and all(isinstance(x, str) for x in letters)
+        r = Restorer(decider=NoDecider(), ontology=onto)
+        with_onto = r.restore_gap("cantirātittavar", " ivai", 5)
+        onto_cands = [c for c in with_onto.candidates if "ontology" in c.sources]
+        assert [c.text for c in onto_cands] == ["aiyum"]
+        without = Restorer(decider=NoDecider(), ontology=onto, use_ontology=False).restore_gap(
+            "cantirātittavar", " ivai", 5)
+        assert not any("ontology" in c.sources for c in without.candidates)
+    finally:
+        get_ontology.cache_clear()

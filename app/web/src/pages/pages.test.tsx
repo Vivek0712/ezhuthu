@@ -38,13 +38,17 @@ describe('Learn page', () => {
     expect(await screen.findByRole('heading', { level: 1, name: /Mangulam/ })).toBeInTheDocument();
     expect(screen.getByTestId('glyph-tile')).toHaveAttribute('data-level', 'L5');
     expect(screen.getByTestId('glyph-tile').querySelector('.script-brahmi')).toHaveTextContent('\u{11013}');
+    expect(screen.queryByTestId('restored-text')).toBeNull(); // would leak the answer
     await user.type(screen.getByTestId('answer-input'), 'ம');
     await user.click(screen.getByTestId('check-answer'));
     expect(await screen.findByTestId('feedback')).toHaveTextContent('Hint');
+    expect(screen.queryByTestId('restored-text')).toBeNull(); // a wrong answer must not reveal it either
     await user.type(screen.getByTestId('answer-input'), 'க');
     await user.click(screen.getByTestId('check-answer'));
+    expect(await screen.findByTestId('restored-text')).toBeInTheDocument(); // resolved: safe to show
     await user.click(await screen.findByTestId('next-item'));
     expect(screen.getByTestId('item-counter')).toHaveTextContent('Item 2 of 4');
+    expect(screen.queryByTestId('restored-text')).toBeNull();
     expect(window.localStorage.getItem('ezhuthu.session_id')).toMatch(/^mock-session-/);
   });
   it('renders Vatteluttu as an image, never as inline markup', async () => {
@@ -99,12 +103,13 @@ describe('protected pages', () => {
 });
 
 describe('About page', () => {
-  it('credits DHARMA under CC BY 4.0 and uses the approved branding', () => {
+  it('credits DHARMA under CC BY-SA 4.0 and uses the approved branding', () => {
     renderApp(<AppRoutes />, { route: '/about' });
     const credits = screen.getByTestId('credits');
     expect(credits).toHaveTextContent('DHARMA');
-    expect(within(credits).getByRole('link', { name: 'CC BY 4.0' })).toBeInTheDocument();
-    expect(credits).toHaveTextContent('Built with Strands Agents. Built with AWS Context Ontology Accelerator.');
+    expect(within(credits).getByRole('link', { name: 'CC BY-SA 4.0' })).toBeInTheDocument();
+    expect(credits).toHaveTextContent('Built with Strands Agents.');
+    expect(document.body.textContent).not.toMatch(/Context Ontology Accelerator|CC BY 4\.0/);
     expect(document.body.textContent).not.toMatch(/Strands AI|AWS AI\b/);
   });
 });
