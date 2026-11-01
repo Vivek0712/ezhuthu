@@ -1,0 +1,2210 @@
+{
+ "meta": {
+  "date": "2026-11-01T22:35:14+00:00",
+  "split": "val",
+  "subset": "full",
+  "limit": 20,
+  "n": 20,
+  "router": "sonnet",
+  "use_ontology": false,
+  "decider": "strands-decider-2B-qwen3.5-v1-2610",
+  "data_dir": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/w3-restorer/benchmark",
+  "data_commit": "6a4449cbd1b0efda325a69658aa79cf5166e8fa9",
+  "copy_top1": 0.0,
+  "usage": {
+   "calls": 20,
+   "cached_calls": 100,
+   "input_tokens": {
+    "sonnet": 19803
+   },
+   "output_tokens": {
+    "sonnet": 2081
+   },
+   "estimated_cost_usd": 0.0906,
+   "price_basis": "USD/MTok list prices in ezhuthu.agent.llm.PRICE_PER_MTOK"
+  },
+  "max_live_calls": 26,
+  "budget_exhausted": 0,
+  "notes": [
+   "Live sanity run: us.anthropic.claude-sonnet-4-6 (router sonnet, no Opus escalation) on the first 20 VAL items; the first variant makes the Bedrock calls, every later variant reuses the cached replies (identical prompts), so all variants score the same LLM candidates.",
+   "Ontology off (the shipped ontology build reads val/test inscriptions).",
+   "n=20: calibration parameters fitted on 20 items are weak; the llm-keyed entries are provisional."
+  ],
+  "calibration_file": "/private/tmp/claude-501/-Users-vivekrajaps-tamil-script/310306a5-bec0-4456-b84a-fd0e629aed33/scratchpad/w3r/cal-llm.json",
+  "command": "python -m ezhuthu.eval.calibrate --split val --limit 20 --router sonnet --no-ontology --max-live-calls 26 --rpm 20 --variants choice-topk:3,choice-topk:5,noul-topk:3,choice-all,prerank,fallback --calibration-out /private/tmp/claude-501/-Users-vivekrajaps-tamil-script/310306a5-bec0-4456-b84a-fd0e629aed33/scratchpad/w3r/cal-llm.json --name restorer-val-live-sonnet --note Live sanity run: us.anthropic.claude-sonnet-4-6 (router sonnet, no Opus escalation) on the first 20 VAL items; the first variant makes the Bedrock calls, every later variant reuses the cached replies (identical prompts), so all variants score the same LLM candidates. --note Ontology off (the shipped ontology build reads val/test inscriptions). --note n=20: calibration parameters fitted on 20 items are weak; the llm-keyed entries are provisional."
+ },
+ "variants": {
+  "choice-topk:3": {
+   "summary": {
+    "key": "strands-decider-2B-qwen3.5-v1-2610|choice-topk|k3|llm",
+    "n": 20,
+    "errors": 0,
+    "top1": 0.0,
+    "oracle": 0.25,
+    "raw_mean_top1_conf": 0.3125,
+    "raw_max_top1_conf": 0.6614,
+    "ece_raw": 0.3125,
+    "ece_calibrated_in_sample": 0.0778,
+    "ece_calibrated_cv5": 0.098,
+    "at_raw_0.5": {
+     "coverage": 0.1,
+     "accuracy": 0.0,
+     "net_right_minus_wrong": -2
+    },
+    "at_fitted_in_sample": {
+     "coverage": 0.0,
+     "accuracy": null,
+     "net_right_minus_wrong": 0
+    },
+    "at_fitted_cv5": {
+     "coverage": 0.0,
+     "accuracy": null,
+     "net_right_minus_wrong": 0
+    },
+    "coverage_raw": [
+     {
+      "threshold": 0.0,
+      "coverage": 1.0,
+      "accuracy": 0.0
+     },
+     {
+      "threshold": 0.3,
+      "coverage": 0.4,
+      "accuracy": 0.0
+     },
+     {
+      "threshold": 0.5,
+      "coverage": 0.1,
+      "accuracy": 0.0
+     },
+     {
+      "threshold": 0.6,
+      "coverage": 0.05,
+      "accuracy": 0.0
+     },
+     {
+      "threshold": 0.7,
+      "coverage": 0.0,
+      "accuracy": null
+     },
+     {
+      "threshold": 0.8,
+      "coverage": 0.0,
+      "accuracy": null
+     },
+     {
+      "threshold": 0.9,
+      "coverage": 0.0,
+      "accuracy": null
+     }
+    ],
+    "calibration": {
+     "a": 1.477813,
+     "b": -1.555953,
+     "threshold": 1.0
+    },
+    "llm_truncated": 0,
+    "llm_retries": 0,
+    "latency_ms_p50": 3517.2
+   },
+   "vs_copy": {
+    "both": 0,
+    "only_variant": 0,
+    "only_copy": 0
+   },
+   "rows": [
+    {
+     "id": "DHARMA_INSCirkali00008:1:0",
+     "target": "yañ ceytā",
+     "hard": true,
+     "top1": "ṇiyāṟ",
+     "raw": 0.1533,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 4628.4
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:1:1",
+     "target": "ṇi",
+     "hard": true,
+     "top1": "ṇ",
+     "raw": 0.2867,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 4309.7
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:0",
+     "target": "Uṭaiyār tiru-k-kaḻu",
+     "hard": true,
+     "top1": "tiru-k-kaḻu",
+     "raw": 0.4497,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3918.7
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:1",
+     "target": "rājātirāja-vaḷa-nāṭṭu-t",
+     "hard": true,
+     "top1": "vaḷanāṭṭu-t",
+     "raw": 0.421,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 4447.2
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:2",
+     "target": "tiruvāli-y-āṉa",
+     "hard": true,
+     "top1": "nāṭṭu",
+     "raw": 0.2069,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3969.1
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:3",
+     "target": "ricai",
+     "hard": true,
+     "top1": "ṭṭi",
+     "raw": 0.2137,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 4134.8
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:5:0",
+     "target": "nāmattu-k-kāṇi",
+     "hard": true,
+     "top1": "p-paḷḷi eḻu",
+     "raw": 0.2459,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3881.9
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:6:0",
+     "target": "ṭāṉ Irājātirāja",
+     "hard": true,
+     "top1": "ādhirāja",
+     "raw": 0.6614,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3317.1
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:7:0",
+     "target": "ni",
+     "hard": true,
+     "top1": "ā",
+     "raw": 0.2551,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3134.3
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:8:0",
+     "target": "āṟi",
+     "hard": true,
+     "top1": "mu",
+     "raw": 0.303,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3473.3
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:8:1",
+     "target": "pa",
+     "hard": true,
+     "top1": "ā",
+     "raw": 0.2605,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3352.7
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:9:0",
+     "target": "vat-āka",
+     "hard": true,
+     "top1": "vat'",
+     "raw": 0.2846,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3517.2
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:1:0",
+     "target": "ṉ",
+     "hard": true,
+     "top1": "m",
+     "raw": 0.1929,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3373.2
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:1:1",
+     "target": "ṭu",
+     "hard": true,
+     "top1": "u",
+     "raw": 0.3218,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2810.2
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:2:0",
+     "target": "ṇaiyūr",
+     "hard": true,
+     "top1": "ṇāṭṭ",
+     "raw": 0.3272,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3951.1
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:2:2",
+     "target": "ni",
+     "hard": true,
+     "top1": "ṉ",
+     "raw": 0.2734,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2914.4
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:3:0",
+     "target": "k",
+     "hard": true,
+     "top1": "ṉ",
+     "raw": 0.2726,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3864.0
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:6:0",
+     "target": "m",
+     "hard": true,
+     "top1": "m .",
+     "raw": 0.5386,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3052.5
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:8:1",
+     "target": "kū",
+     "hard": true,
+     "top1": "itu",
+     "raw": 0.3832,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3222.4
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:9:0",
+     "target": "tt' eṉṟum",
+     "hard": true,
+     "top1": "evaṟku",
+     "raw": 0.198,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3359.5
+    }
+   ],
+   "seconds": 72.6
+  },
+  "choice-topk:5": {
+   "summary": {
+    "key": "strands-decider-2B-qwen3.5-v1-2610|choice-topk|k5|llm",
+    "n": 20,
+    "errors": 0,
+    "top1": 0.05,
+    "oracle": 0.25,
+    "raw_mean_top1_conf": 0.3115,
+    "raw_max_top1_conf": 0.605,
+    "ece_raw": 0.2615,
+    "ece_calibrated_in_sample": 0.0889,
+    "ece_calibrated_cv5": 0.0843,
+    "at_raw_0.5": {
+     "coverage": 0.05,
+     "accuracy": 0.0,
+     "net_right_minus_wrong": -1
+    },
+    "at_fitted_in_sample": {
+     "coverage": 0.0,
+     "accuracy": null,
+     "net_right_minus_wrong": 0
+    },
+    "at_fitted_cv5": {
+     "coverage": 0.0,
+     "accuracy": null,
+     "net_right_minus_wrong": 0
+    },
+    "coverage_raw": [
+     {
+      "threshold": 0.0,
+      "coverage": 1.0,
+      "accuracy": 0.05
+     },
+     {
+      "threshold": 0.3,
+      "coverage": 0.45,
+      "accuracy": 0.1111
+     },
+     {
+      "threshold": 0.5,
+      "coverage": 0.05,
+      "accuracy": 0.0
+     },
+     {
+      "threshold": 0.6,
+      "coverage": 0.05,
+      "accuracy": 0.0
+     },
+     {
+      "threshold": 0.7,
+      "coverage": 0.0,
+      "accuracy": null
+     },
+     {
+      "threshold": 0.8,
+      "coverage": 0.0,
+      "accuracy": null
+     },
+     {
+      "threshold": 0.9,
+      "coverage": 0.0,
+      "accuracy": null
+     }
+    ],
+    "calibration": {
+     "a": 1.375921,
+     "b": -1.148827,
+     "threshold": 1.0
+    },
+    "llm_truncated": 0,
+    "llm_retries": 0,
+    "latency_ms_p50": 2095.3
+   },
+   "vs_copy": {
+    "both": 0,
+    "only_variant": 1,
+    "only_copy": 0
+   },
+   "rows": [
+    {
+     "id": "DHARMA_INSCirkali00008:1:0",
+     "target": "yañ ceytā",
+     "hard": true,
+     "top1": "ṇiyā",
+     "raw": 0.3715,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2359.7
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:1:1",
+     "target": "ṇi",
+     "hard": true,
+     "top1": "ṇi",
+     "raw": 0.326,
+     "correct": true,
+     "oracle": true,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2186.5
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:0",
+     "target": "Uṭaiyār tiru-k-kaḻu",
+     "hard": true,
+     "top1": "tiru-k-kaḻu",
+     "raw": 0.4085,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 1958.2
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:1",
+     "target": "rājātirāja-vaḷa-nāṭṭu-t",
+     "hard": true,
+     "top1": "vaḷanāṭṭu-t",
+     "raw": 0.316,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 1757.3
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:2",
+     "target": "tiruvāli-y-āṉa",
+     "hard": true,
+     "top1": "nāṭṭu-p",
+     "raw": 0.2045,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2080.9
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:3",
+     "target": "ricai",
+     "hard": true,
+     "top1": "ṭṭi-k",
+     "raw": 0.208,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 1937.7
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:5:0",
+     "target": "nāmattu-k-kāṇi",
+     "hard": true,
+     "top1": "p-paḷḷi",
+     "raw": 0.2624,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2088.5
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:6:0",
+     "target": "ṭāṉ Irājātirāja",
+     "hard": true,
+     "top1": "ādhirāja",
+     "raw": 0.605,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 1897.3
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:7:0",
+     "target": "ni",
+     "hard": true,
+     "top1": "o",
+     "raw": 0.3117,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2366.6
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:8:0",
+     "target": "āṟi",
+     "hard": true,
+     "top1": "mu",
+     "raw": 0.2528,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2187.6
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:8:1",
+     "target": "pa",
+     "hard": true,
+     "top1": "ā",
+     "raw": 0.2162,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2140.8
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:9:0",
+     "target": "vat-āka",
+     "hard": true,
+     "top1": "vat'",
+     "raw": 0.2466,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2424.3
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:1:0",
+     "target": "ṉ",
+     "hard": true,
+     "top1": "-",
+     "raw": 0.275,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 1979.3
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:1:1",
+     "target": "ṭu",
+     "hard": true,
+     "top1": "u",
+     "raw": 0.2354,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 1632.4
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:2:0",
+     "target": "ṇaiyūr",
+     "hard": true,
+     "top1": "ṇāṭṭu",
+     "raw": 0.4224,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2095.3
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:2:2",
+     "target": "ni",
+     "hard": true,
+     "top1": "ṉ",
+     "raw": 0.2219,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2116.4
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:3:0",
+     "target": "k",
+     "hard": true,
+     "top1": "ṉ",
+     "raw": 0.2363,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2574.5
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:6:0",
+     "target": "m",
+     "hard": true,
+     "top1": "m .",
+     "raw": 0.4934,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2452.2
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:8:1",
+     "target": "kū",
+     "hard": true,
+     "top1": "itu",
+     "raw": 0.2711,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 1869.2
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:9:0",
+     "target": "tt' eṉṟum",
+     "hard": true,
+     "top1": "2 1/80",
+     "raw": 0.3462,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2077.3
+    }
+   ],
+   "seconds": 42.2
+  },
+  "noul-topk:3": {
+   "summary": {
+    "key": "strands-decider-2B-qwen3.5-v1-2610|noul-topk|k3|llm",
+    "n": 20,
+    "errors": 0,
+    "top1": 0.0,
+    "oracle": 0.25,
+    "raw_mean_top1_conf": 0.5725,
+    "raw_max_top1_conf": 0.7164,
+    "ece_raw": 0.5725,
+    "ece_calibrated_in_sample": 0.1092,
+    "ece_calibrated_cv5": 0.1277,
+    "at_raw_0.5": {
+     "coverage": 0.75,
+     "accuracy": 0.0,
+     "net_right_minus_wrong": -15
+    },
+    "at_fitted_in_sample": {
+     "coverage": 0.0,
+     "accuracy": null,
+     "net_right_minus_wrong": 0
+    },
+    "at_fitted_cv5": {
+     "coverage": 0.0,
+     "accuracy": null,
+     "net_right_minus_wrong": 0
+    },
+    "coverage_raw": [
+     {
+      "threshold": 0.0,
+      "coverage": 1.0,
+      "accuracy": 0.0
+     },
+     {
+      "threshold": 0.3,
+      "coverage": 1.0,
+      "accuracy": 0.0
+     },
+     {
+      "threshold": 0.5,
+      "coverage": 0.75,
+      "accuracy": 0.0
+     },
+     {
+      "threshold": 0.6,
+      "coverage": 0.4,
+      "accuracy": 0.0
+     },
+     {
+      "threshold": 0.7,
+      "coverage": 0.05,
+      "accuracy": 0.0
+     },
+     {
+      "threshold": 0.8,
+      "coverage": 0.0,
+      "accuracy": null
+     },
+     {
+      "threshold": 0.9,
+      "coverage": 0.0,
+      "accuracy": null
+     }
+    ],
+    "calibration": {
+     "a": 0.269836,
+     "b": -2.184105,
+     "threshold": 1.0
+    },
+    "llm_truncated": 0,
+    "llm_retries": 0,
+    "latency_ms_p50": 5476.3
+   },
+   "vs_copy": {
+    "both": 0,
+    "only_variant": 0,
+    "only_copy": 0
+   },
+   "rows": [
+    {
+     "id": "DHARMA_INSCirkali00008:1:0",
+     "target": "yañ ceytā",
+     "hard": true,
+     "top1": "iṭāvū",
+     "raw": 0.4418,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 4660.6
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:1:1",
+     "target": "ṇi",
+     "hard": true,
+     "top1": "ṇ",
+     "raw": 0.7164,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 5718.1
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:0",
+     "target": "Uṭaiyār tiru-k-kaḻu",
+     "hard": true,
+     "top1": "tiru-k-kaḻu",
+     "raw": 0.6816,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 5581.4
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:1",
+     "target": "rājātirāja-vaḷa-nāṭṭu-t",
+     "hard": true,
+     "top1": "vaḷanāṭṭu-t",
+     "raw": 0.5627,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 4905.0
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:2",
+     "target": "tiruvāli-y-āṉa",
+     "hard": true,
+     "top1": "nāṭṭu",
+     "raw": 0.5125,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 5924.2
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:3",
+     "target": "ricai",
+     "hard": true,
+     "top1": "ṉa",
+     "raw": 0.4932,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 4630.1
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:5:0",
+     "target": "nāmattu-k-kāṇi",
+     "hard": true,
+     "top1": "nanta-v",
+     "raw": 0.4908,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3728.1
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:6:0",
+     "target": "ṭāṉ Irājātirāja",
+     "hard": true,
+     "top1": "ādhirāja",
+     "raw": 0.6727,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 5546.6
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:7:0",
+     "target": "ni",
+     "hard": true,
+     "top1": "ā",
+     "raw": 0.5257,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 5849.8
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:8:0",
+     "target": "āṟi",
+     "hard": true,
+     "top1": "mu",
+     "raw": 0.5573,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 6558.2
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:8:1",
+     "target": "pa",
+     "hard": true,
+     "top1": "ā",
+     "raw": 0.6102,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 8159.9
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:9:0",
+     "target": "vat-āka",
+     "hard": true,
+     "top1": "vat'",
+     "raw": 0.5897,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 6776.2
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:1:0",
+     "target": "ṉ",
+     "hard": true,
+     "top1": "r",
+     "raw": 0.417,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 5476.3
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:1:1",
+     "target": "ṭu",
+     "hard": true,
+     "top1": "u",
+     "raw": 0.666,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 4255.8
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:2:0",
+     "target": "ṇaiyūr",
+     "hard": true,
+     "top1": "ṇāṭṭ",
+     "raw": 0.5603,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 4944.7
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:2:2",
+     "target": "ni",
+     "hard": true,
+     "top1": "ṉ",
+     "raw": 0.6397,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 4111.1
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:3:0",
+     "target": "k",
+     "hard": true,
+     "top1": "ṉ",
+     "raw": 0.5779,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 6160.2
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:6:0",
+     "target": "m",
+     "hard": true,
+     "top1": "m .",
+     "raw": 0.6771,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 4084.1
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:8:1",
+     "target": "kū",
+     "hard": true,
+     "top1": "itu",
+     "raw": 0.6459,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 4198.9
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:9:0",
+     "target": "tt' eṉṟum",
+     "hard": true,
+     "top1": "evaṟku",
+     "raw": 0.4113,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3611.2
+    }
+   ],
+   "seconds": 104.9
+  },
+  "choice-all": {
+   "summary": {
+    "key": "strands-decider-2B-qwen3.5-v1-2610|choice-all|kall|llm",
+    "n": 20,
+    "errors": 0,
+    "top1": 0.05,
+    "oracle": 0.25,
+    "raw_mean_top1_conf": 0.2005,
+    "raw_max_top1_conf": 0.4719,
+    "ece_raw": 0.1505,
+    "ece_calibrated_in_sample": 0.0333,
+    "ece_calibrated_cv5": 0.0725,
+    "at_raw_0.5": {
+     "coverage": 0.0,
+     "accuracy": null,
+     "net_right_minus_wrong": 0
+    },
+    "at_fitted_in_sample": {
+     "coverage": 0.0,
+     "accuracy": null,
+     "net_right_minus_wrong": 0
+    },
+    "at_fitted_cv5": {
+     "coverage": 0.0,
+     "accuracy": null,
+     "net_right_minus_wrong": 0
+    },
+    "coverage_raw": [
+     {
+      "threshold": 0.0,
+      "coverage": 1.0,
+      "accuracy": 0.05
+     },
+     {
+      "threshold": 0.3,
+      "coverage": 0.1,
+      "accuracy": 0.0
+     },
+     {
+      "threshold": 0.5,
+      "coverage": 0.0,
+      "accuracy": null
+     },
+     {
+      "threshold": 0.6,
+      "coverage": 0.0,
+      "accuracy": null
+     },
+     {
+      "threshold": 0.7,
+      "coverage": 0.0,
+      "accuracy": null
+     },
+     {
+      "threshold": 0.8,
+      "coverage": 0.0,
+      "accuracy": null
+     },
+     {
+      "threshold": 0.9,
+      "coverage": 0.0,
+      "accuracy": null
+     }
+    ],
+    "calibration": {
+     "a": 1.336674,
+     "b": -0.660092,
+     "threshold": 1.0
+    },
+    "llm_truncated": 0,
+    "llm_retries": 0,
+    "latency_ms_p50": 3060.1
+   },
+   "vs_copy": {
+    "both": 0,
+    "only_variant": 1,
+    "only_copy": 0
+   },
+   "rows": [
+    {
+     "id": "DHARMA_INSCirkali00008:1:0",
+     "target": "yañ ceytā",
+     "hard": true,
+     "top1": "ṇiyā",
+     "raw": 0.2194,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3291.9
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:1:1",
+     "target": "ṇi",
+     "hard": true,
+     "top1": "ṇi",
+     "raw": 0.1889,
+     "correct": true,
+     "oracle": true,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3470.5
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:0",
+     "target": "Uṭaiyār tiru-k-kaḻu",
+     "hard": true,
+     "top1": "tiru-k-kaḻumalattu",
+     "raw": 0.1371,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3651.1
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:1",
+     "target": "rājātirāja-vaḷa-nāṭṭu-t",
+     "hard": true,
+     "top1": "vaḷanāṭṭu-t",
+     "raw": 0.2118,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2882.8
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:2",
+     "target": "tiruvāli-y-āṉa",
+     "hard": true,
+     "top1": "nāṭṭu-p",
+     "raw": 0.111,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3871.0
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:3",
+     "target": "ricai",
+     "hard": true,
+     "top1": "ṭṭi-k",
+     "raw": 0.122,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3162.8
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:5:0",
+     "target": "nāmattu-k-kāṇi",
+     "hard": true,
+     "top1": "p-paḷḷi",
+     "raw": 0.1666,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3154.7
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:6:0",
+     "target": "ṭāṉ Irājātirāja",
+     "hard": true,
+     "top1": "ādhirāja",
+     "raw": 0.4719,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2862.3
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:7:0",
+     "target": "ni",
+     "hard": true,
+     "top1": "o",
+     "raw": 0.2241,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2809.6
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:8:0",
+     "target": "āṟi",
+     "hard": true,
+     "top1": "mu",
+     "raw": 0.1466,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3655.5
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:8:1",
+     "target": "pa",
+     "hard": true,
+     "top1": "ā",
+     "raw": 0.1499,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3019.4
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:9:0",
+     "target": "vat-āka",
+     "hard": true,
+     "top1": "ḷum",
+     "raw": 0.2247,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3069.7
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:1:0",
+     "target": "ṉ",
+     "hard": true,
+     "top1": "-",
+     "raw": 0.1682,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2760.9
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:1:1",
+     "target": "ṭu",
+     "hard": true,
+     "top1": "t",
+     "raw": 0.1545,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2410.0
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:2:0",
+     "target": "ṇaiyūr",
+     "hard": true,
+     "top1": "ṇāṭṭu",
+     "raw": 0.2923,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3060.1
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:2:2",
+     "target": "ni",
+     "hard": true,
+     "top1": "ṉ",
+     "raw": 0.1407,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2587.6
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:3:0",
+     "target": "k",
+     "hard": true,
+     "top1": "a",
+     "raw": 0.1662,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2668.7
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:6:0",
+     "target": "m",
+     "hard": true,
+     "top1": "m .",
+     "raw": 0.3867,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2083.3
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:8:1",
+     "target": "kū",
+     "hard": true,
+     "top1": "itu",
+     "raw": 0.1403,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 2892.4
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:9:0",
+     "target": "tt' eṉṟum",
+     "hard": true,
+     "top1": "2 1/80",
+     "raw": 0.1874,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 3260.6
+    }
+   ],
+   "seconds": 60.6
+  },
+  "prerank": {
+   "summary": {
+    "key": "prerank|prerank|kall|llm",
+    "n": 20,
+    "errors": 0,
+    "top1": 0.15,
+    "oracle": 0.25,
+    "raw_mean_top1_conf": 0.4839,
+    "raw_max_top1_conf": 0.944,
+    "ece_raw": 0.3395,
+    "ece_calibrated_in_sample": 0.1131,
+    "ece_calibrated_cv5": 0.1072,
+    "at_raw_0.5": {
+     "coverage": 0.45,
+     "accuracy": 0.2222,
+     "net_right_minus_wrong": -5
+    },
+    "at_fitted_in_sample": {
+     "coverage": 0.05,
+     "accuracy": 1.0,
+     "net_right_minus_wrong": 1
+    },
+    "at_fitted_cv5": {
+     "coverage": 0.0,
+     "accuracy": null,
+     "net_right_minus_wrong": 0
+    },
+    "coverage_raw": [
+     {
+      "threshold": 0.0,
+      "coverage": 1.0,
+      "accuracy": 0.15
+     },
+     {
+      "threshold": 0.3,
+      "coverage": 0.85,
+      "accuracy": 0.1765
+     },
+     {
+      "threshold": 0.5,
+      "coverage": 0.45,
+      "accuracy": 0.2222
+     },
+     {
+      "threshold": 0.6,
+      "coverage": 0.25,
+      "accuracy": 0.2
+     },
+     {
+      "threshold": 0.7,
+      "coverage": 0.25,
+      "accuracy": 0.2
+     },
+     {
+      "threshold": 0.8,
+      "coverage": 0.05,
+      "accuracy": 1.0
+     },
+     {
+      "threshold": 0.9,
+      "coverage": 0.05,
+      "accuracy": 1.0
+     }
+    ],
+    "calibration": {
+     "a": 0.711188,
+     "b": -1.388671,
+     "threshold": 0.6502
+    },
+    "llm_truncated": 0,
+    "llm_retries": 0,
+    "latency_ms_p50": 73.0
+   },
+   "vs_copy": {
+    "both": 0,
+    "only_variant": 3,
+    "only_copy": 0
+   },
+   "rows": [
+    {
+     "id": "DHARMA_INSCirkali00008:1:0",
+     "target": "yañ ceytā",
+     "hard": true,
+     "top1": "ṇiyāṟ",
+     "raw": 0.35,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "prerank",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 79.6
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:1:1",
+     "target": "ṇi",
+     "hard": true,
+     "top1": "ṇ",
+     "raw": 0.72,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "prerank",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 73.0
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:0",
+     "target": "Uṭaiyār tiru-k-kaḻu",
+     "hard": true,
+     "top1": "tiru-k-kaḻu",
+     "raw": 0.55,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "prerank",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 83.3
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:1",
+     "target": "rājātirāja-vaḷa-nāṭṭu-t",
+     "hard": true,
+     "top1": "irājādhirāja-vaḷanāṭṭu-t",
+     "raw": 0.175,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "prerank",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 79.9
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:2",
+     "target": "tiruvāli-y-āṉa",
+     "hard": true,
+     "top1": "nāṭṭu",
+     "raw": 0.35,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "prerank",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 78.1
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:3",
+     "target": "ricai",
+     "hard": true,
+     "top1": "ṭṭi",
+     "raw": 0.35,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "prerank",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 71.6
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:5:0",
+     "target": "nāmattu-k-kāṇi",
+     "hard": true,
+     "top1": "nanta-vaṉam",
+     "raw": 0.175,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "prerank",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 80.4
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:6:0",
+     "target": "ṭāṉ Irājātirāja",
+     "hard": true,
+     "top1": "irāja",
+     "raw": 0.35,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "prerank",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 82.0
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:7:0",
+     "target": "ni",
+     "hard": true,
+     "top1": "p",
+     "raw": 0.474337,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "prerank",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 70.3
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:8:0",
+     "target": "āṟi",
+     "hard": true,
+     "top1": "mu",
+     "raw": 0.35,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "prerank",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 73.9
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:8:1",
+     "target": "pa",
+     "hard": true,
+     "top1": "pa",
+     "raw": 0.35,
+     "correct": true,
+     "oracle": true,
+     "decider_model": "prerank",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 71.1
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:9:0",
+     "target": "vat-āka",
+     "hard": true,
+     "top1": "vat'",
+     "raw": 0.55,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "prerank",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 69.2
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:1:0",
+     "target": "ṉ",
+     "hard": true,
+     "top1": "r",
+     "raw": 0.746544,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "prerank",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 72.2
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:1:1",
+     "target": "ṭu",
+     "hard": true,
+     "top1": "u",
+     "raw": 0.76027,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "prerank",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 70.9
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:2:0",
+     "target": "ṇaiyūr",
+     "hard": true,
+     "top1": "ṇāṭ",
+     "raw": 0.45,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "prerank",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 78.7
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:2:2",
+     "target": "ni",
+     "hard": true,
+     "top1": "ṉ",
+     "raw": 0.78263,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "prerank",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 71.3
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:3:0",
+     "target": "k",
+     "hard": true,
+     "top1": "k",
+     "raw": 0.56,
+     "correct": true,
+     "oracle": true,
+     "decider_model": "prerank",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 72.3
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:6:0",
+     "target": "m",
+     "hard": true,
+     "top1": "m",
+     "raw": 0.943974,
+     "correct": true,
+     "oracle": true,
+     "decider_model": "prerank",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 72.0
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:8:1",
+     "target": "kū",
+     "hard": true,
+     "top1": "k",
+     "raw": 0.579277,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "prerank",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 70.8
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:9:0",
+     "target": "tt' eṉṟum",
+     "hard": true,
+     "top1": "koṇṭa nilam",
+     "raw": 0.11,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "prerank",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 75.8
+    }
+   ],
+   "seconds": 1.5
+  },
+  "fallback": {
+   "summary": {
+    "key": "fallback:llm-self-report|fallback|kall|llm",
+    "n": 20,
+    "errors": 0,
+    "top1": 0.15,
+    "oracle": 0.25,
+    "raw_mean_top1_conf": 0.496,
+    "raw_max_top1_conf": 0.92,
+    "ece_raw": 0.354,
+    "ece_calibrated_in_sample": 0.116,
+    "ece_calibrated_cv5": 0.0754,
+    "at_raw_0.5": {
+     "coverage": 0.45,
+     "accuracy": 0.2222,
+     "net_right_minus_wrong": -5
+    },
+    "at_fitted_in_sample": {
+     "coverage": 0.05,
+     "accuracy": 1.0,
+     "net_right_minus_wrong": 1
+    },
+    "at_fitted_cv5": {
+     "coverage": 0.0,
+     "accuracy": null,
+     "net_right_minus_wrong": 0
+    },
+    "coverage_raw": [
+     {
+      "threshold": 0.0,
+      "coverage": 1.0,
+      "accuracy": 0.15
+     },
+     {
+      "threshold": 0.3,
+      "coverage": 0.95,
+      "accuracy": 0.1579
+     },
+     {
+      "threshold": 0.5,
+      "coverage": 0.45,
+      "accuracy": 0.2222
+     },
+     {
+      "threshold": 0.6,
+      "coverage": 0.25,
+      "accuracy": 0.2
+     },
+     {
+      "threshold": 0.7,
+      "coverage": 0.25,
+      "accuracy": 0.2
+     },
+     {
+      "threshold": 0.8,
+      "coverage": 0.05,
+      "accuracy": 1.0
+     },
+     {
+      "threshold": 0.9,
+      "coverage": 0.05,
+      "accuracy": 1.0
+     }
+    ],
+    "calibration": {
+     "a": 0.802801,
+     "b": -1.396845,
+     "threshold": 0.6373
+    },
+    "llm_truncated": 0,
+    "llm_retries": 0,
+    "latency_ms_p50": 74.6
+   },
+   "vs_copy": {
+    "both": 0,
+    "only_variant": 3,
+    "only_copy": 0
+   },
+   "rows": [
+    {
+     "id": "DHARMA_INSCirkali00008:1:0",
+     "target": "yañ ceytā",
+     "hard": true,
+     "top1": "ṇiyāṟ",
+     "raw": 0.35,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "fallback:llm-self-report",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 75.5
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:1:1",
+     "target": "ṇi",
+     "hard": true,
+     "top1": "ṇ",
+     "raw": 0.72,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "fallback:llm-self-report",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 71.9
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:0",
+     "target": "Uṭaiyār tiru-k-kaḻu",
+     "hard": true,
+     "top1": "tiru-k-kaḻu",
+     "raw": 0.55,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "fallback:llm-self-report",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 78.5
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:1",
+     "target": "rājātirāja-vaḷa-nāṭṭu-t",
+     "hard": true,
+     "top1": "irājādhirāja-vaḷanāṭṭu-t",
+     "raw": 0.35,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "fallback:llm-self-report",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 74.7
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:2",
+     "target": "tiruvāli-y-āṉa",
+     "hard": true,
+     "top1": "nāṭṭu",
+     "raw": 0.35,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "fallback:llm-self-report",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 77.1
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:2:3",
+     "target": "ricai",
+     "hard": true,
+     "top1": "ṭṭi",
+     "raw": 0.35,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "fallback:llm-self-report",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 72.0
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:5:0",
+     "target": "nāmattu-k-kāṇi",
+     "hard": true,
+     "top1": "nanta-vaṉam",
+     "raw": 0.35,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "fallback:llm-self-report",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 82.4
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:6:0",
+     "target": "ṭāṉ Irājātirāja",
+     "hard": true,
+     "top1": "irāja",
+     "raw": 0.35,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "fallback:llm-self-report",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 79.9
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:7:0",
+     "target": "ni",
+     "hard": true,
+     "top1": "p",
+     "raw": 0.45,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "fallback:llm-self-report",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 72.8
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:8:0",
+     "target": "āṟi",
+     "hard": true,
+     "top1": "mu",
+     "raw": 0.35,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "fallback:llm-self-report",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 76.0
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:8:1",
+     "target": "pa",
+     "hard": true,
+     "top1": "pa",
+     "raw": 0.35,
+     "correct": true,
+     "oracle": true,
+     "decider_model": "fallback:llm-self-report",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 72.9
+    },
+    {
+     "id": "DHARMA_INSCirkali00008:9:0",
+     "target": "vat-āka",
+     "hard": true,
+     "top1": "vat'",
+     "raw": 0.55,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "fallback:llm-self-report",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 76.4
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:1:0",
+     "target": "ṉ",
+     "hard": true,
+     "top1": "r",
+     "raw": 0.72,
+     "correct": false,
+     "oracle": true,
+     "decider_model": "fallback:llm-self-report",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 69.8
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:1:1",
+     "target": "ṭu",
+     "hard": true,
+     "top1": "u",
+     "raw": 0.72,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "fallback:llm-self-report",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 71.9
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:2:0",
+     "target": "ṇaiyūr",
+     "hard": true,
+     "top1": "ṇāṭ",
+     "raw": 0.45,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "fallback:llm-self-report",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 74.6
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:2:2",
+     "target": "ni",
+     "hard": true,
+     "top1": "ṉ",
+     "raw": 0.72,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "fallback:llm-self-report",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 63.9
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:3:0",
+     "target": "k",
+     "hard": true,
+     "top1": "k",
+     "raw": 0.55,
+     "correct": true,
+     "oracle": true,
+     "decider_model": "fallback:llm-self-report",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 74.1
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:6:0",
+     "target": "m",
+     "hard": true,
+     "top1": "m",
+     "raw": 0.92,
+     "correct": true,
+     "oracle": true,
+     "decider_model": "fallback:llm-self-report",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 73.4
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:8:1",
+     "target": "kū",
+     "hard": true,
+     "top1": "k",
+     "raw": 0.55,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "fallback:llm-self-report",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 73.8
+    },
+    {
+     "id": "DHARMA_INSCirkali00013:9:0",
+     "target": "tt' eṉṟum",
+     "hard": true,
+     "top1": "koṇṭa nilam",
+     "raw": 0.22,
+     "correct": false,
+     "oracle": false,
+     "decider_model": "fallback:llm-self-report",
+     "llm": true,
+     "llm_truncated": 0,
+     "llm_retries": 0,
+     "latency_ms": 79.5
+    }
+   ],
+   "seconds": 1.5
+  }
+ }
+}

@@ -49,9 +49,7 @@ from ..agent.decider import (
     hosted_decider,
     request_chars,
 )
-from ..agent.prompts import RESTORER_SYSTEM, parse_candidates, propose_prompt
 from ..agent.restorer import Candidate, Restorer
-from ..agent.text import normalize_iso
 from ..agent.tutor import policy
 from .metrics import canon, coverage_curve, ece, reliability
 
@@ -77,21 +75,14 @@ class _Recorder:
 
 
 class FreezingRestorer(Restorer):
-    """The production restorer with a larger LLM output budget and a hook that keeps the decider request."""
+    """The production restorer pinned to the pre-#22 ``choice-all`` request, with a hook that keeps it."""
 
     def __init__(self, **kw):
         self.recorder = _Recorder()
+        kw.setdefault("settings", load_models_config().restorer.with_(strategy="choice-all",
+                                                                       llm_max_tokens=PROPOSE_MAX_TOKENS))
         super().__init__(decider=self.recorder, **kw)
         self.frozen: dict[str, Any] | None = None
-
-    def propose_fills(self, role, left, right, gap_chars, parallels, hints, k):
-        if self.llm is None:
-            return []
-        prompt = propose_prompt(left, right, gap_chars,
-                                [{"inscription_id": p.inscription_id, "line_n": p.line_n, "snippet": p.snippet,
-                                  "fill": p.fill} for p in parallels], [h.to_api() for h in hints], k)
-        r = self.llm.complete(role, RESTORER_SYSTEM, prompt, max_tokens=PROPOSE_MAX_TOKENS)
-        return [(normalize_iso(t), c) for t, c in parse_candidates(r.text) if normalize_iso(t)]
 
     def rank_and_decide(self, cands: list[Candidate], **kw):
         self.recorder.last = None

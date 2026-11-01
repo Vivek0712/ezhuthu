@@ -43,6 +43,45 @@ class Routing:
     abstain_if_confidence_below: float = 0.5
 
 
+DECIDER_STRATEGIES = ("choice-all", "choice-topk", "noul-topk", "prerank")
+
+
+@dataclass(frozen=True)
+class RestorerSettings:
+    """``config/models.yaml`` ``restorer:`` (issue #22). Every field can be overridden per eval run.
+
+    ``strategy``: how candidates get their confidence.
+      * ``choice-all``: one decider ``choice`` over up to 23 candidates + ``none`` (the pre-#22 behaviour).
+      * ``choice-topk``: a cheap pre-rank (LLM probability + parallel support), then ``choice`` over the top
+        ``top_k`` + ``none``; the copy-baseline fill always gets one of the ``top_k`` slots.
+      * ``noul-topk``: the same top ``top_k``, one ``noul`` per candidate ("is this the restoration?").
+      * ``prerank``: no decider; the pre-rank score is the confidence.
+    ``calibration``: JSON of per-decider Platt parameters and abstain thresholds fitted on the VAL split
+    (``python -m ezhuthu.eval.calibrate``); relative paths are resolved against the package directory.
+    """
+
+    strategy: str = "choice-topk"
+    top_k: int = 5
+    llm_candidates: int = 8
+    llm_max_tokens: int = 2048
+    retry_on_truncation: bool = True
+    parallels_k: int = 20
+    prompt_parallels: int = 5
+    ngram_k: int = 3
+    calibration: str | None = "calibration.json"
+
+    def __post_init__(self) -> None:
+        if self.strategy not in DECIDER_STRATEGIES:
+            raise ValueError(f"restorer.strategy must be one of {DECIDER_STRATEGIES}, got {self.strategy!r}")
+        if not 1 <= self.top_k <= 23:
+            raise ValueError("restorer.top_k must be 1..23")
+
+    def with_(self, **kw: Any) -> RestorerSettings:
+        from dataclasses import replace
+
+        return replace(self, **{k: v for k, v in kw.items() if v is not None})
+
+
 @dataclass(frozen=True)
 class ModelsConfig:
     aws_profile: str
@@ -50,6 +89,7 @@ class ModelsConfig:
     llm: dict[str, str]
     routing: Routing
     decider: dict[str, Any] = field(default_factory=dict)  # str model ids, plus the `cloud` block
+    restorer: RestorerSettings = field(default_factory=RestorerSettings)
 
     def model_id(self, role: str) -> str:
         if role not in self.llm:
@@ -75,6 +115,8 @@ def parse_models_config(data: dict[str, Any]) -> ModelsConfig:
         llm=dict(data["llm"]),
         routing=Routing(**{k: r[k] for k in Routing.__dataclass_fields__ if k in r}),
         decider=dict(data.get("decider", {}) or {}),
+        restorer=RestorerSettings(**{k: v for k, v in (data.get("restorer") or {}).items()
+                                     if k in RestorerSettings.__dataclass_fields__}),
     )
 
 

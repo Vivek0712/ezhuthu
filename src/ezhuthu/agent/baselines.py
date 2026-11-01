@@ -14,7 +14,7 @@ from __future__ import annotations
 import math
 
 from .llm import LLMClient
-from .prompts import RESTORER_SYSTEM, parse_candidates, zero_shot_prompt
+from .prompts import RESTORER_SYSTEM, parse_candidates, propose_max_tokens, zero_shot_prompt
 from .restorer import Restorer, length_tolerance
 from .text import normalize_iso
 
@@ -46,7 +46,9 @@ def ngram_fill(restorer: Restorer, left: str, right: str, gap_chars: int, *, k: 
 
 
 def zero_shot(llm: LLMClient, left: str, right: str, gap_chars: int | None, *, k: int = 20) -> list[tuple[str, float]]:
-    r = llm.complete("default", RESTORER_SYSTEM, zero_shot_prompt(left, right, gap_chars, k), max_tokens=800)
+    # Same compact format and output budget as the restorer; a truncated reply keeps its complete fills.
+    r = llm.complete("default", RESTORER_SYSTEM, zero_shot_prompt(left, right, gap_chars, k),
+                     max_tokens=propose_max_tokens(k, gap_chars))
     out: dict[str, float] = {}
     for t, c in parse_candidates(r.text):
         t = normalize_iso(t)

@@ -1,14 +1,12 @@
-import json
 
 import pytest
-from boto3.dynamodb.conditions import ConditionBase
 
 from ezhuthu.agent.data import load_items
 from ezhuthu.agent.decider import NoDecider
 from ezhuthu.agent.restorer import Restorer
 from ezhuthu.agentcore_app import ACTIONS, handle
 from ezhuthu.api.service import EzhuthuService
-from ezhuthu.api.storage import DynamoStore, MemoryStore, SQLiteStore
+from ezhuthu.api.storage import MemoryStore, SQLiteStore
 from ezhuthu.eval import run as eval_run
 from ezhuthu.eval.metrics import Prediction, coverage_curve, ece, summarize
 
@@ -72,30 +70,6 @@ def test_stores_roundtrip(tmp_path, make):
     assert s.list("queue") == [{"id": "q1"}] and s.list("correction") == []
     with pytest.raises(ValueError):
         s.put("bogus", "a", {})
-
-
-class FakeTable:
-    def __init__(self):
-        self.items = {}
-
-    def put_item(self, Item):
-        self.items[Item["pk"]] = Item
-
-    def get_item(self, Key):
-        return {"Item": self.items[Key["pk"]]} if Key["pk"] in self.items else {}
-
-    def query(self, IndexName, KeyConditionExpression, **kw):
-        assert isinstance(KeyConditionExpression, ConditionBase)
-        kind = KeyConditionExpression.get_expression()["values"][1]
-        return {"Items": [i for i in self.items.values() if i["kind"] == kind]}
-
-
-def test_dynamo_store_single_table_shape():
-    t = FakeTable()
-    s = DynamoStore(t)
-    s.put("session", "s1", {"a": 1})
-    assert t.items["session#s1"]["kind"] == "session" and json.loads(t.items["session#s1"]["doc"]) == {"a": 1}
-    assert s.get("session", "s1") == {"a": 1} and s.list("session") == [{"a": 1}]
 
 
 def test_metrics():

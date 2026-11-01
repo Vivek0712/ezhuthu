@@ -340,12 +340,19 @@ class HostedDecider:
 
 
 class FakeDecider:
-    """Test double: ``picker(state, options) -> {option: prob}``."""
+    """Test double: ``picker(state, options) -> {option: prob}``; ``noul_fn(state) -> P(yes)`` for ``noul``."""
 
-    def __init__(self, picker, model: str = "fake-decider"):
+    def __init__(self, picker, model: str = "fake-decider", noul_fn=None):
         self.picker = picker
         self.model = model
+        self.noul_fn = noul_fn
         self.calls: list[dict[str, Any]] = []
+
+    def noul(self, state: Any, instructions: str, *, name: str = "q") -> Noul:
+        if self.noul_fn is None:
+            raise DeciderUnavailable("fake decider has no noul_fn")
+        self.calls.append({"state": state, "instructions": instructions, "noul": name})
+        return Noul(float(self.noul_fn(state)), self.model, source="fake")
 
     def available(self) -> bool:
         return True

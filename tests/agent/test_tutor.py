@@ -163,3 +163,49 @@ def test_answer_flow_pre_post_and_progress():
         s.answer(sid, "missing", "x")
     with pytest.raises(NotFound):
         s.progress("missing")
+
+
+def test_rules_source_never_reports_a_confidence():
+    """decider_source 'rules' -> decider_confidence null (the app showed 'confidence 0%')."""
+    from ezhuthu.agent.decider import FakeDecider, NoDecider
+    from ezhuthu.agent.tutor import policy
+
+    state = {"correct": False, "attempts_on_item": 1, "hint_already_given": False}
+    d = policy.decide(NoDecider(), state)
+    assert d.source == "rules" and d.confidence is None and d.action == "hint"
+    bogus = FakeDecider(lambda s, o: {"advance": 0.2, "repeat": 0.2, "hint": 0.6})
+    bogus.choice = lambda *a, **k: type("C", (), {"choice": "dance", "probabilities": {}, "confidence": 0.9,
+                                                    "model": "m", "source": "local"})()
+    d = policy.decide(bogus, state)
+    assert d.source == "rules" and d.confidence is None
+
+
+def test_async_explanation_returns_template_then_delivers_swarm_text(monkeypatch):
+    """Issue #22: /api/lesson no longer waits for the Swarm; the explanation arrives on the next answer."""
+    monkeypatch.setenv("EZHUTHU_LESSON_EXPLAIN", "async")
+    explain = {"explain_ta": "இது சோழர் காலக் கல்வெட்டு.", "explain_en": "This is a Chola inscription. https://x.io"}
+    model = ScriptedModel([json.dumps(explain, ensure_ascii=False)] * 2)
+    s = svc(model=model)
+    out = s.lesson(inscription_id="FIXTURE_CHOLA_002", level="L1")
+    assert out["graph"]["nodes"] == ["restore", "lesson_builder", "explain_template"]
+    assert out["context"]["explained_by"] == "template" and out["context"]["explanation_status"] == "pending"
+    s.wait_explanations()
+    item = out["items"][0]
+    r = s.answer(out["session_id"], item["item_id"], "x")
+    upd = r["context_update"]
+    assert upd["explained_by"] == "tutor_team" and upd["explain_ta"] == explain["explain_ta"]
+    assert "http" not in upd["explain_en"]  # sanitised like the sync path
+    assert "context_update" not in s.answer(out["session_id"], item["item_id"], "y")  # delivered once
+    again = s.lesson(inscription_id="FIXTURE_CHOLA_002", level="L1")  # same facts: cached, no Swarm call
+    assert again["context"]["explained_by"] == "tutor_team-cached" and again["context"]["explanation_status"] == "done"
+    assert len(model.seen) == 1
+
+
+def test_lesson_restoration_is_cached_per_text():
+    s = svc()
+    text = "svasti śrī kōvirājakēcari[?8] yāṇṭu mūṉṟāvatu"
+    a = s.lesson(text=text, level="L1")
+    b = s.lesson(text=text, level="L2")
+    assert not a["graph"]["restoration_cached"] and b["graph"]["restoration_cached"]
+    assert a["restoration"]["restored_text"] == b["restoration"]["restored_text"]
+    assert a["restoration"]["trace_id"] != b["restoration"]["trace_id"] and b["restoration"]["cached"]

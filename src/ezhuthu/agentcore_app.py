@@ -148,7 +148,10 @@ def create_agentcore_app():
 
     @app.entrypoint
     def invoke(payload: dict[str, Any]) -> dict[str, Any]:
-        return handle_proxy(payload)
+        svc = service()
+        if svc.tutor.task_hooks is None:  # /ping reports HealthyBusy while a lesson explanation runs
+            svc.tutor.task_hooks = (app.add_async_task, app.complete_async_task)
+        return handle_proxy(payload, svc)
 
     return app
 

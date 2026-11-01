@@ -12,6 +12,8 @@ from strands.models.model import Model
 
 os.environ.setdefault("EZHUTHU_FIXTURES", "1")
 os.environ.setdefault("EZHUTHU_DECIDER", "off")
+# Tests that script the Swarm turn by turn run it inside the Graph; async-explanation tests set "async".
+os.environ.setdefault("EZHUTHU_LESSON_EXPLAIN", "sync")
 os.environ.setdefault("EZHUTHU_NO_CACHE", "0" if os.environ.get("EZHUTHU_LIVE") == "1" else "1")
 
 

@@ -25,7 +25,7 @@ from ..agent.baselines import copy_best_parallel, ngram_fill, zero_shot
 from ..agent.config import live_enabled, repo_root
 from ..agent.data import BenchmarkItem, data_source, load_items
 from ..agent.decider import Decider, HttpDecider, NoDecider
-from ..agent.llm import BedrockLLM, LLMClient
+from ..agent.llm import BedrockLLM, BudgetedLLM, LLMClient
 from ..agent.restorer import Restorer
 from .metrics import Prediction, by_subset, summarize
 
@@ -51,8 +51,13 @@ def predict(item: BenchmarkItem, router: str, restorer: Restorer, llm: LLMClient
                     "latency_ms": round((time.perf_counter() - t0) * 1000, 1)}
         cands = [(c.text, c.confidence) for c in g.candidates]
         abstained = g.decision == "abstain"
+        top = g.candidates[0] if g.candidates else None
         meta = {"decider_model": g.decider_model, "models_used": g.models_used, "escalated": g.escalated,
-                "confidence_source": g.candidates[0].confidence_source if g.candidates else None}
+                "confidence_source": top.confidence_source if top else None,
+                "raw_confidence": top.raw_confidence if top else None, "strategy": g.strategy,
+                "calibration": g.calibration, "abstain_below": g.abstain_below,
+                "llm_truncated": g.llm_truncated, "llm_retries": g.llm_retries,
+                "copy_floor": next((c.text for c in g.candidates if c.copy_floor), None)}
     elif router == "baseline-copy":
         cands = copy_best_parallel(restorer, item.left, item.right, item.gap_chars,
                                    exclude_inscription=item.inscription_id, k=k)
@@ -94,13 +99,16 @@ def evaluate_items(items: list[BenchmarkItem], *, router: str, restorer: Restore
         for p, r in zip(preds, raw, strict=True)
     ]
     errors = sum(1 for r in raw if r["meta"].get("error"))
-    return {**summary, "errors": errors, "by_subset": by_subset(preds), "by_router": {router: summary},
+    trunc = sum(int(r["meta"].get("llm_truncated") or 0) for r in raw)
+    retries = sum(int(r["meta"].get("llm_retries") or 0) for r in raw)
+    return {**summary, "errors": errors, "llm_truncated": trunc, "llm_retries": retries, "by_subset": by_subset(preds), "by_router": {router: summary},
             "items": rows}
 
 
 def build_restorer(router: str, *, use_ontology: bool = True, decider: Decider | None = None,
-                   llm: LLMClient | None = None) -> Restorer:
-    return Restorer(llm=llm, decider=decider or NoDecider(), use_ontology=use_ontology)
+                   llm: LLMClient | None = None, settings: Any = None, calibration: Any = None) -> Restorer:
+    return Restorer(llm=llm, decider=decider or NoDecider(), use_ontology=use_ontology, settings=settings,
+                    calibration=calibration)
 
 
 def write_report(result: dict[str, Any], meta: dict[str, Any], out_dir: Path, name: str) -> tuple[Path, Path]:
@@ -129,6 +137,9 @@ def write_report(result: dict[str, Any], meta: dict[str, Any], out_dir: Path, na
         lines.append(f"| {c['threshold']} | {c['coverage']} | {c['accuracy']} |")
     if result.get("errors"):
         lines += ["", f"Item errors (LLM throttling/truncation; scored as wrong + abstained): {result['errors']}"]
+    if result.get("llm_truncated") or result.get("llm_retries"):
+        lines += ["", (f"LLM replies cut at max_tokens: {result['llm_truncated']} (partial fills kept); "
+                      f"stricter retries: {result['llm_retries']}.")]
     if meta.get("usage"):
         u = meta["usage"]
         usage = (f"LLM usage: {u['calls']} live calls, {u['cached_calls']} cached; input tokens "
@@ -161,6 +172,14 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--workers", type=int, default=1)
     ap.add_argument("--name", default=None)
     ap.add_argument("--out", default=None, help="report dir (default eval/reports)")
+    ap.add_argument("--strategy", default=None, choices=["choice-all", "choice-topk", "noul-topk", "prerank"],
+                    help="decider strategy (default: config/models.yaml restorer.strategy)")
+    ap.add_argument("--top-k", type=int, default=None, help="decider top-k (default restorer.top_k)")
+    ap.add_argument("--calibration", default=None,
+                    help="calibration JSON (default restorer.calibration); 'none' = raw confidences")
+    ap.add_argument("--rpm", type=float, default=None, help="client-side Bedrock rate limit (calls/minute)")
+    ap.add_argument("--max-live-calls", type=int, default=None,
+                    help="hard cap on uncached Bedrock calls; past it items use retrieval candidates only")
     ap.add_argument("--data-ref", default=None, help="provenance of the benchmark files (e.g. branch@commit)")
     ap.add_argument("--ontology-ref", default=None, help="provenance of the ontology lookups")
     args = ap.parse_args(argv)
@@ -170,12 +189,21 @@ def main(argv: list[str] | None = None) -> int:
     if needs_llm and not live_enabled():
         print(f"router {args.router} calls Bedrock: set EZHUTHU_LIVE=1", file=sys.stderr)
         return 2
-    llm = BedrockLLM() if needs_llm else None
+    llm: Any = BedrockLLM(rpm=args.rpm if args.rpm else "env") if needs_llm else None
+    if llm is not None and args.max_live_calls is not None:
+        llm = BudgetedLLM(llm, args.max_live_calls)
     decider: Decider = NoDecider() if args.no_decider else HttpDecider(args.decider_url)
     if not args.no_decider and not decider.available():
         log.warning("decider at %s not reachable; confidences use the fallback", getattr(decider, "base_url", "?"))
         decider = NoDecider()
-    restorer = build_restorer(args.router, use_ontology=not args.no_ontology, decider=decider, llm=llm)
+    from ..agent.calibration import CalibrationTable
+    from ..agent.config import load_models_config
+
+    settings = load_models_config().restorer.with_(strategy=args.strategy, top_k=args.top_k)
+    cal = CalibrationTable() if args.calibration == "none" else CalibrationTable.load(
+        args.calibration or settings.calibration)
+    restorer = build_restorer(args.router, use_ontology=not args.no_ontology, decider=decider, llm=llm,
+                              settings=settings, calibration=cal)
     src = data_source()
     items = load_items(args.split, subset=args.subset, limit=args.limit, src=src)
     result = evaluate_items(items, router=args.router, restorer=restorer, llm=llm, workers=args.workers)
@@ -190,6 +218,7 @@ def main(argv: list[str] | None = None) -> int:
         "decider": (health or {}).get("model", "none (fallback confidence)"), "use_ontology": not args.no_ontology,
         "ontology": restorer.ontology.name if not args.no_ontology else None,
         "models": restorer.config.llm, "routing": vars(restorer.config.routing),
+        "restorer": vars(settings), "calibration_file": str(cal.path) if cal.path else None,
         "usage": llm.ledger.to_dict() if llm else None, "command": "python -m ezhuthu.eval.run " + " ".join(
             argv if argv is not None else sys.argv[1:]),
     }

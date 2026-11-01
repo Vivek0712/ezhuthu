@@ -361,11 +361,11 @@ def test_trimmed_candidates_are_labelled_decider_trimmed(cloud):
     cands = [Candidate("ṉ" * 40 + str(i)) for i in range(8)]
     d, _ = make(cloud, rpm=None)
     r = Restorer(decider=d, corpus=[], use_ontology=False, config=CFG)
-    r.rank_and_decide(cands, left="", right="", gap_chars=40, parallels=[], hints=[])
+    r.rank_and_decide(cands, left="", right="", gap_chars=40, parallels=[], hints=[], strategy="choice-all")
     full = cloud.requests[-1]["body"]
     d.max_input_chars = request_chars({"state": full["state"], "questions": full["questions"]}) - 400
     model, ranked = r.rank_and_decide([Candidate("ṉ" * 40 + str(i)) for i in range(8)], left="", right="",
-                                      gap_chars=40, parallels=[], hints=[])
+                                      gap_chars=40, parallels=[], hints=[], strategy="choice-all")
     assert model == MODEL and d.last_trimmed > 0
     srcs = [c.confidence_source for c in ranked]
     assert srcs.count("decider-trimmed") == d.last_trimmed and srcs.count("decider") == 8 - d.last_trimmed

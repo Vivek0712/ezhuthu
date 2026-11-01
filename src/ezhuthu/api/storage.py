@@ -1,16 +1,27 @@
 """Storage for sessions, corrections and the expert review queue.
 
-``EZHUTHU_STORE``: ``memory`` (default), ``sqlite:<path>``, or ``dynamodb:<table>`` (single-table design:
-``pk`` = ``<kind>#<id>``, attribute ``doc`` = JSON, attribute ``kind`` for listing). The DynamoDB table is
-created by the App team's infra (issue #4).
+``EZHUTHU_STORE``: ``memory`` (default), ``sqlite:<path>``, ``dynamodb:<table>``, or ``dynamodb`` (table name from
+``EZHUTHU_TABLE``, which the AgentCore stack sets). The DynamoDB layout is the deployed ``EzhuthuData`` table
+(``infra/lib/data-stack.ts``): partition key ``pk``, sort key ``sk``, GSI ``gsi1`` (``gsi1pk``/``gsi1sk``),
+TTL attribute ``ttl``:
+
+    SESSION#<id>    / STATE   tutor session doc (the proxy owns SESSION#<id> / META; never overwritten here)
+    CORRECTION#<id> / ITEM    correction record
+    QUEUE#<id>      / ITEM    review-queue item; gsi1pk = STATUS#<status>, gsi1sk = created_at (ISO-8601 UTC),
+                              the same keys and top-level fields the proxy's QueueStore writes and lists
+
+Each item keeps the full document as JSON in ``doc``; queue items also carry the proxy's top-level fields, and
+items the proxy wrote (no ``doc``) are read from those fields.
 """
 
 from __future__ import annotations
 
+import datetime as dt
 import json
 import os
 import sqlite3
 import threading
+import time
 from typing import Any, Protocol
 
 KINDS = ("session", "correction", "queue")
@@ -79,12 +90,27 @@ class SQLiteStore:
         return [json.loads(r[0]) for r in rows]
 
 
-class DynamoStore:
-    """``table`` is a boto3 DynamoDB Table resource (or anything with put_item/get_item/query)."""
+SESSION_TTL_SECONDS = 90 * 24 * 3600  # same as the proxy's SESSION#<id>/META
+_PREFIX = {"session": "SESSION", "correction": "CORRECTION", "queue": "QUEUE"}
+_SK = {"session": "STATE", "correction": "ITEM", "queue": "ITEM"}
+QUEUE_STATUSES = ("pending", "approved", "edited", "rejected")
+_KEY_ATTRS = ("pk", "sk", "gsi1pk", "gsi1sk", "ttl", "doc", "kind")
 
-    def __init__(self, table: Any, *, kind_index: str = "kind-index"):
+
+def _iso(ts: Any) -> str:
+    """``created_at`` as the proxy writes it (ISO-8601 UTC, ms); epoch seconds from the Python service convert."""
+    if isinstance(ts, (int, float)):
+        return dt.datetime.fromtimestamp(float(ts), dt.UTC).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+    return str(ts) if ts else dt.datetime.now(dt.UTC).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+
+
+class DynamoStore:
+    """``table`` is a boto3 DynamoDB Table resource (or anything with put_item/get_item/query/scan)."""
+
+    def __init__(self, table: Any, *, index: str = "gsi1", clock=time.time):
         self.table = table
-        self.kind_index = kind_index
+        self.index = index
+        self.clock = clock
 
     @classmethod
     def from_name(cls, name: str, region: str | None = None) -> DynamoStore:
@@ -93,26 +119,62 @@ class DynamoStore:
         return cls(boto3.resource("dynamodb", region_name=region or os.environ.get("AWS_REGION", "us-east-1"))
                    .Table(name))
 
-    def put(self, kind: str, id: str, doc: dict[str, Any]) -> None:
+    @staticmethod
+    def key(kind: str, id: str) -> dict[str, str]:
         _check(kind)
-        self.table.put_item(Item={"pk": f"{kind}#{id}", "kind": kind, "doc": json.dumps(doc, ensure_ascii=False)})
+        return {"pk": f"{_PREFIX[kind]}#{id}", "sk": _SK[kind]}
+
+    def put(self, kind: str, id: str, doc: dict[str, Any]) -> None:
+        item: dict[str, Any] = {**self.key(kind, id), "kind": kind, "doc": json.dumps(doc, ensure_ascii=False)}
+        if kind == "session":
+            item["ttl"] = int(self.clock()) + SESSION_TTL_SECONDS
+        elif kind == "queue":
+            status = str(doc.get("status") or "pending")
+            created = _iso(doc.get("created_at"))
+            item.update({"gsi1pk": f"STATUS#{status}", "gsi1sk": created, "id": str(doc.get("id", id)),
+                         "status": status, "created_at": created})
+            for f in ("gap_ref", "accepted_candidate", "corrected_text", "user", "final_text"):
+                if isinstance(doc.get(f), str) and doc[f]:
+                    item[f] = doc[f]
+            if doc.get("status") in ("edited",) and isinstance(doc.get("text"), str):
+                item["final_text"] = doc["text"]
+        self.table.put_item(Item=item)
+
+    @staticmethod
+    def _doc(item: dict[str, Any]) -> dict[str, Any]:
+        if "doc" in item:
+            return json.loads(item["doc"])
+        # Written by the proxy (infra/lambda/proxy/queue.ts): the record is the top-level attributes.
+        return {k: v for k, v in item.items() if k not in _KEY_ATTRS}
 
     def get(self, kind: str, id: str) -> dict[str, Any] | None:
-        _check(kind)
-        item = self.table.get_item(Key={"pk": f"{kind}#{id}"}).get("Item")
-        return json.loads(item["doc"]) if item else None
+        item = self.table.get_item(Key=self.key(kind, id), ConsistentRead=True).get("Item")
+        return self._doc(item) if item else None
 
-    def list(self, kind: str) -> list[dict[str, Any]]:
-        _check(kind)
-        from boto3.dynamodb.conditions import Key
-
-        out, kwargs = [], {"IndexName": self.kind_index, "KeyConditionExpression": Key("kind").eq(kind)}
+    def _paged(self, op, **kwargs: Any) -> list[dict[str, Any]]:
+        out: list[dict[str, Any]] = []
         while True:
-            resp = self.table.query(**kwargs)
-            out.extend(json.loads(i["doc"]) for i in resp.get("Items", []))
+            resp = op(**kwargs)
+            out.extend(resp.get("Items", []))
             if "LastEvaluatedKey" not in resp:
                 return out
             kwargs["ExclusiveStartKey"] = resp["LastEvaluatedKey"]
+
+    def list(self, kind: str) -> list[dict[str, Any]]:
+        """Queue: one ``gsi1`` query per status, oldest first. Sessions/corrections have no index in the deployed
+        table, so they are a filtered scan (admin/debug use only; the API never lists them)."""
+        _check(kind)
+        from boto3.dynamodb.conditions import Attr, Key
+
+        if kind == "queue":
+            items: list[dict[str, Any]] = []
+            for st in QUEUE_STATUSES:
+                items += self._paged(self.table.query, IndexName=self.index,
+                                     KeyConditionExpression=Key("gsi1pk").eq(f"STATUS#{st}"), ScanIndexForward=True)
+            return [self._doc(i) for i in items if str(i.get("pk", "")).startswith("QUEUE#")]
+        items = self._paged(self.table.scan, FilterExpression=Attr("pk").begins_with(f"{_PREFIX[kind]}#")
+                            & Attr("sk").eq(_SK[kind]))
+        return [self._doc(i) for i in items]
 
 
 def store_from_env() -> Store:
@@ -121,6 +183,9 @@ def store_from_env() -> Store:
         return MemoryStore()
     if spec.startswith("sqlite:"):
         return SQLiteStore(spec.split(":", 1)[1])
-    if spec.startswith("dynamodb:"):
-        return DynamoStore.from_name(spec.split(":", 1)[1])
+    if spec == "dynamodb" or spec.startswith("dynamodb:"):
+        name = spec.split(":", 1)[1] if ":" in spec else os.environ.get("EZHUTHU_TABLE", "")
+        if not name:
+            raise ValueError("EZHUTHU_STORE=dynamodb needs a table: dynamodb:<table> or EZHUTHU_TABLE")
+        return DynamoStore.from_name(name)
     raise ValueError(f"unknown EZHUTHU_STORE {spec!r}")
