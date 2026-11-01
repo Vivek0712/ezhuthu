@@ -188,7 +188,7 @@ class TutorService:
         fb = feedback(correct, d.action, rec["type"], rec["answer"])
         self.store.put("session", session_id, s)
         return {"correct": correct, **fb, "next_action": d.action, "decider_confidence": d.confidence,
-                "decider_source": d.source, "policy_overridden": d.overridden, "cer": err}
+                "decider_source": d.source, "decider_backend": d.backend, "policy_overridden": d.overridden, "cer": err}
 
     # ---- assessment and progress -------------------------------------------------
     def assessment(self, session_id: str | None, phase: str) -> dict[str, Any]:

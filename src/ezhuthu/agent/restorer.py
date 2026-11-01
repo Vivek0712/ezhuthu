@@ -55,6 +55,7 @@ class Candidate:
     letters_ok: bool = True
     confidence: float = 0.0
     confidence_source: str = ""
+    decider_source: str = ""  # hosted | local | fallback
 
     @property
     def model(self) -> str:
@@ -71,6 +72,7 @@ class Candidate:
             "ontology_hints": [h.to_api() for h in self.hints],
             # additive fields (not in the contract's example, safe to ignore):
             "sources": sorted(self.sources), "confidence_source": self.confidence_source,
+            "decider_source": self.decider_source or "fallback",
             "constraints": {"length_ok": self.length_ok, "letters_ok": self.letters_ok},
         }
 
@@ -202,9 +204,9 @@ class Restorer:
             res = self.decider.choice(state, DECIDER_INSTRUCTIONS, options, name="restoration")
             for i, c in enumerate(top):
                 c.confidence = res.probabilities.get(f"c{i}", 0.0)
-                c.confidence_source = "decider"
+                c.confidence_source, c.decider_source = "decider", res.source
             for c in cands[23:]:
-                c.confidence, c.confidence_source = 0.0, "decider-overflow"
+                c.confidence, c.confidence_source, c.decider_source = 0.0, "decider-overflow", res.source
             ranked = sorted(cands, key=lambda c: c.confidence, reverse=True)
             return res.model, ranked
         except DeciderUnavailable:
@@ -212,6 +214,7 @@ class Restorer:
         # Fallback: LLM self-reported confidence; retrieval-only candidates use agreement among parallels.
         n_par = max(1, len([p for p in parallels if p.fill]))
         for c in cands:
+            c.decider_source = "fallback"
             if c.llm_confidence is not None:
                 c.confidence, c.confidence_source = c.llm_confidence, "llm-self-report"
             else:

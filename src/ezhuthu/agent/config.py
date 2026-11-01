@@ -49,7 +49,7 @@ class ModelsConfig:
     region: str
     llm: dict[str, str]
     routing: Routing
-    decider: dict[str, str] = field(default_factory=dict)
+    decider: dict[str, Any] = field(default_factory=dict)  # str model ids, plus the `cloud` block
 
     def model_id(self, role: str) -> str:
         if role not in self.llm:
