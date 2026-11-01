@@ -3,8 +3,10 @@
 The knowledge layer behind the Ezhuthu tutor and restorer: who ruled, where a place sits in the
 nāṭu/kōṭṭam/maṇṭalam hierarchy, which royal-praise formula belongs to which king, which letters
 existed in which script stage. Built with rdflib and served to the agent over MCP
-(`python -m ezhuthu.ontology.mcp_server`). Context Ontology Accelerator: attempted, not run (permission
-policy); see [COA.md](COA.md), which also documents the MCP server and the AgentCore bundle needs.
+(`python -m ezhuthu.ontology.mcp_server`). Context Ontology Accelerator: not run yet (its setup is blocked by the
+permission policy). A COA v0.3.8 patch for S3 Vectors + FalkorDB storage and a tagged S3 vector bucket are ready
+(`coa/`, `python -m ezhuthu.ontology.coa_store`). See [COA.md](COA.md), which also documents the MCP server and the
+AgentCore bundle needs.
 
 ## Files
 
@@ -16,10 +18,11 @@ policy); see [COA.md](COA.md), which also documents the MCP server and the Agent
 | `coverage.json` | Counts per kind, Wikidata coverage, dropped seeds, unmatched title names, DHARMA commit pins, `splits` (benchmark split filter and the exact inscription ids used) |
 | `hint_eval.json` | `hints_for_gap` hit@5: held-out on benchmark val/test items, plus in-corpus coverage |
 | `seeds/*.yaml` | Curated seed lists (rulers, titles, formulas, grant types, assemblies, measures, coins, taxes, deities, unit types) |
+| `coa/patches/`, `coa/falkordb_query_check.sh` | COA v0.3.8 patch (S3 Vectors + FalkorDB) with apply/run notes, and a FalkorDB query check (see `COA.md`) |
 | `wikidata/snapshot.json`, `wikidata/review.yaml` | Wikidata SPARQL results (all candidates) and the manual review applied to them |
 
 Code: `src/ezhuthu/ontology/` (`tei.py` reader, `normalize.py`, `matcher.py`, `letters.py`, `build.py`,
-`owl.py`, `wikidata.py`, `lookup.py`, `hint_eval.py`, `mcp_server.py`).
+`owl.py`, `wikidata.py`, `lookup.py`, `hint_eval.py`, `mcp_server.py`, `coa_store.py`).
 
 ## Train split only (no benchmark leakage)
 
