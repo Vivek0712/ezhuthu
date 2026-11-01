@@ -94,6 +94,7 @@ Sign in → Review queue → item: the context line with the gap, the proposed t
 ## 9. Accessibility
 
 - WCAG 2.2 AA. All text pairs are checked in `design/tokens/CONTRAST.md`.
+- `text-faint` goes only on `bg`, `surface` or `surface-raised`. On sunk, leaf (palm-leaf) and tinted surfaces use `text-muted`: `text-faint` drops below 4.5:1 there (see "Restricted pairs" in CONTRAST.md).
 - Focus: a 3 px `--ez-focus` outline with a 2 px offset. It is never removed.
 - State is never shown by colour alone: correct gets ✓ and text, abstain gets "?" and a dashed edge, a chosen candidate gets a "chosen" chip.
 - Glyph images: `role="img"`, with an `aria-label` giving the era and letter, or "answer hidden".

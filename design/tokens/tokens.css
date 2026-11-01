@@ -118,9 +118,9 @@
   --ez-ease-exit: cubic-bezier(.4, 0, 1, 1);
   --ez-ease-chisel: cubic-bezier(.65, 0, .35, 1);
   --ez-font-display-latin: 'Fraunces', 'Noto Serif Tamil', Georgia, 'Times New Roman', serif;
-  --ez-font-display-ta: 'Noto Serif Tamil', 'Tamil Sangam MN', 'Latha', serif;
+  --ez-font-display-ta: 'Fraunces', 'Noto Serif Tamil', 'Tamil Sangam MN', 'Latha', Georgia, serif;
   --ez-font-body: 'Instrument Sans', 'Noto Sans Tamil', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --ez-font-body-ta: 'Noto Sans Tamil', 'Instrument Sans', 'Tamil MN', 'Latha', system-ui, sans-serif;
+  --ez-font-body-ta: 'Instrument Sans', 'Noto Sans Tamil', 'Tamil MN', 'Latha', system-ui, sans-serif;
   --ez-font-brahmi: 'Noto Sans Brahmi', sans-serif;
   --ez-font-grantha: 'Noto Sans Grantha', 'Noto Sans Tamil', sans-serif;
   --ez-font-chola: 'Noto Serif Tamil', serif;

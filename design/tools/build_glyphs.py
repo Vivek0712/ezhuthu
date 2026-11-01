@@ -133,18 +133,19 @@ def strip(theme: str) -> str:
                 col = t["accent"] if key == "modern" else t["ink"]
                 out.append(f'<path d="{dd}" fill="{col}" filter="url(#carve)"/>')
     # notes
-    ny = top + len(LETTERS) * rh + 26
+    ny = top + len(LETTERS) * rh + 22
     notes = [
         "Tamil-Brahmi, Grantha and Tamil use Noto fonts (SIL OFL). Vatteluttu has no Unicode, so it is drawn by hand "
         "after published charts (design/glyphs/REFERENCES.md);",
         "those drawings are teaching shapes pending an epigrapher's review. The Pallava stage is shown with Unicode "
-        "Grantha. In Chola inscriptions எ also served for ē;",
-        "the எ / ஏ distinction is an 18th-century reform. ḻa (ழ) is a Tamil letter: Tamil-Brahmi has it, Grantha, "
-        "made for Sanskrit, does not.",
+        "Grantha, and the Chola stage in modern type",
+        "(Noto Serif Tamil), not traced from an inscription. In Chola inscriptions எ also served for ē; the எ / ஏ "
+        "distinction is an 18th-century reform.",
+        "ḻa (ழ) is a Tamil letter: Tamil-Brahmi has it, Grantha, made for Sanskrit, does not.",
     ]
     for i, line in enumerate(notes):
-        out.append(p(text(line, SANS, 14, 56, ny + i * 22, {"wght": 420}), t["faint"]))
-    out.append(p(text("எழுத்து · Ezhuthu", TA_SANS, 14, W - 56, ny + 44, {"wght": 600}, anchor="end"), t["accent"]))
+        out.append(p(text(line, SANS, 14, 56, ny + i * 21, {"wght": 420}), t["faint"]))
+    out.append(p(text("எழுத்து · Ezhuthu", TA_SANS, 14, W - 56, ny + 63, {"wght": 600}, anchor="end"), t["accent"]))
     _ = text_w
     return svg(W, H, "".join(out), "Evolution of five Tamil letters",
                "The letters a, ka, ma, e and ḻa in Tamil-Brahmi, Vatteluttu, Grantha/Pallava, Chola and modern Tamil.")

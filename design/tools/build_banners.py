@@ -83,13 +83,38 @@ def brahmi_field(t, w, h, size=34, seed=3, x0=0) -> str:
             f'<path d="{d}" fill="{t["field"]}"/></g>')
 
 
+SMALL_WORDMARK_W = 240  # BRAND.md "Small sizes": below this width the Brahmi triangle is dropped
+
+
 def wordmark(t, x, y, height) -> tuple[str, tuple]:
     hole, solid, tri, rest = tamil_word()
     x0, y0, x1, y1 = bounds(solid + rest)
     s = height / (y1 - y0)
     tf = lambda d: transform(d, s, s, x - s * x0, y - s * y0)
-    body = p(tf(solid), t["ink"]) + p(tf(tri), t["lamp"]) + p(tf(rest), t["ink"])
+    if s * (x1 - x0) < SMALL_WORDMARK_W:
+        body = p(tf(solid), t["ink"]) + p(tf(rest), t["ink"])  # small-size variant: solid எ, no triangle
+    else:
+        body = p(tf(solid), t["ink"]) + p(tf(tri), t["lamp"]) + p(tf(rest), t["ink"])
     return body, (x, y, x + s * (x1 - x0), y + height)
+
+
+def fit_lines(s: str, font: str, size: float, axes: dict, max_w: float, shrink: float = 0.9):
+    """Fit a headline into max_w: keep it on one line (shrinking by at most `shrink`), else break it into two
+    balanced lines at a word space. Returns (lines, size)."""
+    w = text_w(s, font, size, axes)
+    if w <= max_w:
+        return [s], size
+    if w * shrink <= max_w:
+        return [s], size * max_w / w
+    words = s.split(" ")
+    best = None
+    for i in range(1, len(words)):
+        a, b = " ".join(words[:i]), " ".join(words[i:])
+        widest = max(text_w(a, font, size, axes), text_w(b, font, size, axes))
+        if best is None or widest < best[0]:
+            best = (widest, [a, b])
+    widest, lines = best
+    return lines, size * min(1.0, max_w / widest)
 
 
 def vat(key, cx, cy, size, color, sw) -> str:
@@ -239,8 +264,16 @@ def video_card(theme: str, kicker_ta: str, kicker_en: str, title_ta: str, title_
         out.append(p(text(num, FRAUNCES, 300, W - 140, 980, {"wght": 300, "opsz": 144}, anchor="end"), t["lamp"]))
     out.append(p(text(kicker_en.upper(), SANS, 26, x, 470, {"wght": 650}, tracking=0.2), t["accent"]))
     out.append(p(text(kicker_ta, TA_SANS, 26, x, 520, {"wght": 600}), t["accent"]))
-    out.append(p(text(title_ta, TA_SERIF, 84, x, 660, {"wght": 700}), t["ink"]))
-    out.append(p(text(title_en, FRAUNCES, 58, x, 760, LAT), t["muted"]))
+    ta_ax = {"wght": 700}
+    lines, fs = fit_lines(title_ta, TA_SERIF, 84, ta_ax, W - 2 * x)
+    if len(lines) == 1:
+        out.append(p(text(title_ta, TA_SERIF, fs, x, 660, ta_ax), t["ink"]))
+        en_y = 760
+    else:
+        for i, line in enumerate(lines):
+            out.append(p(text(line, TA_SERIF, fs, x, 615 + i * fs * 1.3, ta_ax), t["ink"]))
+        en_y = 820
+    out.append(p(text(title_en, FRAUNCES, 58, x, en_y, LAT), t["muted"]))
     out.append(f'<path d="M{x} 880h120" stroke="{t["lamp"]}" stroke-width="4" stroke-linecap="round"/>')
     out.append(p(text(foot, SANS, 24, x, 940, {"wght": 500}), t["faint"]))
     return svg(W, H, "".join(out), title_en, f"{kicker_en}: {title_en}")

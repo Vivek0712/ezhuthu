@@ -17,13 +17,13 @@
 
 Ezhuthu (எழுத்து, "letter") turns real, damaged inscriptions into guided reading lessons at five levels: modern Tamil, Chola Tamil, Pallava (Grantha), Vatteluttu and Tamil-Brahmi. Its restoration engine proposes the missing letters with calibrated confidence. When it is unsure, it says so, and that becomes part of the lesson: *experts are unsure here too*.
 
-Built with [Strands Agents](https://strandsagents.com) and Strands Decider, and built with AWS Context Ontology Accelerator. It runs on Amazon Bedrock AgentCore. Inscription texts come from [DHARMA](https://dharmalekha.info) (CC BY-SA 4.0).
+Built with [Strands Agents](https://strandsagents.com) and Strands Decider. It runs on Amazon Bedrock AgentCore. Inscription texts come from [DHARMA](https://dharmalekha.info) (CC BY-SA 4.0).
 
 > **Status:** hackathon build (Education track), under active development. Every number below links to its source. **TBD** means the evaluation has not been published yet; we do not estimate.
 
 ## Why it matters
 
-- **Underserved learners.** Tamil-medium school and college students, rural heritage guides and self-learners mostly cannot read the inscriptions on their own village temples, and there has been no tool that teaches old Tamil scripts *in Tamil*. India has about 23 working epigraphists for a backlog of about 70,000 unread inscriptions (The Federal, 2021).
+- **Underserved learners.** Tamil-medium school and college students, rural heritage guides and self-learners mostly cannot read the inscriptions on their own village temples, and there has been no tool that teaches old Tamil scripts *in Tamil*. In 2021 India had about 23 epigraphists; of nearly 1 lakh (100,000) inscriptions found since 1886, only 30,000 to 35,000 had been deciphered and published ([The Federal, 3 Aug 2021](https://thefederal.com/news/inscriptions-languish-as-the-number-of-epigraphists-dwindles)).
 - **Real, damaged texts.** The corpus is **1,320** DHARMA inscriptions, of which **65%** are damaged ([data card](benchmark/DATA_CARD.md)). Damage is the normal case, so a reading tutor has to handle it honestly.
 - **Feedback in the learner's first language.** Hints, explanations and history (ruler, temple, grant) are in Tamil. English is optional.
 - **Measured gain.** A built-in pre-test and post-test on reading letters by era report each learner's gain in letters read correctly and their time per letter. Pilot result with AWS UG Madurai student volunteers: **TBD** ([eval/reports/](eval/reports/)).
@@ -87,7 +87,7 @@ AWS: profile `heisenberg`, region `us-east-1`. Model IDs come only from [`config
 | Layer | What | Where |
 | --- | --- | --- |
 | Corpus + benchmark | DHARMA TEI/EpiDoc parsing, script conversion (Aksharamukha), restoration benchmark | `src/ezhuthu/corpus/`, `benchmark/` |
-| Ontology | Rulers, titles, places, grants, measures, formulae (built with AWS Context Ontology Accelerator) | `src/ezhuthu/ontology/`, `ontology/` |
+| Ontology | Rulers, titles, places, grants, measures, formulae | `src/ezhuthu/ontology/`, `ontology/` |
 | Agents | Strands **Graph** (fixed lesson flow) with a **Swarm** inside tutoring: Restorer, Lesson Builder, Tutor, Assessor | `src/ezhuthu/agent/` |
 | Decisions | Strands Decider: fill or abstain, Sonnet → Opus routing, and advance / repeat / hint | `src/ezhuthu/agent/` |
 | API | FastAPI, following [`contracts/restore-api.md`](contracts/restore-api.md) | `src/ezhuthu/api/` |
@@ -99,7 +99,7 @@ Teams and ownership: [docs/TEAMS.md](docs/TEAMS.md). Product charter: [docs/CHAR
 
 ## Data credit and licence
 
-- **Inscription texts:** [DHARMA](https://dharmalekha.info), "The Domestication of 'Hindu' Asceticism and the Religious Making of South and Southeast Asia" (ERC grant 809994), and the named editors of each edition. Edition files are **CC BY-SA 4.0**. The derived **benchmark is shared under CC BY-SA 4.0**, with attribution to DHARMA ([data card](benchmark/DATA_CARD.md)). The Tamil Lexicon is used for lookups only. No scraped data.
+- **Inscription texts:** [DHARMA](https://dharmalekha.info), "The Domestication of 'Hindu' Asceticism and the Religious Making of South and Southeast Asia" (ERC grant 809994), and the named editors of each edition. Edition files declare **CC BY-SA 4.0** (1,249 of 1,320; the other 71 have no licence in their header). The derived **benchmark is shared under CC BY-SA 4.0**, with attribution to DHARMA ([data card](benchmark/DATA_CARD.md)). The Tamil Lexicon is used for lookups only. No scraped data.
 - **Code:** [Apache-2.0](LICENSE).
 - **Fonts:** Noto Serif/Sans Tamil, Noto Sans Brahmi, Noto Sans Grantha, Fraunces and Instrument Sans, all under the SIL Open Font License 1.1 ([design/brand/FONTS.md](design/brand/FONTS.md)).
 - **Restorations** are described as "matching expert restorations", never as "correct". Drawn Vatteluttu glyphs are teaching shapes pending an epigrapher's review.

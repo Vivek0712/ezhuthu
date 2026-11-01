@@ -37,7 +37,7 @@ Ezhuthu sounds like a patient teacher at a temple: warm, exact and never grand.
 
 **Do**
 
-- Say **"built with Strands Agents"** and **"built with AWS Context Ontology Accelerator"**.
+- Say **"built with Strands Agents"**. That is the only "built with" credit; do not claim tools that were not used in the shipped build.
 - Name **Amazon Bedrock AgentCore** in full on first mention.
 - Credit **DHARMA** wherever inscription text appears: "Inscription texts: DHARMA, CC BY-SA 4.0", with a link to the edition when one is shown.
 - Put Tamil first in titles, buttons and feedback.
@@ -74,7 +74,11 @@ All files are in `design/brand/logo/` and are pure vector paths (no fonts needed
 ![Clear space](../renders/brand/construction.png)
 
 - **b** = the height of the bowl of எ in the artwork. Keep at least **b** clear on every side of the mark and of any wordmark or lockup.
-- Minimum size: **mark 16 px** (use `favicon-16.png`, which drops the triangle for clarity), **Tamil wordmark 96 px wide**, **horizontal lockup 160 px wide**. In print: mark 5 mm, wordmark 20 mm.
+- Minimum size: **mark 16 px**, **Tamil wordmark 96 px wide**, **horizontal lockup 160 px wide**. In print: mark 5 mm, wordmark 20 mm.
+- **Small-size variant.** Below these sizes the Brahmi triangle shrinks to a speck, so drop it and use the solid letter:
+  - mark **below 24 px** (favicons): use `favicon-16.svg/png`, the solid எ with no triangle;
+  - Tamil wordmark **below 240 px wide** (corner marks on video cards, footers): solid எ, no triangle. `build_banners.py` applies this automatically (`SMALL_WORDMARK_W = 240`).
+  - At these sizes the solid letter reads as plain எ. Never shrink the colour artwork and hope the triangle survives.
 - Source glyph: Noto Serif Tamil, weight 900 for the mark and 800 for the wordmark (SIL OFL 1.1, outlines embedded as paths, which the OFL allows). The bowl's counter is closed and a triangle is cut in, centred on the bowl's optical centre. Its width is 1.36 × the original counter width and its height is 0.88 × its width. These values were tuned by eye from 16 px to 512 px. Build: `design/tools/build_logos.py`.
 
 ## 6. Colour, type, motion

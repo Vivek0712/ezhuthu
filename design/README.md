@@ -18,7 +18,7 @@ Owner: Design & Brand (KrewHQ `u:design`), issue #8. Open **[`preview.html`](pre
 | `brand/banners/` | README hero (1280 × 400, light/dark), social preview (1280 × 640), video cards (1920 × 1080), Builder Center header (1600 × 900) |
 | [`tokens/tokens.json`](tokens/tokens.json) | The source of truth for colour, spacing, radii, shadows, motion and type |
 | `tokens/tokens.css` · `tokens/app-compat.css` · `tokens/tailwind-preset.js` | Generated CSS variables, a bridge onto the app's current variable names, and an optional Tailwind preset |
-| [`tokens/CONTRAST.md`](tokens/CONTRAST.md) | WCAG contrast results for every text and UI pair, light and dark (68/68 pass) |
+| [`tokens/CONTRAST.md`](tokens/CONTRAST.md) | WCAG contrast results for every text and UI pair, light and dark (70/70 pass, plus a list of restricted pairs) |
 | `glyphs/` | Vatteluttu SVGs and `vatteluttu.json`, the evolution strip, the glyph-card reference; [`REFERENCES.md`](glyphs/REFERENCES.md) and [`GLYPH-CARD.md`](glyphs/GLYPH-CARD.md) |
 | [`ux/UX.md`](ux/UX.md) · `ux/wireframes/` | UX spec (IA, flows, components, states, bilingual rules, a11y) and mobile wireframes |
 | `renders/` | PNG renders of the style guide, the evolution strip, the construction sheet and the wireframes |

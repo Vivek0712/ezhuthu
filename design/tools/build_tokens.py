@@ -182,6 +182,23 @@ def contrast_md(data: dict) -> str:
     for mode, fg, bg, fv, bv, r, need, ok in rows:
         aaa = "yes" if r >= 7 else ("n/a" if need < 4.5 else "no")
         out.append(f"| {mode} | `{fg}` | `{bg}` | `{fv}` | `{bv}` | {r:.2f} | {need} | {'pass' if ok else 'FAIL'} | {aaa} |")
+    restricted = data["contrast"].get("restricted", {}).get("pairs", [])
+    if restricted:
+        sem = semantic(data)
+        out += [
+            "",
+            "## Restricted pairs: do not use for text",
+            "",
+            "**Rule: `text-faint` goes only on `bg`, `surface` or `surface-raised`.** On sunk, leaf and tinted",
+            "surfaces, use `text-muted`. These pairs are listed so that misuse is visible in review.",
+            "",
+            "| Mode | Foreground | Background | Ratio | Use instead |",
+            "| --- | --- | --- | ---: | --- |",
+        ]
+        for fg, bg in restricted:
+            for mode in ("light", "dark"):
+                r = ratio(sem[fg][mode], sem[bg][mode])
+                out.append(f"| {mode} | `{fg}` | `{bg}` | {r:.2f} | `text-muted` |")
     out.append("")
     return "\n".join(out)
 

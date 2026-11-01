@@ -41,6 +41,9 @@
   .tile { border-radius: var(--ez-radius-lg); border: 1px solid var(--ez-border); background: var(--ez-surface); padding: 20px; box-shadow: var(--ez-shadow-1); min-width: 0; }
   .tile.dark { background: #13100D; border-color: #40362B; }
   .tile.leaf { background: var(--ez-leaf); }
+  /* On-light artwork (colour, mono) always sits on a fixed light tile, so dark mode never puts ink on ink. */
+  .tile.paper { background: var(--ez-stone-50); border-color: var(--ez-stone-200); }
+  .tile.paper .cap { color: var(--ez-stone-600); }
   .tile img { display: block; max-width: 100%; height: auto; margin: 0 auto; }
   .cap { font-size: var(--ez-text-xs); color: var(--ez-text-faint); margin-top: 10px; }
   .tile.dark .cap { color: #A8997F; }
@@ -132,15 +135,15 @@
   <section id="logo">
     <div class="head"><span class="num">01</span><h2>Logo system</h2><p>The mark is the modern Tamil letter எ (e) with its own ancestor, the Tamil-Brahmi e (a triangle), set inside its bowl. The Tamil wordmark carries the same letter. All logos are pure paths: no font is needed to display them.</p></div>
     <div class="grid g3">
-      <div class="tile logo-box"><img src="brand/logo/mark-color.svg" alt="Mark, colour" width="150"><div class="cap">mark-color.svg</div></div>
-      <div class="tile logo-box"><img src="brand/logo/mark-mono.svg" alt="Mark, mono" width="150"><div class="cap">mark-mono.svg (triangle knocked out)</div></div>
+      <div class="tile paper logo-box"><img src="brand/logo/mark-color.svg" alt="Mark, colour" width="150"><div class="cap">mark-color.svg</div></div>
+      <div class="tile paper logo-box"><img src="brand/logo/mark-mono.svg" alt="Mark, mono" width="150"><div class="cap">mark-mono.svg (triangle knocked out)</div></div>
       <div class="tile dark logo-box"><img src="brand/logo/mark-reversed.svg" alt="Mark, reversed" width="150"><div class="cap">mark-reversed.svg</div></div>
-      <div class="tile logo-box"><img src="brand/logo/wordmark-ta-color.svg" alt="Tamil wordmark" width="300"><div class="cap">wordmark-ta-color.svg</div></div>
-      <div class="tile logo-box"><img src="brand/logo/wordmark-en-color.svg" alt="Latin wordmark" width="300"><div class="cap">wordmark-en-color.svg</div></div>
+      <div class="tile paper logo-box"><img src="brand/logo/wordmark-ta-color.svg" alt="Tamil wordmark" width="300"><div class="cap">wordmark-ta-color.svg</div></div>
+      <div class="tile paper logo-box"><img src="brand/logo/wordmark-en-color.svg" alt="Latin wordmark" width="300"><div class="cap">wordmark-en-color.svg</div></div>
       <div class="tile dark logo-box"><img src="brand/logo/wordmark-ta-reversed.svg" alt="Tamil wordmark reversed" width="300"><div class="cap">wordmark-ta-reversed.svg</div></div>
     </div>
     <div class="grid g2" style="margin-top:16px">
-      <div class="tile logo-box"><img src="brand/logo/lockup-horizontal-color.svg" alt="Horizontal lockup" width="440"><div class="cap">lockup-horizontal-color.svg</div></div>
+      <div class="tile paper logo-box"><img src="brand/logo/lockup-horizontal-color.svg" alt="Horizontal lockup" width="440"><div class="cap">lockup-horizontal-color.svg</div></div>
       <div class="tile dark logo-box"><img src="brand/logo/lockup-stacked-reversed.svg" alt="Stacked lockup reversed" width="300"><div class="cap">lockup-stacked-reversed.svg</div></div>
     </div>
     <div class="grid g2" style="margin-top:16px">
@@ -171,7 +174,7 @@
     <div class="spec"><div style="font-family:var(--ez-font-display-latin);font-size:var(--ez-text-3xl);line-height:var(--ez-lh-3xl)">Read the stone, <em style="color:var(--ez-accent-text)">in Tamil.</em></div><div class="meta"><span>Display Latin · Fraunces 500, opsz auto, italic for emphasis</span><span>3xl · line-height 1.12</span></div></div>
     <div class="spec"><p class="ta" lang="ta" style="margin:0;max-width:60ch">கல்வெட்டு என்பது கல்லில் வெட்டப்பட்ட எழுத்து. சோழர் காலக் கோயில் சுவர்களில் நிலக்கொடை, விளக்குக்கொடை, ஊர்ச் சபையின் முடிவுகள் எழுதப்பட்டுள்ளன.</p><div class="meta"><span>Body Tamil · Noto Sans Tamil 400</span><span>md 17px · line-height 1.8 · measure 60ch</span></div></div>
     <div class="spec"><p style="margin:0;max-width:68ch">An inscription is writing cut into stone. Chola temple walls record land grants, gifts of lamps and the decisions of village assemblies.</p><div class="meta"><span>Body Latin · Instrument Sans 400</span><span>md 17px · line-height 1.6 · measure 68ch</span></div></div>
-    <div class="spec"><div style="display:flex;gap:28px;flex-wrap:wrap;align-items:baseline"><span style="font-family:var(--ez-font-brahmi);font-size:2.6rem" lang="ta-Brah">𑀏𑀵𑀼𑀢𑁆𑀢𑀼</span><span style="font-family:var(--ez-font-grantha);font-size:2.6rem">𑌕𑌮𑌅</span><span style="font-family:var(--ez-font-chola);font-size:2.6rem;font-weight:600" lang="ta">எழுத்து</span></div><div class="meta"><span>Era scripts · Noto Sans Brahmi · Noto Sans Grantha · Noto Serif Tamil</span></div></div>
+    <div class="spec"><div style="display:flex;gap:28px;flex-wrap:wrap;align-items:baseline"><span style="font-family:var(--ez-font-brahmi);font-size:2.6rem" lang="ta-Brah">𑀏𑀵𑀼𑀢𑁰𑀢𑀼</span><span style="font-family:var(--ez-font-grantha);font-size:2.6rem">𑌕𑌮𑌅</span><span style="font-family:var(--ez-font-chola);font-size:2.6rem;font-weight:600" lang="ta">எழுத்து</span></div><div class="meta"><span>Era scripts · Noto Sans Brahmi · Noto Sans Grantha · Noto Serif Tamil</span><span>Tamil-Brahmi pulli: U+11070 (old Tamil virama)</span></div></div>
     <h3 style="margin-top:24px">Scale (major third, 16px root)</h3>
     <div id="scale"></div>
   </section>
@@ -180,6 +183,7 @@
     <div class="head"><span class="num">04</span><h2>Era glyphs &amp; glyph cards</h2><p>One letter, five stages. Vatteluttu has no Unicode, so it is drawn (design/glyphs/vatteluttu.json), with sources in <a href="glyphs/REFERENCES.md">glyphs/REFERENCES.md</a>.</p></div>
     <div class="grid g5" id="cards"></div>
     <div class="tile" style="margin-top:16px;padding:8px"><picture><source srcset="glyphs/evolution-strip-dark.svg" media="(prefers-color-scheme: dark)"><img id="strip" src="glyphs/evolution-strip-light.svg" alt="Evolution of a, ka, ma, e and ḻa across five stages" style="width:100%"></picture></div>
+    <p class="cap" style="margin:8px 4px 0">Chola stage shown in modern type (Noto Serif Tamil), not traced from an inscription. Vatteluttu is drawn; see <a href="glyphs/REFERENCES.md">REFERENCES.md</a>.</p>
   </section>
 
   <section id="components">

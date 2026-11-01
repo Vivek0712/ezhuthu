@@ -266,16 +266,18 @@ def restore():
     out.append(t(x + 16, ay + 132, "This is an honest gap: experts leave it open too.", 12, UI, C["muted"], 500))
     out.append(t(x + 16, ay + 156, "Show candidates anyway ▸", 12.5, UI, C["unsure"], 600))
     out.append(t(x, ay + 194, "“Matches expert restorations”, never “correct”.", 12, UI, C["faint"], 500))
+    # Leaders leave each target from its right edge and run straight out of the phone; anchors and notes are in
+    # the same top-to-bottom order, so no two leaders cross and no anchor sits on text.
     notes = (note(1, NX, 150, ["Restored line, gaps marked in place", "Fill = lamp dashed box; abstain = neelam ?",
-                               "Never colour alone: box style + glyph differ."], PX + 200, PY + 210)
+                               "Never colour alone: box style + glyph differ."], x + w, y + 38)
              + note(2, NX, 270, ["Candidate row", "Text (Tamil) + ISO in italic, 10-step meter,",
-                                 "verbal band (high / medium / low) beside it."], PX + PW - 40, PY + 360)
+                                 "verbal band (high / medium / low) beside it."], x + w - 10, cy + 62)
              + note(3, NX, 390, ["Confidence is banded, not decimal", "Show % only in expert mode; learners see",
-                                 "bands. Thresholds come from the decider."], PX + PW - 60, PY + 375)
-             + note(4, NX, 510, ["Abstain is a teaching moment", "Calm indigo, dashed edge, Tamil headline;",
-                                 "candidates hidden behind a disclosure."], PX + PW - 40, PY + 520)
-             + note(5, NX, 630, ["Ontology + parallels", "Chips for ruler/title/place; parallels open",
-                                 "a sheet with DHARMA links."], PX + 100, PY + 380))
+                                 "bands. Thresholds come from the decider."], x + w - 10, cy + 88)
+             + note(4, NX, 510, ["Ontology + parallels", "Chips for ruler/title/place; parallels open",
+                                 "a sheet with DHARMA links."], x + w - 10, cy + 112)
+             + note(5, NX, 630, ["Abstain is a teaching moment", "Calm indigo, dashed edge, Tamil headline;",
+                                 "candidates hidden behind a disclosure."], x + w, ay + 26))
     page("03-restore", "Restore result · மீட்டமை", phone("".join(out), "மீட்டமை", "Restore a damaged line", 1),
          notes)
 

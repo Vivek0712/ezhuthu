@@ -10,6 +10,7 @@ Every typeface is open-licence and comes from Google Fonts or the Noto project. 
 | Era script: Grantha (Pallava stage) | **Noto Sans Grantha** | 400 | SIL OFL 1.1 | [fonts.google.com/noto/specimen/Noto+Sans+Grantha](https://fonts.google.com/noto/specimen/Noto+Sans+Grantha) · [notofonts/grantha](https://github.com/notofonts/grantha) |
 | Display, Latin (the one distinctive face) | **Fraunces** | 300–700, opsz 9–144, SOFT 0–100, WONK 0–1, italic | SIL OFL 1.1 | [fonts.google.com/specimen/Fraunces](https://fonts.google.com/specimen/Fraunces) · [undercasetype/Fraunces](https://github.com/undercasetype/Fraunces) |
 | UI, Latin | **Instrument Sans** | 400–700 | SIL OFL 1.1 | [fonts.google.com/specimen/Instrument+Sans](https://fonts.google.com/specimen/Instrument+Sans) |
+| Code, IDs, EpiDoc snippets (`--ez-font-mono`) | **JetBrains Mono** | 400, 500 | SIL OFL 1.1 | [fonts.google.com/specimen/JetBrains+Mono](https://fonts.google.com/specimen/JetBrains+Mono) · [JetBrains/JetBrainsMono](https://github.com/JetBrains/JetBrainsMono) |
 
 Vatteluttu has no Unicode encoding and no font. Its glyphs are drawn as SVG in `design/glyphs/` (see `REFERENCES.md`).
 
@@ -57,13 +58,18 @@ Further Tamil rules:
 ## Fallback stacks (from `tokens.css`)
 
 ```css
---ez-font-display-ta:    'Noto Serif Tamil', 'Tamil Sangam MN', 'Latha', serif;
---ez-font-body-ta:       'Noto Sans Tamil', 'Instrument Sans', 'Tamil MN', 'Latha', system-ui, sans-serif;
+--ez-font-display-ta:    'Fraunces', 'Noto Serif Tamil', 'Tamil Sangam MN', 'Latha', Georgia, serif;
+--ez-font-body-ta:       'Instrument Sans', 'Noto Sans Tamil', 'Tamil MN', 'Latha', system-ui, sans-serif;
 --ez-font-display-latin: 'Fraunces', 'Noto Serif Tamil', Georgia, 'Times New Roman', serif;
 --ez-font-body:          'Instrument Sans', 'Noto Sans Tamil', system-ui, -apple-system, 'Segoe UI', sans-serif;
 --ez-font-brahmi:        'Noto Sans Brahmi', sans-serif;
 --ez-font-grantha:       'Noto Sans Grantha', 'Noto Sans Tamil', sans-serif;
+--ez-font-mono:          'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 ```
+
+The Tamil-first stacks list the Latin brand face first on purpose. Fraunces and Instrument Sans have no Tamil
+glyphs, so Tamil characters fall through to Noto, while Latin words, digits and punctuation inside a Tamil run
+stay in the brand faces instead of picking up Noto's Latin.
 
 ## Licence obligations
 

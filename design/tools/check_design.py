@@ -1,6 +1,7 @@
 """Validate the design deliverables. Stdlib only, so it runs anywhere (python3 design/tools/check_design.py).
 
-Checks: every SVG is well-formed XML with a viewBox; every PNG in renders.json exists with the expected
+Checks: every SVG is well-formed XML with a viewBox; no outlined text or artwork in a banner runs past its
+frame (bounding-box overflow, ignoring the masked full-bleed background texture); every PNG in renders.json exists with the expected
 pixel size; generated token files are up to date and every contrast pair passes; banned brand phrases are absent;
 relative links in README.md and design/**/*.md resolve.
 """
@@ -17,6 +18,75 @@ from pathlib import Path
 DESIGN = Path(__file__).resolve().parents[1]
 REPO = DESIGN.parent
 BANNED = ["Strands AI", "AWS AI", "Amazon AI"]
+
+
+_TOK = re.compile(r"[MLHVQCSTZmlhvqcstz]|-?(?:\d+\.?\d*|\.\d+)(?:e-?\d+)?")
+
+
+def path_bounds(d: str):
+    """Conservative bounds (control points included) of an absolute-command path, as written by our build tools."""
+    xs: list[float] = []
+    ys: list[float] = []
+    cmd, nums, cx, cy = "", [], 0.0, 0.0
+
+    def flush():
+        nonlocal cx, cy
+        if cmd in "MLQCST":
+            for i in range(0, len(nums) - 1, 2):
+                xs.append(nums[i]), ys.append(nums[i + 1])
+            if len(nums) >= 2:
+                cx, cy = nums[-2], nums[-1]
+        elif cmd == "H":
+            for v in nums:
+                xs.append(v), ys.append(cy)
+                cx = v
+        elif cmd == "V":
+            for v in nums:
+                ys.append(v), xs.append(cx)
+                cy = v
+        elif cmd == "h":
+            for v in nums:
+                cx += v
+                xs.append(cx), ys.append(cy)
+        elif cmd == "v":
+            for v in nums:
+                cy += v
+                xs.append(cx), ys.append(cy)
+        elif cmd in "ml":
+            for i in range(0, len(nums) - 1, 2):
+                cx, cy = cx + nums[i], cy + nums[i + 1]
+                xs.append(cx), ys.append(cy)
+        elif cmd and cmd.islower() and cmd not in "z":
+            raise ValueError("relative path command " + cmd)
+
+    for tok in _TOK.findall(d):
+        if tok.isalpha():
+            flush()
+            cmd, nums = tok, []
+        else:
+            nums.append(float(tok))
+    flush()
+    return (min(xs), min(ys), max(xs), max(ys)) if xs else None
+
+
+def overflow(svg: Path, root) -> list[str]:
+    ns = "{http://www.w3.org/2000/svg}"
+    vb = [float(v) for v in root.attrib["viewBox"].split()]
+    x0, y0, x1, y1 = vb[0], vb[1], vb[0] + vb[2], vb[1] + vb[3]
+    out: list[str] = []
+
+    def walk(el, masked):
+        masked = masked or "mask" in el.attrib or el.tag in (ns + "defs", ns + "mask")
+        if el.tag == ns + "path" and not masked and "transform" not in el.attrib:
+            b = path_bounds(el.attrib.get("d", ""))
+            if b and (b[0] < x0 - 0.5 or b[1] < y0 - 0.5 or b[2] > x1 + 0.5 or b[3] > y1 + 0.5):
+                out.append(f"{svg.relative_to(REPO)}: artwork overflows the {vb[2]:g}x{vb[3]:g} frame "
+                           f"(bounds {b[0]:.0f},{b[1]:.0f} to {b[2]:.0f},{b[3]:.0f})")
+        for ch in el:
+            walk(ch, masked)
+
+    walk(root, False)
+    return out
 
 
 def png_size(p: Path):
@@ -36,6 +106,8 @@ def main() -> int:
             root = ET.parse(s).getroot()
             if "viewBox" not in root.attrib:
                 errors.append(f"{s.relative_to(REPO)}: no viewBox")
+            elif "banners" in s.parts:
+                errors.extend(overflow(s, root))
         except ET.ParseError as e:
             errors.append(f"{s.relative_to(REPO)}: invalid XML ({e})")
     jobs = json.loads((DESIGN / "tools" / "renders.json").read_text())
