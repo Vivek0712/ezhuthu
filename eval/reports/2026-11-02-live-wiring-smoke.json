@@ -1,0 +1,175 @@
+{
+ "date": "2026-11-01T19:59:40+00:00",
+ "models": {
+  "default": "us.anthropic.claude-sonnet-4-6",
+  "escalate": "us.anthropic.claude-opus-4-6-v1",
+  "cheap": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+  "future_default": "us.anthropic.claude-sonnet-5-5",
+  "future_escalate": "us.anthropic.claude-opus-5-5"
+ },
+ "decider": "strands-decider-2B-qwen3.5-v1-2610",
+ "steps": [
+  {
+   "step": "restore_gap router=sonnet",
+   "input": {
+    "left": "mahādēvarkku nantā viḷakku ",
+    "right": " vaitta āṭu toṇṇūṟu",
+    "gap_chars": 7
+   },
+   "decision": "abstain",
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "top": [
+    {
+     "text": "oṉṟukku",
+     "confidence": 0.491,
+     "model": "sonnet",
+     "sources": [
+      "ngram",
+      "parallel",
+      "sonnet"
+     ]
+    },
+    {
+     "text": "nāṟpatu",
+     "confidence": 0.1488,
+     "model": "retrieval",
+     "sources": [
+      "ngram"
+     ]
+    },
+    {
+     "text": "oṉṟu",
+     "confidence": 0.1357,
+     "model": "sonnet",
+     "sources": [
+      "parallel",
+      "sonnet"
+     ]
+    },
+    {
+     "text": "iraṇṭukku",
+     "confidence": 0.087,
+     "model": "sonnet",
+     "sources": [
+      "parallel",
+      "sonnet"
+     ]
+    },
+    {
+     "text": "nālukku",
+     "confidence": 0.0174,
+     "model": "sonnet",
+     "sources": [
+      "sonnet"
+     ]
+    }
+   ],
+   "wall_ms": 813
+  },
+  {
+   "step": "restore_gap router=opus",
+   "input": {
+    "left": "kōvicaiya kampavarmaṟku yāṇṭu ",
+    "right": "",
+    "gap_chars": 9
+   },
+   "decision": "abstain",
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-opus-4-6-v1",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "top": [
+    {
+     "text": "nālāvatu",
+     "confidence": 0.3722,
+     "model": "opus",
+     "sources": [
+      "opus",
+      "parallel"
+     ]
+    },
+    {
+     "text": "irupattir",
+     "confidence": 0.2207,
+     "model": "retrieval",
+     "sources": [
+      "parallel"
+     ]
+    },
+    {
+     "text": "pattāvatu",
+     "confidence": 0.1562,
+     "model": "opus",
+     "sources": [
+      "opus"
+     ]
+    },
+    {
+     "text": "mūṉṟāvatu",
+     "confidence": 0.0466,
+     "model": "opus",
+     "sources": [
+      "ngram",
+      "opus",
+      "parallel"
+     ]
+    },
+    {
+     "text": "aintāvatu",
+     "confidence": 0.0304,
+     "model": "opus",
+     "sources": [
+      "opus"
+     ]
+    }
+   ],
+   "wall_ms": 610
+  },
+  {
+   "step": "lesson graph (tutor_team swarm)",
+   "skipped": "--skip-swarm"
+  }
+ ],
+ "bedrock_calls": [],
+ "llm_responses": [
+  {
+   "model_id": "us.anthropic.claude-sonnet-4-6",
+   "cached": true,
+   "input_tokens": 580,
+   "output_tokens": 162,
+   "latency_ms": 2399.0,
+   "text": "```json\n{\n  \"candidates\": [\n    {\n      \"text\": \"oṉṟukku\",\n      \"confidence\": 0.92\n    },\n    {\n      \"text\": \"oṉṟu\",\n      \"confidence\": 0.04\n    },\n    {\n      \"text\": \"iraṇṭukku\",\n      \"confidence\": 0.02\n    },\n    {\n      \"text\": \"mūṉṟukku\",\n      \"confidence\": 0.01\n    },\n    {\n      \"text\": \"nālukku\",\n      \"confidence\": 0.01\n    }\n  ]\n}\n```"
+  },
+  {
+   "model_id": "us.anthropic.claude-opus-4-6-v1",
+   "cached": true,
+   "input_tokens": 568,
+   "output_tokens": 685,
+   "latency_ms": 11781.2,
+   "text": "I need to restore about 9 characters after \"kōvicaiya kampavarmaṟku yāṇṭu \" in what appears to be a Pallava inscription.\n\nThe formula here is standard: after \"yāṇṭu\" comes the regnal year number followed by \"-āvatu\" (or similar ordinal suffix).\n\nThe king is Kampavarman (a Pallava king). Looking at the parallel passages, the regnal year expressions vary:\n- \"irupattirāṇṭāvatu\" (22nd year) - but this is too long\n- \"nālāvatu\" (4th year) - 9 characters exactly\n- \"irupattirāvatu\" - too long\n- \"mūṉṟāvatu\" (3rd year) - 10 characters\n\nLet me count characters carefully (including spaces):\n\n- \"nālāvatu \""
+  }
+ ],
+ "usage": {
+  "calls": 0,
+  "cached_calls": 2,
+  "input_tokens": {},
+  "output_tokens": {},
+  "estimated_cost_usd": 0.0,
+  "price_basis": "USD/MTok list prices in ezhuthu.agent.llm.PRICE_PER_MTOK"
+ },
+ "swarm_usage": {
+  "input_tokens": 0,
+  "output_tokens": 0
+ },
+ "notes": [
+  "Bedrock invocations this wave (CloudWatch AWS/Bedrock Invocations, 2026-11-01 19:57-19:58 UTC): Sonnet 4.6 = 3, Opus 4.6 = 1; total 4 (cap 6).",
+  "Sonnet call 1 and Opus call 1 are the restore_gap steps below (responses replayed here from the .cache/llm entries they wrote; 0 new calls in this regeneration).",
+  "Sonnet calls 2-3: tutor_team Swarm, first tutor turn, in two attempts. Both stopped with MaxTokensReachedException at max_tokens=700 (CloudWatch OutputTokenCount 700 each) while writing a long handoff_to_agent message; the Graph fell back to the template explanation. Fix: max_tokens=2000 and a prompt telling the tutor to hand off only its draft JSON. A live Swarm re-run needs >= 3 turns, which would exceed this wave's 6-call cap, so it is deferred to wave 2.",
+  "The first attempt also crashed after the Swarm step on UsageLedger.to_dict (dataclasses.asdict deep-copied a threading.Lock); fixed and regression-tested."
+ ]
+}
