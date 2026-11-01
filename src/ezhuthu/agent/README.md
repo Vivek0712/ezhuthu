@@ -22,7 +22,8 @@ For each `[?]` / `[?N]` gap:
    flags length outside `max(2, 34%)` of `[?N]`.
 4. Pre-rank (cheap, no model call): `prerank = 1 - (1 - llm_probability) x (1 - parallel support)`, halved for a
    length mismatch, small epsilons for ontology and n-gram proposals.
-5. `rank_and_decide`, by `restorer.strategy` (config/models.yaml; `eval.run --strategy/--top-k` override it):
+5. `rank_and_decide`, by `restorer.strategy` (config/models.yaml, default `prerank` since issue #22 because it had
+   the best VAL top-1 and was never below the copy baseline; `eval.run --strategy/--top-k` override it):
 
    | strategy | decider calls | confidence |
    |---|---|---|
@@ -123,7 +124,7 @@ Environment: `EZHUTHU_LIVE=1` (allow Bedrock), `EZHUTHU_DECIDER_BACKEND=local|ho
 `EZHUTHU_DECIDER_CLOUD_URL` (override), `EZHUTHU_DECIDER=off`,
 `EZHUTHU_ONTOLOGY=mcp|direct|stub` (default `mcp`), `EZHUTHU_ONTOLOGY_ROOT` (ontology build dir for the MCP server),
 `EZHUTHU_STORE=memory|sqlite:<path>|dynamodb:<table>|dynamodb` (bare `dynamodb` reads `EZHUTHU_TABLE`),
-`EZHUTHU_LESSON_EXPLAIN=async|sync`, `EZHUTHU_LLM_RPM`, `EZHUTHU_BENCHMARK_DIR`, `EZHUTHU_FIXTURES=1`,
+`EZHUTHU_LESSON_EXPLAIN=async|sync`, `EZHUTHU_LLM_RPM`, `EZHUTHU_CALIBRATION=<path>|none`, `EZHUTHU_RESTORER_STRATEGY` (overrides `restorer.strategy`), `EZHUTHU_BENCHMARK_DIR`, `EZHUTHU_FIXTURES=1`,
 `EZHUTHU_CONFIG` (path to models.yaml when the bundle is not a checkout).
 
 ## AgentCore invoke shape

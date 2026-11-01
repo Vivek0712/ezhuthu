@@ -60,7 +60,7 @@ class RestorerSettings:
     (``python -m ezhuthu.eval.calibrate``); relative paths are resolved against the package directory.
     """
 
-    strategy: str = "choice-topk"
+    strategy: str = "prerank"
     top_k: int = 5
     llm_candidates: int = 8
     llm_max_tokens: int = 2048

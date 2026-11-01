@@ -14,7 +14,7 @@ routing:
   abstain_if_confidence_below: 0.5   # used only when no calibration exists for the active decider
 # Restorer pipeline knobs (issue #22); eval flags override them per run (python -m ezhuthu.eval.run --help).
 restorer:
-  strategy: choice-topk     # choice-all | choice-topk | noul-topk | prerank
+  strategy: prerank         # choice-all | choice-topk | noul-topk | prerank. prerank: best VAL top-1, never below copy (eval/reports/2026-11-02-restorer-quality-dev-note.md)
   top_k: 5                  # decider sees the top-k after a cheap pre-rank (copy-baseline fill always included)
   llm_candidates: 8         # fills asked of the LLM per call (compact JSON: fill + probability only)
   llm_max_tokens: 2048      # ceiling; the budget scales with llm_candidates x gap length

@@ -7,6 +7,7 @@ fixed pipeline so the API is deterministic given the same model responses.
 from __future__ import annotations
 
 import logging
+import os
 import statistics
 import time
 import uuid
@@ -137,12 +138,16 @@ def length_tolerance(gap_chars: int) -> int:
 def prerank_score(c: Candidate, n_parallel_fills: int) -> float:
     """Cheap pre-rank: noisy-OR of the LLM's probability and parallel support, halved for a length mismatch.
 
-    Parallel support = best context match (0..1) x share of parallels whose aligned text is this fill.
+    Parallel support = best context match (0..1) x share of parallels whose aligned text is this fill; for the
+    copy-floor fill it is at least its own match score, so with no LLM evidence the pre-rank top-1 is the copy
+    baseline's.
     Ontology completions (an entity running into the gap) and n-gram proposals get small epsilons
     (ontology 0.02, n-gram 0.01/(rank+1)) so they order ahead of unsupported candidates.
     """
     llm = c.llm_confidence or 0.0
     par = (c.retrieval_score / 100.0) * (len(c.parallels) / max(1, n_parallel_fills))
+    if c.copy_floor:  # the copy baseline's pick keeps its full match score (never diluted by disagreement)
+        par = max(par, c.retrieval_score / 100.0)
     s = 1.0 - (1.0 - llm) * (1.0 - min(1.0, par))
     if "ontology" in c.sources:
         s += 0.02
@@ -164,8 +169,14 @@ class Restorer:
         self._corpus = corpus
         self.config = config or (llm.config if llm else load_models_config())
         self.use_ontology = use_ontology
-        self.settings = settings or self.config.restorer
-        self.calibration = calibration if calibration is not None else CalibrationTable.load(self.settings.calibration)
+        # EZHUTHU_RESTORER_STRATEGY overrides config/models.yaml restorer.strategy (e.g. on the cloud runtime).
+        self.settings = settings or self.config.restorer.with_(strategy=os.environ.get("EZHUTHU_RESTORER_STRATEGY")
+                                                                or None)
+        if calibration is None:
+            env = os.environ.get("EZHUTHU_CALIBRATION")  # a path, or "none" for raw confidences
+            spec = None if env == "none" else (env or self.settings.calibration)
+            calibration = CalibrationTable.load(spec)
+        self.calibration = calibration
 
     # ---- lazily built resources -------------------------------------------------
     @cached_property

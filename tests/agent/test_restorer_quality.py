@@ -351,3 +351,20 @@ def test_budgeted_llm_caps_live_calls_but_not_cache_hits(monkeypatch, tmp_path):
     r = Restorer(llm=llm, decider=NoDecider(), use_ontology=False)
     g = r.restore_gap(LEFT, RIGHT, GAP, router="sonnet")  # budget gone: retrieval candidates only, no crash
     assert g.models_used == [] and g.candidates
+
+
+def test_prerank_without_llm_puts_the_copy_baseline_first():
+    """Never worse than the copy baseline: with no LLM evidence the pre-rank top-1 is the copy fill."""
+    from ezhuthu.agent.data import load_items
+
+    r = Restorer(decider=NoDecider(), use_ontology=False, settings=CFG.restorer.with_(strategy="prerank"),
+                 calibration=CalibrationTable())
+    checked = 0
+    for it in load_items("test"):
+        base = copy_best_parallel(r, it.left, it.right, it.gap_chars, exclude_inscription=it.inscription_id)
+        if not base:
+            continue
+        g = r.restore_gap(it.left, it.right, it.gap_chars, router="none", exclude_inscription=it.inscription_id)
+        assert g.best.text == base[0][0] and g.best.copy_floor
+        checked += 1
+    assert checked
