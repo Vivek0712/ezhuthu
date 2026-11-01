@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="eng">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt><title>Tiruveḷḷaṟai, fixture temple, time of Nandivarman, year 10</title></titleStmt>
+      <publicationStmt>
+        <availability><licence target="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</licence></availability>
+      </publicationStmt>
+      <sourceDesc><msDesc><msContents><summary>Gift of a lamp (test fixture).</summary></msContents></msDesc></sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text xml:space="preserve">
+    <body>
+      <div type="edition" xml:lang="tam-Latn">
+        <ab>
+          <lb n="1"/><hi rend="grantha">svasti śrī</hi> kō-vicaiya-<supplied reason="lost">nanti</supplied>-p-pōtt<choice><orig>a</orig><reg>a</reg></choice>raiyarkku yāṇṭu <num value="10"><g type="numeral">10</g></num> Āvatu
+          <lb n="2"/>tiru-<unclear>v</unclear>eḷḷaṟai <gap reason="lost" quantity="3" unit="character"/> perumāṉaṭi<choice><sic>ka</sic><corr>ka</corr></choice>ḷukku
+          <lb n="3" break="no"/>-c <supplied reason="undefined">cantira</supplied>-v-ātittavaṟ nantā viḷakku <supplied reason="omitted">o</supplied>ṉṟu<note>An editorial note.</note>
+          <lb n="4"/><seg type="aksara"><seg type="component" subtype="body"><gap reason="lost" quantity="1" unit="component"/></seg>e</seg>ri <gap reason="lost" extent="unknown" unit="character"/> <surplus>ṭu</surplus>vaittāṉ<g type="punctuation">.</g><g type="symbol">*</g>
+        </ab>
+      </div>
+      <div type="commentary"><p>Dated to about 741 CE by the editors.</p></div>
+    </body>
+  </text>
+</TEI>
