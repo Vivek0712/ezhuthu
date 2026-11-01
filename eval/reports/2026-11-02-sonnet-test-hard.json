@@ -1,0 +1,2913 @@
+{
+ "meta": {
+  "date": "2026-11-01T20:32:32+00:00",
+  "router": "sonnet",
+  "split": "test",
+  "subset": "hard",
+  "limit": 30,
+  "data_dir": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/evalq/benchmark",
+  "data_is_fixture": false,
+  "data_commit": "8e5f4a8005e4d5dd6dc2641e2dd7019e4c592f11",
+  "ontology_ref": null,
+  "decider": "strands-decider-2B-qwen3.5-v1-2610",
+  "use_ontology": true,
+  "ontology": "ezhuthu.ontology.lookup",
+  "models": {
+   "default": "us.anthropic.claude-sonnet-4-6",
+   "escalate": "us.anthropic.claude-opus-4-6-v1",
+   "cheap": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+   "future_default": "us.anthropic.claude-sonnet-5-5",
+   "future_escalate": "us.anthropic.claude-opus-5-5"
+  },
+  "routing": {
+   "escalate_if_confidence_below": 0.6,
+   "escalate_if_gap_chars_over": 12,
+   "escalate_if_no_parallel": true,
+   "abstain_if_confidence_below": 0.5
+  },
+  "usage": {
+   "calls": 13,
+   "cached_calls": 11,
+   "input_tokens": {
+    "sonnet": 8463
+   },
+   "output_tokens": {
+    "sonnet": 6288
+   },
+   "estimated_cost_usd": 0.1197,
+   "price_basis": "USD/MTok list prices in ezhuthu.agent.llm.PRICE_PER_MTOK"
+  },
+  "command": "python -m ezhuthu.eval.run --split test --subset hard --limit 30 --workers 3 --router sonnet"
+ },
+ "n": 30,
+ "top1": 0.1333,
+ "top20": 0.5,
+ "cer": 1.0513,
+ "cer_clipped": 0.7513,
+ "cer_median": 1.0,
+ "ece": 0.125,
+ "coverage": [
+  {
+   "threshold": 0.0,
+   "coverage": 1.0,
+   "accuracy": 0.1333
+  },
+  {
+   "threshold": 0.3,
+   "coverage": 0.0667,
+   "accuracy": 0.0
+  },
+  {
+   "threshold": 0.5,
+   "coverage": 0.0,
+   "accuracy": null
+  },
+  {
+   "threshold": 0.6,
+   "coverage": 0.0,
+   "accuracy": null
+  },
+  {
+   "threshold": 0.7,
+   "coverage": 0.0,
+   "accuracy": null
+  },
+  {
+   "threshold": 0.8,
+   "coverage": 0.0,
+   "accuracy": null
+  },
+  {
+   "threshold": 0.9,
+   "coverage": 0.0,
+   "accuracy": null
+  }
+ ],
+ "reliability": [
+  {
+   "bin": [
+    0.0,
+    0.1
+   ],
+   "n": 7,
+   "accuracy": 0.1429,
+   "confidence": 0.0141
+  },
+  {
+   "bin": [
+    0.1,
+    0.2
+   ],
+   "n": 11,
+   "accuracy": 0.0,
+   "confidence": 0.1399
+  },
+  {
+   "bin": [
+    0.2,
+    0.3
+   ],
+   "n": 10,
+   "accuracy": 0.3,
+   "confidence": 0.2405
+  },
+  {
+   "bin": [
+    0.3,
+    0.4
+   ],
+   "n": 1,
+   "accuracy": 0.0,
+   "confidence": 0.3051
+  },
+  {
+   "bin": [
+    0.4,
+    0.5
+   ],
+   "n": 1,
+   "accuracy": 0.0,
+   "confidence": 0.4099
+  },
+  {
+   "bin": [
+    0.5,
+    0.6
+   ],
+   "n": 0,
+   "accuracy": null,
+   "confidence": null
+  },
+  {
+   "bin": [
+    0.6,
+    0.7
+   ],
+   "n": 0,
+   "accuracy": null,
+   "confidence": null
+  },
+  {
+   "bin": [
+    0.7,
+    0.8
+   ],
+   "n": 0,
+   "accuracy": null,
+   "confidence": null
+  },
+  {
+   "bin": [
+    0.8,
+    0.9
+   ],
+   "n": 0,
+   "accuracy": null,
+   "confidence": null
+  },
+  {
+   "bin": [
+    0.9,
+    1.0
+   ],
+   "n": 0,
+   "accuracy": null,
+   "confidence": null
+  }
+ ],
+ "abstain_rate": 1.0,
+ "accuracy_when_filled": 0.0,
+ "errors": 6,
+ "by_subset": {
+  "full": {
+   "n": 30,
+   "top1": 0.1333,
+   "top20": 0.5,
+   "cer": 1.0513,
+   "cer_clipped": 0.7513,
+   "cer_median": 1.0,
+   "ece": 0.125,
+   "coverage": [
+    {
+     "threshold": 0.0,
+     "coverage": 1.0,
+     "accuracy": 0.1333
+    },
+    {
+     "threshold": 0.3,
+     "coverage": 0.0667,
+     "accuracy": 0.0
+    },
+    {
+     "threshold": 0.5,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.6,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.7,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.8,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.9,
+     "coverage": 0.0,
+     "accuracy": null
+    }
+   ],
+   "reliability": [
+    {
+     "bin": [
+      0.0,
+      0.1
+     ],
+     "n": 7,
+     "accuracy": 0.1429,
+     "confidence": 0.0141
+    },
+    {
+     "bin": [
+      0.1,
+      0.2
+     ],
+     "n": 11,
+     "accuracy": 0.0,
+     "confidence": 0.1399
+    },
+    {
+     "bin": [
+      0.2,
+      0.3
+     ],
+     "n": 10,
+     "accuracy": 0.3,
+     "confidence": 0.2405
+    },
+    {
+     "bin": [
+      0.3,
+      0.4
+     ],
+     "n": 1,
+     "accuracy": 0.0,
+     "confidence": 0.3051
+    },
+    {
+     "bin": [
+      0.4,
+      0.5
+     ],
+     "n": 1,
+     "accuracy": 0.0,
+     "confidence": 0.4099
+    },
+    {
+     "bin": [
+      0.5,
+      0.6
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.6,
+      0.7
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.7,
+      0.8
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.8,
+      0.9
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.9,
+      1.0
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    }
+   ],
+   "abstain_rate": 1.0,
+   "accuracy_when_filled": 0.0
+  },
+  "hard": {
+   "n": 30,
+   "top1": 0.1333,
+   "top20": 0.5,
+   "cer": 1.0513,
+   "cer_clipped": 0.7513,
+   "cer_median": 1.0,
+   "ece": 0.125,
+   "coverage": [
+    {
+     "threshold": 0.0,
+     "coverage": 1.0,
+     "accuracy": 0.1333
+    },
+    {
+     "threshold": 0.3,
+     "coverage": 0.0667,
+     "accuracy": 0.0
+    },
+    {
+     "threshold": 0.5,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.6,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.7,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.8,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.9,
+     "coverage": 0.0,
+     "accuracy": null
+    }
+   ],
+   "reliability": [
+    {
+     "bin": [
+      0.0,
+      0.1
+     ],
+     "n": 7,
+     "accuracy": 0.1429,
+     "confidence": 0.0141
+    },
+    {
+     "bin": [
+      0.1,
+      0.2
+     ],
+     "n": 11,
+     "accuracy": 0.0,
+     "confidence": 0.1399
+    },
+    {
+     "bin": [
+      0.2,
+      0.3
+     ],
+     "n": 10,
+     "accuracy": 0.3,
+     "confidence": 0.2405
+    },
+    {
+     "bin": [
+      0.3,
+      0.4
+     ],
+     "n": 1,
+     "accuracy": 0.0,
+     "confidence": 0.3051
+    },
+    {
+     "bin": [
+      0.4,
+      0.5
+     ],
+     "n": 1,
+     "accuracy": 0.0,
+     "confidence": 0.4099
+    },
+    {
+     "bin": [
+      0.5,
+      0.6
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.6,
+      0.7
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.7,
+      0.8
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.8,
+      0.9
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.9,
+      1.0
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    }
+   ],
+   "abstain_rate": 1.0,
+   "accuracy_when_filled": 0.0
+  },
+  "age": {
+   "n": 21,
+   "top1": 0.1429,
+   "top20": 0.381,
+   "cer": 0.7083,
+   "cer_clipped": 0.7083,
+   "cer_median": 0.8667,
+   "ece": 0.1545,
+   "coverage": [
+    {
+     "threshold": 0.0,
+     "coverage": 1.0,
+     "accuracy": 0.1429
+    },
+    {
+     "threshold": 0.3,
+     "coverage": 0.0952,
+     "accuracy": 0.0
+    },
+    {
+     "threshold": 0.5,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.6,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.7,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.8,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.9,
+     "coverage": 0.0,
+     "accuracy": null
+    }
+   ],
+   "reliability": [
+    {
+     "bin": [
+      0.0,
+      0.1
+     ],
+     "n": 6,
+     "accuracy": 0.1667,
+     "confidence": 0.0164
+    },
+    {
+     "bin": [
+      0.1,
+      0.2
+     ],
+     "n": 7,
+     "accuracy": 0.0,
+     "confidence": 0.1442
+    },
+    {
+     "bin": [
+      0.2,
+      0.3
+     ],
+     "n": 6,
+     "accuracy": 0.3333,
+     "confidence": 0.2302
+    },
+    {
+     "bin": [
+      0.3,
+      0.4
+     ],
+     "n": 1,
+     "accuracy": 0.0,
+     "confidence": 0.3051
+    },
+    {
+     "bin": [
+      0.4,
+      0.5
+     ],
+     "n": 1,
+     "accuracy": 0.0,
+     "confidence": 0.4099
+    },
+    {
+     "bin": [
+      0.5,
+      0.6
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.6,
+      0.7
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.7,
+      0.8
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.8,
+      0.9
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.9,
+      1.0
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    }
+   ],
+   "abstain_rate": 1.0,
+   "accuracy_when_filled": 0.0
+  }
+ },
+ "by_router": {
+  "sonnet": {
+   "n": 30,
+   "top1": 0.1333,
+   "top20": 0.5,
+   "cer": 1.0513,
+   "cer_clipped": 0.7513,
+   "cer_median": 1.0,
+   "ece": 0.125,
+   "coverage": [
+    {
+     "threshold": 0.0,
+     "coverage": 1.0,
+     "accuracy": 0.1333
+    },
+    {
+     "threshold": 0.3,
+     "coverage": 0.0667,
+     "accuracy": 0.0
+    },
+    {
+     "threshold": 0.5,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.6,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.7,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.8,
+     "coverage": 0.0,
+     "accuracy": null
+    },
+    {
+     "threshold": 0.9,
+     "coverage": 0.0,
+     "accuracy": null
+    }
+   ],
+   "reliability": [
+    {
+     "bin": [
+      0.0,
+      0.1
+     ],
+     "n": 7,
+     "accuracy": 0.1429,
+     "confidence": 0.0141
+    },
+    {
+     "bin": [
+      0.1,
+      0.2
+     ],
+     "n": 11,
+     "accuracy": 0.0,
+     "confidence": 0.1399
+    },
+    {
+     "bin": [
+      0.2,
+      0.3
+     ],
+     "n": 10,
+     "accuracy": 0.3,
+     "confidence": 0.2405
+    },
+    {
+     "bin": [
+      0.3,
+      0.4
+     ],
+     "n": 1,
+     "accuracy": 0.0,
+     "confidence": 0.3051
+    },
+    {
+     "bin": [
+      0.4,
+      0.5
+     ],
+     "n": 1,
+     "accuracy": 0.0,
+     "confidence": 0.4099
+    },
+    {
+     "bin": [
+      0.5,
+      0.6
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.6,
+      0.7
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.7,
+      0.8
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.8,
+      0.9
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    },
+    {
+     "bin": [
+      0.9,
+      1.0
+     ],
+     "n": 0,
+     "accuracy": null,
+     "confidence": null
+    }
+   ],
+   "abstain_rate": 1.0,
+   "accuracy_when_filled": 0.0
+  }
+ },
+ "items": [
+  {
+   "id": "DHARMA_INSKotumpalur00010:1:0",
+   "target": "śrī",
+   "top1": "śrī tiru maṉṉi",
+   "confidence": 0.1452,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 3.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "śrī tiru maṉṉi",
+     0.1452
+    ],
+    [
+     "śrī",
+     0.1023
+    ],
+    [
+     "śrī a",
+     0.0896
+    ],
+    [
+     "śrī kō-p-para-kēcari-panmarkku yāṇṭu 10 3-āvatu",
+     0.0892
+    ],
+    [
+     "śrī ariyaṇa uṭaiyārkku cellā niṉṟa tumtumi",
+     0.0764
+    ],
+    [
+     "śrī u",
+     0.0714
+    ],
+    [
+     "śrī r",
+     0.0451
+    ],
+    [
+     "śrī i",
+     0.0433
+    ],
+    [
+     "śrī n",
+     0.0303
+    ],
+    [
+     "śrī v",
+     0.0275
+    ],
+    [
+     "śrī t",
+     0.0255
+    ],
+    [
+     "śrī y",
+     0.0242
+    ],
+    [
+     "nā",
+     0.0203
+    ],
+    [
+     "śrī k",
+     0.0201
+    ],
+    [
+     "śrī m",
+     0.0174
+    ],
+    [
+     "śrī ś",
+     0.016
+    ],
+    [
+     "śrī ṭ",
+     0.0158
+    ],
+    [
+     "śrī o",
+     0.0157
+    ],
+    [
+     "śrī p",
+     0.0148
+    ],
+    [
+     "śrī e",
+     0.0131
+    ]
+   ],
+   "latency_ms": 6175.1,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSKotumpalur00037:2:0",
+   "target": "t'",
+   "top1": "tam",
+   "confidence": 0.2124,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "tam",
+     0.2124
+    ],
+    [
+     "ta",
+     0.1304
+    ],
+    [
+     "u",
+     0.0985
+    ],
+    [
+     "t",
+     0.0951
+    ],
+    [
+     "tu",
+     0.078
+    ],
+    [
+     "ti",
+     0.0674
+    ],
+    [
+     "t'",
+     0.0491
+    ],
+    [
+     "i",
+     0.042
+    ],
+    [
+     "ṭu",
+     0.0379
+    ],
+    [
+     "ttu",
+     0.0298
+    ],
+    [
+     "t' araiyar tam muṭiyum āṅkavar tēviyaroṅkeḻil muṭiyum",
+     0.0281
+    ],
+    [
+     "tt'",
+     0.0135
+    ]
+   ],
+   "latency_ms": 7974.0,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSKotumpalur00037:3:0",
+   "target": "m",
+   "top1": "m teṇtirai",
+   "confidence": 0.2911,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 8.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "m teṇtirai",
+     0.2911
+    ],
+    [
+     "n",
+     0.1348
+    ],
+    [
+     "mu",
+     0.1266
+    ],
+    [
+     "m",
+     0.1115
+    ],
+    [
+     "n teṇtirai",
+     0.0864
+    ],
+    [
+     "ṉ",
+     0.0708
+    ],
+    [
+     "m teṇ-ṭirai",
+     0.0459
+    ],
+    [
+     "ṅ",
+     0.0182
+    ]
+   ],
+   "latency_ms": 9248.8,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSKotumpalur00037:3:1",
+   "target": "ra-kēcari",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": false,
+   "candidates": [],
+   "latency_ms": 8418.4,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSKotumpalur00037:4:0",
+   "target": "k",
+   "top1": "n",
+   "confidence": 0.105,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "n",
+     0.105
+    ],
+    [
+     "t",
+     0.0719
+    ],
+    [
+     "c",
+     0.0572
+    ],
+    [
+     "r",
+     0.0498
+    ],
+    [
+     "k",
+     0.0454
+    ],
+    [
+     "tt",
+     0.0444
+    ],
+    [
+     "ṅ",
+     0.0417
+    ],
+    [
+     "v",
+     0.0406
+    ],
+    [
+     "ṭ",
+     0.0396
+    ],
+    [
+     "ṉ",
+     0.0394
+    ],
+    [
+     "p",
+     0.036
+    ],
+    [
+     "ḻ",
+     0.034
+    ],
+    [
+     "ṇ",
+     0.0336
+    ],
+    [
+     "ṭṭ",
+     0.0334
+    ],
+    [
+     "h",
+     0.0321
+    ],
+    [
+     "y",
+     0.0306
+    ],
+    [
+     "ṣ",
+     0.0294
+    ],
+    [
+     "ñ",
+     0.0276
+    ],
+    [
+     "ḷ",
+     0.0233
+    ],
+    [
+     "l",
+     0.0192
+    ]
+   ],
+   "latency_ms": 3490.9,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSKotumpalur00037:5:0",
+   "target": "bra",
+   "top1": "na",
+   "confidence": 0.1116,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.6667,
+   "abstained": true,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "na",
+     0.1116
+    ],
+    [
+     "brā",
+     0.1111
+    ],
+    [
+     "vi",
+     0.0567
+    ],
+    [
+     "rā",
+     0.0544
+    ],
+    [
+     "ma",
+     0.0541
+    ],
+    [
+     "ā",
+     0.0452
+    ],
+    [
+     "la",
+     0.0431
+    ],
+    [
+     "ṉa",
+     0.0429
+    ],
+    [
+     "pā",
+     0.0407
+    ],
+    [
+     "ña",
+     0.0393
+    ],
+    [
+     "kā",
+     0.0303
+    ],
+    [
+     "va",
+     0.0301
+    ],
+    [
+     "oṉ",
+     0.0285
+    ],
+    [
+     "ka",
+     0.0284
+    ],
+    [
+     "ta",
+     0.0263
+    ],
+    [
+     "ko",
+     0.0245
+    ],
+    [
+     "ya",
+     0.0233
+    ],
+    [
+     "ce",
+     0.023
+    ],
+    [
+     "ci",
+     0.0216
+    ],
+    [
+     "cu",
+     0.0207
+    ]
+   ],
+   "latency_ms": 4556.3,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSKotumpalur00037:6:0",
+   "target": "ā",
+   "top1": "a",
+   "confidence": 0.1677,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "a",
+     0.1677
+    ],
+    [
+     "ā",
+     0.1044
+    ],
+    [
+     "i",
+     0.0854
+    ],
+    [
+     "ī",
+     0.0794
+    ],
+    [
+     "e",
+     0.0611
+    ],
+    [
+     "u",
+     0.0608
+    ],
+    [
+     "ai",
+     0.054
+    ],
+    [
+     "o",
+     0.051
+    ]
+   ],
+   "latency_ms": 3257.8,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSKotumpalur00037:6:1",
+   "target": "ma",
+   "top1": "ma",
+   "confidence": 0.2998,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "ma",
+     0.2998
+    ],
+    [
+     "ā",
+     0.1114
+    ],
+    [
+     "m",
+     0.1038
+    ],
+    [
+     "a",
+     0.0617
+    ],
+    [
+     "r",
+     0.059
+    ],
+    [
+     "n",
+     0.058
+    ],
+    [
+     "v",
+     0.0438
+    ],
+    [
+     "u",
+     0.0313
+    ],
+    [
+     "k",
+     0.0231
+    ],
+    [
+     "i",
+     0.0226
+    ]
+   ],
+   "latency_ms": 1789.2,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSKotumpalur00037:6:2",
+   "target": "n",
+   "top1": "m",
+   "confidence": 0.2208,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": false,
+   "candidates": [
+    [
+     "m",
+     0.2208
+    ],
+    [
+     "ī",
+     0.1507
+    ],
+    [
+     "r",
+     0.1371
+    ],
+    [
+     "n",
+     0.0973
+    ],
+    [
+     "a",
+     0.0774
+    ],
+    [
+     "i",
+     0.0637
+    ],
+    [
+     "v",
+     0.0488
+    ],
+    [
+     "u",
+     0.0472
+    ],
+    [
+     "ā",
+     0.0386
+    ],
+    [
+     "p",
+     0.017
+    ],
+    [
+     "e",
+     0.0122
+    ],
+    [
+     "c",
+     0.0116
+    ]
+   ],
+   "latency_ms": 2038.7,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00119:1:0",
+   "target": "ja-kula-ti",
+   "top1": "ja-la",
+   "confidence": 0.2238,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.5,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "ja-la",
+     0.2238
+    ],
+    [
+     "ja go",
+     0.1857
+    ],
+    [
+     "jago",
+     0.0949
+    ],
+    [
+     "jaga",
+     0.0582
+    ],
+    [
+     "ja-da",
+     0.0404
+    ],
+    [
+     "ja-ta",
+     0.0399
+    ],
+    [
+     "ja-na",
+     0.0364
+    ],
+    [
+     "ja-ra",
+     0.0342
+    ],
+    [
+     "ja-go",
+     0.0313
+    ],
+    [
+     "ja-pa",
+     0.029
+    ],
+    [
+     "japa",
+     0.0227
+    ],
+    [
+     "ja-va",
+     0.0162
+    ],
+    [
+     "a go",
+     0.0142
+    ],
+    [
+     "ja-g",
+     0.0138
+    ],
+    [
+     "jarā",
+     0.0117
+    ],
+    [
+     "ja-sa",
+     0.0114
+    ],
+    [
+     "ja-ma",
+     0.0088
+    ],
+    [
+     "ja-tr",
+     0.0073
+    ],
+    [
+     "a-go",
+     0.0059
+    ],
+    [
+     "ja-kṣ",
+     0.0053
+    ]
+   ],
+   "latency_ms": 5355.6,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00119:2:0",
+   "target": "ādhirāja-pa",
+   "top1": "a-pā",
+   "confidence": 0.3051,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.7273,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "a-pā",
+     0.3051
+    ],
+    [
+     "a pa",
+     0.1112
+    ],
+    [
+     "āja-pā",
+     0.1022
+    ],
+    [
+     "āja pa",
+     0.0927
+    ],
+    [
+     "a-pa",
+     0.06
+    ],
+    [
+     "ā-pa",
+     0.0587
+    ],
+    [
+     "a-pāra",
+     0.031
+    ],
+    [
+     "ā",
+     0.0308
+    ],
+    [
+     "a-para",
+     0.0251
+    ],
+    [
+     "ādhirājarāja pa",
+     0.0168
+    ],
+    [
+     "a-pa-",
+     0.0157
+    ],
+    [
+     "a-rāja-pa",
+     0.0153
+    ],
+    [
+     "āja-parā",
+     0.011
+    ],
+    [
+     "a-pāl",
+     0.009
+    ],
+    [
+     "adeva",
+     0.009
+    ],
+    [
+     "āja-pa",
+     0.0089
+    ],
+    [
+     "a-mahā-pa",
+     0.0089
+    ],
+    [
+     "ādhipa",
+     0.0086
+    ],
+    [
+     "a-pati",
+     0.0079
+    ],
+    [
+     "a-pa-ra",
+     0.0067
+    ]
+   ],
+   "latency_ms": 11504.2,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00119:3:0",
+   "target": "ṟku",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [],
+   "latency_ms": 16256.9,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSPallava00119:3:1",
+   "target": "āṇṭ’ ā",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [],
+   "latency_ms": 9086.5,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSPallava00119:4:0",
+   "target": "i",
+   "top1": "a",
+   "confidence": 0.1616,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "a",
+     0.1616
+    ],
+    [
+     "ḷ",
+     0.1025
+    ],
+    [
+     "ā",
+     0.0762
+    ],
+    [
+     "i",
+     0.0753
+    ],
+    [
+     "u",
+     0.048
+    ],
+    [
+     "ṇ",
+     0.0429
+    ],
+    [
+     "t",
+     0.04
+    ],
+    [
+     "e",
+     0.0386
+    ],
+    [
+     "ō",
+     0.0359
+    ],
+    [
+     "m",
+     0.0355
+    ],
+    [
+     "p",
+     0.0345
+    ],
+    [
+     "v",
+     0.0324
+    ],
+    [
+     "ṟ",
+     0.0308
+    ],
+    [
+     "l",
+     0.0272
+    ],
+    [
+     "k",
+     0.0266
+    ],
+    [
+     "ṭ",
+     0.0255
+    ],
+    [
+     "r",
+     0.0193
+    ],
+    [
+     "c",
+     0.0193
+    ],
+    [
+     "ñ",
+     0.0166
+    ],
+    [
+     "ṉ",
+     0.0163
+    ]
+   ],
+   "latency_ms": 5345.1,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00119:8:0",
+   "target": "ṇ",
+   "top1": "ḷ",
+   "confidence": 0.1024,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "ḷ",
+     0.1024
+    ],
+    [
+     "t",
+     0.1004
+    ],
+    [
+     "n",
+     0.0765
+    ],
+    [
+     "l",
+     0.076
+    ],
+    [
+     "ḻ",
+     0.0711
+    ],
+    [
+     "lai",
+     0.0621
+    ],
+    [
+     "m",
+     0.0552
+    ],
+    [
+     "ṅ",
+     0.0521
+    ],
+    [
+     "ñ",
+     0.0452
+    ],
+    [
+     "ṉ",
+     0.0429
+    ],
+    [
+     "ṇ",
+     0.0423
+    ],
+    [
+     "a",
+     0.0316
+    ],
+    [
+     "y",
+     0.0271
+    ],
+    [
+     "ṭ",
+     0.0233
+    ],
+    [
+     "ṟ",
+     0.0203
+    ],
+    [
+     "k",
+     0.0189
+    ],
+    [
+     "ll",
+     0.0184
+    ],
+    [
+     "p",
+     0.0168
+    ],
+    [
+     "c",
+     0.0144
+    ],
+    [
+     "r",
+     0.0128
+    ]
+   ],
+   "latency_ms": 9353.0,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00119:12:0",
+   "target": "ṟ",
+   "top1": "ṟ",
+   "confidence": 0.2694,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "ṟ",
+     0.2694
+    ],
+    [
+     "r",
+     0.1645
+    ],
+    [
+     "ṉ",
+     0.1405
+    ],
+    [
+     "l",
+     0.1037
+    ],
+    [
+     "u",
+     0.0639
+    ],
+    [
+     "ṭ",
+     0.0484
+    ]
+   ],
+   "latency_ms": 6989.3,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00129:4:0",
+   "target": "ru-vīraṭṭā",
+   "top1": "ru-vīraṭṭa",
+   "confidence": 0.1404,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 0.1,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "ru-vīraṭṭa",
+     0.1404
+    ],
+    [
+     "ru-vīraṭṭā",
+     0.1096
+    ],
+    [
+     "ttā",
+     0.0998
+    ],
+    [
+     "ruvīraṭṭā",
+     0.0875
+    ],
+    [
+     "ru-vīraṭā",
+     0.0743
+    ],
+    [
+     "ru vīraṭṭā",
+     0.0709
+    ],
+    [
+     "ru-ma",
+     0.0336
+    ],
+    [
+     "ru-va",
+     0.0326
+    ],
+    [
+     "ru-vīraṭṭāt",
+     0.0325
+    ],
+    [
+     "ru-vīraṭṭāṉ",
+     0.0241
+    ],
+    [
+     "ruvīr",
+     0.0221
+    ],
+    [
+     "ru-nā",
+     0.018
+    ],
+    [
+     "ru-vīraṭṭam",
+     0.017
+    ],
+    [
+     "ru-vīraṭṭāna",
+     0.0165
+    ],
+    [
+     "ru-k-kōvalūr tiru-vīraṭṭā",
+     0.0149
+    ]
+   ],
+   "latency_ms": 1432.4,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00129:5:0",
+   "target": "k’ oru nantā-vi",
+   "top1": "ku",
+   "confidence": 0.1129,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.8462,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "ku",
+     0.1129
+    ],
+    [
+     "ku nontā",
+     0.0803
+    ],
+    [
+     "ku tiru-v",
+     0.0784
+    ],
+    [
+     "ku-t tēva",
+     0.0683
+    ],
+    [
+     "kku nitta",
+     0.0682
+    ],
+    [
+     "ku-t tē",
+     0.0672
+    ],
+    [
+     "ku nitta",
+     0.0557
+    ],
+    [
+     "kku amuta",
+     0.0548
+    ],
+    [
+     "ku viḷakk",
+     0.0537
+    ],
+    [
+     "kku-t tiru",
+     0.0397
+    ],
+    [
+     "kku-t tēva",
+     0.0309
+    ],
+    [
+     "kku viḷak",
+     0.0303
+    ],
+    [
+     "ku mēṟ-",
+     0.0302
+    ],
+    [
+     "ku-t tirup",
+     0.0185
+    ],
+    [
+     "kku-p pali",
+     0.0152
+    ],
+    [
+     "kku nontā",
+     0.0129
+    ],
+    [
+     "ku-p pali",
+     0.0127
+    ],
+    [
+     "ku-p pūja",
+     0.0126
+    ],
+    [
+     "ku amuta",
+     0.0116
+    ],
+    [
+     "ku-v uṭaiya",
+     0.01
+    ]
+   ],
+   "latency_ms": 6823.0,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00129:5:1",
+   "target": "kku",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [],
+   "latency_ms": 8545.8,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSPallava00129:6:0",
+   "target": "m cantirātitta-varai Erippa",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [],
+   "latency_ms": 8861.9,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSPallava00129:7:0",
+   "target": "ṅkō-vēḷār-āyiṉa",
+   "top1": "ñāṉa aṟa",
+   "confidence": 0.1524,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.8667,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "ñāṉa aṟa",
+     0.1524
+    ],
+    [
+     "ñāṉam aṟa ma",
+     0.0954
+    ],
+    [
+     "ñāṉa maṟav",
+     0.0774
+    ],
+    [
+     "ñāṉa aṟam",
+     0.0659
+    ],
+    [
+     "ñāṉam aṟa",
+     0.0616
+    ],
+    [
+     "aṟa",
+     0.0602
+    ],
+    [
+     "lai aṟa",
+     0.0543
+    ],
+    [
+     "ñāṉa aṟa ma",
+     0.0524
+    ],
+    [
+     "ṉa",
+     0.0344
+    ],
+    [
+     "ñāṉa aṟav",
+     0.029
+    ],
+    [
+     "ñāṉam aṟa v",
+     0.0257
+    ],
+    [
+     "ñāṉa maṟa",
+     0.0253
+    ],
+    [
+     "ñāṉa aṟa m",
+     0.0221
+    ],
+    [
+     "ñāṉam aṟam",
+     0.0194
+    ],
+    [
+     "ñāṉa maṟa ma",
+     0.018
+    ],
+    [
+     "ñāṉa maṟa v",
+     0.0165
+    ],
+    [
+     "ṉ . aṟa",
+     0.0136
+    ],
+    [
+     "k",
+     0.0132
+    ],
+    [
+     "ñāṉa maṟam",
+     0.0125
+    ],
+    [
+     "ñāṉa maṟa m",
+     0.0125
+    ]
+   ],
+   "latency_ms": 5959.0,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00129:8:0",
+   "target": "poṉ",
+   "top1": "poṉ",
+   "confidence": 0.221,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "poṉ",
+     0.221
+    ],
+    [
+     "aṟam",
+     0.206
+    ],
+    [
+     "tī",
+     0.0949
+    ],
+    [
+     "āṟ",
+     0.0582
+    ],
+    [
+     "po",
+     0.0432
+    ],
+    [
+     "vi",
+     0.0266
+    ],
+    [
+     "viḷa",
+     0.0222
+    ],
+    [
+     "aṟa",
+     0.0221
+    ],
+    [
+     "ka",
+     0.0204
+    ],
+    [
+     "iṭ",
+     0.0197
+    ],
+    [
+     "poṟ",
+     0.0196
+    ],
+    [
+     "viḷak",
+     0.019
+    ],
+    [
+     "vaḷ",
+     0.0184
+    ],
+    [
+     "cey",
+     0.0161
+    ],
+    [
+     "nō",
+     0.0159
+    ],
+    [
+     "muṉ",
+     0.0157
+    ],
+    [
+     "nī",
+     0.0143
+    ],
+    [
+     "pal",
+     0.0136
+    ],
+    [
+     "ney",
+     0.0135
+    ],
+    [
+     "paṇ",
+     0.0126
+    ]
+   ],
+   "latency_ms": 8846.2,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00129:10:0",
+   "target": "ṟai",
+   "top1": "ṉ",
+   "confidence": 0.21,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "ṉ",
+     0.21
+    ],
+    [
+     "ṟ",
+     0.1637
+    ],
+    [
+     "t",
+     0.138
+    ],
+    [
+     "u",
+     0.062
+    ],
+    [
+     "p",
+     0.0596
+    ],
+    [
+     "r",
+     0.0526
+    ],
+    [
+     "ṭ",
+     0.0517
+    ],
+    [
+     "l",
+     0.0387
+    ],
+    [
+     "k",
+     0.0387
+    ],
+    [
+     "v",
+     0.0368
+    ],
+    [
+     "ṟai",
+     0.033
+    ],
+    [
+     "y",
+     0.0237
+    ],
+    [
+     "c",
+     0.0223
+    ]
+   ],
+   "latency_ms": 3414.4,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00129:11:0",
+   "target": "nā",
+   "top1": null,
+   "confidence": 0.0,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [],
+   "latency_ms": 8268.2,
+   "error": "MaxTokensReachedException: Model stopped generating due to maximum token limit. The partial message has been added to the conversation history. You can continue by calling the agent again. For more information see: https://stra"
+  },
+  {
+   "id": "DHARMA_INSPallava00177:19:0",
+   "target": "U",
+   "top1": "u",
+   "confidence": 0.0986,
+   "top1_correct": true,
+   "in_top20": true,
+   "cer": 0.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "u",
+     0.0986
+    ],
+    [
+     "i",
+     0.0979
+    ],
+    [
+     "k",
+     0.0837
+    ],
+    [
+     "ā",
+     0.0603
+    ],
+    [
+     "n",
+     0.0568
+    ],
+    [
+     "a",
+     0.0523
+    ],
+    [
+     "ī",
+     0.045
+    ],
+    [
+     "o",
+     0.0329
+    ],
+    [
+     "p",
+     0.0322
+    ],
+    [
+     "y",
+     0.0315
+    ],
+    [
+     "ṉ",
+     0.0314
+    ],
+    [
+     "ē",
+     0.0303
+    ],
+    [
+     "t",
+     0.0298
+    ],
+    [
+     "c",
+     0.0292
+    ],
+    [
+     "e",
+     0.0285
+    ],
+    [
+     "ñ",
+     0.0282
+    ],
+    [
+     "r",
+     0.0266
+    ],
+    [
+     "ḷ",
+     0.0241
+    ],
+    [
+     "v",
+     0.024
+    ],
+    [
+     "kuṟu",
+     0.0234
+    ]
+   ],
+   "latency_ms": 1079.2,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00177:20:0",
+   "target": "ḻa",
+   "top1": "uḻa",
+   "confidence": 0.2564,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.5,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "uḻa",
+     0.2564
+    ],
+    [
+     "a",
+     0.1322
+    ],
+    [
+     "-",
+     0.108
+    ],
+    [
+     "u",
+     0.0859
+    ],
+    [
+     "ā",
+     0.0852
+    ],
+    [
+     "ṅ",
+     0.0421
+    ],
+    [
+     "uḷa",
+     0.0419
+    ],
+    [
+     "nā-ṉāḻi parivarikka uri",
+     0.0305
+    ],
+    [
+     "uri",
+     0.0272
+    ],
+    [
+     "nellu-p pata",
+     0.0266
+    ],
+    [
+     "ula",
+     0.0186
+    ],
+    [
+     "uṭa",
+     0.0151
+    ],
+    [
+     "uṇa",
+     0.0147
+    ]
+   ],
+   "latency_ms": 783.1,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00177:23:0",
+   "target": "ya",
+   "top1": "p",
+   "confidence": 0.1748,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "p",
+     0.1748
+    ],
+    [
+     "u",
+     0.1402
+    ],
+    [
+     "ya-k",
+     0.0683
+    ],
+    [
+     "n",
+     0.052
+    ],
+    [
+     "t",
+     0.0507
+    ],
+    [
+     "y",
+     0.048
+    ],
+    [
+     "l",
+     0.0328
+    ],
+    [
+     "ṇ",
+     0.0325
+    ],
+    [
+     "v",
+     0.0308
+    ],
+    [
+     "k",
+     0.0291
+    ],
+    [
+     "ppōm",
+     0.0277
+    ],
+    [
+     "m",
+     0.0269
+    ],
+    [
+     "i",
+     0.0261
+    ],
+    [
+     "ḷ",
+     0.0261
+    ],
+    [
+     "ā",
+     0.0234
+    ],
+    [
+     "ñ",
+     0.0234
+    ],
+    [
+     "r",
+     0.0232
+    ],
+    [
+     "ṉ",
+     0.0232
+    ],
+    [
+     "ṭ",
+     0.0211
+    ],
+    [
+     "ḻ",
+     0.0146
+    ]
+   ],
+   "latency_ms": 4673.8,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00177:33:0",
+   "target": "poṉ",
+   "top1": "pa",
+   "confidence": 0.2005,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.6667,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "pa",
+     0.2005
+    ],
+    [
+     "paṭ",
+     0.0862
+    ],
+    [
+     "pā",
+     0.0689
+    ],
+    [
+     "paṭi",
+     0.0686
+    ],
+    [
+     "paṉ",
+     0.0664
+    ],
+    [
+     "paṅ",
+     0.0643
+    ],
+    [
+     "pacu",
+     0.06
+    ],
+    [
+     "par",
+     0.0563
+    ],
+    [
+     "pari",
+     0.0279
+    ],
+    [
+     "paṇ",
+     0.024
+    ],
+    [
+     "paṭu",
+     0.0223
+    ],
+    [
+     "paṟ",
+     0.0188
+    ],
+    [
+     "paṭṭi",
+     0.018
+    ],
+    [
+     "pal",
+     0.0177
+    ],
+    [
+     "paṭam",
+     0.0164
+    ],
+    [
+     "pak",
+     0.016
+    ],
+    [
+     "paṭṭu",
+     0.0157
+    ],
+    [
+     "po",
+     0.0155
+    ],
+    [
+     "paṭṭa",
+     0.0148
+    ],
+    [
+     "paṉi",
+     0.0143
+    ]
+   ],
+   "latency_ms": 4913.7,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00177:37:0",
+   "target": "cu",
+   "top1": "ciṉ",
+   "confidence": 0.4099,
+   "top1_correct": false,
+   "in_top20": true,
+   "cer": 1.0,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "ciṉ",
+     0.4099
+    ],
+    [
+     "cu",
+     0.1062
+    ],
+    [
+     "ñ",
+     0.0877
+    ],
+    [
+     "u",
+     0.0845
+    ],
+    [
+     "c",
+     0.0775
+    ],
+    [
+     "ñc",
+     0.0584
+    ],
+    [
+     "cē",
+     0.0228
+    ],
+    [
+     "ñcu",
+     0.0201
+    ],
+    [
+     "kaḷ",
+     0.0189
+    ],
+    [
+     "cam",
+     0.0138
+    ]
+   ],
+   "latency_ms": 3193.7,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  },
+  {
+   "id": "DHARMA_INSPallava00178:1:0",
+   "target": "mum",
+   "top1": "iyum",
+   "confidence": 0.1647,
+   "top1_correct": false,
+   "in_top20": false,
+   "cer": 0.6667,
+   "abstained": true,
+   "hard": true,
+   "age_set": true,
+   "candidates": [
+    [
+     "iyum",
+     0.1647
+    ],
+    [
+     "mā",
+     0.1442
+    ],
+    [
+     "ṅkā",
+     0.0689
+    ],
+    [
+     "ṉ p",
+     0.0563
+    ],
+    [
+     "ṅka",
+     0.0496
+    ],
+    [
+     "m ā",
+     0.0494
+    ],
+    [
+     "ttā",
+     0.0407
+    ],
+    [
+     "mp",
+     0.039
+    ],
+    [
+     "tt ā",
+     0.0309
+    ],
+    [
+     "m t",
+     0.0298
+    ],
+    [
+     "m p",
+     0.0286
+    ],
+    [
+     "m o",
+     0.0278
+    ],
+    [
+     "ṉ u",
+     0.027
+    ],
+    [
+     "m u",
+     0.0232
+    ],
+    [
+     "ṉ ā",
+     0.0202
+    ],
+    [
+     "ṅki",
+     0.019
+    ],
+    [
+     "m i",
+     0.0188
+    ],
+    [
+     "māka",
+     0.0176
+    ],
+    [
+     "nampikku-c civarātri",
+     0.0171
+    ],
+    [
+     "ṉ i",
+     0.015
+    ]
+   ],
+   "latency_ms": 16632.4,
+   "decider_model": "strands-decider-2B-qwen3.5-v1-2610",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "strands-decider-2B-qwen3.5-v1-2610"
+   ],
+   "escalated": false,
+   "confidence_source": "decider"
+  }
+ ]
+}
