@@ -9,8 +9,26 @@ import pytest
 
 from ezhuthu.corpus.script import iso_to_tamil_display
 from ezhuthu.expert.__main__ import main
-from ezhuthu.expert.analyze import SheetError, analyze, analyze_reading, score_answer, to_markdown
-from ezhuthu.expert.packet import RATING_COLUMNS, SampleSpec, build_packet, sample_items, write_csv
+from ezhuthu.expert.analyze import (
+    SheetError,
+    analyze,
+    analyze_ratings,
+    analyze_reading,
+    score_answer,
+    scoring_form,
+    to_markdown,
+)
+from ezhuthu.expert.packet import (
+    RATING_COLUMNS,
+    SampleSpec,
+    build_packet,
+    label_map,
+    rating_rows,
+    read_jsonl,
+    sample_items,
+    write_csv,
+    write_packet,
+)
 from ezhuthu.expert.synth import synth_ratings, synth_reading, write_synthetic
 
 SPEC = SampleSpec(seed=3, n_blank=8, n_masked=8, n_reading=8, spares=2, min_context_letters=10)
@@ -147,3 +165,78 @@ def test_cli_end_to_end_offline(bench, tmp_path, monkeypatch, capsys):
     write_csv(bad, RATING_COLUMNS, rows)
     assert main(["analyze", "--key", str(keyp), "--out", str(k / "res2"), str(bad)]) == 2
     assert "sheet error" in capsys.readouterr().err
+
+
+def _fill_by_origin(key: dict, raters: list[str], score) -> list[dict[str, str]]:
+    """Sheets filled from the key: ``score(option) -> 1..4``, through each rater's own labels."""
+    rows = []
+    for rater in raters:
+        labels = label_map(key, rater)
+        for r in rating_rows(key, rater):
+            it = next(i for i in key["rating"] if i["code"] == r["item_code"])
+            opt = next(o for o in it["options"] if o["oid"] == labels[r["item_code"]][r["option"]])
+            rows.append({**r, "rating_1_to_4": str(score(opt))})
+    return rows
+
+
+def test_per_rater_labels_are_mapped_back_to_options(key, tmp_path):
+    write_packet(key, ["R1", "R2", "R3"], tmp_path / "p")  # records label_maps in the key
+    assert key["label_maps"]["R1"] != key["label_maps"]["R2"]
+    rows = _fill_by_origin(key, ["R1", "R2", "R3"], lambda o: 4 if o["origin"] == "expert" else 1)
+    res = analyze_ratings(rows, key, n_boot=50)
+    assert res["by_group"]["edition_fill (masked)"]["mean_rating"] == 4.0
+    assert res["by_group"]["ai (masked)"]["mean_rating"] == 1.0
+    assert res["agreement"]["fleiss_kappa"] == pytest.approx(1.0)
+    # a label read through the wrong rater's map would not give these numbers
+    assert res["masked"]["edition_fill_top_rated_by_rater"] == {"R1": 1.0, "R2": 1.0, "R3": 1.0}
+
+
+def test_edition_fill_also_proposed_by_ai_counts_as_a_tie(key):
+    masked = [it for it in key["rating"] if it["kind"] == "masked"]
+    also = [it for it in masked if any(o.get("also_proposed_by_ai") for o in it["options"])]
+    assert 1 <= len(also) < len(masked)
+    rows = _fill_by_origin(key, ["R1", "R2"], lambda o: 4 if o["origin"] == "expert" else 2)
+    mk = analyze_ratings(rows, key, n_boot=50)["masked"]
+    n, m = len(masked), len(also)
+    # the AI proposed the edition fill on m items: there its best is the edition fill itself (difference 0)
+    assert mk["items"] == n
+    assert mk["mean_edition_minus_best_ai"] == pytest.approx(round(2 * (n - m) / n, 3))
+    assert mk["share_best_ai_rated_at_least_edition"] == pytest.approx(round(m / n, 3))
+    ex = mk["excluding_edition_also_proposed_by_ai"]
+    assert ex["items"] == n - m and ex["mean_edition_minus_best_ai"] == 2.0
+    assert ex["share_best_ai_rated_at_least_edition"] == 0.0
+    st = mk["by_length_cue"]
+    assert st["all_options_within_tolerance"]["items"] + st["some_option_off_length"]["items"] == n
+    assert st["an_ai_option_exactly_gap_length"]["items"] + st["only_edition_fill_exactly_gap_length"]["items"] == n
+    md = to_markdown({"packet": key["meta"], "raters": ["R1", "R2"], "synthetic": False,
+                      "rating": analyze_ratings(rows, key, n_boot=50)})
+    assert "excluding items where the AI also proposed" in md and "weaker length cue" in md
+
+
+def test_length_strata_split_ai_options(key):
+    rows = _fill_by_origin(key, ["R1", "R2"], lambda o: 3 if o["length_match"] else 1)
+    g = analyze_ratings(rows, key, n_boot=50)["by_group"]
+    on, off = g["ai (masked), length within tolerance of gap"], g["ai (masked), length off"]
+    assert on["units"] + off["units"] == g["ai (masked)"]["units"]
+    assert (on["mean_rating"] in (None, 3.0)) and (off["mean_rating"] in (None, 1.0))
+
+
+def test_tamil_script_answers_with_voiced_or_grantha_letters_score_as_correct():
+    for target in ("ādhirāja-pa", "dimaṅkalattu", "gaṅgai", "jayabāhu", "ḍamaru", "śrī-kō-r-ājakēsari"):
+        tamil = iso_to_tamil_display(target)
+        assert score_answer(tamil, target) == (True, 0.0), (target, tamil, scoring_form(tamil))
+        assert score_answer(target, target) == (True, 0.0)
+    # an unvoiced ISO answer scores like its Tamil-script spelling, and a real error still counts
+    assert score_answer("ātirājapa", "ādhirāja-pa")[0]
+    assert not score_answer("ātirājaka", "ādhirāja-pa")[0]
+
+
+PILOT = Path(__file__).resolve().parents[2] / "docs" / "expert-validation" / "pilot"
+
+
+@pytest.mark.skipif(not (PILOT / "sample.jsonl").exists(), reason="pilot packet not present")
+def test_every_pilot_target_round_trips_through_tamil_script():
+    targets = [r["target"] for r in read_jsonl(PILOT / "sample.jsonl") if r.get("target")]
+    assert len(targets) >= 24
+    for t in targets:
+        assert score_answer(iso_to_tamil_display(t), t) == (True, 0.0), t

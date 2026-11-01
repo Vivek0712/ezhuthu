@@ -1,14 +1,16 @@
 """Expert-validation kit CLI (docs/expert-validation/PROTOCOL.md).
 
-    python -m ezhuthu.expert sample   --out kit/sample.jsonl [--seed 2026 --n-blank 14 --n-masked 14 --n-reading 12]
+    python -m ezhuthu.expert sample   --out kit/sample.jsonl [--seed 2026 --n-blank 12 --n-masked 12 --n-reading 12 --spares 2]
     python -m ezhuthu.expert propose  --sample kit/sample.jsonl --out kit/proposals.jsonl --router none|sonnet
     python -m ezhuthu.expert generate --sample kit/sample.jsonl --proposals kit/proposals.jsonl \\
                                       --raters R1,R2,R3,R4 --out kit/packet [--pdf]
     python -m ezhuthu.expert synth    --key kit/packet/coordinator/key.json --raters 4 --out kit/synthetic
     python -m ezhuthu.expert analyze  --key kit/packet/coordinator/key.json --out results kit/returned/*.csv
 
-``propose --router sonnet`` calls Bedrock (one call per passage) and needs ``EZHUTHU_LIVE=1``; it refuses
-more than ``--max-llm-calls`` (default 40) passages.
+``propose --router sonnet`` calls Bedrock (one call per passage, plus retries) and needs ``EZHUTHU_LIVE=1``.
+``--max-llm-calls`` (default 40) caps actual calls, retries and failed calls included: a sample with more
+passages is refused up front, and the run stops calling once the cap is reached. The ``sample`` defaults give
+12 + 2 + 12 + 2 + 12 = 40 passages, so the quick start fits the cap.
 """
 
 from __future__ import annotations
@@ -54,7 +56,7 @@ def cmd_propose(a: argparse.Namespace) -> int:
     out = Path(a.out)
     write_jsonl(out, rows)
     Path(str(out) + ".meta.json").write_text(json.dumps(meta, indent=1), encoding="utf-8")
-    print(json.dumps({k: meta[k] for k in ("router", "errors", "usage")}))
+    print(json.dumps({k: meta[k] for k in ("router", "errors", "llm_call_attempts", "cap_reached", "usage")}))
     return 0
 
 
@@ -68,8 +70,9 @@ def cmd_generate(a: argparse.Namespace) -> int:
     prov = {"router": pmeta.get("router"), "llm": pmeta.get("llm"), "ranking": pmeta.get("ranking"),
             "use_ontology": pmeta.get("use_ontology"), "sample_seed": smeta.get("seed"),
             "blank_sha12": smeta.get("blank_sha12"), "test_sha12": smeta.get("test_sha12")}
-    key = build_packet(sample, proposals, seed=a.seed, options_per_item=a.options, provenance=prov)
     raters = [r.strip() for r in a.raters.split(",") if r.strip()]
+    key = build_packet(sample, proposals, seed=a.seed, options_per_item=a.options, provenance=prov,
+                       length_tolerance=None if a.length_tolerance < 0 else a.length_tolerance)
     out = Path(a.out)
     written = write_packet(key, raters, out)
     if a.pdf:
@@ -116,12 +119,12 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--out", required=True)
     s.add_argument("--benchmark-dir", default=None)
     s.add_argument("--seed", type=int, default=2026)
-    s.add_argument("--n-blank", type=int, default=14)
-    s.add_argument("--n-masked", type=int, default=14)
+    s.add_argument("--n-blank", type=int, default=12)
+    s.add_argument("--n-masked", type=int, default=12)
     s.add_argument("--n-reading", type=int, default=12)
     s.add_argument("--min-gap", type=int, default=2)
     s.add_argument("--max-gap", type=int, default=12)
-    s.add_argument("--spares", type=int, default=3, help="extra rating items per role, used if one drops out")
+    s.add_argument("--spares", type=int, default=2, help="extra rating items per role, used if one drops out")
     s.add_argument("--blank-splits", default="test,val", help="splits to draw blank passages from")
     s.set_defaults(fn=cmd_sample)
     p = sub.add_parser("propose", help="run the restorer on the sample (ontology off, train-only retrieval)")
@@ -138,6 +141,8 @@ def main(argv: list[str] | None = None) -> int:
     g.add_argument("--out", required=True)
     g.add_argument("--seed", type=int, default=2026)
     g.add_argument("--options", type=int, default=3, help="options per rating item (same for every item)")
+    g.add_argument("--length-tolerance", type=int, default=1,
+                   help="prefer AI options within this many aksharas of the gap (-1: no preference)")
     g.add_argument("--pdf", action="store_true", help="also print every HTML sheet to PDF with headless Chrome")
     g.set_defaults(fn=cmd_generate)
     y = sub.add_parser("synth", help="synthetic filled sheets (SYN- raters) to test the analysis")

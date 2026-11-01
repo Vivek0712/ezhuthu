@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Any
 
 from .analyze import SYNTHETIC_PREFIX
-from .packet import RATING_COLUMNS, READING_COLUMNS, form_for, rating_rows, reading_rows, write_csv
+from .packet import RATING_COLUMNS, READING_COLUMNS, form_for, label_map, rating_rows, reading_rows, write_csv
 
 
 def synth_ratings(key: dict[str, Any], raters: list[str], *, seed: int = 0, q_edition: float = 3.4,
@@ -26,17 +26,18 @@ def synth_ratings(key: dict[str, Any], raters: list[str], *, seed: int = 0, q_ed
     for it in key["rating"]:
         for o in it["options"]:
             q = q_edition if o["origin"] == "expert" else q_ai
-            latent[(it["code"], o["label"])] = q + rng.gauss(0, unit_sd)
+            latent[(it["code"], o.get("oid") or o["label"])] = q + rng.gauss(0, unit_sd)
     out: dict[str, list[dict[str, str]]] = {}
     for rater in raters:
         bias = rng.gauss(0, rater_bias_sd)
         rows = rating_rows(key, rater)
+        labels = label_map(key, rater)
         flagged_items = {it["code"] for it in key["rating"] if rng.random() < p_flagged}
         for r in rows:
             if rng.random() < p_cannot_judge:
                 r["cannot_judge_y"] = "y"
                 continue
-            v = latent[(r["item_code"], r["option"])] + bias + (rng.gauss(0, rater_sd) if rater_sd else 0.0)
+            v = latent[(r["item_code"], labels[r["item_code"]][r["option"]])] + bias + (rng.gauss(0, rater_sd) if rater_sd else 0.0)
             r["rating_1_to_4"] = str(min(4, max(1, round(v))))
             if r["item_code"] in flagged_items:
                 r["knew_this_text_y"] = "y"

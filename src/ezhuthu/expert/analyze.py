@@ -20,8 +20,9 @@ from typing import Any
 from rapidfuzz.distance import Levenshtein
 
 from ..agent.text import looks_tamil, tamil_to_iso
+from ..corpus.script import iso_to_tamil_display
 from ..corpus.script import normalise_for_scoring as letters
-from .packet import RATING_COLUMNS, READING_COLUMNS
+from .packet import RATING_COLUMNS, READING_COLUMNS, label_map, length_info
 from .stats import (
     cluster_bootstrap_ci,
     cohen_kappa,
@@ -80,13 +81,31 @@ def collect_sheets(paths: list[Path]) -> dict[str, list[dict[str, str]]]:
 class Rating:
     rater: str
     item: str
-    option: str
+    option: str  # the option's id in the key (``oid``), not the label this rater saw
     value: int | None  # None = cannot judge
     flagged: bool  # consulted the edition first or knew the text
 
 
+def _oid(o: dict[str, Any]) -> str:
+    return o.get("oid") or o["label"]  # kit v1 keys have one label per option and no oid
+
+
+def _options(key: dict[str, Any]) -> dict[tuple[str, str], dict[str, Any]]:
+    """``{(item_code, oid): option}`` with length fields filled in for keys written before kit v2."""
+    tol = key["meta"].get("length_tolerance_aksharas")
+    tol = 1 if tol is None else tol
+    out = {}
+    for it in key["rating"]:
+        for o in it["options"]:
+            if "length_match" not in o:
+                o = {**o, **length_info(o["text"], int(it["gap_chars"]), tol)}
+            out[(it["code"], _oid(o))] = o
+    return out
+
+
 def parse_ratings(rows: list[dict[str, str]], key: dict[str, Any]) -> tuple[list[Rating], dict[str, int]]:
-    units = {(it["code"], o["label"]) for it in key["rating"] for o in it["options"]}
+    units = set(_options(key))
+    maps: dict[str, dict[str, dict[str, str]]] = {}
     seen: set[tuple[str, str, str]] = set()
     item_flag: dict[tuple[str, str], bool] = defaultdict(bool)
     for r in rows:
@@ -95,10 +114,13 @@ def parse_ratings(rows: list[dict[str, str]], key: dict[str, Any]) -> tuple[list
     out: list[Rating] = []
     counts = {"rows": len(rows), "blank_unrated": 0, "cannot_judge": 0}
     for r in rows:
-        rater, item, opt = r["rater_id"].strip(), r["item_code"].strip(), r["option"].strip().upper()
-        where = f"{r.get('_file', '?')}: rater {rater} item {item} option {opt}"
+        rater, item, label = r["rater_id"].strip(), r["item_code"].strip(), r["option"].strip().upper()
+        where = f"{r.get('_file', '?')}: rater {rater} item {item} option {label}"
         if not rater:
             raise SheetError(f"{where}: empty rater_id")
+        if rater not in maps:
+            maps[rater] = label_map(key, rater)
+        opt = maps[rater].get(item, {}).get(label, "")
         if (item, opt) not in units:
             raise SheetError(f"{where}: not in this packet's key")
         if (rater, item, opt) in seen:
@@ -175,7 +197,7 @@ def analyze_ratings(rows: list[dict[str, str]], key: dict[str, Any], *, n_boot: 
     ratings, counts = parse_ratings(rows, key)
     main = [r for r in ratings if not r.flagged]
     items = {it["code"]: it for it in key["rating"]}
-    opt_of = {(it["code"], o["label"]): o for it in key["rating"] for o in it["options"]}
+    opt_of = _options(key)
     unit_vals: dict[tuple[str, str], list[int]] = defaultdict(list)
     for r in main:
         if r.value is not None:
@@ -197,6 +219,12 @@ def analyze_ratings(rows: list[dict[str, str]], key: dict[str, Any], *, n_boot: 
         "edition_fill (masked)": [u for u in all_units if opt_of[u]["origin"] == "expert"],
         "ai (masked)": [u for u in all_units if opt_of[u]["origin"] == "ai" and items[u[0]]["kind"] == "masked"],
         "ai (blank)": [u for u in all_units if opt_of[u]["origin"] == "ai" and items[u[0]]["kind"] == "blank"],
+        "ai (masked), length within tolerance of gap": [
+            u for u in all_units if opt_of[u]["origin"] == "ai" and items[u[0]]["kind"] == "masked"
+            and opt_of[u]["length_match"]],
+        "ai (masked), length off": [
+            u for u in all_units if opt_of[u]["origin"] == "ai" and items[u[0]]["kind"] == "masked"
+            and not opt_of[u]["length_match"]],
     }
     for g in ("llm", "retrieval", "ngram", "ontology"):
         us = [u for u in all_units if opt_of[u]["origin"] == "ai" and _source_group(opt_of[u]) == g]
@@ -204,25 +232,42 @@ def analyze_ratings(rows: list[dict[str, str]], key: dict[str, Any], *, n_boot: 
             groups[f"ai by source: {g}"] = us
     by_group = {name: group_stats(us) for name, us in groups.items()}
 
-    # masked: edition fill vs best AI option, per item
-    paired = []
+    # masked: edition fill vs best AI option, per item. When the AI also proposed the edition's fill (shown
+    # once, as the edition's option), the AI's best is at least that option: such items count as ties in the
+    # main figures, and are also reported excluded.
+    # (inscription, edition mean, best AI mean incl. tie, also_proposed, all options within tolerance,
+    #  some AI option exactly as long as the gap)
+    paired: list[tuple[str, float, float, bool, bool, bool]] = []
     for code, it in items.items():
         if it["kind"] != "masked":
             continue
-        exp = [unit_mean[(code, o["label"])] for o in it["options"]
-               if o["origin"] == "expert" and (code, o["label"]) in unit_mean]
-        ai = [unit_mean[(code, o["label"])] for o in it["options"]
-              if o["origin"] == "ai" and (code, o["label"]) in unit_mean]
+        opts = [(o, unit_mean.get((code, _oid(o)))) for o in (opt_of[(code, _oid(x))] for x in it["options"])]
+        exp = [(o, m) for o, m in opts if o["origin"] == "expert" and m is not None]
+        ai = [m for o, m in opts if o["origin"] == "ai" and m is not None]
         if exp and ai:
-            paired.append((it["inscription_id"], exp[0], max(ai)))
-    diffs = [(c, e - a) for c, e, a in paired]
-    ci = cluster_bootstrap_ci(diffs, n_boot=n_boot, seed=seed)
-    masked = {"items": len(paired),
-              "mean_edition_minus_best_ai": _r(mean([d for _, d in diffs])),
-              "mean_edition_minus_best_ai_ci95": [_r(ci[0]), _r(ci[1])],
-              "share_best_ai_rated_at_least_edition": _r(mean([1.0 if a >= e else 0.0 for _, e, a in paired])),
+            e_opt, e = exp[0]
+            also = bool(e_opt.get("also_proposed_by_ai"))
+            best = max(max(ai), e) if also else max(ai)
+            paired.append((it["inscription_id"], e, best, also, all(o["length_match"] for o, _ in opts),
+                           any(o["origin"] == "ai" and o["length_diff"] == 0 for o, _ in opts)))
+
+    def paired_stats(rows: list[tuple]) -> dict[str, Any]:
+        diffs = [(c, e - a) for c, e, a, *_ in rows]
+        ci = cluster_bootstrap_ci(diffs, n_boot=n_boot, seed=seed)
+        return {"items": len(rows), "mean_edition_minus_best_ai": _r(mean([d for _, d in diffs])),
+                "mean_edition_minus_best_ai_ci95": [_r(ci[0]), _r(ci[1])],
+                "share_best_ai_rated_at_least_edition": _r(mean([1.0 if a >= e else 0.0
+                                                                 for _, e, a, *_ in rows]))}
+
+    masked = {**paired_stats(paired),
               "edition_fill_also_proposed_by_ai": sum(1 for it in items.values() if it["kind"] == "masked"
-                                                      for o in it["options"] if o.get("also_proposed_by_ai"))}
+                                                      for o in it["options"] if o.get("also_proposed_by_ai")),
+              "excluding_edition_also_proposed_by_ai": paired_stats([p for p in paired if not p[3]]),
+              "by_length_cue": {
+                  "all_options_within_tolerance": paired_stats([p for p in paired if p[4]]),
+                  "some_option_off_length": paired_stats([p for p in paired if not p[4]]),
+                  "an_ai_option_exactly_gap_length": paired_stats([p for p in paired if p[5]]),
+                  "only_edition_fill_exactly_gap_length": paired_stats([p for p in paired if not p[5]])}}
     # per rater: how often the edition's fill gets the rater's top score (ties count) on masked items
     per_rater: dict[str, list[float]] = defaultdict(list)
     by_rater_item: dict[tuple[str, str], dict[str, int]] = defaultdict(dict)
@@ -233,7 +278,7 @@ def analyze_ratings(rows: list[dict[str, str]], key: dict[str, Any], *, n_boot: 
         it = items[code]
         if it["kind"] != "masked":
             continue
-        exp = [o["label"] for o in it["options"] if o["origin"] == "expert"]
+        exp = [_oid(o) for o in it["options"] if o["origin"] == "expert"]
         if exp and exp[0] in opts:
             per_rater[rater].append(1.0 if opts[exp[0]] >= max(opts.values()) else 0.0)
     masked["edition_fill_top_rated_by_rater"] = {k: _r(mean(v)) for k, v in sorted(per_rater.items())}
@@ -242,7 +287,7 @@ def analyze_ratings(rows: list[dict[str, str]], key: dict[str, Any], *, n_boot: 
     blank_items = [it for it in items.values() if it["kind"] == "blank"]
     hits = []
     for it in blank_items:
-        ms = [unit_mean[(it["code"], o["label"])] for o in it["options"] if (it["code"], o["label"]) in unit_mean]
+        ms = [unit_mean[(it["code"], _oid(o))] for o in it["options"] if (it["code"], _oid(o)) in unit_mean]
         if ms:
             hits.append((it["inscription_id"], 1.0 if max(ms) >= 3 else 0.0))
     cib = cluster_bootstrap_ci(hits, n_boot=n_boot, seed=seed)
@@ -265,14 +310,21 @@ def analyze_ratings(rows: list[dict[str, str]], key: dict[str, Any], *, n_boot: 
 
 
 # -------------------------------------------------------------------------------------------- reading -------
-def _to_iso(answer: str) -> str:
-    return tamil_to_iso(answer) if looks_tamil(answer) else answer
+def scoring_form(text: str) -> str:
+    """The form both a target and an answer are compared in, whatever script the answer is in: letters only
+    (:func:`normalise_for_scoring`) of the text taken through Tamil script and back. Tamil script does not
+    write voicing or aspiration (த = t/d/dh, க = k/g, ப = p/b, ட = ṭ/ḍ), so an ISO target ``ādhirāja`` and the Tamil-script
+    answer ஆதிராஜ must meet in the form both scripts can express: ``ātirāja``. ISO answers are folded the
+    same way, so neither script is favoured."""
+    t = text or ""
+    tamil = t if looks_tamil(t) else iso_to_tamil_display(t)
+    return letters(tamil_to_iso(tamil))
 
 
 def score_answer(answer: str, target: str) -> tuple[bool, float]:
     """(exact match on the scoring form, CER clipped to 1). An empty answer is wrong with CER 1."""
-    t = letters(target)
-    h = letters(_to_iso(answer or ""))
+    t = scoring_form(target)
+    h = scoring_form(answer or "")
     if not h:
         return False, 1.0
     return h == t, min(1.0, Levenshtein.distance(t, h) / max(1, len(t)))
@@ -401,13 +453,25 @@ def to_markdown(res: dict[str, Any]) -> str:
         lines += [f"| {g} | {s['units']} | {s['inscriptions']} | {_fmt(s['mean_rating'])} {_fmt(s['mean_rating_ci95'])} | "
                   f"{_fmt(s['share_plausible_ge3'])} {_fmt(s['share_plausible_ci95'])} |" for g, s in r["by_group"].items()]
         mk, bl, ca = r["masked"], r["blank"], r["calibration"]
+        strata = [("all masked items (edition fill also proposed by the AI = tie)", mk),
+                  ("excluding items where the AI also proposed the edition fill",
+                   mk["excluding_edition_also_proposed_by_ai"]),
+                  ("every option within the length tolerance (weaker length cue)",
+                   mk["by_length_cue"]["all_options_within_tolerance"]),
+                  ("some option outside the length tolerance (stronger length cue)",
+                   mk["by_length_cue"]["some_option_off_length"]),
+                  ("an AI option exactly as long as the gap",
+                   mk["by_length_cue"]["an_ai_option_exactly_gap_length"]),
+                  ("only the edition fill exactly as long as the gap",
+                   mk["by_length_cue"]["only_edition_fill_exactly_gap_length"])]
         lines += ["", "### Masked restorations (edition fill known)", "",
-                  (f"- Items: {mk['items']}. Mean (edition fill - best AI option): {_fmt(mk['mean_edition_minus_best_ai'])} "
-                  f"{_fmt(mk['mean_edition_minus_best_ai_ci95'])}."),
-                  (f"- Share of items where the best AI option is rated at least as high as the edition fill: "
-                  f"{_fmt(mk['share_best_ai_rated_at_least_edition'])}."),
                   f"- Edition fill also among the AI proposals (shown once): {mk['edition_fill_also_proposed_by_ai']} items.",
-                  (f"- Share of items where each rater gave the edition fill their top score: "
+                  "", "| items | n | mean (edition fill - best AI) (95% CI) | share best AI >= edition fill |",
+                  "|---|---|---|---|"]
+        lines += [f"| {name} | {st['items']} | {_fmt(st['mean_edition_minus_best_ai'])} "
+                  f"{_fmt(st['mean_edition_minus_best_ai_ci95'])} | {_fmt(st['share_best_ai_rated_at_least_edition'])} |"
+                  for name, st in strata]
+        lines += ["", (f"- Share of items where each rater gave the edition fill their top score: "
                   f"{json.dumps(mk['edition_fill_top_rated_by_rater'])}."), "",
                   "### Blank passages (no expert fill exists)", "",
                   (f"- Items: {bl['items']}. Share with at least one AI proposal rated plausible (mean >= 3): "

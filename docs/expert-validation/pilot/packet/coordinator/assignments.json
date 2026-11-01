@@ -2,17 +2,5 @@
  {
   "rater_id": "R1",
   "reading_form": "A"
- },
- {
-  "rater_id": "R2",
-  "reading_form": "B"
- },
- {
-  "rater_id": "R3",
-  "reading_form": "A"
- },
- {
-  "rater_id": "R4",
-  "reading_form": "B"
  }
 ]

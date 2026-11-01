@@ -12,9 +12,12 @@ import pytest
 from ezhuthu.expert.packet import (
     RATING_COLUMNS,
     READING_COLUMNS,
+    CallCapReached,
+    CappedLLM,
     SampleSpec,
     build_packet,
     display_iso,
+    label_map,
     propose,
     reading_forms,
     sample_items,
@@ -38,6 +41,9 @@ def test_sample_is_seeded_disjoint_and_split_safe(bench: Path):
     assert max(Counter(r["inscription_id"] for r in a).values()) <= 2
     assert all(r["split"] in ("test", "val") for r in a if r["role"] == "rating-blank")
     assert all(r["split"] == "test" and r["target"] for r in a if r["role"] != "rating-blank")
+    # Study B never shares an inscription with Study A (spares included)
+    rating_ins = {r["inscription_id"] for r in a if r["role"] != "reading"}
+    assert not rating_ins & {r["inscription_id"] for r in a if r["role"] == "reading"}
     with pytest.raises(ValueError, match="not enough eligible"):
         sample_items(bench, SampleSpec(n_blank=500))
 
@@ -53,7 +59,8 @@ def test_every_item_has_the_same_number_of_options_and_one_edition_fill_when_mas
     assert key["meta"]["n_reading"] == 6 and not key["meta"]["short"]
     for it in key["rating"]:
         assert len(it["options"]) == 3
-        assert [o["label"] for o in it["options"]] == ["A", "B", "C"]
+        assert [o["oid"] for o in it["options"]] == ["o1", "o2", "o3"]
+        assert all(isinstance(o["length_match"], bool) and o["aksharas"] >= 1 for o in it["options"])
         shown = [o["text"] for o in it["options"]]
         assert len(set(shown)) == 3
         origins = Counter(o["origin"] for o in it["options"])
@@ -66,9 +73,37 @@ def test_every_item_has_the_same_number_of_options_and_one_edition_fill_when_mas
     # the edition fill that retrieval also proposed is shown once and flagged
     flagged = [o for it in key["rating"] for o in it["options"] if o.get("also_proposed_by_ai")]
     assert 1 <= len(flagged) <= 2
-    # the edition fill is not always under the same label
-    labels = Counter(o["label"] for it in key["rating"] for o in it["options"] if o["origin"] == "expert")
+    # the edition fill is not always under the same label, and raters see different orders
+    raters = [f"R{i}" for i in range(6)]
+    maps = {r: label_map(key, r) for r in raters}
+    labels = Counter(lab for r in raters for it in key["rating"] for lab, oid in maps[r][it["code"]].items()
+                     if next(o for o in it["options"] if o["oid"] == oid)["origin"] == "expert")
     assert len(labels) >= 2
+    assert any(len({tuple(maps[r][it["code"]].items()) for r in raters}) > 1 for it in key["rating"])
+    for r in raters:
+        assert all(sorted(maps[r][it["code"]].values()) == ["o1", "o2", "o3"] for it in key["rating"])
+
+
+def test_ai_options_matching_the_gap_length_are_preferred(bench: Path, make_proposals):
+    sample = sample_items(bench, SPEC)
+    props = make_proposals(sample, include_target_for=0)
+    by_id = {r["id"]: r for r in sample}
+    for p in props:
+        gap = int(by_id[p["id"]]["gap_chars"])
+        # the AI's top 4 are far too long; a length-matched proposal comes 5th and 6th
+        long_ = [{"text": "kaṭṭaḷaikkaṭṭaḷai" + "ka" * j, "confidence": 0.9, "sources": ["sonnet"]} for j in range(4)]
+        fit = [{"text": "ta" * gap, "confidence": 0.1, "sources": ["ngram"]},
+               {"text": "pa" * gap, "confidence": 0.05, "sources": ["ngram"]}]
+        p["proposals"] = long_ + fit
+    key = build_packet(sample, props, seed=5)
+    for it in key["rating"]:
+        ai = [o for o in it["options"] if o["origin"] == "ai"]
+        assert {o["ai_rank"] for o in ai if o["length_match"]} == {5, 6}
+        assert all(o["length_diff"] == o["aksharas"] - int(it["gap_chars"]) for o in it["options"])
+        assert all(o["length_match"] == (abs(o["length_diff"]) <= 1) for o in it["options"])
+    # the preference can be switched off: then the AI's own top proposals are shown
+    raw = build_packet(sample, props, seed=5, length_tolerance=None)
+    assert all(o["ai_rank"] <= 3 for it in raw["rating"] for o in it["options"] if o["origin"] == "ai")
 
 
 def test_spares_replace_items_with_too_few_proposals(bench: Path, make_proposals):
@@ -125,8 +160,18 @@ def test_sheets_are_blind_bilingual_and_complete(bench: Path, tmp_path: Path, ma
     r1 = [r["item_code"] for r in _read_csv(out / "raters/R1/rating-R1.csv")][::3]
     r2 = [r["item_code"] for r in _read_csv(out / "raters/R2/rating-R2.csv")][::3]
     assert sorted(r1) == sorted(r2) and r1 != r2
-    with pytest.raises(ValueError, match="rater id"):
-        write_packet(key, ["Dr Some Name"], tmp_path / "bad")
+    # each rater's labels are recorded in the key the coordinator keeps
+    saved = json.loads((out / "coordinator" / "key.json").read_text(encoding="utf-8"))
+    assert set(saved["label_maps"]) == {"R1", "R2", "R3"}
+    r1_rows = _read_csv(out / "raters/R1/rating-R1.csv")
+    texts = {(it["code"], o["oid"]): o["text"] for it in key["rating"] for o in it["options"]}
+    assert all(r["proposal_iso"] == texts[(r["item_code"], saved["label_maps"]["R1"][r["item_code"]][r["option"]])]
+               for r in r1_rows)
+    # rater ids are validated before anything is written
+    for bad in (["R9", "Dr Some Name"], ["R1", "R1"]):
+        with pytest.raises(ValueError, match="rater id"):
+            write_packet(key, bad, tmp_path / "bad")
+        assert not (tmp_path / "bad").exists()
 
 
 def test_reading_forms_are_counterbalanced(bench: Path, tmp_path: Path, make_proposals):
@@ -157,6 +202,61 @@ def test_propose_offline_and_live_guards(bench: Path, monkeypatch):
     monkeypatch.setenv("EZHUTHU_LIVE", "1")
     with pytest.raises(RuntimeError, match="cap is 1"):
         propose(sample, router="sonnet", max_llm_calls=1)
+
+
+def test_default_sample_fits_the_40_call_cap():
+    assert SampleSpec().passages() == 40
+
+
+class _ThrottledLLM:
+    """Every call fails, as under sustained Bedrock throttling."""
+
+    def __init__(self):
+        from ezhuthu.agent.llm import UsageLedger, load_models_config
+
+        self.config, self.ledger, self.calls = load_models_config(), UsageLedger(), 0
+
+    def complete(self, role, system, prompt, **kw):
+        self.calls += 1
+        raise RuntimeError("ThrottlingException: rate exceeded")
+
+
+def _train_corpus(bench: Path, monkeypatch) -> None:
+    monkeypatch.setenv("EZHUTHU_BENCHMARK_DIR", str(bench))
+    monkeypatch.delenv("EZHUTHU_FIXTURES", raising=False)
+    (bench / "corpus_lines.jsonl").write_text(
+        "".join(f'{{"inscription_id": "DHARMA_INSTrain{i:03d}", "line_n": "1", "split": "train", '
+                f'"text": "svasti śrī kō rāja kēcari panmarkku yāṇṭu {i} tiru nāḷ oṉṟukku"}}\n' for i in range(30)),
+        encoding="utf-8")
+
+
+def test_call_cap_counts_retries_and_failed_calls(bench: Path, monkeypatch):
+    _train_corpus(bench, monkeypatch)
+    monkeypatch.setenv("EZHUTHU_LIVE", "1")
+    sample = sample_items(bench, SPEC)[:5]
+    llm = _ThrottledLLM()
+    rows, meta = propose(sample, router="sonnet", max_llm_calls=5, llm=llm)
+    # 5 passages x 3 attempts would be 15 calls; the cap stops at 5 actual calls
+    assert llm.calls == 5 and meta["llm_call_attempts"] == 5 and meta["cap_reached"]
+    assert meta["errors"] == 5 and all(r["proposals"] == [] for r in rows)
+    assert "Throttling" in rows[0]["error"] and "cap 5 reached" in rows[-1]["error"]
+    # a client that succeeds is called once per passage
+    from ezhuthu.agent.llm import FakeLLM
+
+    ok = FakeLLM(lambda *_: '{"candidates": [{"text": "kō", "confidence": 0.5}]}')
+    rows, meta = propose(sample, router="sonnet", max_llm_calls=5, llm=ok)
+    assert len(ok.calls) == 5 and meta["errors"] == 0 and not meta["cap_reached"]
+
+
+def test_capped_llm_refuses_past_the_cap():
+    from ezhuthu.agent.llm import FakeLLM
+
+    c = CappedLLM(FakeLLM(lambda *_: "[]"), 2)
+    c.complete("default", "s", "p")
+    c.complete("default", "s", "p")
+    with pytest.raises(CallCapReached):
+        c.complete("default", "s", "p")
+    assert c.attempts == 2 and len(c.inner.calls) == 2 and c.ledger.calls == 2
 
 
 PILOT = Path(__file__).resolve().parents[2] / "docs" / "expert-validation" / "pilot"

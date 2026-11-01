@@ -1,6 +1,6 @@
 {
  "meta": {
-  "kit_version": "1",
+  "kit_version": "2",
   "seed": 2026,
   "options_per_item": 3,
   "reading_suggestions": 3,
@@ -10,6 +10,8 @@
    3,
    4
   ],
+  "length_tolerance_aksharas": 1,
+  "option_order": "per rater (label_maps)",
   "n_rating": 24,
   "n_rating_masked": 12,
   "n_rating_blank": 12,
@@ -48,7 +50,10 @@
      ],
      "confidence": 0.12,
      "ai_rank": 3,
-     "label": "A"
+     "aksharas": 2,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o1"
     },
     {
      "text": "vār",
@@ -58,7 +63,10 @@
      ],
      "confidence": 0.3,
      "ai_rank": 1,
-     "label": "B"
+     "aksharas": 2,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o2"
     },
     {
      "text": "tāp",
@@ -68,7 +76,10 @@
      ],
      "confidence": 0.22,
      "ai_rank": 2,
-     "label": "C"
+     "aksharas": 2,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P01"
@@ -90,6 +101,19 @@
    "target": null,
    "options": [
     {
+     "text": "maiya",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.08,
+     "ai_rank": 4,
+     "aksharas": 2,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
      "text": "maiyum a",
      "origin": "ai",
      "sources": [
@@ -97,7 +121,10 @@
      ],
      "confidence": 0.1,
      "ai_rank": 3,
-     "label": "A"
+     "aksharas": 4,
+     "length_diff": 1,
+     "length_match": true,
+     "oid": "o2"
     },
     {
      "text": "mai a",
@@ -107,17 +134,10 @@
      ],
      "confidence": 0.15,
      "ai_rank": 2,
-     "label": "B"
-    },
-    {
-     "text": "mai",
-     "origin": "ai",
-     "sources": [
-      "sonnet"
-     ],
-     "confidence": 0.45,
-     "ai_rank": 1,
-     "label": "C"
+     "aksharas": 2,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P02"
@@ -146,7 +166,10 @@
      ],
      "confidence": 0.45,
      "ai_rank": 1,
-     "label": "A"
+     "aksharas": 2,
+     "length_diff": -6,
+     "length_match": false,
+     "oid": "o1"
     },
     {
      "text": "um porucaya maṭa",
@@ -156,7 +179,10 @@
      ],
      "confidence": null,
      "also_proposed_by_ai": false,
-     "label": "B"
+     "aksharas": 8,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o2"
     },
     {
      "text": "um maṭa",
@@ -166,7 +192,10 @@
      ],
      "confidence": 0.12,
      "ai_rank": 2,
-     "label": "C"
+     "aksharas": 4,
+     "length_diff": -4,
+     "length_match": false,
+     "oid": "o3"
     }
    ],
    "code": "P03"
@@ -188,25 +217,17 @@
    "target": null,
    "options": [
     {
-     "text": "kuṭuttaṉōm",
+     "text": "kuṭuttup paṇṇi",
      "origin": "ai",
      "sources": [
       "sonnet"
      ],
-     "confidence": 0.12,
-     "ai_rank": 3,
-     "label": "A"
-    },
-    {
-     "text": "kuṭuttōm",
-     "origin": "ai",
-     "sources": [
-      "ngram",
-      "sonnet"
-     ],
-     "confidence": 0.35,
-     "ai_rank": 1,
-     "label": "B"
+     "confidence": 0.06,
+     "ai_rank": 6,
+     "aksharas": 8,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o1"
     },
     {
      "text": "kuṭutt' iṭṭōm",
@@ -216,7 +237,23 @@
      ],
      "confidence": 0.25,
      "ai_rank": 2,
-     "label": "C"
+     "aksharas": 8,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
+     "text": "eḻuti kuṭuttōm",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.08,
+     "ai_rank": 5,
+     "aksharas": 8,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P04"
@@ -246,7 +283,10 @@
      ],
      "confidence": 0.05,
      "ai_rank": 2,
-     "label": "A"
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o1"
     },
     {
      "text": "kku",
@@ -256,7 +296,10 @@
      ],
      "confidence": null,
      "also_proposed_by_ai": true,
-     "label": "B"
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o2"
     },
     {
      "text": "yu",
@@ -267,7 +310,10 @@
      ],
      "confidence": 0.82,
      "ai_rank": 1,
-     "label": "C"
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P05"
@@ -289,6 +335,19 @@
    "target": null,
    "options": [
     {
+     "text": "koṇṭu iṟaiyilikka",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.12,
+     "ai_rank": 4,
+     "aksharas": 9,
+     "length_diff": 1,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
      "text": "koṇṭu viṟ",
      "origin": "ai",
      "sources": [
@@ -296,27 +355,23 @@
      ],
      "confidence": 0.3,
      "ai_rank": 1,
-     "label": "A"
+     "aksharas": 5,
+     "length_diff": -3,
+     "length_match": false,
+     "oid": "o2"
     },
     {
-     "text": "viṟṟuk",
-     "origin": "ai",
-     "sources": [
-      "parallel"
-     ],
-     "confidence": 0.1264,
-     "ai_rank": 3,
-     "label": "B"
-    },
-    {
-     "text": "koṇ vilaikka",
+     "text": "koṇṭu viṟṟuka",
      "origin": "ai",
      "sources": [
       "sonnet"
      ],
-     "confidence": 0.18,
-     "ai_rank": 2,
-     "label": "C"
+     "confidence": 0.1,
+     "ai_rank": 5,
+     "aksharas": 7,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P06"
@@ -345,28 +400,36 @@
      ],
      "confidence": null,
      "also_proposed_by_ai": false,
-     "label": "A"
+     "aksharas": 4,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o1"
     },
     {
-     "text": "yira",
+     "text": "yirat",
      "origin": "ai",
      "sources": [
-      "ngram",
       "sonnet"
      ],
-     "confidence": 0.72,
-     "ai_rank": 1,
-     "label": "B"
+     "confidence": 0.06,
+     "ai_rank": 4,
+     "aksharas": 3,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o2"
     },
     {
-     "text": "vaṉ",
+     "text": "yirt",
      "origin": "ai",
      "sources": [
-      "parallel"
+      "sonnet"
      ],
-     "confidence": 0.0702,
-     "ai_rank": 2,
-     "label": "C"
+     "confidence": 0.05,
+     "ai_rank": 6,
+     "aksharas": 3,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P07"
@@ -388,24 +451,30 @@
    "target": null,
    "options": [
     {
-     "text": "nīrkōv",
+     "text": "ellaikku",
      "origin": "ai",
      "sources": [
       "parallel"
      ],
-     "confidence": 0.0807,
-     "ai_rank": 5,
-     "label": "A"
+     "confidence": 0.0714,
+     "ai_rank": 8,
+     "aksharas": 5,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o1"
     },
     {
-     "text": "nīr ko",
+     "text": "nīr koḷ el",
      "origin": "ai",
      "sources": [
-      "parallel"
+      "sonnet"
      ],
-     "confidence": 0.0861,
-     "ai_rank": 4,
-     "label": "B"
+     "confidence": 0.08,
+     "ai_rank": 6,
+     "aksharas": 6,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o2"
     },
     {
      "text": "nīrkōvel",
@@ -415,7 +484,10 @@
      ],
      "confidence": 0.35,
      "ai_rank": 1,
-     "label": "C"
+     "aksharas": 5,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P08"
@@ -444,7 +516,10 @@
      ],
      "confidence": null,
      "also_proposed_by_ai": false,
-     "label": "A"
+     "aksharas": 3,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o1"
     },
     {
      "text": "vas",
@@ -455,7 +530,10 @@
      ],
      "confidence": 0.92,
      "ai_rank": 1,
-     "label": "B"
+     "aksharas": 2,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o2"
     },
     {
      "text": "sva",
@@ -465,7 +543,10 @@
      ],
      "confidence": 0.04,
      "ai_rank": 2,
-     "label": "C"
+     "aksharas": 2,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P09"
@@ -495,7 +576,10 @@
      ],
      "confidence": 0.3,
      "ai_rank": 1,
-     "label": "A"
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o1"
     },
     {
      "text": "r",
@@ -505,7 +589,10 @@
      ],
      "confidence": 0.25,
      "ai_rank": 2,
-     "label": "B"
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o2"
     },
     {
      "text": "ṭi",
@@ -516,7 +603,10 @@
      ],
      "confidence": 0.12,
      "ai_rank": 3,
-     "label": "C"
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P10"
@@ -545,7 +635,10 @@
      ],
      "confidence": 0.18,
      "ai_rank": 2,
-     "label": "A"
+     "aksharas": 4,
+     "length_diff": -3,
+     "length_match": false,
+     "oid": "o1"
     },
     {
      "text": "ñar aṟa",
@@ -555,7 +648,10 @@
      ],
      "confidence": 0.28,
      "ai_rank": 1,
-     "label": "B"
+     "aksharas": 4,
+     "length_diff": -3,
+     "length_match": false,
+     "oid": "o2"
     },
     {
      "text": "ṅkōvēḷārāyiṉa",
@@ -565,7 +661,10 @@
      ],
      "confidence": null,
      "also_proposed_by_ai": false,
-     "label": "C"
+     "aksharas": 7,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P11"
@@ -587,6 +686,32 @@
    "target": null,
    "options": [
     {
+     "text": "ṭṭār pa",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.08,
+     "ai_rank": 4,
+     "aksharas": 4,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "ṇṭappa",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.04,
+     "ai_rank": 8,
+     "aksharas": 4,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
      "text": "ṭṭa",
      "origin": "ai",
      "sources": [
@@ -594,27 +719,10 @@
      ],
      "confidence": 0.35,
      "ai_rank": 1,
-     "label": "A"
-    },
-    {
-     "text": "ṇṭā",
-     "origin": "ai",
-     "sources": [
-      "sonnet"
-     ],
-     "confidence": 0.2,
-     "ai_rank": 2,
-     "label": "B"
-    },
-    {
-     "text": "ṇṭāra",
-     "origin": "ai",
-     "sources": [
-      "sonnet"
-     ],
-     "confidence": 0.12,
-     "ai_rank": 3,
-     "label": "C"
+     "aksharas": 2,
+     "length_diff": -3,
+     "length_match": false,
+     "oid": "o3"
     }
    ],
    "code": "P12"
@@ -643,7 +751,10 @@
      ],
      "confidence": 0.55,
      "ai_rank": 1,
-     "label": "A"
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o1"
     },
     {
      "text": "vari",
@@ -653,7 +764,10 @@
      ],
      "confidence": null,
      "also_proposed_by_ai": false,
-     "label": "B"
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o2"
     },
     {
      "text": "peṟu",
@@ -663,7 +777,10 @@
      ],
      "confidence": 0.15,
      "ai_rank": 2,
-     "label": "C"
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P13"
@@ -692,7 +809,10 @@
      ],
      "confidence": null,
      "also_proposed_by_ai": true,
-     "label": "A"
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o1"
     },
     {
      "text": "nā",
@@ -702,7 +822,10 @@
      ],
      "confidence": 0.15,
      "ai_rank": 3,
-     "label": "B"
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o2"
     },
     {
      "text": "ai",
@@ -712,7 +835,10 @@
      ],
      "confidence": 0.2547,
      "ai_rank": 2,
-     "label": "C"
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P14"
@@ -741,7 +867,10 @@
      ],
      "confidence": 0.08,
      "ai_rank": 3,
-     "label": "A"
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o1"
     },
     {
      "text": "i",
@@ -751,7 +880,10 @@
      ],
      "confidence": 0.1,
      "ai_rank": 2,
-     "label": "B"
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o2"
     },
     {
      "text": "iv",
@@ -761,7 +893,10 @@
      ],
      "confidence": null,
      "also_proposed_by_ai": true,
-     "label": "C"
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P15"
@@ -791,7 +926,10 @@
      ],
      "confidence": 0.2,
      "ai_rank": 2,
-     "label": "A"
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o1"
     },
     {
      "text": "āl",
@@ -801,7 +939,10 @@
      ],
      "confidence": 0.12,
      "ai_rank": 3,
-     "label": "B"
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o2"
     },
     {
      "text": "āka",
@@ -811,7 +952,10 @@
      ],
      "confidence": 0.35,
      "ai_rank": 1,
-     "label": "C"
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P16"
@@ -841,7 +985,10 @@
      ],
      "confidence": 0.3,
      "ai_rank": 2,
-     "label": "A"
+     "aksharas": 4,
+     "length_diff": -3,
+     "length_match": false,
+     "oid": "o1"
     },
     {
      "text": "timaṅkal",
@@ -851,7 +998,10 @@
      ],
      "confidence": 0.35,
      "ai_rank": 1,
-     "label": "B"
+     "aksharas": 5,
+     "length_diff": -2,
+     "length_match": false,
+     "oid": "o2"
     },
     {
      "text": "dimaṅkalattu",
@@ -861,7 +1011,10 @@
      ],
      "confidence": null,
      "also_proposed_by_ai": false,
-     "label": "C"
+     "aksharas": 7,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P17"
@@ -890,7 +1043,10 @@
      ],
      "confidence": 0.35,
      "ai_rank": 1,
-     "label": "A"
+     "aksharas": 2,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o1"
     },
     {
      "text": "iṭṭa",
@@ -900,7 +1056,10 @@
      ],
      "confidence": 0.15,
      "ai_rank": 3,
-     "label": "B"
+     "aksharas": 3,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o2"
     },
     {
      "text": "āṉōm i",
@@ -910,7 +1069,10 @@
      ],
      "confidence": 0.25,
      "ai_rank": 2,
-     "label": "C"
+     "aksharas": 4,
+     "length_diff": 1,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P18"
@@ -932,16 +1094,6 @@
    "target": null,
    "options": [
     {
-     "text": "ttāv",
-     "origin": "ai",
-     "sources": [
-      "sonnet"
-     ],
-     "confidence": 0.1,
-     "ai_rank": 4,
-     "label": "A"
-    },
-    {
      "text": "tiṉā",
      "origin": "ai",
      "sources": [
@@ -949,7 +1101,10 @@
      ],
      "confidence": 0.15,
      "ai_rank": 3,
-     "label": "B"
+     "aksharas": 2,
+     "length_diff": -2,
+     "length_match": false,
+     "oid": "o1"
     },
     {
      "text": "tiṉ",
@@ -960,7 +1115,23 @@
      ],
      "confidence": 0.45,
      "ai_rank": 1,
-     "label": "C"
+     "aksharas": 2,
+     "length_diff": -2,
+     "length_match": false,
+     "oid": "o2"
+    },
+    {
+     "text": "ttāv",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.1,
+     "ai_rank": 4,
+     "aksharas": 3,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P19"
@@ -989,7 +1160,10 @@
      ],
      "confidence": null,
      "also_proposed_by_ai": true,
-     "label": "A"
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o1"
     },
     {
      "text": "aṟa",
@@ -999,7 +1173,10 @@
      ],
      "confidence": 0.08,
      "ai_rank": 3,
-     "label": "B"
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o2"
     },
     {
      "text": "vi",
@@ -1010,7 +1187,10 @@
      ],
      "confidence": 0.15,
      "ai_rank": 2,
-     "label": "C"
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P20"
@@ -1039,7 +1219,10 @@
      ],
      "confidence": 0.45,
      "ai_rank": 1,
-     "label": "A"
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o1"
     },
     {
      "text": "ttu",
@@ -1049,7 +1232,10 @@
      ],
      "confidence": null,
      "also_proposed_by_ai": false,
-     "label": "B"
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o2"
     },
     {
      "text": "p",
@@ -1060,7 +1246,10 @@
      ],
      "confidence": 0.25,
      "ai_rank": 2,
-     "label": "C"
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P21"
@@ -1082,6 +1271,19 @@
    "target": null,
    "options": [
     {
+     "text": "eḻuttu",
+     "origin": "ai",
+     "sources": [
+      "parallel"
+     ],
+     "confidence": 0.0832,
+     "ai_rank": 7,
+     "aksharas": 4,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
      "text": "rāma",
      "origin": "ai",
      "sources": [
@@ -1089,27 +1291,23 @@
      ],
      "confidence": 0.18,
      "ai_rank": 1,
-     "label": "A"
+     "aksharas": 2,
+     "length_diff": -2,
+     "length_match": false,
+     "oid": "o2"
     },
     {
-     "text": "ṭāra",
+     "text": "ṅkaṉ",
      "origin": "ai",
      "sources": [
       "sonnet"
      ],
-     "confidence": 0.13,
-     "ai_rank": 3,
-     "label": "B"
-    },
-    {
-     "text": "cuma",
-     "origin": "ai",
-     "sources": [
-      "sonnet"
-     ],
-     "confidence": 0.15,
-     "ai_rank": 2,
-     "label": "C"
+     "confidence": 0.08,
+     "ai_rank": 8,
+     "aksharas": 3,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P22"
@@ -1138,7 +1336,10 @@
      ],
      "confidence": 0.72,
      "ai_rank": 1,
-     "label": "A"
+     "aksharas": 3,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o1"
     },
     {
      "text": "lviyum",
@@ -1148,17 +1349,23 @@
      ],
      "confidence": null,
      "also_proposed_by_ai": true,
-     "label": "B"
+     "aksharas": 4,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o2"
     },
     {
-     "text": "lviyum taṉ",
+     "text": "lviyuṃ",
      "origin": "ai",
      "sources": [
-      "parallel"
+      "sonnet"
      ],
-     "confidence": 0.148,
-     "ai_rank": 2,
-     "label": "C"
+     "confidence": 0.02,
+     "ai_rank": 6,
+     "aksharas": 3,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P23"
@@ -1187,7 +1394,10 @@
      ],
      "confidence": 0.12,
      "ai_rank": 3,
-     "label": "A"
+     "aksharas": 3,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o1"
     },
     {
      "text": "sika",
@@ -1197,7 +1407,10 @@
      ],
      "confidence": 0.2,
      "ai_rank": 2,
-     "label": "B"
+     "aksharas": 2,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o2"
     },
     {
      "text": "svika",
@@ -1207,7 +1420,10 @@
      ],
      "confidence": 0.35,
      "ai_rank": 1,
-     "label": "C"
+     "aksharas": 3,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o3"
     }
    ],
    "code": "P24"
@@ -1215,46 +1431,46 @@
  ],
  "reading": [
   {
-   "id": "DHARMA_INSPallava00178:1:0",
-   "inscription_id": "DHARMA_INSPallava00178",
+   "id": "DHARMA_INSPallava00230:1:0",
+   "inscription_id": "DHARMA_INSPallava00230",
    "collection": "tfa-pallava-epigraphy",
    "split": "test",
    "line_n": "1",
-   "left": "svasti śrī Ituvum oru paḻaṅ-kal paṭi yāṇṭu Irupatt' iraṇṭu nr̥patuṅka-mahārājar deviyār viramahādeviyār hiraṇyagarbhamum tulāpāra",
-   "right": " pukka poṉṉil tiru-k- koṭikāvil mahā[?9]tta poṉ Aimpatiṉ kaḻañcu Itaṉil Iru-patt’ aiṅ-kaḻañcu poṉṉiṉ palicaiyāl nicati Iru-nāḻi Ariciyum Oru piṭi neyyum taḷi Arccippār kai mahā[?9]",
-   "gap_chars": 2,
-   "hard": true,
+   "left": "svasti śrī kō-vicaiya-kampa-vikkira",
+   "right": " yāṇṭu Irupattu aint-āvatu kāliyūr-k-kōṭṭattu-t taṉ-kū[?2] [?2] [?5]",
+   "gap_chars": 6,
+   "hard": false,
    "age_set": true,
    "dynasty": "Pallava",
-   "source_url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00178.xml",
+   "source_url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00230.xml",
    "kind": "masked",
-   "target": "mum",
+   "target": "ma-parumaṟku",
    "suggestions": [
     {
-     "text": "m",
+     "text": "mmaṟku",
      "origin": "ai",
      "sources": [
       "sonnet"
      ],
-     "confidence": 0.55,
+     "confidence": 0.35,
      "ai_rank": 1
     },
     {
-     "text": "mu",
+     "text": "mmāṟku",
      "origin": "ai",
      "sources": [
       "sonnet"
      ],
-     "confidence": 0.2,
+     "confidence": 0.15,
      "ai_rank": 2
     },
     {
-     "text": "mum",
+     "text": "maṟku",
      "origin": "ai",
      "sources": [
       "sonnet"
      ],
-     "confidence": 0.1,
+     "confidence": 0.12,
      "ai_rank": 3
     }
    ],
@@ -1262,49 +1478,46 @@
    "half": "H1"
   },
   {
-   "id": "DHARMA_INStfaSIIv38p0i0139:11:0",
-   "inscription_id": "DHARMA_INStfaSIIv38p0i0139",
-   "collection": "tfa-sii-epigraphy",
+   "id": "DHARMA_INSTamilNadu00032:7:0",
+   "inscription_id": "DHARMA_INSTamilNadu00032",
+   "collection": "tfa-tamilnadu-epigraphy",
    "split": "test",
-   "line_n": "11",
-   "left": "lai matura-maṇṭalamum kāmiṭai vaḷaiya nāmaṇaik kō",
-   "right": " veñcilai vīrar pañca-p paḷḷiyum pācaṭai[?2]ḻana mācuṇi-t tēcamum ayarvilaṇ kīrtti yātinaka ravaiyiṟ can=tiraṉ ṟolkulat tin=tira rataṉai viḷiyama",
-   "gap_chars": 3,
-   "hard": false,
+   "line_n": "7",
+   "left": "llūr nalla-nāyaṉāṟku [?2] ",
+   "right": "-veṭṭi v-ip-paṭi In-nāyaṉār tēvatāṉam nallūr nila",
+   "gap_chars": 2,
+   "hard": true,
    "age_set": false,
    "dynasty": "Cōḻa",
-   "source_url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv38p0i0139.xml",
+   "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00032.xml",
    "kind": "masked",
-   "target": "ṇamum",
+   "target": "kal",
    "suggestions": [
     {
-     "text": "ṇaiyum",
+     "text": "ti",
      "origin": "ai",
      "sources": [
-      "parallel",
-      "sonnet"
+      "parallel"
      ],
-     "confidence": 0.55,
+     "confidence": 0.204,
      "ai_rank": 1
     },
     {
-     "text": "ṇai",
+     "text": "va",
      "origin": "ai",
      "sources": [
-      "ngram",
-      "sonnet"
+      "parallel"
      ],
-     "confidence": 0.15,
+     "confidence": 0.0683,
      "ai_rank": 2
     },
     {
-     "text": "ṇamum",
+     "text": "i",
      "origin": "ai",
      "sources": [
-      "parallel",
-      "sonnet"
+      "parallel"
      ],
-     "confidence": 0.12,
+     "confidence": 0.0657,
      "ai_rank": 3
     }
    ],
@@ -1312,99 +1525,50 @@
    "half": "H1"
   },
   {
-   "id": "DHARMA_INSTamilNadu00020:39:0",
-   "inscription_id": "DHARMA_INSTamilNadu00020",
-   "collection": "tfa-tamilnadu-epigraphy",
+   "id": "DHARMA_INStfaSIIv04p0i0159:6:1",
+   "inscription_id": "DHARMA_INStfaSIIv04p0i0159",
+   "collection": "tfa-sii-epigraphy",
    "split": "test",
-   "line_n": "39",
-   "left": "tu can=trātitta-val nont",
-   "right": "ḷakku Oṉṟum Eri",
-   "gap_chars": 2,
-   "hard": true,
-   "age_set": false,
-   "dynasty": "Cōḻa",
-   "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00020.xml",
-   "kind": "masked",
-   "target": "ā-vi",
-   "suggestions": [
-    {
-     "text": "āvi",
-     "origin": "ai",
-     "sources": [
-      "parallel",
-      "sonnet"
-     ],
-     "confidence": 0.75,
-     "ai_rank": 1
-    },
-    {
-     "text": "vi",
-     "origin": "ai",
-     "sources": [
-      "parallel"
-     ],
-     "confidence": 0.0771,
-     "ai_rank": 3
-    },
-    {
-     "text": "āv",
-     "origin": "ai",
-     "sources": [
-      "sonnet"
-     ],
-     "confidence": 0.02,
-     "ai_rank": 5
-    }
-   ],
-   "code": "S03",
-   "half": "H1"
-  },
-  {
-   "id": "DHARMA_INSTamilNadu00033:12:0",
-   "inscription_id": "DHARMA_INSTamilNadu00033",
-   "collection": "tfa-tamilnadu-epigraphy",
-   "split": "test",
-   "line_n": "12",
-   "left": "yanāṟku [?9]ṟ' eḻu patiṟṟu vēli I",
-   "right": "heśvara-rakṣai .",
-   "gap_chars": 4,
+   "line_n": "6",
+   "left": "taraiyaṉ cellaṉ taṉ[?1]m cey",
+   "right": " tūṇ poviccurattā",
+   "gap_chars": 3,
    "hard": true,
    "age_set": false,
    "dynasty": null,
-   "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00033.xml",
+   "source_url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv04p0i0159.xml",
    "kind": "masked",
-   "target": "tu panmā",
+   "target": "vitta",
    "suggestions": [
     {
-     "text": "īmā",
-     "origin": "ai",
-     "sources": [
-      "parallel",
-      "sonnet"
-     ],
-     "confidence": 0.35,
-     "ai_rank": 1
-    },
-    {
-     "text": "panmā",
-     "origin": "ai",
-     "sources": [
-      "sonnet"
-     ],
-     "confidence": 0.25,
-     "ai_rank": 2
-    },
-    {
-     "text": "ṉmā",
+     "text": "ta",
      "origin": "ai",
      "sources": [
       "parallel"
      ],
-     "confidence": 0.1665,
+     "confidence": 0.054,
+     "ai_rank": 1
+    },
+    {
+     "text": "tiru",
+     "origin": "ai",
+     "sources": [
+      "parallel"
+     ],
+     "confidence": 0.0433,
+     "ai_rank": 2
+    },
+    {
+     "text": "ut",
+     "origin": "ai",
+     "sources": [
+      "parallel"
+     ],
+     "confidence": 0.0433,
      "ai_rank": 3
     }
    ],
-   "code": "S04",
+   "code": "S03",
    "half": "H1"
   },
   {
@@ -1448,6 +1612,53 @@
       "sonnet"
      ],
      "confidence": 0.12,
+     "ai_rank": 3
+    }
+   ],
+   "code": "S04",
+   "half": "H1"
+  },
+  {
+   "id": "DHARMA_INSTiruvavatuturai10102:A.6:0",
+   "inscription_id": "DHARMA_INSTiruvavatuturai10102",
+   "collection": "tfa-tiruvavatuturai-epigraphy",
+   "split": "test",
+   "line_n": "A.6",
+   "left": "kāṇi Aṅki-nārāyaṇāṉum kāyaṭṭi-nārāyaṇāṉ tattaṉum kayaṭṭi kaṇṇaṉ paṟpaṉāpaṉum kaviṇiyaṉ Aṅki cēn=taṉum māṭalaṉ nārāyaṇa-kūttaṉum kavicikaṉ geṁgādharan kr̥ṣṇaṉum kāmakkāṇi nakkaṉ vāsudevaṉum kaviṇiyaṉ śrī-dharaṉ nākaṉum pāratāyaṉ kuṣṇaṉ pa",
+   "right": "āpaṉum kavicikaṉ putaṉ eḻuvayoṉum kāyaṭṭi [?4] kaṉum kaviciyaṉ tiru-c-citrakūṭaṉ nārāyaṇaṉum kaviciyaṉ Iḷaiyāṉ tattaṉ cōmaṉum kaviṇiyaṉ Iḷaiya Aṅki-nārāyaṇaṉum kaviciyaṉ [?4] ruvvāhaṉ nārāyaṇaṉum kociyaṉ nārāyaṇaṉ Irāmaṉum kāyaṭṭi nārāyaṇaṉ svāmi nārāyaṇaṉum kaviciyaṉ kēcavaṉ nārāyaṇaṉum pāratāyaṉ nārāyaṇaṉ kaṇṇaṉum",
+   "gap_chars": 3,
+   "hard": true,
+   "age_set": false,
+   "dynasty": "Cōḻa",
+   "source_url": "https://github.com/erc-dharma/tfa-tiruvavatuturai-epigraphy/blob/53e5dee31e1804ea7a2c0ffdcfe4344b40507f98/DHARMA_INSTiruvavatuturai10102.xml",
+   "kind": "masked",
+   "target": "ṟpaṉ",
+   "suggestions": [
+    {
+     "text": "ṇṭa",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.35,
+     "ai_rank": 1
+    },
+    {
+     "text": "ṇṭā",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.25,
+     "ai_rank": 2
+    },
+    {
+     "text": "ṭṭā",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.1,
      "ai_rank": 3
     }
    ],
@@ -1503,23 +1714,23 @@
    "half": "H1"
   },
   {
-   "id": "DHARMA_INStfaSIIv02p0i0023:A.A5:0",
-   "inscription_id": "DHARMA_INStfaSIIv02p0i0023",
+   "id": "DHARMA_INStfaSIIv03p0i0010:9:1",
+   "inscription_id": "DHARMA_INStfaSIIv03p0i0010",
    "collection": "tfa-sii-epigraphy",
    "split": "test",
-   "line_n": "A.A5",
-   "left": "-mahārācar tañcāvūr va [?3] ṇṭayam tañca-mā-maṇi-kaṇṭaṅkuṟai nākaḷāpuram paḻamāṟaṉ Ēri Aimpatiṉ mēl Akaram vēlaṅkuṭi Ammai-y-a",
-   "right": "ram teṉaḷūr karuppūr maruvūr Irācēndra-cōḻa-nallūr cuṅkan-tavirtta-cōḻa-nallūr-āṉa",
-   "gap_chars": 3,
+   "line_n": "9",
+   "left": "kaḷ pūmikkum subrahmaṇya-vāykkālukku teṟkum mēṟku [?1]ṉṟu A",
+   "right": " patiṉ aṟu cāṇ kōlāl mū-v-āyiraṅ kuḻiyum mēlai Ēri Etir-vāyiṟ kaḻumpa[?2]aiyār muṉ Ō",
+   "gap_chars": 2,
    "hard": true,
    "age_set": false,
-   "dynasty": null,
-   "source_url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv02p0i0023.xml",
+   "dynasty": "Cōḻa",
+   "source_url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv03p0i0010.xml",
    "kind": "masked",
-   "target": "ppa-pu",
+   "target": "ṭaiya",
    "suggestions": [
     {
-     "text": "kar",
+     "text": "ḷa",
      "origin": "ai",
      "sources": [
       "sonnet"
@@ -1533,16 +1744,16 @@
      "sources": [
       "sonnet"
      ],
-     "confidence": 0.25,
+     "confidence": 0.2,
      "ai_rank": 2
     },
     {
-     "text": "kka",
+     "text": "va",
      "origin": "ai",
      "sources": [
       "sonnet"
      ],
-     "confidence": 0.1,
+     "confidence": 0.12,
      "ai_rank": 3
     }
    ],
@@ -1550,47 +1761,47 @@
    "half": "H2"
   },
   {
-   "id": "DHARMA_INSTamilNadu00175:1:0",
-   "inscription_id": "DHARMA_INSTamilNadu00175",
-   "collection": "tfa-tamilnadu-epigraphy",
+   "id": "DHARMA_INSCirkali00053:9:0",
+   "inscription_id": "DHARMA_INSCirkali00053",
+   "collection": "tfa-cirkali-epigraphy",
    "split": "test",
-   "line_n": "1",
-   "left": "svasti śrī prasādañ ceyt-aruliṉa tiru-muka-p-paṭi kaḷveṭṭu cēṉai mutaliyār kōyilukku-",
-   "right": "ṉ-mēṟku An=tarāḷa-bhit=tiyil veṭṭiṉa kaḷvettu Ik-kōyil puṟaccāraṇaiyilē maṟaikiyāl Itu paṭi y-eṭuttu-k kalveṭṭiṉa paṭi tribhuvaṉa-c-cakravat=ti kōṉēriṉmaikoṇṭāṉ tiru-malli-nāṭṭu brahmadeyam śrī-villiputtūr brāhmaṇar perayūr pā(ḻ/ḻa)paṭukaiyāl Ivv-ūr sam·harittu vedamum śāstramum poy vyākhyātarkkaḷ āy-irukkum caturvvedi-bhaṭṭarkaḷ pēr nūṟṟ’ eṭṭukku paṅku nūṟṟ’ eṭṭum veda-vṛ",
+   "line_n": "9",
+   "left": "koṇṭu v-iṭṭa Āṟāṅ kaṭṭaḷai Eṭut ",
+   "right": "ta-vatikku mēṟku niṉṟāṉ vāykālukellai ṉi [?4] ta 3/4 .",
    "gap_chars": 2,
-   "hard": true,
+   "hard": false,
    "age_set": false,
    "dynasty": null,
-   "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00175.xml",
+   "source_url": "https://github.com/erc-dharma/tfa-cirkali-epigraphy/blob/9ff78b784d4d5b0c774f72aa78e462349b1c7d48/DHARMA_INSCirkali00053.xml",
    "kind": "masked",
-   "target": "t te",
+   "target": "tapā",
    "suggestions": [
     {
-     "text": "ṉ",
-     "origin": "ai",
-     "sources": [
-      "sonnet"
-     ],
-     "confidence": 0.45,
-     "ai_rank": 1
-    },
-    {
-     "text": "t",
+     "text": "pā",
      "origin": "ai",
      "sources": [
       "parallel",
       "sonnet"
      ],
-     "confidence": 0.2,
+     "confidence": 0.82,
+     "ai_rank": 1
+    },
+    {
+     "text": "pa",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.08,
      "ai_rank": 2
     },
     {
-     "text": "p",
+     "text": "ut",
      "origin": "ai",
      "sources": [
       "parallel"
      ],
-     "confidence": 0.085,
+     "confidence": 0.0465,
      "ai_rank": 3
     }
    ],
@@ -1646,41 +1857,41 @@
    "half": "H2"
   },
   {
-   "id": "DHARMA_INSUttiramerur00014:1:1",
-   "inscription_id": "DHARMA_INSUttiramerur00014",
-   "collection": "tfa-uttiramerur-epigraphy",
+   "id": "DHARMA_INSPallava00178:1:0",
+   "inscription_id": "DHARMA_INSPallava00178",
+   "collection": "tfa-pallava-epigraphy",
    "split": "test",
    "line_n": "1",
-   "left": "svasti śrī vīra-pāṇṭiyaṉ talai koṇṭa kō-pārtthivendra-mahārājaṟku yāṇṭu Iraṇṭ-āvatu kāliyūr-k-kōṭṭattu taṉ-kūṟṟ' uttara-mēru-caturvve[?7] ",
-   "right": "ra-mēru-vatiyiṉ mēṟku mutaṟ catukkattu Iraṇṭān taraṅ kuḻi Iru-nūṟṟu nāṟ-patum Iṅkē talai-t taraṅ kuḻi Aiñ-ñūṟṟu Aṟu-patum Iṅkē mun [?12]",
-   "gap_chars": 3,
+   "left": "svasti śrī Ituvum oru paḻaṅ-kal paṭi yāṇṭu Irupatt' iraṇṭu nr̥patuṅka-mahārājar deviyār viramahādeviyār hiraṇyagarbhamum tulāpāra",
+   "right": " pukka poṉṉil tiru-k- koṭikāvil mahā[?9]tta poṉ Aimpatiṉ kaḻañcu Itaṉil Iru-patt’ aiṅ-kaḻañcu poṉṉiṉ palicaiyāl nicati Iru-nāḻi Ariciyum Oru piṭi neyyum taḷi Arccippār kai mahā[?9]",
+   "gap_chars": 2,
    "hard": true,
    "age_set": true,
-   "dynasty": null,
-   "source_url": "https://github.com/erc-dharma/tfa-uttiramerur-epigraphy/blob/4b97baaffa2607003d7cf4dd02fd3cf861322ae3/DHARMA_INSUttiramerur00014.xml",
+   "dynasty": "Pallava",
+   "source_url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00178.xml",
    "kind": "masked",
-   "target": "Utta",
+   "target": "mum",
    "suggestions": [
     {
-     "text": "tta",
-     "origin": "ai",
-     "sources": [
-      "parallel"
-     ],
-     "confidence": 0.4359,
-     "ai_rank": 1
-    },
-    {
-     "text": "ttu",
+     "text": "m",
      "origin": "ai",
      "sources": [
       "sonnet"
      ],
-     "confidence": 0.35,
+     "confidence": 0.55,
+     "ai_rank": 1
+    },
+    {
+     "text": "mu",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.2,
      "ai_rank": 2
     },
     {
-     "text": "ttu u",
+     "text": "mum",
      "origin": "ai",
      "sources": [
       "sonnet"
@@ -1741,47 +1952,48 @@
    "half": "H2"
   },
   {
-   "id": "DHARMA_INSTamilNadu00032:7:0",
-   "inscription_id": "DHARMA_INSTamilNadu00032",
+   "id": "DHARMA_INSTamilNadu00020:39:0",
+   "inscription_id": "DHARMA_INSTamilNadu00020",
    "collection": "tfa-tamilnadu-epigraphy",
    "split": "test",
-   "line_n": "7",
-   "left": "llūr nalla-nāyaṉāṟku [?2] ",
-   "right": "-veṭṭi v-ip-paṭi In-nāyaṉār tēvatāṉam nallūr nila",
+   "line_n": "39",
+   "left": "tu can=trātitta-val nont",
+   "right": "ḷakku Oṉṟum Eri",
    "gap_chars": 2,
    "hard": true,
    "age_set": false,
    "dynasty": "Cōḻa",
-   "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00032.xml",
+   "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00020.xml",
    "kind": "masked",
-   "target": "kal",
+   "target": "ā-vi",
    "suggestions": [
     {
-     "text": "ti",
+     "text": "āvi",
      "origin": "ai",
      "sources": [
-      "parallel"
+      "parallel",
+      "sonnet"
      ],
-     "confidence": 0.204,
+     "confidence": 0.75,
      "ai_rank": 1
     },
     {
-     "text": "va",
+     "text": "vi",
      "origin": "ai",
      "sources": [
       "parallel"
      ],
-     "confidence": 0.0683,
-     "ai_rank": 2
+     "confidence": 0.0771,
+     "ai_rank": 3
     },
     {
-     "text": "i",
+     "text": "āv",
      "origin": "ai",
      "sources": [
-      "parallel"
+      "sonnet"
      ],
-     "confidence": 0.0657,
-     "ai_rank": 3
+     "confidence": 0.02,
+     "ai_rank": 5
     }
    ],
    "code": "S12",
@@ -1794,5 +2006,129 @@
   "DHARMA_INSUttiramerur00037:2:1",
   "DHARMA_INSTamilNadu00123:27:0",
   "DHARMA_INSTamilNadu00033:6:1"
- ]
+ ],
+ "label_maps": {
+  "R1": {
+   "P01": {
+    "A": "o2",
+    "B": "o1",
+    "C": "o3"
+   },
+   "P02": {
+    "A": "o3",
+    "B": "o2",
+    "C": "o1"
+   },
+   "P03": {
+    "A": "o1",
+    "B": "o3",
+    "C": "o2"
+   },
+   "P04": {
+    "A": "o2",
+    "B": "o1",
+    "C": "o3"
+   },
+   "P05": {
+    "A": "o1",
+    "B": "o2",
+    "C": "o3"
+   },
+   "P06": {
+    "A": "o3",
+    "B": "o2",
+    "C": "o1"
+   },
+   "P07": {
+    "A": "o3",
+    "B": "o2",
+    "C": "o1"
+   },
+   "P08": {
+    "A": "o1",
+    "B": "o2",
+    "C": "o3"
+   },
+   "P09": {
+    "A": "o2",
+    "B": "o3",
+    "C": "o1"
+   },
+   "P10": {
+    "A": "o3",
+    "B": "o1",
+    "C": "o2"
+   },
+   "P11": {
+    "A": "o3",
+    "B": "o2",
+    "C": "o1"
+   },
+   "P12": {
+    "A": "o3",
+    "B": "o2",
+    "C": "o1"
+   },
+   "P13": {
+    "A": "o1",
+    "B": "o3",
+    "C": "o2"
+   },
+   "P14": {
+    "A": "o1",
+    "B": "o2",
+    "C": "o3"
+   },
+   "P15": {
+    "A": "o2",
+    "B": "o1",
+    "C": "o3"
+   },
+   "P16": {
+    "A": "o1",
+    "B": "o3",
+    "C": "o2"
+   },
+   "P17": {
+    "A": "o2",
+    "B": "o3",
+    "C": "o1"
+   },
+   "P18": {
+    "A": "o3",
+    "B": "o1",
+    "C": "o2"
+   },
+   "P19": {
+    "A": "o3",
+    "B": "o1",
+    "C": "o2"
+   },
+   "P20": {
+    "A": "o3",
+    "B": "o2",
+    "C": "o1"
+   },
+   "P21": {
+    "A": "o3",
+    "B": "o1",
+    "C": "o2"
+   },
+   "P22": {
+    "A": "o2",
+    "B": "o3",
+    "C": "o1"
+   },
+   "P23": {
+    "A": "o2",
+    "B": "o1",
+    "C": "o3"
+   },
+   "P24": {
+    "A": "o3",
+    "B": "o1",
+    "C": "o2"
+   }
+  }
+ }
 }

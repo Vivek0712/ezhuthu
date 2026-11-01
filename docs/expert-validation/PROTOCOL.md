@@ -25,16 +25,25 @@ edition", never "correct".
   fill. By default they are drawn from **test and val** inscriptions, which are not in the retrieval corpus.
 - **Masked restorations** (`benchmark/items.test.jsonl`): `<supplied>` spans whose fill the edition gives. The
   fill is hidden and shown again as one option among the AI's.
-- **Eligibility** (`SampleSpec`): gap of 2 to 12 Tamil letters; at least 15 letters of context; at most 3 other
+- **Eligibility** (`SampleSpec`): gap of 2 to 12 aksharas; at least 15 ISO-15919 letters of context; at most 3 other
   gap markers in the context; at most 2 passages per inscription (passages from one inscription are
-  correlated); about 30% of masked passages come from the age set (Pallava and Uttiramerur).
+  correlated); about 30% of masked passages come from the age set (Pallava and Uttiramerur). Study B
+  passages come from inscriptions that no Study A passage (spares included) uses, so a rater never meets a
+  line of the same inscription in both studies.
+- **Unit of length.** Gap sizes are in **aksharas**, the unit of `gap_chars` in the benchmark and of DHARMA's
+  `<gap unit="character">`: one Tamil letter, that is a vowel (uyir), a consonant with puḷḷi (mey) or a
+  consonant with its vowel (uyirmey). `kā` is 1 akshara, `nāḷ` is 2. The sheets say "aksharas" and explain
+  the unit.
 - **AI proposals** (`propose`): the production restorer with ontology OFF, because the current ontology build
   reads val/test text (KrewHQ gotcha 01M6CBX5). Retrieval runs over `benchmark/corpus_lines.jsonl`, which holds
   train lines only and refuses to load if a held-out inscription appears in it. The decider is refused on
   purpose, so the ranking is the restorer's flagged fallback: the LLM's self-reported confidence, else the
   retrieval heuristic. The 2B decider abstains on everything at the current threshold
   (`eval/reports/2026-11-02-decider-benchmark.md`), so it is not used here. The LLM runs only with
-  `EZHUTHU_LIVE=1`; the call cap is 40, one call per passage, with model IDs from `config/models.yaml`. The
+  `EZHUTHU_LIVE=1`, with model IDs from `config/models.yaml`. The call cap (default 40) counts actual calls,
+  retries and failed calls included: a sample with more passages than the cap is refused up front, and once
+  the cap is reached no further call is made and the remaining passages are recorded with an error. The
+  `sample` defaults (12 blank, 12 masked, 12 reading, 2 spares per rating kind) give exactly 40 passages. The
   output budget is 2,048 tokens, because the pipeline's 800 truncates (quick-eval finding 1).
 - **Sampling is seeded** (default seed 2026). `sample.jsonl.meta.json` records the SHA-256 prefixes of the
   input files, so the same seed and the same files always give the same packet.
@@ -43,8 +52,13 @@ edition", never "correct".
 
 **Items.** Each rating item is one passage with exactly `k` options (default 3), whatever its kind:
 
-- masked passage: the edition's fill plus the top `k-1` distinct AI proposals;
-- blank passage: the top `k` distinct AI proposals.
+- masked passage: the edition's fill plus `k-1` distinct AI proposals;
+- blank passage: `k` distinct AI proposals.
+
+AI proposals are taken in the AI's rank order, except that proposals within +/-1 akshara of the gap
+(`--length-tolerance`, default 1) come first. This applies to masked and blank items alike, so option lengths
+do not tell the two kinds apart. `key.json` keeps each option's `ai_rank`, its length in aksharas, its
+difference from the gap (`length_diff`) and `length_match`.
 
 A fixed `k` means the number of options does not reveal whether an item is masked or blank. If the AI also
 proposed the edition's fill, it is shown once and `key.json` marks it `also_proposed_by_ai`. If an item has
@@ -54,8 +68,10 @@ fewer than `k` distinct options, a pre-drawn spare replaces it, and the packet r
 
 - All options are written in one spelling: editorial marks, hyphens and `·` are removed and the text is
   lower-cased. The edition's typography therefore cannot give its fill away.
-- The options are shuffled with a seed and labelled A, B, C. Item codes (`P01`...) are opaque, and each
-  rater gets the items in a different order.
+- The options are shuffled with a seed **per rater** and labelled A, B, C, so position effects differ
+  between raters. `key.json` records which option each rater saw under each label (`label_maps`), and the
+  analysis maps every rating back through that rater's labels. Item codes (`P01`...) are opaque, and each
+  rater also gets the items in a different order.
 - Raters do not see the source, model, rank or confidence of any option. Only
   `coordinator/key.json` holds them, and only the coordinator opens it.
 - A test (`tests/expert/test_packet.py::test_sheets_are_blind_bilingual_and_complete`) checks that no sheet
@@ -66,12 +82,18 @@ fewer than `k` distinct options, a pre-drawn spare replaces it, and the packet r
   `knew_this_text_y`. Ratings flagged in either column are left out of the main analysis, counted, and
   included in a sensitivity row.
 
-**Known residual cue.** For a masked passage, the gap size shown is the edition fill's own length in letters.
-For a blank passage, it is the editor's estimate. A rater who counts letters may therefore single out the
-option whose length matches exactly. The restorer already filters AI options to about +/-34% of the gap, so
-most options are close in length, but not all. The analysis reports, for each rater, how often the edition
-fill got their top score. If one rater is far above the others, read their masked-item ratings with this cue
-in mind. Blank passages carry no such cue, because they have no edition fill.
+**Known residual cue: length.** For a masked passage, the gap size shown is the edition fill's own length in
+aksharas; for a blank passage, it is the editor's estimate. A rater who counts aksharas may single out the
+option whose length matches exactly. The AI's own top proposals are often much shorter: in the v1 pilot
+packet the edition fill matched the gap in 12 of 12 masked items, but only 4 of 24 AI options on masked items
+did (8 of 36 on blank items), for example gap 8 with AI `maṭa` and `um maṭa` against the edition's
+`um porucaya maṭa`. The length preference above narrows this but cannot remove it, because the AI does not
+always propose a fill of the right length. In the current pilot packet (kit v2) the edition fill is exact in
+12 of 12 masked items; of the 24 AI options on masked items, 4 are exact, 14 are 1 akshara off and 6 are
+further off, and 9 of the 12 masked items have every option within +/-1 akshara. So the cue is weaker, not
+gone. The analysis therefore reports the masked-item figures stratified by it (see Analysis), and, for each
+rater, how often the edition fill got their top score. If one rater is far above the others, read their
+masked-item ratings with this cue in mind.
 
 **Scale** (on every sheet in Tamil and English):
 
@@ -104,13 +126,20 @@ pairwise Cohen's kappas need.
     to 0.6 moderate, above 0.6 substantial. If the binary kappa is below 0.4, Q2 to Q4 are reported as
     exploratory.
 - **Plausibility by origin.** For each option, the mean rating over raters. For each group (edition fill,
-  AI on masked passages, AI on blank passages, AI by source: llm, retrieval or n-gram), the mean of those
-  means and the share of options at 3 or above. The 95% CIs come from a percentile bootstrap that resamples
-  whole inscriptions.
-- **Masked passages.** Per passage: the edition fill's mean minus the best AI option's mean (bootstrap CI);
-  the share of passages where the best AI option is rated at least as high as the edition fill; and, for
-  each rater, how often the edition fill got that rater's top score. The last figure is a sanity check that
-  raters engage with the task.
+  AI on masked passages, split by whether the option is within the length tolerance, AI on blank passages,
+  AI by source: llm, retrieval or n-gram), the mean of those means and the share of options at 3 or above.
+  The 95% CIs come from a percentile bootstrap that resamples whole inscriptions.
+- **Masked passages.** Per passage: the edition fill's mean minus the best AI option's mean (bootstrap CI),
+  and the share of passages where the best AI option is rated at least as high as the edition fill.
+  - **Edition fill also proposed by the AI.** That option is shown once, as the edition's. The AI did
+    propose it, so on such a passage the AI's best is at least that option: the main figures count it as a
+    tie (best AI = the edition fill, difference 0 or less). The same figures are also reported with those
+    passages left out. Leaving them in as "AI's next-best guess" would understate the AI.
+  - **Length strata.** The same figures for passages where every option is within the length tolerance
+    versus passages where some option is outside it, and for passages where an AI option is exactly as long
+    as the gap versus passages where only the edition fill is.
+  - For each rater, how often the edition fill got that rater's top score: a sanity check that raters
+    engage with the task, and a flag for a rater who counts aksharas.
 - **Blank passages.** The share of passages with at least one AI option at a mean of 3 or above.
 - **Calibration.** Spearman correlation of AI confidence with the mean rating.
 
@@ -121,8 +150,8 @@ The design follows Assael et al., "Restoring and attributing ancient texts using
 suggestions, and the paper reports the accuracy of the expert alone, the model alone and the expert with the
 model. Here:
 
-- **Items:** masked test passages (the edition's fill is the reference), **disjoint** from the Study A items
-  (`role: reading`, default 12).
+- **Items:** masked test passages (the edition's fill is the reference), from inscriptions **disjoint** from
+  the Study A items (`role: reading`, default 12).
 - **Counterbalanced forms:** the items are split into halves H1 and H2. Form A has H1 unaided, then H2 with
   AI. Form B has H2 unaided, then H1 with AI. Raters alternate between forms (`assignments.json`). Every
   passage is therefore seen unaided by some raters and with AI by others, and no rater sees one passage
@@ -135,8 +164,14 @@ model. Here:
   (self-timed), and the same two honesty flags as in Study A.
 - **Session order:** Study B first, then Study A. Study A shows edition fills (blind), which could teach
   formulae that help in Study B.
-- **Scoring:** answers are compared on letters only (`normalise_for_scoring`), and Tamil-script answers are
-  converted to ISO first. Hyphens, spaces and editorial marks therefore never count against an expert.
+- **Scoring:** target and answer are both taken through Tamil script and back to ISO, then compared on
+  letters only (`analyze.scoring_form`). Tamil script does not write voicing or aspiration (த = t/d/dh,
+  க = k/g, ப = p/b, ட = ṭ/ḍ; Grantha ஜ, ஸ, ஹ do round-trip), so a target such as `ādhirāja-pa` and the Tamil-script answer
+  ஆதிராஜப must meet in the form both scripts can express (`ātirājapa`). ISO answers are folded the same
+  way, so an answer is never right or wrong because of the script it was written in. (Comparing in ISO
+  alone would mark correct Tamil-script answers wrong, and unaided answers are more often written in Tamil
+  script while AI suggestions can be copied in ISO, which would inflate the AI's benefit.) Hyphens, spaces
+  and editorial marks never count against an expert. A test round-trips every pilot target.
   Measures: exact match, character error rate clipped to 1, median seconds and mean confidence, per
   condition. An empty answer is scored as wrong (CER 1), and the answered share is reported.
 - **Comparison:**
@@ -155,7 +190,7 @@ model. Here:
    ```bash
    python -m ezhuthu.expert sample   --out kit/sample.jsonl                      # seeded, offline
    EZHUTHU_LIVE=1 python -m ezhuthu.expert propose --sample kit/sample.jsonl \
-       --out kit/proposals.jsonl --router sonnet                                 # <= 40 Bedrock calls
+       --out kit/proposals.jsonl --router sonnet          # <= 40 Bedrock calls, retries included
    python -m ezhuthu.expert generate --sample kit/sample.jsonl --proposals kit/proposals.jsonl \
        --raters R1,R2,R3,R4 --out kit/packet --pdf                               # CSV + HTML (+ PDF)
    ```

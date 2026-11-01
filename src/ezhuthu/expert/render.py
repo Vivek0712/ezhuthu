@@ -77,8 +77,11 @@ def rating_html(key: dict[str, Any], rater: str, rows: list[dict[str, str]]) -> 
 {k} proposals each</p>
 <h2>வழிமுறை <span class="en">/ Instructions</span></h2>
 <ol class="small">
-<li>ஒவ்வொரு பகுதியிலும் ⟦…⟧ என்பது இழந்த எழுத்துகள்; எண் என்பது பதிப்பில் குறிக்கப்பட்ட தோராயமான எழுத்து எண்ணிக்கை.
-<span class="en">⟦…⟧ marks lost letters; the number is the approximate count of Tamil letters given in the edition.</span></li>
+<li>ஒவ்வொரு பகுதியிலும் ⟦…⟧ என்பது இழந்த எழுத்துகள்; எண் என்பது பதிப்பில் குறிக்கப்பட்ட தோராயமான எழுத்து எண்ணிக்கை
+(உயிர், மெய், உயிர்மெய் ஒவ்வொன்றும் ஒரு எழுத்து).
+<span class="en">⟦…⟧ marks lost text; the number is the approximate count of aksharas given in the edition. An akshara
+is one Tamil letter: a vowel (uyir), a consonant with puḷḷi (mey), or a consonant with its vowel (uyirmey),
+so <i>kā</i> is 1 and <i>nāḷ</i> is 2.</span></li>
 <li>முன்மொழிவுகள் வெவ்வேறு மூலங்களிலிருந்து (மனிதர்களும் மென்பொருளும்) கலந்து, சீரற்ற வரிசையில் தரப்பட்டுள்ளன. எந்த மூலம் என்று ஊகிக்க வேண்டாம்;
 ஒவ்வொன்றையும் தனித்தனியாக மதிப்பிடுங்கள். <span class="en">Proposals come from several sources (people and software),
 mixed and in random order. Do not guess the source; rate each one on its own.</span></li>
@@ -107,7 +110,7 @@ know this inscription, mark y; those ratings are analysed separately, not discar
             for o in opts)
         blocks.append(f"""
 <section class="item" id="{_e(code)}">
-<header><span>{_e(code)}</span><span class="small">⟦…⟧ ≈ {_e(first['gap_letters'])} எழுத்துகள் / letters</span></header>
+<header><span>{_e(code)}</span><span class="small">⟦…⟧ ≈ {_e(first['gap_aksharas'])} எழுத்துகள் / aksharas</span></header>
 <p class="ctx">{_ctx_html(first['context_tamil'])}</p>
 <p class="iso small">{_ctx_html(first['context_iso'])}</p>
 <table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
@@ -131,7 +134,9 @@ def reading_html(key: dict[str, Any], rater: str, form: str, rows: list[dict[str
 <h2>வழிமுறை <span class="en">/ Instructions</span></h2>
 <ol class="small">
 <li>ஒவ்வொரு பகுதியிலும் ⟦…⟧ இடத்தில் இழந்த எழுத்துகளை உங்கள் வாசிப்பாக எழுதுங்கள் (தமிழ் எழுத்து அல்லது ISO-15919).
-<span class="en">Write your restoration of the lost letters ⟦…⟧ (Tamil script or ISO-15919).</span></li>
+<span class="en">Write your restoration of the lost letters ⟦…⟧ (Tamil script or ISO-15919). The number in ⟦…⟧ is the
+approximate count of aksharas (one Tamil letter: uyir, mey or uyirmey). Tamil script and ISO-15919 are scored
+alike: Tamil script does not mark voicing or aspiration (க = k/g, த = t/d/dh), so the scoring ignores them in both scripts.</span></li>
 <li>பகுதி 1 இல் உதவி இல்லை. பகுதி 2 இல் மென்பொருள் பரிந்துரைகள் (நம்பக மதிப்புடன்) தரப்பட்டுள்ளன; அவற்றை ஏற்கலாம், மாற்றலாம், புறக்கணிக்கலாம்.
 <span class="en">Block 1 is unaided. Block 2 shows software suggestions with their confidence; use, change or ignore
 them.</span> பகுதி 1 ஐ முடித்த பின்னரே பகுதி 2 ஐப் பாருங்கள். <span class="en">Finish block 1 before looking at block 2.</span></li>
@@ -154,7 +159,7 @@ them.</span> பகுதி 1 ஐ முடித்த பின்னரே �
                     f"<br><span class='iso'>{_e(r['ai_suggestions_iso'])}</span></p>")
         blocks.append(f"""
 <section class="item" id="{_e(r['item_code'])}">
-<header><span>{_e(r['item_code'])}</span><span class="small">⟦…⟧ ≈ {_e(r['gap_letters'])} எழுத்துகள் / letters</span></header>
+<header><span>{_e(r['item_code'])}</span><span class="small">⟦…⟧ ≈ {_e(r['gap_aksharas'])} எழுத்துகள் / aksharas</span></header>
 <p class="ctx">{_ctx_html(r['context_tamil'])}</p>
 <p class="iso small">{_ctx_html(r['context_iso'])}</p>
 {sugg}

@@ -28,16 +28,24 @@ shapes Tamil correctly. Without Chrome, print the HTML from any browser.
 
 ## Pilot packet (`pilot/`)
 
-- `sample.jsonl` (+ `.meta.json`): seed 2026. It holds 12 blank passages (test and val inscriptions), 12 masked
-  test restorations and 12 reading-study passages (also masked test items, disjoint from the others), plus 2
-  spares each for blank and masked. 30% of the masked and reading passages come from the age set.
+- `sample.jsonl` (+ `.meta.json`): seed 2026, the `sample` defaults. It holds 12 blank passages (test and val
+  inscriptions), 12 masked test restorations and 12 reading-study passages (also masked test items, from
+  inscriptions no rating passage uses), plus 2 spares each for blank and masked: 40 passages. 30% of the
+  masked and reading passages come from the age set.
 - `proposals.jsonl` (+ `.meta.json`): the production restorer run live on 2026-11-02 with
   `us.anthropic.claude-sonnet-4-6` (router `sonnet`, 2,048-token output budget). Ontology OFF, train-only
-  retrieval, decider refused, so the ranking is the flagged fallback. 40 Bedrock calls, 0 errors, estimated
-  USD 0.46. The spares were not needed; they account for 4 of the 40 calls.
-- `packet/coordinator/key.json`: 24 rating items (12 masked, 12 blank), 3 options each. AI options by
-  source tag: sonnet 54, parallel 15, ngram 3; an option can carry several tags. In 5 masked items the edition
-  fill was also among the AI proposals and is shown once. Also 12 reading items with the top 3 AI suggestions
+  retrieval, decider refused, so the ranking is the flagged fallback. The kit v1 sample took 40 Bedrock
+  calls. Kit v2 made the reading passages inscription-disjoint from the rating passages, which replaced 5
+  reading passages; only those 5 were proposed again (5 calls), and the 5 dropped passages' proposals were
+  removed. In total: 45 calls, 0 errors, estimated USD 0.53 (both runs are in the meta file). The spares were
+  not needed; they account for 4 of the calls.
+- `packet/coordinator/key.json` (kit v2): 24 rating items (12 masked, 12 blank), 3 options each, AI options
+  within +/-1 akshara of the gap preferred. AI options by source tag: sonnet 57, parallel 12, ngram 1; an
+  option can carry several tags. Lengths: the edition fill matches the gap in 12 of 12 masked items; of the 24
+  AI options on masked items 4 match exactly, 14 are 1 akshara off and 6 are further off (P03, P11, P17: the
+  AI had no proposal of the right length); 9 of 12 masked items have every option within +/-1. In 5 masked
+  items the edition fill was also among the AI proposals and is shown once (the analysis counts these as
+  ties). Each rater's option labels are in `label_maps`. Also 12 reading items with the top 3 AI suggestions
   each.
 - `packet/raters/R1/`: R1's sheets as an example (CSV and printable HTML). Regenerate any rater's sheets
   exactly with the `generate` command above, using `--out` and the same sample and proposals.
