@@ -4,8 +4,11 @@ Expected files (issue #1):
 - ``benchmark/items.{train,val,test}.jsonl``: contracts/benchmark-item.schema.json records
 - ``benchmark/corpus_lines.jsonl``: TRAIN lines for retrieval
   (``inscription_id``, ``line_n``, ``text``; optional ``collection``, ``dynasty``, ``source_url``)
-- ``benchmark/inscriptions.jsonl``: metadata for the tutor
-  (``id``, ``title``, ``collection``, ``dynasty``, ``date_text``, ``source_url``)
+- ``benchmark/inscriptions.jsonl``: metadata for the tutor (Data PR #6 shape: ``id``, ``title``, ``collection``,
+  ``dynasty``, ``ruler``, ``regnal_year``, ``approx_date``, ``source_url``, ``text_iso`` with one line per row and
+  a leading ``-`` marking a line that continues the previous word; older fixtures use ``date_text``/``text``)
+
+The retrieval corpus must hold no val/test inscription: :func:`load_corpus_lines` refuses to load when it does.
 
 ``EZHUTHU_BENCHMARK_DIR`` overrides the directory. ``EZHUTHU_FIXTURES=1`` forces fixtures.
 """
@@ -101,9 +104,28 @@ def _line_text(d: dict[str, Any]) -> str:
     raise KeyError(f"corpus line has no text field: {sorted(d)}")
 
 
+class CorpusLeak(RuntimeError):
+    """The retrieval corpus contains a held-out (val/test) inscription."""
+
+
+def _held_out_ids(directory: Path) -> set[str]:
+    ids: set[str] = set()
+    for split in ("val", "test"):
+        p = directory / f"items.{split}.jsonl"
+        if p.is_file():
+            ids.update(d["inscription_id"] for d in read_jsonl(p))
+    return ids
+
+
 @lru_cache(maxsize=4)
 def _load_corpus(path: str) -> tuple[CorpusLine, ...]:
     rows = read_jsonl(Path(path))
+    # Fail closed: an explicit non-train split is dropped, and any line whose inscription has val/test items
+    # (whatever its split field says, or when it has none) stops the load.
+    held_out = _held_out_ids(Path(path).parent)
+    leaked = sorted({r["inscription_id"] for r in rows if r.get("split", "train") == "train"} & held_out)
+    if leaked:
+        raise CorpusLeak(f"{len(leaked)} val/test inscription(s) in {path}, e.g. {leaked[:3]}")
     return tuple(
         CorpusLine(
             inscription_id=r["inscription_id"], line_n=str(r.get("line_n", "")), text=normalize_iso(_line_text(r)),
@@ -160,10 +182,12 @@ def load_inscriptions(src: DataSource | None = None) -> dict[str, dict[str, Any]
 
 
 def inscription_text(inscription_id: str, src: DataSource | None = None) -> str | None:
-    """Full ISO text of an inscription: metadata ``text``/``lines`` if present, else train corpus lines,
-    else the test items reassembled (left + target + right of each line)."""
+    """Full ISO text of an inscription: metadata ``text_iso`` (Data's shape) or ``text``/``lines``, else train
+    corpus lines, else the test items reassembled (left + target + right of each line)."""
     src = src or data_source()
     meta = load_inscriptions(src).get(inscription_id, {})
+    if meta.get("text_iso"):
+        return "\n".join(normalize_iso(strip_continuation(ln)) for ln in meta["text_iso"].split("\n"))
     if meta.get("text"):
         return normalize_iso(meta["text"])
     if meta.get("lines"):
@@ -185,6 +209,20 @@ def inscription_text(inscription_id: str, src: DataSource | None = None) -> str 
                 for it in sorted(by_line.values(), key=lambda x: _line_key(x.line_n))
             )
     return None
+
+
+def strip_continuation(line: str) -> str:
+    """Data's ``text_iso`` prefixes a line that continues the previous word with one ``-``."""
+    return line.removeprefix("-")
+
+
+def inscription_meta(meta: dict[str, Any]) -> dict[str, Any]:
+    """Tutor-facing metadata from either shape (Data PR #6 ``approx_date``/``ruler``; fixtures ``date_text``)."""
+    return {"id": meta.get("id"), "title": meta.get("title"), "dynasty": meta.get("dynasty"),
+            "ruler": meta.get("ruler"), "regnal_year": meta.get("regnal_year"),
+            "approx_date": meta.get("approx_date") or meta.get("date_text"),
+            "source_url": meta.get("source_url"), "dharmalekha_url": meta.get("dharmalekha_url"),
+            "licence": meta.get("licence")}
 
 
 def _line_key(n: str) -> tuple[int, str]:

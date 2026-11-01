@@ -11,6 +11,7 @@ from __future__ import annotations
 import importlib
 import json
 import logging
+import os
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
@@ -154,8 +155,10 @@ def get_ontology() -> OntologyPort:
     except Exception as exc:  # noqa: BLE001 - any import failure means "not merged yet"
         log.info("ontology API unavailable (%s); using stub", exc)
     root = repo_root()
-    if root and (root / "ontology" / "lookups").is_dir():
-        onto = StubOntology.from_dir(root / "ontology" / "lookups")
+    env_dir = os.environ.get("EZHUTHU_ONTOLOGY_DIR")  # e.g. the Ontology team's ontology/lookups before #9 merges
+    lookups = Path(env_dir) if env_dir else (root / "ontology" / "lookups" if root else None)
+    if lookups and lookups.is_dir():
+        onto = StubOntology.from_dir(lookups)
         if onto.records:
             onto.name = "lookups-json"
             return onto

@@ -9,7 +9,7 @@ import zlib
 from collections.abc import Callable
 from typing import Any
 
-from ..data import inscription_text, load_inscriptions
+from ..data import inscription_meta, inscription_text, load_inscriptions
 from ..decider import Decider
 from ..restorer import Restorer
 from ..text import GAP_RE, LEVELS, iso_to_tamil, looks_tamil, normalize_iso, tamil_to_iso
@@ -62,21 +62,22 @@ class TutorService:
 
     # ---- lesson ------------------------------------------------------------------
     def _resolve_text(self, inscription_id: str | None, text: str | None) -> tuple[str, dict[str, Any]]:
-        if text:
-            iso = tamil_to_iso(text) if looks_tamil(text) else text
-            return _clean_text(iso), {"id": inscription_id or "user-text", "title": None, "dynasty": None,
-                                      "date_text": None, "source_url": None}
+        if text is not None:
+            iso = _clean_text(tamil_to_iso(text) if looks_tamil(text) else text)
+            if not iso:
+                raise BadRequest("text is empty")
+            return iso, inscription_meta({"id": "user-text"})
         metas = load_inscriptions()
         if inscription_id is None:
             for iid in metas:
                 t = inscription_text(iid)
                 if t:
-                    return _clean_text(t), metas[iid]
+                    return _clean_text(t), inscription_meta(metas[iid])
             raise NotFound("no inscriptions available")
         t = inscription_text(inscription_id)
         if not t:
             raise NotFound(f"inscription {inscription_id} not found")
-        return _clean_text(t), metas.get(inscription_id, {"id": inscription_id})
+        return _clean_text(t), inscription_meta(metas.get(inscription_id, {"id": inscription_id}))
 
     def lesson(self, *, inscription_id: str | None = None, text: str | None = None, level: str = "L1",
                lang: str = "ta", session_id: str | None = None) -> dict[str, Any]:
@@ -102,7 +103,8 @@ class TutorService:
             c["entities"] = ents
             gaps = (c["restore_result"] or {}).get("gaps", [])
             c["facts"] = {
-                "title": meta.get("title"), "dynasty": meta.get("dynasty"), "approx_date": meta.get("date_text"),
+                "title": meta.get("title"), "dynasty": meta.get("dynasty"), "approx_date": meta.get("approx_date"),
+                "ruler": meta.get("ruler"), "regnal_year": meta.get("regnal_year"),
                 "level": c["level"], "text_iso": c["restored"],
                 "entities": [{"kind": h.kind, "label": h.label, "label_ta": h.label_ta} for h in ents],
                 "restored_gaps": sum(1 for g in gaps if g["decision"] == "fill"),
@@ -124,15 +126,19 @@ class TutorService:
             return next((h.label for h in ctx["entities"] if h.kind in kinds), None)
 
         context = {**ctx["context_text"], "explained_by": ctx["explained_by"]}
+        if meta.get("ruler"):  # the edition's own metadata beats an ontology match in the text
+            context["ruler"] = meta["ruler"]
         for key, kinds in (("ruler", ("ruler", "title")), ("temple", ("temple",)), ("grant", ("grant_type",))):
             v = first(kinds)
-            if v:
+            if v and key not in context:
                 context[key] = v
         restored = ctx["restored"]
         return {
             "session_id": s["session_id"],
             "inscription": {"id": meta.get("id"), "title": meta.get("title"), "dynasty": meta.get("dynasty"),
-                            "approx_date": meta.get("date_text"), "source_url": meta.get("source_url"),
+                            "approx_date": meta.get("approx_date"), "source_url": meta.get("source_url"),
+                            "ruler": meta.get("ruler"), "regnal_year": meta.get("regnal_year"),
+                            "dharmalekha_url": meta.get("dharmalekha_url"), "licence": meta.get("licence"),
                             "restored_text": restored, "restored_text_tamil": iso_to_tamil(restored)},
             "items": [i.to_api() for i in ctx["items"]],
             "context": context,
