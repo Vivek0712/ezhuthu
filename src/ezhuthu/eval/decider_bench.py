@@ -44,7 +44,9 @@ from ..agent.prompts import RESTORER_SYSTEM, parse_candidates, propose_prompt
 from ..agent.restorer import Candidate, Restorer
 from ..agent.text import normalize_iso
 from ..agent.tutor import policy
-from .metrics import canon, ece, reliability
+from .metrics import canon, coverage_curve, ece, reliability
+
+CURVE = (0.1, 0.2, 0.3, 0.4, 0.5, 0.7)
 
 log = logging.getLogger(__name__)
 PROPOSE_MAX_TOKENS = 2048  # the pipeline's 800 truncates (MaxTokensReachedException); see eval/reports quick eval
@@ -290,6 +292,7 @@ def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "latency_ms_p50": pct(lats, 0.5), "latency_ms_p95": pct(lats, 0.95), "latency_n": len(lats),
         "items_trimmed": sum(1 for r in rows if r.get("options_sent") is not None
                              and r["options_sent"] < r.get("n_candidates", 0)),
+        "coverage_curve": coverage_curve(conf, ok, CURVE),
         "reliability": reliability(conf, ok),
     }
 
@@ -330,6 +333,8 @@ def scripted_states() -> list[dict[str, Any]]:
 def run_policy(args) -> int:
     slept: list[float] = []
     decider, model = make_decider(args.decider, slept)
+    if decider is None:
+        model = "rules"
     rows = []
     for i, state in enumerate(scripted_states()):
         ref = policy.rules(state["correct"], state["attempts_on_item"], state["hint_already_given"])
@@ -428,7 +433,9 @@ def report(args) -> int:
 
 
 def _f(x: Any) -> str:
-    return "-" if x is None else (f"{x:.3f}" if isinstance(x, float) else str(x))
+    if isinstance(x, float):
+        return f"{x:.3f}" if abs(x) <= 1.5 else f"{x:.0f}"
+    return "-" if x is None else str(x)
 
 
 def render_md(out: dict[str, Any], labels: list[str]) -> str:
@@ -458,7 +465,14 @@ def render_md(out: dict[str, Any], labels: list[str]) -> str:
                  f"{_f(r['latency_ms_p95'])} |")
     any_r = next(iter(out["restoration"].values()), None)
     if any_r:
-        L += ["", f"Target among the candidates (ceiling for any decider): {_f(any_r['oracle_in_candidates'])}."]
+        L += ["", f"Target among the candidates (ceiling for any decider): {_f(any_r['oracle_in_candidates'])}.", "",
+              "Coverage / accuracy if the abstain threshold were moved (confidence >= t):", "",
+              "| decider | " + " | ".join(f"t={t}" for t in CURVE) + " |", "|---|" + "---|" * len(CURVE)]
+        for lb in labels:
+            r = out["restoration"].get(lb)
+            if r:
+                L.append(f"| {lb} | " + " | ".join(f"{_f(c['coverage'])} / {_f(c['accuracy'])}"
+                                                   for c in r["coverage_curve"]) + " |")
     L += ["", "## Tutor policy (20 scripted learner states)", "",
           ("Reference = the rule policy (`tutor/policy.py rules`). *Raw* is the decider's choice before guardrails; "
           "*final* is after the guardrails (never drill a correct item, never loop past 3 attempts)."), "",
@@ -478,7 +492,8 @@ def render_md(out: dict[str, Any], labels: list[str]) -> str:
               + " |", "|---|---|---|---|---|" + "---|" * sum(lb in out["policy"] for lb in labels)]
         for i, s in enumerate(out["policy_states"]):
             ref = policy.rules(s["correct"], s["attempts_on_item"], s["hint_already_given"])
-            cells = [str(out["policy"][lb]["actions"][i]) for lb in labels if lb in out["policy"]]
+            cells = [str(out["policy"][lb]["actions"][i] or f"({out['policy'][lb]['final'][i]})")
+                     for lb in labels if lb in out["policy"]]
             L.append(f"| {i} | {s['correct']} | {s['attempts_on_item']} | {s['hint_already_given']} | {ref} | "
                      + " | ".join(cells) + " |")
     if m["notes"]:
