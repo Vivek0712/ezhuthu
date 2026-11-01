@@ -31,6 +31,7 @@ from ezhuthu.ontology.letters import letter_count
 from ezhuthu.ontology.matcher import MIN_KEY, KeyedText, VariantIndex
 from ezhuthu.ontology.normalize import key
 
+
 def _default_dir() -> Path:
     """Checkout layout (src/ezhuthu/ontology -> repo/ontology) or an AgentCore bundle (ezhuthu/ -> bundle/ontology)."""
     here = Path(__file__).resolve()
@@ -78,7 +79,7 @@ class Ontology:
             forms = set(rec.get("variants") or [])
             if rec["kind"] not in ("admin_unit",) or not rec.get("is_type"):
                 forms.add(rec["label_iso"])
-            for v in forms:
+            for v in sorted(forms):  # sorted: index order (and ties) must not depend on hash seed
                 if "…" in v:
                     continue
                 self.index.add(eid, v)

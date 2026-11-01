@@ -2,8 +2,9 @@
 
 The knowledge layer behind the Ezhuthu tutor and restorer: who ruled, where a place sits in the
 nāṭu/kōṭṭam/maṇṭalam hierarchy, which royal-praise formula belongs to which king, which letters
-existed in which script stage. Built with rdflib; a Context Ontology Accelerator attempt is
-documented in [COA.md](COA.md).
+existed in which script stage. Built with rdflib and served to the agent over MCP
+(`python -m ezhuthu.ontology.mcp_server`). Context Ontology Accelerator: attempted, not run (permission
+policy); see [COA.md](COA.md), which also documents the MCP server and the AgentCore bundle needs.
 
 ## Files
 
@@ -18,7 +19,7 @@ documented in [COA.md](COA.md).
 | `wikidata/snapshot.json`, `wikidata/review.yaml` | Wikidata SPARQL results (all candidates) and the manual review applied to them |
 
 Code: `src/ezhuthu/ontology/` (`tei.py` reader, `normalize.py`, `matcher.py`, `letters.py`, `build.py`,
-`owl.py`, `wikidata.py`, `lookup.py`, `hint_eval.py`).
+`owl.py`, `wikidata.py`, `lookup.py`, `hint_eval.py`, `mcp_server.py`).
 
 ## Train split only (no benchmark leakage)
 
@@ -48,6 +49,21 @@ entity("ez:ruler/rajaraja-i")         # full lookup record (wikidata Q2128757, a
 hints_for_gap("svasti śrī maturai koṇṭa kō-p-para", "rkku yāṇṭu", gap_chars=7)
 # -> [{id: ez:title/parakesarivarman, kind: title, label: Parakēsarivarman, fill: "kecarivarma",
 #      alt_fills: [...], score, reason: "overlap"}, ...]
+```
+
+Over MCP (stdio, official `mcp` SDK) the same five functions are tools with the same arguments; results are
+JSON objects (`{"entities": [...]}`, `{"letters": [...]}`, `{"formulas": [...]}`, `{"entity": ...}`,
+`{"hints": [...]}`). The agent uses it through a Strands `MCPClient` (`ezhuthu.agent.ontology_mcp`); see
+[COA.md](COA.md) section 3:
+
+```python
+from mcp import StdioServerParameters
+from mcp.client.stdio import stdio_client
+from strands.tools.mcp import MCPClient
+client = MCPClient(lambda: stdio_client(StdioServerParameters(
+    command=sys.executable, args=["-m", "ezhuthu.ontology.mcp_server"])))
+with client:
+    client.call_tool_sync("t1", "hints_for_gap", {"left": "cantirātittavar", "right": " ivai"})
 ```
 
 Each hint has `id`, `kind` and `label`, the shape of `ontology_hints` in `contracts/restore-api.md`.

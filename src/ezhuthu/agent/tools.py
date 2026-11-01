@@ -85,11 +85,21 @@ def make_tools(restorer: Restorer) -> list[Any]:
     return [retrieve_parallels, propose_fills, check_constraints, rank_and_decide, ontology_hints]
 
 
-def build_restorer_agent(restorer: Restorer, model: Any) -> Agent:
-    """A Strands Agent that restores gaps by calling the tools above. ``model`` is a Strands model."""
+def build_restorer_agent(restorer: Restorer, model: Any, *, ontology_mcp_tools: bool = True) -> Agent:
+    """A Strands Agent that restores gaps by calling the tools above. ``model`` is a Strands model.
+
+    When the restorer's ontology is the MCP server (the default backend), the agent also gets the server's
+    five tools (``find_entities``, ``valid_letters``, ``formulas_for``, ``entity``, ``hints_for_gap``)
+    through the same, already started Strands ``MCPClient``, so it can query the ontology directly."""
+    tools: list[Any] = make_tools(restorer)
+    client = getattr(restorer.ontology, "client", None)
+    if ontology_mcp_tools and client is not None:
+        tools.extend(client.list_tools_sync())  # MCPAgentTools bound to the already-running session
     return Agent(
-        name="restorer", model=model, tools=make_tools(restorer), callback_handler=None,
+        name="restorer", model=model, tools=tools, callback_handler=None,
         system_prompt=RESTORER_SYSTEM.replace("Answer with JSON only.", "")
         + " Use the tools: find parallels, propose fills, check constraints, then rank_and_decide. "
-        "Report abstentions as 'experts are unsure'.",
+        + ("Query the ontology (hints_for_gap, entity, formulas_for) for rulers, titles and formulas. "
+           if ontology_mcp_tools and client is not None else "")
+        + "Report abstentions as 'experts are unsure'.",
     )
