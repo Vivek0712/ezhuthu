@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# KrewHQ spoke wrapper for Ezhuthu teams. Usage: scripts/kq <role> <krewhq args...>
+# roles: lead data onto agent app qa
+set -euo pipefail
+role="$1"; shift
+export KREWHQ_HUB_URL="${KREWHQ_HUB_URL:-http://127.0.0.1:7800}"
+export KREWHQ_TOKEN="dev:u:${role}" KREWHQ_TEAM=ezhuthu KREWHQ_REPO=ezhuthu
+export KREWHQ_DATA_DIR="$HOME/tamil-script/.krewhq-run/spoke-${role}"
+exec "$HOME/tamil-script/.tools/krewhq/.venv/bin/krewhq" "$@"

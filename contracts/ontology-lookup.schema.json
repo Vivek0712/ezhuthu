@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ezhuthu/ontology-lookup",
+  "title": "Entity record in ontology/lookups/<kind>.json (array of these)",
+  "type": "object",
+  "required": ["id", "kind", "label_iso", "attested_in"],
+  "properties": {
+    "id": {"type": "string", "description": "ez:<kind>/<slug>"},
+    "kind": {"enum": ["script_stage", "letter", "dynasty", "ruler", "title", "formula", "place", "admin_unit", "temple", "deity", "grant_type", "assembly", "measure", "coin", "tax"]},
+    "label_iso": {"type": "string"},
+    "label_ta": {"type": ["string", "null"]},
+    "variants": {"type": "array", "items": {"type": "string"}},
+    "era": {"type": ["string", "null"]},
+    "dynasty": {"type": ["string", "null"]},
+    "broader": {"type": ["string", "null"], "description": "parent id, e.g. place -> nadu -> kottam"},
+    "wikidata": {"type": ["string", "null"]},
+    "attested_in": {"type": "array", "items": {"type": "string"}, "description": "inscription ids (and line refs) where it occurs"}
+  }
+}

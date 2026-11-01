@@ -1,0 +1,1 @@
+"""Ezhuthu ontology package."""

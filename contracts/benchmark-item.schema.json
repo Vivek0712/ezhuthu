@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ezhuthu/benchmark-item",
+  "title": "One restoration test item (one line per JSONL record)",
+  "type": "object",
+  "required": ["id", "inscription_id", "collection", "split", "line_n", "left", "right", "target", "gap_chars", "hard", "age_set", "source_url"],
+  "properties": {
+    "id": {"type": "string", "description": "<inscription_id>:<line_n>:<k>"},
+    "inscription_id": {"type": "string", "description": "DHARMA id, e.g. DHARMA_INSPallava00098"},
+    "collection": {"type": "string", "description": "DHARMA repo, e.g. tfa-pallava-epigraphy"},
+    "dynasty": {"type": ["string", "null"]},
+    "age_set": {"type": "boolean", "description": "true only for Pallava + Uttiramerur (>1,100 years old)"},
+    "split": {"enum": ["train", "val", "test"], "description": "assigned BY INSCRIPTION, never by line"},
+    "line_n": {"type": "string"},
+    "left": {"type": "string", "description": "ISO-15919 text before the gap (same line, plus previous line if short)"},
+    "right": {"type": "string", "description": "ISO-15919 text after the gap"},
+    "target": {"type": "string", "description": "expert restoration from <supplied>, ISO-15919"},
+    "gap_chars": {"type": "integer", "minimum": 1},
+    "hard": {"type": "boolean", "description": "true if no near-identical parallel for target exists in TRAIN"},
+    "kind": {"enum": ["supplied", "blank"], "default": "supplied", "description": "blank = <gap> with no expert fill (discovery set, no target scoring)"},
+    "source_url": {"type": "string", "description": "https://dharmalekha.info/texts/<id> or GitHub blob URL at pinned commit"}
+  }
+}

@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+.cache/
+data/raw/
+data/tmp/
+.env
+*.egg-info/
+node_modules/
+app/web/dist/
+cdk.out/
+.bedrock_agentcore/
+.DS_Store
+*.safetensors
+models/

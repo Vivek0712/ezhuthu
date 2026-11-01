@@ -1,0 +1,1 @@
+"""Ezhuthu corpus package."""

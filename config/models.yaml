@@ -1,0 +1,19 @@
+# All model choices live here. Switch to Claude 5.5 once its Bedrock agreement is accepted.
+aws_profile: heisenberg
+region: us-east-1
+llm:
+  default: us.anthropic.claude-sonnet-4-6        # verified invocable 2026-11-02
+  escalate: us.anthropic.claude-opus-4-6-v1      # verified invocable 2026-11-02
+  cheap: us.anthropic.claude-haiku-4-5-20251001-v1:0
+  future_default: us.anthropic.claude-sonnet-5-5 # AccessDenied until agreement accepted
+  future_escalate: us.anthropic.claude-opus-5-5
+routing:
+  escalate_if_confidence_below: 0.6
+  escalate_if_gap_chars_over: 12
+  escalate_if_no_parallel: true
+  abstain_if_confidence_below: 0.5
+decider:
+  package: strands-decider==0.2.0
+  local: StrandsAgents/strands-decider-E4B-gemma4-v1-2610      # fits 24 GB M4 Pro (mps/mlx), JevBench 187/231
+  fast: StrandsAgents/strands-decider-2B-qwen3.5-v1-2610       # reference model
+  final_eval_gpu: StrandsAgents/strands-decider-26B-A4B-gemma4-v1-2610
