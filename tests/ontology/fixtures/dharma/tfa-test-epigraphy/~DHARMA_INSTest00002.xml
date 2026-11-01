@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Test fixture: constructed from phrases attested in DHARMA Cōḻa editions (CC BY 4.0). -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader><fileDesc><titleStmt>
+    <title>Tanjore, Br̥hadīśvara, time of Rājarāja I Cōḻa, year 29</title>
+  </titleStmt></fileDesc></teiHeader>
+  <text><body>
+    <div type="edition" xml:lang="tam-Latn" rendition="class:tamil maturity:83215">
+      <p><lb n="1"/>svasti śrī tirumakaḷ pōla-p peru-nila-c celviyun taṉakkē-y urimai pūṇṭamai
+      <lb n="2"/>jayaṅ-koṇṭa-cōḻa-maṇṭalattu kāliyūr-k-kōṭṭattu <placeName>Paḻuvūr</placeName> brahmadēyam
+      <lb n="3"/>nel kalam <gap reason="lost" extent="unknown" unit="character"/> kaḻañcu poṉ <unclear>i</unclear>ṟaiyili</p>
+    </div>
+  </body></text>
+</TEI>
