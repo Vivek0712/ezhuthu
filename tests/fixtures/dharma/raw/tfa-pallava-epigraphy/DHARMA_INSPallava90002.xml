@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader><fileDesc><titleStmt><title>Kāñcipuram, bilingual plates, time of Dantivarman</title></titleStmt>
+  <publicationStmt><availability><licence target="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</licence></availability></publicationStmt></fileDesc></teiHeader>
+  <text>
+    <body>
+      <div type="edition">
+        <div type="textpart" n="A" xml:lang="san-Latn">
+          <head xml:lang="eng">Sanskrit part</head>
+          <p><lb n="1"/>svasti <supplied reason="lost">śrī</supplied>mat-pallava-kule</p>
+        </div>
+        <div type="textpart" n="B" xml:lang="tam-Latn">
+          <head xml:lang="eng">Tamil part</head>
+          <p><lb n="1"/>Ivv-ūr <supplied reason="lost">nilam</supplied> Iraṇṭu <choice><unclear>ma</unclear><unclear>va</unclear></choice>ṉ ...</p>
+          <p><lb n="1"/>duplicate line number <supplied reason="lost">ka</supplied><supplied reason="lost">ḻa</supplied>ñcu</p>
+        </div>
+      </div>
+    </body>
+  </text>
+</TEI>

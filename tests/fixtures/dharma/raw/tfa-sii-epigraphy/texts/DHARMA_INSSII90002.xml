@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader><fileDesc><titleStmt><title>Tañcāvūr, second fixture, no king</title></titleStmt></fileDesc></teiHeader>
+  <text>
+    <body>
+      <div type="edition" xml:lang="tam-Latn">
+        <p>
+          <lb n="1"/>uṭaiyār śrī-rājarājēśvaram-uṭaiyārkku nantā <supplied reason="lost">viḷakku</supplied> Oṉṟukku
+          <lb n="2"/>vaitta <supplied reason="lost">pacu</supplied> <gap reason="illegible" quantity="2" unit="character"/>
+        </p>
+      </div>
+    </body>
+  </text>
+</TEI>
