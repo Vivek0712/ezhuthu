@@ -256,3 +256,18 @@ def test_local_stores_review_once(kind, tmp_path):
     with pytest.raises(Conflict):
         svc.review(c["id"], "approve")
     assert store.put_if_status("queue", "missing", {}, "pending") is False
+
+
+def test_reread_tokens_are_one_time_conditional_writes_with_ttl():
+    from ezhuthu.agent.reader import RereadTokens
+
+    table = SchemaTable()
+    store = DynamoStore(table, clock=lambda: 1_000_000)
+    tokens = RereadTokens(store, ttl_s=900, clock=lambda: 1_000_000.0)
+    tok = tokens.issue("sha-of-photo")
+    item = table.items[(f"READTOKEN#{tok}", "TOKEN")]
+    assert item["status"] == "issued" and item["ttl"] == 1_000_000 + 24 * 3600
+    assert not tokens.consume(tok, "another-photo")
+    assert tokens.consume(tok, "sha-of-photo")
+    assert table.items[(f"READTOKEN#{tok}", "TOKEN")]["status"] == "used"
+    assert not tokens.consume(tok, "sha-of-photo")

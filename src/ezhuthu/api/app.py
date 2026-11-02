@@ -17,7 +17,7 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError
 from ..agent.data import parse_jsonl_text
 from ..eval.run import ROUTERS
 from . import limits
-from .service import BadRequest, Conflict, EzhuthuService, Forbidden, NotFound
+from .service import BadRequest, Conflict, EzhuthuService, Forbidden, NotFound, ReadError, ReaderUnavailable
 
 AdminToken = Annotated[str | None, Header(alias="X-Ezhuthu-Admin-Token")]
 DEV_ORIGINS = ("http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:4173", "http://127.0.0.1:4173")
@@ -34,6 +34,22 @@ class RestoreRequest(BaseModel):
     script: Literal["iso15919", "tamil"] = "iso15919"
     max_candidates: int = Field(5, ge=1, le=20)
     allow_escalation: bool = True
+
+
+# base64 grows 4/3: a 5 MB image is ~6.7 M characters. The service checks the decoded size precisely.
+MAX_IMAGE_B64_CHARS = 7_000_000
+
+
+class ReadRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    image_base64: str | None = Field(None, max_length=MAX_IMAGE_B64_CHARS)
+    media_type: str | None = Field(None, max_length=60)  # informational; the bytes are sniffed
+    text: str | None = Field(None, max_length=600_000)
+    filename: str | None = Field(None, max_length=200)
+    format: Literal["auto", "txt", "epidoc"] = "auto"
+    router: Literal["routed", "sonnet", "opus"] = "routed"
+    hint: str | None = Field(None, max_length=200)
+    reread_token: str | None = Field(None, max_length=64)  # required with router "opus" (contracts/restore-api.md)
 
 
 class CorrectionRequest(BaseModel):
@@ -106,6 +122,14 @@ def create_app(service: EzhuthuService | None = None) -> FastAPI:
     async def _fb(_: Request, exc: Forbidden) -> JSONResponse:
         return JSONResponse({"detail": str(exc)}, status_code=403)
 
+    @app.exception_handler(ReadError)
+    async def _re(_: Request, exc: ReadError) -> JSONResponse:
+        return JSONResponse({"detail": str(exc), "code": exc.code}, status_code=exc.status)
+
+    @app.exception_handler(ReaderUnavailable)
+    async def _ru(_: Request, exc: ReaderUnavailable) -> JSONResponse:
+        return JSONResponse({"detail": str(exc), "code": "reader_unavailable"}, status_code=503)
+
     @app.get("/health")
     def health() -> dict[str, Any]:
         return svc().health()
@@ -113,6 +137,10 @@ def create_app(service: EzhuthuService | None = None) -> FastAPI:
     @app.post("/api/restore")
     def restore(req: RestoreRequest) -> dict[str, Any]:
         return svc().restore(req.text, req.script, req.max_candidates, req.allow_escalation)
+
+    @app.post("/api/read")
+    def read(req: ReadRequest) -> dict[str, Any]:
+        return svc().read(**req.model_dump(exclude={"media_type"}))
 
     @app.post("/api/evaluate")
     async def evaluate(request: Request, admin_token: AdminToken = None) -> dict[str, Any]:

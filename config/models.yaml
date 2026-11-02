@@ -43,3 +43,19 @@ decider:
     rpm: 10
     max_input_chars: 8000   # free-tier limit; the client drops tail candidates (keeps 'none') to fit
     max_options: 24         # decider-cloud rejects a choice with more options (422 invalid_request)
+# Reader: photo / text-file upload to transcription (POST /api/read, src/ezhuthu/agent/reader.py, issue: Upload + OCR).
+# Vision uses llm.default (Sonnet 4.6) and escalates to llm.escalate (Opus 4.6) under
+# routing.escalate_if_confidence_below, only while escalate_min_remaining_s of request_budget_s is left (the cloud
+# proxy gives AgentCore 27 s per request; see contracts/restore-api.md "POST /api/read"). Every Bedrock call and
+# retry back-off is bounded by what is left of request_budget_s. router "opus" needs a one-time reread_token.
+reader:
+  max_upload_bytes: 5242880      # decoded image bytes after the app's client-side resize (5 MB)
+  max_pixels: 40000000           # refuse larger images before decoding (decompression bombs)
+  max_long_side: 1568            # server-side downscale before the model (Claude vision's useful maximum)
+  jpeg_quality: 88               # re-encoded without EXIF/GPS/XMP/ICC
+  max_tokens: 3000
+  max_lines: 60
+  max_text_bytes: 524288         # .txt / EpiDoc .xml uploads (512 KB)
+  request_budget_s: 25            # whole request, both model calls and retries included (proxy timeout is 27 s)
+  escalate_min_remaining_s: 15    # Opus vision takes ~10-15 s; start it only with this much budget left
+  reread_token_ttl_s: 900         # one-time "read again with Opus" token lifetime

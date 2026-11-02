@@ -73,6 +73,7 @@ describe('API', () => {
       'GET /api/queue': 'JWT',
       'POST /api/queue/{id}': 'JWT',
       'POST /api/restore': 'NONE',
+      'POST /api/read': 'NONE',
       'POST /api/lesson': 'NONE',
       'POST /api/answer': 'NONE',
       'GET /api/progress/{session_id}': 'NONE',
@@ -83,7 +84,10 @@ describe('API', () => {
   it('throttles the stage and the expensive public routes', () => {
     t.api.hasResourceProperties('AWS::ApiGatewayV2::Stage', {
       DefaultRouteSettings: { ThrottlingRateLimit: 20, ThrottlingBurstLimit: 40 },
-      RouteSettings: Match.objectLike({ 'POST /api/restore': { ThrottlingRateLimit: 5, ThrottlingBurstLimit: 10 } }),
+      RouteSettings: Match.objectLike({
+        'POST /api/restore': { ThrottlingRateLimit: 5, ThrottlingBurstLimit: 10 },
+        'POST /api/read': { ThrottlingRateLimit: 2, ThrottlingBurstLimit: 5 },
+      }),
     });
   });
   it('grants the proxy InvokeAgentRuntime on the runtime only', () => {

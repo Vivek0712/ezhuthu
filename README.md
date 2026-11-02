@@ -61,12 +61,27 @@ flowchart LR
 
 <p align="center"><sub>One letter, five stages. Vatteluttu has no Unicode, so it is drawn (<a href="design/glyphs/REFERENCES.md">sources and review status</a>).</sub></p>
 
+## Try it without your own text
+
+No inscription to hand? The home page opens with the letter ka carved through the eras, then a gallery of
+13 real passages from DHARMA editions (Pallava, Pāṇḍya, Chola, Rāṣṭrakūṭa and Vijayanagara), each with its
+real gaps: letters lost on the stone that the editors left unrestored. One click sends a passage to Restore,
+another starts a lesson on it. The passages come from the benchmark's train split only, never val or test
+(`scripts/build_samples.py`, checked by `tests/test_samples.py`). There is no Tamil-Brahmi passage because the
+DHARMA Tamil collections used here have no Tamil-Brahmi editions.
+
+<p align="center"><a href="docs/media/hero-evolution.webm"><img src="docs/media/hero-evolution-poster.jpg" alt="The home hero: the letter ka in Tamil-Brahmi, Vatteluttu, Pallava (Grantha form), Chola and modern Tamil, side by side" width="360"></a></p>
+
+<p align="center"><sub>The home hero, still frame. Watch it animate: <a href="docs/media/hero-evolution.webm">WebM</a>, <a href="docs/media/hero-evolution-dark.webm">dark</a>. Each stage is traced, then filled, in turn. It shows this still frame when the device asks for reduced motion, has a pause button, and on phones sits above the headline as a compact band.</sub></p>
+
+<p align="center"><img src="app/web/screenshots/desktop-15-samples-gallery-en.jpg" alt="Sample gallery: cards with Tamil and English titles, the passage with its gaps marked, a DHARMA credit, and Restore this / Learn with this buttons" width="88%"></p>
+
 ## Screenshots
 
 <!-- Rendered by the app team's Playwright run (npm run screenshots in app/web). -->
-| Learn (Tamil) | Restore with confidence and abstain | Progress |
-| --- | --- | --- |
-| <img src="app/web/screenshots/mobile-02-learn-levels-ta.png" alt="Learn screen" width="240"> | <img src="app/web/screenshots/mobile-04-restore-ta.png" alt="Restore screen" width="240"> | <img src="app/web/screenshots/mobile-07-progress-en.png" alt="Progress screen" width="240"> |
+| Home (Tamil) | Learn (Tamil) | Restore with confidence and abstain | Progress |
+| --- | --- | --- | --- |
+| <img src="app/web/screenshots/mobile-01-home-ta.png" alt="Home screen" width="200"> | <img src="app/web/screenshots/mobile-02-learn-levels-ta.png" alt="Learn screen" width="200"> | <img src="app/web/screenshots/mobile-04-restore-ta.png" alt="Restore screen" width="200"> | <img src="app/web/screenshots/mobile-07-progress-en.png" alt="Progress screen" width="200"> |
 
 ## Quick start
 

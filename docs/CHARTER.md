@@ -28,7 +28,12 @@ A Strands **Graph** (fixed lesson flow), with a **Swarm** inside the tutoring st
 3. **Learning policy:** `choice` of advance, repeat or hint from the learner state (the "guardrails/policy" pattern). Not yet measured with learners.
 
 ## Non-goals for v1
-Reading stone photographs automatically (photos are shown, not read), palm-leaf manuscripts, and Indus-script claims.
+Reliable automatic reading of stone photographs. Photo reading (`POST /api/read`, upload in the app) is
+**experimental** and labelled so in Tamil and English: measured CER 0.10 on 72 synthetic Tamil-script plates from
+DHARMA TEST lines (0.05 unless weathered) and 0.09 on 3 real printed Tamil pages, but CER 0.86 on 3 real
+Tamil-Brahmi images (it does not read Tamil-Brahmi), 0.56 on synthetic Grantha, and Vatteluttu is unmeasured (no
+Unicode font). Numbers: `eval/reports/2026-11-02-ocr-eval.md`. Also out of scope: palm-leaf manuscripts and
+Indus-script claims.
 
 ## Rules
 - Branding: say "built with Strands Agents" and "built with AWS Context Ontology Accelerator". Never "Strands AI" or "AWS AI".

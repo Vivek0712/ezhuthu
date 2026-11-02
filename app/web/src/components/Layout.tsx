@@ -105,7 +105,10 @@ export function Layout() {
       </header>
       <main id="main" tabIndex={-1}>
         <div className="wrap">
-          <Outlet />
+          {/* Keyed on the path so each page change replays the entrance (.page in app.css; none under reduced motion). */}
+          <div className="page" key={loc.pathname}>
+            <Outlet />
+          </div>
         </div>
       </main>
       <footer className="site">

@@ -1,0 +1,74 @@
+{
+  "note": "Every file here comes from a TRAIN-split DHARMA inscription (benchmark/DATA_CARD.md, leakage rule 2; enforced by tests/agent/test_app_samples.py). Plates are our own renderings (python -m ezhuthu.eval.ocr samples), not photographs. Text CC BY-SA 4.0, DHARMA project.",
+  "files": [
+    {
+      "file": "stone-tamil.jpg",
+      "thumb": "stone-tamil.thumb.jpg",
+      "kind": "rendered-plate",
+      "inscription_id": "DHARMA_INSPallava00042",
+      "split": "train",
+      "lines": "1-3",
+      "rendered_script": "tamil",
+      "level": "photo",
+      "title": "Tirukkaḻukkuṉṟam, time of Naraciṅkapōttaracar",
+      "source_url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00042.xml",
+      "dharmalekha_url": "https://dharmalekha.info/texts/DHARMA_INSPallava00042",
+      "licence": "CC BY-SA 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    {
+      "file": "stone-weathered.jpg",
+      "thumb": "stone-weathered.thumb.jpg",
+      "kind": "rendered-plate",
+      "inscription_id": "DHARMA_INSTamilNadu00120",
+      "split": "train",
+      "lines": "1-3",
+      "rendered_script": "tamil",
+      "level": "weathered",
+      "title": "Tirunaḷḷāṟu, Tarppāraṇyēcuvarar temple, time of Vikrama Cōḻa, year 12",
+      "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00120.xml",
+      "dharmalekha_url": "https://dharmalekha.info/texts/DHARMA_INSTamilNadu00120",
+      "licence": "CC BY-SA 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    {
+      "file": "stone-brahmi.jpg",
+      "thumb": "stone-brahmi.thumb.jpg",
+      "kind": "rendered-plate",
+      "inscription_id": "DHARMA_INSPallava00042",
+      "split": "train",
+      "lines": "1-3",
+      "rendered_script": "tamil-brahmi",
+      "level": "photo",
+      "title": "Tirukkaḻukkuṉṟam, time of Naraciṅkapōttaracar",
+      "source_url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00042.xml",
+      "dharmalekha_url": "https://dharmalekha.info/texts/DHARMA_INSPallava00042",
+      "licence": "CC BY-SA 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    {
+      "file": "chola-opening.txt",
+      "inscription_id": "DHARMA_INSCempiyanMahadevi00001",
+      "kind": "text",
+      "note": "opening lines retyped in Tamil script, with gaps",
+      "split": "train",
+      "title": "Uyyakkoṇṭāṉ Tirumalai, Ujjīvanātha temple, time of Parakesarivarman, year 34",
+      "source_url": "https://github.com/erc-dharma/tfa-cempiyan-mahadevi-epigraphy/blob/8953cda9883492b163f38f1f2aaec1992395de0c/DHARMA_INSCempiyanMahadevi00001.xml",
+      "dharmalekha_url": "https://dharmalekha.info/texts/DHARMA_INSCempiyanMahadevi00001",
+      "licence": "CC BY-SA 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    {
+      "file": "DHARMA_INSUttiramerur00001.xml",
+      "inscription_id": "DHARMA_INSUttiramerur00001",
+      "kind": "epidoc",
+      "note": "the DHARMA EpiDoc edition, unchanged",
+      "split": "train",
+      "title": "Uttiramērūr, Vaikuṇṭha-Perumāḷ, time of Parakesarivarman, year 12",
+      "source_url": "https://github.com/erc-dharma/tfa-uttiramerur-epigraphy/blob/4b97baaffa2607003d7cf4dd02fd3cf861322ae3/DHARMA_INSUttiramerur00001.xml",
+      "dharmalekha_url": "https://dharmalekha.info/texts/DHARMA_INSUttiramerur00001",
+      "licence": "CC BY-SA 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    }
+  ]
+}

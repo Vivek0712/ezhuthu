@@ -40,3 +40,8 @@ export function isDharmaUrl(url: string | null | undefined): boolean {
 export function svgDataUrl(svg: string): string {
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }
+
+/** The message key for a count: `one` for exactly 1, otherwise `many` (English and Tamil both mark only the singular). */
+export function plural<K extends string>(n: number, one: K, many: K): K {
+  return n === 1 ? one : many;
+}

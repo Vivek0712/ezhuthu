@@ -32,6 +32,13 @@ if (md.includes('context_update') && !answer.context_update) errors.push('contra
 if (/reviewing an item that is not\s+`pending` returns 409/.test(md) && !spec.paths['/api/queue/{id}'].post.responses['409'])
   errors.push('contract says a second review returns 409; openapi /api/queue/{id} lacks a 409 response');
 
+// Upload + OCR: the contract's error statuses and the experimental flag must be mirrored.
+if (md.includes('POST /api/read')) {
+  const read = spec.paths['/api/read']?.post;
+  for (const code of ['413', '415', '503']) if (!read?.responses?.[code]) errors.push(`contract /api/read returns ${code}; openapi lacks it`);
+  if (!spec.components.schemas.ReadResponse?.required?.includes('experimental')) errors.push('ReadResponse must require experimental');
+}
+
 const levels = spec.components.schemas.Level.enum.join(',');
 if (levels !== 'L1,L2,L3,L4,L5') errors.push(`Level enum drifted: ${levels}`);
 

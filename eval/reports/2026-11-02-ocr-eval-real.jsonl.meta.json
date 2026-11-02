@@ -1,0 +1,22 @@
+{
+  "set": "real",
+  "router": "routed",
+  "n": 6,
+  "errors": 0,
+  "usage": {
+    "calls": 7,
+    "cached_calls": 0,
+    "input_tokens": {
+      "sonnet": 7236,
+      "opus": 1457
+    },
+    "output_tokens": {
+      "sonnet": 4445,
+      "opus": 186
+    },
+    "estimated_cost_usd": 0.1003,
+    "price_basis": "USD/MTok list prices in ezhuthu.agent.llm.PRICE_PER_MTOK"
+  },
+  "budget": 20,
+  "budget_refusals": 0
+}

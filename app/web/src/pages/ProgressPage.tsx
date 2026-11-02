@@ -58,7 +58,7 @@ function Assessment({ sessionId, phase, onDone }: { sessionId: string; phase: Ph
         </span>
       </p>
       <h2>{pick(item.prompt_ta, item.prompt_en)}</h2>
-      <GlyphTile item={item} label={pick(item.prompt_ta, item.prompt_en)} />
+      <GlyphTile key={item.item_id} item={item} label={pick(item.prompt_ta, item.prompt_en)} />
       <form onSubmit={submit} className="grid" style={{ marginTop: 16 }}>
         <label className="field">
           {t('learn.answerLabel')}

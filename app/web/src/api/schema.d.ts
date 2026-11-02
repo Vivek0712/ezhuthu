@@ -18,6 +18,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/read": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Photo (base64) or text/EpiDoc file to transcription lines in the restorer's gap notation. Photo reading is experimental. */
+        post: operations["read"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/evaluate": {
         parameters: {
             query?: never;
@@ -174,6 +191,97 @@ export interface components {
             max_candidates?: number;
             /** @default true */
             allow_escalation?: boolean;
+        };
+        /** @description Exactly one of image_base64 or text. */
+        ReadRequest: {
+            /** @description JPEG, PNG, WebP (HEIC only if the server has pillow-heif); at most 5 MB decoded by the agent, about 3.3 MB through the cloud proxy (4.5 MB body) */
+            image_base64?: string;
+            media_type?: string;
+            /** @description .txt (Tamil or ISO-15919) or DHARMA EpiDoc/TEI XML contents */
+            text?: string;
+            /** @description Informational for images (never sent to the model) */
+            filename?: string;
+            /**
+             * @default auto
+             * @enum {string}
+             */
+            format?: "auto" | "txt" | "epidoc";
+            /**
+             * @description opus requires reread_token
+             * @default routed
+             * @enum {string}
+             */
+            router?: "routed" | "sonnet" | "opus";
+            hint?: string;
+            /** @description One-time token from a response with escalation_skipped time_budget; required with router opus, for the same photo */
+            reread_token?: string;
+        };
+        ReadWarning: {
+            /** @enum {string} */
+            code: "cut_short" | "dropped_chars" | "no_text_in_image" | "low_reliability_script" | "unsure" | "lines_capped" | "masked_supplied";
+            params: {
+                [key: string]: unknown;
+            };
+        };
+        ReadLine: {
+            n: string;
+            /** @description ISO-15919 with [?N]/[?] gaps */
+            text: string;
+            text_tamil: string;
+            confidence: number | null;
+            gaps: number;
+        };
+        ScriptGuess: {
+            /** @enum {string} */
+            script: "tamil-brahmi" | "vatteluttu" | "grantha" | "pallava-tamil" | "chola-tamil" | "modern-tamil" | "unknown";
+            label_en: string;
+            label_ta: string;
+            era: string | null;
+            confidence: number | null;
+            level: components["schemas"]["Level"] | null;
+        };
+        ReadImageInfo: {
+            width: number;
+            height: number;
+            bytes: number;
+            format: string;
+            source_format: string;
+            source_bytes: number;
+            resized: boolean;
+            metadata_removed: string[];
+        };
+        ReadResponse: {
+            /** @enum {string} */
+            source: "image" | "text" | "epidoc";
+            experimental: boolean;
+            lines: components["schemas"]["ReadLine"][];
+            text: string;
+            text_tamil: string;
+            gaps: number;
+            script_guess: components["schemas"]["ScriptGuess"] | null;
+            confidence: number | null;
+            kind?: string | null;
+            note?: string | null;
+            models_used: string[];
+            model?: string;
+            escalated: boolean;
+            /** @enum {string} */
+            escalation_skipped?: "time_budget" | "budget" | "error";
+            /** @description Present with escalation_skipped time_budget: send it back with router opus to read the same photo again (once, 15 minutes) */
+            reread_token?: string;
+            image?: components["schemas"]["ReadImageInfo"];
+            title?: string | null;
+            licence?: string | null;
+            licence_url?: string | null;
+            inscription_id?: string | null;
+            /** @description dharmalekha.info view of the EpiDoc edition */
+            source_url?: string | null;
+            masked_supplied?: number;
+            /** @description English messages; warning_codes carries the same warnings for localisation */
+            warnings: string[];
+            warning_codes?: components["schemas"]["ReadWarning"][];
+            trace_id: string;
+            latency_ms: number;
         };
         Parallel: {
             inscription_id: string;
@@ -459,6 +567,35 @@ export interface operations {
                     "application/json": components["schemas"]["RestoreResponse"];
                 };
             };
+            default: components["responses"]["Error"];
+        };
+    };
+    read: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReadRequest"];
+            };
+        };
+        responses: {
+            /** @description Transcription lines */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReadResponse"];
+                };
+            };
+            403: components["responses"]["Error"];
+            413: components["responses"]["Error"];
+            415: components["responses"]["Error"];
+            503: components["responses"]["Error"];
             default: components["responses"]["Error"];
         };
     };
