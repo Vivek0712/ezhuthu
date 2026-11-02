@@ -82,3 +82,26 @@ def test_runtime_resolves_to_the_chosen_config_with_and_without_the_decider_key(
     key = f"prerank-ngram|prerank|kall|llm-{llm_used}"
     assert g["calibration"] == key  # calibrated scale, not the raw 0.5 threshold
     assert g["abstain_below"] == svc.restorer.calibration.get(key).threshold
+    # Additive wire fields of the deployed config are documented in the contract (QA on PR #40).
+    feats = [c["features"] for c in g["candidates"]]
+    assert all("ngram_probability" in f for f in feats)
+    assert any(isinstance(f["ngram_probability"], float) for f in feats)
+
+
+def test_contract_documents_the_deployed_configs_additive_fields():
+    text = " ".join((ROOT / "contracts" / "restore-api.md").read_text(encoding="utf-8").split())
+    assert "`decider_model` is `\"prerank-ngram\"`" in text
+    assert "`ngram_probability`" in text
+
+
+def test_about_copy_does_not_say_the_decider_picks_fills():
+    """The web About page (en + ta) must describe what the deployed runtime does (QA on PR #40)."""
+    src = (ROOT / "app" / "web" / "src" / "i18n" / "strings.ts").read_text(encoding="utf-8")
+    how2 = [ln for ln in src.splitlines() if "'about.how2':" in ln]
+    assert len(how2) == 2  # English and Tamil
+    en, ta = how2
+    assert "which fill to choose" in en and "Strands Decider makes the tutor" in en
+    assert "Strands Decider makes the calibrated calls" not in en
+    assert not en.split("Strands Decider", 1)[1].count("fill")  # the decider sentence is about the tutor only
+    assert ta.count("Strands Decider") == 1 and "ஆசிரியர் முடிவை Strands Decider எடுக்கிறது" in ta
+    assert "Strands Decider அளவிட்ட முடிவுகளை எடுக்கிறது" not in ta

@@ -39,6 +39,8 @@ Built with [Strands Agents](https://strandsagents.com) and Strands Decider. It r
 
 **What the test evaluation says** (413 test gaps, scored once with settings chosen on the validation split; [report](eval/reports/2026-11-02-test-eval.md)). **These numbers were measured with the local strands-decider-2B and its VAL calibration, a configuration the cloud runtime never ran; the configuration it does run was chosen afterwards on VAL by a pre-registered rule, calibrated on VAL and scored once on test: Sonnet 4.6 escalating to Opus 4.6 with the character 5-gram as a pre-rank feature and no decider matches the expert on 62.7% of test gaps, above the 5-gram alone (p = 0.0002; [deployed config](eval/reports/2026-11-02-deployed-config.md)).** The measured pipeline (Sonnet 4.6, escalating to Opus 4.6) is not significantly better than copying the best parallel passage (p = 0.27), and a character 5-gram model beats both (p = 0.012 against the pipeline). Most test gaps are a single letter (68%); on gaps of 4 or more letters every system matches the expert on at most 1 in 3. Escalating to Opus matters (Sonnet alone: 41.6%). The 2B Strands Decider ranks candidates no better than the decider-free pre-rank on these gaps, and the ontology hints made no measurable difference. These are the honest starting numbers for the restoration engine, not a claim that it reads inscriptions like an epigraphist.
 
+**Known limit of the deployed restorer:** its latency is measured per gap (test p90 5.5 s), but the 27 s proxy limit applies per request, and a request's gaps are restored one after another with no cap. A text with about 5 gaps, or the first request on a cold runtime (which also builds the 5-gram), can time out. Follow-up: [#41](https://github.com/Vivek0712/ezhuthu/issues/41).
+
 ## How it works
 
 ```mermaid
@@ -107,7 +109,7 @@ AWS: profile `heisenberg`, region `us-east-1`. Model IDs come only from [`config
 | Corpus + benchmark | DHARMA TEI/EpiDoc parsing, script conversion (Aksharamukha), restoration benchmark | `src/ezhuthu/corpus/`, `benchmark/` |
 | Ontology | Rulers, titles, places, grants, measures, formulae | `src/ezhuthu/ontology/`, `ontology/` |
 | Agents | Strands **Graph** (fixed lesson flow) with a **Swarm** inside tutoring: Restorer, Lesson Builder, Tutor, Assessor | `src/ezhuthu/agent/` |
-| Decisions | Strands Decider: ranks LLM candidates (`noul`, top 3) and gives the confidence for Sonnet → Opus routing; advance / repeat / hint in the tutor. Fill or abstain is a threshold fitted on the validation split | `src/ezhuthu/agent/` |
+| Decisions | Restoration (deployed): a decider-free pre-rank with the character 5-gram's score ranks the candidates, with no decider call; its score decides Sonnet → Opus escalation, and fill or abstain is a threshold calibrated on the validation split. Strands Decider makes the tutor's advance / repeat / hint decision. (The measured issue #26 pipeline ranked with the 2B decider's `noul` on the top 3.) | `src/ezhuthu/agent/` |
 | API | FastAPI, following [`contracts/restore-api.md`](contracts/restore-api.md) | `src/ezhuthu/api/` |
 | Runtime | Amazon Bedrock AgentCore Runtime (`/invocations`), with infrastructure in CDK | `infra/` |
 | App | React + Vite, Tamil-first and bilingual, mobile-first | `app/web/` |

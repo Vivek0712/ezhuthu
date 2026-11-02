@@ -26,7 +26,9 @@
   28.1 s; median hosted call 7.5 s).
 - **Cost and latency (TEST, original call latencies):** 122 Sonnet + 297 Opus calls, about $2.49 at list prices
   ($0.0060 per gap); 296 of 413 gaps use Opus (291 by pre-escalation, 5 after Sonnet). Latency per gap p50 3.2 s,
-  p90 5.5 s, max 16.1 s; none over 27 s (a request with several gaps adds them up).
+  p90 5.5 s, max 16.1 s; no gap over 27 s. **The 27 s proxy limit (API Gateway: 29 s) is per request, not per
+  gap:** `restore()` handles a request's gaps one after another with no cap, so at the p90 a request with about 5 gaps,
+  or a first request that also pays the 5.8 s 5-gram build, can exceed it. This predates this PR; follow-up #41.
 
 ## How the choice was made (read before re-using the rows)
 
@@ -38,6 +40,10 @@
   for pre-escalated gaps were not cached), over this issue's 300-call budget, which also had to cover TEST. The
   selection set is the issue #26 seeded 120-gap sample plus 160 more VAL gaps (seed 26); the hosted set is the 120.
   The 5-gram baseline on full VAL is 0.2980 (n = 443), on the selection set 0.2821.
+- **VAL is harder than TEST for every system** (copy 0.2415 vs 0.4722, 5-gram 0.2980 vs 0.5666, chosen variant 0.3571
+  on the selection set vs 0.6271): VAL has fewer single-letter gaps (205 of 443, 46%, vs 281 of 413, 68%), more gaps of
+  4+ letters (116, 26%, vs 51, 12%) and more hard gaps (90% vs 77%). VAL is used only to rank the variants against each
+  other on the same gaps and to fit the calibration; its absolute levels are not a forecast of TEST.
 - **One deviation, found after the VAL runs and before the calibration was written:** `fit_platt` (undamped Newton)
   diverged on the chosen variant's scores (a = 218, threshold 1.0, which would have filled 88% of gaps at 40% accuracy
   in-sample). It now halves the Newton step when a full step does not lower the penalised loss. Every issue #26
@@ -45,7 +51,12 @@
 - **Calibration source:** `|llm-opus` from the routed run's Opus-answered gaps (n = 224), `|llm-sonnet` from a
   Sonnet-only run of the same variant on the selection set (n = 278; as in issue #26, a routed run has too few gaps
   Sonnet alone answers). The out-of-fold columns in the VAL tables are the honest within-VAL estimate; the in-sample
-  ones are optimistic.
+  ones are optimistic. **The `|llm-sonnet` fitting and runtime populations differ:** it was fitted on every
+  selection-set gap answered by Sonnet alone, but at runtime it applies only to gaps Sonnet answered without
+  escalation (117 of 413 on TEST, where 83 of its 88 fills match; the Opus key: 104 of 118). The thresholds are
+  therefore not exact for the runtime mix, as in issue #26. TEST selective accuracy (0.908) is well above the VAL
+  out-of-fold estimate (0.726); both keys are above it on TEST, so most of that difference is the VAL-TEST level gap
+  (the "VAL is harder" bullet above), and this mismatch could move it either way on other data.
 - **Runtime path checked:** `config/models.yaml` and `calibration.json` ship in the bundle; infra sets no restorer
   override (`infra/test/agent-runtime.test.ts`), and `tests/agent/test_runtime_restorer_config.py` builds the
   runtime's `EzhuthuService()` with `EZHUTHU_DECIDER_BACKEND=hosted` and `=fallback` and checks both resolve to this

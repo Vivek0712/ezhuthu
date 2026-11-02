@@ -10,6 +10,12 @@ is that same letter count (the field keeps its name).
 > letters) and the length checks have counted Tamil letters since issue #26. Clients that convert a damaged span to
 > `[?N]` must count letters, not ISO characters (ISO spells most letters with 2-3 characters).
 
+> **Additive response change (2026-11-02, deployed-config PR):** with the deployed restorer settings
+> (`strategy_llm: prerank`, `ngram_prerank: true`), each candidate's `decider_model` is `"prerank-ngram"` (no decider
+> ranks the candidates; before, it named the ranking decider or a fallback) and its untyped `features` object gains
+> `ngram_probability`: the character 5-gram's share for that fill (0-1, 4 decimals), or `null` when the 5-gram options
+> are off. `features` is not in the example below nor in `app/web/api/openapi.yaml`; clients may ignore it.
+
 ## POST /api/restore
 Request: `{"text": "...[?6]...", "script": "iso15919" | "tamil", "max_candidates": 5, "allow_escalation": true}`
 
