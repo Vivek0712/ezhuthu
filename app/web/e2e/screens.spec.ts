@@ -99,4 +99,20 @@ test('@screens capture every page', async ({ page }, info) => {
   await page.getByTestId('restore-submit').click();
   await expect(page.getByTestId('restore-result')).toBeVisible();
   await shot(page, '14-restore-dark-en', p);
+
+  // Try-it samples: the gallery, and a sample opened in Restore (Tamil text) and restored.
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.goto('/');
+  await page.getByTestId('sample-gallery').scrollIntoViewIfNeeded();
+  if (SAVE) await page.getByTestId('sample-gallery').screenshot({ path: `screenshots/${p}-15-samples-gallery-en.png` });
+  // A fresh tab without the English init script, switched back to Tamil.
+  const ta = await page.context().newPage();
+  await ta.goto('/');
+  await ta.evaluate(() => window.localStorage.setItem('ezhuthu.lang', 'ta'));
+  await ta.goto('/restore?sample=nagapattinam-srivijaya-gift');
+  await expect(ta.getByTestId('restore-sample-source')).toBeVisible();
+  await expect(ta.getByTestId('restore-input')).toHaveValue(/ஸ்வஸ்தி/);
+  await ta.getByTestId('restore-submit').click();
+  await expect(ta.getByTestId('restore-result')).toBeVisible();
+  await shot(ta, '16-restore-from-sample-ta', p);
 });

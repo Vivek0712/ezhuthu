@@ -3,6 +3,7 @@ import type { Schemas } from '../api/client';
 import { parseGaps, gapContext } from '../lib/gaps';
 import { isLevel } from '../lib/levels';
 import { expectedCalibrationError } from '../lib/reliability';
+import { sampleByInscription } from '../samples';
 import { ASSESSMENT, LESSONS, REVIEWED_ELSEWHERE, SEED_QUEUE, templateContext, type MockItem } from './fixtures';
 
 /** In-memory backend state for the mock API. `resetMockState()` gives tests a clean slate. */
@@ -303,15 +304,32 @@ export const handlers = [
     const body = (await request.json()) as Schemas['LessonRequest'];
     if (!isLevel(body?.level)) return err(400, 'bad_request', 'level must be L1..L5');
     const lesson = LESSONS[body.level];
-    const session_id = newSession(body.level);
     const own = body.text?.trim();
+    // inscription_id: the gallery samples are known; any other id is unknown, as on the real API (404).
+    const linked = !own && body.inscription_id ? sampleByInscription(body.inscription_id) : undefined;
+    if (!own && body.inscription_id && !linked) return err(404, 'not_found', `inscription ${body.inscription_id} not found`);
+    const session_id = newSession(body.level);
     // Like EZHUTHU_LESSON_EXPLAIN=async: the template explanation now, the tutor team's on the next answer.
     state.sessions.get(session_id)!.pendingExplanation = { explain_ta: lesson.context.explain_ta, explain_en: lesson.context.explain_en };
     const res: Schemas['LessonResponse'] = {
       session_id,
       inscription: own
         ? { ...lesson.inscription, id: 'mock:user-text', title: 'Your text', source_url: null, licence: null, restored_text: own, restored_text_tamil: own }
-        : lesson.inscription,
+        : linked
+          ? {
+              id: linked.inscription_id,
+              title: linked.edition_title,
+              dynasty: linked.dynasty,
+              approx_date: null,
+              ruler: linked.ruler,
+              regnal_year: linked.regnal_year,
+              source_url: linked.source_url,
+              dharmalekha_url: linked.dharma_url,
+              licence: linked.licence,
+              restored_text: linked.text_iso,
+              restored_text_tamil: linked.text_tamil,
+            }
+          : lesson.inscription,
       items: lesson.items.map(publicItem),
       context: templateContext(lesson),
     };

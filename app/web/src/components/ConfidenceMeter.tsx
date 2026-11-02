@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import { pct } from '../lib/format';
 
 /**
@@ -12,7 +13,7 @@ export function ConfidenceMeter({ value, label }: { value: number; label: string
     <div className="meter-row">
       <div className="meter" role="meter" aria-label={label} aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(v * 100)} aria-valuetext={pct(v)}>
         {Array.from({ length: 10 }, (_, i) => (
-          <span key={i} className={i < lit ? 'seg on' : 'seg'} />
+          <span key={i} className={i < lit ? 'seg on' : 'seg'} style={{ '--i': i } as CSSProperties} />
         ))}
       </div>
       <span className="meter-val">{pct(v)}</span>
