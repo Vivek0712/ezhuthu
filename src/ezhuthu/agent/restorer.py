@@ -7,6 +7,7 @@ fixed pipeline so the API is deterministic given the same model responses.
 from __future__ import annotations
 
 import logging
+import math
 import os
 import statistics
 import time
@@ -67,6 +68,7 @@ class Candidate:
     ngram_rank: int | None = None  # rank among the n-gram model's proposals (0 = best)
     prerank: float = 0.0  # cheap pre-rank score (LLM probability noisy-OR parallel support)
     raw_confidence: float | None = None  # decider/fallback confidence before calibration
+    ngram_prob: float | None = None  # softmax share of the 5-gram beam (restorer.ngram_* settings only)
 
     @property
     def model(self) -> str:
@@ -89,17 +91,21 @@ class Candidate:
                          "llm_probability": self.llm_confidence, "parallel_support": len(self.parallels),
                          "best_parallel_match": round(self.retrieval_score / 100.0, 4),
                          "ngram_rank": self.ngram_rank,
+                         "ngram_probability": None if self.ngram_prob is None else round(self.ngram_prob, 4),
                          "raw_confidence": None if self.raw_confidence is None else round(self.raw_confidence, 4)},
         }
 
     def option(self, lt: str, rt: str) -> dict[str, Any]:
         """The decider's view of this candidate: the fill in context plus its evidence scores."""
-        return {"fill": self.text, "restored_line": f"{lt}{self.text}{rt}",
-                "parallel_lines_supporting": len(self.parallels),
-                "best_parallel_match": round(self.retrieval_score / 100.0, 2),
-                "llm_probability": None if self.llm_confidence is None else round(self.llm_confidence, 2),
-                "copy_baseline": self.copy_floor, "ngram_proposal": self.ngram_rank is not None,
-                "length_matches_gap": self.length_ok}
+        out = {"fill": self.text, "restored_line": f"{lt}{self.text}{rt}",
+               "parallel_lines_supporting": len(self.parallels),
+               "best_parallel_match": round(self.retrieval_score / 100.0, 2),
+               "llm_probability": None if self.llm_confidence is None else round(self.llm_confidence, 2),
+               "copy_baseline": self.copy_floor, "ngram_proposal": self.ngram_rank is not None,
+               "length_matches_gap": self.length_ok}
+        if self.ngram_prob is not None:  # only with the restorer.ngram_* settings (unchanged request otherwise)
+            out["ngram_probability"] = round(self.ngram_prob, 2)
+        return out
 
 
 @dataclass
@@ -149,8 +155,20 @@ def length_ok(text: str, gap_chars: int) -> bool:
     return abs(akshara_len(text) - gap_chars) <= length_tolerance(gap_chars)
 
 
-def prerank_score(c: Candidate, n_parallel_fills: int) -> float:
+def ngram_softmax(beams: list[tuple[str, float]]) -> list[tuple[str, float]]:
+    """The 5-gram baseline's confidence: softmax over the beam's log-probs (relative to the beam, not calibrated)."""
+    if not beams:
+        return []
+    m = max(lp for _, lp in beams)
+    exps = [(t, math.exp(lp - m)) for t, lp in beams]
+    z = sum(e for _, e in exps)
+    return [(t, round(e / z, 4)) for t, e in exps]
+
+
+def prerank_score(c: Candidate, n_parallel_fills: int, *, ngram: bool = False) -> float:
     """Cheap pre-rank: noisy-OR of the LLM's probability and parallel support, halved for a length mismatch.
+    With ``ngram`` (restorer.ngram_prerank) the 5-gram's softmax share is a third noisy-OR term instead of the
+    n-gram epsilon.
 
     Parallel support = best context match (0..1) x share of parallels whose aligned text is this fill; for the
     copy-floor fill it is at least its own match score, so with no LLM evidence the pre-rank top-1 is the copy
@@ -163,9 +181,11 @@ def prerank_score(c: Candidate, n_parallel_fills: int) -> float:
     if c.copy_floor:  # the copy baseline's pick keeps its full match score (never diluted by disagreement)
         par = max(par, c.retrieval_score / 100.0)
     s = 1.0 - (1.0 - llm) * (1.0 - min(1.0, par))
+    if ngram:
+        s = 1.0 - (1.0 - s) * (1.0 - min(1.0, c.ngram_prob or 0.0))
     if "ontology" in c.sources:
         s += 0.02
-    if c.ngram_rank is not None:
+    if c.ngram_rank is not None and not ngram:
         s += 0.01 / (1 + c.ngram_rank)
     if not c.length_ok:
         s *= 0.5
@@ -316,9 +336,10 @@ class Restorer:
             "known_entities_nearby": [h.label for h in hints[:5]],
         }
         if strategy == "prerank":
+            tag = "prerank-ngram" if self.settings.ngram_prerank else "prerank"
             for c in cands:
-                c.confidence, c.confidence_source, c.decider_source = c.prerank, "prerank", "prerank"
-            return "prerank", sorted(cands, key=lambda c: c.confidence, reverse=True)
+                c.confidence, c.confidence_source, c.decider_source = c.prerank, tag, "prerank"
+            return tag, sorted(cands, key=lambda c: c.confidence, reverse=True)
 
         if strategy == "self-report":
             return self._self_report(cands, parallels)
@@ -329,6 +350,13 @@ class Restorer:
             floor = next((c for c in cands if c.copy_floor), None)
             if floor is not None and floor not in top:  # the copy baseline always gets a slot
                 top = top[: k - 1] + [floor] if k > 1 else [floor]
+            ng = next((c for c in cands if c.ngram_rank == 0), None) if self.settings.ngram_slot else None
+            if ng is not None and ng not in top and k > 2:
+                # restorer.ngram_slot: the 5-gram's top fill also gets one, displacing the lowest pre-ranked
+                # candidate that is neither the pre-rank top-1 nor the copy-baseline fill
+                drop = next((c for c in reversed(top) if c is not top[0] and c is not floor), None)
+                if drop is not None:
+                    top = [ng if c is drop else c for c in top]
             rest = [c for c in cands if c not in top]
         try:
             if strategy == "noul-topk":
@@ -442,15 +470,35 @@ class Restorer:
         if self.use_ontology:
             for text, h in self.ontology_candidates(left, right, length):
                 add(text, "ontology", hint=h)
-        for rank, (text, _lp) in enumerate(self.ngram.fill(left, right, length, k=st.ngram_k)):
+        ngram_probs: dict[str, float] | None = None
+        if st.ngram_features:  # one beam like the 5-gram baseline's (k = beam = ngram_beam); softmax shares
+            beams = ngram_softmax(self.ngram.fill(left, right, length, k=st.ngram_beam,
+                                                  beam=max(16, st.ngram_beam)))
+            ngram_props = beams[: st.ngram_k]
+            ngram_probs = {}
+            for text, p in beams:
+                t = normalize_iso(text)
+                if t:
+                    ngram_probs[t] = max(p, ngram_probs.get(t, 0.0))
+        else:
+            ngram_props = [(t, None) for t, _lp in self.ngram.fill(left, right, length, k=st.ngram_k)]
+        for rank, (text, _p) in enumerate(ngram_props):
             c = add(text, "ngram")
             if c is not None and (c.ngram_rank is None or rank < c.ngram_rank):
                 c.ngram_rank = rank
+        # restorer.ngram_gate: a confident 5-gram top fill is filled with no LLM call (the gate threshold is the
+        # 5-gram baseline's VAL-fitted abstain threshold). The fill must pass the same constraints as any candidate.
+        gated: str | None = None
+        if st.ngram_gate is not None and ngram_props and (ngram_props[0][1] or 0.0) >= st.ngram_gate:
+            g = normalize_iso(ngram_props[0][0])
+            if g and self.check_constraints([Candidate(g)], length, explicit_length=gap_chars is not None,
+                                            dynasty=dynasty):
+                gated = g
 
         good_parallel = any(p.fill and p.score >= 50 for p in parallels)
         models_used: list[str] = []
         escalated = False
-        llm_on = include_llm and self.llm is not None and router != "none"
+        llm_on = include_llm and self.llm is not None and router != "none" and gated is None
         if router == "routed":
             pre_escalate = allow_escalation and (
                 length > rt.escalate_if_gap_chars_over or (rt.escalate_if_no_parallel and not good_parallel))
@@ -489,8 +537,17 @@ class Restorer:
                         c.hints.append(h)
             n_par = len([p for p in parallels if p.fill])
             for c in cands:
-                c.prerank = prerank_score(c, n_par)
+                if ngram_probs is not None:
+                    c.ngram_prob = ngram_probs.get(c.text, 0.0)
+                c.prerank = prerank_score(c, n_par, ngram=st.ngram_prerank)
             cands.sort(key=lambda c: (-c.prerank, -(c.llm_confidence or 0), -c.retrieval_score, c.text))
+            if gated is not None:  # the 5-gram's fill first at its softmax share; the rest in pre-rank order
+                used["strategy"] = "ngram-gate"
+                for c in cands:
+                    c.raw_confidence = c.confidence = c.ngram_prob if c.text == gated else c.prerank
+                    c.confidence_source, c.decider_source = "ngram-gate", "ngram-gate"
+                cands.sort(key=lambda c: (c.text != gated, -c.confidence, c.text))
+                return "ngram-gate", cands, None, float(st.ngram_gate)
             strat = st.strategy_for(bool(llm_answered["any"]))
             used["strategy"] = strat
             model, ranked = self.rank_and_decide(cands, left=left, right=right, gap_chars=length,
@@ -510,7 +567,8 @@ class Restorer:
             decider_model, ranked, cal_key, threshold = finalize()
         best = ranked[0].confidence if ranked else 0.0
 
-        if decider_model not in ("none", "prerank") and not decider_model.startswith("fallback:"):
+        if decider_model not in ("none", "prerank", "prerank-ngram", "ngram-gate") \
+                and not decider_model.startswith("fallback:"):
             models_used.append(decider_model)
         decision = "fill" if ranked and best >= threshold else "abstain"
         return GapResult(index=index, gap_chars=length, decision=decision, chosen=0 if ranked else None,
