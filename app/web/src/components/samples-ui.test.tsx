@@ -77,14 +77,13 @@ describe('SampleGallery', () => {
 });
 
 describe('HomePage hero', () => {
-  it('primary CTA is the upload flow that /restore now opens on (photo tab, samples, typing one tab away)', async () => {
+  it('keeps the upload flow one tap away, next to the primary practice call to action', () => {
     renderApp(<HomePage />, { lang: 'en' });
     const cta = screen.getByTestId('cta-upload');
     expect(cta).toHaveAttribute('href', '/restore');
     expect(cta).toHaveTextContent('Upload a photo');
     expect(screen.queryByTestId('cta-restore')).toBeNull();
-    expect(screen.getByTestId('cta-samples')).toHaveAttribute('href', '#samples');
-    await screen.findAllByRole('article');
+    expect(screen.getByTestId('cta-practice')).toHaveClass('btn-primary');
   });
 });
 

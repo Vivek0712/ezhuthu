@@ -13,9 +13,9 @@
           {
             "text": "ku-p",
             "text_tamil": "கு-ப்",
-            "confidence": 0.3708,
+            "confidence": 0.0823,
             "model": "retrieval",
-            "decider_model": "strands-decider-2b-hobson-v19",
+            "decider_model": "prerank-ngram",
             "parallels": [
               {
                 "inscription_id": "DHARMA_INSPallava00046",
@@ -28,8 +28,8 @@
             "sources": [
               "parallel"
             ],
-            "confidence_source": "decider-noul",
-            "decider_source": "hosted",
+            "confidence_source": "prerank-ngram",
+            "decider_source": "prerank",
             "constraints": {
               "length_ok": true,
               "letters_ok": true
@@ -41,15 +41,100 @@
               "parallel_support": 1,
               "best_parallel_match": 0.3048,
               "ngram_rank": null,
-              "raw_confidence": 0.3708
+              "ngram_probability": 0.0,
+              "raw_confidence": 0.3048
+            }
+          },
+          {
+            "text": "ṇam",
+            "text_tamil": "ணம்",
+            "confidence": 0.0809,
+            "model": "retrieval",
+            "decider_model": "prerank-ngram",
+            "parallels": [],
+            "ontology_hints": [],
+            "sources": [
+              "ngram"
+            ],
+            "confidence_source": "prerank-ngram",
+            "decider_source": "prerank",
+            "constraints": {
+              "length_ok": true,
+              "letters_ok": true
+            },
+            "features": {
+              "prerank": 0.2989,
+              "copy_baseline": false,
+              "llm_probability": null,
+              "parallel_support": 0,
+              "best_parallel_match": 0.0,
+              "ngram_rank": 0,
+              "ngram_probability": 0.2989,
+              "raw_confidence": 0.2989
+            }
+          },
+          {
+            "text": "ram",
+            "text_tamil": "ரம்",
+            "confidence": 0.0774,
+            "model": "retrieval",
+            "decider_model": "prerank-ngram",
+            "parallels": [],
+            "ontology_hints": [],
+            "sources": [
+              "ngram"
+            ],
+            "confidence_source": "prerank-ngram",
+            "decider_source": "prerank",
+            "constraints": {
+              "length_ok": true,
+              "letters_ok": true
+            },
+            "features": {
+              "prerank": 0.2841,
+              "copy_baseline": false,
+              "llm_probability": null,
+              "parallel_support": 0,
+              "best_parallel_match": 0.0,
+              "ngram_rank": 1,
+              "ngram_probability": 0.2841,
+              "raw_confidence": 0.2841
+            }
+          },
+          {
+            "text": "ma-",
+            "text_tamil": "ம-",
+            "confidence": 0.0696,
+            "model": "opus",
+            "decider_model": "prerank-ngram",
+            "parallels": [],
+            "ontology_hints": [],
+            "sources": [
+              "opus"
+            ],
+            "confidence_source": "prerank-ngram",
+            "decider_source": "prerank",
+            "constraints": {
+              "length_ok": true,
+              "letters_ok": true
+            },
+            "features": {
+              "prerank": 0.25,
+              "copy_baseline": false,
+              "llm_probability": 0.25,
+              "parallel_support": 0,
+              "best_parallel_match": 0.0,
+              "ngram_rank": null,
+              "ngram_probability": 0.0,
+              "raw_confidence": 0.25
             }
           },
           {
             "text": "tu",
             "text_tamil": "து",
-            "confidence": 0.3598,
+            "confidence": 0.0646,
             "model": "opus",
-            "decider_model": "strands-decider-2b-hobson-v19",
+            "decider_model": "prerank-ngram",
             "parallels": [
               {
                 "inscription_id": "DHARMA_INSPallava00255",
@@ -63,8 +148,8 @@
               "opus",
               "parallel"
             ],
-            "confidence_source": "decider-noul",
-            "decider_source": "hosted",
+            "confidence_source": "prerank-ngram",
+            "decider_source": "prerank",
             "constraints": {
               "length_ok": true,
               "letters_ok": true
@@ -76,109 +161,20 @@
               "parallel_support": 1,
               "best_parallel_match": 0.2905,
               "ngram_rank": null,
-              "raw_confidence": 0.3598
-            }
-          },
-          {
-            "text": "ma-",
-            "text_tamil": "ம-",
-            "confidence": 0.3223,
-            "model": "opus",
-            "decider_model": "strands-decider-2b-hobson-v19",
-            "parallels": [],
-            "ontology_hints": [],
-            "sources": [
-              "opus"
-            ],
-            "confidence_source": "decider-noul",
-            "decider_source": "hosted",
-            "constraints": {
-              "length_ok": true,
-              "letters_ok": true
-            },
-            "features": {
-              "prerank": 0.25,
-              "copy_baseline": false,
-              "llm_probability": 0.25,
-              "parallel_support": 0,
-              "best_parallel_match": 0.0,
-              "ngram_rank": null,
-              "raw_confidence": 0.3223
-            }
-          },
-          {
-            "text": "yum",
-            "text_tamil": "யும்",
-            "confidence": 0.0,
-            "model": "opus",
-            "decider_model": "strands-decider-2b-hobson-v19",
-            "parallels": [
-              {
-                "inscription_id": "DHARMA_INSTiruvavatuturai00042",
-                "line_n": "1v18=39",
-                "snippet": "rayilē kārām pacuvaiyum tēva-p-pirāmaṇaraiyum piramma",
-                "url": "https://github.com/erc-dharma/tfa-tiruvavatuturai-epigraphy/blob/53e5dee31e1804ea7a2c0ffdcfe4344b40507f98/DHARMA_INSTiruvavatuturai00042.xml"
-              }
-            ],
-            "ontology_hints": [],
-            "sources": [
-              "opus",
-              "parallel"
-            ],
-            "confidence_source": "not-in-top-k",
-            "decider_source": "hosted",
-            "constraints": {
-              "length_ok": true,
-              "letters_ok": true
-            },
-            "features": {
-              "prerank": 0.1335,
-              "copy_baseline": false,
-              "llm_probability": 0.08,
-              "parallel_support": 1,
-              "best_parallel_match": 0.2905,
-              "ngram_rank": null,
-              "raw_confidence": 0.0
-            }
-          },
-          {
-            "text": "lai",
-            "text_tamil": "லை",
-            "confidence": 0.0,
-            "model": "opus",
-            "decider_model": "strands-decider-2b-hobson-v19",
-            "parallels": [],
-            "ontology_hints": [],
-            "sources": [
-              "opus"
-            ],
-            "confidence_source": "not-in-top-k",
-            "decider_source": "hosted",
-            "constraints": {
-              "length_ok": true,
-              "letters_ok": true
-            },
-            "features": {
-              "prerank": 0.12,
-              "copy_baseline": false,
-              "llm_probability": 0.12,
-              "parallel_support": 0,
-              "best_parallel_match": 0.0,
-              "ngram_rank": null,
-              "raw_confidence": 0.0
+              "ngram_probability": 0.0,
+              "raw_confidence": 0.2276
             }
           }
         ],
         "escalated": true,
-        "strategy": "noul-topk",
-        "calibration": null,
-        "abstain_below": 0.5
+        "strategy": "prerank",
+        "calibration": "prerank-ngram|prerank|kall|llm-opus",
+        "abstain_below": 0.4887
       }
     ],
     "models_used": [
-      "us.anthropic.claude-opus-4-6-v1",
-      "strands-decider-2b-hobson-v19"
+      "us.anthropic.claude-opus-4-6-v1"
     ],
-    "latency_ms": 40195.7
+    "latency_ms": 8812.7
   }
 }

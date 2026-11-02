@@ -10,6 +10,7 @@ import restore from '../hero/runs/restore.json';
 import { BADGE_EDGE_X, BADGE_EDGE_Y, BADGE_HALF_H, BADGE_HALF_W, HERO } from '../hero/heroData';
 import { buildTimeline } from '../hero/timeline';
 import { en, ta } from '../i18n/strings';
+import { enHero, taHero } from '../i18n/strings-hero';
 import { renderApp } from '../test/render';
 
 const cleanText = (el: Element) => (el.textContent ?? '').replace(/\s+/g, ' ').trim();
@@ -42,10 +43,11 @@ describe('stone hero (home)', () => {
       const ks = Array.from(line.querySelectorAll<HTMLElement>('[data-anim="land"]')).map((e) => Number(e.dataset.k));
       expect(ks).toEqual(ks.map((_, i) => i));
     });
-    // What happened to the uncertain letter, in plain words, with the real numbers.
-    expect(hero).toHaveTextContent('Line 3: the Reader named this letter ண்ணி at 45%, under 50%. The Restorer’s best fill, குப் at 37%, was under 50% too, so the Strands Decider left it open.');
-    expect(hero).toHaveTextContent('46 letters matched to modern Tamil');
-    expect(hero).toHaveTextContent('mean confidence 65%');
+    // What happened to the uncertain letter, in plain words, with the real numbers (the deployed Restorer's calibrated
+    // confidence and threshold).
+    expect(hero).toHaveTextContent('Line 3: one letter is too worn to be sure (45%). The best fill scored 8%, under the 49% needed, so rather than guess, Ezhuthu marks it ? for an expert.');
+    expect(hero).toHaveTextContent('46 carved letters named in modern Tamil');
+    expect(hero).toHaveTextContent('the Reader’s mean confidence 65%');
     expect(hero).toHaveTextContent('1 left open');
     expect(hero).toHaveTextContent('Letters under 50% are flagged as uncertain.');
     // WORDS: the letters of each row are grouped into the Interpreter's words, each underlined in its tint.
@@ -89,19 +91,30 @@ describe('stone hero (home)', () => {
     expect(hero.querySelector('.sh-out')?.closest('[aria-hidden="true"]')).toBeNull();
   });
 
-  it('keeps the era-evolution strip and offers the three calls to action', () => {
+  it('offers one primary call to action, then practice, how it works and scholars sections', () => {
     renderApp(<AppRoutes />, { route: '/' });
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Learn to read the stone. Help read the backlog.');
-    expect(screen.getByTestId('evolution-hero')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Learn to read old Tamil inscriptions.');
+    // A short subline a non-expert understands, then the calls to action.
+    expect(screen.getByTestId('hero-head').querySelector('.hh-sub')).toHaveTextContent(/^Practise on real inscriptions/);
+    expect(screen.getByTestId('hero-head').textContent).not.toMatch(/abstain|backlog|review queue|experimental|\bcorrect\b|Aivar/i);
+    expect(screen.getByTestId('hero-actions').querySelectorAll('.btn-primary')).toHaveLength(1);
+    expect(screen.getByTestId('cta-practice')).toHaveAttribute('href', '#try');
     expect(screen.getByTestId('cta-upload')).toHaveAttribute('href', '/restore');
-    expect(screen.getByTestId('cta-samples')).toHaveAttribute('href', '#samples');
-    expect(screen.getByTestId('cta-scholars')).toHaveAttribute('href', '#scholars');
+    expect(screen.getByTestId('cta-how')).toHaveAttribute('href', '#how');
     // The headline and calls to action come before the stone in the page (phones show them first).
     const h1 = screen.getByRole('heading', { level: 1 });
     expect(h1.compareDocumentPosition(screen.getByTestId('stone-hero')) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    // Sections in order: hero, practice, how it works, scholars.
+    const order = ['stone-hero', 'home-features', 'home-practice', 'home-how', 'scholars'].map((id) => screen.getByTestId(id));
+    for (let i = 1; i < order.length; i++) expect(order[i - 1]!.compareDocumentPosition(order[i]!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(screen.getByTestId('mini-drill')).toBeInTheDocument();
+    // The long sample gallery is not on home (user feedback); one link leads to it on Restore.
+    expect(screen.queryByTestId('sample-gallery')).toBeNull();
+    expect(screen.getByTestId('home-samples-link')).toHaveAttribute('href', '/restore#samples');
+    for (const f of ['practice', 'restore', 'read', 'how']) expect(screen.getByTestId(`feature-${f}`)).toBeInTheDocument();
     const scholars = screen.getByTestId('scholars');
-    expect(within(scholars).getByRole('link', { name: 'Expert review' })).toHaveAttribute('href', '/review');
-    expect(within(scholars).getByRole('link', { name: 'Benchmark' })).toHaveAttribute('href', '/benchmark');
+    expect(within(scholars).getByRole('link', { name: 'Expert review →' })).toHaveAttribute('href', '/review');
+    expect(within(scholars).getByTestId('scholars-benchmark')).toHaveAttribute('href', '/benchmark');
   });
 
   it('is in Tamil when the app is', () => {
@@ -117,6 +130,48 @@ describe('stone hero (home)', () => {
     expect(Array.from(meaning.querySelectorAll('[data-anim^="mean-"]:not([data-anim="mean-head"])')).map((e) => e.getAttribute('lang'))).toEqual(['ta', 'en']);
     expect(meaning.querySelector('.sh-mc')).toHaveTextContent('நம்பகம்');
     expect(hero).toHaveTextContent('சொற்களின் நம்பகம் 50% அல்லது அதற்கு மேல்');
+  });
+});
+
+describe('stone hero accuracy: every number shown comes from the recorded runs', () => {
+  it('shows the letter count, mean, cut-off, gap fill, calibrated threshold, open count and word counts from hero-reading.json', () => {
+    renderApp(<AppRoutes />, { route: '/' });
+    const hero = screen.getByTestId('stone-hero');
+    const pct = (c: number) => `${Math.round(c * 100)}%`;
+    const g = heroRaw.glyphs;
+    const gaps = heroRaw.restore.gaps;
+    const cut = pct(g.gap_below);
+    expect(hero).toHaveTextContent(`${g.letters} carved letters named in modern Tamil`);
+    expect(hero).toHaveTextContent(`the Reader’s mean confidence ${pct(g.mean_confidence)}`);
+    expect(hero.querySelector('[data-node="reader"] .sh-node-out')).toHaveTextContent(`${g.letters} letters · ${pct(g.mean_confidence)}`);
+    const open = gaps.filter((x) => x.decision === 'abstain').length;
+    expect(hero).toHaveTextContent(`${open} left open`);
+    expect(hero).toHaveTextContent(`Letters under ${cut} are flagged as uncertain.`);
+    const words = heroRaw.interpret.words;
+    expect(hero).toHaveTextContent(`${words.length} words, ${words.filter((w) => (w.confidence ?? 0) >= g.gap_below).length} at ${cut} or more`);
+    // The gap: the Reader's own confidence, the Restorer's best fill with its calibrated confidence, and the
+    // calibrated threshold it was held to (not a hard-coded 50%).
+    const gap = gaps[0]!;
+    const reader = g.rows[gap.row]!.glyphs[gap.box]!.confidence!;
+    expect(gap.strategy).toBe('prerank');
+    expect(gap.best.confidence_source).not.toMatch(/decider/);
+    expect(hero.querySelector('[data-node="restorer"] .sh-node-out')).toHaveTextContent(`${gap.best.ta} ${pct(gap.best.confidence)}`);
+    expect(hero.querySelector('.sh-card[data-gap]')).toHaveTextContent(`Reader ${pct(reader)} < ${cut}`);
+    expect(hero.querySelector('.sh-card[data-gap]')).toHaveTextContent(`best fill ${gap.best.ta} ${pct(gap.best.confidence)} < ${pct(gap.abstain_below)} · left open`);
+    expect(hero.querySelector('.sh-gapnote')).toHaveTextContent(`(${pct(reader)})`);
+    expect(hero.querySelector('.sh-gapnote')).toHaveTextContent(`scored ${pct(gap.best.confidence)}, under the ${pct(gap.abstain_below)} needed`);
+    // The view the page ships is the same record.
+    expect(HERO.letters).toBe(g.letters);
+    expect(HERO.mean).toBe(g.mean_confidence);
+    expect(HERO.letterCut).toBe(g.gap_below);
+    expect(HERO.gaps[0]!.g.gap).toEqual({ decision: gap.decision, below: gap.abstain_below, best: { ta: gap.best.ta, c: gap.best.confidence } });
+    // Restoration is not credited to the Strands Decider (the deployed restorer makes no decider call); the letter
+    // % is labelled as the Reader's own; the boxes as hand-marked; nothing says the reading is verified.
+    expect(hero.querySelector('.sh-pipe')!.textContent).not.toMatch(/Strands Decider/);
+    expect(hero.querySelector('.sh-gapnote')!.textContent).not.toMatch(/Decider/);
+    expect(hero).toHaveTextContent('%: the Reader’s own confidence, not a measured accuracy');
+    expect(hero).toHaveTextContent('Letter boxes marked by hand; the Reader names each letter.');
+    expect(hero.textContent).not.toMatch(/verified|validated|accuracy of \d|match rate/i);
   });
 });
 
@@ -337,7 +392,7 @@ function Where() {
 }
 
 describe('renamed routes keep old links working', () => {
-  it('/learn redirects to /practice with its query string', async () => {
+  it('/learn redirects to /practice with its query string (a tutor-lesson link lands on the guided lesson)', async () => {
     renderApp(
       <>
         <AppRoutes />
@@ -347,7 +402,7 @@ describe('renamed routes keep old links working', () => {
       </>,
       { route: '/learn?level=L2' },
     );
-    expect(await screen.findByTestId('where')).toHaveTextContent('/practice?level=L2');
+    expect(await screen.findByTestId('where')).toHaveTextContent('/practice/guided?level=L2');
     expect(screen.getByRole('heading', { level: 1, name: 'Practice' })).toBeInTheDocument();
   });
   it('/test redirects to /benchmark', async () => {
@@ -365,7 +420,7 @@ describe('renamed routes keep old links working', () => {
 });
 
 describe('positioning C copy', () => {
-  const all = [...Object.values(en), ...Object.values(ta)].join('\n');
+  const all = [...Object.values(en), ...Object.values(ta), ...Object.values(enHero), ...Object.values(taHero)].join('\n');
   it('uses the precise Federal wording, never the old "70,000" backlog', () => {
     expect(all).not.toMatch(/70,000|70000/);
     expect(en['about.why2']).toMatch(/about 23 epigraphists.*1 lakh.*1886.*30,000 to 35,000.*The Federal, 3 Aug 2021/);

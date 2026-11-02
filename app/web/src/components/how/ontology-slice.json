@@ -1,0 +1,381 @@
+{
+ "meta": {
+  "built_by": "scripts/build_how_ontology_slice.py",
+  "source": "ontology/ezhuthu.ttl (OWL export) + ontology/lookups/*.json, train-only build (ontology/coverage.json splits.used = [train])",
+  "credit": "Inscriptions: DHARMA project editions, CC BY-SA 4.0. Wikidata identifiers: Wikidata, CC0."
+ },
+ "center": "ez:ruler/rajaraja-i",
+ "center_inscriptions": [
+  "DHARMA_INSTamilNadu00130",
+  "DHARMA_INSTamilNadu00177",
+  "DHARMA_INSTamilNadu00610",
+  "DHARMA_INSUttiramerur00053",
+  "DHARMA_INSUttiramerur00054",
+  "DHARMA_INSUttiramerur00055",
+  "DHARMA_INSUttiramerur00061",
+  "DHARMA_INSUttiramerur00062",
+  "DHARMA_INSUttiramerur00065",
+  "DHARMA_INStfaSIIv01p0i0040",
+  "DHARMA_INStfaSIIv02p0i0001",
+  "DHARMA_INStfaSIIv02p0i0004",
+  "DHARMA_INStfaSIIv02p0i0005",
+  "DHARMA_INStfaSIIv02p0i0065",
+  "DHARMA_INStfaSIIv03p0i0002",
+  "DHARMA_INStfaSIIv03p0i0004",
+  "DHARMA_INStfaSIIv03p0i0006",
+  "DHARMA_INStfaSIIv03p0i0009",
+  "DHARMA_INStfaSIIv03p0i0017",
+  "DHARMA_INStfaSIIv03p0i0019",
+  "DHARMA_INStfaSIIv04p0i0137",
+  "DHARMA_INStfaSIIv08p0i0205",
+  "DHARMA_INStfaSIIv13p0i0170",
+  "DHARMA_INStfaSIIv22p0i0333"
+ ],
+ "nodes": [
+  {
+   "id": "ez:ruler/rajaraja-i",
+   "kind": "ruler",
+   "label_iso": "Rājarāja I Cōḻa",
+   "label_ta": "ராஜராஜ I சோழ",
+   "label_en": null,
+   "era": "c. 985–1014 CE",
+   "wikidata": "Q2128757",
+   "inscriptions": 24
+  },
+  {
+   "id": "ez:dynasty/chola",
+   "kind": "dynasty",
+   "label_iso": "Cōḻa",
+   "label_ta": "சோழ",
+   "label_en": null,
+   "era": "c. 9th–13th c. CE (imperial Cōḻas)",
+   "wikidata": "Q151148",
+   "inscriptions": 211
+  },
+  {
+   "id": "ez:formula/tirumakal-pola",
+   "kind": "formula",
+   "label_iso": "tirumakaḷ pōla",
+   "label_ta": "திருமகள் போல",
+   "label_en": "as the goddess of fortune…",
+   "era": null,
+   "wikidata": null,
+   "inscriptions": 18
+  },
+  {
+   "id": "ez:formula/kantalur-calai",
+   "kind": "formula",
+   "label_iso": "kāntaḷūr-c-cālai kalam aṟutta",
+   "label_ta": "காந்தளூர்-ச்-சாலை கலம் அறுத்த",
+   "label_en": "who destroyed the ships at Kāntaḷūr Cālai",
+   "era": null,
+   "wikidata": null,
+   "inscriptions": 17
+  },
+  {
+   "id": "ez:title/rajakesarivarman",
+   "kind": "title",
+   "label_iso": "Rājakēsarivarman",
+   "label_ta": "ராஜகேஸரிவர்மன்",
+   "label_en": null,
+   "era": null,
+   "wikidata": null,
+   "inscriptions": 38
+  },
+  {
+   "id": "ez:title/udaiyar",
+   "kind": "title",
+   "label_iso": "uṭaiyār",
+   "label_ta": "உடையார்",
+   "label_en": "lord",
+   "era": null,
+   "wikidata": null,
+   "inscriptions": 144
+  },
+  {
+   "id": "ez:place/uttiramerur",
+   "kind": "place",
+   "label_iso": "Uttiramērūr",
+   "label_ta": "உத்திரமேரூர்",
+   "label_en": null,
+   "era": null,
+   "wikidata": null,
+   "inscriptions": 38
+  },
+  {
+   "id": "ez:temple/uttiramerur-sundaravaradaperumal",
+   "kind": "temple",
+   "label_iso": "Sundaravaradaperumāḷ",
+   "label_ta": "ஸுந்தரவரதபெருமாள்",
+   "label_en": null,
+   "era": null,
+   "wikidata": null,
+   "inscriptions": 13
+  },
+  {
+   "id": "ez:admin_unit/kaliyur-kottam",
+   "kind": "admin_unit",
+   "label_iso": "Kāliyūr-kōṭṭam",
+   "label_ta": "காலியூர்-கோட்டம்",
+   "label_en": null,
+   "era": null,
+   "wikidata": null,
+   "inscriptions": 17
+  },
+  {
+   "id": "ez:measure/kani",
+   "kind": "measure",
+   "label_iso": "kāṇi",
+   "label_ta": "காணி",
+   "label_en": "kāṇi (fraction 1/80; land share)",
+   "era": null,
+   "wikidata": null,
+   "inscriptions": 75
+  },
+  {
+   "id": "ez:measure/kalanju",
+   "kind": "measure",
+   "label_iso": "kaḷañcu",
+   "label_ta": "களஞ்சு",
+   "label_en": "kaḷañcu (gold weight)",
+   "era": null,
+   "wikidata": null,
+   "inscriptions": 92
+  },
+  {
+   "id": "ez:tax/irai",
+   "kind": "tax",
+   "label_iso": "iṟai",
+   "label_ta": "இறை",
+   "label_en": "tax, dues",
+   "era": null,
+   "wikidata": null,
+   "inscriptions": 79
+  },
+  {
+   "id": "ez:coin/pon",
+   "kind": "coin",
+   "label_iso": "poṉ",
+   "label_ta": "பொன்",
+   "label_en": "gold",
+   "era": null,
+   "wikidata": null,
+   "inscriptions": 194
+  }
+ ],
+ "edges": [
+  {
+   "from": "ez:ruler/rajaraja-i",
+   "to": "ez:dynasty/chola",
+   "rel": "memberOfDynasty",
+   "n": 21,
+   "evidence": [
+    "DHARMA_INSTamilNadu00177",
+    "DHARMA_INSUttiramerur00053",
+    "DHARMA_INSUttiramerur00054"
+   ]
+  },
+  {
+   "from": "ez:formula/tirumakal-pola",
+   "to": "ez:ruler/rajaraja-i",
+   "rel": "praiseOf",
+   "n": 17,
+   "evidence": [
+    "DHARMA_INSTamilNadu00177",
+    "DHARMA_INSUttiramerur00053",
+    "DHARMA_INSUttiramerur00054"
+   ]
+  },
+  {
+   "from": "ez:formula/kantalur-calai",
+   "to": "ez:ruler/rajaraja-i",
+   "rel": "praiseOf",
+   "n": 16,
+   "evidence": [
+    "DHARMA_INSTamilNadu00177",
+    "DHARMA_INSUttiramerur00053",
+    "DHARMA_INSUttiramerur00054"
+   ]
+  },
+  {
+   "from": "ez:temple/uttiramerur-sundaravaradaperumal",
+   "to": "ez:place/uttiramerur",
+   "rel": "locatedAt"
+  },
+  {
+   "from": "ez:ruler/rajaraja-i",
+   "to": "ez:title/rajakesarivarman",
+   "rel": "sameStone",
+   "n": 14,
+   "evidence": [
+    "DHARMA_INSUttiramerur00053",
+    "DHARMA_INSUttiramerur00061",
+    "DHARMA_INSUttiramerur00062"
+   ]
+  },
+  {
+   "from": "ez:ruler/rajaraja-i",
+   "to": "ez:title/udaiyar",
+   "rel": "sameStone",
+   "n": 10,
+   "evidence": [
+    "DHARMA_INSTamilNadu00130",
+    "DHARMA_INSTamilNadu00610",
+    "DHARMA_INStfaSIIv02p0i0001"
+   ]
+  },
+  {
+   "from": "ez:ruler/rajaraja-i",
+   "to": "ez:place/uttiramerur",
+   "rel": "sameStone",
+   "n": 6,
+   "evidence": [
+    "DHARMA_INSUttiramerur00053",
+    "DHARMA_INSUttiramerur00054",
+    "DHARMA_INSUttiramerur00055"
+   ]
+  },
+  {
+   "from": "ez:ruler/rajaraja-i",
+   "to": "ez:temple/uttiramerur-sundaravaradaperumal",
+   "rel": "sameStone",
+   "n": 6,
+   "evidence": [
+    "DHARMA_INSUttiramerur00053",
+    "DHARMA_INSUttiramerur00054",
+    "DHARMA_INSUttiramerur00055"
+   ]
+  },
+  {
+   "from": "ez:ruler/rajaraja-i",
+   "to": "ez:admin_unit/kaliyur-kottam",
+   "rel": "sameStone",
+   "n": 6,
+   "evidence": [
+    "DHARMA_INSUttiramerur00053",
+    "DHARMA_INSUttiramerur00054",
+    "DHARMA_INSUttiramerur00055"
+   ]
+  },
+  {
+   "from": "ez:ruler/rajaraja-i",
+   "to": "ez:measure/kani",
+   "rel": "sameStone",
+   "n": 7,
+   "evidence": [
+    "DHARMA_INSTamilNadu00177",
+    "DHARMA_INSTamilNadu00610",
+    "DHARMA_INStfaSIIv02p0i0004"
+   ]
+  },
+  {
+   "from": "ez:ruler/rajaraja-i",
+   "to": "ez:measure/kalanju",
+   "rel": "sameStone",
+   "n": 5,
+   "evidence": [
+    "DHARMA_INStfaSIIv01p0i0040",
+    "DHARMA_INStfaSIIv02p0i0001",
+    "DHARMA_INStfaSIIv03p0i0006"
+   ]
+  },
+  {
+   "from": "ez:ruler/rajaraja-i",
+   "to": "ez:tax/irai",
+   "rel": "sameStone",
+   "n": 8,
+   "evidence": [
+    "DHARMA_INStfaSIIv01p0i0040",
+    "DHARMA_INStfaSIIv02p0i0004",
+    "DHARMA_INStfaSIIv02p0i0005"
+   ]
+  },
+  {
+   "from": "ez:ruler/rajaraja-i",
+   "to": "ez:coin/pon",
+   "rel": "sameStone",
+   "n": 10,
+   "evidence": [
+    "DHARMA_INStfaSIIv01p0i0040",
+    "DHARMA_INStfaSIIv02p0i0001",
+    "DHARMA_INStfaSIIv02p0i0004"
+   ]
+  }
+ ],
+ "counts": {
+  "script_stage": 8,
+  "letter": 262,
+  "dynasty": 6,
+  "ruler": 42,
+  "title": 13,
+  "formula": 14,
+  "place": 357,
+  "admin_unit": 200,
+  "temple": 139,
+  "deity": 13,
+  "grant_type": 10,
+  "assembly": 6,
+  "measure": 14,
+  "coin": 4,
+  "tax": 8
+ },
+ "wikidata": {
+  "dynasty": {
+   "with_qid": 6,
+   "total": 6,
+   "pct": 100.0
+  },
+  "ruler": {
+   "with_qid": 19,
+   "total": 42,
+   "pct": 45.2
+  },
+  "temple": {
+   "with_qid": 8,
+   "total": 139,
+   "pct": 5.8
+  },
+  "place": {
+   "with_qid": 35,
+   "total": 357,
+   "pct": 9.8
+  }
+ },
+ "corpus": {
+  "inscriptions": 862,
+  "lines": 10564,
+  "collections": 6
+ },
+ "owl": {
+  "classes": 27,
+  "object_properties": 21,
+  "named_individuals": 1958,
+  "triples": 23029
+ },
+ "evidence_inscriptions": [
+  "DHARMA_INSTamilNadu00130",
+  "DHARMA_INSTamilNadu00177",
+  "DHARMA_INSTamilNadu00610",
+  "DHARMA_INSUttiramerur00053",
+  "DHARMA_INSUttiramerur00054",
+  "DHARMA_INSUttiramerur00055",
+  "DHARMA_INSUttiramerur00061",
+  "DHARMA_INSUttiramerur00062",
+  "DHARMA_INSUttiramerur00065",
+  "DHARMA_INStfaSIIv01p0i0040",
+  "DHARMA_INStfaSIIv02p0i0001",
+  "DHARMA_INStfaSIIv02p0i0004",
+  "DHARMA_INStfaSIIv02p0i0005",
+  "DHARMA_INStfaSIIv02p0i0065",
+  "DHARMA_INStfaSIIv03p0i0002",
+  "DHARMA_INStfaSIIv03p0i0004",
+  "DHARMA_INStfaSIIv03p0i0006",
+  "DHARMA_INStfaSIIv03p0i0009",
+  "DHARMA_INStfaSIIv03p0i0017",
+  "DHARMA_INStfaSIIv03p0i0019",
+  "DHARMA_INStfaSIIv04p0i0137",
+  "DHARMA_INStfaSIIv08p0i0205",
+  "DHARMA_INStfaSIIv13p0i0170",
+  "DHARMA_INStfaSIIv22p0i0333"
+ ]
+}

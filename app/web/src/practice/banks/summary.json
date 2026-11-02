@@ -1,0 +1,4 @@
+{
+ "meta": {"built_by": "scripts/build_practice.py", "seed": 20261102, "split": "train", "credit": "Inscription texts: DHARMA project editions, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)", "ta_review": "pending a native-speaker check"},
+ "counts": {"letters": {"1": 37, "2": 94, "3": 74}, "words": {"1": 230, "2": 165, "3": 145}, "gaps": {"1": 170, "2": 158, "3": 66}, "formulas": {"1": 144, "2": 132, "3": 54}}
+}

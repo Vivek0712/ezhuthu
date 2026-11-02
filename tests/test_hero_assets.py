@@ -107,3 +107,39 @@ def test_no_edition_means_no_match_rate_and_no_claims():
     text = json.dumps(hero, ensure_ascii=False).lower()
     for banned in ("deciphered", "is correct", "are correct", "strands ai", "aws ai", "goes to expert review"):
         assert banned not in text
+
+
+def test_every_number_the_hero_shows_comes_from_the_runs():
+    """hero-view.json (what StoneHero.tsx displays) is derived from the recorded runs, so its numbers cannot drift:
+    letter count, mean letter confidence, the letter cut-off, the gap's best fill, its calibrated confidence, the
+    calibrated threshold it was held to, the decision, how many are left open, the word count and the words at or
+    above the cut-off. The vitest suite checks that the page shows these same values."""
+    import sys
+
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from hero_read import GAP_BELOW, glyph_is_gap
+
+    view = json.loads((WEB / "src" / "hero" / "hero-view.json").read_text(encoding="utf-8"))
+    glyphs = json.loads((RUNS / "glyphs.json").read_text(encoding="utf-8"))
+    restore = json.loads((RUNS / "restore.json").read_text(encoding="utf-8"))["response"]
+    interp = json.loads((RUNS / "interpret.json").read_text(encoding="utf-8"))["response"]
+    letters = [g for r in glyphs["rows"] for g in r["glyphs"]]
+    assert view["letters"] == len(letters) == 46
+    assert view["mean"] == round(sum(g["confidence"] or 0.0 for g in letters) / len(letters), 2)
+    assert view["letter_cut"] == GAP_BELOW
+    gaps = [g for r in view["rows"] for g in r["glyphs"] if "gap" in g]
+    assert len(gaps) == len(restore["gaps"]) == sum(glyph_is_gap(g) for g in letters)
+    for shown, ran in zip(gaps, restore["gaps"], strict=True):
+        best = ran["candidates"][0]
+        assert shown["gap"]["decision"] == ran["decision"]
+        assert shown["gap"]["below"] == ran["abstain_below"]
+        assert shown["gap"]["best"] == {"ta": best["text_tamil"].replace("-", ""), "c": best["confidence"]}
+        # The deployed restorer: decider-free pre-rank, calibrated, no Strands Decider call.
+        assert ran["strategy"] == "prerank" and ran["calibration"]
+        assert best["confidence_source"].startswith("prerank") and "decider" not in best["confidence_source"]
+        assert (ran["decision"] == "fill") == (best["confidence"] >= ran["abstain_below"])
+    assert not any("decider" in m for m in json.loads((RUNS / "restore.json").read_text())["response"]["models_used"])
+    assert sum(g["gap"]["decision"] == "abstain" for g in gaps) == 1
+    assert len(view["words"]) == len(interp["words"]) == 11
+    assert sum((w["c"] or 0) >= view["letter_cut"] for w in view["words"]) == \
+        sum((w["confidence"] or 0) >= GAP_BELOW for w in interp["words"])

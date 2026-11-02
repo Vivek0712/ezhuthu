@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type CSSProperties, type RefObject } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type RefObject } from 'react';
 import { badgeAnchor, confClass, HERO, heroSrcSet, pctLabel, wordRuns, type Box, type HeroGlyph } from '../hero/heroData';
 import {
   BADGE_MS,
@@ -25,13 +25,15 @@ import {
   type Stop,
 } from '../hero/timeline';
 import { useI18n } from '../i18n/I18nProvider';
+import { useHeroT } from '../i18n/strings-hero';
 import { usePrefersReducedMotion } from '../lib/motion';
 import '../styles/stone-hero.css';
 
 /**
  * The home hero: a real photograph of a Chola-period inscription (Brihadisvara temple, Thanjavur; Richard Mortel,
- * CC BY 2.0), read letter by letter by Ezhuthu's Reader, with the Restorer and the Strands Decider on the letter it
- * could not name with confidence, and the Interpreter turning the letters into words, a phrase in today's Tamil and
+ * CC BY 2.0), read letter by letter by Ezhuthu's Reader (letter boxes marked by hand; the % is the Reader's own,
+ * uncalibrated confidence), with the Restorer and its calibrated confidence check (the deployed configuration: no
+ * Strands Decider call for restoration) on the letter it could not name with confidence, and the Interpreter turning the letters into words, a phrase in today's Tamil and
  * its meaning. Every letter, word, percentage and decision shown comes from src/hero/hero-view.json
  * (scripts/hero_read.py + scripts/hero_build.py): nothing is invented for the animation.
  *
@@ -39,8 +41,8 @@ import '../styles/stone-hero.css';
  * only; later cycles keep it and reverse its slow drift, so the loop has no cut) and a raking light; (b) a scan beam
  * lights the carved letters row by row; (c) MATCH: the first letters one at a time in a card (the carved glyph,
  * zoomed -> the modern Tamil letter, a ring filling to the Reader's confidence), speeding up into a cascade of small
- * badges (letter + %) over every box; (d) the letter under the cut-off: the Restorer proposes, the Strands Decider
- * fills or abstains, and its badge turns to "?"; (e) the letters fly from the stone past the pipeline and assemble
+ * badges (letter + %) over every box; (d) the letter under the cut-off: the Restorer proposes, the confidence check
+ * fills or leaves it open, and its badge turns to "?"; (e) the letters fly from the stone past the pipeline and assemble
  * into the reading, row by row, run together as on the stone; (f) WORDS: they slide apart into the Interpreter's
  * words, each underlined in its confidence tint; (g) PHRASE: the letter rows give way to the words arranged in today's
  * Tamil; (h) MEANING in English, then in Tamil; the verdict; a hold. Then everything but the photo and the meaning
@@ -78,7 +80,9 @@ const GAP0 = HERO.gaps[0];
 /** Static frame: the first featured card, and the card of the first gap (or the second featured letter). */
 const STATIC_CARDS = new Set([0, GAP0 ? readingIndex(LETTERS, GAP0.r, GAP0.i) : 1]);
 /** Words the Interpreter is at least as sure of as the letter cut-off. */
-const WORDS_SURE = HERO.words.filter((w) => (w.c ?? 0) >= HERO.abstainBelow).length;
+const WORDS_SURE = HERO.words.filter((w) => (w.c ?? 0) >= HERO.letterCut).length;
+/** The reading's type shrinks to fit its column, never below this share of its CSS size. */
+const FIT_MIN = 0.55;
 
 function Photo({ cls }: { cls?: string }) {
   return (
@@ -224,6 +228,7 @@ function ReadingRow({ r, gapLabel }: { r: number; gapLabel: string }) {
 
 export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }) {
   const { lang, t } = useI18n();
+  const ht = useHeroT();
   const reduced = usePrefersReducedMotion();
   const animated = !reduced && canAnimate();
   const rootRef = useRef<HTMLElement>(null);
@@ -240,6 +245,40 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
   const cycleN = useRef(0);
   const photoShown = useRef(false);
   const startRef = useRef<(next?: boolean) => void>(() => {});
+
+  /** Shrink the reading's type (one factor for every line, via --sh-fit) until its widest line, words spaced
+   * apart, fits its column; grow it back, up to its CSS size, when there is room. Widths come from layout (offsetLeft
+   * and offsetWidth), so letters in flight or words drawn closed up do not skew them. */
+  const fitReading = useCallback(() => {
+    const lines = rootRef.current?.querySelector<HTMLElement>('.sh-lines');
+    if (!lines) return;
+    const cur = Number(lines.style.getPropertyValue('--sh-fit')) || 1;
+    let need = Infinity;
+    lines.querySelectorAll<HTMLElement>('.sh-ta').forEach((ta) => {
+      const last = ta.lastElementChild as HTMLElement | null;
+      const natural = last ? last.offsetLeft + last.offsetWidth : 0;
+      if (natural > 0 && ta.clientWidth > 0) need = Math.min(need, (ta.clientWidth - 2) / natural);
+    });
+    if (!Number.isFinite(need)) return;
+    const next = Math.max(FIT_MIN, Math.min(1, cur * need));
+    if (Math.abs(next - cur) > 0.004) lines.style.setProperty('--sh-fit', next.toFixed(3));
+  }, []);
+  // Fit on mount, on a language switch, when the column resizes and once the web fonts have loaded.
+  useLayoutEffect(() => {
+    fitReading();
+    const out = rootRef.current?.querySelector('.sh-out');
+    let ro: ResizeObserver | null = null;
+    if (out && typeof ResizeObserver !== 'undefined') {
+      ro = new ResizeObserver(() => fitReading());
+      ro.observe(out);
+    }
+    let live = true;
+    document.fonts?.ready.then(() => live && fitReading()).catch(() => undefined);
+    return () => {
+      live = false;
+      ro?.disconnect();
+    };
+  }, [fitReading, lang]);
 
   const clear = useCallback(() => {
     for (const a of anims.current) a.cancel();
@@ -262,6 +301,7 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
       const fadeIn = !photoShown.current;
       photoShown.current = true;
       const C = TL.cycle;
+      fitReading();
       const list: Animation[] = [];
       /** One animation per element over the whole cycle. `reset`: an element inside a card or badge returns to its
        * first state once everything is hidden, so the next cycle starts from the same frame. */
@@ -464,21 +504,27 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
           const by = cy + s * (b0.y + b0.h / 2 - cy + ty * kbRect.h);
           const ex = lr.x + lr.w / 2 - shift;
           const ey = lr.y + lr.h / 2;
-          // Quadratic Bezier start -> end with its control point at the Decider, so every letter swings past it. When
-          // both ends are above the photo caption (wide screens), the control point is lowered no further than keeps
-          // the lowest point of the curve above the caption, so no letter crosses it: for a curve from y0 to y2 with
-          // control y1 below both, the lowest point is m when y1 = m + sqrt((m - y0)(m - y2)).
+          // Cubic Bezier start -> end: the first control point at the confidence check, so every letter swings past
+          // it; the second straight under the letter's own slot, so it rises into place vertically and never crosses
+          // its neighbours' slots as it lands (no overshoot either: the last segment eases out). When both ends are
+          // above the photo caption (wide screens), the first control point is lowered no further than keeps the
+          // curve above the caption (for a quadratic from y0 to y2 with control y1 below both, the lowest point is m
+          // when y1 = m + sqrt((m - y0)(m - y2)); the cubic's second control point only pulls the curve up from that).
           const kx = dec.x + dec.w / 2 + (i % 3 - 1) * 10;
           let ky = dec.y + dec.h / 2 + (r - 1.5) * 8;
           const m = capRect ? capRect.y - lr.h * 0.8 : Infinity;
           if (m > by && m > ey) ky = Math.min(ky, m + Math.sqrt((m - by) * (m - ey)));
+          const qx = ex;
+          const qy = ey + lr.h * 1.1;
           const N = 10;
           for (let k = 0; k <= N; k++) {
             const u = k / N;
-            const x = (1 - u) * (1 - u) * bx + 2 * (1 - u) * u * kx + u * u * ex - ex;
-            const y = (1 - u) * (1 - u) * by + 2 * (1 - u) * u * ky + u * u * ey - ey;
-            const sc = k === N ? 1 : 0.8 + 0.5 * Math.sin(Math.PI * u) * (1 - u) + 0.2 * u;
-            stops.push([at + u * FLY_MS, { opacity: k === 0 ? 0 : 1, transform: k === N ? 'none' : `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${sc.toFixed(3)})` }, k === 0 ? 'ease-out' : k === N - 1 ? 'cubic-bezier(.3,0,.2,1.4)' : undefined]);
+            const v = 1 - u;
+            const x = v * v * v * bx + 3 * v * v * u * kx + 3 * v * u * u * qx + u * u * u * ex - ex;
+            const y = v * v * v * by + 3 * v * v * u * ky + 3 * v * u * u * qy + u * u * u * ey - ey;
+            // Small in flight (so letters still in the air do not read as a second line), full size on landing.
+            const sc = k === N ? 1 : 0.8 - 0.32 * Math.sin((Math.PI * u) / 0.9);
+            stops.push([at + u * FLY_MS, { opacity: k === 0 ? 0 : 1, transform: k === N ? 'none' : `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${sc.toFixed(3)})` }, k === 0 ? 'ease-out' : k === N - 1 ? 'cubic-bezier(.2,.6,.3,1)' : undefined]);
           }
         } else {
           stops.push([at, { opacity: 0, transform: 'translateY(10px)' }, EASE], [at + FLY_MS, SHOWN]);
@@ -508,7 +554,9 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
         const at = TL.rows[r]!.landed;
         track(el, [[at, { opacity: 0, transform: 'scale(.7)' }, 'cubic-bezier(.2,.9,.3,1.3)'], [at + CHIP_MS, SHOWN], ...fadeStops()]);
       });
-      q<HTMLElement>('[data-anim="gapnote"]').forEach((el) => track(el, rise(GAP0 ? TL.rows[GAP0.r]!.landed + 200 : TL.words.start, 480)));
+      // The note on the open letter rises once every letter has landed (the last row's letters rise into place
+      // through the space it takes).
+      q<HTMLElement>('[data-anim="gapnote"]').forEach((el) => track(el, rise(TL.rows[TL.rows.length - 1]!.landed + 120, 480)));
 
       // ---- (f) WORDS: the closed-up letters slide apart into words; each word is underlined in its tint ----
       q<HTMLElement>('.sh-word').forEach((w) => {
@@ -568,7 +616,7 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
       clockRef.current = clock;
       setPhase('running');
     },
-    [clear, ctaRef],
+    [clear, ctaRef, fitReading],
   );
   startRef.current = start;
 
@@ -682,11 +730,11 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
   const { photo, boxes, rows } = HERO;
   const vars = { '--sh-aspect': `${photo.width} / ${photo.height}` } as CSSProperties;
   const era = lang === 'ta' ? HERO.script.label_ta : HERO.script.label_en;
-  const cut = pctLabel(HERO.abstainBelow);
+  const cut = pctLabel(HERO.letterCut);
   const best0 = GAP0?.g.gap?.best;
-  const gapFoot = GAP0
-    ? `${t('stoneHero.restorer')}: ${best0?.ta ?? '–'} ${pctLabel(best0?.c)} · ${GAP0.g.gap!.decision === 'abstain' ? t('stoneHero.abstain') : t('stoneHero.decider')}`
-    : '';
+  const open0 = GAP0?.g.gap?.decision === 'abstain';
+  const gapVars: Record<string, string> = GAP0 ? { c: pctLabel(GAP0.g.c), cut, fill: best0?.ta ?? '–', fc: pctLabel(best0?.c), thr: pctLabel(GAP0.g.gap!.below) } : {};
+  const gapFoot = GAP0 ? fill(ht(open0 ? 'sh.cardFootOpen' : 'sh.cardFootFilled'), gapVars) : '';
   const open = HERO.gaps.length - HERO.fills;
 
   return (
@@ -699,7 +747,7 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
       aria-label={t('stoneHero.label')}
       style={vars}
     >
-      <div className="sh-stage" ref={stageRef}>
+      <div className="sh-stage" ref={stageRef} data-t-landed={TL.rows[TL.rows.length - 1]!.landed} data-t-words={TL.words.slid}>
         <figure className="sh-photo" aria-hidden="true">
           <div className="sh-frame">
             <div className="sh-kb">
@@ -728,7 +776,7 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
                   g={GAP0.g}
                   box={HERO.boxes[GAP0.r]![GAP0.i]!}
                   place="right"
-                  era={`${t('stoneHero.match')} ${pctLabel(GAP0.g.c)} < ${cut}`}
+                  era={fill(ht('sh.cardReader'), gapVars)}
                   foot={gapFoot}
                 />
               )}
@@ -736,16 +784,20 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
             <span className="sh-rake" />
             <span className="sh-beam" />
           </div>
-          <figcaption className="sh-place">{t('stoneHero.place')}</figcaption>
+          <figcaption className="sh-place">
+            {t('stoneHero.place')}
+            <span className="sh-place-sep"> · </span>
+            <span className="sh-boxes">{ht('sh.boxes')}</span>
+          </figcaption>
         </figure>
 
         <ol className="sh-pipe" aria-hidden="true">
           {(
             [
-              ['reader', 'stoneHero.reader', 'stoneHero.readerSub', `${HERO.letters} ${t('stoneHero.letters')} · ${pctLabel(HERO.mean)}`],
-              ['restorer', 'stoneHero.restorer', 'stoneHero.restorerSub', best0 ? `${best0.ta} ${pctLabel(best0.c)}` : `0 ${t('stoneHero.gaps')}`],
-              ['decider', 'stoneHero.decider', 'stoneHero.deciderSub', open ? `? · ${t('stoneHero.abstain')}` : `${HERO.fills} ✓`],
-              ['interpreter', 'stoneHero.interpreter', 'stoneHero.interpreterSub', `${HERO.words.length} ${t('stoneHero.words')}`],
+              ['reader', t('stoneHero.reader'), t('stoneHero.readerSub'), `${HERO.letters} ${t('stoneHero.letters')} · ${pctLabel(HERO.mean)}`],
+              ['restorer', t('stoneHero.restorer'), t('stoneHero.restorerSub'), best0 ? `${best0.ta} ${pctLabel(best0.c)}` : `0 ${t('stoneHero.gaps')}`],
+              ['decider', ht('sh.check'), ht('sh.checkSub'), open ? `? · ${ht('sh.leftOpen')}` : `${HERO.fills} ${ht('sh.filled')}`],
+              ['interpreter', t('stoneHero.interpreter'), t('stoneHero.interpreterSub'), `${HERO.words.length} ${t('stoneHero.words')}`],
             ] as const
           ).map(([key, label, sub, out], i, all) => (
             <li key={key} className="sh-node" data-node={key}>
@@ -754,8 +806,8 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
                 <span className="sh-node-n">{i + 1}</span>
               </span>
               <span className="sh-node-text">
-                <b>{t(label)}</b>
-                <small>{t(sub)}</small>
+                <b>{label}</b>
+                <small>{sub}</small>
                 <span className="sh-node-out" lang={key === 'restorer' ? 'ta' : undefined}>
                   {out}
                 </span>
@@ -776,9 +828,10 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
             <span>{t('stoneHero.output')}</span>
             <span className="sh-legend" aria-label={t('stoneHero.legend')}>
               <i className="sh-c-high">≥ 70%</i>
-              <i className="sh-c-mid">50–69%</i>
-              <i className="sh-c-low">&lt; 50%</i>
+              <i className="sh-c-mid">{Math.round(HERO.letterCut * 100)}–69%</i>
+              <i className="sh-c-low">&lt; {cut}</i>
             </span>
+            <span className="sh-legend-note">{ht('sh.legendNote')}</span>
           </p>
           <div className="sh-panes">
             <div className="sh-read">
@@ -798,13 +851,12 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
                     ?
                   </span>
                   <span>
-                    {fill(t(g.gap!.decision === 'abstain' ? 'stoneHero.gapOpen' : 'stoneHero.gapFilled'), {
+                    {fill(ht(g.gap!.decision === 'abstain' ? 'sh.gapOpen' : 'sh.gapFilled'), {
                       r: r + 1,
-                      ta: g.ta,
                       c: pctLabel(g.c),
-                      cut,
                       fill: g.gap!.best?.ta ?? '–',
                       fc: pctLabel(g.gap!.best?.c),
+                      thr: pctLabel(g.gap!.below),
                     })}
                   </span>
                 </p>
@@ -836,20 +888,20 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
               ))}
             </div>
           </div>
-        </div>
-        <div className="sh-sum">
-          <p className="sh-verdict" data-anim="verdict">
-            <span>{fill(t('stoneHero.verdictLetters'), { n: HERO.letters })}</span>
-            <span>
-              {fill(t('stoneHero.verdictMean'), { c: '' })}
-              <b>{pctLabel(HERO.mean)}</b>
-            </span>
-            {open > 0 && <span>{fill(t('stoneHero.verdictOpen'), { n: open })}</span>}
-            <span data-anim="verdict-words">{fill(t('stoneHero.verdictWords'), { n: HERO.words.length, k: WORDS_SURE, cut })}</span>
-          </p>
-          <p className="sh-flagged" data-anim="verdict">
-            {fill(t('stoneHero.flagged'), { cut })}
-          </p>
+          <div className="sh-sum">
+            <p className="sh-verdict" data-anim="verdict">
+              <span>{fill(ht('sh.verdictLetters'), { n: HERO.letters })}</span>
+              <span>
+                {ht('sh.verdictMean')}
+                <b>{pctLabel(HERO.mean)}</b>
+              </span>
+              {open > 0 && <span>{fill(t('stoneHero.verdictOpen'), { n: open })}</span>}
+              <span data-anim="verdict-words">{fill(t('stoneHero.verdictWords'), { n: HERO.words.length, k: WORDS_SURE, cut })}</span>
+            </p>
+            <p className="sh-flagged" data-anim="verdict">
+              {fill(t('stoneHero.flagged'), { cut })}
+            </p>
+          </div>
         </div>
       </div>
 

@@ -7,9 +7,9 @@ test.describe('home and language', () => {
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await page.getByTestId('lang-toggle').click();
     await expect(page.locator('html')).toHaveAttribute('lang', 'ta');
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('கல்வெட்டைப் படிக்கக் கற்றுக்கொள்ளுங்கள்');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('படிக்கக் கற்றுக்கொள்ளுங்கள்');
     await expect(page.getByTestId('stone-hero')).toBeVisible();
-    await expect(page.getByTestId('evolution-hero')).toBeAttached();
+    await expect(page.getByTestId('mini-drill')).toBeAttached();
     await expect(page.getByTestId('mock-banner')).toBeVisible();
     await expectFontsLoaded(page, [
       { family: 'Noto Sans Tamil', sample: 'க' },
@@ -26,7 +26,7 @@ test.describe('home and language', () => {
 
   test('switches to Tamil and back, and remembers the choice', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Learn to read the stone. Help read the backlog.');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Learn to read old Tamil inscriptions.');
     await page.getByTestId('lang-toggle').click();
     await expect(page.locator('html')).toHaveAttribute('lang', 'ta');
     await page.reload();
@@ -43,6 +43,7 @@ test.describe('practice (was learn)', () => {
     await setTamil(page);
     await page.goto('/');
     await gotoNav(page, 'பயிற்சி');
+    await page.getByTestId('start-guided').click();
     await page.getByTestId('level-L5').click();
     await page.getByTestId('start-lesson').click();
     const tile = page.getByTestId('glyph-tile');
@@ -62,7 +63,7 @@ test.describe('practice (was learn)', () => {
 
   test('Vatteluttu lesson renders the SVG glyph', async ({ page }) => {
     await setEnglish(page);
-    await page.goto('/practice');
+    await page.goto('/practice/guided');
     await page.getByTestId('level-L4').click();
     await page.getByTestId('start-lesson').click();
     const img = page.getByTestId('glyph-tile').locator('img');
@@ -90,7 +91,7 @@ test('restore: fill with confidence, and "experts are unsure" on abstain', async
 
 test('progress: pre-test after a lesson shows a score', async ({ page }) => {
   await setEnglish(page);
-  await page.goto('/practice');
+  await page.goto('/practice/guided');
   await page.getByTestId('start-lesson').click();
   await expect(page.getByTestId('glyph-tile')).toBeVisible();
   await gotoNav(page, 'Progress');
@@ -105,11 +106,12 @@ test('progress: pre-test after a lesson shows a score', async ({ page }) => {
   await expect(page.getByTestId('post-score')).toContainText('not taken');
 });
 
-test('test page: sign-in gate, built-in benchmark, JSONL upload', async ({ page }) => {
+test('benchmark runner: sign-in prompt below the results, built-in benchmark, JSONL upload', async ({ page }) => {
   await setEnglish(page);
   await page.goto('/benchmark');
-  await expect(page.getByTestId('auth-gate')).toBeVisible();
-  await page.getByTestId('auth-gate').getByRole('button', { name: 'Sign in' }).click();
+  await expect(page.getByTestId('leaderboard')).toBeVisible();
+  await expect(page.getByTestId('runner-gate')).toContainText('Sign in to run it yourself');
+  await page.getByTestId('runner-gate').getByRole('button', { name: 'Sign in' }).click();
   await page.getByTestId('run-benchmark').click();
   await expect(page.getByTestId('score-report')).toBeVisible();
   await expect(page.getByTestId('reliability-chart').locator('rect.bar').first()).toBeVisible();
@@ -164,7 +166,7 @@ test.describe('design system and states', () => {
     } else {
       await expect(page.getByTestId('tabbar')).toBeHidden();
     }
-    for (const path of ['/', '/practice', '/restore', '/progress', '/benchmark', '/review', '/about', '/nope']) {
+    for (const path of ['/', '/practice', '/practice/gaps?level=3', '/practice/trial', '/practice/guided', '/how-it-works', '/restore', '/progress', '/benchmark', '/review', '/about', '/nope']) {
       await page.goto(path);
       await expect(page.locator('main')).toBeVisible();
       await expectNoHorizontalScroll(page);
@@ -181,7 +183,7 @@ test.describe('design system and states', () => {
   });
 
   test('keyboard focus is a visible 3 px outline', async ({ page }) => {
-    await page.goto('/practice');
+    await page.goto('/practice/guided');
     await page.getByTestId('start-lesson').focus();
     await page.keyboard.press('Shift+Tab');
     await page.keyboard.press('Tab');
@@ -194,7 +196,7 @@ test.describe('design system and states', () => {
 
   test('tutor: "decided by rules" instead of confidence 0%, and the explanation updates after an answer', async ({ page }) => {
     await setEnglish(page);
-    await page.goto('/practice');
+    await page.goto('/practice/guided');
     await page.getByTestId('level-L5').click();
     await page.getByTestId('start-lesson').click();
     await expect(page.getByTestId('explanation-pending')).toBeVisible();
@@ -233,9 +235,8 @@ test.describe('design system and states', () => {
     await page.getByTestId('restore-submit').click();
     await expect(page.getByTestId('restore-credit')).toContainText('CC BY-SA 4.0');
     await page.goto('/benchmark');
-    await page.getByTestId('auth-gate').getByRole('button', { name: 'Sign in' }).click();
     await expect(page.getByTestId('benchmark-credit')).toContainText('CC BY-SA 4.0');
-    for (const path of ['/', '/practice', '/restore', '/about', '/benchmark']) {
+    for (const path of ['/', '/practice', '/how-it-works', '/restore', '/about', '/benchmark']) {
       await page.goto(path);
       await expect(page.locator('body')).not.toContainText('CC BY 4.0');
     }

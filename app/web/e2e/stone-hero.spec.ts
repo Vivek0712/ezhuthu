@@ -50,7 +50,7 @@ test.describe('stone hero', () => {
     // (e) every letter lands, (f) then the verdict
     await expect.poll(async () => Math.min(...(await letterOpacities(page))), { timeout: 12_000 }).toBeGreaterThan(0.99);
     await expect.poll(() => shown(page, '.sh-verdict'), { timeout: 4000 }).toBe(1);
-    await expect(hero.locator('.sh-verdict')).toContainText('46 letters matched to modern Tamil');
+    await expect(hero.locator('.sh-verdict')).toContainText('46 carved letters named in modern Tamil');
     // (f) the letters open up into words, each underlined
     const lines = await hero.locator('.sh-wline').count();
     expect(lines).toBeGreaterThan(4);
@@ -138,11 +138,13 @@ test.describe('stone hero', () => {
     const out = (await hero.locator('.sh-out').boundingBox())!;
     expect(photo.width / stage.width).toBeGreaterThan(0.58);
     expect(out.x).toBeGreaterThan(photo.x + photo.width);
-    // No empty band: the pipeline sits right under the photo's caption, and the stage ends soon after it.
+    // No empty band: the pipeline sits right under the photo's caption, and the stage ends soon after it (the
+    // verdict closes the reading column instead of taking a row of its own).
     const pipe = (await hero.locator('.sh-pipe').boundingBox())!;
     const sum = (await hero.locator('.sh-sum').boundingBox())!;
-    expect(pipe.y - (photo.y + photo.height)).toBeLessThan(70);
-    expect(stage.y + stage.height - (pipe.y + pipe.height)).toBeLessThan(sum.height + 90);
+    expect(pipe.y - (photo.y + photo.height)).toBeLessThan(90);
+    expect(stage.y + stage.height - (pipe.y + pipe.height)).toBeLessThan(60);
+    expect(sum.x).toBeGreaterThanOrEqual(out.x - 1);
     // The reading and meaning column is no taller than the stone and the pipeline beside it.
     expect(out.height).toBeLessThan(pipe.y + pipe.height - photo.y + 40);
     // The browser picks a photo at least as wide as it is drawn (srcset sizes match the layout).
@@ -197,7 +199,7 @@ test.describe('stone hero', () => {
     await page.goto('/');
     await pageSettled(page);
     const hero = await showHero(page);
-    await page.getByTestId('sample-gallery').scrollIntoViewIfNeeded();
+    await page.getByTestId('scholars').scrollIntoViewIfNeeded();
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     await expect(hero).toHaveAttribute('data-phase', 'paused');
     await hero.locator('.sh-stage').scrollIntoViewIfNeeded();
@@ -280,7 +282,7 @@ test.describe('stone hero on a small phone (375 x 740)', () => {
         return bar && getComputedStyle(bar).display !== 'none' ? bar.getBoundingClientRect().top : window.innerHeight;
       });
       const h1 = (await page.getByRole('heading', { level: 1 }).boundingBox())!;
-      const cta = (await page.getByTestId('cta-upload').boundingBox())!;
+      const cta = (await page.getByTestId('cta-practice').boundingBox())!;
       expect(h1.y, `${lang}: heading on screen`).toBeGreaterThanOrEqual(0);
       expect(cta.y + cta.height, `${lang}: first call to action above the tab bar`).toBeLessThanOrEqual(tabbarTop);
       const photo = (await hero.locator('.sh-frame').boundingBox())!;

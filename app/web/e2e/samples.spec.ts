@@ -2,14 +2,15 @@ import { expect, test } from '@playwright/test';
 import samples from '../src/samples/samples.json' with { type: 'json' };
 import { expectNoHorizontalScroll, setEnglish, setTamil } from './helpers';
 
-// Try-it samples and the animated hero, against the mock build (MSW answers /api/*).
+// Try-it samples and the era strip, against the mock build (MSW answers /api/*). Since the UX revamp the gallery sits
+// under the Restore form and the era strip heads the Practice hub; the home page keeps hero, practice, how, scholars.
 const pallava = samples.find((s) => s.learn_level === 'L3')!;
 const chola = samples.find((s) => s.era === 'chola')!;
 
 test.describe('try-it samples', () => {
   test('sample -> restore -> learn, in English', async ({ page }) => {
     await setEnglish(page);
-    await page.goto('/');
+    await page.goto('/restore');
     const gallery = page.getByTestId('sample-gallery');
     await expect(gallery.getByRole('article')).toHaveCount(samples.length);
     await expectNoHorizontalScroll(page);
@@ -55,10 +56,10 @@ test.describe('try-it samples', () => {
     await expect(reveal.getByRole('link', { name: /DHARMA/ })).toHaveAttribute('href', chola.dharma_url);
 
     // Back to the gallery, then "Practise with this" starts a lesson on that inscription at its level.
-    await page.goto('/#samples');
+    await page.goto('/restore#samples');
     await page.getByTestId('era-pallava').click();
     await page.getByTestId(`learn-${pallava.id}`).click();
-    await expect(page).toHaveURL(/\/practice\?inscription=/);
+    await expect(page).toHaveURL(/\/practice\/guided\?inscription=/);
     await expect(page.getByRole('heading', { level: 1, name: pallava.edition_title })).toBeVisible();
     await expect(page.getByTestId('lesson-source')).toContainText('CC BY-SA 4.0');
     await expect(page.getByTestId('glyph-tile')).toHaveAttribute('data-level', 'L3');
@@ -71,7 +72,7 @@ test.describe('try-it samples', () => {
 
   test('unsolved passages are a separate group whose result explains why there is nothing to compare', async ({ page }) => {
     await setEnglish(page);
-    await page.goto('/');
+    await page.goto('/restore');
     const group = page.getByTestId('sample-group-unsolved');
     await group.scrollIntoViewIfNeeded();
     await expect(group.getByRole('heading', { name: 'Unsolved: even the editors left this blank' })).toBeVisible();
@@ -84,9 +85,8 @@ test.describe('try-it samples', () => {
 
   test('Tamil readers get the Tamil text; filters work on a phone too', async ({ page }) => {
     await setTamil(page);
-    await page.goto('/');
-    await page.getByTestId('cta-samples').click();
-    await expect(page.getByRole('heading', { level: 2, name: 'உண்மையான கல்வெட்டை முயலுங்கள்' })).toBeFocused();
+    await page.goto('/restore');
+    await expect(page.getByRole('heading', { level: 2, name: 'உண்மையான கல்வெட்டை முயலுங்கள்' })).toBeAttached();
     await page.getByTestId('era-pandya').click();
     await expect(page.getByTestId('sample-gallery').getByRole('article')).toHaveCount(samples.filter((s) => s.era === 'pandya').length);
     await expectNoHorizontalScroll(page);
@@ -100,7 +100,7 @@ test.describe('try-it samples', () => {
     await expectNoHorizontalScroll(page);
   });
 
-  test('the primary CTA says what it does and lands on a form the reader can use', async ({ page }) => {
+  test('the upload call to action says what it does and lands on a form the reader can use', async ({ page }) => {
     await setEnglish(page);
     await page.goto('/');
     const cta = page.getByTestId('cta-upload');
@@ -118,7 +118,7 @@ test.describe('try-it samples', () => {
   });
 });
 
-// The era-evolution strip moved below the stone hero (positioning C); it still animates, pauses and has a static frame.
+// The era-evolution strip now heads the Practice hub's letter section; it still animates, pauses and has a static frame.
 test.describe('era-evolution strip', () => {
   test('animates without layout shift and can be paused', async ({ page }) => {
     await setEnglish(page);
@@ -129,7 +129,7 @@ test.describe('era-evolution strip', () => {
           if (!e.hadRecentInput) (window as unknown as { __cls: number }).__cls += e.value;
       }).observe({ type: 'layout-shift', buffered: true });
     });
-    await page.goto('/');
+    await page.goto('/practice');
     const hero = page.getByTestId('evolution-hero');
     await expect(hero).toHaveAttribute('data-motion', 'animated');
     await hero.scrollIntoViewIfNeeded();
@@ -155,7 +155,7 @@ test.describe('era-evolution strip', () => {
   test('shows a static frame when the visitor prefers reduced motion', async ({ browser }) => {
     const ctx = await browser.newContext({ reducedMotion: 'reduce' });
     const page = await ctx.newPage();
-    await page.goto('/');
+    await page.goto('/practice');
     const hero = page.getByTestId('evolution-hero');
     await expect(hero).toHaveAttribute('data-motion', 'static');
     await expect(hero.locator('.evo-frame')).toHaveCount(0);
@@ -169,7 +169,7 @@ test.describe('era-evolution strip', () => {
   test('works in dark mode', async ({ browser }) => {
     const ctx = await browser.newContext({ colorScheme: 'dark' });
     const page = await ctx.newPage();
-    await page.goto('/');
+    await page.goto('/practice');
     const fill = await page.getByTestId('evo-word').locator('path').last().evaluate((n) => getComputedStyle(n).fill);
     const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
     expect(fill).not.toBe(bg);
