@@ -498,6 +498,21 @@ def cmd_test(args) -> int:
 
 
 # ---------------------------------------------------------------------------------------------- report ---------
+GAP_BUCKETS = (("1 letter", 1, 1), ("2-3 letters", 2, 3), ("4+ letters", 4, 10 ** 6))
+
+
+def gap_length_table(test: list[dict[str, Any]], base: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
+    """Top-1 by gap length (Tamil letters) for the deployed rows and the PR #31 rows, on the same TEST items."""
+    gl = {it.id: it.gap_chars for it in load_items("test")}
+    out: dict[str, Any] = {}
+    for name, rows in (("deployed", test), *base.items()):
+        out[name] = {}
+        for lab, lo, hi in GAP_BUCKETS:
+            xs = [r for r in rows if lo <= (gl.get(r["id"]) or 0) <= hi]
+            out[name][lab] = {"n": len(xs), "top1": round(sum(r["top1_correct"] for r in xs) / max(1, len(xs)), 4)}
+    return out
+
+
 def build_report(out_dir: Path) -> dict[str, Any]:
     reports = out_dir.parent
     dec = json.loads((out_dir / "decisions.json").read_text(encoding="utf-8"))
@@ -519,8 +534,18 @@ def build_report(out_dir: Path) -> dict[str, Any]:
                                        if r.get("strategy") != "ngram-gate"}),
            "decider_calls": sum(int(r.get("decider_calls") or 0) for r in test),
            "test31": {n: ngram_meta["configs"][n]["by_subset"]["full"] for n in ("copy", "ngram", "routed")},
+           "by_gap_length": gap_length_table(test, base),
            "models": cfg.llm, "decisions": dec}
     return res
+
+
+def _cell(text: str) -> str:
+    """Escape ``|`` for a markdown table cell (calibration keys contain it)."""
+    return text.replace("|", "\\|")
+
+
+def _pv(p: float) -> str:
+    return "<0.0001" if p < 0.0001 else f"{p:.4f}"
 
 
 def _usd(c: dict[str, Any]) -> str:
@@ -551,7 +576,7 @@ def val_table(variants: dict[str, dict[str, Any]], names: list[str], vs_name: st
     for n in names:
         v = variants[n]
         p = v["vs"].get(vs_name)
-        pv = "-" if p is None or n == vs_name else f"{p['only_a']} / {p['only_b']}, p={p['p_mcnemar']:.4f}"
+        pv = "-" if p is None or n == vs_name else f"{p['only_a']} / {p['only_b']}, p={_pv(p['p_mcnemar'])}"
         ci = v["top1_ci"]
         lines.append(f"| {VARIANTS[n]['label']} | {v['n']} | {v['top1']:.4f} [{ci[0]}, {ci[1]}] | {v['top1_matching']} "
                      f"| {v['top20']:.4f} | {pv} | {_calls(v['cost'])} | {v['llm_skipped']} | {v['decider_calls']} "
@@ -575,13 +600,13 @@ def render_md(res: dict[str, Any], preface: str, appendix: str) -> str:
         p = s2["paired"]
         L += ["", (f"Hosted v19 {s2['hosted_matching']} vs stage-1 winner {s2['stage1_winner_matching']} matches "
                    f"of {s2['n']} (only hosted / only winner: {p['only_a']} / {p['only_b']}, p = "
-                   f"{p['p_mcnemar']:.4f}); hosted wins: {s2['hosted_wins']}."), ""]
+                   f"{_pv(p['p_mcnemar'])}); hosted wins: {s2['hosted_wins']}."), ""]
     L += [f"**Chosen: {res['label']}** (`{res['chosen']}`).", ""]
     if dec.get("calibration"):
         L += ["### Calibration entries fitted for it (VAL only)", "",
               "| key | n | positives | a | b | abstain threshold | used by the runtime |", "|---|---|---|---|---|---|---|"]
         for k, e in sorted(dec["calibration"].items()):
-            L.append(f"| `{k}` | {e['n']} | {e['positives']} | {e['a']} | {e['b']} | {e['threshold']} | "
+            L.append(f"| `{_cell(k)}` | {e['n']} | {e['positives']} | {e['a']} | {e['b']} | {e['threshold']} | "
                      f"{'no (provisional)' if e['provisional'] else 'yes'} |")
         L.append("")
     L += ["## TEST: the deployed configuration, scored once (413 gaps)", ""]
@@ -608,7 +633,14 @@ def render_md(res: dict[str, Any], preface: str, appendix: str) -> str:
           "| vs | n | only deployed | only other | p |", "|---|---|---|---|---|"]
     for n, lab in (("copy", "copy baseline"), ("ngram", "character 5-gram"), ("routed", "PR #31 routed row")):
         v = res["vs"][n]["full"]
-        L.append(f"| {lab} | {v['n']} | {v['only_a']} | {v['only_b']} | {v['p_mcnemar']:.4f} |")
+        L.append(f"| {lab} | {v['n']} | {v['only_a']} | {v['only_b']} | {_pv(v['p_mcnemar'])} |")
+    gl = res["by_gap_length"]
+    L += ["", "Top-1 by gap length (Tamil letters), same TEST gaps:", "",
+          "| configuration | " + " | ".join(f"{lab} (n={gl['deployed'][lab]['n']})" for lab, _, _ in GAP_BUCKETS) + " |",
+          "|---|---|---|---|"]
+    for n, lab in (("deployed", "Deployed"), ("copy", "Copy baseline"), ("ngram", "Character 5-gram"),
+                   ("routed", "PR #31 routed + local 2B")):
+        L.append(f"| {lab} | " + " | ".join(f"{gl[n][b]['top1']:.4f}" for b, _, _ in GAP_BUCKETS) + " |")
     c, lt = res["cost"], res["latency"]
     L += ["", "| cost and latency (deployed, TEST) | value |", "|---|---|",
           f"| LLM calls (Sonnet / Opus) | {_calls(c)} |", f"| gaps that used Opus | {c['opus_items']} |",
@@ -616,7 +648,7 @@ def render_md(res: dict[str, Any], preface: str, appendix: str) -> str:
           f"| hosted decider calls | {res['decider_calls']} |",
           f"| est. USD (per gap) | {c['usd']} ({_usd(c)}) |",
           f"| latency per gap p50 / p90 / max s (gaps over 27 s) | {_lat(lt)} |",
-          f"| calibration keys applied | {', '.join('`' + k + '`' for k in res['calibration_keys'])} |", ""]
+          f"| calibration keys applied | {', '.join('`' + _cell(k) + '`' for k in res['calibration_keys'])} |", ""]
     L.append(appendix.rstrip())
     return "\n".join(L) + "\n"
 

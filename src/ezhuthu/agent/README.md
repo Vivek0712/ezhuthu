@@ -25,7 +25,11 @@ For each `[?]` / `[?N]` gap:
    ("about N Tamil letters"). Before issue #26 the checks counted ISO characters and 130/443 VAL expert targets
    failed them.
 4. Pre-rank (cheap, no model call): `prerank = 1 - (1 - llm_probability) x (1 - parallel support)`, halved for a
-   length mismatch, small epsilons for ontology and n-gram proposals.
+   length mismatch, small epsilons for ontology and n-gram proposals. With `restorer.ngram_prerank` (shipped) the
+   character 5-gram's softmax share of its 20-string beam (`ngram_prob`, the 5-gram baseline's confidence) is a third
+   noisy-OR term instead of the n-gram epsilon, and the tag is `prerank-ngram`. Two more options are off:
+   `ngram_gate` (fill the 5-gram's top fill with no LLM call when its share passes the gate) and `ngram_slot` (a
+   top-k decider always sees the 5-gram's top fill).
 5. `rank_and_decide`, by `restorer.strategy` for retrieval-only gaps and `restorer.strategy_llm` once an LLM
    answered (config/models.yaml; both chosen on VAL in issue #26, see below); `eval.run --strategy/--top-k` and
    `EZHUTHU_RESTORER_STRATEGY` set both:
@@ -38,12 +42,15 @@ For each `[?]` / `[?N]` gap:
    | `prerank` | none | the pre-rank score |
    | `self-report` | none | LLM fills: the LLM's own probability; other candidates: parallel agreement |
 
-   Shipped (chosen on VAL by highest top-1, `eval/reports/2026-11-02-val-selection.md`): `self-report` for
-   retrieval-only gaps (the parallel-agreement heuristic; full VAL n=443: 0.2619 vs prerank 0.2551, not a
-   significant difference) and `noul-topk` with `top_k` 3 once an LLM answered (Sonnet pools on a 120-item VAL
-   sample: 0.1917 vs self-report 0.1167, prerank 0.15, choice-top3 0.1667). Without a reachable decider (the cloud
-   runtime today) LLM gaps fall back to `self-report`. The TEST result of each choice is in
-   `eval/reports/2026-11-02-test-eval.md`.
+   Shipped (the deployed configuration, chosen on VAL by a pre-registered rule,
+   `eval/reports/2026-11-02-deployed-config.md`): `self-report` for retrieval-only gaps and `prerank` with
+   `ngram_prerank` once an LLM answered, so restoration makes **no decider call** with or without the hosted decider
+   key. On 280 VAL gaps it had 100 top-1 matches against 85 (routed + self-report, the runtime without a decider), 83
+   (routed + prerank), 92 (5-gram gate) and 79 (5-gram only); the hosted v19 decider (`choice-topk:3`) had 39 vs 41
+   on 120 of them. Issue #26's choice (`eval/reports/2026-11-02-val-selection.md`) was `noul-topk` with `top_k` 3
+   and the local 2B decider; it is measured on TEST in `eval/reports/2026-11-02-test-eval.md` but was never what
+   the cloud ran (no local decider there; the hosted v19's 10 requests a minute make 3-6 `noul` calls per gap too
+   slow for the 27 s proxy limit).
 
    Then **calibration**: the confidences of the active variant
    (`<decider model>|<strategy>|k<k>|<llm-sonnet|llm-opus|retrieval>`; `llm-opus` whenever Opus answered, alone or
