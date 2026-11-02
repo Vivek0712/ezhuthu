@@ -267,6 +267,106 @@ def held_out_ids() -> set[str]:
     return ids
 
 
+# ---------------------------------------------------------------------------------------------------------------
+# Masked samples: VAL benchmark items whose published restoration is known.
+#
+# SELECTION RULE (declared in eval/reports/2026-11-02-samples.md and committed before any live run; do not tune):
+#   1. Pool: every item of benchmark/items.val.jsonl (VAL split only; never TEST, never TRAIN) with
+#      1 <= gap_chars <= MASKED_MAX_GAP Tamil letters, whose edition declares CC BY-SA 4.0 and whose dynasty is one of
+#      the app's five periods (VAL_ERAS). Hard and non-hard items alike; the `hard` flag is recorded per sample.
+#   2. Context: the item's own left/right context (benchmark/DATA_CARD.md), cut at the nearest other gap marker on
+#      each side so that the passage has exactly one gap; left keeps at most MASKED_LEFT_CHARS characters and right at
+#      most MASKED_RIGHT_CHARS, both cut to whole words. Readable: at least MASKED_MIN_LEFT letters left and
+#      MASKED_MIN_RIGHT letters right, and the API accepts the passage in both scripts.
+#   3. Draw: the pool sorted by item id, shuffled with random.Random(MASKED_SEED); then round-robin over the periods
+#      in ERAS order, each period taking its next shuffled item from an inscription not yet used, until MASKED_N items
+#      are picked or the pool runs out.
+#   4. Every picked item is run once through EzhuthuService.restore (scripts/record_sample_restores.py) and reported
+#      as it comes out; none is replaced, whatever the result.
+# ---------------------------------------------------------------------------------------------------------------
+VAL_ERAS = {"Pallava": "pallava", "Pāṇḍya": "pandya", "Cōḻa": "chola", "Rāṣṭrakūṭa": "rashtrakuta",
+            "Vijayanagara": "vijayanagara"}
+MASKED_SEED = 38  # PR #38
+MASKED_N = 10
+MASKED_MAX_GAP = 8
+MASKED_LEFT_CHARS, MASKED_RIGHT_CHARS = 160, 100
+MASKED_MIN_LEFT, MASKED_MIN_RIGHT = 30, 15
+
+
+def _n_letters(s: str) -> int:
+    return sum(1 for ch in s if ch.isalpha())
+
+
+def masked_context(item: dict) -> tuple[str, str] | None:
+    """The item's left and right context cut at other gap markers and to whole words, or None when too short."""
+    left = norm_line(GAP_RE.split(item["left"])[-1]) if GAP_RE.search(item["left"]) else norm_line(item["left"])
+    right = norm_line(GAP_RE.split(item["right"])[0])
+    # Rule 2: a side cut at a gap marker, or longer than its cap, starts/ends on a whole word.
+    if len(left) > MASKED_LEFT_CHARS:
+        left = left[-MASKED_LEFT_CHARS:]
+        left = left[left.index(" ") + 1:] if " " in left else left
+    elif GAP_RE.search(item["left"]) and " " in left:
+        left = left[left.index(" ") + 1:]
+    if len(right) > MASKED_RIGHT_CHARS:
+        right = right[:MASKED_RIGHT_CHARS]
+        right = right[:right.rindex(" ")] if " " in right else right
+    elif GAP_RE.search(item["right"]) and " " in right:
+        right = right[:right.rindex(" ")]
+    # Keep the spacing the edition has right at the gap (the item's own left/right edges).
+    if item["left"].endswith(" ") and not left.endswith(" "):
+        left += " "
+    if item["right"].startswith(" ") and not right.startswith(" "):
+        right = " " + right
+    if _n_letters(left) < MASKED_MIN_LEFT or _n_letters(right) < MASKED_MIN_RIGHT:
+        return None
+    return left.lstrip("-·.’' "), right.rstrip("-·.’' ")
+
+
+def masked_text(item: dict) -> str | None:
+    ctx = masked_context(item)
+    return None if ctx is None else f"{ctx[0]}[?{item['gap_chars']}]{ctx[1]}"
+
+
+def select_masked() -> list[dict]:
+    """Rules 1 to 3 above: the VAL items behind the masked samples, in draw order."""
+    import random
+
+    from ezhuthu.api.limits import check_text
+
+    rows = {r["id"]: r for r in load_jsonl("inscriptions.jsonl")}
+    pool: list[dict] = []
+    for it in load_jsonl("items.val.jsonl"):
+        r = rows[it["inscription_id"]]
+        if it["split"] != "val" or r["split"] != "val" or r["licence"] != "CC BY-SA 4.0":
+            continue
+        if not 1 <= it["gap_chars"] <= MASKED_MAX_GAP or it["dynasty"] not in VAL_ERAS:
+            continue
+        text = masked_text(it)
+        if text is None:
+            continue
+        try:
+            check_text(text, script="iso15919")
+            check_text(to_tamil(text), script="tamil")
+        except Exception:
+            continue
+        pool.append(it)
+    pool.sort(key=lambda x: x["id"])
+    random.Random(MASKED_SEED).shuffle(pool)
+    queues = {era: [it for it in pool if VAL_ERAS[it["dynasty"]] == era] for era in ERAS}
+    picked: list[dict] = []
+    used: set[str] = set()
+    while len(picked) < MASKED_N and any(queues.values()):
+        for era in ERAS:
+            q = queues[era]
+            while q and q[0]["inscription_id"] in used:
+                q.pop(0)
+            if q and len(picked) < MASKED_N:
+                it = q.pop(0)
+                used.add(it["inscription_id"])
+                picked.append(it)
+    return picked
+
+
 def build() -> tuple[list[dict], list[dict]]:
     from ezhuthu.api.limits import check_text  # the API's own input check
 
