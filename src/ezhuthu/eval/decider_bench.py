@@ -168,7 +168,8 @@ class ItemScore:
 
 
 def score_item(rec: dict[str, Any], decider: Decider | None, abstain_below: float,
-               slept: list[float] | None = None, fit_chars: int | None = None) -> ItemScore:
+               slept: list[float] | None = None, fit_chars: int | None = None,
+               top_k: int | None = None) -> ItemScore:
     fills = rec.get("fills") or []
     oracle = any(canon(f) == canon(rec["target"]) for f in fills)
     if not fills or not rec.get("request"):
@@ -184,6 +185,9 @@ def score_item(rec: dict[str, Any], decider: Decider | None, abstain_below: floa
         t0 = time.perf_counter()
         try:
             opts = req["options"]
+            if top_k:  # the restorer's choice-topk strategy: the first K candidates (best-first) plus 'none'
+                keys = [k for k in opts if k != "none"][:top_k] + [k for k in opts if k == "none"]
+                opts = {k: opts[k] for k in keys}
             if fit_chars:
                 opts = fit_choice(req["state"], req["instructions"], opts, req["name"], fit_chars)[
                     "questions"][req["name"]]["criteria"]
@@ -247,9 +251,9 @@ def score(args) -> int:
             if rec["id"] in done and not done[rec["id"]].get("error"):
                 rows.append(done[rec["id"]])
                 continue
-            s = score_item(rec, decider, abstain_below, slept, args.fit_chars)
+            s = score_item(rec, decider, abstain_below, slept, args.fit_chars, args.top_k)
             row = {**s.to_dict(), "decider_model": model, "decider_spec": args.decider.split("=")[0],
-                   "n_candidates": len(rec.get("fills") or []), "fit_chars": args.fit_chars}
+                   "n_candidates": len(rec.get("fills") or []), "fit_chars": args.fit_chars, "top_k": args.top_k}
             fh.write(json.dumps(row, ensure_ascii=False) + "\n")
             fh.flush()
             rows.append(row)
@@ -572,6 +576,8 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--label", required=True)
     s.add_argument("--limit", type=int, default=None)
     s.add_argument("--fresh", action="store_true")
+    s.add_argument("--top-k", type=int, default=None,
+                   help="send only the first K candidates (best-first) plus 'none', as restorer choice-topk does")
     s.add_argument("--fit-chars", type=int, default=None,
                    help="drop tail candidates so the request fits this many characters (hosted free tier: 8000)")
     p = sub.add_parser("policy")

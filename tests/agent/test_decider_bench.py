@@ -78,6 +78,19 @@ def test_score_item_fit_and_unavailable():
     assert s.abstained and "413" in s.error
 
 
+def test_score_item_top_k_sends_first_k_plus_none():
+    r = rec(7, "c", ["a", "b", "c", "d", "e"], [0.5, 0.2, 0.1, 0.1, 0.1])
+    seen = {}
+
+    def picker(state, options):
+        seen["keys"] = list(options)
+        return {k: (0.9 if options[k] != "none of these candidates fits the gap" and options[k]["fill"] == "c"
+                    else 0.1 / (len(options) - 1)) for k in options}
+
+    s = bench.score_item(r, FakeDecider(picker), 0.5, top_k=3)
+    assert seen["keys"] == ["c0", "c1", "c2", "none"] and s.top1 == "c" and s.correct
+
+
 def test_summarize_metrics():
     rows = [bench.score_item(r, None, 0.5).to_dict() for r in RECS]
     s = bench.summarize(rows)
