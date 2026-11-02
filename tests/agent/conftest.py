@@ -18,6 +18,8 @@ os.environ.setdefault("EZHUTHU_LESSON_EXPLAIN", "sync")
 os.environ.setdefault("EZHUTHU_CALIBRATION", "none")
 # Pre-#22 tests exercise the decider over all candidates; the strategy tests pass explicit settings.
 os.environ.setdefault("EZHUTHU_RESTORER_STRATEGY", "choice-all")
+# ... and its pre-#22 fallback when the decider fails (the shipped restorer.decider_fallback is the pre-rank).
+os.environ.setdefault("EZHUTHU_DECIDER_FALLBACK", "self-report")
 os.environ.setdefault("EZHUTHU_NO_CACHE", "0" if os.environ.get("EZHUTHU_LIVE") == "1" else "1")
 
 

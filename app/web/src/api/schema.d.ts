@@ -329,6 +329,11 @@ export interface components {
              * @enum {string}
              */
             escalation_skipped?: "time_budget" | "error";
+            /**
+             * @description Present only when the decider was due but could not be used (unavailable: failed, refused or timed out; time_budget: too little of the request budget left); the candidates are then ranked by the decider-free pre-rank
+             * @enum {string}
+             */
+            decider_fallback?: "unavailable" | "time_budget";
         };
         RestoreBudget: {
             request_budget_s: number | null;

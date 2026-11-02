@@ -56,7 +56,14 @@ Response:
   refuses more than `EZHUTHU_MAX_GAPS` (5) markers per request, so the cap bounds other callers (the tutor restores
   whole inscriptions).
 
-The three gap fields are present only when set. Every response gains
+- Decider (additive, 2026-11-03, hosted fine-tuned decider): once an LLM answered, the restorer asks the hosted
+  fine-tuned decider (`ezhuthu-strands-2b-ft`, `choice-topk` over the pre-rank's top 3 + none) and its calibrated
+  probability is the confidence (`decider_model` names it). It is asked only with `decider_min_remaining_s` [10] left,
+  and the call may take what is left (at most `decider_timeout_s` [18]). If it is unavailable, refuses or times out,
+  or there is no time for it, the gap is ranked by the decider-free pre-rank, exactly as before, and says
+  `"decider_fallback": "unavailable"` or `"time_budget"`.
+
+The gap fields above are present only when set. Every response gains
 `"budget": {"request_budget_s": 25, "max_gaps_per_request": 8, "limited": false, "abstained": {"time_budget": 0,
 "gap_cap": 0}, "llm_skipped": 0, "escalation_skipped": 0}` (`limited`: any of those counts is non-zero). Until the
 budget runs low, every gap is restored exactly as without it (same candidates, confidences and decisions).

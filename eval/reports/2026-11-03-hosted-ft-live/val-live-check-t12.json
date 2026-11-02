@@ -1,0 +1,42 @@
+{
+ "split": "val",
+ "gaps": 20,
+ "decider_model": "ezhuthu-strands-2b-ft",
+ "url": "https://da25tnxy06gjk.cloudfront.net",
+ "settings": {
+  "strategy": "self-report",
+  "strategy_llm": "choice-topk",
+  "top_k": 3,
+  "ngram_prerank": true,
+  "decider_fallback": "prerank",
+  "decider_timeout_s": 12,
+  "decider_min_remaining_s": 4,
+  "request_budget_s": 25
+ },
+ "ranked_by_hosted_fine_tune": 13,
+ "fallbacks": {
+  "unavailable": 5,
+  "time_budget": 2
+ },
+ "other_rankings": [
+  "prerank-ngram"
+ ],
+ "gap_wall_ms": {
+  "p50": 14804.1,
+  "p90": 16057.9,
+  "max": 25290.9
+ },
+ "over_budget": 2,
+ "decider_calls": 22,
+ "decider_failures": 8,
+ "decider_call_wall_ms": {
+  "p50": 9686.2,
+  "p90": 12013.9,
+  "max": 12206.8
+ },
+ "decider_server_ms_p50": 9044.099999999999,
+ "escalated": 19,
+ "fills": 3,
+ "top1_matches_editors": 3,
+ "bedrock_live_calls": 22
+}

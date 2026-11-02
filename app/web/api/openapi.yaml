@@ -330,6 +330,7 @@ components:
         abstain_reason: { type: string, enum: [time_budget, gap_cap], description: 'Present only when the gap abstained with no work: the request time budget ran low, or the gap was past restorer.max_gaps_per_request (candidates is then empty)' }
         llm_skipped: { type: string, enum: [time_budget, error], description: 'Present only when no LLM was asked because too little of the request budget was left (time_budget), or an LLM call failed under it (error); the candidates come from retrieval and the 5-gram' }
         escalation_skipped: { type: string, enum: [time_budget, error], description: 'Present only when Opus was due but not asked (time_budget) or failed (error) under the request budget' }
+        decider_fallback: { type: string, enum: [unavailable, time_budget], description: 'Present only when the decider was due but could not be used (unavailable: failed, refused or timed out; time_budget: too little of the request budget left); the candidates are then ranked by the decider-free pre-rank' }
     RestoreBudget:
       type: object
       required: [request_budget_s, max_gaps_per_request, limited, abstained, llm_skipped, escalation_skipped]

@@ -14,6 +14,11 @@ Two backends speak the same question schema:
 If the decider is unreachable or refuses a request, callers fall back (LLM self-reported confidence for
 restoration, rules for pedagogy) and must flag the source in their output. Every answer carries the decider
 ``model`` and its ``source`` (``hosted`` | ``local``).
+
+``choice``/``noul`` take an optional ``timeout`` (seconds): the most the call may take in all, including
+client-side pacing and a 429/503 retry; a call that cannot finish in time raises ``DeciderUnavailable`` at once
+instead of waiting (the restorer passes what is left of its request budget). The restorer may use its own hosted
+model (``decider.cloud.restorer_model``, see ``restorer_decider``); the tutor keeps ``decider.cloud.model``.
 """
 
 from __future__ import annotations
@@ -59,7 +64,8 @@ class Noul:
 
 
 class Decider(Protocol):
-    def choice(self, state: Any, instructions: str, options: dict[str, Any], *, name: str = "q") -> Choice: ...
+    def choice(self, state: Any, instructions: str, options: dict[str, Any], *, name: str = "q",
+               timeout: float | None = None) -> Choice: ...
 
     def available(self) -> bool: ...
 
@@ -192,12 +198,13 @@ class HttpDecider:
     def available(self) -> bool:
         return self.health() is not None
 
-    def choice(self, state: Any, instructions: str, options: dict[str, Any], *, name: str = "q") -> Choice:
-        out = self._request("/v1/systemone", choice_payload(state, instructions, options, name))
+    def choice(self, state: Any, instructions: str, options: dict[str, Any], *, name: str = "q",
+               timeout: float | None = None) -> Choice:
+        out = self._request("/v1/systemone", choice_payload(state, instructions, options, name), timeout=timeout)
         return parse_choice(out, name, "local", "strands-decider")
 
-    def noul(self, state: Any, instructions: str, *, name: str = "q") -> Noul:
-        out = self._request("/v1/systemone", noul_payload(state, instructions, name))
+    def noul(self, state: Any, instructions: str, *, name: str = "q", timeout: float | None = None) -> Noul:
+        out = self._request("/v1/systemone", noul_payload(state, instructions, name), timeout=timeout)
         return parse_noul(out, name, "local", "strands-decider")
 
 
@@ -268,28 +275,46 @@ class HostedDecider:
                 raise DeciderUnavailable("hosted decider needs EZHUTHU_DECIDER_API_KEY or decider.cloud.secret_name")
         return self._api_key
 
-    def _pace(self) -> None:
+    def _pace(self, max_wait: float | None = None) -> None:
+        """Wait for this client's next request slot. With ``max_wait``, a slot further away than that is not taken
+        (``DeciderUnavailable``): the caller has no time to wait for it."""
         if not self.min_interval:
             return
         with self._lock:
             now = time.monotonic()
             wait = self._next_at - now
+            if max_wait is not None and wait > max_wait:
+                raise DeciderUnavailable(f"hosted decider: next request slot in {wait:.1f}s, over the time left")
             self._next_at = max(now, self._next_at) + self.min_interval
         if wait > 0:
             self._sleep(wait)
 
     def _request(self, method: str, path: str, payload: dict[str, Any] | None = None, *,
-                 timeout: float | None = None, pace: bool = True) -> Any:
+                 timeout: float | None = None, pace: bool = True, budget: float | None = None) -> Any:
+        """``budget``: seconds the whole call may take (pacing, the request and one retry); None = unbounded
+        (each attempt still has ``timeout``). The server is told how long to queue it (``x-deadline-ms``)."""
         data = json.dumps(payload, ensure_ascii=False).encode() if payload is not None else None
         headers = {"authorization": f"Bearer {self.api_key}"}
         if data is not None:
             headers["content-type"] = "application/json"
+        end = time.monotonic() + budget if budget is not None else None
+
+        def left() -> float | None:
+            return None if end is None else end - time.monotonic()
+
         for attempt in range(2):
             if pace:
-                self._pace()
+                self._pace(max_wait=left())
+            attempt_timeout = timeout or self.timeout
+            if end is not None:
+                remaining = left()
+                if remaining <= 0.2:
+                    raise DeciderUnavailable(f"hosted decider {path}: no time left")
+                attempt_timeout = min(attempt_timeout, remaining)
+                headers["x-deadline-ms"] = str(int(remaining * 1000))
             req = urllib.request.Request(self.base_url + path, data=data, headers=headers, method=method)
             try:
-                with urllib.request.urlopen(req, timeout=timeout or self.timeout) as resp:
+                with urllib.request.urlopen(req, timeout=attempt_timeout) as resp:
                     self.last_headers = {k.lower(): v for k, v in resp.headers.items()
                                          if k.lower().startswith("x-")}
                     return json.loads(resp.read().decode())
@@ -303,8 +328,8 @@ class HostedDecider:
                 except (json.JSONDecodeError, AttributeError):
                     code = ""
                 retry_after = exc.headers.get("retry-after") if exc.headers else None
-                if exc.code in (429, 503) and attempt == 0:
-                    wait = min(self.max_retry_wait, retry_after_seconds(retry_after))
+                wait = min(self.max_retry_wait, retry_after_seconds(retry_after))
+                if exc.code in (429, 503) and attempt == 0 and (end is None or left() - wait > 1.0):
                     log.warning("hosted decider %s %s (%s); retrying in %.1fs", path, exc.code, code, wait)
                     self._sleep(wait)
                     continue
@@ -331,19 +356,20 @@ class HostedDecider:
     def available(self) -> bool:
         return self.health() is not None
 
-    def choice(self, state: Any, instructions: str, options: dict[str, Any], *, name: str = "q") -> Choice:
+    def choice(self, state: Any, instructions: str, options: dict[str, Any], *, name: str = "q",
+               timeout: float | None = None) -> Choice:
         payload = fit_choice(state, instructions, options, name, self.max_input_chars,
                              max_options=self.max_options)
         self.last_trimmed = len(options) - len(payload["questions"][name]["criteria"])
         if self.last_trimmed:
             log.info("hosted decider: dropped %d tail options to fit %s options / %s characters",
                      self.last_trimmed, self.max_options, self.max_input_chars)
-        return parse_choice(self._request("POST", "/v1/decide", {**payload, "model": self.model}), name, "hosted",
-                            self.model)
+        out = self._request("POST", "/v1/decide", {**payload, "model": self.model}, budget=timeout)
+        return parse_choice(out, name, "hosted", self.model)
 
-    def noul(self, state: Any, instructions: str, *, name: str = "q") -> Noul:
+    def noul(self, state: Any, instructions: str, *, name: str = "q", timeout: float | None = None) -> Noul:
         payload = {**noul_payload(state, instructions, name), "model": self.model}
-        return parse_noul(self._request("POST", "/v1/decide", payload), name, "hosted", self.model)
+        return parse_noul(self._request("POST", "/v1/decide", payload, budget=timeout), name, "hosted", self.model)
 
 
 class FakeDecider:
@@ -355,7 +381,7 @@ class FakeDecider:
         self.noul_fn = noul_fn
         self.calls: list[dict[str, Any]] = []
 
-    def noul(self, state: Any, instructions: str, *, name: str = "q") -> Noul:
+    def noul(self, state: Any, instructions: str, *, name: str = "q", timeout: float | None = None) -> Noul:
         if self.noul_fn is None:
             raise DeciderUnavailable("fake decider has no noul_fn")
         self.calls.append({"state": state, "instructions": instructions, "noul": name})
@@ -364,8 +390,9 @@ class FakeDecider:
     def available(self) -> bool:
         return True
 
-    def choice(self, state: Any, instructions: str, options: dict[str, Any], *, name: str = "q") -> Choice:
-        self.calls.append({"state": state, "instructions": instructions, "options": options})
+    def choice(self, state: Any, instructions: str, options: dict[str, Any], *, name: str = "q",
+               timeout: float | None = None) -> Choice:
+        self.calls.append({"state": state, "instructions": instructions, "options": options, "timeout": timeout})
         probs = self.picker(state, options)
         best = max(probs, key=probs.get)
         n = len(probs)
@@ -380,10 +407,11 @@ class NoDecider:
     def health(self) -> None:
         return None
 
-    def choice(self, state: Any, instructions: str, options: dict[str, Any], *, name: str = "q") -> Choice:
+    def choice(self, state: Any, instructions: str, options: dict[str, Any], *, name: str = "q",
+               timeout: float | None = None) -> Choice:
         raise DeciderUnavailable("no decider configured")
 
-    def noul(self, state: Any, instructions: str, *, name: str = "q") -> Noul:
+    def noul(self, state: Any, instructions: str, *, name: str = "q", timeout: float | None = None) -> Noul:
         raise DeciderUnavailable("no decider configured")
 
 
@@ -394,8 +422,9 @@ def decider_backend() -> str:
     return b
 
 
-def hosted_decider(config: Any = None, **kw: Any) -> HostedDecider:
-    """HostedDecider from ``config/models.yaml`` ``decider.cloud`` (url, model, secret_name, rpm)."""
+def hosted_decider(config: Any = None, *, role: str = "default", **kw: Any) -> HostedDecider:
+    """HostedDecider from ``config/models.yaml`` ``decider.cloud`` (url, model, secret_name, rpm). ``role="restorer"``
+    uses ``restorer_model`` / ``restorer_rpm`` when they are set (the same key and URL)."""
     if config is None:
         from .config import load_models_config
 
@@ -405,8 +434,11 @@ def hosted_decider(config: Any = None, **kw: Any) -> HostedDecider:
     if missing:
         raise ValueError(f"config/models.yaml decider.cloud is missing {missing}")
     url = os.environ.get("EZHUTHU_DECIDER_CLOUD_URL") or cloud["url"]
-    return HostedDecider(url, cloud["model"], secret_name=cloud.get("secret_name"), region=config.region,
-                         profile=config.aws_profile, rpm=cloud.get("rpm", 10),
+    model, rpm = cloud["model"], cloud.get("rpm", 10)
+    if role == "restorer" and cloud.get("restorer_model"):
+        model, rpm = cloud["restorer_model"], cloud.get("restorer_rpm", rpm)
+    return HostedDecider(url, model, secret_name=cloud.get("secret_name"), region=config.region,
+                         profile=config.aws_profile, rpm=rpm,
                          max_input_chars=cloud.get("max_input_chars"),
                          max_options=cloud.get("max_options", 24), **kw)
 
@@ -420,3 +452,14 @@ def default_decider(backend: str | None = None) -> Decider:
     if b == "hosted":
         return hosted_decider()
     return HttpDecider()
+
+
+def restorer_decider(backend: str | None = None) -> Decider:
+    """The restorer's decider: on the hosted backend, ``decider.cloud.restorer_model`` (the fine-tuned restoration
+    decider served by decider-cloud) when it is set; otherwise the same decider as ``default_decider``."""
+    if os.environ.get("EZHUTHU_DECIDER") == "off":
+        return NoDecider()
+    b = backend or decider_backend()
+    if b == "hosted":
+        return hosted_decider(role="restorer")
+    return default_decider(b)

@@ -303,9 +303,19 @@ def test_noul_topk_scores_each_candidate():
 
 def test_noul_without_support_falls_back():
     r = Restorer(llm=llm_with([["paṉmaṟku", 0.8]]), decider=FakeDecider(lambda s, o: {}), use_ontology=False,
-                 settings=CFG.restorer.with_(strategy="noul-topk"), calibration=CalibrationTable())
+                 settings=CFG.restorer.with_(strategy="noul-topk", decider_fallback="self-report"),
+                 calibration=CalibrationTable())
     g = r.restore_gap(LEFT, RIGHT, GAP, router="sonnet")
-    assert g.decider_model == "fallback:llm-self-report"
+    assert g.decider_model == "fallback:llm-self-report" and g.decider_fallback is None
+
+
+def test_noul_without_support_falls_back_to_the_prerank_when_configured():
+    r = Restorer(llm=llm_with([["paṉmaṟku", 0.8]]), decider=FakeDecider(lambda s, o: {}), use_ontology=False,
+                 settings=CFG.restorer.with_(strategy="noul-topk", decider_fallback="prerank", ngram_prerank=False),
+                 calibration=CalibrationTable())
+    g = r.restore_gap(LEFT, RIGHT, GAP, router="sonnet")
+    assert g.decider_model == "prerank" and g.strategy == "prerank" and g.decider_fallback == "unavailable"
+    assert g.best.confidence == g.best.prerank and g.to_api()["decider_fallback"] == "unavailable"
 
 
 def test_prerank_strategy_needs_no_decider():

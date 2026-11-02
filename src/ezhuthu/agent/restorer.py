@@ -6,6 +6,7 @@ fixed pipeline so the API is deterministic given the same model responses.
 
 from __future__ import annotations
 
+import inspect
 import logging
 import math
 import os
@@ -140,6 +141,10 @@ class GapResult:
     abstain_reason: str | None = None
     llm_skipped: str | None = None
     escalation_skipped: str | None = None
+    # ``decider_fallback`` unavailable | time_budget: a decider strategy was due, but the decider failed, refused,
+    # timed out or there was no time left for it, so the restorer.decider_fallback ranking was used (present only
+    # when set).
+    decider_fallback: str | None = None
 
     @property
     def best(self) -> Candidate | None:
@@ -151,9 +156,17 @@ class GapResult:
             "candidates": [c.to_api(self.decider_model) for c in self.candidates], "escalated": self.escalated,
             # additive:
             "strategy": self.strategy, "calibration": self.calibration, "abstain_below": self.abstain_below,
-            **{k: v for k in ("abstain_reason", "llm_skipped", "escalation_skipped")
+            **{k: v for k in ("abstain_reason", "llm_skipped", "escalation_skipped", "decider_fallback")
                if (v := getattr(self, k)) is not None},
         }
+
+
+def _takes_timeout(fn: Any) -> bool:
+    try:
+        params = inspect.signature(fn).parameters.values()
+    except (TypeError, ValueError):
+        return False
+    return any(p.name == "timeout" or p.kind is inspect.Parameter.VAR_KEYWORD for p in params)
 
 
 def length_tolerance(gap_chars: int) -> int:
@@ -218,9 +231,11 @@ class Restorer:
         self._corpus = corpus
         self.config = config or (llm.config if llm else load_models_config())
         self.use_ontology = use_ontology
-        # EZHUTHU_RESTORER_STRATEGY overrides config/models.yaml restorer.strategy (e.g. on the cloud runtime).
-        self.settings = settings or self.config.restorer.with_(strategy=os.environ.get("EZHUTHU_RESTORER_STRATEGY")
-                                                                or None)
+        # EZHUTHU_RESTORER_STRATEGY overrides config/models.yaml restorer.strategy (e.g. on the cloud runtime);
+        # EZHUTHU_DECIDER_FALLBACK overrides restorer.decider_fallback (self-report | prerank).
+        self.settings = settings or self.config.restorer.with_(
+            strategy=os.environ.get("EZHUTHU_RESTORER_STRATEGY") or None,
+            decider_fallback=os.environ.get("EZHUTHU_DECIDER_FALLBACK") or None)
         if calibration is None:
             env = os.environ.get("EZHUTHU_CALIBRATION")  # a path, or "none" for raw confidences
             spec = None if env == "none" else (env or self.settings.calibration)
@@ -360,10 +375,17 @@ class Restorer:
 
     def rank_and_decide(self, cands: list[Candidate], *, left: str, right: str, gap_chars: int,
                         parallels: list[Parallel], hints: list[Hint],
-                        strategy: str | None = None, top_k: int | None = None) -> tuple[str, list[Candidate]]:
+                        strategy: str | None = None, top_k: int | None = None,
+                        deadline: float | None = None, info: dict[str, Any] | None = None,
+                        ) -> tuple[str, list[Candidate]]:
         """Set ``confidence`` (raw, before calibration) on each candidate and sort; returns the decider model
         name, ``prerank`` or a ``fallback:...`` tag. ``cands`` must already carry ``prerank`` and be in
-        pre-rank order (``restore_gap`` does both)."""
+        pre-rank order (``restore_gap`` does both).
+
+        ``deadline`` (a ``self.clock()`` time, the request budget): the decider is asked only with
+        ``restorer.decider_min_remaining_s`` left, and its call may take what is left (at most
+        ``restorer.decider_timeout_s``). When a decider strategy cannot use the decider, ``restorer.decider_fallback``
+        ranks the candidates and ``info["decider_fallback"]`` says why (``unavailable`` | ``time_budget``)."""
         if not cands:
             return "none", cands
         strategy = strategy or self.settings.strategy
@@ -398,18 +420,30 @@ class Restorer:
                 if drop is not None:
                     top = [ng if c is drop else c for c in top]
             rest = [c for c in cands if c not in top]
+        st = self.settings
+        timeout = st.decider_timeout_s
+        if deadline is not None:
+            left_s = deadline - self.clock()
+            if left_s < max(st.decider_min_remaining_s, 0.5):
+                return self._decider_fallback(cands, parallels, "time_budget", info)
+            timeout = left_s if timeout is None else min(timeout, left_s)
+        method = self.decider.noul if strategy == "noul-topk" else self.decider.choice  # type: ignore[union-attr]
+        # deciders written before the timeout keyword (eval doubles) are called as before
+        kw: dict[str, Any] = {"timeout": timeout} if timeout is not None and _takes_timeout(method) else {}
         try:
             if strategy == "noul-topk":
                 model, source = "", ""
                 for c in top:
+                    if deadline is not None and kw:  # each noul call gets what is left
+                        kw["timeout"] = min(timeout, deadline - self.clock())  # type: ignore[type-var]
                     res = self.decider.noul({**state, "candidate": c.option(lt, rt)}, NOUL_INSTRUCTIONS,
-                                            name="is_restoration")
+                                            name="is_restoration", **kw)
                     c.confidence, c.confidence_source, c.decider_source = res.probability, "decider-noul", res.source
                     model, source = res.model, res.source
             else:
                 options: dict[str, Any] = {f"c{i}": c.option(lt, rt) for i, c in enumerate(top)}
                 options[NONE_OPTION] = "none of these candidates fits the gap"
-                res = self.decider.choice(state, DECIDER_INSTRUCTIONS, options, name="restoration")
+                res = self.decider.choice(state, DECIDER_INSTRUCTIONS, options, name="restoration", **kw)
                 model, source = res.model, res.source
                 for i, c in enumerate(top):
                     # An option missing from the answer was dropped to fit the request size limit
@@ -425,6 +459,20 @@ class Restorer:
             return model, ranked
         except (DeciderUnavailable, AttributeError):  # AttributeError: a decider without noul()
             pass
+        if deadline is not None and self.clock() >= deadline:
+            return self._decider_fallback(cands, parallels, "time_budget", info)
+        return self._decider_fallback(cands, parallels, "unavailable", info)
+
+    def _decider_fallback(self, cands: list[Candidate], parallels: list[Parallel], reason: str,
+                          info: dict[str, Any] | None) -> tuple[str, list[Candidate]]:
+        """A decider strategy without its decider: ``restorer.decider_fallback`` ranks the candidates."""
+        if self.settings.decider_fallback == "prerank":
+            if info is not None:
+                info["decider_fallback"] = reason
+            tag = "prerank-ngram" if self.settings.ngram_prerank else "prerank"
+            for c in cands:
+                c.confidence, c.confidence_source, c.decider_source = c.prerank, tag, "prerank"
+            return tag, sorted(cands, key=lambda c: c.confidence, reverse=True)
         return self._self_report(cands, parallels)
 
     @staticmethod
@@ -611,9 +659,14 @@ class Restorer:
                 cands.sort(key=lambda c: (c.text != gated, -c.confidence, c.text))
                 return "ngram-gate", cands, None, float(st.ngram_gate)
             strat = st.strategy_for(bool(llm_answered["any"]))
-            used["strategy"] = strat
+            dinfo: dict[str, Any] = {}
             model, ranked = self.rank_and_decide(cands, left=left, right=right, gap_chars=length,
-                                                 parallels=parallels, hints=hints, strategy=strat)
+                                                 parallels=parallels, hints=hints, strategy=strat,
+                                                 deadline=deadline, info=dinfo)
+            skipped["decider"] = dinfo.get("decider_fallback")
+            if skipped["decider"]:  # ranked by the pre-rank: its strategy, calibration and threshold
+                strat = "prerank"
+            used["strategy"] = strat
             key, thr = self.calibrate(model, ranked, llm=llm_answered["any"], strategy=strat)
             return model, ranked, key, thr
 
@@ -641,7 +694,8 @@ class Restorer:
                          strategy=used["strategy"], calibration=cal_key, abstain_below=threshold,
                          llm_truncated=info.get("truncated", 0), llm_retries=info.get("retries", 0),
                          llm_calls=list(info.get("calls", [])), llm_wall_ms=round(info.get("wall_ms", 0.0), 1),
-                         llm_skipped=skipped["llm"], escalation_skipped=skipped["escalation"])
+                         llm_skipped=skipped["llm"], escalation_skipped=skipped["escalation"],
+                         decider_fallback=skipped.get("decider"))
 
     def restore(self, text: str, *, script: str = "iso15919", max_candidates: int = 5,
                 allow_escalation: bool = True, router: str = "routed") -> dict[str, Any]:

@@ -90,6 +90,15 @@ class RestorerSettings:
     = no cap. The API also refuses more than ``EZHUTHU_MAX_GAPS`` (5) markers; the cap bounds other callers
     (the tutor restores whole inscriptions).
     When the budget is not reached, every gap is restored exactly as without it.
+
+    Decider calls (strategies ``choice-*`` / ``noul-topk``; issue: hosted fine-tuned decider):
+    ``decider_fallback``: what ranks the candidates when the decider is unavailable, refuses, times out or there is
+    no time left for it: ``self-report`` (the dataclass default, the behaviour before) or ``prerank`` (the
+    decider-free pre-rank, the deployed ranking). The gap then says ``decider_fallback: unavailable | time_budget``
+    and uses the pre-rank's calibration.
+    ``decider_timeout_s``: the longest one decider call may take (``null`` = only the request budget bounds it).
+    ``decider_min_remaining_s``: under a request budget, ask the decider only with at least this much left; each
+    call's timeout is then what is left (or ``decider_timeout_s`` if smaller).
     """
 
     strategy: str = "prerank"  # dataclass default; config/models.yaml sets the shipped value
@@ -113,6 +122,9 @@ class RestorerSettings:
     llm_min_remaining_s: float = 6.0
     gap_min_remaining_s: float = 1.0
     max_gaps_per_request: int | None = 8
+    decider_fallback: str = "self-report"
+    decider_timeout_s: float | None = None
+    decider_min_remaining_s: float = 0.0
 
     @property
     def ngram_features(self) -> bool:
@@ -135,6 +147,10 @@ class RestorerSettings:
             raise ValueError("restorer.*_min_remaining_s must be >= 0")
         if self.max_gaps_per_request is not None and self.max_gaps_per_request < 0:
             raise ValueError("restorer.max_gaps_per_request must be >= 0 or null")
+        if self.decider_fallback not in ("self-report", "prerank"):
+            raise ValueError("restorer.decider_fallback must be 'self-report' or 'prerank'")
+        if (self.decider_timeout_s is not None and self.decider_timeout_s <= 0) or self.decider_min_remaining_s < 0:
+            raise ValueError("restorer.decider_timeout_s must be > 0 or null; decider_min_remaining_s >= 0")
 
     def with_(self, **kw: Any) -> RestorerSettings:
         from dataclasses import replace
