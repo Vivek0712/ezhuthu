@@ -1,9 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
-import { api, type QueueItem } from '../api/client';
-import { Busy, ErrorNote } from '../components/Feedback';
+import { api, ApiError, type QueueItem } from '../api/client';
+import { EmptyState, ErrorNote, Skeleton } from '../components/Feedback';
 import { useI18n } from '../i18n/I18nProvider';
+import type { MessageKey } from '../i18n/strings';
 
-function Row({ item, onDone }: { item: QueueItem; onDone: (q: QueueItem) => void }) {
+/**
+ * A reviewed item, or one that is no longer pending (409 Conflict). The API answers 409 both when another reviewer
+ * got there first and when the item no longer exists, with the same error code, so the app does not guess which.
+ */
+type Done = QueueItem | { id: string; gone: true };
+
+function Row({ item, onDone }: { item: QueueItem; onDone: (q: Done) => void }) {
   const { t } = useI18n();
   const proposal = item.corrected_text ?? item.accepted_candidate ?? '';
   const [text, setText] = useState(proposal);
@@ -16,6 +23,10 @@ function Row({ item, onDone }: { item: QueueItem; onDone: (q: QueueItem) => void
     try {
       onDone(await api.review(item.id, action === 'edit' ? { action, text } : { action }));
     } catch (err) {
+      if (err instanceof ApiError && err.status === 409) {
+        onDone({ id: item.id, gone: true }); // not an error: the queue moved on without us
+        return;
+      }
       setError(err);
     } finally {
       setBusy(false);
@@ -59,7 +70,9 @@ export function ReviewPage() {
   const { t } = useI18n();
   const [items, setItems] = useState<QueueItem[] | null>(null);
   const [error, setError] = useState<unknown>(null);
-  const [done, setDone] = useState<QueueItem[]>([]);
+  const [done, setDone] = useState<Done[]>([]);
+  // The key, not the translated text, so the notice follows a language switch.
+  const [notice, setNotice] = useState<MessageKey | null>(null);
 
   const load = useCallback(() => {
     setError(null);
@@ -74,8 +87,13 @@ export function ReviewPage() {
         <p className="lede">{t('review.lede')}</p>
       </header>
       {error != null && <ErrorNote error={error} onRetry={load} />}
-      {!items && error == null && <Busy />}
-      {items && items.length === 0 && <p className="note">{t('review.empty')}</p>}
+      {!items && error == null && <Skeleton lines={4} />}
+      {notice && (
+        <p className="note note-unsure" role="status" data-testid="review-notice">
+          {t(notice)}
+        </p>
+      )}
+      {items && items.length === 0 && <EmptyState title="review.empty" body="review.emptyBody" testId="review-empty" />}
       <div className="grid">
         {items?.map((q) => (
           <Row
@@ -84,6 +102,7 @@ export function ReviewPage() {
             onDone={(u) => {
               setItems((xs) => xs?.filter((x) => x.id !== u.id) ?? null);
               setDone((d) => [u, ...d]);
+              setNotice('gone' in u ? 'review.noLongerQueued' : null);
             }}
           />
         ))}
@@ -94,8 +113,16 @@ export function ReviewPage() {
           <ul data-testid="reviewed">
             {done.map((d) => (
               <li key={d.id}>
-                {d.id}: {d.status}
-                {d.final_text ? ` → ${d.final_text}` : ''}
+                {'gone' in d ? (
+                  <>
+                    {d.id}: {t('review.status.gone')}
+                  </>
+                ) : (
+                  <>
+                    {d.id}: {d.status}
+                    {d.final_text ? ` → ${d.final_text}` : ''}
+                  </>
+                )}
               </li>
             ))}
           </ul>

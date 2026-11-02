@@ -23,6 +23,15 @@ const want = [...bench.required].sort().join(',');
 const have = [...(spec.components.schemas.BenchmarkItem.required ?? [])].sort().join(',');
 if (want !== have) errors.push(`BenchmarkItem.required drifted: contract=${want} openapi=${have}`);
 
+// The tutor answer: a rules decision has no confidence, and the async lesson explanation arrives on /api/answer.
+const answer = spec.components.schemas.AnswerResponse.properties;
+const nullable = (p) => [p?.type].flat().includes('null');
+if (/"decider_confidence":\s*0\.0\s*\|\s*null/.test(md) && !nullable(answer.decider_confidence))
+  errors.push('contract allows decider_confidence null; openapi AnswerResponse.decider_confidence must be nullable');
+if (md.includes('context_update') && !answer.context_update) errors.push('contract has context_update; openapi AnswerResponse lacks it');
+if (/reviewing an item that is not\s+`pending` returns 409/.test(md) && !spec.paths['/api/queue/{id}'].post.responses['409'])
+  errors.push('contract says a second review returns 409; openapi /api/queue/{id} lacks a 409 response');
+
 const levels = spec.components.schemas.Level.enum.join(',');
 if (levels !== 'L1,L2,L3,L4,L5') errors.push(`Level enum drifted: ${levels}`);
 

@@ -1,6 +1,6 @@
 import { useState, type ChangeEvent } from 'react';
 import { api, type EvaluateBuiltinRequest, type EvaluateResponse } from '../api/client';
-import { Busy, ErrorNote } from '../components/Feedback';
+import { Busy, CC_BY_SA, ErrorNote } from '../components/Feedback';
 import { ReliabilityChart } from '../components/ReliabilityChart';
 import { useI18n } from '../i18n/I18nProvider';
 import { pct } from '../lib/format';
@@ -38,6 +38,12 @@ export function TestPage() {
       <header className="page-head">
         <h1>{t('test.title')}</h1>
         <p className="lede">{t('test.lede')}</p>
+        <p className="credit" data-testid="benchmark-credit">
+          {t('credit.benchmark')}{' '}
+          <a href={CC_BY_SA} target="_blank" rel="noreferrer">
+            CC BY-SA 4.0
+          </a>
+        </p>
       </header>
       <div className="grid grid-2">
         <form

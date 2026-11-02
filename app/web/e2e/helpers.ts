@@ -38,14 +38,21 @@ export async function expectNoHorizontalScroll(page: Page) {
   expect(sw, 'page must not scroll horizontally').toBeLessThanOrEqual(iw + 1);
 }
 
+/** Navigate like a person: top nav at 1000 px and wider; below that the bottom tabs, or the "More" sheet. */
 export async function gotoNav(page: Page, name: RegExp | string) {
   const isMobile = (page.viewportSize()?.width ?? 1000) < 1000;
-  if (isMobile) {
-    await page.getByTestId('menu-toggle').click();
-    await page.getByRole('navigation', { name: 'mobile' }).getByRole('link', { name }).click();
-  } else {
+  if (!isMobile) {
     await page.getByRole('navigation', { name: 'primary' }).getByRole('link', { name }).click();
+    return;
   }
+  await page.getByTestId('tabbar').waitFor(); // the app renders after the mock worker starts
+  const tab = page.getByTestId('tabbar').getByRole('link', { name });
+  if (await tab.count()) {
+    await tab.click();
+    return;
+  }
+  await page.getByTestId('menu-toggle').click();
+  await page.getByRole('navigation', { name: 'mobile' }).getByRole('link', { name }).click();
 }
 
 export async function setEnglish(page: Page) {

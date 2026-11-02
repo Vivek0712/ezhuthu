@@ -1,13 +1,13 @@
 import { useRef, useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { api, type AnswerResponse, type LessonResponse, type Level } from '../api/client';
-import { Busy, ErrorNote } from '../components/Feedback';
+import { Busy, CC_BY_SA, ErrorNote } from '../components/Feedback';
 import { GlyphTile } from '../components/GlyphTile';
 import { LevelPicker } from '../components/LevelPicker';
 import { useI18n } from '../i18n/I18nProvider';
 import type { MessageKey } from '../i18n/strings';
 import { levelInfo } from '../lib/levels';
-import { safeHref } from '../lib/format';
+import { isDharmaUrl, safeHref } from '../lib/format';
 import { setSessionId } from '../lib/session';
 
 export function LearnPage() {
@@ -18,6 +18,8 @@ export function LearnPage() {
   const [idx, setIdx] = useState(0);
   const [answer, setAnswer] = useState('');
   const [result, setResult] = useState<AnswerResponse | null>(null);
+  /** Set once the tutor team's explanation arrives as context_update on /api/answer. */
+  const [explanationUpdated, setExplanationUpdated] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<unknown>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -33,6 +35,7 @@ export function LearnPage() {
       setIdx(0);
       setResult(null);
       setAnswer('');
+      setExplanationUpdated(false);
     } catch (err) {
       setError(err);
     } finally {
@@ -49,6 +52,25 @@ export function LearnPage() {
     try {
       const res = await api.answer({ session_id: lesson.session_id, item_id: item.item_id, answer: answer.trim() });
       setResult(res);
+      const update = res.context_update;
+      if (update?.explain_ta || update?.explain_en) {
+        // The async lesson explanation finished: it replaces the template text, keeping the lesson's facts.
+        setLesson((l) =>
+          l && l.session_id === lesson.session_id
+            ? {
+                ...l,
+                context: {
+                  ...l.context,
+                  explain_ta: update.explain_ta || l.context.explain_ta,
+                  explain_en: update.explain_en || l.context.explain_en,
+                  explained_by: update.explained_by ?? 'tutor_team',
+                  explanation_status: update.explanation_status ?? 'done',
+                },
+              }
+            : l,
+        );
+        setExplanationUpdated(true);
+      }
       if (res.next_action !== 'advance') {
         setAnswer('');
         inputRef.current?.focus();
@@ -98,7 +120,13 @@ export function LearnPage() {
   const item = lesson.items[Math.min(idx, lesson.items.length - 1)]!;
   const ctx = lesson.context;
   const insc = lesson.inscription;
-  const source = safeHref(insc.source_url);
+  // A learner's own text has no source. DHARMA editions (TEI under github.com/erc-dharma, or the dharmalekha.info
+  // reader) are labelled as such and carry CC BY-SA 4.0 even if the API omits the licence; for any other source the
+  // app states only the licence the API sent, and none when it sent none.
+  const sourceHref = safeHref(insc.dharmalekha_url) ?? safeHref(insc.source_url);
+  const fromDharma = isDharmaUrl(sourceHref);
+  const licence = insc.licence?.trim() || (fromDharma ? 'CC BY-SA 4.0' : null);
+  const licenceIsCcBySa = licence != null && /^CC BY-SA 4\.0$/i.test(licence);
 
   return (
     <>
@@ -107,17 +135,30 @@ export function LearnPage() {
           {levelInfo(item.script_level).id} · {lang === 'ta' ? levelInfo(item.script_level).nameTa : levelInfo(item.script_level).nameEn}
         </p>
         <h1>{insc.title}</h1>
-        <p className="lede">
-          {[insc.dynasty, insc.approx_date].filter(Boolean).join(' · ')}
-          {source && (
-            <>
-              {' · '}
-              <a href={source} target="_blank" rel="noreferrer">
-                {t('common.source')}
+        <div className="source-card" data-testid="lesson-source">
+          <p className="source-facts">{[ctx.ruler ?? insc.ruler, insc.dynasty, insc.approx_date].filter(Boolean).join(' · ')}</p>
+          {sourceHref ? (
+            <p className="source-line">
+              {t('common.source')}:{' '}
+              <a href={sourceHref} target="_blank" rel="noreferrer">
+                {fromDharma ? t('credit.edition') : new URL(sourceHref).hostname} ↗
               </a>
-            </>
-          )}
-        </p>
+              {licence ? (
+                <>
+                  {' '}
+                  ·{' '}
+                  {licenceIsCcBySa ? (
+                    <a href={CC_BY_SA} target="_blank" rel="noreferrer" data-testid="lesson-licence">
+                      {licence}
+                    </a>
+                  ) : (
+                    <span data-testid="lesson-licence">{licence}</span>
+                  )}
+                </>
+              ) : null}
+            </p>
+          ) : null}
+        </div>
       </header>
       <div className="practice">
         <section aria-live="polite">
@@ -168,17 +209,33 @@ export function LearnPage() {
                   />
                 </label>
                 {result && (
-                  <div className={`feedback ${result.correct ? 'ok' : 'no'}`} data-testid="feedback">
-                    <strong lang="ta">{result.feedback_ta}</strong>
-                    {lang === 'en' && <span className="sub">{result.feedback_en}</span>}
+                  <div className={`feedback ${result.correct ? 'ok' : result.next_action === 'hint' ? 'hint' : 'no'}`} data-testid="feedback">
+                    <strong lang="ta">
+                      <span className="feedback-mark" aria-hidden="true">
+                        {result.correct ? '✓' : result.next_action === 'hint' ? '?' : '·'}
+                      </span>{' '}
+                      {result.feedback_ta}
+                    </strong>
+                    <span className="visually-hidden">{t(result.correct ? 'learn.correct' : 'learn.notYet')}</span>
+                    {result.feedback_en && (
+                      <span className="sub" lang="en">
+                        {result.feedback_en}
+                      </span>
+                    )}
                     {result.hint_ta && (
                       <p style={{ margin: '8px 0 0' }} lang="ta">
                         <span className="badge">{t('learn.hint')}</span> {result.hint_ta}
                       </p>
                     )}
-                    <p className="sub" style={{ margin: '8px 0 0' }}>
+                    <p className="sub decision" style={{ margin: '8px 0 0' }} data-testid="decision">
                       {t('learn.deciderSaid')}: {t(`learn.action.${result.next_action}` as MessageKey)} ·{' '}
-                      {t('common.confidence')} {Math.round(result.decider_confidence * 100)}%
+                      {result.decider_confidence == null ? (
+                        <span data-testid="decided-by-rules">{t('learn.decidedByRules')}</span>
+                      ) : (
+                        <>
+                          {t('common.confidence')} {Math.round(result.decider_confidence * 100)}%
+                        </>
+                      )}
                     </p>
                   </div>
                 )}
@@ -221,7 +278,19 @@ export function LearnPage() {
               </>
             )}
           </dl>
-          <p>{pick(ctx.explain_ta, ctx.explain_en)}</p>
+          <p data-testid="explanation" lang={lang}>
+            {pick(ctx.explain_ta, ctx.explain_en)}
+          </p>
+          {ctx.explanation_status === 'pending' && !explanationUpdated && (
+            <p className="note" role="status" data-testid="explanation-pending">
+              {t('learn.explanationPending')}
+            </p>
+          )}
+          {explanationUpdated && (
+            <p className="chip chip-ok" role="status" data-testid="explanation-updated">
+              {t('learn.explanationUpdated')}
+            </p>
+          )}
           {/* The restored text contains the answer to the current item: show it only once that item is resolved. */}
           {(done || result?.next_action === 'advance') && (
             <div data-testid="restored-text">

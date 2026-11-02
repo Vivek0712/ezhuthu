@@ -1,7 +1,6 @@
 import { useI18n } from '../i18n/I18nProvider';
 import { LEVELS, type Level } from '../lib/levels';
-import { svgDataUrl } from '../lib/format';
-import { vatteluttuSvg } from '../lib/vatteluttu';
+import { VATTELUTTU, VATTELUTTU_STROKE } from '../lib/vatteluttu';
 
 export function LevelPicker({ value, onChange }: { value: Level; onChange: (l: Level) => void }) {
   const { lang, t } = useI18n();
@@ -13,7 +12,11 @@ export function LevelPicker({ value, onChange }: { value: Level; onChange: (l: L
           <input type="radio" name="level" value={l.id} checked={value === l.id} onChange={() => onChange(l.id)} />
           <span className="level-id">{l.id}</span>
           <span className={`level-ka ${l.fontClass}`} aria-hidden="true">
-            {l.sampleKa ?? <img src={svgDataUrl(vatteluttuSvg('ka', { size: 48 }))} alt="" />}
+            {l.sampleKa ?? (
+              <svg viewBox="0 0 100 100" className="level-svg">
+                <path d={VATTELUTTU.ka!.d} fill="none" stroke="currentColor" strokeWidth={VATTELUTTU_STROKE} strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            )}
           </span>
           <span className="level-name">{lang === 'ta' ? l.nameTa : l.nameEn}</span>
           <span className="level-era">{lang === 'ta' ? l.eraTa : l.eraEn}</span>

@@ -9,6 +9,7 @@
   },
   "scripts": {
     "package:agent": "./agentcore/package.sh",
+    "smoke:agent": "docker run --rm --platform linux/arm64 --network none -v \"$PWD/agentcore/build:/bundle:ro\" -v \"$PWD/agentcore/smoke_bundle.py:/smoke/smoke_bundle.py:ro\" -e PYTHONPATH=/bundle -w /tmp python:3.12-slim python /smoke/smoke_bundle.py",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "synth": "npm run package:agent && cdk synth --quiet",
