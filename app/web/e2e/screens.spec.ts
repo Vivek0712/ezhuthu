@@ -22,7 +22,7 @@ test('@screens capture every page', async ({ page }, info) => {
   await expect(page.getByTestId('evolution-hero')).toBeVisible();
   await shot(page, '01-home-ta', p, { fullPage: false });
 
-  await page.goto('/learn');
+  await page.goto('/practice');
   await page.getByTestId('level-L5').click();
   await shot(page, '02-learn-levels-ta', p);
   await page.getByTestId('start-lesson').click();
@@ -42,7 +42,7 @@ test('@screens capture every page', async ({ page }, info) => {
   await page.goto('/');
   await shot(page, '05-home-en', p, { fullPage: false });
 
-  await page.goto('/learn');
+  await page.goto('/practice');
   await page.getByTestId('level-L4').click();
   await page.getByTestId('start-lesson').click();
   await expect(page.getByTestId('glyph-tile').locator('img')).toBeVisible();
@@ -65,7 +65,7 @@ test('@screens capture every page', async ({ page }, info) => {
   await expect(page.getByTestId('gain')).toHaveText('+60 pts');
   await shot(page, '07-progress-en', p);
 
-  await page.goto('/test');
+  await page.goto('/benchmark');
   await page.getByTestId('auth-gate').getByRole('button', { name: 'Sign in' }).click();
   await page.getByTestId('run-benchmark').click();
   await expect(page.getByTestId('score-report')).toBeVisible();
@@ -79,7 +79,7 @@ test('@screens capture every page', async ({ page }, info) => {
   await shot(page, '10-about-en', p);
 
   // Wave 3 states: rules-decided answer with the tutor team's explanation, a 409 on review, dark mode.
-  await page.goto('/learn');
+  await page.goto('/practice');
   await page.getByTestId('level-L5').click();
   await page.getByTestId('start-lesson').click();
   for (let i = 0; i < 3; i++) {

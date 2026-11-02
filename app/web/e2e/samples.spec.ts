@@ -28,11 +28,11 @@ test.describe('try-it samples', () => {
     await expect(page.locator('[data-testid^="gap-"]').filter({ has: page.locator('h3') })).toHaveCount(chola.gaps);
     await expect(page.getByTestId('restore-credit')).toContainText('CC BY-SA 4.0');
 
-    // Back to the gallery, then "Learn with this" starts a lesson on that inscription at its level.
+    // Back to the gallery, then "Practise with this" starts a lesson on that inscription at its level.
     await page.goto('/#samples');
     await page.getByTestId('era-pallava').click();
     await page.getByTestId(`learn-${pallava.id}`).click();
-    await expect(page).toHaveURL(/\/learn\?inscription=/);
+    await expect(page).toHaveURL(/\/practice\?inscription=/);
     await expect(page.getByRole('heading', { level: 1, name: pallava.edition_title })).toBeVisible();
     await expect(page.getByTestId('lesson-source')).toContainText('CC BY-SA 4.0');
     await expect(page.getByTestId('glyph-tile')).toHaveAttribute('data-level', 'L3');
@@ -73,34 +73,8 @@ test.describe('try-it samples', () => {
   });
 });
 
-test.describe('animated hero on a small phone (375 x 740)', () => {
-  test.use({ viewport: { width: 375, height: 740 } });
-  test('is the first thing on screen, above the tab bar, and still animating', async ({ page }) => {
-    for (const lang of ['ta', 'en'] as const) {
-      if (lang === 'en') await setEnglish(page);
-      await page.goto('/');
-      const hero = page.getByTestId('evolution-hero');
-      await expect(hero).toHaveAttribute('data-motion', 'animated');
-      await page.waitForFunction(() => document.querySelector('.page')!.getAnimations().every((a) => a.playState === 'finished'));
-      const tabbarTop = await page.evaluate(() => {
-        const bar = document.querySelector('.tabbar');
-        return bar && getComputedStyle(bar).display !== 'none' ? bar.getBoundingClientRect().top : window.innerHeight;
-      });
-      const well = (await hero.locator('.evo-well').boundingBox())!;
-      expect(well.y, `${lang}: well starts on screen`).toBeGreaterThanOrEqual(0);
-      expect(well.y + well.height, `${lang}: well ends above the tab bar`).toBeLessThanOrEqual(tabbarTop);
-      const label = (await hero.locator('.evo-labels').boundingBox())!;
-      expect(label.y + label.height, `${lang}: stage label above the tab bar`).toBeLessThanOrEqual(tabbarTop);
-      // The hero sits above the heading on a phone, and the primary CTA is still reachable without horizontal scroll.
-      const h1 = (await page.getByRole('heading', { level: 1 }).boundingBox())!;
-      expect(h1.y).toBeGreaterThan(well.y);
-      await expect(hero.locator('.evo-frame').first()).toHaveCSS('animation-play-state', 'running');
-      await expectNoHorizontalScroll(page);
-    }
-  });
-});
-
-test.describe('animated hero', () => {
+// The era-evolution strip moved below the stone hero (positioning C); it still animates, pauses and has a static frame.
+test.describe('era-evolution strip', () => {
   test('animates without layout shift and can be paused', async ({ page }) => {
     await setEnglish(page);
     await page.addInitScript(() => {
@@ -113,6 +87,7 @@ test.describe('animated hero', () => {
     await page.goto('/');
     const hero = page.getByTestId('evolution-hero');
     await expect(hero).toHaveAttribute('data-motion', 'animated');
+    await hero.scrollIntoViewIfNeeded();
     // Let the page's own entrance (a transform, not a layout change) finish before measuring.
     await page.waitForFunction(() => document.querySelector('.page')!.getAnimations().every((a) => a.playState === 'finished'));
     const box1 = await hero.boundingBox();

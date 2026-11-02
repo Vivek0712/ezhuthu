@@ -180,6 +180,20 @@ html[lang='ta'] .lede { font-size: var(--ez-text-md); line-height: var(--ez-lh-l
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 @keyframes pop { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
+/* ---- Home (positioning C): headline band, then the stone hero (stone-hero.css), then the era strip ---- */
+.hero-c { padding: 4px 0 18px; align-items: end; }
+.hero-c h1 { margin-bottom: 0; font-size: clamp(var(--ez-text-2xl), 3.6vw, var(--ez-text-3xl)); }
+html[lang='ta'] .hero-c h1 { font-size: clamp(1.35rem, 2.25vw, 1.8rem); }
+.hero-c .lede { margin-bottom: 0; font-size: var(--ez-text-md); }
+.evo-section { display: grid; gap: 16px; align-items: center; margin: 36px 0 8px; }
+.evo-section h2 { margin: 0; }
+@media (min-width: 900px) { .evo-section { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 40px; } }
+.audience { margin-top: 36px; gap: 28px 40px; align-items: start; }
+.audience > * { min-width: 0; }
+.audience .steps { margin-bottom: 14px; }
+@media (min-width: 760px) { .audience .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.audience-links { display: flex; flex-wrap: wrap; gap: 8px 18px; font-weight: var(--ez-weight-semibold); }
+
 /* ---- Evolution hero: one letter through five stages (EvolutionHero.tsx) ---- */
 .evo-hero { margin: 0; --px: 0; --py: 0; }
 .evo-stage {

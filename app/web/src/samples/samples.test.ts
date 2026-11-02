@@ -52,7 +52,7 @@ describe('try-it samples', () => {
     const s = SAMPLES[0]!;
     expect(restoreHref(s)).toBe(`/restore?sample=${s.id}`);
     const u = new URL(learnHref(s), 'http://x');
-    expect(u.pathname).toBe('/learn');
+    expect(u.pathname).toBe('/practice');
     expect(u.searchParams.get('inscription')).toBe(s.inscription_id);
     expect(u.searchParams.get('level')).toBe(s.learn_level);
     expect(sampleById(SAMPLES, s.id)).toBe(s);

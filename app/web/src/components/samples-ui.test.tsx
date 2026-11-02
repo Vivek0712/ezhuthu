@@ -41,7 +41,7 @@ describe('SampleGallery', () => {
     expect(within(card).getByRole('link', { name: 'CC BY-SA 4.0' })).toHaveAttribute('href', s.licence_url);
     expect(within(card).getByRole('link', { name: /DHARMA/ })).toHaveAttribute('href', s.dharma_url);
     expect(within(card).getByRole('link', { name: 'Restore this' })).toHaveAttribute('href', restoreHref(s));
-    expect(within(card).getByRole('link', { name: 'Learn with this' })).toHaveAttribute('href', learnHref(s));
+    expect(within(card).getByRole('link', { name: 'Practise with this' })).toHaveAttribute('href', learnHref(s));
   });
 
   it('filters by period and says how many are shown', async () => {
@@ -205,7 +205,7 @@ describe('sample links', () => {
     expect(screen.queryByTestId('restore-sample-source')).toBeNull();
   });
 
-  it('"Learn with this" starts a lesson on that inscription at the suggested level', async () => {
+  it('"Practise with this" starts a lesson on that inscription at the suggested level', async () => {
     const s = SAMPLES.find((x) => x.learn_level === 'L3')!;
     renderApp(<LearnPage />, { lang: 'en', route: learnHref(s) });
     expect(await screen.findByRole('heading', { level: 1, name: s.edition_title })).toBeInTheDocument();

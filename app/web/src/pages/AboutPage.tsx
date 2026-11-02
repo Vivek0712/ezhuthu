@@ -39,6 +39,25 @@ export function AboutPage() {
           </p>
         </section>
       </div>
+      <div className="grid grid-2" style={{ marginTop: 28 }}>
+        <section className="leaf" data-testid="who-for">
+          <h2>{t('about.whoTitle')}</h2>
+          <ul>
+            <li>{t('about.who1')}</li>
+            <li>{t('about.who2')}</li>
+            <li>{t('about.who3')}</li>
+          </ul>
+        </section>
+        <section className="leaf" data-testid="limits">
+          <h2>{t('about.limitsTitle')}</h2>
+          <ul>
+            <li>{t('about.limit1')}</li>
+            <li>{t('about.limit2')}</li>
+            <li>{t('about.limit3')}</li>
+            <li>{t('about.limit4')}</li>
+          </ul>
+        </section>
+      </div>
     </>
   );
 }

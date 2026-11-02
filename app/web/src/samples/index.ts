@@ -106,7 +106,7 @@ export function sampleImageUrl(image: SampleImage): string {
 
 export const restoreHref = (s: Sample) => `/restore?sample=${encodeURIComponent(s.id)}`;
 export const learnHref = (s: Sample) =>
-  `/learn?inscription=${encodeURIComponent(s.inscription_id)}&level=${s.learn_level}&sample=${encodeURIComponent(s.id)}`;
+  `/practice?inscription=${encodeURIComponent(s.inscription_id)}&level=${s.learn_level}&sample=${encodeURIComponent(s.id)}`;
 
 /**
  * The sample named by `?sample=<id>` on /restore, as the text and script the restore form should start with

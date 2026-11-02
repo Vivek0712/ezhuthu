@@ -238,7 +238,7 @@ export function RestorePage() {
         tab={tab}
         setTab={setTab}
         onAccept={accept}
-        onLearn={(body) => navigate('/learn', { state: { text: body } })}
+        onLearn={(body) => navigate('/practice', { state: { text: body } })}
         typePanel={typePanel}
       />
 

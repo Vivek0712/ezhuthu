@@ -14,7 +14,7 @@ import { setSessionId } from '../lib/session';
 
 export function LearnPage() {
   const { t, lang, pick } = useI18n();
-  // "Learn with this" from the home gallery: /learn?inscription=<id>&level=L3&sample=<id> starts that lesson.
+  // "Practise with this" from the home gallery: /practice?inscription=<id>&level=L3&sample=<id> starts that lesson.
   const [params] = useSearchParams();
   const linkedInscription = params.get('inscription')?.trim() || null;
   const linkedSampleId = params.get('sample');
