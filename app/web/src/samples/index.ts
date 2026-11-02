@@ -168,17 +168,14 @@ export const learnHref = (s: Sample) =>
 /**
  * The sample named by `?sample=<id>` on /restore, as the text and script the restore form should start with
  * (null with no `?sample=`, an unknown id, or while the samples load).
- * Tamil is the default script, as for a learner; English readers get the ISO-15919 transliteration.
+ * Tamil script in both UI languages (user feedback: Tamil first); the page shows the English-letter form under it.
  */
-export function useRestoreSample(lang: 'ta' | 'en'): { sample: Sample; text: string; script: 'tamil' | 'iso15919' } | null {
+export function useRestoreSample(): { sample: Sample; text: string; script: 'tamil' | 'iso15919' } | null {
   const [params] = useSearchParams();
   const id = params.get('sample');
   const samples = useSamples(id != null);
   return useMemo(() => {
     const sample = sampleById(samples, id);
-    if (!sample) return null;
-    return lang === 'ta'
-      ? { sample, text: sample.text_tamil, script: 'tamil' as const }
-      : { sample, text: sample.text_iso, script: 'iso15919' as const };
-  }, [samples, id, lang]);
+    return sample ? { sample, text: sample.text_tamil, script: 'tamil' as const } : null;
+  }, [samples, id]);
 }

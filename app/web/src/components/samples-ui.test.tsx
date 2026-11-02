@@ -37,7 +37,13 @@ describe('SampleGallery', () => {
     expect(within(card).getByText(s.title_ta)).toBeInTheDocument();
     expect(within(card).getByText(s.why_en)).toBeInTheDocument();
     expect(within(card).getByText(`Edition: ${s.edition_title}`)).toBeInTheDocument();
-    expect(card.querySelectorAll('mark.lacuna')).toHaveLength(s.gaps);
+    // Tamil script first, then the same passage in English letters, each with its gaps drawn as lacunae.
+    const passage = within(card).getByTestId(`sample-passage-${s.id}`);
+    expect(passage.querySelector('.biscript-ta [lang="ta"]')).not.toBeNull();
+    expect(passage.querySelector('.biscript-iso')).toHaveTextContent(/^In English letters:/);
+    expect(passage.querySelector('.biscript-ta')!.querySelectorAll('mark.lacuna')).toHaveLength(s.gaps);
+    expect(passage.querySelector('.biscript-iso')!.querySelectorAll('mark.lacuna')).toHaveLength(s.gaps);
+    expect(passage.querySelector('mark.lacuna')).toHaveTextContent(/about \d+ letters? missing|number not known/);
     expect(within(card).getByRole('link', { name: 'CC BY-SA 4.0' })).toHaveAttribute('href', s.licence_url);
     expect(within(card).getByRole('link', { name: /DHARMA/ })).toHaveAttribute('href', s.dharma_url);
     expect(within(card).getByRole('link', { name: 'Restore this' })).toHaveAttribute('href', restoreHref(s));
@@ -62,7 +68,11 @@ describe('SampleGallery', () => {
     const card = await screen.findByTestId(`sample-${s.id}`);
     expect(within(card).getByText(s.why_ta)).toBeInTheDocument();
     expect(within(card).getByText(s.place_ta)).toBeInTheDocument();
-    expect(card.querySelector('.sample-text')?.textContent).toBe(s.text_tamil);
+    // The Tamil passage, with each [?N] read out in words instead of the raw marker.
+    const shown = card.querySelector('.biscript-ta')!;
+    expect(shown.textContent).toContain(s.text_tamil.split('[?')[0]!.slice(-20));
+    expect(shown.querySelector('mark.lacuna')?.getAttribute('data-raw')).toMatch(/^\[\?\d*\]$/);
+    expect(card.querySelector('.biscript-iso')).toHaveTextContent(/^ஆங்கில எழுத்துகளில்:/);
   });
 });
 
@@ -203,7 +213,11 @@ describe('sample links', () => {
   it('/restore?sample= starts the form with that passage and credits it', async () => {
     const s = SAMPLES[2]!;
     renderApp(<RestorePage />, { lang: 'en', route: restoreHref(s) });
-    await waitFor(() => expect(screen.getByTestId('restore-input')).toHaveValue(s.text_iso));
+    // Tamil script in the box in both UI languages, with the English-letter form under it.
+    await waitFor(() => expect(screen.getByTestId('restore-input')).toHaveValue(s.text_tamil));
+    expect(screen.getByTestId('input-preview')).toHaveTextContent(/^How it is written in English letters/);
+    expect(screen.getByTestId('input-preview').querySelectorAll('mark.lacuna')).toHaveLength(s.gaps);
+    expect(screen.getByTestId('restore-sample-about')).toHaveTextContent(s.why_en);
     expect(screen.getByTestId('gap-count')).toHaveTextContent(`${s.gaps} ${s.gaps === 1 ? 'gap found' : 'gaps found'}`);
     expect(screen.getByTestId('restore-sample-source')).toHaveTextContent(s.title_en);
   });
@@ -218,7 +232,7 @@ describe('sample links', () => {
     const s = SAMPLES[2]!;
     renderApp(<RestorePage />, { lang: 'en', route: restoreHref(s) });
     const input = screen.getByTestId('restore-input');
-    await waitFor(() => expect(input).toHaveValue(s.text_iso));
+    await waitFor(() => expect(input).toHaveValue(s.text_tamil));
     await userEvent.clear(input);
     await userEvent.type(input, 'ka [[?2] ma'); // '[[' types a literal '['
     expect(input).toHaveValue('ka [?2] ma');
@@ -230,7 +244,7 @@ describe('sample links', () => {
     for (const outcome of ['match', 'open'] as const) {
       const s = SAMPLES.find((x) => x.group === 'masked' && x.recorded!.gaps[0]!.outcome === outcome)!;
       const { unmount } = renderApp(<RestorePage />, { lang: 'en', route: restoreHref(s) });
-      await waitFor(() => expect(screen.getByTestId('restore-input')).toHaveValue(s.text_iso));
+      await waitFor(() => expect(screen.getByTestId('restore-input')).toHaveValue(s.text_tamil));
       await userEvent.click(screen.getByTestId('restore-submit'));
       const reveal = await screen.findByTestId('edition-reveal');
       expect(reveal).toHaveAttribute('data-state', outcome);
@@ -265,7 +279,7 @@ describe('sample links', () => {
     const s = SAMPLES.find((x) => x.group === 'unsolved')!;
     renderApp(<RestorePage />, { lang: 'en', route: restoreHref(s) });
     const input = screen.getByTestId('restore-input');
-    await waitFor(() => expect(input).toHaveValue(s.text_iso));
+    await waitFor(() => expect(input).toHaveValue(s.text_tamil));
     await userEvent.click(screen.getByTestId('restore-submit'));
     const reveal = await screen.findByTestId('edition-reveal');
     expect(reveal).toHaveAttribute('data-state', 'unsolved');
@@ -280,5 +294,98 @@ describe('sample links', () => {
     renderApp(<LearnPage />, { lang: 'en', route: learnHref(s) });
     expect(await screen.findByRole('heading', { level: 1, name: s.edition_title })).toBeInTheDocument();
     expect(screen.getByTestId('lesson-source')).toHaveTextContent('CC BY-SA 4.0');
+  });
+});
+
+describe('plain-language Restore (user feedback 2026-11-02)', () => {
+  const gold = () => SAMPLES.find((x) => x.id === 'tiruvavaduturai-taxes-paid-in-gold')!;
+  const before = (a: Element, b: Element) => expect(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+
+  it('explains the steps before the first run, keeps the options under "Advanced options", then leads with one plain sentence', async () => {
+    const s = gold();
+    renderApp(<RestorePage />, { lang: 'en', route: restoreHref(s) });
+    await waitFor(() => expect(screen.getByTestId('restore-input')).toHaveValue(s.text_tamil));
+    const how = screen.getByTestId('restore-how');
+    expect(how).toHaveAttribute('open');
+    expect(within(how).getAllByRole('listitem')).toHaveLength(4);
+    expect(how).toHaveTextContent('Strands Decider fills a gap only when the system is confident enough');
+    expect(how).toHaveTextContent('[?3] means about 3 letters');
+    expect(screen.getByTestId('restore-advanced')).not.toHaveAttribute('open');
+    expect(screen.getByTestId('restore-script')).toHaveValue('auto');
+    expect(screen.getByTestId('restore-script')).toHaveTextContent('Detect from the text (Tamil script)');
+    expect(screen.getByTestId('restore-submit')).toHaveTextContent('Restore missing letters');
+
+    await userEvent.click(screen.getByTestId('restore-submit'));
+    const result = await screen.findByTestId('restore-result');
+    expect(screen.getByTestId('restore-summary')).toHaveTextContent('1 letter was missing. We filled it with ப் (p), 96% confident.');
+    expect(screen.getByTestId('restore-how')).not.toHaveAttribute('open');
+    const ta = screen.getByTestId('restored-tamil');
+    expect(ta).toHaveAttribute('lang', 'ta');
+    expect(ta.querySelector('.fill')).toHaveTextContent('ப்');
+    expect(ta.textContent).toContain('வரிப்பாடும்');
+    const iso = screen.getByTestId('restored-iso');
+    expect(iso).toHaveTextContent('How it is written in English letters');
+    expect(iso.querySelector('.fill')).toHaveTextContent(/^p$/);
+    // Summary, then the line, then the edition comparison, then the other options.
+    before(screen.getByTestId('restore-summary'), ta);
+    before(ta, screen.getByTestId('edition-reveal'));
+    before(screen.getByTestId('edition-reveal'), screen.getByTestId('gap-0'));
+    const options = screen.getByTestId('options-0');
+    expect(options).not.toHaveAttribute('open');
+    expect(within(options).getByText(/^Other options considered/)).toHaveTextContent('Other options considered (5)');
+    expect(within(options).getAllByTestId('cand-source').map((e) => e.textContent)).toEqual(
+      expect.arrayContaining(['AI proposal', 'Found in similar inscriptions']),
+    );
+    expect(options).toHaveTextContent('Related terms:');
+    // Raw model ids live only under "Technical details".
+    const tech = screen.getByTestId('restore-tech');
+    expect(tech).not.toHaveAttribute('open');
+    expect(tech).toHaveTextContent('us.anthropic.claude-sonnet-4-6');
+    const outside = result.textContent!.replace(tech.textContent!, '');
+    expect(outside).not.toMatch(/sonnet|opus|retrieval|us\.anthropic|Latency/);
+    expect(result.textContent).not.toMatch(/\bcorrect\b|experimental/i);
+  });
+
+  it('says the same in Tamil', async () => {
+    const s = gold();
+    renderApp(<RestorePage />, { lang: 'ta', route: restoreHref(s) });
+    await waitFor(() => expect(screen.getByTestId('restore-input')).toHaveValue(s.text_tamil));
+    expect(screen.getByTestId('restore-how')).toHaveTextContent('“விடுபட்ட எழுத்துகளை மீட்டமை” அழுத்தினால் என்ன நடக்கும்');
+    expect(screen.getByTestId('restore-advanced')).toHaveTextContent('கூடுதல் அமைப்புகள்');
+    await userEvent.click(screen.getByTestId('restore-submit'));
+    expect(await screen.findByTestId('restore-summary')).toHaveTextContent('1 எழுத்து விடுபட்டிருந்தது. ப் (p) என்று நிரப்பினோம்; உறுதி 96%.');
+    expect(screen.getByTestId('restored-iso')).toHaveTextContent('ஆங்கில எழுத்துகளில் எழுதினால் (ISO-15919)');
+    expect(within(screen.getByTestId('options-0')).getAllByTestId('cand-source')[0]).toHaveTextContent('AI பரிந்துரை');
+  });
+
+  it('an open gap: says it was left for an expert, in plain words', async () => {
+    const s = SAMPLES.find((x) => x.group === 'masked' && x.recorded!.gaps[0]!.outcome === 'open')!;
+    renderApp(<RestorePage />, { lang: 'en', route: restoreHref(s) });
+    await waitFor(() => expect(screen.getByTestId('restore-input')).toHaveValue(s.text_tamil));
+    await userEvent.click(screen.getByTestId('restore-submit'));
+    expect(await screen.findByTestId('restore-summary')).toHaveTextContent(
+      'We weren’t confident enough, so we left it open for an expert. The best options are below.',
+    );
+    expect(screen.getByTestId('restored-tamil').querySelector('mark.unsure')).not.toBeNull();
+    expect(within(screen.getByTestId('options-0')).getByText(/^Show the options anyway/)).toBeInTheDocument();
+  });
+
+  it('typed English letters: picks the script, previews Tamil, and highlights whole Tamil letters it filled', async () => {
+    renderApp(<RestorePage />, { lang: 'en', route: '/restore' });
+    await userEvent.click(screen.getByTestId('read-tab-type'));
+    const input = screen.getByTestId('restore-input');
+    await userEvent.type(input, 'svasti śrī kōp[[?4]kēcaripaṉmaṟku yāṇṭu [[?] āvatu');
+    expect(screen.getByTestId('restore-script')).toHaveTextContent('Detect from the text (English letters (ISO-15919))');
+    expect(screen.getByTestId('input-preview')).toHaveTextContent(/^In Tamil script/);
+    expect(screen.getByTestId('input-preview')).toHaveTextContent('ஸ்வஸ்தி ஶ்ரீ கோப்');
+    await userEvent.click(screen.getByTestId('restore-submit'));
+    expect(await screen.findByTestId('restore-summary')).toHaveTextContent(
+      'Letters were missing in 2 places. We filled 1 and left 1 open for an expert, because we weren’t confident enough there.',
+    );
+    const ta = screen.getByTestId('restored-tamil');
+    expect(ta.querySelector('.fill')).toHaveTextContent('பர');
+    expect(ta.textContent).toContain('கோப்பரகேசரி');
+    expect(ta.querySelectorAll('mark.unsure')).toHaveLength(1);
+    expect(screen.getByTestId('restored-iso').querySelector('.fill')).toHaveTextContent('para');
   });
 });

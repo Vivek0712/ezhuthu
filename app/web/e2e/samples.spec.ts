@@ -21,11 +21,30 @@ test.describe('try-it samples', () => {
     await expect(card.getByText(chola.why_en)).toBeVisible();
     await card.getByRole('link', { name: 'Restore this' }).click();
     await expect(page).toHaveURL(new RegExp(`/restore\\?sample=${chola.id}$`));
-    await expect(page.getByTestId('restore-input')).toHaveValue(chola.text_iso);
+    // Tamil script first, with the English-letter form under it, and the steps explained before the first run.
+    await expect(page.getByTestId('restore-input')).toHaveValue(chola.text_tamil);
+    await expect(page.getByTestId('input-preview')).toContainText('How it is written in English letters');
     await expect(page.getByTestId('gap-count')).toContainText(String(chola.gaps));
     await expect(page.getByTestId('restore-sample-source')).toContainText(chola.title_en);
+    await expect(page.getByTestId('restore-sample-about')).toContainText(chola.why_en);
+    await expect(page.getByTestId('restore-how').getByRole('listitem')).toHaveCount(4);
+    await expect(page.getByTestId('restore-how').getByRole('listitem').nth(2)).toBeVisible();
+    // The technical options are folded away under "Advanced options".
+    await expect(page.getByTestId('restore-script')).toBeHidden();
+    await page.getByTestId('restore-advanced').locator('summary').click();
+    await expect(page.getByTestId('restore-script')).toBeVisible();
     await page.getByTestId('restore-submit').click();
+    await expect(page.getByRole('button', { name: 'Restore missing letters' })).toBeVisible();
     await expect(page.getByTestId('restore-result')).toBeVisible();
+    // One plain sentence first, then the line in Tamil with the English letters under it; the explainer folds away.
+    await expect(page.getByTestId('restore-summary')).toContainText(chola.gaps === 1 ? /letters? (was|were) missing/ : /missing in \d+ places/);
+    await expect(page.getByTestId('restored-tamil')).toBeVisible();
+    await expect(page.getByTestId('restored-iso')).toContainText('How it is written in English letters');
+    await expect(page.getByTestId('restore-how').getByRole('listitem').first()).toBeHidden();
+    // Model ids only under "Technical details"; candidates carry plain labels.
+    await expect(page.getByTestId('restore-result').getByText(/us\.anthropic/)).toBeHidden();
+    await page.getByTestId('options-0').locator('summary').first().click();
+    await expect(page.getByTestId('options-0').getByTestId('cand-source').first()).toHaveText(/AI proposal|Found in similar inscriptions/);
     await expect(page.locator('[data-testid^="gap-"]').filter({ has: page.locator('h3') })).toHaveCount(chola.gaps);
     await expect(page.getByTestId('restore-credit')).toContainText('CC BY-SA 4.0');
     // A masked sample: after the result, what the published edition reads and how the replayed live answer compares.
@@ -74,6 +93,11 @@ test.describe('try-it samples', () => {
     const s = samples.find((x) => x.era === 'pandya')!;
     await page.getByTestId(`restore-${s.id}`).click();
     await expect(page.getByTestId('restore-input')).toHaveValue(s.text_tamil);
+    await expect(page.getByTestId('restore-how')).toContainText('அழுத்தினால் என்ன நடக்கும்');
+    await page.getByTestId('restore-submit').click();
+    await expect(page.getByTestId('restore-summary')).toContainText('விடுபட்டிருந்த');
+    await expect(page.getByTestId('restored-iso')).toContainText('ஆங்கில எழுத்துகளில்');
+    await expectNoHorizontalScroll(page);
   });
 
   test('the upload call to action says what it does and lands on a form the reader can use', async ({ page }) => {

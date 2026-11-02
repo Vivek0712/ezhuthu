@@ -19,20 +19,51 @@ export function excerptAroundGap(text: string, width = 230): string {
   return `${start > 0 ? '… ' : ''}${text.slice(start, end).trim()}${end < text.length ? ' …' : ''}`;
 }
 
-/** Inscription text with its gap markers drawn as lacunae (still read out as "[?N]" to screen readers). */
+/** Plain words for a gap marker: "about 3 letters missing". */
+export function useGapLabel() {
+  const { t } = useI18n();
+  return (chars: number | null) =>
+    chars == null ? t('gap.missingUnknown') : chars === 1 ? t('gap.missing1') : t('gap.missingN').replace('{n}', String(chars));
+}
+
+/**
+ * One lacuna drawn as a dashed box with a "?" per lost letter (at most 6; "…?…" when the number is unknown), so it
+ * reads the same in Tamil script and in English letters. Screen readers hear "about N letters missing".
+ */
+export function Lacuna({ chars, raw, className = 'lacuna' }: { chars: number | null; raw: string; className?: string }) {
+  const label = useGapLabel()(chars);
+  return (
+    <mark className={className} title={`${raw} · ${label}`} data-raw={raw}>
+      <span aria-hidden="true">{chars == null ? '…?…' : '?'.repeat(Math.min(chars, 6))}</span>
+      <span className="visually-hidden">[{label}]</span>
+    </mark>
+  );
+}
+
+/** Inscription text with its gap markers drawn as lacunae. */
 export function GappedText({ text, lang }: { text: string; lang?: string }) {
   return (
     <span lang={lang}>
-      {parseGaps(text).map((s, i) =>
-        s.kind === 'text' ? (
-          <span key={i}>{s.text}</span>
-        ) : (
-          <mark key={i} className="lacuna" title={s.raw}>
-            {s.raw}
-          </mark>
-        ),
-      )}
+      {parseGaps(text).map((s, i) => (s.kind === 'text' ? <span key={i}>{s.text}</span> : <Lacuna key={i} chars={s.chars} raw={s.raw} />))}
     </span>
+  );
+}
+
+/**
+ * A passage in Tamil script first, with the same passage in English letters (ISO-15919) under it, labelled in
+ * plain words. Used by the gallery cards.
+ */
+export function BiscriptText({ tamil, iso, testId }: { tamil: string; iso: string; testId?: string }) {
+  const { t } = useI18n();
+  return (
+    <div className="biscript" data-testid={testId}>
+      <p className="sample-text biscript-ta">
+        <GappedText text={tamil} lang="ta" />
+      </p>
+      <p className="biscript-iso">
+        <span className="biscript-label">{t('samples.inEnglish')}:</span> <GappedText text={iso} lang="ta-Latn" />
+      </p>
+    </div>
   );
 }
 
@@ -64,9 +95,7 @@ function SampleCard({ s, i }: { s: Sample; i: number }) {
       <p className="sample-edition" lang="en">
         {t('samples.edition')}: {s.edition_title}
       </p>
-      <p className="sample-text">
-        <GappedText text={excerptAroundGap(ta ? s.text_tamil : s.text_iso)} lang={ta ? 'ta' : 'ta-Latn'} />
-      </p>
+      <BiscriptText tamil={excerptAroundGap(s.text_tamil, 120)} iso={excerptAroundGap(s.text_iso, 130)} testId={`sample-passage-${s.id}`} />
       <p className="sample-why">{ta ? s.why_ta : s.why_en}</p>
       <p className="sample-credit">
         <a href={s.dharma_url} target="_blank" rel="noreferrer">
@@ -130,6 +159,9 @@ export function SampleGallery({ samples: given }: { samples?: Sample[] }) {
       <p className="kicker">{t('samples.kicker')}</p>
       <h2 id="samples-title" tabIndex={-1}>{t('samples.title')}</h2>
       <p className="lede">{t('samples.lede')}</p>
+      <p className="hint-text" data-testid="samples-legend">
+        <Lacuna chars={1} raw="[?1]" /> {t('samples.legend')}
+      </p>
       <div className="era-filter" role="group" aria-label={t('samples.filter')}>
         {(['all', ...eras] as const).map((e) => (
           <button
