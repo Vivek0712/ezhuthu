@@ -1230,5 +1230,323 @@
   "eligible_to_replace_deployed": true,
   "deployed_default_changed": false,
   "date": "2026-11-02T12:41:59+00:00"
+ },
+ "test": {
+  "chosen": "ft2b-choice3",
+  "variants": {
+   "base2b-choice3": {
+    "label": "base 2B v1-2610, choice-topk:3",
+    "n": 413,
+    "top1": 0.5811,
+    "top1_ci": [
+     0.5327,
+     0.6295
+    ],
+    "top20": 0.799,
+    "top20_ci": [
+     0.7603,
+     0.8354
+    ],
+    "cer": 0.4076,
+    "cer_clipped": 0.3402,
+    "cer_clipped_ci": [
+     0.2988,
+     0.3836
+    ],
+    "cer_median": 0.0,
+    "ece": 0.4221,
+    "coverage": 0.0024,
+    "coverage_ci": [
+     0.0,
+     0.0073
+    ],
+    "selective_accuracy": 1.0,
+    "filled": 1,
+    "filled_matching": 1,
+    "errors": 0,
+    "top1_matching": 240,
+    "hard": {
+     "n": 317,
+     "top1": 0.5016,
+     "top1_ci": [
+      0.4479,
+      0.5552
+     ],
+     "top20": 0.7413,
+     "top20_ci": [
+      0.694,
+      0.7886
+     ],
+     "cer": 0.496,
+     "cer_clipped": 0.412,
+     "cer_clipped_ci": [
+      0.3635,
+      0.4607
+     ],
+     "cer_median": 0.0,
+     "ece": 0.3539,
+     "coverage": 0.0,
+     "coverage_ci": [
+      0.0,
+      0.0
+     ],
+     "selective_accuracy": null,
+     "filled": 0,
+     "filled_matching": 0,
+     "errors": 0
+    },
+    "decider_fallback_rows": 0,
+    "llm_budget_refusals": 0,
+    "llm_live_calls": 0,
+    "calibration_keys": [
+     "strands-decider-2B-qwen3.5-v1-2610|choice-topk|k3|llm-sonnet"
+    ],
+    "vs_chosen": {
+     "full": {
+      "only_a": 41,
+      "only_b": 11,
+      "both": 229,
+      "p_mcnemar": 3.6e-05
+     },
+     "hard": {
+      "only_a": 38,
+      "only_b": 8,
+      "both": 151,
+      "p_mcnemar": 9e-06
+     }
+    }
+   },
+   "ft2b-choice3": {
+    "label": "fine-tuned 2B, choice-topk:3",
+    "n": 413,
+    "top1": 0.6538,
+    "top1_ci": [
+     0.6077,
+     0.6973
+    ],
+    "top20": 0.799,
+    "top20_ci": [
+     0.7603,
+     0.8354
+    ],
+    "cer": 0.3051,
+    "cer_clipped": 0.2715,
+    "cer_clipped_ci": [
+     0.2342,
+     0.3111
+    ],
+    "cer_median": 0.0,
+    "ece": 0.0698,
+    "coverage": 0.5763,
+    "coverage_ci": [
+     0.5254,
+     0.6223
+    ],
+    "selective_accuracy": 0.9202,
+    "filled": 238,
+    "filled_matching": 219,
+    "errors": 0,
+    "top1_matching": 270,
+    "hard": {
+     "n": 317,
+     "top1": 0.5962,
+     "top1_ci": [
+      0.5426,
+      0.6498
+     ],
+     "top20": 0.7413,
+     "top20_ci": [
+      0.694,
+      0.7886
+     ],
+     "cer": 0.3662,
+     "cer_clipped": 0.3224,
+     "cer_clipped_ci": [
+      0.2755,
+      0.3706
+     ],
+     "cer_median": 0.0,
+     "ece": 0.0748,
+     "coverage": 0.511,
+     "coverage_ci": [
+      0.4606,
+      0.5678
+     ],
+     "selective_accuracy": 0.9012,
+     "filled": 162,
+     "filled_matching": 146,
+     "errors": 0
+    },
+    "decider_fallback_rows": 0,
+    "llm_budget_refusals": 0,
+    "llm_live_calls": 0,
+    "calibration_keys": [
+     "ezhuthu-strands-2b-ft|choice-topk|k3|llm-sonnet"
+    ],
+    "vs_chosen": null
+   },
+   "hybrid-prerank": {
+    "label": "deployed: pre-rank with the 5-gram term (no decider)",
+    "n": 413,
+    "top1": 0.5908,
+    "top1_ci": [
+     0.5424,
+     0.6392
+    ],
+    "top20": 0.799,
+    "top20_ci": [
+     0.7603,
+     0.8354
+    ],
+    "cer": 0.3631,
+    "cer_clipped": 0.3314,
+    "cer_clipped_ci": [
+     0.2898,
+     0.3738
+    ],
+    "cer_median": 0.0,
+    "ece": 0.1245,
+    "coverage": 0.4939,
+    "coverage_ci": [
+     0.4431,
+     0.54
+    ],
+    "selective_accuracy": 0.9167,
+    "filled": 204,
+    "filled_matching": 187,
+    "errors": 0,
+    "top1_matching": 244,
+    "hard": {
+     "n": 317,
+     "top1": 0.5363,
+     "top1_ci": [
+      0.4795,
+      0.5931
+     ],
+     "top20": 0.7413,
+     "top20_ci": [
+      0.694,
+      0.7886
+     ],
+     "cer": 0.4175,
+     "cer_clipped": 0.3829,
+     "cer_clipped_ci": [
+      0.3339,
+      0.4342
+     ],
+     "cer_median": 0.0,
+     "ece": 0.1473,
+     "coverage": 0.4038,
+     "coverage_ci": [
+      0.3502,
+      0.4574
+     ],
+     "selective_accuracy": 0.9141,
+     "filled": 128,
+     "filled_matching": 117,
+     "errors": 0
+    },
+    "decider_fallback_rows": 0,
+    "llm_budget_refusals": 0,
+    "llm_live_calls": 0,
+    "calibration_keys": [
+     "prerank-ngram|prerank|kall|llm-sonnet"
+    ],
+    "vs_chosen": {
+     "full": {
+      "only_a": 32,
+      "only_b": 6,
+      "both": 238,
+      "p_mcnemar": 2.4e-05
+     },
+     "hard": {
+      "only_a": 24,
+      "only_b": 5,
+      "both": 165,
+      "p_mcnemar": 0.000546
+     }
+    }
+   },
+   "selfreport": {
+    "label": "Sonnet/Opus self-confidence (no decider)",
+    "n": 413,
+    "top1": 0.3874,
+    "top1_ci": [
+     0.3414,
+     0.4334
+    ],
+    "top20": 0.799,
+    "top20_ci": [
+     0.7603,
+     0.8354
+    ],
+    "cer": 0.8276,
+    "cer_clipped": 0.528,
+    "cer_clipped_ci": [
+     0.4864,
+     0.572
+    ],
+    "cer_median": 0.6,
+    "ece": 0.27,
+    "coverage": 0.7554,
+    "coverage_ci": [
+     0.7143,
+     0.7966
+    ],
+    "selective_accuracy": 0.5,
+    "filled": 312,
+    "filled_matching": 156,
+    "errors": 0,
+    "top1_matching": 160,
+    "hard": {
+     "n": 317,
+     "top1": 0.2934,
+     "top1_ci": [
+      0.2461,
+      0.3438
+     ],
+     "top20": 0.7413,
+     "top20_ci": [
+      0.694,
+      0.7886
+     ],
+     "cer": 1.0026,
+     "cer_clipped": 0.6202,
+     "cer_clipped_ci": [
+      0.5702,
+      0.6669
+     ],
+     "cer_median": 0.8667,
+     "ece": 0.3048,
+     "coverage": 0.6845,
+     "coverage_ci": [
+      0.6341,
+      0.735
+     ],
+     "selective_accuracy": 0.4147,
+     "filled": 217,
+     "filled_matching": 90,
+     "errors": 0
+    },
+    "decider_fallback_rows": 0,
+    "llm_budget_refusals": 0,
+    "llm_live_calls": 0,
+    "calibration_keys": [],
+    "vs_chosen": {
+     "full": {
+      "only_a": 116,
+      "only_b": 6,
+      "both": 154,
+      "p_mcnemar": 0.0
+     },
+     "hard": {
+      "only_a": 99,
+      "only_b": 3,
+      "both": 90,
+      "p_mcnemar": 0.0
+     }
+    }
+   }
+  }
  }
 }

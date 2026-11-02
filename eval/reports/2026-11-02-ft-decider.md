@@ -181,8 +181,9 @@ $PY training/ft-decider/http_score.py http://127.0.0.1:8791 out.jsonl $F/data/va
 
 ## Next
 
-1. Score TEST once (`test.*` and `test-bench60.*`) with the frozen checkpoint and temperatures, beside hosted v19 and
-   Sonnet on the same rows.
+1. Done: [`2026-11-02-finetuned-decider.md`](2026-11-02-finetuned-decider.md) (restorer-level VAL selection, then
+   TEST scored once: full-TEST top-1 0.547 vs hosted v19 0.431 and Sonnet self-confidence 0.383 on the same requests;
+   the frozen 60-item benchmark 0.400 vs hosted v19 0.450).
 2. Then decide whether the restorer uses this decider (`strategy` choice-topk with top-3) behind the post-#31 restorer.
 3. Optional: E4B on the same recipe (not done: 2B already reaches 87 % of the top-3 ceiling; most of the
    remaining loss is the candidate pool, 0.373 of VAL items).

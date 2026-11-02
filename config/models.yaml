@@ -56,7 +56,9 @@ decider:
     max_options: 24         # decider-cloud rejects a choice with more options (422 invalid_request)
   # Fine-tuned restoration deciders (issue #37, eval/reports/2026-11-02-finetuned-decider.md). DISABLED: not used by
   # the restorer or the cloud runtime (no decider call is made for restoration; see restorer: above). Trained on
-  # TRAIN only; chosen and calibrated on VAL; TEST scored once. Weights live outside git
+  # TRAIN only; chosen and calibrated on VAL; TEST scored once. strands_2b choice-topk:3 beat the deployed ranking on
+  # VAL (112 vs 100 of 280) and on TEST with Sonnet candidates (270 vs 244 of 413), but the cloud runtime cannot serve
+  # a local checkpoint, so the deployed default is unchanged. Calibration: calibration.json ezhuthu-strands-2b-ft|*. Weights live outside git
   # (/Users/vivekrajaps/tamil-script/ezhuthu-ft/), never published. To try one locally:
   #   strands-decider serve <checkpoint> --device mps --port 8791 --model-name ezhuthu-strands-2b-ft
   #   EZHUTHU_DECIDER_BACKEND=local EZHUTHU_DECIDER_URL=http://127.0.0.1:8791 and restorer.strategy_llm: choice-topk
