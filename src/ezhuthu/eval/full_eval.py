@@ -621,9 +621,9 @@ def cmd_warm(args) -> int:
 CONFIG_LABELS = {
     "copy": "Copy baseline (best length-ok parallel)", "ngram": "Character 5-gram baseline",
     "prerank": "Retrieval only, prerank (no LLM, no decider)",
-    "retrieval-default": "Retrieval only, shipped strategy",
-    "sonnet": "Sonnet 4.6 (shipped pipeline, ontology on)", "sonnet-noonto-hinted": "Sonnet 4.6, ontology off (ablation; the 88 hinted gaps)",
-    "routed": "Routed Sonnet 4.6 -> Opus 4.6 (shipped)",
+    "retrieval-default": "Retrieval only, VAL-chosen strategy",
+    "sonnet": "Sonnet 4.6 (VAL-chosen config, local 2B decider, ontology on)", "sonnet-noonto-hinted": "Sonnet 4.6, ontology off (ablation; the 88 hinted gaps)",
+    "routed": "Routed Sonnet 4.6 -> Opus 4.6 (VAL-chosen config, local 2B decider)",
     "sonnet-prerank": "Sonnet 4.6 candidates, prerank instead of the decider",
     "routed-prerank": "Routed, prerank instead of the decider", "opus-sample100": "Opus 4.6 only (seeded 100-item sample)",
 }
