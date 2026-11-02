@@ -25,7 +25,9 @@ Leakage rules (benchmark/DATA_CARD.md "Leakage"):
 3. A train item whose 40-letter context window (20 letters each side, :func:`context_window`) has normalised edit
    similarity >= ``--dup-threshold`` (0.9) with any VAL/TEST item's window is dropped (formulaic near-duplicates),
    and so is one whose window sits inside a VAL/TEST item's context with ``partial_ratio`` >= 90 (the same formula
-   gapped at another point, which the window rule misses); both counts are recorded.
+   gapped at another point, which the window rule misses); both counts are recorded. The reverse direction (a
+   VAL/TEST window inside a train item's context) is counted in ``build_meta.json`` (``reverse_direction``) and
+   dropped only with ``--symmetric-dups``; ``audit-dups`` adds the count to an existing build.
 
 Gap lengths are Tamil letters (aksharas, ``gap_chars``) throughout. The length check, copy floor, n-gram length
 and LLM prompt count letters only in a restorer with the PR #31 fix (``restorer.length_ok``); ``build`` refuses an
@@ -121,7 +123,7 @@ def context_window(left: str, right: str, n: int = WINDOW_LETTERS) -> str:
 
 def near_duplicates(train: Sequence[BenchmarkItem], held_out: Sequence[BenchmarkItem], *,
                     threshold: float = DUP_THRESHOLD, partial_threshold: float | None = PARTIAL_THRESHOLD,
-                    n: int = WINDOW_LETTERS) -> dict[str, dict[str, Any]]:
+                    n: int = WINDOW_LETTERS, symmetric: bool = False) -> dict[str, dict[str, Any]]:
     """Train items that are formulaic near-duplicates of a VAL/TEST item: ``{train id: {match, split, similarity,
     rule}}`` (best match).
 
@@ -131,6 +133,9 @@ def near_duplicates(train: Sequence[BenchmarkItem], held_out: Sequence[Benchmark
       The window rule misses one formula gapped at different points (a gap moved by five letters shifts both
       windows); this is the hard flag's measure (DATA_CARD "How the hard set is defined") and does not care where
       the gap sits.
+    * ``reverse`` (only with ``symmetric=True`` and a ``partial_threshold``): the other direction, a VAL/TEST
+      item's window inside the train item's whole context (:func:`reverse_near_duplicates`). The data of issue #37
+      was built without it (``symmetric=False``); its reverse-direction count is recorded by ``audit-dups``.
     """
     if not train or not held_out:
         return {}
@@ -157,6 +162,59 @@ def near_duplicates(train: Sequence[BenchmarkItem], held_out: Sequence[Benchmark
             if s * 100.0 >= partial_threshold:
                 out[it.id] = {"match": held_out[j].id, "split": held_out[j].split, "similarity": round(s, 4),
                               "rule": "partial"}
+    if symmetric and partial_threshold is not None:
+        for k, v in reverse_near_duplicates([it for it in train if it.id not in out], held_out,
+                                            partial_threshold=partial_threshold, n=n).items():
+            out[k] = {"match": v["match"], "split": v["split"], "similarity": v["similarity"], "rule": "reverse"}
+    return out
+
+
+def reverse_near_duplicates(train: Sequence[BenchmarkItem], held_out: Sequence[BenchmarkItem], *,
+                            partial_threshold: float = PARTIAL_THRESHOLD,
+                            n: int = WINDOW_LETTERS) -> dict[str, dict[str, Any]]:
+    """The reverse direction of the ``partial`` rule: a VAL/TEST item's 40-letter window (without the gap mark)
+    scores ``partial_ratio`` >= ``partial_threshold`` inside a train item's whole context (letters only).
+    ``{train id: {match, split, similarity, matches, same_target}}``: the best match, every held-out item over the
+    threshold, and whether any of them has the train item's target (under ``canon``)."""
+    if not train or not held_out:
+        return {}
+    from rapidfuzz import fuzz, process
+
+    hw = [context_window(it.left, it.right, n).replace("|", "") for it in held_out]
+    tl = [normalise_for_scoring(it.left) + normalise_for_scoring(it.right) for it in train]
+    part = process.cdist(tl, hw, scorer=fuzz.partial_ratio, workers=-1)
+    out: dict[str, dict[str, Any]] = {}
+    for i, it in enumerate(train):
+        hits = [j for j in range(len(held_out)) if float(part[i][j]) >= partial_threshold]
+        if not hits:
+            continue
+        j = max(hits, key=lambda k: float(part[i][k]))
+        out[it.id] = {"match": held_out[j].id, "split": held_out[j].split,
+                      "similarity": round(float(part[i][j]) / 100.0, 4),
+                      "matches": [held_out[k].id for k in hits],
+                      "same_target": any(canon(held_out[k].target) == canon(it.target) for k in hits)}
+    return out
+
+
+def reverse_audit(train: Sequence[BenchmarkItem], held_out: Sequence[BenchmarkItem], *,
+                  thresholds: Sequence[float] = (90.0, 85.0, 80.0), n: int = WINDOW_LETTERS) -> dict[str, Any]:
+    """Reverse-direction counts over the *kept* train items (``train`` already filtered), per threshold: kept
+    train items hit, distinct held-out items they tie to (by split), and (train, held-out) pairs sharing the
+    target."""
+    out: dict[str, Any] = {"direction": "held-out 40-letter window inside a kept train item's context "
+                           "(rapidfuzz partial_ratio)", "kept_train_items": len(train)}
+    split_of = {it.id: it.split for it in held_out}
+    target_of = {it.id: canon(it.target) for it in held_out}
+    tr_target = {it.id: canon(it.target) for it in train}
+    for t in sorted(thresholds, reverse=True):
+        hits = reverse_near_duplicates(train, held_out, partial_threshold=t, n=n)
+        held = {h for v in hits.values() for h in v["matches"]}
+        pairs = [(k, h) for k, v in hits.items() for h in v["matches"]]
+        out[f"partial_ratio>={t:g}"] = {
+            "kept_train_items": len(hits), "heldout_items": len(held),
+            "heldout_by_split": dict(sorted(Counter(split_of[h] for h in held).items())), "pairs": len(pairs),
+            "pairs_same_target": sum(1 for k, h in pairs if tr_target[k] == target_of[h]),
+        }
     return out
 
 
@@ -582,7 +640,8 @@ def build(args: argparse.Namespace) -> int:
     if args.split == "train":
         held = load_items("val", src=src) + load_items("test", src=src)
         dropped = near_duplicates(items, held, threshold=args.dup_threshold,
-                                  partial_threshold=None if args.no_partial_dups else args.partial_threshold)
+                                  partial_threshold=None if args.no_partial_dups else args.partial_threshold,
+                                  symmetric=args.symmetric_dups)
         (out_dir / "dropped_near_duplicates.json").write_text(json.dumps(dropped, indent=1, ensure_ascii=False))
         groups = edition_groups({k: v for k, v in insc.items() if v.get("split") == "train"})
         folds = assign_folds([k for k, v in insc.items() if v.get("split") == "train"], groups, args.folds,
@@ -591,8 +650,10 @@ def build(args: argparse.Namespace) -> int:
                 "dropped_by_rule": dict(Counter(v["rule"] for v in dropped.values())),
                 "dropped_by_heldout_split": dict(Counter(v["split"] for v in dropped.values())),
                 "dup_threshold": args.dup_threshold, "partial_threshold": None if args.no_partial_dups
-                else args.partial_threshold, "window_letters": 2 * WINDOW_LETTERS, "folds": args.folds}
+                else args.partial_threshold, "window_letters": 2 * WINDOW_LETTERS, "folds": args.folds,
+                "symmetric_dups": args.symmetric_dups}
         items = [it for it in items if it.id not in dropped]
+        meta["reverse_direction"] = reverse_audit(items, held)
     if args.limit:
         items = items[: args.limit]
     planned = plan_llm([it.id for it in items], None if args.llm == "all" else int(args.llm), args.seed)
@@ -674,6 +735,36 @@ def build(args: argparse.Namespace) -> int:
     return 0
 
 
+def audit_dups(out_dir: Path, thresholds: Sequence[float]) -> int:
+    """Add the reverse-direction audit to ``build_meta.json`` ``train`` for a build made before it existed. The
+    kept train items are the train split minus ``dropped_near_duplicates.json``; nothing else is rewritten (the
+    rows, their sha256s and ``manifest.json`` stay as built). Pairs at the highest threshold go to
+    ``reverse_near_duplicates.json``."""
+    from ..agent.data import data_source, load_items
+
+    src = data_source()
+    if src.is_fixture:
+        print(f"benchmark not found (fixtures at {src.path}); run from the repo root", file=sys.stderr)
+        return 2
+    bm = out_dir / "build_meta.json"
+    allmeta = json.loads(bm.read_text())
+    if sha256_file(src.path / "items.train.jsonl") != allmeta["train"]["benchmark_sha256"]["items.train.jsonl"]:
+        print("items.train.jsonl differs from the one the data was built from", file=sys.stderr)
+        return 2
+    dropped = json.loads((out_dir / "dropped_near_duplicates.json").read_text())
+    kept = [it for it in load_items("train", src=src) if it.id not in dropped]
+    held = load_items("val", src=src) + load_items("test", src=src)
+    audit = reverse_audit(kept, held, thresholds=thresholds)
+    audit["at"] = dt.datetime.now(dt.UTC).isoformat(timespec="seconds")
+    audit["note"] = "recorded after the build by audit-dups; not used to drop rows (the rows are as built)"
+    rev = reverse_near_duplicates(kept, held, partial_threshold=max(thresholds))
+    (out_dir / "reverse_near_duplicates.json").write_text(json.dumps(rev, indent=1, ensure_ascii=False))
+    allmeta["train"]["reverse_direction"] = audit
+    bm.write_text(json.dumps(allmeta, indent=1))
+    print(json.dumps(audit, indent=1))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -687,6 +778,8 @@ def main(argv: list[str] | None = None) -> int:
     b.add_argument("--dup-threshold", type=float, default=DUP_THRESHOLD)
     b.add_argument("--partial-threshold", type=float, default=PARTIAL_THRESHOLD)
     b.add_argument("--no-partial-dups", action="store_true", help="only the 40-letter window rule")
+    b.add_argument("--symmetric-dups", action="store_true",
+                   help="also drop train items whose context holds a VAL/TEST window (rule 'reverse')")
     b.add_argument("--workers", type=int, default=4)
     b.add_argument("--limit", type=int, default=None)
     b.add_argument("--allow-char-lengths", action="store_true")
@@ -695,10 +788,16 @@ def main(argv: list[str] | None = None) -> int:
     e = sub.add_parser("export", help="rows in every format, sha256s and stats (no model calls)")
     e.add_argument("--out-dir", required=True)
     e.add_argument("--bench-cands", default=None)
+    a = sub.add_parser("audit-dups", help="record the reverse-direction near-duplicate counts of an existing "
+                       "train build in build_meta.json (no model calls, rows unchanged)")
+    a.add_argument("--out-dir", required=True)
+    a.add_argument("--thresholds", default="90,85,80")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
     if args.cmd == "build":
         return build(args)
+    if args.cmd == "audit-dups":
+        return audit_dups(Path(args.out_dir), [float(t) for t in args.thresholds.split(",")])
     m = export(Path(args.out_dir), bench_cands=Path(args.bench_cands) if args.bench_cands else None)
     print(json.dumps(m["stats"], indent=1))
     return 0

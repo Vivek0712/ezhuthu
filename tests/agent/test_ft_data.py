@@ -22,6 +22,8 @@ from ezhuthu.eval.ft_data import (
     fold_corpus,
     near_duplicates,
     plan_llm,
+    reverse_audit,
+    reverse_near_duplicates,
     rows_from_record,
     stats,
     to_decider_lab,
@@ -76,6 +78,39 @@ def test_near_duplicates_catch_one_formula_gapped_at_another_point():
     assert "X1:1:0" not in near_duplicates(train, held, threshold=0.9, partial_threshold=None)  # windows shift
     dups = near_duplicates(train, held, threshold=0.9)
     assert dups["X1:1:0"]["rule"] == "partial" and dups["X1:1:0"]["match"] == "X100:1:0"
+
+
+def test_reverse_direction_finds_a_held_out_window_inside_a_longer_train_context():
+    formula = "taṉakkē urimai pūṇṭamai maṉakkoḷa-k kāntaḷūr-c cālai kalam aṟuttaruḷi vēṅkai nāṭum kaṅka-pāṭiyum"
+    pre = "ivvūr nilam iru-patiṉ kaḻañcu poṉ koṭuttu "  # train line: other text, then the whole formula
+    a = formula.index("cālai")
+    held = [item(100, formula[:a], formula[a + 5:], "cālai", split="test")]
+    b = len(pre) + 4  # gapped inside the unrelated prefix, so its own window is not the formula
+    line = pre + formula
+    train = [item(1, line[:b], line[b + 3:], line[b:b + 3]), item(2, "ivvūr nilam ", " kaḻañcu poṉ", "mā")]
+    assert near_duplicates(train, held) == {}  # the one-way rules miss it
+    rev = reverse_near_duplicates(train, held)
+    assert set(rev) == {"X1:1:0"} and rev["X1:1:0"]["matches"] == ["X100:1:0"]
+    assert rev["X1:1:0"]["split"] == "test" and rev["X1:1:0"]["same_target"] is False
+    sym = near_duplicates(train, held, symmetric=True)
+    assert sym["X1:1:0"]["rule"] == "reverse" and "X2:1:0" not in sym
+    audit = reverse_audit(train, held, thresholds=(90.0, 80.0))
+    assert audit["partial_ratio>=90"] == {"kept_train_items": 1, "heldout_items": 1, "heldout_by_split": {"test": 1},
+                                          "pairs": 1, "pairs_same_target": 0}
+    assert audit["partial_ratio>=80"]["kept_train_items"] >= 1
+    assert reverse_near_duplicates(train, []) == {}
+
+
+def test_reverse_direction_flags_a_shared_target():
+    formula = "taṉakkē urimai pūṇṭamai maṉakkoḷa-k kāntaḷūr-c cālai kalam aṟuttaruḷi vēṅkai nāṭum kaṅka-pāṭiyum"
+    a = formula.index("cālai")
+    held = [item(100, formula[:a], formula[a + 5:], "cālai", split="val")]
+    line = "ivvūr nilam iru-patiṉ kaḻañcu poṉ koṭuttu " + formula
+    c = line.index("cālai")
+    train = [item(1, line[:c], line[c + 5:], "cālai")]
+    rev = reverse_near_duplicates(train, held)
+    assert rev["X1:1:0"]["same_target"] is True
+    assert reverse_audit(train, held, thresholds=(90.0,))["partial_ratio>=90"]["pairs_same_target"] == 1
 
 
 def test_folds_keep_every_edition_of_a_stone_together_and_are_seeded():

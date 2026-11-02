@@ -26,7 +26,8 @@ hosted v19 top-3 (0.450; 1 vs 4 discordant items, p = 0.375).** It is not deploy
   +0.203], 73 vs 5 discordant), base 2B 0.4165 (+0.131, 56 vs 2), hosted v19 0.4310 (+0.116 [+0.082, +0.153], 53 vs 5,
   p < 1e-8), first candidate 0.4092. All p < 1e-8.
 - **Frozen 60-item benchmark (TEST-hard, pre-#31 request shape):** top-3 + none 0.400 (Sonnet self-confidence 0.400,
-  hosted v19 top-3 0.450, base 2B 0.217). With all ~20 candidates: 0.350. **It does not beat hosted v19 or Sonnet
+  hosted v19 top-3 0.450, base 2B 0.217). With all ~20 candidates: 0.350 (1 error, a prompt overflow, counted as a
+  miss). **It does not beat hosted v19 or Sonnet
   here.** These are 60 items in an older request format that the model was not trained on (see Caveats).
 
 ## Data and leakage controls
@@ -40,11 +41,24 @@ hosted v19 top-3 (0.450; 1 vs 4 discordant items, p = 0.375).** It is not deploy
   at different points shifts the window. A shift-invariant rule (rapidfuzz `partial_ratio` >= 90 of the train
   window inside the VAL/TEST context) dropped the 96. Both rules were applied, and both counts are recorded in
   `build_meta.json`.
+- **The partial rule checks one direction only** (the train window inside the held-out context). Run the other way
+  (a VAL/TEST item's 40-letter window inside a *kept* train item's context, `partial_ratio` >= 90), **96 kept train
+  items** tie to **39 held-out items (33 TEST, 6 VAL)** in 210 pairs, of which **1** shares the target
+  (`DHARMA_INSTiruvavatuturai10101:A.1:4` with `DHARMA_INSMelKil00012:1:0`, TEST). At looser thresholds: 190 kept
+  train items / 72 held-out items (8 same-target pairs) at 85, 424 / 118 (9) at 80. These items were **not** dropped
+  and the model was not retrained; the counts are recorded after the build (`ft_data audit-dups`, in
+  `build_meta.json` `train.reverse_direction` and `reverse_near_duplicates.json`). With 1 shared target among 413
+  TEST items the effect on the TEST numbers is at most one item. `ft_data build --symmetric-dups` drops both
+  directions for a future build.
 - **Cross-fitted train candidates:** retrieval and the 5-gram for a train item are built without its fold (5 folds by
   stone). Audit: 0 of 6,996 train parallels came from the item's own fold.
 - **Selection and calibration on VAL only:** the trainer's checkpoint and temperatures, the variant below and the
-  calibration were all fixed on VAL. TEST was read once, after the commit that fixed the choice and the calibration
-  (`96c05d6`). The TEST code commit is `96c05d6` with a clean tree (the harness refuses a dirty tree).
+  calibration were all fixed on VAL. The VAL choice was recorded in `decisions.json` at 12:41 UTC. The **hosted v19**
+  TEST requests (a reference model, not a candidate) were sent at 12:47 UTC (`logs/eval-final/hosted-v19-test.log`,
+  only row counts printed). That was after the choice was recorded but before the calibration entries were fitted
+  (12:55 UTC) and before they were committed in `96c05d6` (12:56 UTC). Every fine-tuned and base-2B TEST run came
+  after `96c05d6`, and the TEST code commit is `96c05d6` with a clean tree (the harness refuses a dirty tree). No
+  TEST number was looked at before the choice and the calibration were fixed.
 - Data sha256: val `32bc196e…` / `d8ee7019…`, test `43487c7a…` / `37ed3606…`, test-bench60 `527ab38d…` /
   `511201ff…`, frozen benchmark candidates `ab00901f055d…`.
 
@@ -80,6 +94,10 @@ are that issue's rows on the same gaps.
 | *routed self-report (Sonnet/Opus self-confidence)* | 0.3036 | 85 | | - | 0 | 3.2 / 7.6 | |
 | *hosted v19 `choice-topk:3` + slot (120-gap subset)* | 0.3250 (39/120) | | ft 2B on the same 120: 42 (only ft 6 / only hosted 3, p = 0.51) | | 144 | 11.6 / 28.1 | |
 
+- **Escalation confound:** in this routed run `ft2b-choice3` sends 244 of the 280 gaps to Opus, against 224 for the
+  deployed ranking, so part of 112 vs 100 can come from the extra escalations. Without routing (Sonnet only, the
+  same 280 gaps, `rows/val-sonnet-ft2b-choice3.jsonl` vs the deployed-config issue's
+  `val-sonnet-hybrid-prerank.jsonl`), the fine-tuned decider gets **102 vs 85** (22 / 5 discordant, p = 0.0015).
 - **Rule outcome:** `ft2b-choice3` has the most matches (112). It is "eligible" under the rule's first condition
   (strictly more than the deployed 100). The second condition, that the cloud runtime can serve it, fails. So the
   deployed default is **not** changed.
@@ -163,11 +181,13 @@ All McNemar p < 1e-7. On `noul` (one yes/no per candidate, 20.1% yes), the fine-
 | hosted v19 top-3 | 0.450 | 0.771 | 0.167 / 0.500 | 4,827 |
 | **fine-tuned 2B top-3** | **0.400** | 0.686 | 0.350 / 0.857 | 471 |
 | Sonnet self-confidence (fallback) | 0.400 | 0.686 | 0.550 / 0.667 | - |
-| fine-tuned 2B, all ~20 candidates | 0.350 | 0.600 | 0.283 / 0.824 | 1,745 |
+| fine-tuned 2B, all ~20 candidates (1 error, counted as a miss) | 0.350 | 0.600 | 0.283 / 0.824 | 1,745 |
 | base 2B (all candidates) | 0.217 | 0.371 | 0 / - | 1,784 |
 
 Fine-tuned top-3 vs hosted v19 top-3: 1 / 4 discordant items, p = 0.375. vs Sonnet self-confidence: 3 / 3, p = 1.0.
-vs base 2B: 14 / 3, p = 0.013. Reference points on these items: first candidate 0.400, uniform random among the top 3
+vs base 2B: 14 / 3, p = 0.013. The all-candidates run has 1 error: `DHARMA_INSKotumpalur00037:3:1` (23 candidates)
+was refused with 422 "the prompt was truncated through its option list" (a prompt overflow), counted as a miss
+(0.356 on the other 59). Reference points on these items: first candidate 0.400, uniform random among the top 3
 0.161, target in the top 3 0.483. The ft-data `test-bench60` rows (the same requests) reproduce 0.400 through
 `strands-decider serve`.
 
@@ -188,14 +208,16 @@ change this small check.
 
 - **Router:** the TEST restorer comparison uses Sonnet-only candidates (replayed). The deployed system routes most
   gaps to Opus. The fine-tuned decider's routed TEST number is unknown. On VAL, routed, it beat the deployed
-  ranking 112 vs 100.
+  ranking 112 vs 100 (with 244 vs 224 gaps escalated to Opus); Sonnet only, without that confound, 102 vs 85
+  (p = 0.0015).
 - **Distribution:** the model was trained on Sonnet + retrieval candidates with ontology off (two thirds of train items
   were retrieval-only). The restorer runs here use ontology on and the 5-gram pre-rank term. The frozen 60-item
   benchmark uses the pre-#31 request (`gap_length_chars`, ISO-character length flags), which the model never saw.
   That benchmark is the one place it does not beat Sonnet or hosted v19. It is only 60 items, and the differences
   there are not significant.
 - **Formulaic text:** DHARMA formulae repeat across inscriptions. Near-duplicates of VAL/TEST were dropped from
-  TRAIN, but formulae shared only among train inscriptions remain (the legitimate parallels retrieval uses).
+  TRAIN in one direction; 96 kept train items still contain a held-out window (39 held-out items, 1 shared target,
+  see "Data and leakage controls"), but formulae shared only among train inscriptions remain (the legitimate parallels retrieval uses).
 - **Selection bias on VAL:** six variants were compared, so the chosen variant's VAL number is slightly optimistic.
   TEST is the unbiased estimate.
 - **Hosted v19 on TEST** is the decider-cloud staging model as of 2026-11-02, called through `HostedDecider` (key
