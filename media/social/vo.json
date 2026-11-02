@@ -1,0 +1,438 @@
+{
+ "voice": "Arjun",
+ "engine": "generative",
+ "rate": "100%",
+ "lang": "en-IN",
+ "ezhuthu_ph": "ˈeɭʊt̪ːʊ",
+ "chosen_by": "sound team (audio-v2)",
+ "lines": [
+  {
+   "n": 1,
+   "text": "Tamil, one of the oldest living languages, is fading from temple walls.",
+   "ssml": "<speak><prosody rate=\"100%\">Tamil, one of the oldest living languages, is fading from temple walls.</prosody></speak>",
+   "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/social/vo/line-1.wav",
+   "dur_s": 4.536,
+   "lead_s": 0.096,
+   "offset_s": 0.354,
+   "start_s": 0.45,
+   "end_s": 4.89,
+   "timing": "transcribe (12/12 anchored)",
+   "words": [
+    {
+     "w": "Tamil,",
+     "s": 0.46,
+     "e": 1.0
+    },
+    {
+     "w": "one",
+     "s": 1.25,
+     "e": 1.34
+    },
+    {
+     "w": "of",
+     "s": 1.34,
+     "e": 1.46
+    },
+    {
+     "w": "the",
+     "s": 1.46,
+     "e": 1.65
+    },
+    {
+     "w": "oldest",
+     "s": 1.65,
+     "e": 2.1
+    },
+    {
+     "w": "living",
+     "s": 2.1,
+     "e": 2.38
+    },
+    {
+     "w": "languages,",
+     "s": 2.38,
+     "e": 3.08
+    },
+    {
+     "w": "is",
+     "s": 3.22,
+     "e": 3.37
+    },
+    {
+     "w": "fading",
+     "s": 3.37,
+     "e": 3.82
+    },
+    {
+     "w": "from",
+     "s": 3.82,
+     "e": 4.02
+    },
+    {
+     "w": "temple",
+     "s": 4.02,
+     "e": 4.38
+    },
+    {
+     "w": "walls.",
+     "s": 4.38,
+     "e": 5.04
+    }
+   ]
+  },
+  {
+   "n": 2,
+   "text": "In 2021, India had about 23 epigraphists.",
+   "ssml": "<speak><prosody rate=\"100%\">In <say-as interpret-as=\"date\" format=\"y\">2021</say-as>, India had about 23 epigraphists.</prosody></speak>",
+   "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/social/vo/line-2.wav",
+   "dur_s": 3.84,
+   "lead_s": 0.096,
+   "offset_s": 5.014,
+   "start_s": 5.11,
+   "end_s": 8.854,
+   "timing": "transcribe (7/7 anchored)",
+   "words": [
+    {
+     "w": "In",
+     "s": 5.11,
+     "e": 5.23
+    },
+    {
+     "w": "2021,",
+     "s": 5.23,
+     "e": 6.31
+    },
+    {
+     "w": "India",
+     "s": 6.54,
+     "e": 6.91
+    },
+    {
+     "w": "had",
+     "s": 6.91,
+     "e": 7.15
+    },
+    {
+     "w": "about",
+     "s": 7.15,
+     "e": 7.31
+    },
+    {
+     "w": "23",
+     "s": 7.31,
+     "e": 7.89
+    },
+    {
+     "w": "epigraphists.",
+     "s": 7.89,
+     "e": 8.97
+    }
+   ]
+  },
+  {
+   "n": 3,
+   "text": "So I built Ezhuthu, an apprentice.",
+   "ssml": "<speak><prosody rate=\"100%\">So I built <phoneme alphabet=\"ipa\" ph=\"ˈeɭʊt̪ːʊ\">Ezhuthu</phoneme>, an apprentice.</prosody></speak>",
+   "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/social/vo/line-3.wav",
+   "dur_s": 2.736,
+   "lead_s": 0.095,
+   "offset_s": 9.105,
+   "start_s": 9.2,
+   "end_s": 11.841,
+   "timing": "transcribe (5/6 anchored)",
+   "words": [
+    {
+     "w": "So",
+     "s": 9.241,
+     "e": 9.401
+    },
+    {
+     "w": "I",
+     "s": 9.401,
+     "e": 9.601
+    },
+    {
+     "w": "built",
+     "s": 9.601,
+     "e": 10.031
+    },
+    {
+     "w": "Ezhuthu,",
+     "s": 9.852,
+     "e": 10.98
+    },
+    {
+     "w": "an",
+     "s": 10.921,
+     "e": 11.081
+    },
+    {
+     "w": "apprentice.",
+     "s": 11.081,
+     "e": 11.961
+    }
+   ]
+  },
+  {
+   "n": 4,
+   "text": "A team of Strands agents reads the stone, letter by letter.",
+   "ssml": "<speak><prosody rate=\"100%\">A team of Strands agents reads the stone, letter by letter.</prosody></speak>",
+   "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/social/vo/line-4.wav",
+   "dur_s": 3.624,
+   "lead_s": 0.096,
+   "offset_s": 11.965,
+   "start_s": 12.061,
+   "end_s": 15.489,
+   "timing": "transcribe (11/11 anchored)",
+   "words": [
+    {
+     "w": "A",
+     "s": 12.061,
+     "e": 12.221
+    },
+    {
+     "w": "team",
+     "s": 12.221,
+     "e": 12.381
+    },
+    {
+     "w": "of",
+     "s": 12.381,
+     "e": 12.611
+    },
+    {
+     "w": "Strands",
+     "s": 12.611,
+     "e": 13.101
+    },
+    {
+     "w": "agents",
+     "s": 13.101,
+     "e": 13.701
+    },
+    {
+     "w": "reads",
+     "s": 13.701,
+     "e": 14.421
+    },
+    {
+     "w": "the",
+     "s": 14.421,
+     "e": 14.471
+    },
+    {
+     "w": "stone,",
+     "s": 14.441,
+     "e": 14.701
+    },
+    {
+     "w": "letter",
+     "s": 14.701,
+     "e": 15.021
+    },
+    {
+     "w": "by",
+     "s": 15.021,
+     "e": 15.181
+    },
+    {
+     "w": "letter.",
+     "s": 15.181,
+     "e": 15.761
+    }
+   ]
+  },
+  {
+   "n": 5,
+   "text": "Lost letters? It checks thousands of parallels, and fills only when sure.",
+   "ssml": "<speak><prosody rate=\"100%\">Lost letters? It checks thousands of parallels, and fills only when sure.</prosody></speak>",
+   "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/social/vo/line-5.wav",
+   "dur_s": 4.968,
+   "lead_s": 0.1,
+   "offset_s": 15.609,
+   "start_s": 15.709,
+   "end_s": 20.455,
+   "timing": "transcribe (12/12 anchored)",
+   "words": [
+    {
+     "w": "Lost",
+     "s": 15.745,
+     "e": 16.155
+    },
+    {
+     "w": "letters?",
+     "s": 16.155,
+     "e": 16.735
+    },
+    {
+     "w": "It",
+     "s": 17.065,
+     "e": 17.305
+    },
+    {
+     "w": "checks",
+     "s": 17.305,
+     "e": 17.585
+    },
+    {
+     "w": "thousands",
+     "s": 17.585,
+     "e": 18.035
+    },
+    {
+     "w": "of",
+     "s": 18.035,
+     "e": 18.265
+    },
+    {
+     "w": "parallels,",
+     "s": 18.265,
+     "e": 18.905
+    },
+    {
+     "w": "and",
+     "s": 18.905,
+     "e": 19.185
+    },
+    {
+     "w": "fills",
+     "s": 19.185,
+     "e": 19.585
+    },
+    {
+     "w": "only",
+     "s": 19.585,
+     "e": 19.945
+    },
+    {
+     "w": "when",
+     "s": 19.945,
+     "e": 20.185
+    },
+    {
+     "w": "sure.",
+     "s": 20.185,
+     "e": 20.765
+    }
+   ]
+  },
+  {
+   "n": 6,
+   "text": "Nine in ten fills match the editors' restoration.",
+   "ssml": "<speak><prosody rate=\"100%\">Nine in ten fills match the editors' restoration.</prosody></speak>",
+   "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/social/vo/line-6.wav",
+   "dur_s": 3.336,
+   "lead_s": 0.096,
+   "offset_s": 20.579,
+   "start_s": 20.675,
+   "end_s": 23.915,
+   "timing": "transcribe (5/8 anchored)",
+   "words": [
+    {
+     "w": "Nine",
+     "s": 20.676,
+     "e": 20.925
+    },
+    {
+     "w": "in",
+     "s": 21.195,
+     "e": 21.355
+    },
+    {
+     "w": "ten",
+     "s": 21.215,
+     "e": 21.424
+    },
+    {
+     "w": "fills",
+     "s": 21.424,
+     "e": 21.673
+    },
+    {
+     "w": "match",
+     "s": 22.115,
+     "e": 22.495
+    },
+    {
+     "w": "the",
+     "s": 22.495,
+     "e": 22.595
+    },
+    {
+     "w": "editors'",
+     "s": 22.595,
+     "e": 23.155
+    },
+    {
+     "w": "restoration.",
+     "s": 23.155,
+     "e": 24.015
+    }
+   ]
+  },
+  {
+   "n": 7,
+   "text": "It explains the meaning, and teaches you to read it.",
+   "ssml": "<speak><prosody rate=\"100%\">It explains the meaning, and teaches you to read it.</prosody></speak>",
+   "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/social/vo/line-7.wav",
+   "dur_s": 3.0,
+   "lead_s": 0.096,
+   "offset_s": 24.039,
+   "start_s": 24.135,
+   "end_s": 27.039,
+   "timing": "transcribe (10/10 anchored)",
+   "words": [
+    {
+     "w": "It",
+     "s": 24.135,
+     "e": 24.575
+    },
+    {
+     "w": "explains",
+     "s": 24.575,
+     "e": 24.895
+    },
+    {
+     "w": "the",
+     "s": 24.895,
+     "e": 25.055
+    },
+    {
+     "w": "meaning,",
+     "s": 25.055,
+     "e": 25.675
+    },
+    {
+     "w": "and",
+     "s": 25.675,
+     "e": 25.935
+    },
+    {
+     "w": "teaches",
+     "s": 25.935,
+     "e": 26.285
+    },
+    {
+     "w": "you",
+     "s": 26.285,
+     "e": 26.415
+    },
+    {
+     "w": "to",
+     "s": 26.415,
+     "e": 26.575
+    },
+    {
+     "w": "read",
+     "s": 26.575,
+     "e": 26.735
+    },
+    {
+     "w": "it.",
+     "s": 26.735,
+     "e": 27.205
+    }
+   ]
+  }
+ ]
+}

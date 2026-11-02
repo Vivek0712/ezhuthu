@@ -1,0 +1,235 @@
+{
+ "$comment": "Cut list for the 30 s social cuts. vo.lines[].at = where each line's first phoneme lands on the 30.000 s clock (tools/vo.py writes vo.json with per-word times). Pages read vo.json for captions. Every number traces to media/FACTS.md (ids in facts).",
+ "duration_s": 30.0,
+ "fps": 30,
+ "vo": {
+  "voice": "Arjun",
+  "engine": "generative",
+  "rate": "100%",
+  "lang": "en-IN",
+  "ezhuthu_ph": "ˈeɭʊt̪ːʊ",
+  "lines": [
+   {
+    "at": 0.45,
+    "text": "Tamil, one of the oldest living languages, is fading from temple walls.",
+    "facts": [
+     "E1 (classical language)",
+     "P7"
+    ]
+   },
+   {
+    "at": 5.0,
+    "text": "In 2021, India had about 23 epigraphists.",
+    "facts": [
+     "P1"
+    ]
+   },
+   {
+    "at": 9.2,
+    "text": "So I built Ezhuthu, an apprentice.",
+    "facts": [
+     "R1"
+    ]
+   },
+   {
+    "at": 11.95,
+    "text": "A team of Strands agents reads the stone, letter by letter.",
+    "facts": [
+     "T1",
+     "R1 (Reader)"
+    ]
+   },
+   {
+    "at": 15.6,
+    "text": "Lost letters? It checks thousands of parallels, and fills only when sure.",
+    "facts": [
+     "14,355 train lines (retrieve_parallels, storyboard a3-13)",
+     "S4",
+     "A7"
+    ]
+   },
+   {
+    "at": 20.2,
+    "text": "Nine in ten fills match the editors' restoration.",
+    "facts": [
+     "A7 (187 of 206, held-out TEST)"
+    ]
+   },
+   {
+    "at": 23.2,
+    "text": "It explains the meaning, and teaches you to read it.",
+    "facts": [
+     "R1 Interpreter + Tutor",
+     "S2",
+     "H2"
+    ]
+   }
+  ],
+  "ezhuthu_ph_note": "user pick 2026-11-03: option 3 (audio-v2/pron-options/opt3.mp3), Polly Arjun generative"
+ },
+ "audio": {
+  "bell_at_s": [
+   0.0,
+   9.05,
+   27.15
+  ],
+  "bed": "soft tanpura drone (C#), synthesized; temple hand-bell dings, synthesized; no conch",
+  "duck_db": -10,
+  "target": {
+   "lufs": -14,
+   "tp_dbtp": -1.5
+  }
+ },
+ "formats": {
+  "teaser-16x9": {
+   "w": 1920,
+   "h": 1080,
+   "page": "pages/teaser.html?fmt=wide",
+   "out": "ezhuthu-teaser-30s-16x9.mp4"
+  },
+  "teaser-1x1": {
+   "w": 1080,
+   "h": 1080,
+   "page": "pages/teaser.html?fmt=square",
+   "out": "ezhuthu-teaser-30s-1x1.mp4"
+  },
+  "reel-9x16": {
+   "w": 1080,
+   "h": 1920,
+   "page": "pages/reel.html",
+   "out": "ezhuthu-reel-30s-9x16.mp4",
+   "safe": {
+    "top": 250,
+    "bottom": 420,
+    "right": 150,
+    "left": 60
+   }
+  },
+  "reel-4x5": {
+   "w": 1080,
+   "h": 1350,
+   "from": "reel-9x16",
+   "crop": "1080:1350:0:285",
+   "out": "ezhuthu-reel-30s-4x5.mp4"
+  }
+ },
+ "teaser_shots": [
+  {
+   "cue": "0 -> 2.6",
+   "src": "a1-01-cold-open",
+   "in": 2.4,
+   "what": "weathered Tamil wall (p17) + title 'Who will read the stones?'"
+  },
+  {
+   "cue": "2.6 -> L2-0.2",
+   "src": "a1-01-cold-open",
+   "in": 0.0,
+   "what": "Madurai gopuram tilt (p01)"
+  },
+  {
+   "cue": "L2-0.2 -> L2+2.1",
+   "src": "a1-04-damage",
+   "in": 2.5,
+   "what": "the gap and the 65% ring"
+  },
+  {
+   "cue": "L2+2.1 -> L3-0.15",
+   "src": "a1-05-few-readers",
+   "in": 1.7,
+   "what": "epigraphists, Arachalur (p32); 23"
+  },
+  {
+   "cue": "L3-0.15 -> L4-0.1",
+   "src": "a2-07-title",
+   "in": 2.9,
+   "what": "எழுத்து lockup"
+  },
+  {
+   "cue": "L4-0.1 -> 'reads'",
+   "src": "a2-08-hero-read",
+   "in": 1.2,
+   "what": "live hero: letter boxes on the Thanjavur stone"
+  },
+  {
+   "cue": "'reads' -> L5-0.15",
+   "src": "a3-13-reader-restorer",
+   "in": 0.2,
+   "what": "letters fly off the stone"
+  },
+  {
+   "cue": "L5-0.15 -> L6-0.15",
+   "src": "restore (own graphic)",
+   "what": "gap, four sources, confidence check, 72% FILL, matches the editors' restoration"
+  },
+  {
+   "cue": "L6-0.15 -> L7-0.12",
+   "src": "a4-21-knows",
+   "in": 0.9,
+   "hold_at": 4.2,
+   "what": "9 in 10"
+  },
+  {
+   "cue": "L7-0.12 -> 'teaches'",
+   "src": "meaning (own graphic)",
+   "what": "stone + meaning in Tamil and English"
+  },
+  {
+   "cue": "'teaches' -> END",
+   "src": "a2-09-practice",
+   "in": 6.6,
+   "what": "a Practice drill answered"
+  },
+  {
+   "cue": "END = L7 end + 0.2 -> 30",
+   "src": "end card",
+   "what": "lockup, tagline, built-with, ezhuthu.sparrowdecider.com, GitHub, credits"
+  }
+ ],
+ "reel_beats": [
+  {
+   "cue": "0 -> 2.45",
+   "what": "HOOK: Thanjavur stone, 46 letter boxes ignite; 'Who will read the stones?'"
+  },
+  {
+   "cue": "2.45 -> L2",
+   "what": "Meenakshi gopuram vertical tilt-up (p01); 'Tamil · one of the oldest living languages' / '2,000 years of Tamil writing'"
+  },
+  {
+   "cue": "L2 -> 'India'",
+   "what": "wall wearing away (p17); 65% of 1,320"
+  },
+  {
+   "cue": "'India' -> L3",
+   "what": "big 23 over epigraphists at Arachalur (p32)"
+  },
+  {
+   "cue": "L3 -> L4",
+   "what": "lockup + vertical pipeline Reader -> Restorer -> Confidence check -> Interpreter -> Tutor + Assessor"
+  },
+  {
+   "cue": "L4 -> L5",
+   "what": "Reader: boxes light letter by letter, letters fly into modern Tamil; agent chips"
+  },
+  {
+   "cue": "L5 -> L6",
+   "what": "Restore beat: gap, 2x2 sources, confidence check, 72% FILL, matches the editors' restoration"
+  },
+  {
+   "cue": "L6 -> L7",
+   "what": "9 in 10 with 206 dots (187 match)"
+  },
+  {
+   "cue": "L7 -> 'teaches'",
+   "what": "stone + meaning card (Tamil + English)"
+  },
+  {
+   "cue": "'teaches' -> END",
+   "what": "Practice drill on a phone; 'on Amazon Bedrock AgentCore'"
+  },
+  {
+   "cue": "END -> 30",
+   "what": "end card over the Thanjavur vimana (p14)"
+  }
+ ],
+ "url": "https://ezhuthu.sparrowdecider.com"
+}
