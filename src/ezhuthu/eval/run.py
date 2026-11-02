@@ -57,7 +57,8 @@ def predict(item: BenchmarkItem, router: str, restorer: Restorer, llm: LLMClient
                 "raw_confidence": top.raw_confidence if top else None, "strategy": g.strategy,
                 "calibration": g.calibration, "abstain_below": g.abstain_below,
                 "llm_truncated": g.llm_truncated, "llm_retries": g.llm_retries,
-                "copy_floor": next((c.text for c in g.candidates if c.copy_floor), None)}
+                "copy_floor": next((c.text for c in g.candidates if c.copy_floor), None),
+                "llm_calls": g.llm_calls, "llm_wall_ms": g.llm_wall_ms}
     elif router == "baseline-copy":
         cands = copy_best_parallel(restorer, item.left, item.right, item.gap_chars,
                                    exclude_inscription=item.inscription_id, k=k)

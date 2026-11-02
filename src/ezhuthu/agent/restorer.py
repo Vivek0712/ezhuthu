@@ -118,6 +118,11 @@ class GapResult:
     abstain_below: float = 0.5
     llm_truncated: int = 0  # LLM replies cut at max_tokens (after the parse of what arrived)
     llm_retries: int = 0  # stricter re-asks after a truncation
+    # One record per LLM call made for this gap (eval cost/latency accounting; not part of the API):
+    # {"model": sonnet|opus, "input_tokens", "output_tokens", "latency_ms" (of the original call, also when the
+    # reply came from the cache), "cached"}. ``llm_wall_ms``: wall time spent waiting on those calls here.
+    llm_calls: list[dict[str, Any]] = field(default_factory=list)
+    llm_wall_ms: float = 0.0
 
     @property
     def best(self) -> Candidate | None:
@@ -237,7 +242,7 @@ class Restorer:
 
     def propose_fills(self, role: str, left: str, right: str, gap_chars: int | None,
                       parallels: list[Parallel], hints: list[Hint], k: int,
-                      info: dict[str, int] | None = None) -> list[tuple[str, float | None]]:
+                      info: dict[str, Any] | None = None) -> list[tuple[str, float | None]]:
         """LLM fills (compact JSON). A reply cut at ``max_tokens`` keeps every complete fill that arrived and,
         if ``restorer.retry_on_truncation``, is re-asked once with a stricter, shorter prompt."""
         if self.llm is None:
@@ -246,17 +251,29 @@ class Restorer:
                 for p in parallels]
         hs = [h.to_api() for h in hints]
         budget = propose_max_tokens(k, gap_chars, ceiling=self.settings.llm_max_tokens)
-        r = self.llm.complete(role, RESTORER_SYSTEM, propose_prompt(left, right, gap_chars, pars, hs, k),
-                              max_tokens=budget)
+
+        def complete(prompt: str, max_tokens: int):
+            t0 = time.perf_counter()
+            resp = self.llm.complete(role, RESTORER_SYSTEM, prompt, max_tokens=max_tokens)
+            if info is not None:
+                info["wall_ms"] = info.get("wall_ms", 0.0) + (time.perf_counter() - t0) * 1000
+                info.setdefault("calls", []).append({
+                    "model": "opus" if role == "escalate" else "sonnet",
+                    "input_tokens": int(getattr(resp, "input_tokens", 0) or 0),
+                    "output_tokens": int(getattr(resp, "output_tokens", 0) or 0),
+                    "latency_ms": float(getattr(resp, "latency_ms", 0.0) or 0.0),
+                    "cached": bool(getattr(resp, "cached", False))})
+            return resp
+
+        r = complete(propose_prompt(left, right, gap_chars, pars, hs, k), budget)
         got = parse_candidates(r.text)
         if getattr(r, "truncated", False):
             if info is not None:
                 info["truncated"] = info.get("truncated", 0) + 1
             if self.settings.retry_on_truncation:
                 k2 = max(1, min(k, 4))
-                r2 = self.llm.complete(role, RESTORER_SYSTEM,
-                                       propose_prompt(left, right, gap_chars, pars, hs, k2, strict=True),
-                                       max_tokens=self.settings.llm_max_tokens)
+                r2 = complete(propose_prompt(left, right, gap_chars, pars, hs, k2, strict=True),
+                              self.settings.llm_max_tokens)
                 if info is not None:
                     info["retries"] = info.get("retries", 0) + 1
                     if getattr(r2, "truncated", False):
@@ -441,7 +458,7 @@ class Restorer:
             escalated = pre_escalate
         else:
             first_role = {"sonnet": "default", "opus": "escalate"}.get(router, "default")
-        info: dict[str, int] = {}
+        info: dict[str, Any] = {}
         llm_answered: dict[str, str | None] = {"any": None}  # strongest LLM that answered: "sonnet" / "opus"
         used = {"strategy": st.strategy}
 
@@ -500,7 +517,8 @@ class Restorer:
                          candidates=ranked[:max(1, max_candidates)], decider_model=decider_model,
                          models_used=models_used, escalated=escalated, parallels=parallels,
                          strategy=used["strategy"], calibration=cal_key, abstain_below=threshold,
-                         llm_truncated=info.get("truncated", 0), llm_retries=info.get("retries", 0))
+                         llm_truncated=info.get("truncated", 0), llm_retries=info.get("retries", 0),
+                         llm_calls=list(info.get("calls", [])), llm_wall_ms=round(info.get("wall_ms", 0.0), 1))
 
     def restore(self, text: str, *, script: str = "iso15919", max_candidates: int = 5,
                 allow_escalation: bool = True, router: str = "routed") -> dict[str, Any]:
