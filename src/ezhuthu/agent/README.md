@@ -19,12 +19,16 @@ For each `[?]` / `[?N]` gap:
    `restorer.llm_max_tokens`); a reply cut at max_tokens keeps every complete fill that arrived and is re-asked once
    with a stricter, shorter prompt (`retry_on_truncation`).
 3. `check_constraints`: drops candidates with non-ISO characters or Grantha letters in early-Tamil contexts,
-   flags length outside `max(2, 34%)` of `[?N]`.
+   flags length outside `max(2, 34%)` of `[?N]`. **Every gap length is in Tamil letters** (uyir, mey, uyirmey;
+   `text.akshara_len`, the benchmark's own counter): `[?N]`/`gap_chars`, the length check, the copy floor and copy
+   baseline, the n-gram fill length, the one-anchor alignment window, the unknown-length estimate and the LLM prompt
+   ("about N Tamil letters"). Before issue #26 the checks counted ISO characters and 130/443 VAL expert targets
+   failed them.
 4. Pre-rank (cheap, no model call): `prerank = 1 - (1 - llm_probability) x (1 - parallel support)`, halved for a
    length mismatch, small epsilons for ontology and n-gram proposals.
-5. `rank_and_decide`, by `restorer.strategy` for retrieval-only gaps (config/models.yaml, default `prerank` since
-   issue #22: best retrieval-only VAL top-1, never below the copy baseline) and `restorer.strategy_llm` once an LLM
-   answered (default `self-report`, see below); `eval.run --strategy/--top-k` and `EZHUTHU_RESTORER_STRATEGY` set both:
+5. `rank_and_decide`, by `restorer.strategy` for retrieval-only gaps and `restorer.strategy_llm` once an LLM
+   answered (config/models.yaml; both chosen on VAL in issue #26, see below); `eval.run --strategy/--top-k` and
+   `EZHUTHU_RESTORER_STRATEGY` set both:
 
    | strategy | decider calls | confidence |
    |---|---|---|
@@ -34,11 +38,12 @@ For each `[?]` / `[?N]` gap:
    | `prerank` | none | the pre-rank score |
    | `self-report` | none | LLM fills: the LLM's own probability; other candidates: parallel agreement |
 
-   Why `self-report` for LLM gaps (QA on PR #25): `[?N]` counts Tamil letters while the length check counts ISO
-   characters, so 29% of VAL targets (130/443) fail it; `prerank` halves such a fill, and a correct p=0.85 Sonnet fill
-   then abstained. `self-report` (main's behaviour without a decider) keeps the LLM's probability and had the better
-   top-1 on the 20 live-Sonnet VAL rows (0.15 vs 0.10). Making the length check count letters (`text.aksharas`) is a
-   separate fix: it changes the copy baseline and every committed number.
+   Shipped (chosen on VAL by highest top-1, `eval/reports/2026-11-02-val-selection.md`): `self-report` for
+   retrieval-only gaps (the parallel-agreement heuristic; full VAL n=443: 0.2619 vs prerank 0.2551, not a
+   significant difference) and `noul-topk` with `top_k` 3 once an LLM answered (Sonnet pools on a 120-item VAL
+   sample: 0.1917 vs self-report 0.1167, prerank 0.15, choice-top3 0.1667). Without a reachable decider (the cloud
+   runtime today) LLM gaps fall back to `self-report`. The TEST result of each choice is in
+   `eval/reports/2026-11-02-test-eval.md`.
 
    Then **calibration**: the confidences of the active variant
    (`<decider model>|<strategy>|k<k>|<llm-sonnet|llm-opus|retrieval>`; `llm-opus` whenever Opus answered, alone or
@@ -47,23 +52,26 @@ For each `[?]` / `[?N]` gap:
    variant's own fitted threshold. A variant with no calibration keeps raw confidences and
    `routing.abstain_if_confidence_below`. **Minimum-sample guard:** an entry fitted on fewer than
    `restorer.calibration_min_n` (100) VAL items or `calibration_min_positives` (10) correct top-1s is provisional:
-   it stays in the file but is not used. Today that means every `|llm-*` entry (n=20, 0-3 positives) is ignored, so
-   LLM-on gaps use raw confidences and the 0.5 abstain threshold; only the retrieval-only entries (n=443) apply.
+   it stays in the file but is not used. Since issue #26 every entry has n >= 100: retrieval-only entries on full VAL
+   (n=443), `|llm-sonnet` entries on 120 VAL gaps and the `noul-topk|k3|llm-opus` entry on the 100 VAL gaps where
+   Opus answered (`python -m ezhuthu.eval.full_eval decide`). A fallback (no decider) LLM gap has no entry and keeps
+   raw confidences and the 0.5 threshold.
    Gaps report `strategy`, `calibration` (the key used, or null) and `abstain_below`. If the decider is unreachable
    or refuses the request, the confidence falls back to the LLM's self-report (or a retrieval heuristic),
    `decider_model` says `fallback:...` and each candidate's `decider_source` says `fallback`.
 6. Router (`config/models.yaml` `routing`): `routed` starts on `llm.default` (Sonnet 4.6); it goes straight to
-   `llm.escalate` (Opus 4.6) when the gap is over 12 characters or there is no good parallel, and escalates
+   `llm.escalate` (Opus 4.6) when the gap is over 12 letters or there is no good parallel, and escalates
    after Sonnet when the best **raw** confidence is under `escalate_if_confidence_below` (0.6). The threshold is on
-   the raw scale; a calibrated score (fitted for fill/abstain) is never compared with it. Cost note: on the 20
-   live-Sonnet VAL rows (`eval/reports/2026-11-02-restorer-val-live-sonnet.json`, `fallback` = self-report) the raw
-   top-1 is under 0.6 on 15/20, so a routed run on similar gaps would call Opus after Sonnet on about three gaps in
-   four (where it did not already start on Opus); these rows come from 2 inscriptions and Sonnet's top-1 was right on
-   3/20, so the low confidences are mostly earned.
+   the raw scale; a calibrated score (fitted for fill/abstain) is never compared with it. 0.6 was kept on VAL (issue
+   #26): on the 120-item VAL sample 96 gaps pre-escalate and 4 more escalate after Sonnet, so 100/120 use Opus;
+   higher thresholds bought one more matching gap for 13-20 more Opus calls. Cost and latency on TEST:
+   `eval/reports/2026-11-02-test-eval.md`.
 
 Bedrock robustness (`llm.py`): Strands' built-in throttling retry (fixed doubling, no jitter) is off; `complete`
 retries throttling and transient faults with exponential backoff and full jitter (5 attempts, base 2 s, cap 30 s)
-behind a process-wide rate limiter (`EZHUTHU_LLM_RPM`, or `--rpm` on the eval CLIs). `BudgetedLLM`
+behind a process-wide rate limiter (`EZHUTHU_LLM_RPM`, or `--rpm` on the eval CLIs). The account's on-demand
+quotas (heisenberg, us-east-1 cross-region, 2026-11-02) are **10 requests/min for Sonnet 4.6 and 5 for Opus 4.6**;
+`ezhuthu.eval.full_eval` paces each model at its quota (`PacedBedrockLLM`). `BudgetedLLM`
 (`--max-live-calls`) hard-caps uncached calls in eval runs.
 
 `tools.py` exposes the same steps as Strands `@tool`s and `build_restorer_agent()` builds an agentic Restorer.

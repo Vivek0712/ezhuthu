@@ -119,6 +119,7 @@ class Runner:
 
     def run(self, name: str, items: list[BenchmarkItem], *, router: str, out: Path, workers: int = 1,
             **kw: Any) -> list[dict[str, Any]]:
+        log.info("start %s: %d items, router %s", name, len(items), router)
         t0 = time.perf_counter()
         exhausted0 = self.llm.exhausted if self.llm else 0
         if router in ("baseline-copy", "baseline-ngram"):
@@ -505,7 +506,10 @@ def cmd_test(args) -> int:
     pre = [it for it in items if pre_escalates(R.probe, it)]
     log.info("test: %d of %d gaps pre-escalate to Opus", len(pre), len(items))
 
-    def lane_a() -> None:
+    hinted = [it for it in items if R.probe.ontology.hints_for_gap(it.left, it.right)]
+    log.info("test: %d of %d gaps get an ontology hint", len(hinted), len(items))
+
+    def lane_a() -> None:  # retrieval only (0 Bedrock calls); the decider row is decider-bound
         R.run("copy", items, router="baseline-copy", out=out)
         R.run("ngram", items, router="baseline-ngram", out=out)
         R.run("prerank", items, router="none", out=out, strategy="prerank", calibration=cal)
@@ -514,18 +518,32 @@ def cmd_test(args) -> int:
         R.run(f"retrieval-decider-{ret_dec.replace(':', 'k')}", items, router="none", out=out, strategy=ret_dec,
               calibration=cal)
 
-    def lane_b() -> None:
+    def lane_b() -> None:  # Sonnet (10 requests/min)
         R.run("sonnet", items, router="sonnet", out=out, workers=w, calibration=cal)
-        R.run("sonnet-noonto", items, router="sonnet", out=out, workers=w, calibration=cal, use_ontology=False)
+        # Ablation: a gap with no ontology hint has byte-identical restorer input with the ontology on or off (no
+        # hint in the prompt, no ontology candidate), so only the hinted gaps are re-run without the ontology.
+        R.run("sonnet-noonto-hinted", hinted, router="sonnet", out=out, workers=w, calibration=cal,
+              use_ontology=False)
 
-    def lane_c() -> None:
-        R.run("opus-sample100", sample, router="opus", out=out, workers=w, calibration=cal)
+    def lane_c() -> None:  # Opus (5 requests/min): warm the cache without the decider, then the scored sample
         ids = {it.id for it in sample}
-        R.run("_opus-warmup-preescalated", [it for it in pre if it.id not in ids], router="opus",
-              out=out / "_warmup", workers=w, calibration=cal)
+        warm = sample + [it for it in pre if it.id not in ids]
+        R.run("_opus-warmup", warm, router="opus", out=Path(".cache") / "runs" / "warmup", workers=w,
+              strategy="self-report", calibration=CalibrationTable())
+        R.run("opus-sample100", sample, router="opus", out=out, workers=w, calibration=cal)
+
+    def guarded(fn):
+        def run() -> None:
+            try:
+                fn()
+            except Exception:
+                log.exception("lane %s failed", fn.__name__)
+                raise
+        return run
 
     with ThreadPoolExecutor(3) as ex:
-        for f in [ex.submit(lane_a), ex.submit(lane_b), ex.submit(lane_c)]:
+        futs = [ex.submit(guarded(f)) for f in (lane_a, lane_b, lane_c)]
+        for f in futs:
             f.result()
     R.run("routed", items, router="routed", out=out, workers=w, calibration=cal)
     if llm_dec != dec["llm_strategy"]["chosen"]:  # else the shipped "sonnet" row already is the decider row
@@ -544,7 +562,7 @@ CONFIG_LABELS = {
     "copy": "Copy baseline (best length-ok parallel)", "ngram": "Character 5-gram baseline",
     "prerank": "Retrieval only, prerank (no LLM, no decider)",
     "retrieval-default": "Retrieval only, shipped strategy",
-    "sonnet": "Sonnet 4.6 (shipped pipeline, ontology on)", "sonnet-noonto": "Sonnet 4.6, ontology off (ablation)",
+    "sonnet": "Sonnet 4.6 (shipped pipeline, ontology on)", "sonnet-noonto-hinted": "Sonnet 4.6, ontology off (ablation; the 88 hinted gaps)",
     "routed": "Routed Sonnet 4.6 -> Opus 4.6 (shipped)", "opus-sample100": "Opus 4.6 only (seeded 100-item sample)",
 }
 
@@ -580,7 +598,7 @@ def build_report(out_dir: Path, dec: dict[str, Any]) -> dict[str, Any]:
     for p in sorted((out_dir / "rows").glob("*.jsonl")):
         metas[p.stem], rows[p.stem] = load_rows(p)
     names = [n for n in order if n in rows] + [n for n in rows if n.startswith("retrieval-decider-")] + \
-        [n for n in ("sonnet", "sonnet-noonto") if n in rows] + [n for n in rows if n.startswith("sonnet-decider-")] + \
+        [n for n in ("sonnet", "sonnet-noonto-hinted") if n in rows] + [n for n in rows if n.startswith("sonnet-decider-")] + \
         [n for n in ("routed", "opus-sample100") if n in rows]
     thr = dec.get("baseline_thresholds", {})
     base_thr = {"copy": thr.get("baseline-copy", {}).get("threshold"),
@@ -603,9 +621,9 @@ def build_report(out_dir: Path, dec: dict[str, Any]) -> dict[str, Any]:
         res["sample100_vs_opus"] = {n: vs([r for r in rows[n] if r["id"] in sample_ids], rows["opus-sample100"])
                                     for n in names if n != "opus-sample100"}
     pairs = {}
-    if "sonnet" in rows and "sonnet-noonto" in rows:
-        pairs["ontology_on_vs_off"] = vs(rows["sonnet"], rows["sonnet-noonto"])
-        off = {r["id"]: r for r in rows["sonnet-noonto"]}
+    if "sonnet" in rows and "sonnet-noonto-hinted" in rows:
+        pairs["ontology_on_vs_off"] = vs(rows["sonnet"], rows["sonnet-noonto-hinted"])
+        off = {r["id"]: r for r in rows["sonnet-noonto-hinted"]}
         pairs["ontology_top1_changed"] = sum(1 for r in rows["sonnet"] if r["id"] in off
                                              and r["top1"] != off[r["id"]]["top1"])
     for n in names:
@@ -617,6 +635,11 @@ def build_report(out_dir: Path, dec: dict[str, Any]) -> dict[str, Any]:
         pairs["routed_vs_sonnet"] = vs(rows["routed"], rows["sonnet"])
         pairs["sonnet_vs_prerank"] = vs(rows["sonnet"], rows["prerank"])
     res["paired"] = pairs
+    # gap length (Tamil letters): 68% of TEST gaps are a single letter (VAL: 46%), so top-1 is reported per bucket
+    glen = {it.id: it.gap_chars for it in load_items("test")}
+    buckets = (("1 letter", 1, 1), ("2-3 letters", 2, 3), ("4+ letters", 4, 10 ** 6))
+    res["by_gap_length"] = {n: {b: summarize([r for r in rows[n] if lo <= glen.get(r["id"], 0) <= hi], n_boot=500)
+                                for b, lo, hi in buckets} for n in names}
     res["decisions"] = dec
     res["provenance"] = {k: metas[names[0]].get(k) for k in ("data_commit", "code_commit", "code_dirty")}
     res["provenance"]["code_dirty_any"] = any(m.get("code_dirty") for m in metas.values())
@@ -677,6 +700,19 @@ def render_test_md(res: dict[str, Any], *, title: str, preface: list[str]) -> st
             vtxt = f"{v['only_a']} / {v['only_b']}, p={_p(v['p_mcnemar'])}" if v else "-"
             L.append(f"| {res['configs'][n]['label']} | {_ci(s_, 'top1')} | {s_['top20']} | {s_['cer_clipped']} | "
                      f"{s_['coverage']} | {s_['selective_accuracy']} | {vtxt} |")
+    if res.get("by_gap_length"):
+        bl = list(next(iter(res["by_gap_length"].values())))
+        L += ["", "### Top-1 by gap length (Tamil letters)", "",
+              ("68% of TEST gaps are a single letter (VAL: 46%), which is why every system scores higher on TEST than on "
+              "VAL; read the longer-gap columns for restoration of words."), "",
+              "| configuration | " + " | ".join(f"{b} (n={res['by_gap_length'][names[0]][b]['n']})" for b in bl) + " |",
+              "|---|" + "---|" * len(bl)]
+        for n in names:
+            cells = []
+            for b in bl:
+                s_ = res["by_gap_length"][n][b]
+                cells.append("-" if not s_.get("n") else _ci(s_, "top1"))
+            L.append(f"| {res['configs'][n]['label']} | " + " | ".join(cells) + " |")
     L += ["", "## Paired comparisons (exact McNemar on top-1, full test)", "",
           "| comparison | n | only first right | only second right | p |", "|---|---|---|---|---|"]
     for k, v in res["paired"].items():
@@ -684,8 +720,11 @@ def render_test_md(res: dict[str, Any], *, title: str, preface: list[str]) -> st
             f = v["full"]
             L.append(f"| {k.replace('_', ' ')} | {f['n']} | {f['only_a']} | {f['only_b']} | {_p(f['p_mcnemar'])} |")
     if "ontology_top1_changed" in res["paired"]:
-        L += ["", (f"The ontology changed Sonnet's top-1 fill on {res['paired']['ontology_top1_changed']} of 413 gaps "
-              "(88 test gaps get at least one ontology hint).")]
+        n_h = res["paired"]["ontology_on_vs_off"]["full"]["n"]
+        L += ["", (f"Ontology ablation: {n_h} of 413 test gaps get at least one ontology hint; only those were re-run "
+                   "with the ontology off (the other gaps have byte-identical restorer input either way: no hint in the "
+                   f"prompt, no ontology candidate). The ontology changed Sonnet's top-1 fill on "
+                   f"{res['paired']['ontology_top1_changed']} of the {n_h}.")]
     L += ["", "## Cost and latency", "",
           ("Calls and tokens are every LLM call the configuration makes (replies served from `.cache/llm` are counted "
           "with the tokens of the original call). USD: list prices in `ezhuthu.agent.llm.PRICE_PER_MTOK` (Sonnet "

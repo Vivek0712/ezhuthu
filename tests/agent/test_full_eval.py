@@ -123,7 +123,7 @@ def test_report_renders_from_rows(tmp_path):
     rows = [_row(i, i % 3 == 0, calls=[SON], hard=i % 2 == 0, age=i % 5 == 0) for i in range(12)]
     for r in rows:
         r.update({"abstain_below": 0.5, "calibration": None})
-    for name in ("copy", "ngram", "prerank", "retrieval-decider-choice-topkk3", "sonnet", "sonnet-noonto", "routed",
+    for name in ("copy", "ngram", "prerank", "retrieval-decider-choice-topkk3", "sonnet", "sonnet-noonto-hinted", "routed",
                  "opus-sample100", "sonnet-decider-noul-topkk3"):
         fe.save_rows(out / "rows" / f"{name}.jsonl", rows[:6] if name == "opus-sample100" else rows,
                      {"config": name, "data_commit": "d", "code_commit": "c" * 40, "code_dirty": False})

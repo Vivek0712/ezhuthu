@@ -59,17 +59,16 @@ class RestorerSettings:
       * ``self-report``: no decider; LLM fills keep the LLM's own probability, retrieval-only candidates get the
         parallel-agreement heuristic (the decider-unavailable fallback, and main's behaviour without a decider).
     ``strategy_llm``: the strategy for gaps where an LLM answered; ``None`` = same as ``strategy``. The shipped
-    config uses ``prerank`` for retrieval-only gaps and ``self-report`` once an LLM answered: on the 20 live-Sonnet
-    VAL rows self-report had the better top-1 (0.15 vs 0.10), and prerank halves a correct LLM fill whose ISO
-    length misses the letter-count ``[?N]`` (29% of VAL targets), which then abstained. ``with_(strategy=...)``
-    (env, eval CLIs) sets both unless ``strategy_llm`` is given too.
+    config (chosen on VAL, issue #26) uses ``self-report`` for retrieval-only gaps and ``noul-topk`` (top 3) once an
+    LLM answered; see ``eval/reports/2026-11-02-val-selection.md``. ``with_(strategy=...)`` (env, eval CLIs) sets
+    both unless ``strategy_llm`` is given too.
     ``calibration``: JSON of per-decider Platt parameters and abstain thresholds fitted on the VAL split
     (``python -m ezhuthu.eval.calibrate``); relative paths are resolved against the package directory.
     ``calibration_min_n`` / ``calibration_min_positives``: an entry fitted on fewer VAL items (or fewer correct
     top-1s) is provisional and ignored; the variant then keeps raw confidences and the routing thresholds.
     """
 
-    strategy: str = "prerank"
+    strategy: str = "prerank"  # dataclass default; config/models.yaml sets the shipped value
     strategy_llm: str | None = None
     top_k: int = 5
     llm_candidates: int = 8
