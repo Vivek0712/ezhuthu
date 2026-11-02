@@ -563,7 +563,9 @@ CONFIG_LABELS = {
     "prerank": "Retrieval only, prerank (no LLM, no decider)",
     "retrieval-default": "Retrieval only, shipped strategy",
     "sonnet": "Sonnet 4.6 (shipped pipeline, ontology on)", "sonnet-noonto-hinted": "Sonnet 4.6, ontology off (ablation; the 88 hinted gaps)",
-    "routed": "Routed Sonnet 4.6 -> Opus 4.6 (shipped)", "opus-sample100": "Opus 4.6 only (seeded 100-item sample)",
+    "routed": "Routed Sonnet 4.6 -> Opus 4.6 (shipped)",
+    "sonnet-prerank": "Sonnet 4.6 candidates, prerank instead of the decider",
+    "routed-prerank": "Routed, prerank instead of the decider", "opus-sample100": "Opus 4.6 only (seeded 100-item sample)",
 }
 
 
@@ -599,7 +601,7 @@ def build_report(out_dir: Path, dec: dict[str, Any]) -> dict[str, Any]:
         metas[p.stem], rows[p.stem] = load_rows(p)
     names = [n for n in order if n in rows] + [n for n in rows if n.startswith("retrieval-decider-")] + \
         [n for n in ("sonnet", "sonnet-noonto-hinted") if n in rows] + [n for n in rows if n.startswith("sonnet-decider-")] + \
-        [n for n in ("routed", "opus-sample100") if n in rows]
+        [n for n in ("sonnet-prerank", "routed", "routed-prerank", "opus-sample100") if n in rows]
     thr = dec.get("baseline_thresholds", {})
     base_thr = {"copy": thr.get("baseline-copy", {}).get("threshold"),
                 "ngram": thr.get("baseline-ngram", {}).get("threshold")}
@@ -617,7 +619,8 @@ def build_report(out_dir: Path, dec: dict[str, Any]) -> dict[str, Any]:
         }
     sample_ids = {r["id"] for r in rows.get("opus-sample100", [])}
     if sample_ids:
-        res["sample100"] = {n: summarize([r for r in rows[n] if r["id"] in sample_ids]) for n in names}
+        res["sample100"] = {n: summarize([r for r in rows[n] if r["id"] in sample_ids], threshold=base_thr.get(n))
+                            for n in names}
         res["sample100_vs_opus"] = {n: vs([r for r in rows[n] if r["id"] in sample_ids], rows["opus-sample100"])
                                     for n in names if n != "opus-sample100"}
     pairs = {}
@@ -633,6 +636,11 @@ def build_report(out_dir: Path, dec: dict[str, Any]) -> dict[str, Any]:
             pairs[f"{n}_vs_sonnet"] = vs(rows[n], rows["sonnet"])
     if "routed" in rows:
         pairs["routed_vs_sonnet"] = vs(rows["routed"], rows["sonnet"])
+        pairs["routed_vs_ngram"] = vs(rows["routed"], rows["ngram"])
+        pairs["routed_vs_prerank"] = vs(rows["routed"], rows["prerank"])
+    for a, b in (("sonnet", "sonnet-prerank"), ("routed", "routed-prerank")):
+        if a in rows and b in rows:
+            pairs[f"{a}_decider_vs_prerank"] = vs(rows[a], rows[b])
         pairs["sonnet_vs_prerank"] = vs(rows["sonnet"], rows["prerank"])
     res["paired"] = pairs
     # gap length (Tamil letters): 68% of TEST gaps are a single letter (VAL: 46%), so top-1 is reported per bucket
@@ -886,6 +894,34 @@ def cmd_repair(args) -> int:
     return 0
 
 
+EXTRA_CONFIGS = {  # added after the main pass to answer "does the decider beat prerank on LLM candidates?"
+    "sonnet-prerank": {"router": "sonnet", "strategy": "prerank"},
+    "routed-prerank": {"router": "routed", "strategy": "prerank"},
+}
+
+
+def cmd_extra(args) -> int:
+    """Score the shipped LLM pipelines with ``prerank`` instead of the decider, from the LLM cache. No setting is
+    re-chosen; these rows only answer whether the 2B decider beats prerank on LLM candidates on TEST. A routed gap
+    whose prerank top-1 is under the escalation threshold where the decider's was not needs a live Opus call."""
+    if not live_enabled():
+        print("set EZHUTHU_LIVE=1", file=sys.stderr)
+        return 2
+    if code_provenance()["code_dirty"]:
+        print("refusing to score from uncommitted code", file=sys.stderr)
+        return 2
+    out = Path(args.out) / TEST_DIR
+    cfg = load_models_config()
+    cal = CalibrationTable.load(cfg.restorer.calibration, min_n=cfg.restorer.calibration_min_n,
+                               min_positives=cfg.restorer.calibration_min_positives)
+    R = Runner(live=True, max_live_calls=args.max_live_calls, rpm=40)
+    items = load_items("test")
+    for name, kw in EXTRA_CONFIGS.items():
+        R.run(name, items, out=out, workers=args.workers, calibration=cal, **kw)
+    print(json.dumps({"usage": R.llm.inner.ledger.to_dict(), "budget_refusals": R.llm.exhausted}))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -905,6 +941,10 @@ def main(argv: list[str] | None = None) -> int:
         p.add_argument("--workers", type=int, default=4)
     for p in (v, d, t):
         p.add_argument("--out", default=str((repo_root() or Path.cwd()) / "eval" / "reports"))
+    ex = sub.add_parser("extra")
+    ex.add_argument("--max-live-calls", type=int, default=60)
+    ex.add_argument("--workers", type=int, default=3)
+    ex.add_argument("--out", default=str((repo_root() or Path.cwd()) / "eval" / "reports"))
     rp = sub.add_parser("repair")
     rp.add_argument("--max-live-calls", type=int, default=60)
     rp.add_argument("--workers", type=int, default=2)
@@ -919,7 +959,8 @@ def main(argv: list[str] | None = None) -> int:
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     logging.getLogger("strands").setLevel(logging.WARNING)
     return {"val": cmd_val, "decide": cmd_decide, "test": cmd_test, "report": cmd_report,
-            "val-report": cmd_val_report, "repair": cmd_repair}[args.cmd](args)
+            "val-report": cmd_val_report, "repair": cmd_repair,
+            "extra": cmd_extra}[args.cmd](args)
 
 
 if __name__ == "__main__":
