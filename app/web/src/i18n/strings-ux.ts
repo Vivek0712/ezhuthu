@@ -140,39 +140,9 @@ export const enUx = {
   'trial.timedOut': 'time ran out',
 
   'how.pageTitle': 'How Ezhuthu reads an inscription',
-  'how.lede':
-    'Ezhuthu is built with Strands Agents. Here is what happens to a damaged passage, step by step, with a real example in Tamil script and English letters.',
-  'how.exampleTitle': 'A worked example',
-  'how.exampleLede':
-    'A passage from “{title}” ({place}). It is in the training set, and the DHARMA editors themselves left these letters blank: nobody knows what was carved there.',
-  'how.step1':
-    'Here the text comes from the DHARMA edition, so there was no photo to read. The lost letters are marked [?2], about two letters.',
-  'how.step2': 'The Restorer looked for parallel passages, asked language models and a letter-sequence model, and ranked the proposals:',
-  'how.step3': 'The best proposal has a confidence of {c}. This kind of proposal is filled only from {t}, so the gap stays open.',
-  'how.step4': 'The Interpreter splits the line into words and gives the meaning. Next to the gap, {w} ({wiso}) means “{m}”. What the passage records, from the edition:',
-  'how.step5': 'The open gap goes to the expert review queue, where an epigraphist can fill it or agree to leave it open.',
-  'how.confTitle': 'What the confidence means',
-  'how.conf1':
-    'A confidence of 70% means that, among earlier proposals with that score, about 7 in 10 matched the editors’ restoration. The scale was fitted on validation inscriptions, not on the test inscriptions it is scored on.',
-  'how.conf2': 'It measures agreement with published editions, not truth. A fill that differs from an edition is not proven wrong; an expert can weigh the two.',
-  'how.expertTitle': 'Why it sometimes asks an expert',
-  'how.expert1': 'Some gaps have too little to go on: no parallel passage, a long gap, a rare word. A guess there would look sure of itself and mislead.',
-  'how.expert2':
-    'So when the best confidence is below the fill level, Ezhuthu leaves the gap open and asks an expert. Leaving about half of the gaps open is what lets the filled ones agree with the editors so often.',
-  'how.deciderTitle': 'What the Strands Decider does',
-  'how.decider1': 'The Strands Decider is the step that makes the call: fill the gap or leave it open, and in a lesson, move on, repeat or give a hint.',
-  'how.decider2':
-    'For restoration, the app today makes this call with a calibrated score. A hosted Strands Decider model was tested for it on 120 validation gaps and did not do better (39 matches against 41). In the AI tutor, the Strands Decider chooses whether you move on, repeat or get a hint.',
-  'how.dataTitle': 'Where the data comes from',
-  'how.data1': 'The inscription texts are DHARMA project editions of Tamil inscriptions, shared under CC BY-SA 4.0. Ezhuthu uses 1,320 of them.',
-  'how.data2':
-    'They are split by inscription into training, validation and test sets. Practice questions and this example use the training set only. The numbers below come from the test set, which nothing was tuned on.',
+  'how.lede': 'One real stone, from worn letters to a lesson. Built with Strands Agents.',
   'how.limitsTitle': 'Honest limits',
-  'how.limit1': 'On the 413 test gaps, the first proposal matches the editors’ restoration 63% of the time (259 of 413). On the 317 hard test gaps it is 57%.',
-  'how.limit2': 'Allowed to leave gaps open, it fills about half of the test gaps (50%), and 91% of those fills match the editors’ restoration (187 of 206).',
-  'how.limit3': 'Long gaps are hard: on gaps of four or more letters it matches only 20% of the time.',
-  'how.limit4': 'It cannot read Tamil-Brahmi from photos, and reading photos of Tamil script has not been measured on real stones.',
-  'how.limitsSource': 'Source: the deployed-configuration report, eval/reports/2026-11-02-deployed-config.md, test set scored once.',
+  'how.limitsSource': 'Source: eval/reports/2026-11-02-deployed-config.md.',
   'how.ctaPractice': 'Practise reading',
   'how.ctaRestore': 'Restore a passage',
 
@@ -349,38 +319,9 @@ export const taUx: Record<keyof typeof enUx, string> = {
   'trial.timedOut': 'நேரம் முடிந்தது',
 
   'how.pageTitle': 'எழுத்து ஒரு கல்வெட்டை எப்படிப் படிக்கிறது',
-  'how.lede':
-    'எழுத்து Strands Agents கொண்டு உருவானது. சிதைந்த ஒரு பகுதிக்கு என்ன நடக்கிறது என்பதை, தமிழ் எழுத்திலும் ஆங்கில எழுத்திலும் உண்மையான எடுத்துக்காட்டுடன், படிப்படியாகக் காணுங்கள்.',
-  'how.exampleTitle': 'ஒரு செய்முறை எடுத்துக்காட்டு',
-  'how.exampleLede':
-    '“{title}” ({place}) கல்வெட்டிலிருந்து ஒரு பகுதி. இது பயிற்சித் தொகுப்பைச் சேர்ந்தது; DHARMA பதிப்பாசிரியர்களே இந்த எழுத்துகளை வெறுமையாக விட்டுள்ளனர்: அங்கே என்ன செதுக்கப்பட்டது என்று யாருக்கும் தெரியாது.',
-  'how.step1': 'இங்கே உரை DHARMA பதிப்பிலிருந்து வருகிறது; படிக்க ஒளிப்படம் இல்லை. அழிந்த எழுத்துகள் [?2] எனக் குறிக்கப்பட்டுள்ளன, ஏறத்தாழ இரண்டு எழுத்துகள்.',
-  'how.step2': 'மீட்பான் இணைப் பகுதிகளைத் தேடி, மொழி மாதிரிகளையும் எழுத்துத்தொடர் மாதிரியையும் கேட்டு, முன்மொழிவுகளை வரிசைப்படுத்தியது:',
-  'how.step3': 'சிறந்த முன்மொழிவின் நம்பகம் {c}. இவ்வகை முன்மொழிவு {t}-இலிருந்துதான் நிரப்பப்படும்; ஆகவே இடைவெளி திறந்தே இருக்கிறது.',
-  'how.step4': 'பொருளாளர் வரியைச் சொற்களாகப் பிரித்துப் பொருள் தருகிறது. இடைவெளிக்கு அருகே {w} ({wiso}) என்பதன் பொருள் “{m}”. பகுதி பதிவு செய்வது, பதிப்பின்படி:',
-  'how.step5': 'திறந்த இடைவெளி வல்லுநர் மதிப்பாய்வு வரிசைக்குச் செல்கிறது; அங்கே கல்வெட்டியலாளர் அதை நிரப்பலாம், அல்லது திறந்தே விட ஒப்பலாம்.',
-  'how.confTitle': 'நம்பகம் என்றால் என்ன',
-  'how.conf1':
-    '70% நம்பகம் என்றால்: அதே மதிப்பெண் கொண்ட முந்தைய முன்மொழிவுகளில் ஏறத்தாழ 10-இல் 7 பதிப்பாசிரியர்களின் மீட்டமைப்புடன் பொருந்தின. இந்த அளவு சரிபார்ப்புக் கல்வெட்டுகளில் பொருத்தப்பட்டது; மதிப்பிடப்படும் சோதனைக் கல்வெட்டுகளில் அல்ல.',
-  'how.conf2': 'இது வெளியான பதிப்புகளுடன் உள்ள பொருத்தத்தை அளக்கிறது, உண்மையை அல்ல. பதிப்பிலிருந்து வேறுபடும் நிரப்பு தவறு என நிரூபணமாகவில்லை; வல்லுநர் இரண்டையும் எடைபோடலாம்.',
-  'how.expertTitle': 'சில நேரம் ஏன் வல்லுநரிடம் கேட்கிறது',
-  'how.expert1': 'சில இடைவெளிகளுக்குப் போதிய சான்று இல்லை: இணைப் பகுதி இல்லை, நீண்ட இடைவெளி, அரிய சொல். அங்கே ஊகம் உறுதியாகத் தோன்றி வழிதவறச் செய்யும்.',
-  'how.expert2':
-    'ஆகவே சிறந்த நம்பகம் நிரப்பும் அளவுக்குக் கீழே இருந்தால், எழுத்து இடைவெளியைத் திறந்து விட்டு வல்லுநரிடம் கேட்கிறது. ஏறத்தாழப் பாதி இடைவெளிகளைத் திறந்து விடுவதால்தான் நிரப்பியவை பதிப்பாசிரியர்களுடன் அடிக்கடி பொருந்துகின்றன.',
-  'how.deciderTitle': 'Strands Decider என்ன செய்கிறது',
-  'how.decider1': 'Strands Decider முடிவெடுக்கும் படி: இடைவெளியை நிரப்புவதா திறந்து விடுவதா; பாடத்தில், முன்னேறுவதா, மீண்டும் செய்வதா, குறிப்பு தருவதா.',
-  'how.decider2':
-    'மீட்டமைப்புக்கு, இன்று செயலி இந்த முடிவை அளவுதிருத்திய மதிப்பெண்ணால் எடுக்கிறது. இணையத்தில் இயங்கும் Strands Decider மாதிரி 120 சரிபார்ப்பு இடைவெளிகளில் சோதிக்கப்பட்டது; அது சிறப்பாகச் செய்யவில்லை (41-க்கு எதிராக 39 பொருத்தங்கள்). AI ஆசிரியரில், நீங்கள் முன்னேறுவதா, மீண்டும் செய்வதா, குறிப்பு பெறுவதா என்பதை Strands Decider தேர்ந்தெடுக்கிறது.',
-  'how.dataTitle': 'தரவு எங்கிருந்து வருகிறது',
-  'how.data1': 'கல்வெட்டு உரைகள் DHARMA திட்டத்தின் தமிழ்க் கல்வெட்டுப் பதிப்புகள், CC BY-SA 4.0 உரிமத்தில் பகிரப்பட்டவை. எழுத்து அவற்றில் 1,320-ஐப் பயன்படுத்துகிறது.',
-  'how.data2':
-    'அவை கல்வெட்டு வாரியாகப் பயிற்சி, சரிபார்ப்பு, சோதனைத் தொகுப்புகளாகப் பிரிக்கப்பட்டுள்ளன. பயிற்சிக் கேள்விகளும் இந்த எடுத்துக்காட்டும் பயிற்சித் தொகுப்பை மட்டுமே பயன்படுத்துகின்றன. கீழே உள்ள எண்கள், எதுவும் பொருத்தப்படாத சோதனைத் தொகுப்பிலிருந்து வருகின்றன.',
+  'how.lede': 'ஓர் உண்மையான கல், தேய்ந்த எழுத்துகள் முதல் பாடம் வரை. Strands Agents கொண்டு உருவாக்கப்பட்டது.',
   'how.limitsTitle': 'நேர்மையான வரம்புகள்',
-  'how.limit1': '413 சோதனை இடைவெளிகளில், முதல் முன்மொழிவு 63% பதிப்பாசிரியர்களின் மீட்டமைப்புடன் பொருந்துகிறது (413-இல் 259). கடினமான 317 சோதனை இடைவெளிகளில் 57%.',
-  'how.limit2': 'இடைவெளிகளைத் திறந்து விட அனுமதித்தால், சோதனை இடைவெளிகளில் ஏறத்தாழப் பாதியை (50%) நிரப்புகிறது; அந்த நிரப்புகளில் 91% பதிப்பாசிரியர்களின் மீட்டமைப்புடன் பொருந்துகின்றன (206-இல் 187).',
-  'how.limit3': 'நீண்ட இடைவெளிகள் கடினம்: நான்கு அல்லது அதற்கு மேற்பட்ட எழுத்து இடைவெளிகளில் 20% மட்டுமே பொருந்துகிறது.',
-  'how.limit4': 'ஒளிப்படங்களிலிருந்து தமிழ்-பிராமியைப் படிக்க இயலாது; தமிழ் எழுத்து ஒளிப்பட வாசிப்பு உண்மையான கற்களில் இன்னும் அளக்கப்படவில்லை.',
-  'how.limitsSource': 'மூலம்: செயல்படுத்திய அமைப்பு அறிக்கை, eval/reports/2026-11-02-deployed-config.md; சோதனைத் தொகுப்பு ஒருமுறை மதிப்பிடப்பட்டது.',
+  'how.limitsSource': 'மூலம்: eval/reports/2026-11-02-deployed-config.md.',
   'how.ctaPractice': 'வாசிப்புப் பயிற்சி',
   'how.ctaRestore': 'ஒரு பகுதியை மீட்டமைக்க',
 

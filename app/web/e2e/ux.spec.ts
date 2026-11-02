@@ -143,13 +143,13 @@ for (const lang of ['en', 'ta'] as const) {
       if (lang === 'en') await shot(page, 'trial-result', info.project.name, true);
     });
 
-    test('how it works: the pipeline on a real example, the measured limits and the DHARMA credit', async ({ page }, info) => {
+    test('how it works: the animated overview on a real stone, the measured limits and the DHARMA credit', async ({ page }, info) => {
       await page.goto('/');
       await gotoNav(page, T.how);
       await expect(page).toHaveURL(/\/how-it-works$/);
       await expect(page.getByRole('heading', { level: 1 })).toHaveText(T.howTitle);
-      await expect(page.getByTestId('pipeline').locator('.pipe-step')).toHaveCount(5);
-      await expect(page.getByTestId('worked-example').locator('.bi-ta').first()).toContainText('மகன்');
+      await expect(page.getByTestId('how-hero').locator('.hx-scene')).toHaveCount(6);
+      await expect(page.getByTestId('hx-scene-interp')).toContainText('குளம்');
       await expect(page.getByTestId('how-limits')).toContainText(T.limits);
       await expect(page.getByTestId('how-credit').getByRole('link', { name: 'CC BY-SA 4.0' })).toBeVisible();
       await expectNoHorizontalScroll(page);
@@ -166,7 +166,8 @@ test('reduced motion: practice and how-it-works render without animations', asyn
   const anim = await page.getByTestId('session-card-letters').evaluate((el) => getComputedStyle(el).animationName);
   expect(anim).toBe('none');
   await page.goto('/how-it-works');
-  expect(await page.locator('.pipe-step').first().evaluate((el) => getComputedStyle(el).animationName)).toBe('none');
+  await expect(page.getByTestId('hx-stage')).toHaveClass(/hx-still/);
+  expect(await page.locator('.hx-box').first().evaluate((el) => getComputedStyle(el).animationName)).toBe('none');
   await ctx.close();
 });
 

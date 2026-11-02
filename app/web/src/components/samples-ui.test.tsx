@@ -308,7 +308,8 @@ describe('plain-language Restore (user feedback 2026-11-02)', () => {
     const how = screen.getByTestId('restore-how');
     expect(how).toHaveAttribute('open');
     expect(within(how).getAllByRole('listitem')).toHaveLength(4);
-    expect(how).toHaveTextContent('Strands Decider fills a gap only when the system is confident enough');
+    expect(how).toHaveTextContent('A calibrated confidence check fills a gap only when the system is confident enough');
+    expect(how).not.toHaveTextContent('Strands Decider');
     expect(how).toHaveTextContent('[?3] means about 3 letters');
     expect(screen.getByTestId('restore-advanced')).not.toHaveAttribute('open');
     expect(screen.getByTestId('restore-script')).toHaveValue('auto');

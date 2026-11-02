@@ -85,11 +85,10 @@ describe('home mini-drill', () => {
 });
 
 describe('how it works', () => {
-  it('walks the real TRAIN example through the pipeline and states the measured limits', () => {
+  it('opens with the animated overview of one real stone and states the measured limits', () => {
     renderApp(<AppRoutes />, { route: '/how-it-works' });
-    for (const s of ['reader', 'restorer', 'decider', 'interpreter', 'expert']) expect(screen.getByTestId(`pipe-${s}`)).toBeInTheDocument();
-    expect(screen.getByTestId('pipe-decider-example')).toHaveTextContent('15% is below 41%: left open');
-    expect(screen.getByTestId('walk-decider')).toHaveTextContent('15%');
+    for (const s of ['stone', 'reader', 'restorer', 'check', 'interp', 'tutor']) expect(screen.getByTestId(`hx-scene-${s}`)).toBeInTheDocument();
+    expect(screen.getByTestId('agent-ex-check')).toHaveTextContent('15%, below the level of 41%');
     const limits = screen.getByTestId('how-limits');
     expect(limits).toHaveTextContent('259 of 413');
     expect(limits).toHaveTextContent('187 of 206');

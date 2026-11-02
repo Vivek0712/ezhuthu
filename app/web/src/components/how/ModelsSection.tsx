@@ -1,8 +1,10 @@
+import type { CSSProperties } from 'react';
 import { useI18n } from '../../i18n/I18nProvider';
 import { fmt, pctText } from '../../practice/engine';
 import { EXAMPLE } from '../Pipeline';
 import { Bi } from '../practice/Bi';
 import { NUMS, VARI } from './how-data';
+import { useInView } from './useInView';
 
 /** Two real gaps on a 0-100% line with the Sonnet fill level: one left open, one filled. */
 function ThresholdLine() {
@@ -26,7 +28,7 @@ function ThresholdLine() {
           </span>
         </span>
         {pts.map((p) => (
-          <span key={p.key} className={`thr-pt thr-${p.key}`} style={{ left: `${p.c * 100}%` }} />
+          <span key={p.key} className={`thr-pt thr-${p.key}`} style={{ '--c': p.c } as CSSProperties} />
         ))}
       </div>
       <ul className="thr-legend">
@@ -40,42 +42,46 @@ function ThresholdLine() {
   );
 }
 
-/** "Models and decisions": Sonnet -> Opus routing, calibration and the fill level, where the Strands Decider is used. */
+/** "Models and decisions": Sonnet -> Opus routing as a bar, calibration and the fill level on a line, and where the
+ * Strands Decider is (and is not) used. Bars and points move into place when the section scrolls into view. */
 export function ModelsSection() {
   const { t } = useI18n();
+  const [ref, inView] = useInView<HTMLDivElement>(true);
   return (
-    <div className="grid grid-3 models" data-testid="models">
+    <div ref={ref} className={`grid grid-3 models ${inView ? 'is-in' : ''}`} data-testid="models">
       <section className="leaf" data-testid="models-route">
         <h3>{t('hw.routeTitle')}</h3>
         {/* config/models.yaml routing: escalate_if_gap_chars_over 12, escalate_if_no_parallel, escalate_if_confidence_below 0.6. */}
         <p>{t('hw.route1')}</p>
         {/* eval/reports/2026-11-02-deployed-config.md, "Cost and latency (TEST)": 296 of 413 use Opus (291 + 5), $0.0060 per gap, p50 3.2 s. */}
-        <p>{fmt(t('hw.route2'), { n: NUMS.testGaps, opus: NUMS.opusGaps, pre: NUMS.opusPre, after: NUMS.opusAfter, usd: NUMS.usdPerGap, p50: NUMS.p50 })}</p>
+        <div className="route-bar" role="img" aria-label={fmt(t('hw.routeBar'), { opus: NUMS.opusGaps, n: NUMS.testGaps })} style={{ '--w': NUMS.opusGaps / NUMS.testGaps } as CSSProperties}>
+          <span className="route-opus">Opus 4.6</span>
+          <span className="route-sonnet">Sonnet 4.6</span>
+        </div>
+        <p className="hint-text">
+          {fmt(t('hw.routeBar'), { opus: NUMS.opusGaps, n: NUMS.testGaps })} · {fmt(t('hw.routeCost'), { usd: NUMS.usdPerGap, p50: NUMS.p50 })}
+        </p>
       </section>
       <section className="leaf" data-testid="models-cal">
         <h3>{t('hw.calTitle')}</h3>
         <p>{t('hw.cal1')}</p>
-        {/* eval/reports/2026-11-02-deployed-config.md: thresholds 0.4111 / 0.4887; TEST coverage 0.4988, selective accuracy 0.9078 (187/206). */}
-        <p>
-          {fmt(t('hw.cal2'), {
-            ts: pctText(NUMS.thrSonnet),
-            to: pctText(NUMS.thrOpus),
-            cov: pctText(NUMS.coverage),
-            acc: pctText(NUMS.selAcc),
-            k: NUMS.selK,
-            n: NUMS.selN,
-          })}
-        </p>
         <ThresholdLine />
+        {/* eval/reports/2026-11-02-deployed-config.md: TEST coverage 0.4988, selective accuracy 0.9078 (187/206). */}
+        <p className="hint-text">{fmt(t('hw.cal2'), { cov: pctText(NUMS.coverage), acc: pctText(NUMS.selAcc), k: NUMS.selK, n: NUMS.selN })}</p>
       </section>
       <section className="leaf" id="decider-use" data-testid="models-decider">
         <h3>{t('hw.decTitle')}</h3>
-        {/* src/ezhuthu/agent/tutor/policy.py: pedagogy choice by Strands Decider with rule guardrails. */}
-        <p>{t('hw.dec1')}</p>
-        {/* eval/reports/2026-11-02-deployed-config.md VAL stage 2: hosted v19 39 vs 41 of 120 (p = 0.69); 13 of 120 over the 27 s proxy limit. */}
-        <p>
-          {fmt(t('hw.dec2'), { n: NUMS.hostedN, d: NUMS.hostedMatches, w: NUMS.chosenMatches, slow: NUMS.hostedSlow, limit: NUMS.proxyLimitS })}
-        </p>
+        <ul className="dec-uses">
+          {/* src/ezhuthu/agent/tutor/policy.py: pedagogy choice by Strands Decider with rule guardrails. */}
+          <li className="is-yes">{t('hw.dec1')}</li>
+          {/* eval/reports/2026-11-02-deployed-config.md: restoration makes no Strands Decider call in the deployed configuration. */}
+          <li className="is-no">{t('hw.dec2')}</li>
+        </ul>
+        <details className="how-more">
+          <summary>{t('hw.more')}</summary>
+          {/* eval/reports/2026-11-02-deployed-config.md VAL stage 2: hosted v19 39 vs 41 of 120 (p = 0.69); 13 of 120 over the 27 s proxy limit. */}
+          <p>{fmt(t('hw.dec3'), { n: NUMS.hostedN, d: NUMS.hostedMatches, w: NUMS.chosenMatches, slow: NUMS.hostedSlow, limit: NUMS.proxyLimitS })}</p>
+        </details>
       </section>
       <p className="hint-text models-source">{t('hw.modelsSource')}</p>
     </div>

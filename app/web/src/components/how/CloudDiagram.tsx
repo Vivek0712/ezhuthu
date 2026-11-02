@@ -1,6 +1,8 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useI18n } from '../../i18n/I18nProvider';
+import { usePrefersReducedMotion } from '../../lib/motion';
 import { Diagram, useNarrow, type DEdge, type DLayout, type DNode } from './Diagram';
+import { useInView } from './useInView';
 
 // Every box is a resource in infra/ (AWS CDK): EzhuthuWeb (S3 + CloudFront, /api/* to the HTTP API),
 // EzhuthuApi (API Gateway HTTP API, JWT authorizer from the Cognito pool, Lambda proxy Node 22 arm64, 29 s timeout),
@@ -67,10 +69,37 @@ const NARROW: DLayout = {
   },
 };
 
-/** A compact AWS architecture diagram; every box is verified against infra/. */
-export function CloudDiagram() {
+/** One request's path, hop by hop: each step lights an edge and the box it reaches. */
+export const CLOUD_PATH: string[][] = [
+  ['browser'],
+  ['browser-cf', 'cf'],
+  ['cf-api', 'api'],
+  ['api-lambda', 'lambda'],
+  ['lambda-agent', 'agent'],
+  ['agent-bedrock', 'bedrock'],
+];
+
+/** A compact AWS architecture diagram; every box is verified against infra/. While on screen (and without reduced
+ * motion) a request travels browser → CloudFront → API Gateway → Lambda → AgentCore → Bedrock, then starts again. */
+export function CloudDiagram({ stepMs = 900 }: { stepMs?: number }) {
   const { t } = useI18n();
   const narrow = useNarrow();
+  const reduced = usePrefersReducedMotion();
+  const [ref, inView] = useInView<HTMLElement>();
+  const [step, setStep] = useState(-1);
+  const running = inView && !reduced && typeof window.IntersectionObserver === 'function';
+  useEffect(() => {
+    if (!running) return;
+    // One beat past the last hop holds the finished path before it starts again.
+    const id = window.setInterval(() => setStep((s) => (s + 1) % (CLOUD_PATH.length + 2)), stepMs);
+    return () => {
+      window.clearInterval(id);
+      setStep(-1);
+    };
+  }, [running, stepMs]);
+  // Hops so far are "done"; on the holding beats the whole path is lit.
+  const active = useMemo(() => new Set(step < 0 ? [] : step < CLOUD_PATH.length ? CLOUD_PATH[step]! : CLOUD_PATH.flat()), [step]);
+  const done = useMemo(() => new Set(step > 0 && step < CLOUD_PATH.length ? CLOUD_PATH.slice(0, step).flat() : []), [step]);
   const nodes: DNode[] = useMemo(
     () => [
       { id: 'browser', label: t('hw.c.browser'), sub: t('hw.c.browserSub'), tone: 'io' },
@@ -89,11 +118,14 @@ export function CloudDiagram() {
     [t],
   );
   return (
-    <figure className="cloud" data-testid="cloud">
+    <figure ref={ref} className="cloud" data-testid="cloud" data-step={step}>
       <div className="flow-canvas">
-        <Diagram id="cloud" nodes={nodes} edges={EDGES} layout={narrow ? NARROW : WIDE} title={t('hw.cloudTitle')} testId="cloud-svg" labelLines={2} />
+        <Diagram id="cloud" nodes={nodes} edges={EDGES} layout={narrow ? NARROW : WIDE} title={t('hw.cloudTitle')} testId="cloud-svg" labelLines={2} active={active} done={done} />
       </div>
-      <figcaption className="hint-text">{t('hw.cloudNote')}</figcaption>
+      <details className="how-more">
+        <summary>{t('hw.more')}</summary>
+        <p className="hint-text">{t('hw.cloudNote')}</p>
+      </details>
     </figure>
   );
 }
