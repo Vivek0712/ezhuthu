@@ -302,10 +302,8 @@ describe('layout', () => {
     expect(document.body.textContent).not.toMatch(/CC BY 4\.0/);
   });
 
-  it('credits the benchmark licence on the Test page', async () => {
-    const user = userEvent.setup();
+  it('credits the benchmark licence on the public results page', async () => {
     renderApp(<AppRoutes />, { route: '/benchmark' });
-    await user.click(within(screen.getByTestId('auth-gate')).getByRole('button', { name: 'Sign in' }));
     expect(await screen.findByTestId('benchmark-credit')).toHaveTextContent('shared under the same licence, CC BY-SA 4.0');
   });
 });

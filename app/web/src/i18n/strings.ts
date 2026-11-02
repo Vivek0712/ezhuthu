@@ -1,3 +1,4 @@
+import { enBench, taBench } from './strings-bench';
 import { enUx, taUx } from './strings-ux';
 
 // Every English key must have a Tamil string (enforced by the type below and by i18n.test.ts).
@@ -9,7 +10,7 @@ export const en = {
   'nav.learn': 'Practice',
   'nav.progress': 'Progress',
   'nav.restore': 'Restore',
-  'nav.test': 'Benchmark',
+  'nav.test': 'Benchmark results',
   'nav.review': 'Expert review',
   'nav.reviewShort': 'Review',
   'nav.about': 'About',
@@ -412,6 +413,8 @@ export const en = {
   'notFound.back': 'Back home',
   // UX revamp: home sections, instant practice, How it works (strings-ux.ts).
   ...enUx,
+  // Public results page (/benchmark, strings-bench.ts).
+  ...enBench,
 } as const;
 
 export type MessageKey = keyof typeof en;
@@ -424,7 +427,7 @@ export const ta: Record<MessageKey, string> = {
   'nav.learn': 'பயிற்சி',
   'nav.progress': 'முன்னேற்றம்',
   'nav.restore': 'மீட்டமை',
-  'nav.test': 'அளவுகோல்',
+  'nav.test': 'அளவுகோல் முடிவுகள்',
   'nav.review': 'வல்லுநர் மதிப்பாய்வு',
   'nav.reviewShort': 'மதிப்பாய்வு',
   'nav.about': 'அறிமுகம்',
@@ -834,4 +837,6 @@ export const ta: Record<MessageKey, string> = {
   'notFound.back': 'முகப்புக்குத் திரும்பு',
   // UX revamp (strings-ux.ts): every Tamil string there is PENDING a native-speaker check.
   ...taUx,
+  // Results page (strings-bench.ts): PENDING a native-speaker check.
+  ...taBench,
 };

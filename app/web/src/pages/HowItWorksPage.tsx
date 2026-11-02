@@ -110,6 +110,11 @@ export function HowItWorksPage() {
           <li>{t('how.limit4')}</li>
         </ul>
         <p className="hint-text">{t('how.limitsSource')}</p>
+        <p>
+          <Link to="/benchmark" data-testid="how-results">
+            {t('how.resultsLink')} →
+          </Link>
+        </p>
         <div className="row">
           <Link className="btn btn-primary" to="/practice">
             {t('how.ctaPractice')}

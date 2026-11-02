@@ -66,7 +66,7 @@ test('@screens capture every page', async ({ page }, info) => {
   await shot(page, '07-progress-en', p);
 
   await page.goto('/benchmark');
-  await page.getByTestId('auth-gate').getByRole('button', { name: 'Sign in' }).click();
+  await page.getByTestId('runner-gate').getByRole('button', { name: 'Sign in' }).click();
   await page.getByTestId('run-benchmark').click();
   await expect(page.getByTestId('score-report')).toBeVisible();
   await shot(page, '08-test-report-en', p);

@@ -86,14 +86,14 @@ describe('Progress page', () => {
 });
 
 describe('protected pages', () => {
-  it('gates Test behind sign-in, then runs the benchmark and draws the reliability chart', async () => {
+  it('gates the benchmark runner (not the results) behind sign-in, then runs it and draws the reliability chart', async () => {
     const user = userEvent.setup();
     renderApp(<AppRoutes />, { route: '/benchmark' });
-    expect(screen.getByTestId('auth-gate')).toBeInTheDocument();
-    await user.click(within(screen.getByTestId('auth-gate')).getByRole('button', { name: 'Sign in' }));
+    expect(screen.getByTestId('leaderboard')).toBeInTheDocument();
+    await user.click(within(screen.getByTestId('runner-gate')).getByRole('button', { name: 'Sign in' }));
     await user.click(await screen.findByTestId('run-benchmark'));
-    expect(await screen.findByTestId('score-report')).toBeInTheDocument();
-    expect(screen.getByTestId('reliability-chart').querySelectorAll('rect.bar').length).toBeGreaterThan(0);
+    const report = await screen.findByTestId('score-report');
+    expect(within(report).getByTestId('reliability-chart').querySelectorAll('rect.bar').length).toBeGreaterThan(0);
   });
   it('lets an expert approve a queue item', async () => {
     const user = userEvent.setup();

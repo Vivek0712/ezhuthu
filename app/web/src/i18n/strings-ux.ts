@@ -24,7 +24,7 @@ export const enUx = {
   'home2.scholarsTitle': 'For scholars',
   'home2.scholarsBody':
     'Every number Ezhuthu shows is measured on DHARMA restorations it was never tuned on, and the reports are published with the code. Run the benchmark on your own data, or settle the cases the assistant sends to expert review.',
-  'home2.scholarsBench': 'Open the benchmark',
+  'home2.scholarsBench': 'See the benchmark results',
   'home2.scholarsRestore': 'Restore a passage',
 
   'pipe.title': 'The pipeline',
@@ -233,7 +233,7 @@ export const taUx: Record<keyof typeof enUx, string> = {
   'home2.scholarsTitle': 'அறிஞர்களுக்கு',
   'home2.scholarsBody':
     'எழுத்து காட்டும் ஒவ்வொரு எண்ணும், அது ஒருபோதும் பயின்றிராத DHARMA மீட்டமைப்புகளில் அளக்கப்பட்டது; அறிக்கைகள் நிரலுடன் வெளியிடப்பட்டுள்ளன. உங்கள் தரவில் அளவுகோலை இயக்கலாம், அல்லது உதவியாளர் வல்லுநர் மதிப்பாய்வுக்கு அனுப்பும் ஐயங்களைத் தீர்க்கலாம்.',
-  'home2.scholarsBench': 'அளவுகோலைத் திறக்க',
+  'home2.scholarsBench': 'அளவுகோல் முடிவுகளைப் பாருங்கள்',
   'home2.scholarsRestore': 'ஒரு பகுதியை மீட்டமைக்க',
 
   'pipe.title': 'செயல்முறை',

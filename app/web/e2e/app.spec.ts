@@ -106,11 +106,12 @@ test('progress: pre-test after a lesson shows a score', async ({ page }) => {
   await expect(page.getByTestId('post-score')).toContainText('not taken');
 });
 
-test('test page: sign-in gate, built-in benchmark, JSONL upload', async ({ page }) => {
+test('benchmark runner: sign-in prompt below the results, built-in benchmark, JSONL upload', async ({ page }) => {
   await setEnglish(page);
   await page.goto('/benchmark');
-  await expect(page.getByTestId('auth-gate')).toBeVisible();
-  await page.getByTestId('auth-gate').getByRole('button', { name: 'Sign in' }).click();
+  await expect(page.getByTestId('leaderboard')).toBeVisible();
+  await expect(page.getByTestId('runner-gate')).toContainText('Sign in to run it yourself');
+  await page.getByTestId('runner-gate').getByRole('button', { name: 'Sign in' }).click();
   await page.getByTestId('run-benchmark').click();
   await expect(page.getByTestId('score-report')).toBeVisible();
   await expect(page.getByTestId('reliability-chart').locator('rect.bar').first()).toBeVisible();
@@ -234,7 +235,6 @@ test.describe('design system and states', () => {
     await page.getByTestId('restore-submit').click();
     await expect(page.getByTestId('restore-credit')).toContainText('CC BY-SA 4.0');
     await page.goto('/benchmark');
-    await page.getByTestId('auth-gate').getByRole('button', { name: 'Sign in' }).click();
     await expect(page.getByTestId('benchmark-credit')).toContainText('CC BY-SA 4.0');
     for (const path of ['/', '/practice', '/how-it-works', '/restore', '/about', '/benchmark']) {
       await page.goto(path);

@@ -10,7 +10,7 @@ import type { MessageKey } from '../i18n/strings';
 import { DharmaCredit } from './Feedback';
 
 // Top nav at 1000 px and wider: Home · Practice · Restore · How it works · About. Expert review is shown only to
-// signed-in experts (design/ux/UX.md section 2). Progress and Benchmark live in the footer and the "More" sheet.
+// signed-in experts (design/ux/UX.md section 2). Progress and Benchmark results live in the footer and the "More" sheet.
 const TOP: [string, MessageKey, boolean][] = [
   ['/', 'nav.home', false],
   ['/practice', 'nav.learn', false],

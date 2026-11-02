@@ -555,3 +555,45 @@ mark.unsure { padding: 0 6px; }
 .cand-hints { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .reveal-ta { font-family: var(--ez-font-chola); font-weight: 700; }
 .reveal-iso { display: block; font-size: var(--ez-text-sm); color: var(--ez-text-muted); }
+
+/* Results page (/benchmark): horizontal bars with 95% interval whiskers, in HTML so labels stay readable on phones.
+   Highlighted row (the deployed system) uses the accent; the others the strong border ink. Both themes via tokens. */
+.bench-stats { margin-bottom: var(--ez-space-6); }
+.bench-stats .stat .v { font-size: 1.75rem; }
+.bench-section { margin: 0 0 var(--ez-space-12); min-width: 0; }
+.bench-section > .row { margin: 8px 0 12px; flex-wrap: wrap; }
+.bench-section table { margin-top: 14px; }
+.bench-source { margin: 4px 0 0; overflow-wrap: anywhere; }
+.bench-reports { padding-left: 18px; }
+.bench-reports li { margin: 4px 0; overflow-wrap: anywhere; }
+
+.hbar { margin: 12px 0 0; min-width: 0; max-width: 960px; }
+html .hbar li.hbar-row { max-width: none; }
+.hbar-rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.hbar-row { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: 4px 16px; align-items: center; }
+.hbar-label { display: grid; min-width: 0; }
+.hbar-name { font-weight: var(--ez-weight-semibold); }
+.hbar-sub { font-size: var(--ez-text-xs); color: var(--ez-text-muted); }
+.hbar-plot { display: grid; grid-template-columns: minmax(0, 1fr) 12.5rem; gap: 12px; align-items: center; min-width: 0; }
+.hbar-track { position: relative; height: 18px; border-radius: 0 4px 4px 0; background: var(--ez-surface-sunk); }
+.hbar-fill { position: absolute; inset: 0 auto 0 0; border-radius: 0 4px 4px 0; background: var(--ez-border-strong); }
+.hbar-row.hi .hbar-fill { background: var(--ez-accent); }
+.hbar-ci { position: absolute; top: 50%; height: 0; border-top: 2px solid var(--ez-text); transform: translateY(-1px); }
+.hbar-ci::before, .hbar-ci::after { content: ''; position: absolute; top: -7px; height: 12px; border-left: 2px solid var(--ez-text); }
+.hbar-ci::before { left: -1px; }
+.hbar-ci::after { right: -1px; }
+.hbar-value { font-variant-numeric: tabular-nums; font-weight: var(--ez-weight-semibold); font-size: var(--ez-text-sm); }
+.hbar-civ { font-weight: 400; color: var(--ez-text-muted); }
+.hbar-note { grid-column: 2; font-size: var(--ez-text-xs); color: var(--ez-text-muted); }
+.hbar-axisrow { margin-top: 2px; }
+.hbar-axis { position: relative; height: 1.2em; border-top: 1px solid var(--ez-border); font-size: var(--ez-text-xs); color: var(--ez-text-muted); }
+.hbar-axis span { position: absolute; top: 2px; transform: translateX(-50%); }
+.hbar-axis span:first-child { transform: none; }
+.hbar-axis span:last-child { transform: translateX(-100%); }
+@media (max-width: 759px) {
+  .hbar-row { grid-template-columns: minmax(0, 1fr); }
+  .hbar-axisrow .hbar-label { display: none; }
+  .hbar-plot { grid-template-columns: minmax(0, 1fr) 7.75rem; gap: 10px; }
+  .hbar-civ { display: block; font-size: var(--ez-text-xs); white-space: nowrap; }
+  .hbar-note { grid-column: 1; }
+}

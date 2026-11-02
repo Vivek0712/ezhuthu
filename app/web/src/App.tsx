@@ -34,14 +34,8 @@ export function AppRoutes() {
         <Route path="progress" element={<ProgressPage />} />
         <Route path="restore" element={<RestorePage />} />
         <Route path="test" element={<Moved to="/benchmark" />} />
-        <Route
-          path="benchmark"
-          element={
-            <RequireAuth>
-              <TestPage />
-            </RequireAuth>
-          }
-        />
+        {/* Public results; the runner inside the page asks for sign-in. */}
+        <Route path="benchmark" element={<TestPage />} />
         <Route
           path="review"
           element={
