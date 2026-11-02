@@ -17,6 +17,7 @@ from ezhuthu.agent.decider import (
     decider_backend,
     default_decider,
     hosted_decider,
+    restorer_decider,
 )
 from ezhuthu.agent.restorer import Candidate, Restorer
 from ezhuthu.agent.tutor import policy
@@ -63,7 +64,8 @@ class FakeCloud:
             def do_POST(self):
                 body = json.loads(self.rfile.read(int(self.headers["content-length"])))
                 fake.requests.append({"method": "POST", "path": self.path, "body": body,
-                                      "auth": self.headers.get("authorization")})
+                                      "auth": self.headers.get("authorization"),
+                                      "deadline_ms": self.headers.get("x-deadline-ms")})
                 if not self._auth():
                     return
                 if fake.raw_next:
@@ -380,3 +382,53 @@ def test_trimmed_candidates_are_labelled_decider_trimmed(cloud):
     srcs = [c.confidence_source for c in ranked]
     assert srcs.count("decider-trimmed") == d.last_trimmed and srcs.count("decider") == 8 - d.last_trimmed
     assert all(c.confidence == 0.0 for c in ranked if c.confidence_source == "decider-trimmed")
+
+
+# ---- per-call time limit (the restorer passes what is left of its request budget) ----------------------------
+
+
+def test_timeout_bounds_the_call_and_tells_the_server_how_long_to_queue(cloud):
+    d, _ = make(cloud, rpm=None)
+    d.choice("s", "i", {"a": "1", "b": "2"})
+    assert cloud.requests[-1]["deadline_ms"] is None  # no limit: the request is unchanged
+    d.choice("s", "i", {"a": "1", "b": "2"}, timeout=5.0)
+    assert 4000 < int(cloud.requests[-1]["deadline_ms"]) <= 5000
+    d.noul("s", "i", timeout=3.0)
+    assert 2000 < int(cloud.requests[-1]["deadline_ms"]) <= 3000
+
+
+def test_no_retry_that_would_overrun_the_time_limit(cloud):
+    d, sleeps = make(cloud, rpm=None)
+    cloud.fail_next = [(503, "overloaded", {"Retry-After": "10"})]
+    with pytest.raises(DeciderUnavailable, match="503"):
+        d.choice("s", "i", {"a": "1", "b": "2"}, timeout=3.0)
+    assert sleeps == []  # failed at once: the caller falls back instead of waiting 10 s
+    cloud.fail_next = [(429, "rate_limited", {"Retry-After": "1"})]
+    assert d.choice("s", "i", {"a": "1", "b": "2"}, timeout=10.0).choice == "a" and sleeps == [1.0]
+
+
+def test_pacing_does_not_wait_past_the_time_limit_and_keeps_the_slot_free(cloud):
+    d, sleeps = make(cloud, rpm=10)  # 6 s between requests
+    d.choice("s", "i", {"a": "1", "b": "2"})
+    with pytest.raises(DeciderUnavailable, match="slot"):
+        d.choice("s", "i", {"a": "1", "b": "2"}, timeout=2.0)
+    assert sleeps == [] and len(cloud.requests) == 1
+    d.choice("s", "i", {"a": "1", "b": "2"})  # the refused call did not take the next slot
+    assert len(sleeps) == 1 and 5.0 < sleeps[0] <= 6.0
+
+
+def test_restorer_role_uses_the_restorer_model(monkeypatch):
+    cfg = parse_models_config({"llm": {"default": "m"}, "decider": {"cloud": {
+        "url": "https://example.invalid/", "model": MODEL, "secret_name": "k", "rpm": 10,
+        "restorer_model": "ezhuthu-strands-2b-ft", "restorer_rpm": 30}}})
+    tutor, rest = hosted_decider(cfg), hosted_decider(cfg, role="restorer")
+    assert (tutor.model, tutor.min_interval) == (MODEL, 6.0)
+    assert (rest.model, rest.min_interval) == ("ezhuthu-strands-2b-ft", 2.0)
+    assert hosted_decider(CFG, role="restorer").model == MODEL  # no restorer_model: the same model
+    monkeypatch.delenv("EZHUTHU_DECIDER", raising=False)
+    seen = []
+    monkeypatch.setattr("ezhuthu.agent.decider.hosted_decider", lambda *a, **k: seen.append(k) or "hosted")
+    assert restorer_decider("hosted") == "hosted" and seen == [{"role": "restorer"}]
+    assert isinstance(restorer_decider("fallback"), NoDecider) and isinstance(restorer_decider("local"), HttpDecider)
+    monkeypatch.setenv("EZHUTHU_DECIDER", "off")
+    assert isinstance(restorer_decider("hosted"), NoDecider)

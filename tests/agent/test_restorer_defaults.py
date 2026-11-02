@@ -1,7 +1,9 @@
 """QA on PR #25: the shipped defaults must not escalate needlessly on a confident LLM fill, must fill or abstain on
 the shipped VAL calibration, and the copy-floor pre-rank must survive disagreeing parallels. The shipped defaults are
 the deployed configuration chosen on VAL (eval/reports/2026-11-02-deployed-config.md: routed + pre-rank with the
-5-gram share, no decider); the issue #26 decider path is tested with explicit settings.
+5-gram share), with the hosted fine-tuned decider on the pre-rank's top 3 once an LLM answered
+(eval/reports/2026-11-02-finetuned-decider.md); without a decider (here) every gap falls back to that pre-rank. The
+issue #26 decider path is tested with explicit settings.
 
 Unlike the rest of tests/agent, the end-to-end tests here remove the conftest overrides
 (EZHUTHU_CALIBRATION=none, EZHUTHU_RESTORER_STRATEGY=choice-all) so they run what ships.
@@ -31,6 +33,7 @@ LEFT, RIGHT, GAP = "svasti śrī kōvirājakēcari", " yāṇṭu mūṉṟāvat
 def shipped(monkeypatch):
     monkeypatch.delenv("EZHUTHU_CALIBRATION", raising=False)
     monkeypatch.delenv("EZHUTHU_RESTORER_STRATEGY", raising=False)
+    monkeypatch.delenv("EZHUTHU_DECIDER_FALLBACK", raising=False)
 
 
 def _pre_escalates(r: Restorer, it) -> bool:
@@ -47,9 +50,11 @@ def test_shipped_defaults_do_not_escalate_a_confident_reply_and_use_the_val_cali
     cur = {}
     llm = FakeLLM(lambda role, s, prompt: json.dumps({"fills": [[cur["target"], p]]}, ensure_ascii=False))
     r = Restorer(llm=llm)  # no settings / calibration / decider passed: config/models.yaml + calibration.json
-    # Deployed (chosen on VAL): retrieval-only gaps self-report; LLM gaps the pre-rank with the 5-gram share
+    # Shipped (chosen on VAL): retrieval-only gaps self-report; LLM gaps the fine-tuned decider over the top 3 of the
+    # pre-rank with the 5-gram share, which is also the fallback (no decider here: EZHUTHU_DECIDER=off)
     assert r.settings.strategy == CFG.restorer.strategy == "self-report"
-    assert r.settings.strategy_llm == "prerank" and r.settings.ngram_prerank
+    assert r.settings.strategy_llm == "choice-topk" and r.settings.top_k == 3 and r.settings.ngram_prerank
+    assert r.settings.decider_fallback == "prerank"
     assert r.calibration.entries, "the shipped calibration.json must load"
     items = [it for it in load_items("test") if it.gap_chars][:10]
     assert len(items) >= 5
@@ -71,6 +76,7 @@ def test_shipped_defaults_do_not_escalate_a_confident_reply_and_use_the_val_cali
         # the shipped VAL calibration applies (n >= 100 entries), not the raw 0.5 threshold
         llm_used = "opus" if roles == ["escalate"] else "sonnet"
         assert g.decider_model == "prerank-ngram" and g.calibration == f"prerank-ngram|prerank|kall|llm-{llm_used}"
+        assert g.strategy == "prerank" and g.decider_fallback == "unavailable"
         assert g.abstain_below == r.calibration.get(g.calibration).threshold
         assert (g.decision == "fill") == (g.best.confidence >= g.abstain_below)
     assert needless == 0
@@ -100,7 +106,7 @@ def test_a_correct_llm_fill_longer_in_iso_than_the_letter_count_still_fills(ship
 def test_strategy_override_applies_to_llm_gaps_too():
     assert CFG.restorer.with_(strategy="choice-topk").strategy_for(True) == "choice-topk"
     assert CFG.restorer.with_(strategy="choice-topk", strategy_llm="prerank").strategy_for(True) == "prerank"
-    assert CFG.restorer.strategy_for(False) == "self-report" and CFG.restorer.strategy_for(True) == "prerank"
+    assert CFG.restorer.strategy_for(False) == "self-report" and CFG.restorer.strategy_for(True) == "choice-topk"
     with pytest.raises(ValueError):
         CFG.restorer.with_(strategy_llm="vote")
 

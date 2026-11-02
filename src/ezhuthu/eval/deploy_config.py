@@ -108,7 +108,10 @@ def hosted_items(split_items: list[BenchmarkItem]) -> list[BenchmarkItem]:
     return seeded_sample(split_items, HOSTED_N, SEED)
 
 
-NGRAM_OFF = {"ngram_prerank": False, "ngram_slot": False, "ngram_gate": None}
+NGRAM_OFF = {"ngram_prerank": False, "ngram_slot": False, "ngram_gate": None,
+             # the decider behaviour these evals were run and scored with (a failed decider call falls back to
+             # self-report and counts as a miss; no per-call timeout), whatever config/models.yaml now ships
+             "decider_fallback": "self-report", "decider_timeout_s": None, "decider_min_remaining_s": 0.0}
 
 
 def variant_settings(base: RestorerSettings, name: str) -> RestorerSettings:

@@ -125,6 +125,7 @@ describe('agent runtime: decider backend', () => {
       expect(env).not.toHaveProperty('EZHUTHU_RESTORER_STRATEGY');
       expect(env).not.toHaveProperty('EZHUTHU_CALIBRATION');
       expect(env).not.toHaveProperty('EZHUTHU_CONFIG');
+      expect(env).not.toHaveProperty('EZHUTHU_DECIDER_FALLBACK');
     }
   });
 

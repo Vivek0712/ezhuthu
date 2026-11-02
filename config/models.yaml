@@ -25,8 +25,14 @@ restorer:
   # without the decider key (Secrets Manager ezhuthu/decider-api-key): no decider call is made for restoration.
   # Previous settings (issue #26, eval/reports/2026-11-02-val-selection.md; measured on TEST with the local 2B decider
   # only, never deployable as measured): strategy_llm: noul-topk (2B decider noul on the top-3), ngram_prerank: false.
+  # 2026-11-03 (hosted fine-tuned decider): once an LLM answered, the fine-tuned restoration decider
+  # (ezhuthu-strands-2b-ft, now served by decider-cloud next to v19; decider.cloud.restorer_model) ranks the pre-rank's
+  # top 3 + none: the variant the pre-registered rule selected on VAL (finetuned-decider issue #37, PR #43,
+  # eval/reports/2026-11-02-finetuned-decider.md: 112 vs 100 of 280; TEST once with Sonnet candidates 270 vs 244 of
+  # 413). Calibration: calibration.json ezhuthu-strands-2b-ft|choice-topk|k3|llm-{sonnet,opus}. If the decider is
+  # unavailable, times out or there is no time for it, the gap falls back to the pre-rank above (decider_fallback).
   strategy: self-report     # choice-all | choice-topk | noul-topk | prerank | self-report. Retrieval-only gaps (an LLM call failed): the parallel-agreement heuristic (issue #26: full VAL 0.2619 vs prerank 0.2551, p=0.66)
-  strategy_llm: prerank     # once an LLM answered: pre-rank, no decider (was noul-topk)
+  strategy_llm: choice-topk # once an LLM answered: the hosted fine-tuned decider over the top 3 + none (was prerank)
   ngram_prerank: true       # pre-rank = noisy-OR(LLM probability, parallel support, 5-gram softmax share); tagged prerank-ngram (was false)
   ngram_beam: 20            # 5-gram beam size/width for the proposals and their shares (the 5-gram baseline's)
   ngram_slot: false         # only for top-k decider strategies (show the 5-gram top fill to the decider)
@@ -48,6 +54,12 @@ restorer:
   llm_min_remaining_s: 6          # below this, retrieval + 5-gram candidates only (llm_skipped: time_budget)
   gap_min_remaining_s: 1          # below this, remaining gaps abstain with no work (abstain_reason: time_budget)
   max_gaps_per_request: 8         # gaps past this abstain with no work (abstain_reason: gap_cap); null = no cap
+  decider_fallback: prerank       # decider unavailable / timed out / no time: the pre-rank ranks (gap says decider_fallback)
+  # Hosted on CPU the fine-tune takes ~9 s p50 / ~14 s p90 per call on these prompts (2026-11-03 live VAL check). A call
+  # the client gives up on still runs to the end on the server's one worker and delays the next one, so a call is
+  # started only when it can normally finish: at most 18 s, and only with 10 s of the budget left.
+  decider_timeout_s: 18           # longest one decider call may take (within what is left of request_budget_s)
+  decider_min_remaining_s: 10     # ask the decider only with this much of the request budget left
 decider:
   package: strands-decider==0.2.0
   local: StrandsAgents/strands-decider-E4B-gemma4-v1-2610      # fits 24 GB M4 Pro (mps/mlx), JevBench 187/231
@@ -60,26 +72,32 @@ decider:
     model: strands-decider-2b-hobson-v19
     secret_name: ezhuthu/decider-api-key
     rpm: 10
+    # The restorer's decider: the fine-tuned restoration decider, served by decider-cloud on the same instances as
+    # v19 (request field "model"; the tutor keeps `model` above). The key's tier allows it.
+    restorer_model: ezhuthu-strands-2b-ft
+    restorer_rpm: 30        # client-side pacing of restorer calls (one call is ~2-10 s on the CPU instances)
     max_input_chars: 8000   # free-tier limit; the client drops tail candidates (keeps 'none') to fit
     max_options: 24         # decider-cloud rejects a choice with more options (422 invalid_request)
-  # Fine-tuned restoration deciders (issue #37, eval/reports/2026-11-02-finetuned-decider.md). DISABLED: not used by
-  # the restorer or the cloud runtime (no decider call is made for restoration; see restorer: above). Trained on
-  # TRAIN only; chosen and calibrated on VAL; TEST scored once. strands_2b choice-topk:3 beat the deployed ranking on
-  # VAL (112 vs 100 of 280) and on TEST with Sonnet candidates (270 vs 244 of 413), but the cloud runtime cannot serve
-  # a local checkpoint, so the deployed default is unchanged. Calibration: calibration.json ezhuthu-strands-2b-ft|*. Weights live outside git
+  # Fine-tuned restoration deciders (issue #37, eval/reports/2026-11-02-finetuned-decider.md). Trained on TRAIN only;
+  # chosen and calibrated on VAL; TEST scored once. strands_2b choice-topk:3 beat the deployed ranking on VAL (112 vs
+  # 100 of 280) and on TEST with Sonnet candidates (270 vs 244 of 413). ENABLED (2026-11-03) for strands_2b only:
+  # decider-cloud serves it as `ezhuthu-strands-2b-ft` (decider.cloud.restorer_model; the private artifact is fetched
+  # from decider-cloud's private bucket and SHA256SUMS-checked on boot) and the restorer uses it (restorer: above).
+  # sparrow_tiny stays local only. Calibration: calibration.json ezhuthu-strands-2b-ft|*. Weights live outside git
   # (/Users/vivekrajaps/tamil-script/ezhuthu-ft/), never published. To try one locally:
   #   strands-decider serve <checkpoint> --device mps --port 8791 --model-name ezhuthu-strands-2b-ft
   #   EZHUTHU_DECIDER_BACKEND=local EZHUTHU_DECIDER_URL=http://127.0.0.1:8791 and restorer.strategy_llm: choice-topk
   finetuned:
-    enabled: false
+    enabled: true          # strands_2b, hosted (see above)
     strands_2b:
       model_name: ezhuthu-strands-2b-ft   # the name it is served under (calibration keys use it)
       base: StrandsAgents/strands-decider-2B-qwen3.5-v1-2610   # rev 216d1ccb (StrandsAgents); Qwen/Qwen3.5-2B-Base (Apache-2.0)
       checkpoint: ezhuthu-ft/strands-2b-ft   # LoRA r48 adapter + pointer head, continue-from; 224 MB
-      serve: strands-decider serve (strands-decider[mps]==0.2.0), one request at a time
+      serve: decider-cloud staging (model ezhuthu-strands-2b-ft; shares v19's base weights), or locally strands-decider serve (strands-decider[mps]==0.2.0)
       strategy: choice-topk
       top_k: 3
     sparrow_tiny:
+      enabled: false
       model_name: sparrow-tiny-ezhuthu-c3base-v0   # Ettin-32M (JHU, MIT) + pointer head; 12.8 MB
       checkpoint: ezhuthu-ft/sparrow-ft/sparrow-tiny-ezhuthu-c3base-v0.sparrow
       serve: sparrow-decider==0.2.0 --model <file> serve (numpy only)

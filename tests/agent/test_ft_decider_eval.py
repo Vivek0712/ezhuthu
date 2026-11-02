@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import dataclasses
+
 import pytest
 
 from ezhuthu.agent.config import load_models_config
@@ -45,8 +47,11 @@ def test_variant_settings():
     assert m.variant_settings(base, "ft2b-choice3-slot").ngram_slot is True
     assert m.variant_settings(base, "ft2b-choice3-plain").ngram_prerank is False
     assert m.variant_settings(base, "ft2b-noul3").strategy_llm == "noul-topk"
-    # the deployed reference here is the shipped configuration itself
-    assert m.variant_settings(base, "hybrid-prerank") == base.with_(strategy_llm="prerank") == base
+    # config/models.yaml now ships the chosen variant (hosted, issue: hosted fine-tuned decider); eval runs keep the
+    # decider behaviour they were scored with (self-report fallback counted as a miss, no per-call timeout)
+    scored_as = {"decider_fallback": "self-report", "decider_timeout_s": None, "decider_min_remaining_s": 0.0}
+    assert m.variant_settings(base, "ft2b-choice3") == dataclasses.replace(base, **scored_as)
+    assert m.variant_settings(base, "hybrid-prerank") == dataclasses.replace(base, strategy_llm="prerank", **scored_as)
 
 
 def test_every_candidate_has_a_decider_and_rule_is_fixed():

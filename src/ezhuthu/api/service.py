@@ -10,7 +10,7 @@ from typing import Any
 
 from ..agent.config import live_enabled, load_models_config
 from ..agent.data import BenchmarkItem, load_items, parse_benchmark_name
-from ..agent.decider import Decider, default_decider
+from ..agent.decider import Decider, default_decider, restorer_decider
 from ..agent.llm import LLMClient, default_llm
 from ..agent.reader import Reader, ReadError, ReaderUnavailable
 from ..agent.restorer import Restorer
@@ -59,7 +59,9 @@ class EzhuthuService:
         self.open_review = os.environ.get("EZHUTHU_OPEN_REVIEW") == "1" if open_review is None else open_review
         self._llm = default_llm() if llm == "default" else llm
         self.decider = decider or default_decider()
-        self.restorer = restorer or Restorer(llm=self._llm, decider=self.decider)
+        # The restorer may use its own hosted model (decider.cloud.restorer_model: the fine-tuned restoration
+        # decider); the tutor keeps decider.cloud.model. An explicit ``decider`` is used for both.
+        self.restorer = restorer or Restorer(llm=self._llm, decider=decider or restorer_decider())
         self.tutor = TutorService(self.store, self.restorer, self.decider,
                                   model_factory=default_model_factory if model_factory == "default" else model_factory,
                                   clock=clock)
@@ -219,7 +221,10 @@ class EzhuthuService:
 
     def health(self) -> dict[str, Any]:
         h = self.decider.health() if hasattr(self.decider, "health") else None
+        rd = self.restorer.decider
+        rh = h if rd is self.decider else (rd.health() if hasattr(rd, "health") else None)
         return {"status": "ok", "live_llm": self._llm is not None, "decider": (h or {}).get("model"),
+                "restorer_decider": (rh or {}).get("model"),
                 "decider_source": (h or {}).get("source", "local") if h else "fallback",
                 "ontology": self.restorer.ontology.name, "reader": "vision" if self._llm is not None else "text-only", "corpus_lines": len(self.restorer.corpus),
                 "models": self.config.llm}
