@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isDharmaUrl, pct, safeHref, signedPct, svgDataUrl } from './format';
+import { isDharmaUrl, pct, plural, safeHref, signedPct, svgDataUrl } from './format';
 
 describe('format helpers', () => {
   it('formats percentages and gains, with a dash for missing values', () => {
@@ -31,5 +31,10 @@ describe('format helpers', () => {
     const url = svgDataUrl('<svg><script>x</script></svg>');
     expect(url.startsWith('data:image/svg+xml')).toBe(true);
     expect(url).not.toContain('<script>');
+  });
+
+  it('picks the singular key only for exactly one', () => {
+    expect(plural(1, 'gap', 'gaps')).toBe('gap');
+    for (const n of [0, 2, 5]) expect(plural(n, 'gap', 'gaps')).toBe('gaps');
   });
 });

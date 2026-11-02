@@ -1,18 +1,28 @@
-import { useRef, useState, type FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { api, type AnswerResponse, type LessonResponse, type Level } from '../api/client';
 import { Busy, CC_BY_SA, ErrorNote } from '../components/Feedback';
 import { GlyphTile } from '../components/GlyphTile';
 import { LevelPicker } from '../components/LevelPicker';
 import { useI18n } from '../i18n/I18nProvider';
 import type { MessageKey } from '../i18n/strings';
-import { levelInfo } from '../lib/levels';
+import { isLevel, levelInfo } from '../lib/levels';
+import { sampleById, sampleByInscription, useSamples } from '../samples';
 import { isDharmaUrl, safeHref } from '../lib/format';
 import { setSessionId } from '../lib/session';
 
 export function LearnPage() {
   const { t, lang, pick } = useI18n();
-  const [level, setLevel] = useState<Level>('L2');
+  // "Learn with this" from the home gallery: /learn?inscription=<id>&level=L3&sample=<id> starts that lesson.
+  const [params] = useSearchParams();
+  const linkedInscription = params.get('inscription')?.trim() || null;
+  const linkedSampleId = params.get('sample');
+  const samples = useSamples(linkedSampleId != null || linkedInscription != null);
+  const linkedSample = sampleById(samples, linkedSampleId) ?? sampleByInscription(samples, linkedInscription);
+  const [level, setLevel] = useState<Level>(() => {
+    const l = params.get('level');
+    return isLevel(l) ? l : 'L2';
+  });
   const [ownText, setOwnText] = useState('');
   const [lesson, setLesson] = useState<LessonResponse | null>(null);
   const [idx, setIdx] = useState(0);
@@ -29,7 +39,11 @@ export function LearnPage() {
     setBusy(true);
     setError(null);
     try {
-      const res = await api.lesson({ level, lang, ...(ownText.trim() ? { text: ownText.trim() } : {}) });
+      const res = await api.lesson({
+        level,
+        lang,
+        ...(ownText.trim() ? { text: ownText.trim() } : linkedInscription ? { inscription_id: linkedInscription } : {}),
+      });
       setLesson(res);
       setSessionId(res.session_id);
       setIdx(0);
@@ -42,6 +56,15 @@ export function LearnPage() {
       setBusy(false);
     }
   }
+
+  // Start the linked lesson once on arrival (the ref survives React's dev double-invoke of effects).
+  const autoStarted = useRef(false);
+  useEffect(() => {
+    if (!linkedInscription || autoStarted.current) return;
+    autoStarted.current = true;
+    void start();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- run once for the linked inscription
+  }, [linkedInscription]);
 
   async function check(e: FormEvent) {
     e.preventDefault();
@@ -97,6 +120,14 @@ export function LearnPage() {
           <p className="lede">{t('learn.lede')}</p>
         </header>
         <form onSubmit={start}>
+          {linkedSample && (
+            <p className="sample-from" data-testid="learn-sample-source">
+              {t('samples.from')}: <strong>{lang === 'ta' ? linkedSample.title_ta : linkedSample.title_en}</strong> ·{' '}
+              <a href={linkedSample.dharma_url} target="_blank" rel="noreferrer">
+                {t('credit.edition')} ↗
+              </a>
+            </p>
+          )}
           <h2>{t('learn.pickLevel')}</h2>
           <LevelPicker value={level} onChange={setLevel} />
           <p className="note">{lang === 'ta' ? levelInfo(level).noteTa : levelInfo(level).noteEn}</p>
@@ -189,7 +220,7 @@ export function LearnPage() {
                 </span>
               </p>
               <h2>{pick(item.prompt_ta, item.prompt_en)}</h2>
-              <GlyphTile item={item} label={pick(item.prompt_ta, item.prompt_en)} />
+              <GlyphTile key={item.item_id} item={item} label={pick(item.prompt_ta, item.prompt_en)} />
               <form onSubmit={check} style={{ marginTop: 16 }} className="grid">
                 <label className="field">
                   {t('learn.answerLabel')}

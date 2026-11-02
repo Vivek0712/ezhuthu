@@ -169,20 +169,105 @@ html[lang='ta'] .lede { font-size: var(--ez-text-md); line-height: var(--ez-lh-l
 /* Hero */
 .hero { display: grid; gap: 28px; align-items: center; padding: 12px 0 32px; }
 @media (min-width: 900px) { .hero { grid-template-columns: 1.05fr 1fr; gap: 40px; } }
-.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
-.evo { width: 100%; height: auto; display: block; }
-.evo figcaption { font-size: var(--ez-text-sm); color: var(--ez-text-muted); margin-top: 10px; }
-.evo-card { padding: 12px; }
-.evo-glyph { fill: var(--ez-text); }
-.evo-stroke { stroke: var(--ez-text); fill: none; }
-.evo-label { fill: var(--ez-text-muted); font-family: var(--ez-font-body); font-size: 14px; font-weight: 600; }
-.evo-era { fill: var(--ez-accent-text); font-family: var(--ez-font-body); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; }
-.evo-line { stroke: var(--ez-leaf-edge); stroke-width: 2; fill: none; stroke-dasharray: 4 6; }
-.evo-tile { fill: var(--ez-surface-raised); stroke: var(--ez-border); }
-.evo-draw { stroke-dasharray: 400; stroke-dashoffset: 400; animation: draw 1.8s 0.4s var(--ez-ease-chisel) forwards; }
-@keyframes draw { to { stroke-dashoffset: 0; } }
-.evo-pop { opacity: 0; animation: pop var(--ez-dur-slow) var(--ez-ease-enter) forwards; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; align-items: center; }
+.hero-actions .btn svg { width: 20px; height: 20px; flex: none; }
+.hero-link { font-weight: var(--ez-weight-semibold); min-height: var(--ez-space-tap); display: inline-flex; align-items: center; padding: 0 6px; }
+/* Hero copy rises in, line by line (opacity and transform only). */
+.hero-copy > * { animation: rise var(--ez-dur-reveal) var(--ez-ease-enter) both; }
+.hero-copy > :nth-child(2) { animation-delay: 90ms; }
+.hero-copy > :nth-child(3) { animation-delay: 180ms; }
+.hero-copy > :nth-child(4) { animation-delay: 270ms; }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 @keyframes pop { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* ---- Evolution hero: one letter through five stages (EvolutionHero.tsx) ---- */
+.evo-hero { margin: 0; --px: 0; --py: 0; }
+.evo-stage {
+  position: relative; overflow: hidden; isolation: isolate; display: grid; justify-items: center; align-content: start; gap: 10px; padding: 14px 6% 22px;
+  border-radius: var(--ez-radius-lg); border: 1px solid var(--ez-border);
+  background: radial-gradient(120% 90% at 30% 15%, var(--ez-surface-raised), var(--ez-surface-sunk) 75%);
+  box-shadow: var(--ez-shadow-2);
+}
+.evo-stage::after { content: ''; position: absolute; inset: 0; background: var(--grain); opacity: .8; pointer-events: none; z-index: 3; }
+/* Back layer: faint carved letters, moving against the pointer (parallax). */
+.evo-backdrop {
+  position: absolute; inset: -6%; display: grid; grid-template-columns: repeat(4, 1fr); place-items: center;
+  font-size: clamp(2rem, 7vw, 3.4rem); color: color-mix(in srgb, var(--ez-text) 6%, transparent);
+  text-shadow: 0 1px 0 var(--ez-carve-hi); opacity: .7;
+  transform: translate3d(calc(var(--px) * -14px), calc(var(--py) * -10px), 0); transition: transform var(--ez-dur-slow) var(--ez-ease-standard);
+  z-index: 0; will-change: transform;
+}
+.evo-hero[data-motion='animated'] .evo-backdrop span { animation: drift-y 14s ease-in-out infinite alternate; animation-delay: calc(var(--i) * -0.9s); }
+@keyframes drift-y { from { transform: translateY(-4px); } to { transform: translateY(4px); } }
+.evo-word { position: relative; justify-self: start; width: 34%; height: auto; z-index: 2; color: var(--ez-accent); }
+.evo-word-trace { fill: none; stroke: var(--ez-accent); stroke-width: 2.4; stroke-dasharray: 1; stroke-dashoffset: 1; animation: trace 2.2s .3s var(--ez-ease-chisel) forwards; }
+.evo-word-fill { fill: var(--ez-accent); fill-opacity: 0; animation: fill-in .9s 1.9s var(--ez-ease-enter) forwards; }
+.evo-word-static { fill: var(--ez-accent); }
+@keyframes trace { to { stroke-dashoffset: 0; } }
+@keyframes fill-in { to { fill-opacity: 1; } }
+/* The carved well. */
+.evo-well {
+  position: relative; width: min(46%, 230px); aspect-ratio: 1; z-index: 1; margin-top: 4px;
+  transform: translate3d(calc(var(--px) * 6px), calc(var(--py) * 5px), 0); transition: transform var(--ez-dur-slow) var(--ez-ease-standard);
+  border-radius: 28%; background: var(--ez-surface-sunk); box-shadow: var(--ez-shadow-carved), 0 0 0 10px color-mix(in srgb, var(--ez-surface-raised) 55%, transparent);
+}
+.evo-glyphs { position: absolute; inset: 9%; width: 82%; height: 82%; overflow: visible; }
+.evo-ink-fill, .evo-fill { fill: var(--ez-text); filter: drop-shadow(0 1px 0 var(--ez-carve-hi)); }
+.evo-ink-line, .evo-trace-line { fill: none; stroke: var(--ez-text); stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 1px 0 var(--ez-carve-hi)); }
+/* One cycle, five frames; frame i starts at i * step. Each frame: trace the outline, flood it, hold, hand over. */
+.evo-frame { opacity: 0; transform-box: fill-box; transform-origin: center; animation: evo-frame var(--evo-cycle) var(--ez-ease-standard) infinite both; animation-delay: calc(var(--i) * var(--evo-step)); }
+.evo-trace { fill: none; stroke: var(--ez-accent); stroke-width: 0.9; stroke-dasharray: 1; stroke-dashoffset: 1; animation: evo-trace var(--evo-cycle) var(--ez-ease-chisel) infinite both; animation-delay: inherit; }
+.evo-fill { fill-opacity: 0; animation: evo-flood var(--evo-cycle) var(--ez-ease-enter) infinite both; animation-delay: inherit; }
+.evo-trace-line { stroke-dasharray: 1; stroke-dashoffset: 1; animation: evo-draw-line var(--evo-cycle) var(--ez-ease-chisel) infinite both; animation-delay: inherit; }
+@keyframes evo-frame { 0% { opacity: 0; transform: scale(.94); } 2% { opacity: 1; transform: none; } 17% { opacity: 1; transform: none; } 20% { opacity: 0; transform: scale(1.04); } 100% { opacity: 0; transform: scale(1.04); } }
+@keyframes evo-trace { 0% { stroke-dashoffset: 1; opacity: 1; } 9% { stroke-dashoffset: 0; opacity: 1; } 13%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes evo-flood { 0%, 7% { fill-opacity: 0; } 12%, 100% { fill-opacity: 1; } }
+@keyframes evo-draw-line { 0% { stroke-dashoffset: 1; } 11%, 100% { stroke-dashoffset: 0; } }
+/* Era label under the well, in step with the glyph. */
+.evo-labels { position: relative; width: 100%; height: 3.6em; z-index: 2; text-align: center; }
+.evo-label { position: absolute; inset: 0; margin: 0 auto; max-width: none; display: grid; gap: 2px; opacity: 0; animation: evo-frame var(--evo-cycle) var(--ez-ease-standard) infinite both; animation-delay: calc(var(--i) * var(--evo-step) + 120ms); }
+.evo-label-main { font-weight: var(--ez-weight-semibold); font-size: var(--ez-text-md); color: var(--ez-text); }
+.evo-label-sub { font-size: var(--ez-text-xs); color: var(--ez-text-muted); letter-spacing: .02em; }
+/* The rail: five small stages; the current one lights up. */
+.evo-rail { position: relative; width: 100%; z-index: 2; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 0; padding: 0; list-style: none; }
+.evo-pip { position: relative; display: grid; justify-items: center; gap: 2px; max-width: none; }
+.evo-pip svg { width: clamp(26px, 6vw, 38px); height: auto; padding: 5px; border-radius: 10px; background: var(--ez-surface-raised); border: 1px solid var(--ez-border); color: var(--ez-text-muted); overflow: visible; }
+.evo-pip .evo-ink-fill { fill: currentColor; filter: none; }
+.evo-pip .evo-ink-line { stroke: currentColor; filter: none; }
+.evo-hero[data-motion='animated'] .evo-pip::after { content: ''; position: absolute; top: -3px; left: 50%; width: calc(clamp(26px, 6vw, 38px) + 6px); aspect-ratio: 1; translate: -50% 0; border-radius: 12px; border: 2px solid var(--ez-accent); opacity: 0; animation: evo-pip var(--evo-cycle) linear infinite both; animation-delay: calc(var(--i) * var(--evo-step)); }
+@keyframes evo-pip { 0% { opacity: 0; transform: scale(1.1); } 1% { opacity: 1; transform: scale(1.08); } 4%, 18% { opacity: 1; transform: none; } 20%, 100% { opacity: 0; transform: none; } }
+.evo-progress { position: absolute; left: 0; right: 0; bottom: -8px; height: 2px; border-radius: 2px; background: var(--ez-accent); transform-origin: left; animation: evo-progress var(--evo-cycle) linear infinite; opacity: .55; }
+@keyframes evo-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.evo-pip-label { font-size: 11px; line-height: 1.2; color: var(--ez-text-muted); text-align: center; }
+.evo-hero[data-motion='static'] .evo-rail { margin-top: 8px; }
+.evo-hero[data-paused='true'] *, .evo-hero[data-paused='true'] *::after { animation-play-state: paused !important; }
+.evo-hero figcaption { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; justify-content: space-between; font-size: var(--ez-text-sm); color: var(--ez-text-muted); margin-top: 10px; }
+.evo-hero figcaption > span { flex: 1 1 260px; }
+.evo-toggle { min-height: var(--ez-space-tap); padding: 4px 12px; border-radius: var(--ez-radius-pill); border: 1px solid var(--ez-border-strong); background: transparent; color: var(--ez-text); font: inherit; font-size: var(--ez-text-xs); cursor: pointer; }
+.evo-toggle:hover { background: var(--ez-surface-sunk); }
+/* Phones and narrow tablets: the hero comes first, as a compact band (well left, label and rail right), so the motion
+   is on screen above the fold instead of under the copy and the tab bar. DOM order (copy first) is unchanged. */
+@media (max-width: 899px) {
+  .hero { gap: 18px; padding-top: 4px; }
+  .hero > .evo-hero { order: -1; }
+  .evo-stage {
+    grid-template-columns: auto minmax(0, 1fr); grid-template-areas: 'well labels' 'well rail';
+    align-items: center; align-content: center; justify-items: stretch; gap: 8px 16px; padding: 14px 16px;
+  }
+  .evo-word { display: none; }
+  .evo-well { grid-area: well; width: clamp(96px, 30vw, 136px); margin: 0; box-shadow: var(--ez-shadow-carved), 0 0 0 6px color-mix(in srgb, var(--ez-surface-raised) 55%, transparent); }
+  /* Labels stack in one grid cell, so the box is as tall as the longest label (e.g. பல்லவர் (கிரந்த வடிவம்) on two
+     lines) and never changes size while the stages cycle. */
+  .evo-labels { grid-area: labels; height: auto; display: grid; text-align: start; }
+  .evo-label { position: static; grid-area: 1 / 1; margin: 0; }
+  .evo-label-main { line-height: 1.3; }
+  .evo-rail { grid-area: rail; gap: 4px; }
+  .evo-pip svg { width: clamp(22px, 6vw, 30px); padding: 4px; border-radius: 8px; }
+  .evo-hero[data-motion='animated'] .evo-pip::after { width: calc(clamp(22px, 6vw, 30px) + 4px); border-radius: 10px; }
+  .evo-hero[data-motion='static'] .evo-rail { grid-column: 1 / -1; grid-row: 2; margin-top: 4px; }
+  .evo-hero[data-motion='static'] .evo-well { grid-row: 1; grid-column: 1 / -1; justify-self: center; }
+  .evo-hero figcaption { margin-top: 8px; font-size: var(--ez-text-xs); }
+}
 
 .steps { counter-reset: s; list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
 @media (min-width: 760px) { .steps { grid-template-columns: repeat(4, 1fr); } }
@@ -339,9 +424,70 @@ th { font-size: var(--ez-text-xs); color: var(--ez-text-muted); font-weight: 700
 footer.site { border-top: 1px solid var(--ez-border); padding: 24px 0 40px; color: var(--ez-text-muted); font-size: var(--ez-text-sm); }
 footer.site .wrap { display: grid; gap: 8px; }
 
+/* ---- Try-it gallery (SampleGallery.tsx) ---- */
+.samples { margin-top: 40px; scroll-margin-top: 80px; }
+.samples h2:focus { outline: none; }
+.samples h2:focus-visible { outline: 3px solid var(--ez-focus); }
+.era-filter { display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px 10px; margin: 0 -2px; scrollbar-width: thin; }
+.chip-btn { flex: none; min-height: var(--ez-space-tap); padding: 6px 16px; border-radius: var(--ez-radius-pill); border: 1.5px solid var(--ez-border-strong); background: var(--ez-surface); color: var(--ez-text); font: inherit; font-size: var(--ez-text-sm); font-weight: var(--ez-weight-semibold); cursor: pointer; transition: background var(--ez-dur-fast) var(--ez-ease-standard), color var(--ez-dur-fast) var(--ez-ease-standard), transform var(--ez-dur-fast) var(--ez-ease-standard); }
+.chip-btn:hover { background: var(--ez-surface-sunk); }
+.chip-btn:active { transform: scale(.97); }
+.chip-btn.on { background: var(--ez-accent); border-color: var(--ez-accent); color: var(--ez-on-accent); }
+.sample-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); margin: 8px 0 16px; }
+.sample-card {
+  display: grid; grid-template-rows: auto auto auto auto 1fr auto auto auto; gap: 8px; padding: 16px; min-width: 0;
+  border-radius: var(--ez-radius-lg); background: var(--ez-surface-raised); border: 1px solid var(--ez-border); box-shadow: var(--ez-shadow-1);
+  animation: rise var(--ez-dur-slow) var(--ez-ease-enter) both; animation-delay: calc(min(var(--i), 8) * 45ms);
+  transition: transform var(--ez-dur-base) var(--ez-ease-standard), box-shadow var(--ez-dur-base) var(--ez-ease-standard), border-color var(--ez-dur-base) var(--ez-ease-standard);
+}
+.sample-card-skeleton { min-height: 280px; background: linear-gradient(100deg, var(--ez-surface-sunk) 30%, var(--ez-surface-raised) 50%, var(--ez-surface-sunk) 70%) 0 0 / 300% 100%; animation: shimmer 1.4s linear infinite; }
+@keyframes shimmer { to { background-position: -150% 0; } }
+.sample-card:hover, .sample-card:focus-within { transform: translateY(-3px); box-shadow: var(--ez-shadow-2); border-color: var(--ez-border-strong); }
+.sample-card p { margin: 0; max-width: none; }
+.sample-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.era-chip { font-size: var(--ez-text-xs); font-weight: var(--ez-weight-bold); padding: 2px 10px; border-radius: var(--ez-radius-pill); background: var(--ez-accent-soft); color: var(--ez-accent-text); }
+.era-chip.era-pandya, .era-chip.era-rashtrakuta { background: var(--ez-leaf); color: var(--ez-lamp-text); }
+.era-chip.era-vijayanagara { background: var(--ez-unsure-soft); color: var(--ez-unsure); }
+.sample-gaps { font-size: var(--ez-text-xs); color: var(--ez-text-muted); font-variant-numeric: tabular-nums; }
+.sample-title { display: grid; gap: 2px; margin: 0; font-size: var(--ez-text-lg); line-height: 1.35; }
+.sample-title [lang='ta'] { font-family: var(--ez-font-display-ta); }
+.sample-title-en { font-size: var(--ez-text-sm); font-weight: 500; color: var(--ez-text-muted); font-family: var(--ez-font-body); }
+.sample-place { font-size: var(--ez-text-sm); color: var(--ez-text-muted); }
+.sample-edition { font-size: var(--ez-text-xs); color: var(--ez-text-faint); }
+.sample-text {
+  font-size: var(--ez-text-md); line-height: 1.75; padding: 10px 12px; border-radius: var(--ez-radius-md); background: var(--ez-surface-sunk); box-shadow: var(--ez-shadow-carved); overflow-wrap: anywhere;
+}
+.sample-why { font-size: var(--ez-text-sm); }
+.sample-credit { font-size: var(--ez-text-xs); color: var(--ez-text-muted); overflow-wrap: anywhere; }
+.sample-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+/* A lacuna: letters lost on the stone. Dashed lamp outline (never colour alone: the marker text stays). */
+mark.lacuna { background: var(--ez-lamp-soft); color: var(--ez-lamp-text); border: 1.5px dashed var(--ez-lamp); border-radius: var(--ez-radius-xs); padding: 0 4px; font-weight: 700; font-size: .85em; white-space: nowrap; }
+.sample-from { margin: 0; font-size: var(--ez-text-sm); color: var(--ez-text-muted); padding: 8px 12px; border-left: 3px solid var(--ez-accent); background: var(--ez-surface-sunk); border-radius: 0 var(--ez-radius-md) var(--ez-radius-md) 0; max-width: none; animation: pop var(--ez-dur-base) var(--ez-ease-enter) both; }
+
+/* ---- Try a sample image (TrySampleImage.tsx, mounted by the upload flow) ---- */
+.try-images-title { font-size: var(--ez-text-md); margin: 0 0 8px; }
+.try-images-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 10px; list-style: none; margin: 0 0 8px; padding: 0; }
+.try-images-list li { max-width: none; }
+.try-image { display: grid; gap: 6px; width: 100%; padding: 6px; border-radius: var(--ez-radius-md); border: 1.5px solid var(--ez-border); background: var(--ez-surface-raised); color: var(--ez-text); font: inherit; font-size: var(--ez-text-xs); text-align: left; cursor: pointer; transition: transform var(--ez-dur-fast) var(--ez-ease-standard), border-color var(--ez-dur-fast) var(--ez-ease-standard); }
+.try-image img { width: 100%; height: auto; aspect-ratio: 16 / 11; object-fit: cover; border-radius: var(--ez-radius-xs); background: var(--ez-surface-sunk); }
+.try-image:hover:not(:disabled) { transform: translateY(-2px); border-color: var(--ez-accent); }
+.try-image:disabled { opacity: .6; cursor: progress; }
+
+/* ---- Micro-interactions ---- */
+/* Page change: the new route fades and rises in (Layout keys this wrapper on the path). */
+.page { animation: page-in var(--ez-dur-slow) var(--ez-ease-enter) both; }
+@keyframes page-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+/* Glyph tiles: each new letter is carved in. */
+.tile-glyph, .tile-svg, .tile img { animation: carve-in var(--ez-dur-reveal) var(--ez-ease-chisel) both; }
+@keyframes carve-in { from { opacity: 0; transform: scale(.9) translateY(6px); } 60% { opacity: 1; } to { opacity: 1; transform: none; } }
+/* Confidence meter: lit segments fill left to right. */
+.meter .seg.on { transform-origin: left center; animation: seg-on var(--ez-dur-slow) var(--ez-ease-enter) both; animation-delay: calc(var(--i, 0) * 45ms); }
+@keyframes seg-on { from { opacity: .2; transform: scaleX(.2); } to { opacity: 1; transform: none; } }
+.level:hover { transform: translateY(-2px); }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
   .frieze-track { animation: none; }
-  .evo-draw { stroke-dashoffset: 0; }
-  .evo-pop { opacity: 1; }
+  .hero-copy > *, .sample-card, .sample-card-skeleton, .page, .tile-glyph, .tile-svg, .tile img, .meter .seg.on { animation: none; }
+  .sample-card:hover, .sample-card:focus-within, .level:hover { transform: none; }
 }
