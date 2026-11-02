@@ -1,14 +1,14 @@
 /**
  * Client-side photo preparation for POST /api/read (contracts/restore-api.md).
  *
- * Phones produce 3-12 MB photos; the API takes at most 5 MB and the cloud proxy caps the request at 4.5 MB of
- * base64 JSON. We decode the photo in the browser (EXIF orientation applied), draw it at most MAX_SIDE px on the long
+ * Phones produce 3-12 MB photos. The agent takes at most 5 MB decoded, but the cloud proxy caps the request at 4.5 MB
+ * of base64 JSON, which is about 3.3 MB of image: that is the effective limit, so it is the client's hard limit. We decode the photo in the browser (EXIF orientation applied), draw it at most MAX_SIDE px on the long
  * side and re-encode JPEG, lowering quality until it fits TARGET_BYTES. Re-encoding through a canvas also drops every
  * EXIF/GPS tag before anything leaves the device (the server strips them again).
  */
 export const MAX_SIDE = 2048;
 export const TARGET_BYTES = 1_500_000;
-export const HARD_LIMIT_BYTES = 5 * 1024 * 1024;
+export const HARD_LIMIT_BYTES = 3_300_000;
 export const TEXT_LIMIT_BYTES = 512 * 1024;
 export const ACCEPT_IMAGES = 'image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif,.jpg,.jpeg,.png,.webp';
 export const ACCEPT_TEXT = '.txt,.xml,text/plain,application/xml,text/xml';
@@ -30,6 +30,8 @@ export interface PreparedPhoto {
   bytes: number;
   originalBytes: number;
   previewUrl: string;
+  /** The uploaded file's name (informational; the server never shows it to the model). */
+  filename?: string;
 }
 
 /** Scale (w, h) to fit inside max on the long side, never upscaling. */
@@ -119,6 +121,7 @@ export async function preparePhoto(file: File): Promise<PreparedPhoto> {
     bytes: blob.size,
     originalBytes: file.size,
     previewUrl: URL.createObjectURL(blob),
+    filename: file.name.slice(0, 200),
   };
 }
 

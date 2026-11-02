@@ -89,6 +89,32 @@ def test_prepare_rejects_too_large_bad_and_unsupported():
     assert e.value.code == "unsupported_format" and e.value.status == 415
 
 
+def test_prepare_keeps_black_text_on_a_transparent_png_visible():
+    im = Image.new("RGBA", (200, 100), (0, 0, 0, 0))
+    for x in range(50, 150):
+        for y in range(40, 60):
+            im.putpixel((x, y), (0, 0, 0, 255))
+    buf = io.BytesIO()
+    im.save(buf, format="PNG")
+    out = Image.open(io.BytesIO(prepare_image(buf.getvalue()).data)).convert("L")
+    assert out.getpixel((10, 10)) > 240, "transparent background must become white, not black"
+    assert out.getpixel((100, 50)) < 40, "the text stays black"
+    pal = Image.new("P", (20, 20), 0)
+    pal.info["transparency"] = 0
+    buf = io.BytesIO()
+    pal.save(buf, format="PNG", transparency=0)
+    assert Image.open(io.BytesIO(prepare_image(buf.getvalue()).data)).convert("L").getpixel((5, 5)) > 240
+
+
+def test_pillow_decompression_bomb_is_too_large_not_bad_image(monkeypatch):
+    buf = io.BytesIO()
+    Image.new("L", (100, 100)).save(buf, format="PNG")
+    monkeypatch.setattr(Image, "MAX_IMAGE_PIXELS", 1000)  # 10,000 px > 2x the limit: Pillow raises at open
+    with pytest.raises(ReadError) as e:
+        prepare_image(buf.getvalue())
+    assert e.value.code == "too_large" and e.value.status == 413
+
+
 def test_prepare_rejects_pixel_bombs_before_decoding():
     buf = io.BytesIO()
     Image.new("L", (3000, 3000)).save(buf, format="PNG")
@@ -175,18 +201,87 @@ def test_image_read_escalates_to_opus_when_unsure():
     assert out["lines"][0]["text"] == "kōvirāja"
 
 
-def test_escalation_skipped_when_first_read_was_slow():
+def test_escalation_skipped_when_too_little_budget_is_left():
+    # clock steps 11 s per reading: request starts at 11 (deadline 36), the first read ends at 33 -> 3 s left
     r, llm = make_reader(lambda role, s, p: reply([["kō", 0.2]], conf=0.2), step=11.0,
-                         escalate_if_elapsed_below_s=10)
+                         request_budget_s=25, escalate_min_remaining_s=15)
     out = r.read(image_base64=b64(jpeg_with_gps()))
     assert len(llm.calls) == 1 and out["escalation_skipped"] == "time_budget" and not out["escalated"]
+    assert isinstance(out["reread_token"], str) and len(out["reread_token"]) == 32
+
+
+def test_router_opus_needs_a_one_time_reread_token_for_the_same_photo():
+    calls = []
+
+    def responder(role, s, p):
+        calls.append(role)
+        return reply([["kō", 0.2]], conf=0.2)
+
+    r, _ = make_reader(responder, step=11.0, request_budget_s=25, escalate_min_remaining_s=15)
+    photo = b64(jpeg_with_gps())
+    with pytest.raises(ReadError) as e:  # no token: anonymous callers cannot pick Opus
+        r.read(image_base64=photo, router="opus")
+    assert e.value.code == "reread_token_invalid" and e.value.status == 403
+    token = r.read(image_base64=photo)["reread_token"]
+    with pytest.raises(ReadError):  # bound to the photo it was issued for
+        r.read(image_base64=b64(jpeg_with_gps(500, 300)), router="opus", reread_token=token)
+    out = r.read(image_base64=photo, router="opus", reread_token=token)
+    assert out["model"] == "opus" and "reread_token" not in out
+    with pytest.raises(ReadError):  # works once
+        r.read(image_base64=photo, router="opus", reread_token=token)
+    with pytest.raises(ReadError):
+        r.read(image_base64=photo, router="opus", reread_token="../../etc")
+    assert calls == ["default", "escalate"]
+
+
+def test_reread_token_expires():
+    from ezhuthu.agent.reader import RereadTokens
+
+    now = [1000.0]
+    t = RereadTokens(ttl_s=60, clock=lambda: now[0])
+    tok = t.issue("abc")
+    now[0] += 61
+    assert not t.consume(tok, "abc")
 
 
 def test_router_opus_goes_straight_to_escalate_and_sonnet_never_escalates():
     r, llm = make_reader(lambda role, s, p: reply([["a", 0.1]], conf=0.1))
-    r.read(image_base64=b64(jpeg_with_gps()), router="opus")
+    img = prepare_image(jpeg_with_gps())
+    r.read_image(img, router="opus")
     r.read(image_base64=b64(jpeg_with_gps()), router="sonnet")
     assert [c[0] for c in llm.calls] == ["escalate", "default"]
+
+
+def test_failed_escalation_keeps_the_first_reading():
+    def responder(role, s, p):
+        if role == "escalate":
+            raise RuntimeError("ModelTimeoutException: Opus took too long")
+        return reply([["kō[?2]", 0.4]], conf=0.4)
+
+    r, llm = make_reader(responder)
+    out = r.read(image_base64=b64(jpeg_with_gps()))
+    assert [c[0] for c in llm.calls] == ["default", "escalate"]
+    assert out["escalation_skipped"] == "error" and not out["escalated"]
+    assert out["lines"][0]["text"] == "kō[?2]" and out["model"] == "sonnet" and out["models_used"] == ["sonnet"]
+
+
+def test_escalation_keeps_the_more_confident_reading():
+    def responder(role, s, p):
+        return reply([["kō", 0.45]], conf=0.45) if role == "default" else reply([["jambai", 0.3]], conf=0.3)
+
+    r, _ = make_reader(responder)
+    out = r.read(image_base64=b64(jpeg_with_gps()))
+    assert out["escalated"] and out["models_used"] == ["sonnet", "opus"]
+    assert out["model"] == "sonnet" and out["lines"][0]["text"] == "kō" and out["confidence"] == 0.45
+
+
+def test_every_model_call_is_bounded_by_the_request_budget():
+    r, llm = make_reader(lambda role, s, p: reply([["kō", 0.2]], conf=0.2), step=2.0,
+                         request_budget_s=25, escalate_min_remaining_s=15)
+    r.read(image_base64=b64(jpeg_with_gps()))
+    # clock: start 2 (deadline 27); first call at 4 -> 23 s; it ends at 6, check at 8 (19 left), Opus at 10 -> 17 s
+    assert llm.timeouts == [23.0, 17.0]
+    assert all(t <= 25 for t in llm.timeouts)
 
 
 def test_budget_exhaustion_on_escalation_keeps_first_reading():
@@ -198,6 +293,15 @@ def test_budget_exhaustion_on_escalation_keeps_first_reading():
     r, _ = make_reader(responder)
     out = r.read(image_base64=b64(jpeg_with_gps()))
     assert out["escalation_skipped"] == "budget" and out["lines"][0]["text"] == "kō"
+
+
+def test_warnings_carry_codes_for_the_app_to_localise():
+    r, _ = make_reader(lambda role, s, p: reply([["satiyaputo", 0.2]], conf=0.2, script="tamil-brahmi"))
+    out = r.read(image_base64=b64(jpeg_with_gps()), router="sonnet")
+    assert out["warning_codes"] == [{"code": "low_reliability_script", "params": {"script": "tamil-brahmi"}}]
+    assert len(out["warnings"]) == len(out["warning_codes"])
+    out = Reader(llm=None).read(text="svasti śrī <b>", filename="a.txt")
+    assert out["warning_codes"] == [{"code": "dropped_chars", "params": {"chars": "<>"}}]
 
 
 def test_no_text_in_image_is_a_warning_not_an_error():
@@ -239,6 +343,9 @@ def test_epidoc_upload_masks_supplied_as_gaps():
     out = Reader(llm=None).read(text=xml, filename="DHARMA_INSPallava90001.xml")
     assert out["source"] == "epidoc" and out["lines"]
     assert out["title"]
+    assert out["licence"] == "CC BY-SA 4.0"
+    assert out["licence_url"] == "https://creativecommons.org/licenses/by-sa/4.0/"
+    assert out["inscription_id"] is None and out["source_url"] is None  # the fixture has no <idno type="filename">
     if out["masked_supplied"]:
         assert out["gaps"] >= out["masked_supplied"]
 

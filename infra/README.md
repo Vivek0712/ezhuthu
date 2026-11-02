@@ -26,7 +26,7 @@ No Lambda Function URLs are used (they are blocked on this account); the proxy i
 | Route | Access | Throttle (rps / burst) |
 | --- | --- | --- |
 | `POST /api/restore` | public | 5 / 10 |
-| `POST /api/read` (photo or file to text; body up to 4.5 MB) | public | 2 / 5 |
+| `POST /api/read` (photo or file to text; body up to 4.5 MB; `router: "opus"` only with a one-time `reread_token`) | public | 2 / 5 |
 | `POST /api/lesson`, `POST /api/answer`, `POST /api/assessment`, `GET /api/progress/{session_id}` | public | stage default 20 / 40 |
 | `POST /api/corrections` | public (name is stored as "unverified" unless signed in) | 2 / 5 |
 | `POST /api/evaluate` | any signed-in user | 1 / 2 |
@@ -197,3 +197,18 @@ with about one model call per request averaging 1,500 input and 300 output token
 
 Every escalation to Opus raises the token line; the routing thresholds live in `config/models.yaml`. Real numbers
 belong in `eval/reports/` once the pilot runs.
+
+### `POST /api/read` cost controls
+
+The route is public, and a photo read is one or two Bedrock vision calls on the hero-credits account. Limits:
+
+- Stage throttle 2 rps / burst 5 (above). There is no per-IP limit or daily cap at the API layer.
+- A caller cannot choose Opus 4.6: `router: "opus"` is refused (403 `reread_token_invalid`) unless it carries the
+  one-time `reread_token` that the agent issued for that same photo after a read ran out of time (15-minute TTL, one
+  use, stored as `READTOKEN#<id>` in the data table, which the agent role may write: `AGENT_KEY_PREFIXES`). The only
+  Opus calls are therefore the agent's own escalations (reader confidence under 0.6, with at least 15 s of the 25 s
+  budget left) and one re-read per such token.
+- Every model call, including retries and back-off, is bounded by the request's 25 s budget, so a slow Bedrock
+  answer is abandoned rather than billed twice behind a proxy 504.
+- Kill switch: unset `EZHUTHU_LIVE` on the runtime (or redeploy without it) and `/api/read` answers photos with 503
+  `reader_unavailable` while text and EpiDoc uploads keep working.

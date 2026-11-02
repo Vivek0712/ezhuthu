@@ -194,11 +194,12 @@ export interface components {
         };
         /** @description Exactly one of image_base64 or text. */
         ReadRequest: {
-            /** @description JPEG, PNG, WebP (HEIC only if the server has pillow-heif); at most 5 MB decoded */
+            /** @description JPEG, PNG, WebP (HEIC only if the server has pillow-heif); at most 5 MB decoded by the agent, about 3.3 MB through the cloud proxy (4.5 MB body) */
             image_base64?: string;
             media_type?: string;
             /** @description .txt (Tamil or ISO-15919) or DHARMA EpiDoc/TEI XML contents */
             text?: string;
+            /** @description Informational for images (never sent to the model) */
             filename?: string;
             /**
              * @default auto
@@ -206,11 +207,21 @@ export interface components {
              */
             format?: "auto" | "txt" | "epidoc";
             /**
+             * @description opus requires reread_token
              * @default routed
              * @enum {string}
              */
             router?: "routed" | "sonnet" | "opus";
             hint?: string;
+            /** @description One-time token from a response with escalation_skipped time_budget; required with router opus, for the same photo */
+            reread_token?: string;
+        };
+        ReadWarning: {
+            /** @enum {string} */
+            code: "cut_short" | "dropped_chars" | "no_text_in_image" | "low_reliability_script" | "unsure" | "lines_capped" | "masked_supplied";
+            params: {
+                [key: string]: unknown;
+            };
         };
         ReadLine: {
             n: string;
@@ -255,12 +266,20 @@ export interface components {
             model?: string;
             escalated: boolean;
             /** @enum {string} */
-            escalation_skipped?: "time_budget" | "budget";
+            escalation_skipped?: "time_budget" | "budget" | "error";
+            /** @description Present with escalation_skipped time_budget: send it back with router opus to read the same photo again (once, 15 minutes) */
+            reread_token?: string;
             image?: components["schemas"]["ReadImageInfo"];
             title?: string | null;
             licence?: string | null;
+            licence_url?: string | null;
+            inscription_id?: string | null;
+            /** @description dharmalekha.info view of the EpiDoc edition */
+            source_url?: string | null;
             masked_supplied?: number;
+            /** @description English messages; warning_codes carries the same warnings for localisation */
             warnings: string[];
+            warning_codes?: components["schemas"]["ReadWarning"][];
             trace_id: string;
             latency_ms: number;
         };
@@ -573,6 +592,7 @@ export interface operations {
                     "application/json": components["schemas"]["ReadResponse"];
                 };
             };
+            403: components["responses"]["Error"];
             413: components["responses"]["Error"];
             415: components["responses"]["Error"];
             503: components["responses"]["Error"];

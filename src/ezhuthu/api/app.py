@@ -49,6 +49,7 @@ class ReadRequest(BaseModel):
     format: Literal["auto", "txt", "epidoc"] = "auto"
     router: Literal["routed", "sonnet", "opus"] = "routed"
     hint: str | None = Field(None, max_length=200)
+    reread_token: str | None = Field(None, max_length=64)  # required with router "opus" (contracts/restore-api.md)
 
 
 class CorrectionRequest(BaseModel):

@@ -1,0 +1,20 @@
+{
+  "set": "synth",
+  "router": "sonnet",
+  "n": 3,
+  "errors": 0,
+  "usage": {
+    "calls": 3,
+    "cached_calls": 0,
+    "input_tokens": {
+      "sonnet": 4077
+    },
+    "output_tokens": {
+      "sonnet": 1020
+    },
+    "estimated_cost_usd": 0.0275,
+    "price_basis": "USD/MTok list prices in ezhuthu.agent.llm.PRICE_PER_MTOK"
+  },
+  "budget": 3,
+  "budget_refusals": 0
+}

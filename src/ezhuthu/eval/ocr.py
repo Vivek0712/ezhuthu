@@ -13,6 +13,7 @@ There is no public dataset of inscription photographs paired with edition text, 
 
     python -m ezhuthu.eval.ocr synth  --plates 24 --seed 7            # render into .cache/ocr/synth
     python -m ezhuthu.eval.ocr fetch-real                              # download the real set into .cache/ocr/real
+    python -m ezhuthu.eval.ocr samples                                 # the app's sample plates (TRAIN lines)
     EZHUTHU_LIVE=1 python -m ezhuthu.eval.ocr run --set synth --max-live-calls 120 --out <jsonl>
     EZHUTHU_LIVE=1 python -m ezhuthu.eval.ocr run --set real  --max-live-calls 30  --out <jsonl>
     python -m ezhuthu.eval.ocr report --synth <jsonl> --real <jsonl> --out eval/reports/2026-11-02-ocr-eval
@@ -195,6 +196,96 @@ def cmd_synth(args: argparse.Namespace) -> None:
 
 
 # ---------------------------------------------------------------------------------------------------------------
+# app samples (app/web/public/samples/read): TRAIN-split lines only (benchmark/DATA_CARD.md, leakage rule 2)
+
+SAMPLES_DIR = ROOT / "app" / "web" / "public" / "samples" / "read"
+SAMPLES_MANIFEST = SAMPLES_DIR / "SOURCES.json"
+# (sample id, inscription id, first line index, level, font, rendered script). All TRAIN inscriptions.
+SAMPLE_PLATES = (
+    ("stone-tamil", "DHARMA_INSPallava00042", 0, "photo", "tamil-sans", "tamil"),
+    ("stone-weathered", "DHARMA_INSTamilNadu00120", 0, "weathered", "tamil-serif", "tamil"),
+    ("stone-brahmi", "DHARMA_INSPallava00042", 0, "photo", "brahmi", "tamil-brahmi"),
+)
+# Files that are not rendered plates; each must name the TRAIN inscription it comes from.
+SAMPLE_FILES = (
+    {"file": "chola-opening.txt", "inscription_id": "DHARMA_INSCempiyanMahadevi00001",
+     "kind": "text", "note": "opening lines retyped in Tamil script, with gaps"},
+    {"file": "DHARMA_INSUttiramerur00001.xml", "inscription_id": "DHARMA_INSUttiramerur00001",
+     "kind": "epidoc", "note": "the DHARMA EpiDoc edition, unchanged"},
+)
+
+
+def plate_bbox(path: Path, pad: int = 14) -> tuple[int, int, int, int]:
+    """Bounding box of the (lighter) plate on the renderer's dark backdrop."""
+    from PIL import Image, ImageFilter
+
+    g = Image.open(path).convert("L").filter(ImageFilter.GaussianBlur(4))
+    mask = g.point(lambda v: 255 if v > 95 else 0)
+    box = mask.getbbox() or (0, 0, *g.size)
+    return (max(0, box[0] - pad), max(0, box[1] - pad), min(g.size[0], box[2] + pad), min(g.size[1], box[3] + pad))
+
+
+def cmd_samples(args: argparse.Namespace) -> None:
+    """Render the app's sample plates from TRAIN lines, crop their thumbnails and write SOURCES.json."""
+    from PIL import Image
+
+    from ..corpus.script import iso_to_tamil_brahmi, iso_to_tamil_display, strip_editorial_marks
+
+    ins = {d["id"]: d for d in (json.loads(x) for x in
+                                (ROOT / "benchmark" / "inscriptions.jsonl").read_text(encoding="utf-8").splitlines())}
+    work = Path(args.work)
+    work.mkdir(parents=True, exist_ok=True)
+    items, sources = [], []
+    for k, (sid, iid, start, level, font, rendered) in enumerate(SAMPLE_PLATES):
+        d = ins[iid]
+        if d["split"] != "train":
+            raise SystemExit(f"{iid} is {d['split']}: app samples must come from TRAIN inscriptions")
+        rows = [r.lstrip("-").strip() for r in d["text_iso_masked"].split("\n")][start:start + 3]
+        if rendered == "tamil":
+            render = [iso_to_tamil_display(x) for x in rows]
+        else:
+            render = [iso_to_tamil_brahmi(strip_editorial_marks(x).replace("-", "")) for x in rows]
+        items.append({"id": sid, "plate": k, "level": level, "font": font, "rendered_script": rendered,
+                      "inscription_id": iid, "dynasty": d["dynasty"], "lines": rows, "render_lines": render,
+                      "seed": 4200 + k * 13, "truth": "\n".join(rows),
+                      "truth_visible": "\n".join(tamil_to_iso(x) for x in render) if rendered == "tamil"
+                      else "\n".join(rows)})
+        sources.append({"file": f"{sid}.jpg", "thumb": f"{sid}.thumb.jpg", "kind": "rendered-plate",
+                        "inscription_id": iid, "split": d["split"], "lines": f"{start + 1}-{start + len(rows)}",
+                        "rendered_script": rendered, "level": level, "title": d["title"],
+                        "source_url": d["source_url"], "dharmalekha_url": d["dharmalekha_url"],
+                        "licence": d["licence"], "licence_url": d["licence_url"]})
+    mpath = work / "render_manifest.json"
+    mpath.write_text(json.dumps({"items": [{"id": it["id"], "lines": it["render_lines"], "font": it["font"],
+                                            "level": it["level"], "seed": it["seed"]} for it in items]},
+                                ensure_ascii=False), encoding="utf-8")
+    subprocess.run(["node", str(Path(__file__).with_name("ocr_render.mjs")), str(mpath), str(work / "png")],
+                   check=True)
+    SAMPLES_DIR.mkdir(parents=True, exist_ok=True)
+    for it in items:
+        jpg = SAMPLES_DIR / f"{it['id']}.jpg"
+        jpg.write_bytes(degrade(work / "png" / f"{it['id']}.png", it["level"], it["seed"]))
+        im = Image.open(jpg)
+        thumb = im.crop(plate_bbox(work / "png" / f"{it['id']}.png"))
+        thumb.thumbnail((360, 240), Image.Resampling.LANCZOS)
+        thumb.save(SAMPLES_DIR / f"{it['id']}.thumb.jpg", format="JPEG", quality=82, optimize=True)
+        it["image"] = str(jpg.relative_to(ROOT))
+    for f in SAMPLE_FILES:
+        d = ins[f["inscription_id"]]
+        sources.append({**f, "split": d["split"], "title": d["title"], "source_url": d["source_url"],
+                        "dharmalekha_url": d["dharmalekha_url"], "licence": d["licence"],
+                        "licence_url": d["licence_url"]})
+    SAMPLES_MANIFEST.write_text(json.dumps({
+        "note": "Every file here comes from a TRAIN-split DHARMA inscription (benchmark/DATA_CARD.md, leakage rule 2; "
+                "enforced by tests/agent/test_app_samples.py). Plates are our own renderings "
+                "(python -m ezhuthu.eval.ocr samples), not photographs. Text CC BY-SA 4.0, DHARMA project.",
+        "files": sources}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (work / "items.jsonl").write_text("".join(json.dumps(it, ensure_ascii=False) + "\n" for it in items),
+                                      encoding="utf-8")
+    print(f"{len(items)} sample plates -> {SAMPLES_DIR} (items for `run`: {work / 'items.jsonl'})")
+
+
+# ---------------------------------------------------------------------------------------------------------------
 # real set
 
 def _get(url: str, params: dict[str, Any] | None = None) -> bytes:
@@ -310,6 +401,33 @@ def cmd_run(args: argparse.Namespace) -> None:
     print(json.dumps(meta, indent=2))
 
 
+def cmd_rewarn(args: argparse.Namespace) -> None:
+    """Recompute ``warnings``/``warning_codes`` of a committed run from the LLM cache with the current Reader, keeping
+    the reading each record chose in its live run (same model, same cached reply). Makes no live call."""
+    from ..agent.llm import BedrockLLM, BudgetedLLM
+    from ..agent.reader import Reader, prepare_image
+
+    if args.set == "synth":
+        items = {json.loads(x)["id"]: json.loads(x) for x in Path(args.items).read_text(encoding="utf-8").splitlines()}
+    else:
+        items = {it["id"]: it for it in json.loads(Path(args.manifest).read_text(encoding="utf-8"))["images"]}
+    inner = BedrockLLM(rpm=None)
+    reader = Reader(llm=BudgetedLLM(inner, 0))  # type: ignore[arg-type]
+    out, changed = [], 0
+    for line in Path(args.jsonl).read_text(encoding="utf-8").splitlines():
+        rec = json.loads(line)
+        if rec.get("reading") is not None:
+            img = prepare_image((ROOT / items[rec["id"]]["image"]).read_bytes(), reader.settings)
+            r = reader.read_image(img, router="opus" if rec.get("model") == "opus" else "sonnet")
+            if r["text"] != rec["reading"]:
+                raise SystemExit(f"{rec['id']}: the cached reply does not reproduce the recorded reading")
+            changed += rec.get("warnings") != r["warnings"]
+            rec["warnings"], rec["warning_codes"] = r["warnings"], r["warning_codes"]
+        out.append(json.dumps(rec, ensure_ascii=False))
+    Path(args.jsonl).write_text("\n".join(out) + "\n", encoding="utf-8")
+    print(f"{args.jsonl}: {changed} records with changed warnings; live calls {inner.ledger.calls}")
+
+
 # ---------------------------------------------------------------------------------------------------------------
 # report
 
@@ -415,6 +533,9 @@ def main(argv: list[str] | None = None) -> None:
     a.add_argument("--seed", type=int, default=7)
     a.add_argument("--out", default=str(CACHE / "synth"))
     a.set_defaults(fn=cmd_synth)
+    a = sub.add_parser("samples", help="render the app's sample plates (TRAIN lines) into app/web/public")
+    a.add_argument("--work", default=str(CACHE / "samples"))
+    a.set_defaults(fn=cmd_samples)
     a = sub.add_parser("fetch-real")
     a.set_defaults(fn=cmd_fetch_real)
     a = sub.add_parser("run")
@@ -428,6 +549,12 @@ def main(argv: list[str] | None = None) -> None:
     a.add_argument("--limit", type=int)
     a.add_argument("--out", required=True)
     a.set_defaults(fn=cmd_run)
+    a = sub.add_parser("rewarn", help="recompute warnings of a committed run from the cache (no live calls)")
+    a.add_argument("--set", choices=("synth", "real"), required=True)
+    a.add_argument("--items", default=str(CACHE / "synth" / "items.jsonl"))
+    a.add_argument("--manifest", default=str(REAL_MANIFEST))
+    a.add_argument("jsonl")
+    a.set_defaults(fn=cmd_rewarn)
     a = sub.add_parser("report")
     a.add_argument("--synth")
     a.add_argument("--real")

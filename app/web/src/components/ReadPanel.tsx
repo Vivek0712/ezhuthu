@@ -13,6 +13,8 @@ import {
   type PreparedPhoto,
 } from '../lib/imagePrep';
 import { READ_SAMPLES, type ReadSample } from '../lib/readSamples';
+import { safeHref } from '../lib/format';
+import { LEARN_TEXT_LIMIT } from '../lib/learn';
 import { ConfidenceMeter } from './ConfidenceMeter';
 import { ErrorNote } from './Feedback';
 import '../styles/read.css';
@@ -47,8 +49,24 @@ function errorKey(err: unknown): MessageKey | null {
     if (err.code === 'unsupported_format' || err.status === 415) return 'read.err.unsupported';
     if (err.code === 'bad_image') return 'read.err.bad_image';
     if (err.code === 'no_text') return 'read.err.no_text';
+    if (err.code === 'reread_token_invalid') return 'read.err.reread';
   }
   return null;
+}
+
+type Warning = NonNullable<ReadResponse['warning_codes']>[number];
+
+/** Server warnings in the learner's language: codes from warning_codes, English text only as a fallback. */
+export function warningText(w: Warning, res: ReadResponse, t: (k: MessageKey) => string, lang: string): string {
+  const key = `read.warn.${w.code}` as MessageKey;
+  let s = t(key);
+  const params = (w.params ?? {}) as Record<string, unknown>;
+  if (w.code === 'low_reliability_script') {
+    const g = res.script_guess;
+    params.script = g && g.script === params.script ? (lang === 'ta' ? g.label_ta : g.label_en) : params.script;
+  }
+  for (const [k, v] of Object.entries(params)) s = s.replace(`{${k}}`, String(v));
+  return s;
 }
 
 function ReadError({ error, onRetry }: { error: unknown; onRetry?: () => void }) {
@@ -132,6 +150,7 @@ export function ReadPanel({
   const fileInput = useRef<HTMLInputElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
   const lastRequest = useRef<{ photo?: PreparedPhoto; text?: string; filename?: string } | null>(null);
+  const [pendingScript, setPendingScript] = useState<Script | null>(null);
 
   useEffect(() => () => void (photo && URL.revokeObjectURL(photo.previewUrl)), [photo]);
 
@@ -152,11 +171,19 @@ export function ReadPanel({
     requestAnimationFrame(() => reviewRef.current?.scrollIntoView?.({ behavior: 'smooth', block: 'start' }));
   }
 
-  async function readPhoto(p: PreparedPhoto, router: 'routed' | 'opus' = 'routed') {
+  async function readPhoto(p: PreparedPhoto, again?: { reread_token: string }) {
     setPhase('reading');
-    lastRequest.current = { photo: p };
+    setError(null);
+    lastRequest.current = { photo: p, filename: p.filename };
     try {
-      load(await api.read({ image_base64: p.base64, media_type: p.mediaType, router }));
+      load(
+        await api.read({
+          image_base64: p.base64,
+          media_type: p.mediaType,
+          ...(p.filename ? { filename: p.filename } : {}),
+          ...(again ? { router: 'opus' as const, reread_token: again.reread_token } : { router: 'routed' as const }),
+        }),
+      );
     } catch (err) {
       setError(err);
       setPhase('idle');
@@ -225,12 +252,17 @@ export function ReadPanel({
     if (f) void (looksLikeText(f) ? onTextFile(f) : onPhoto(f));
   }
 
-  function switchScript(s: Script) {
+  function switchScript(s: Script, confirmed = false) {
+    if (s === script) return setPendingScript(null);
+    // Edited lines cannot be converted reliably between scripts: ask before throwing the learner's work away.
+    if (!confirmed && lines.some((l) => l.edited)) return setPendingScript(s);
+    setPendingScript(null);
     setScript(s);
     setLines((ls) => ls.map((l) => ({ ...l, value: s === 'tamil' ? l.tamil : l.iso, edited: false })));
   }
 
   function reset() {
+    setPendingScript(null);
     setPhase('idle');
     setRes(null);
     setPhoto(null);
@@ -251,12 +283,25 @@ export function ReadPanel({
       <div className="read-sample-row">
         {READ_SAMPLES.filter((s) => (kind === 'photo' ? s.kind === 'photo' : s.kind !== 'photo')).map((s) => (
           <button key={s.id} type="button" className="read-sample" disabled={busy} onClick={() => void onSample(s)} data-testid={`sample-${s.id}`}>
-            {s.kind === 'photo' ? <img src={s.url} alt="" loading="lazy" /> : <span className="read-sample-doc" aria-hidden="true">{s.kind === 'epidoc' ? 'XML' : 'TXT'}</span>}
+            {s.kind === 'photo' ? <img src={s.thumb ?? s.url} alt="" loading="lazy" /> : <span className="read-sample-doc" aria-hidden="true">{s.kind === 'epidoc' ? 'XML' : 'TXT'}</span>}
             <span>{lang === 'ta' ? s.label_ta : s.label_en}</span>
           </button>
         ))}
       </div>
-      {kind === 'photo' && <p className="credit">{t('read.samplesNote')}</p>}
+      <p className="credit" data-testid={`read-samples-credit-${kind}`}>
+        {t(kind === 'photo' ? 'read.platesNote' : 'read.filesNote')}{' '}
+        {[...new Set(READ_SAMPLES.filter((s) => (kind === 'photo' ? s.kind === 'photo' : s.kind !== 'photo')).map((s) => s.inscription_id))].map((id, i) => {
+          const src = READ_SAMPLES.find((s) => s.inscription_id === id)!.source;
+          return (
+            <span key={id}>
+              {i > 0 && ', '}
+              <a href={safeHref(src)} target="_blank" rel="noreferrer">
+                {id.replace('DHARMA_INS', '')}
+              </a>
+            </span>
+          );
+        })}
+      </p>
     </div>
   );
 
@@ -372,7 +417,12 @@ export function ReadPanel({
         </div>
       )}
 
-      {error != null && tab !== 'type' && <ReadError error={error} onRetry={lastRequest.current?.photo ? () => void readPhoto(lastRequest.current!.photo!) : undefined} />}
+      {error != null && tab !== 'type' && (
+        <ReadError
+          error={error}
+          onRetry={lastRequest.current?.photo && !(error instanceof ApiError && error.code === 'reread_token_invalid') ? () => void readPhoto(lastRequest.current!.photo!) : undefined}
+        />
+      )}
 
       {phase === 'review' && res && tab !== 'type' && (
         <div ref={reviewRef} className="grid read-review" data-testid="read-result" aria-live="polite">
@@ -398,7 +448,6 @@ export function ReadPanel({
                       aria-checked={script === s}
                       className={script === s ? 'on' : ''}
                       onClick={() => switchScript(s)}
-                      title={lines.some((l) => l.edited) ? t('read.resetNote') : undefined}
                       data-testid={`read-script-${s}`}
                     >
                       {s === 'tamil' ? t('restore.script.tamil') : t('restore.script.iso')}
@@ -413,7 +462,7 @@ export function ReadPanel({
                     {res.script_guess.era ? ` · ${res.script_guess.era}` : ''}
                   </span>
                 )}
-                {(res as { title?: string | null }).title && <span className="chip">{(res as { title?: string | null }).title}</span>}
+                {res.title && <span className="chip">{res.title}</span>}
                 <span className="chip">
                   {lines.length} {t('read.lines')} · {res.gaps} {t('read.gaps')}
                 </span>
@@ -423,17 +472,61 @@ export function ReadPanel({
                   </span>
                 )}
               </div>
-              {res.confidence != null && <ConfidenceMeter value={res.confidence} label={t('read.confidence')} />}
-              {res.warnings.map((w, i) => (
-                <p key={i} className="note" data-testid="read-warning">
-                  {w}
+              {res.source === 'epidoc' && (res.inscription_id || res.licence) && (
+                <p className="credit" data-testid="read-edition">
+                  {res.inscription_id && (
+                    <>
+                      {t('read.edition')}:{' '}
+                      {res.source_url ? (
+                        <a href={safeHref(res.source_url)} target="_blank" rel="noreferrer">
+                          {res.inscription_id}
+                        </a>
+                      ) : (
+                        res.inscription_id
+                      )}
+                      {' · '}
+                    </>
+                  )}
+                  {res.licence && (
+                    <>
+                      {t('read.licence')}:{' '}
+                      {res.licence_url ? (
+                        <a href={safeHref(res.licence_url)} target="_blank" rel="noreferrer">
+                          {res.licence}
+                        </a>
+                      ) : (
+                        res.licence
+                      )}
+                    </>
+                  )}
                 </p>
-              ))}
-              {res.escalation_skipped === 'time_budget' && photo && (
+              )}
+              {res.confidence != null && <ConfidenceMeter value={res.confidence} label={t('read.confidence')} />}
+              {res.warnings.map((message, i) => {
+                const w = res.warning_codes?.[i];
+                return (
+                  <p key={i} className="note" data-testid="read-warning" data-code={w?.code}>
+                    {w ? warningText(w, res, t, lang) : message}
+                  </p>
+                );
+              })}
+              {res.escalation_skipped === 'error' && <p className="note" data-testid="read-escalation-error">{t('read.escalationError')}</p>}
+              {res.escalation_skipped === 'time_budget' && res.reread_token && photo && (
                 <div className="row note">
                   <span>{t('read.againWhy')}</span>
-                  <button type="button" className="btn btn-ghost btn-small" onClick={() => void readPhoto(photo, 'opus')} data-testid="read-again">
+                  <button type="button" className="btn btn-ghost btn-small" onClick={() => void readPhoto(photo, { reread_token: res.reread_token! })} data-testid="read-again">
                     {t('read.again')}
+                  </button>
+                </div>
+              )}
+              {pendingScript && (
+                <div className="row note read-confirm" role="alertdialog" aria-live="assertive" data-testid="read-switch-confirm">
+                  <span>{t('read.switchConfirm')}</span>
+                  <button type="button" className="btn btn-ghost btn-small" onClick={() => switchScript(pendingScript, true)} data-testid="read-switch-yes">
+                    {t('read.switchYes')}
+                  </button>
+                  <button type="button" className="btn btn-primary btn-small" onClick={() => setPendingScript(null)} data-testid="read-switch-no">
+                    {t('read.switchNo')}
                   </button>
                 </div>
               )}
@@ -471,6 +564,11 @@ export function ReadPanel({
               </ol>
               {chosenGaps > MAX_RESTORE_GAPS && <p className="note" data-testid="read-too-many-gaps">{t('read.tooManyGaps')}</p>}
               {chosen.length > 0 && chosenGaps === 0 && <p className="note">{t('read.noGapsHere')}</p>}
+              {chosenText.length > LEARN_TEXT_LIMIT && (
+                <p className="hint-text" data-testid="read-learn-cut">
+                  {t('read.learnCut')}
+                </p>
+              )}
               <div className="row">
                 <button
                   type="button"

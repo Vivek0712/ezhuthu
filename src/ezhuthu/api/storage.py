@@ -9,6 +9,8 @@ TTL attribute ``ttl``:
     CORRECTION#<id> / ITEM    correction record
     QUEUE#<id>      / ITEM    review-queue item; gsi1pk = STATUS#<status>, gsi1sk = created_at (ISO-8601 UTC),
                               the same keys and top-level fields the proxy's QueueStore writes and lists
+    READTOKEN#<id>  / TOKEN   one-time "read again with Opus" token (POST /api/read); top-level ``status``
+                              (issued|used) for the conditional consume, ``ttl`` one day
 
 Each item keeps the full document as JSON in ``doc``; queue items also carry the proxy's top-level fields, and
 items the proxy wrote (no ``doc``) are read from those fields. The two writers interoperate both ways:
@@ -29,7 +31,7 @@ import threading
 import time
 from typing import Any, Protocol
 
-KINDS = ("session", "correction", "queue")
+KINDS = ("session", "correction", "queue", "read_token")
 
 
 class Store(Protocol):
@@ -120,8 +122,9 @@ class SQLiteStore:
 
 
 SESSION_TTL_SECONDS = 90 * 24 * 3600  # same as the proxy's SESSION#<id>/META
-_PREFIX = {"session": "SESSION", "correction": "CORRECTION", "queue": "QUEUE"}
-_SK = {"session": "STATE", "correction": "ITEM", "queue": "ITEM"}
+_PREFIX = {"session": "SESSION", "correction": "CORRECTION", "queue": "QUEUE", "read_token": "READTOKEN"}
+_SK = {"session": "STATE", "correction": "ITEM", "queue": "ITEM", "read_token": "TOKEN"}
+READ_TOKEN_TTL_SECONDS = 24 * 3600
 QUEUE_STATUSES = ("pending", "approved", "edited", "rejected")
 _KEY_ATTRS = ("pk", "sk", "gsi1pk", "gsi1sk", "ttl", "doc", "kind")
 # Queue fields the proxy's review() SETs in place; on read they win over the copy inside ``doc``.
@@ -159,6 +162,9 @@ class DynamoStore:
         item: dict[str, Any] = {**self.key(kind, id), "kind": kind, "doc": json.dumps(doc, ensure_ascii=False)}
         if kind == "session":
             item["ttl"] = int(self.clock()) + SESSION_TTL_SECONDS
+        elif kind == "read_token":
+            item["ttl"] = int(self.clock()) + READ_TOKEN_TTL_SECONDS
+            item["status"] = str(doc.get("status") or "issued")
         elif kind == "queue":
             status = str(doc.get("status") or "pending")
             created = _iso(doc.get("created_at"))

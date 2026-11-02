@@ -67,7 +67,7 @@ class EzhuthuService:
 
     @cached_property
     def reader(self) -> Reader:
-        return Reader(llm=self._llm, config=self.restorer.config)
+        return Reader(llm=self._llm, config=self.restorer.config, store=self.store)
 
     @cached_property
     def config(self):
@@ -119,10 +119,11 @@ class EzhuthuService:
 
     # ---- read (upload + OCR) -------------------------------------------------------
     def read(self, *, image_base64: str | None = None, text: str | None = None, filename: str | None = None,
-             format: str = "auto", router: str = "routed", hint: str | None = None) -> dict[str, Any]:
+             format: str = "auto", router: str = "routed", hint: str | None = None,
+             reread_token: str | None = None) -> dict[str, Any]:
         """``POST /api/read``: photo (base64) or text/EpiDoc file to transcription lines. Raises ReadError
-        (413/415/422) or ReaderUnavailable (503, no live model for images)."""
-        for name, v in (("filename", filename), ("hint", hint)):
+        (403/413/415/422) or ReaderUnavailable (503, no live model for images)."""
+        for name, v in (("filename", filename), ("hint", hint), ("reread_token", reread_token)):
             if v is not None and (not isinstance(v, str) or len(v) > 200):
                 raise ReadError("bad_request", f"{name} must be a string of at most 200 characters")
         if image_base64 is not None and not isinstance(image_base64, str):
@@ -130,7 +131,7 @@ class EzhuthuService:
         if text is not None and not isinstance(text, str):
             raise ReadError("bad_request", "text must be a string")
         return self.reader.read(image_base64=image_base64, text=text, filename=filename, format=format,
-                                router=router, hint=hint)
+                                router=router, hint=hint, reread_token=reread_token)
 
     # ---- corrections and review queue --------------------------------------------
     def add_correction(self, gap_ref: str, *, accepted_candidate: str | None = None,

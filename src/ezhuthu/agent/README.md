@@ -81,9 +81,13 @@ turns either into lines in the restorer's notation (ISO-15919 with `[?N]` / `[?]
   JSON: script (`tamil-brahmi|vatteluttu|grantha|pallava-tamil|chola-tamil|modern-tamil|unknown`), era, per-line
   text and probability, and `[?N]` for illegible letters ("never guess hidden letters"). A reply cut at
   `max_tokens` keeps its complete lines. Router: `routed` re-reads with `llm.escalate` (Opus 4.6) when the
-  confidence is under `routing.escalate_if_confidence_below` **and** the first read took less than
-  `reader.escalate_if_elapsed_below_s` (10 s; the cloud proxy allows 27 s per request), else it reports
-  `escalation_skipped: "time_budget"` and the app offers `router: "opus"` as a second request.
+  confidence is under `routing.escalate_if_confidence_below` **and** at least `reader.escalate_min_remaining_s`
+  (15 s) of the request budget `reader.request_budget_s` (25 s; the cloud proxy allows 27 s) is left; every call and
+  retry back-off is bounded by what is left. The more confident reading is kept; a failed escalation keeps the
+  first (`escalation_skipped: "error"`). Without time left it reports `escalation_skipped: "time_budget"` with a
+  one-time `reread_token`, and the app offers `router: "opus"` with that token as a second request; `router:
+  "opus"` without a valid token is refused (403), so anonymous callers cannot pick the expensive model. Warnings
+  come with `warning_codes` so the app can show them in Tamil.
 - **Text file**: Tamil script or ISO-15919, one line per line; line numbers, `...` and `[...]` (lost text) are
   normalised; characters the restore API would refuse are dropped and reported in `warnings`.
 - **DHARMA EpiDoc XML**: parsed with `corpus/epidoc.parse_edition` behind a parser that resolves no entities and

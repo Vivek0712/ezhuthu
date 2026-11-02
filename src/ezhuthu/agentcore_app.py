@@ -50,7 +50,8 @@ def _restore(s: EzhuthuService, p: dict[str, Any]) -> Any:
 
 def _read(s: EzhuthuService, p: dict[str, Any]) -> Any:
     return s.read(image_base64=p.get("image_base64"), text=p.get("text"), filename=p.get("filename"),
-                  format=p.get("format", "auto"), router=p.get("router", "routed"), hint=p.get("hint"))
+                  format=p.get("format", "auto"), router=p.get("router", "routed"), hint=p.get("hint"),
+                  reread_token=p.get("reread_token"))
 
 
 def _lesson(s: EzhuthuService, p: dict[str, Any]) -> Any:

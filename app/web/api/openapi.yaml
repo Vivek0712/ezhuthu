@@ -41,6 +41,7 @@ paths:
           content:
             application/json:
               schema: { $ref: '#/components/schemas/ReadResponse' }
+        '403': { $ref: '#/components/responses/Error' }
         '413': { $ref: '#/components/responses/Error' }
         '415': { $ref: '#/components/responses/Error' }
         '503': { $ref: '#/components/responses/Error' }
@@ -215,13 +216,20 @@ components:
       description: Exactly one of image_base64 or text.
       additionalProperties: false
       properties:
-        image_base64: { type: string, description: 'JPEG, PNG, WebP (HEIC only if the server has pillow-heif); at most 5 MB decoded' }
+        image_base64: { type: string, description: 'JPEG, PNG, WebP (HEIC only if the server has pillow-heif); at most 5 MB decoded by the agent, about 3.3 MB through the cloud proxy (4.5 MB body)' }
         media_type: { type: string }
         text: { type: string, description: '.txt (Tamil or ISO-15919) or DHARMA EpiDoc/TEI XML contents' }
-        filename: { type: string, maxLength: 200 }
+        filename: { type: string, maxLength: 200, description: 'Informational for images (never sent to the model)' }
         format: { type: string, enum: [auto, txt, epidoc], default: auto }
-        router: { type: string, enum: [routed, sonnet, opus], default: routed }
+        router: { type: string, enum: [routed, sonnet, opus], default: routed, description: 'opus requires reread_token' }
         hint: { type: string, maxLength: 200 }
+        reread_token: { type: string, maxLength: 64, description: 'One-time token from a response with escalation_skipped time_budget; required with router opus, for the same photo' }
+    ReadWarning:
+      type: object
+      required: [code, params]
+      properties:
+        code: { type: string, enum: [cut_short, dropped_chars, no_text_in_image, low_reliability_script, unsure, lines_capped, masked_supplied] }
+        params: { type: object, additionalProperties: true }
     ReadLine:
       type: object
       required: [n, text, text_tamil, confidence, gaps]
@@ -270,12 +278,17 @@ components:
         models_used: { type: array, items: { type: string } }
         model: { type: string }
         escalated: { type: boolean }
-        escalation_skipped: { type: string, enum: [time_budget, budget] }
+        escalation_skipped: { type: string, enum: [time_budget, budget, error] }
+        reread_token: { type: string, description: 'Present with escalation_skipped time_budget: send it back with router opus to read the same photo again (once, 15 minutes)' }
         image: { $ref: '#/components/schemas/ReadImageInfo' }
         title: { type: [string, 'null'] }
         licence: { type: [string, 'null'] }
+        licence_url: { type: [string, 'null'] }
+        inscription_id: { type: [string, 'null'] }
+        source_url: { type: [string, 'null'], description: 'dharmalekha.info view of the EpiDoc edition' }
         masked_supplied: { type: integer }
-        warnings: { type: array, items: { type: string } }
+        warnings: { type: array, items: { type: string }, description: 'English messages; warning_codes carries the same warnings for localisation' }
+        warning_codes: { type: array, items: { $ref: '#/components/schemas/ReadWarning' } }
         trace_id: { type: string }
         latency_ms: { type: number }
     Parallel:

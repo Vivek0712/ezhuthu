@@ -71,13 +71,21 @@ def backoff_delays(attempts: int, *, base: float = 2.0, cap: float = 30.0,
 
 def call_with_retries(fn: Callable[[], LLMResponse], *, attempts: int = 5, base: float = 2.0, cap: float = 30.0,
                       sleep: Callable[[float], None] = time.sleep, rng: random.Random | None = None,
-                      retryable: Callable[[BaseException], bool] = is_retryable) -> LLMResponse:
+                      retryable: Callable[[BaseException], bool] = is_retryable, deadline: float | None = None,
+                      clock: Callable[[], float] = time.monotonic, min_attempt_s: float = 0.0) -> LLMResponse:
+    """Retry ``fn`` on throttling with jittered backoff. With ``deadline`` (a ``clock()`` time), a back-off that would
+    end less than ``min_attempt_s`` before the deadline is not taken: the last error is raised instead, so a
+    request-scoped caller (the Reader inside the proxy's 27 s) never sleeps past its budget."""
     delays = backoff_delays(attempts, base=base, cap=cap, rng=rng)
     for i in range(attempts):
         try:
             return fn()
         except Exception as exc:
             if i >= attempts - 1 or not retryable(exc):
+                raise
+            if deadline is not None and clock() + delays[i] + min_attempt_s > deadline:
+                log.warning("LLM call %s (attempt %d/%d); no time left for a retry", type(exc).__name__, i + 1,
+                            attempts)
                 raise
             log.warning("LLM call %s (attempt %d/%d); retrying in %.1fs", type(exc).__name__, i + 1, attempts,
                         delays[i])
@@ -271,9 +279,14 @@ class BedrockLLM:
         return r
 
     def complete_image(self, role: str, system: str, prompt: str, images: Images, *,
-                       max_tokens: int = 1024) -> LLMResponse:
-        """Vision call (Bedrock Converse image blocks). Cached by model, prompt and a hash of the image bytes."""
+                       max_tokens: int = 1024, timeout_s: float | None = None) -> LLMResponse:
+        """Vision call (Bedrock Converse image blocks). Cached by model, prompt and a hash of the image bytes.
+
+        ``timeout_s`` bounds the whole call (retries and back-off included): retries stop when they would not fit,
+        and the HTTP read timeout is cut to what is left, so a request-scoped caller gets an error in time instead
+        of a reply nobody is waiting for."""
         model_id = self.config.model_id(role)
+        deadline = time.monotonic() + timeout_s if timeout_s is not None else None
         key = self.cache.key(model_id, system, prompt + "\n" + images_digest(images), max_tokens)
         hit = self.cache.get(key)
         if hit:
@@ -287,26 +300,37 @@ class BedrockLLM:
         def once() -> LLMResponse:
             attempts["n"] += 1
             self.limiter.acquire()
-            return self._invoke(model_id, system, content, max_tokens)  # type: ignore[arg-type]
+            read_timeout = None if deadline is None else max(1.0, deadline - time.monotonic())
+            return self._invoke(model_id, system, content, max_tokens,  # type: ignore[arg-type]
+                                read_timeout=read_timeout)
 
         r = call_with_retries(once, attempts=self.retry_attempts, base=self.retry_base, cap=self.retry_cap,
-                              sleep=self._sleep)
+                              sleep=self._sleep, deadline=deadline, min_attempt_s=3.0)
         r.attempts = attempts["n"]
         self.cache.put(key, r)
         self.ledger.add(short_name(model_id), r)
         return r
 
-    def _model(self, model_id: str, max_tokens: int):
+    def _model(self, model_id: str, max_tokens: int, read_timeout: float | None = None):
         from strands.models import BedrockModel
 
-        return BedrockModel(model_id=model_id, boto_session=self._boto_session(),
-                            temperature=self.temperature, max_tokens=max_tokens)
+        extra = {}
+        if read_timeout is not None:
+            from botocore.config import Config
 
-    def _invoke(self, model_id: str, system: str, prompt: str | list, max_tokens: int) -> LLMResponse:
+            # botocore's own retries off: call_with_retries owns retrying and the deadline.
+            extra["boto_client_config"] = Config(read_timeout=read_timeout, connect_timeout=min(5.0, read_timeout),
+                                                 retries={"max_attempts": 1, "mode": "standard"})
+        return BedrockModel(model_id=model_id, boto_session=self._boto_session(),
+                            temperature=self.temperature, max_tokens=max_tokens, **extra)
+
+    def _invoke(self, model_id: str, system: str, prompt: str | list, max_tokens: int,
+                read_timeout: float | None = None) -> LLMResponse:
         from strands import Agent
         from strands.types.exceptions import MaxTokensReachedException
 
-        model = self._model(model_id, max_tokens)
+        model = self._model(model_id, max_tokens, read_timeout) if read_timeout is not None \
+            else self._model(model_id, max_tokens)
         # retry_strategy=None: our call_with_retries (jittered) replaces Strands' lockstep doubling.
         agent = Agent(model=model, system_prompt=system, callback_handler=None, retry_strategy=None)
         t0 = time.perf_counter()
@@ -337,6 +361,7 @@ class FakeLLM:
         self.calls: list[tuple[str, str]] = []
         self.max_tokens: list[int] = []
         self.images: list[Images] = []
+        self.timeouts: list[float | None] = []
 
     def complete(self, role: str, system: str, prompt: str, *, max_tokens: int = 1024) -> LLMResponse:
         self.calls.append((role, prompt))
@@ -350,9 +375,11 @@ class FakeLLM:
         return r
 
     def complete_image(self, role: str, system: str, prompt: str, images: Images, *,
-                       max_tokens: int = 1024) -> LLMResponse:
-        """Same responder; the images are recorded in ``self.images`` (tests check metadata never arrives)."""
+                       max_tokens: int = 1024, timeout_s: float | None = None) -> LLMResponse:
+        """Same responder; the images are recorded in ``self.images`` (tests check metadata never arrives) and the
+        time budget in ``self.timeouts``."""
         self.images.append(list(images))
+        self.timeouts.append(timeout_s)
         return self.complete(role, system, prompt, max_tokens=max_tokens)
 
 
@@ -373,13 +400,13 @@ class BudgetedLLM:
         return self.inner.complete(role, system, prompt, max_tokens=max_tokens)
 
     def complete_image(self, role: str, system: str, prompt: str, images: Images, *,
-                       max_tokens: int = 1024) -> LLMResponse:
+                       max_tokens: int = 1024, timeout_s: float | None = None) -> LLMResponse:
         mid = self.inner.config.model_id(role)
         key = self.inner.cache.key(mid, system, prompt + "\n" + images_digest(images), max_tokens)
         if self.inner.cache.get(key) is None and self.inner.ledger.calls >= self.max_live:
             self.exhausted += 1
             raise LiveCallsDisabled(f"live-call budget of {self.max_live} reached")
-        return self.inner.complete_image(role, system, prompt, images, max_tokens=max_tokens)
+        return self.inner.complete_image(role, system, prompt, images, max_tokens=max_tokens, timeout_s=timeout_s)
 
 
 def default_llm() -> LLMClient | None:

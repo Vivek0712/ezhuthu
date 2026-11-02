@@ -21,7 +21,7 @@ export interface EzhuthuAgentStackProps extends cdk.StackProps {
 }
 
 /** DynamoDB key prefixes the agent's DynamoStore writes (src/ezhuthu/api/storage.py); the proxy owns SESSION#<id>/META. */
-export const AGENT_KEY_PREFIXES = ['SESSION#*', 'CORRECTION#*', 'QUEUE#*'] as const;
+export const AGENT_KEY_PREFIXES = ['SESSION#*', 'CORRECTION#*', 'QUEUE#*', 'READTOKEN#*'] as const;
 
 /** How the runtime's decider is configured; exported for tests and the stack output. */
 export function deciderEnv(secretArn: string | undefined): { backend: 'hosted' | 'fallback'; label: string } {
