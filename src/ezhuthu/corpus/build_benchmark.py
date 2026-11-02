@@ -14,8 +14,8 @@ Outputs (all JSONL is UTF-8, one record per line, sorted for stable diffs):
 * ``corpus_lines.jsonl``: every line of every TRAIN inscription (retrieval corpus).
 * ``inscriptions.jsonl``: metadata and full text for every inscription (all splits), for the tutor.
   ``text_iso`` / ``text_tamil`` inline the expert fills (they ARE the answers for val/test items);
-  ``text_iso_masked`` / ``text_tamil_masked`` show every fill as ``[?N]``. See "Leakage rules" in the
-  data card.
+  ``text_iso_masked`` / ``text_tamil_masked`` show every fill as ``[?N]``. See "Leakage" in the data
+  card.
 * ``stats.json`` and ``DATA_CARD.md``: counts from this run.
 """
 
@@ -530,26 +530,101 @@ def render_data_card(st: dict) -> str:
               "| --- | --- | --- | ---: |"]
     for r in st["repos"]:
         lines.append(f"| {r['repo']} | `{r['commit'][:12]}` | {r['license'] or 'none'} | {r['tei_files']} |")
+    pt = ps["test"]
+    n_groups = len(st["edition_groups"])
+    n_grouped = sum(len(g["ids"]) for g in st["edition_groups"])
     lines += [
         "",
-        "## Leakage rules (read before building retrieval, lookups or prompts)",
+        "## Leakage (read before building retrieval, lookups, prompts or reports)",
+        "",
+        "### How the splits are made",
+        "",
+        (f"Splits are by **inscription**, never by item: seed {st['seed']}, 80/10/10 within each"
+         f" collection ({ps['train']['inscriptions']} train, {ps['val']['inscriptions']} val,"
+         f" {pt['inscriptions']} test inscriptions). Every item and blank of an inscription takes its"
+         " split, so no line, context or target of a val/test inscription is in a train file. Before"
+         f" splitting, {n_grouped} editions are put in {n_groups} groups, each one stone published"
+         " more than once (or one king, year and site; see \"Same stone, several editions\"), and a"
+         " group always shares one split. A DHARMA file whose inscription id was already loaded from an"
+         " earlier repository is dropped, not split separately."),
+        "",
+        "### How the hard set is defined",
+        "",
+        (f"An item is **hard** when no *train* inscription other than its own stone contains its target in"
+         " a similar context (rapidfuzz `partial_ratio` >="
+         f" {st['hard_rule']['partial_ratio_min']} on {st['hard_rule']['window_chars']} letters of"
+         " context each side; full rule under Counts). The search reads train inscriptions only, so the"
+         " hard flag never looks at val or test text. `items.test-hard.jsonl` holds the"
+         f" {pt['hard']} hard test items; the other {pt['items'] - pt['hard']} test items"
+         f" ({(pt['items'] - pt['hard']) / max(1, pt['items']):.1%}) have a close parallel in another"
+         " train inscription: that is the formulaic overlap, measured rather than hidden. Report test-hard next to test"
+         " so that a copy-from-parallel system is not mistaken for a restorer."),
+        "",
+        "### What may read what",
         "",
         "`inscriptions.jsonl` covers **all** splits so that the tutor can show any inscription. Its",
         "`text_iso` and `text_tamil` inline every expert fill, so for val and test inscriptions they",
         "**contain the answers** to `items.val.jsonl` and `items.test.jsonl`. Therefore:",
         "",
-        "1. The restorer's retrieval corpus, the ontology's `attested_in` references, few-shot examples",
-        "   and any other lookup the restorer can see must be built from **train only**",
-        "   (`corpus_lines.jsonl`, or `inscriptions.jsonl` rows with `split == \"train\"`). If a lookup",
-        "   needs all splits (for the tutor), tag every reference with its `split` and filter out val/test",
-        "   on the restoration and evaluation paths.",
+        "1. The restorer's retrieval corpus, the n-gram baseline, the ontology's `attested_in`",
+        "   references, few-shot examples and any other lookup the restorer can see are built from",
+        "   **train only** (`corpus_lines.jsonl`, or `inscriptions.jsonl` rows with `split == \"train\"`).",
+        "   If a lookup needs all splits (for the tutor), tag every reference with its `split` and filter",
+        "   out val/test on the restoration and evaluation paths.",
         "2. Where text of a val/test inscription must be shown next to a restoration task, use",
         "   `text_iso_masked` / `text_tamil_masked`: every expert fill appears there as `[?N]`.",
-        "3. `same_stone_as` lists other editions of the same stone (see below). They are always in the",
-        "   same split, and they must not be used as parallels for each other.",
+        "3. `same_stone_as` lists other editions of the same stone. They are always in the same split,",
+        "   and they must not be used as parallels for each other.",
+        "4. Thresholds (abstain, escalation) and prompt changes are tuned on val, never on test. This is a",
+        "   convention, not a test: a threshold sweep on test (as in a report) describes a fixed system and",
+        "   must not be used to pick its threshold.",
         "",
-        "`tests/test_corpus_benchmark.py` checks that the retrieval corpus is train only and that every",
-        "val/test fill is masked in `text_iso_masked`.",
+        "Rules 1 to 3 are enforced by tests in `make check`:",
+        "",
+        "| Rule | Code | Test |",
+        "| --- | --- | --- |",
+        ("| Retrieval corpus is train only | `build()` in `src/ezhuthu/corpus/build_benchmark.py` writes"
+         " `corpus_lines.jsonl` from train ids | `tests/test_corpus_benchmark.py::test_real_subsets_and_stats_agree` |"),
+        ("| A corpus with a val/test inscription refuses to load | `_load_corpus` in `src/ezhuthu/agent/data.py`"
+         " raises `CorpusLeak` | `tests/agent/test_qa_review_fixes.py::test_corpus_with_held_out_inscription_refuses_to_load` |"),
+        ("| Splits are by inscription and disjoint | `assign_splits` | `tests/test_corpus_benchmark.py::test_real_items_validate_and_splits_disjoint`,"
+         " `tests/test_corpus_benchmark.py::test_splits_are_by_inscription_and_deterministic` |"),
+        ("| Editions of one stone share a split | `edition_groups`, `assign_splits` |"
+         " `tests/test_corpus_benchmark.py::test_edition_groups_share_a_split` |"),
+        ("| Every val/test fill is masked in `text_iso_masked` | `masked_text` |"
+         " `tests/test_corpus_benchmark.py::test_real_masked_text_hides_held_out_fills` |"),
+        ("| Hard flag reads train only and ignores the item's own stone | `mark_hard` |"
+         " `tests/test_corpus_benchmark.py::test_mark_hard`,"
+         " `tests/test_corpus_benchmark.py::test_mark_hard_ignores_other_editions_of_its_stone` |"),
+        ("| Ontology is built from train editions only | `split_filter` in `src/ezhuthu/ontology/build.py`"
+         " (`--splits train`, the default) | `tests/ontology/test_artefacts.py::test_shipped_build_is_train_split_only`,"
+         " `tests/ontology/test_splits.py::test_train_only_build_drops_held_out_editions` |"),
+        ("| Evaluation never retrieves the item's own inscription | `exclude_inscription` in `src/ezhuthu/eval/run.py` |"
+         " `tests/agent/test_text_retrieval.py::test_parallel_index_ranks_formula_and_excludes_own_inscription` |"),
+        ("| This card matches the build | `render_data_card` |"
+         " `tests/test_corpus_benchmark.py::test_data_card_matches_stats` |"),
+        "",
+        "### Known residual risks",
+        "",
+        ("- **Formulaic duplicates across inscriptions.** Grants repeat formulae (imprecations, lamp"
+         " endowments, regnal preambles) across stones that are *different* inscriptions, so they are"
+         " not grouped and can sit in different splits. The hard flag handles this for scoring (a target"
+         " with a train parallel is not hard), but the full test score includes these items. Two"
+         " editions of one stone whose texts score below the duplicate threshold and whose titles do not"
+         " give site, ruler and year would also be missed by the grouping."),
+        ("- **Editors' restorations are expert judgement, not ground truth.** A `<supplied>` span is"
+         " what a DHARMA editor proposed, sometimes from a parallel the editor knew. A model that"
+         " reproduces it \"matches expert restorations\"; a different fill is not proven wrong."),
+        ("- **Unmasked text is shipped for the tutor.** `inscriptions.jsonl` `text_iso` and"
+         " `ezhuthu.agent.data.inscription_text` return val/test text with the fills inline; only the"
+         " lesson path may use them, never restoration or evaluation."),
+        ("- **The `CorpusLeak` guard knows only inscriptions that have val/test items.** A held-out"
+         " inscription with no item would pass it; the artefact test above (corpus ids subset of train"
+         " ids) is the stronger check."),
+        ("- **Public sources.** DHARMA and the printed volumes it edits (for example *South Indian"
+         " Inscriptions*) are public, so a hosted LLM may have seen val/test texts in pretraining. This"
+         " cannot be ruled out here. The copy and n-gram baselines read only the train corpus, so a large"
+         " gap between an LLM and them on test-hard is worth checking for memorisation."),
         "",
         "## Scoring",
         "",
@@ -598,8 +673,11 @@ def render_data_card(st: dict) -> str:
         f" language; {st['inscriptions_with_items']} have at least one item); lines: {st['lines']}."),
         f"- Restoration items: **{st['items']}** (by reason: "
         + ", ".join(f"{k} {v}" for k, v in sorted(st["items_by_reason"].items())) + ").",
-        (f"- Age set (Pallava + Uttiramerur collections, the only set described as over 1,100 years old):"
-        f" **{st['age_set_items']}** items from {st['age_set_inscriptions']} inscriptions."),
+        (f"- Age set (Pallava + Uttiramerur collections): **{st['age_set_items']}** items from"
+         f" {st['age_set_inscriptions']} inscriptions;"
+         f" {st['per_collection'].get('tfa-pallava-epigraphy', {}).get('items', 0)} from the Pallava collection"
+         f" and {st['per_collection'].get('tfa-uttiramerur-epigraphy', {}).get('items', 0)} from Uttiramerur."
+         " Only the Pallava part may be described as over 1,100 years old (see Known limits)."),
         f"- Blank set (`kind: blank`, `<gap>` of a known size with no expert fill): **{st['blank_items']}**.",
         f"- Retrieval corpus (`corpus_lines.jsonl`, train inscriptions only): {st['corpus_lines']} lines.",
         "",
@@ -640,11 +718,12 @@ def render_data_card(st: dict) -> str:
     sup_all = st["supplied_spans_all"]
     lines += [
         "",
-        "## Compared with the charter's planning numbers",
+        "## Charter planning numbers (superseded)",
         "",
-        "`docs/CHARTER.md` was written before this build. These are the measured values:",
+        "The first `docs/CHARTER.md` was written before this build. It now quotes the measured values, and",
+        "`tests/test_doc_numbers.py` checks the numbers in the charter and the README against `stats.json`.",
         "",
-        "| Charter says | This build |",
+        "| Charter planning number | This build |",
         "| --- | --- |",
         f"| about 1,200 DHARMA editions | {st['inscriptions']} TEI editions parsed |",
         (f"| about 87% have damaged passages | {st['inscriptions_damaged']} of {st['inscriptions']}"
@@ -653,7 +732,11 @@ def render_data_card(st: dict) -> str:
          f" all `<supplied>` spans in all languages: {sum(sup_all.values())} ("
          + ", ".join(f"{k} {v}" for k, v in sorted(sup_all.items())) + ") |"),
         (f"| about 3,800 in inscriptions over 1,100 years old | {st['age_set_items']} restoration items in"
-         " the Pallava + Uttiramerur collections |"),
+         " the Pallava + Uttiramerur collections, of which"
+         f" {st['per_collection'].get('tfa-pallava-epigraphy', {}).get('items', 0)} Pallava |"),
+        (f"| DHARMA data under CC BY 4.0 | CC BY-SA 4.0 in {st['licences'].get('CC BY-SA 4.0', 0)} edition"
+         f" headers ({st['licences'].get('(none in header)', 0)} declare none); benchmark shared under"
+         " CC BY-SA 4.0 |"),
     ]
     lines += [
         "",
@@ -661,6 +744,14 @@ def render_data_card(st: dict) -> str:
         "",
         "- Restorations are what DHARMA editors supplied; a model that reproduces them \"matches expert",
         "  restorations\". It is not proof that the reading is correct.",
+        ("- The age set is defined by collection, not by date. The Pallava collection is DHARMA's corpus of"
+         " Pallava-period inscriptions (the dynasty ended about 900 CE); its titles name Pallava kings and"
+         " some local rulers, and the build does not check each inscription's date. The Uttiramerur"
+         " collection also holds"
+         " inscriptions of Chola and later kings (for example Rājarāja I Cōḻa and Kṛṣṇadevarāya); the titles"
+         f" of its {st['per_collection'].get('tfa-uttiramerur-epigraphy', {}).get('items', 0)} items name"
+         " Parakesarivarman, Pārthivendra, Rājarāja I, Rājendra and Tribhuvana Vīra, so none is securely"
+         " over 1,100 years old; say \"over 1,100 years old\" only of the Pallava items."),
         ("- `dynasty` comes from the collection (Pallava, Pandya) or from ruler names in the title"
         f" ({st['dynasty_sources'].get('title', 0)} inscriptions); it is null for"
         f" {st['dynasty_sources'].get('(unknown)', 0)}."),

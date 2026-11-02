@@ -31,7 +31,7 @@ Ezhuthu sounds like a patient teacher at a temple: warm, exact and never grand.
 | Uncertainty | "வல்லுநர்களுக்கும் உறுதியில்லை" | "Experts are unsure." |
 | Mistakes | Gentle, with a reason and a hint. Never "தவறு!" alone. | Never "Wrong!" alone. |
 
-**Claims.** A restoration "matches expert restorations" (வல்லுநர் மீட்டமைப்புடன் பொருந்துகிறது). It is never "correct" or "true". "Over 1,100 years old" applies only to the Pallava and Uttiramerur set. Every number in the README, video or app comes from `eval/reports/` or `benchmark/DATA_CARD.md`; if a number is not there yet, write **TBD**.
+**Claims.** A restoration "matches expert restorations" (வல்லுநர் மீட்டமைப்புடன் பொருந்துகிறது). It is never "correct" or "true". "Over 1,100 years old" applies only to the Pallava collection (410 restorations); never say it of the Uttiramerur items or of the whole age set. Every number in the README, video or app comes from `eval/reports/` or `benchmark/DATA_CARD.md`; if a number is not there yet, write **TBD**.
 
 ## 4. Do and don't
 

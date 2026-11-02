@@ -30,8 +30,8 @@ Built with [Strands Agents](https://strandsagents.com) and Strands Decider. It r
 
 | What we measure | Number | Source |
 | --- | --- | --- |
-| Expert restorations in the benchmark | **3,289** (test **383**, hard **301**) | [benchmark/DATA_CARD.md](benchmark/DATA_CARD.md) |
-| Restorations in inscriptions over 1,100 years old (Pallava + Uttiramerur set only) | **419** | [benchmark/DATA_CARD.md](benchmark/DATA_CARD.md) |
+| Expert restorations in the benchmark | **3,289** (test **413**, test-hard **317**) | [benchmark/DATA_CARD.md](benchmark/DATA_CARD.md) |
+| Restorations in inscriptions over 1,100 years old (Pallava collection only) | **410** (age set with Uttiramerur: **419**) | [benchmark/DATA_CARD.md](benchmark/DATA_CARD.md) |
 | Fills that match the expert restoration (top-1, test) | **TBD** | [eval/reports/](eval/reports/) |
 | Calibration (ECE) and coverage at the abstain threshold | **TBD** | [eval/reports/](eval/reports/) |
 | Learner gain, pre-test to post-test | **TBD** | [eval/reports/](eval/reports/) |

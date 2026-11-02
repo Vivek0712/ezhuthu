@@ -13,7 +13,8 @@ file (see `source_url`).
 
 Licence: the repositories' LICENCE files say CC BY 4.0, but the edition files themselves declare
 the licence below in `<availability>`. Because most files say **CC BY-SA 4.0**, this derived
-benchmark is shared under **CC BY-SA 4.0** with attribution to DHARMA.
+benchmark is shared under **CC BY-SA 4.0** with attribution to DHARMA (see `benchmark/LICENSE`;
+the repository's Apache-2.0 licence covers the code, not the files in `benchmark/`).
 
 | Licence in file header | Inscriptions |
 | --- | ---: |
@@ -39,6 +40,138 @@ benchmark is shared under **CC BY-SA 4.0** with attribution to DHARMA.
 | tfa-tiruvavatuturai-epigraphy | `53e5dee31e18` | CC-BY-4.0 | 79 |
 | tfa-uttiramerur-epigraphy | `4b97baaffa26` | CC-BY-4.0 | 26 |
 
+## Leakage (read before building retrieval, lookups, prompts or reports)
+
+### How the splits are made
+
+Splits are by **inscription**, never by item: seed 13, 80/10/10 within each collection (1060 train, 129 val, 131 test inscriptions). Every item and blank of an inscription takes its split, so no line, context or target of a val/test inscription is in a train file. Before splitting, 143 editions are put in 63 groups, each one stone published more than once (or one king, year and site; see "Same stone, several editions"), and a group always shares one split. A DHARMA file whose inscription id was already loaded from an earlier repository is dropped, not split separately.
+
+### How the hard set is defined
+
+An item is **hard** when no *train* inscription other than its own stone contains its target in a similar context (rapidfuzz `partial_ratio` >= 90 on 15 letters of context each side; full rule under Counts). The search reads train inscriptions only, so the hard flag never looks at val or test text. `items.test-hard.jsonl` holds the 317 hard test items; the other 96 test items (23.2%) have a close parallel in another train inscription: that is the formulaic overlap, measured rather than hidden. Report test-hard next to test so that a copy-from-parallel system is not mistaken for a restorer.
+
+### What may read what
+
+`inscriptions.jsonl` covers **all** splits so that the tutor can show any inscription. Its
+`text_iso` and `text_tamil` inline every expert fill, so for val and test inscriptions they
+**contain the answers** to `items.val.jsonl` and `items.test.jsonl`. Therefore:
+
+1. The restorer's retrieval corpus, the n-gram baseline, the ontology's `attested_in`
+   references, few-shot examples and any other lookup the restorer can see are built from
+   **train only** (`corpus_lines.jsonl`, or `inscriptions.jsonl` rows with `split == "train"`).
+   If a lookup needs all splits (for the tutor), tag every reference with its `split` and filter
+   out val/test on the restoration and evaluation paths.
+2. Where text of a val/test inscription must be shown next to a restoration task, use
+   `text_iso_masked` / `text_tamil_masked`: every expert fill appears there as `[?N]`.
+3. `same_stone_as` lists other editions of the same stone. They are always in the same split,
+   and they must not be used as parallels for each other.
+4. Thresholds (abstain, escalation) and prompt changes are tuned on val, never on test. This is a
+   convention, not a test: a threshold sweep on test (as in a report) describes a fixed system and
+   must not be used to pick its threshold.
+
+Rules 1 to 3 are enforced by tests in `make check`:
+
+| Rule | Code | Test |
+| --- | --- | --- |
+| Retrieval corpus is train only | `build()` in `src/ezhuthu/corpus/build_benchmark.py` writes `corpus_lines.jsonl` from train ids | `tests/test_corpus_benchmark.py::test_real_subsets_and_stats_agree` |
+| A corpus with a val/test inscription refuses to load | `_load_corpus` in `src/ezhuthu/agent/data.py` raises `CorpusLeak` | `tests/agent/test_qa_review_fixes.py::test_corpus_with_held_out_inscription_refuses_to_load` |
+| Splits are by inscription and disjoint | `assign_splits` | `tests/test_corpus_benchmark.py::test_real_items_validate_and_splits_disjoint`, `tests/test_corpus_benchmark.py::test_splits_are_by_inscription_and_deterministic` |
+| Editions of one stone share a split | `edition_groups`, `assign_splits` | `tests/test_corpus_benchmark.py::test_edition_groups_share_a_split` |
+| Every val/test fill is masked in `text_iso_masked` | `masked_text` | `tests/test_corpus_benchmark.py::test_real_masked_text_hides_held_out_fills` |
+| Hard flag reads train only and ignores the item's own stone | `mark_hard` | `tests/test_corpus_benchmark.py::test_mark_hard`, `tests/test_corpus_benchmark.py::test_mark_hard_ignores_other_editions_of_its_stone` |
+| Ontology is built from train editions only | `split_filter` in `src/ezhuthu/ontology/build.py` (`--splits train`, the default) | `tests/ontology/test_artefacts.py::test_shipped_build_is_train_split_only`, `tests/ontology/test_splits.py::test_train_only_build_drops_held_out_editions` |
+| Evaluation never retrieves the item's own inscription | `exclude_inscription` in `src/ezhuthu/eval/run.py` | `tests/agent/test_text_retrieval.py::test_parallel_index_ranks_formula_and_excludes_own_inscription` |
+| This card matches the build | `render_data_card` | `tests/test_corpus_benchmark.py::test_data_card_matches_stats` |
+
+### Known residual risks
+
+- **Formulaic duplicates across inscriptions.** Grants repeat formulae (imprecations, lamp endowments, regnal preambles) across stones that are *different* inscriptions, so they are not grouped and can sit in different splits. The hard flag handles this for scoring (a target with a train parallel is not hard), but the full test score includes these items. Two editions of one stone whose texts score below the duplicate threshold and whose titles do not give site, ruler and year would also be missed by the grouping.
+- **Editors' restorations are expert judgement, not ground truth.** A `<supplied>` span is what a DHARMA editor proposed, sometimes from a parallel the editor knew. A model that reproduces it "matches expert restorations"; a different fill is not proven wrong.
+- **Unmasked text is shipped for the tutor.** `inscriptions.jsonl` `text_iso` and `ezhuthu.agent.data.inscription_text` return val/test text with the fills inline; only the lesson path may use them, never restoration or evaluation.
+- **The `CorpusLeak` guard knows only inscriptions that have val/test items.** A held-out inscription with no item would pass it; the artefact test above (corpus ids subset of train ids) is the stronger check.
+- **Public sources.** DHARMA and the printed volumes it edits (for example *South Indian Inscriptions*) are public, so a hosted LLM may have seen val/test texts in pretraining. This cannot be ruled out here. The copy and n-gram baselines read only the train corpus, so a large gap between an LLM and them on test-hard is worth checking for memorisation.
+
+## Scoring
+
+Score restorations with `ezhuthu.corpus.script.normalise_for_scoring` applied to both the
+prediction and `target`, so that CER and top-1 exact match count **letters only**. It keeps
+ISO-15919 letters (lower-cased, `ṛ` spelled `r̥`) and drops spaces, hyphens, `·`, `’`, digits,
+punctuation, gap markers and editorial marks such as `=`, `‡`, `⌈`, `⌉`, `_` and quote marks,
+which DHARMA editions use and which some targets contain. `text_tamil` and `text_tamil_masked`
+are display forms (`iso_to_tamil_display`): editorial marks are removed, notes such as
+`[text not available]` become `[?]`, and stray Latin letters are folded or dropped.
+`text_iso` keeps the raw marks.
+
+## Same stone, several editions
+
+Some stones are edited in two collections. Before splitting, editions are grouped when their normalised whole texts score rapidfuzz `ratio` >= 95 (texts of at least 40 letters) or when site, ruler and regnal year in the title all match; a group takes the split drawn for its first id. The second rule also groups distinct inscriptions of one king, year and site, which keeps their shared formulae in one split. **63** groups, 143 inscriptions (all in `stats.json` `edition_groups`):
+
+| Split | Editions grouped |
+| --- | --- |
+| train | `DHARMA_INSCempiyanMahadevi00007`, `DHARMA_INStfaSIIv19p0i0292` |
+| train | `DHARMA_INSCirkali00001`, `DHARMA_INSCirkali00032` |
+| val | `DHARMA_INSCirkali00013`, `DHARMA_INSCirkali00014` |
+| train | `DHARMA_INSKotumpalur00026`, `DHARMA_INSKotumpalur00027`, `DHARMA_INSKotumpalur00031` |
+| train | `DHARMA_INSMelKil00001`, `DHARMA_INSMelKil00002` |
+| train | `DHARMA_INSMelKil00007`, `DHARMA_INSMelKil00008` |
+| test | `DHARMA_INSPallava00106`, `DHARMA_INSPallava00526` |
+| train | `DHARMA_INSPallava00132`, `DHARMA_INSPallava00133` |
+| train | `DHARMA_INSPallava00150`, `DHARMA_INSPallava00151` |
+| test | `DHARMA_INSPallava00176`, `DHARMA_INSPallava00177` |
+| train | `DHARMA_INSPallava00188`, `DHARMA_INSPallava00189` |
+| train | `DHARMA_INSPallava00203`, `DHARMA_INSPallava00206` |
+| test | `DHARMA_INSPallava00204`, `DHARMA_INSPallava00205` |
+| train | `DHARMA_INSPallava00216`, `DHARMA_INSPallava00217`, `DHARMA_INSPallava00218` |
+| train | `DHARMA_INSPallava00238`, `DHARMA_INSPallava00239` |
+| train | `DHARMA_INSPallava00280`, `DHARMA_INSPallava00281` |
+| train | `DHARMA_INSPallava00282`, `DHARMA_INSPallava00283` |
+| test | `DHARMA_INSPallava00284`, `DHARMA_INSPallava00527` |
+| train | `DHARMA_INSPallava00293`, `DHARMA_INSPallava00294` |
+| train | `DHARMA_INSPallava00301`, `DHARMA_INSPallava00302` |
+| train | `DHARMA_INSPallava00310`, `DHARMA_INSPallava00528` |
+| train | `DHARMA_INSPallava00332`, `DHARMA_INSPallava00333` |
+| train | `DHARMA_INSPallava00336`, `DHARMA_INSPallava00366` |
+| train | `DHARMA_INSPallava00402`, `DHARMA_INSPallava00501` |
+| train | `DHARMA_INSPallava00423`, `DHARMA_INSPallava00424` |
+| train | `DHARMA_INSPallava00507`, `DHARMA_INSPallava00508` |
+| train | `DHARMA_INSPandya00006`, `DHARMA_INSPandya00007` |
+| train | `DHARMA_INSPondicherry00002`, `DHARMA_INSPondicherry00003`, `DHARMA_INSPondicherry00004`, `DHARMA_INSPondicherry00006` |
+| test | `DHARMA_INSTamilNadu00020`, `DHARMA_INSTamilNadu00024` |
+| train | `DHARMA_INSTamilNadu00036`, `DHARMA_INSTamilNadu00037` |
+| train | `DHARMA_INSTamilNadu00074`, `DHARMA_INSTamilNadu00162` |
+| train | `DHARMA_INSTamilNadu00103`, `DHARMA_INSTamilNadu00104` |
+| train | `DHARMA_INSTamilNadu00105`, `DHARMA_INSTamilNadu00106` |
+| train | `DHARMA_INSTamilNadu00108`, `DHARMA_INSTamilNadu00109` |
+| train | `DHARMA_INSTamilNadu00120`, `DHARMA_INSTamilNadu00125` |
+| train | `DHARMA_INSTamilNadu00147`, `DHARMA_INSTamilNadu00148` |
+| train | `DHARMA_INSTamilNadu00405`, `DHARMA_INSTamilNadu00406` |
+| test | `DHARMA_INSTamilNadu00412`, `DHARMA_INSTamilNadu00413`, `DHARMA_INSTamilNadu00414` |
+| train | `DHARMA_INSTamilNadu00415`, `DHARMA_INSTamilNadu00416` |
+| train | `DHARMA_INSTamilNadu00432`, `DHARMA_INSTamilNadu00433` |
+| train | `DHARMA_INSTamilNadu00442`, `DHARMA_INSTamilNadu00443` |
+| test | `DHARMA_INSTamilNadu00445`, `DHARMA_INSTamilNadu00446`, `DHARMA_INSTamilNadu00447` |
+| val | `DHARMA_INSTamilNadu00456`, `DHARMA_INSTamilNadu00457` |
+| train | `DHARMA_INSTamilNadu00512`, `DHARMA_INSTamilNadu00513` |
+| train | `DHARMA_INSTamilNadu00518`, `DHARMA_INSTamilNadu00519`, `DHARMA_INSTamilNadu00520`, `DHARMA_INSTamilNadu00524` |
+| train | `DHARMA_INSTamilNadu00525`, `DHARMA_INSTamilNadu00526` |
+| train | `DHARMA_INSTiruvavatuturai10107`, `DHARMA_INSTiruvavatuturai10139` |
+| train | `DHARMA_INSTiruvavatuturai10111`, `DHARMA_INSTiruvavatuturai10123` |
+| val | `DHARMA_INSTiruvavatuturai10122`, `DHARMA_INSTiruvavatuturai10142` |
+| val | `DHARMA_INSUttiramerur00015`, `DHARMA_INSUttiramerur00016`, `DHARMA_INSUttiramerur00028`, `DHARMA_INSUttiramerur00029` |
+| train | `DHARMA_INSUttiramerur00018`, `DHARMA_INSUttiramerur00019` |
+| train | `DHARMA_INSUttiramerur00054`, `DHARMA_INSUttiramerur00060`, `DHARMA_INSUttiramerur00061`, `DHARMA_INSUttiramerur00062` |
+| train | `DHARMA_INStfaSIIv01p0i0043`, `DHARMA_INStfaSIIv01p0i0044`, `DHARMA_INStfaSIIv01p0i0045`, `DHARMA_INStfaSIIv01p0i0046` |
+| train | `DHARMA_INStfaSIIv02p0i0001`, `DHARMA_INStfaSIIv02p0i0002` |
+| test | `DHARMA_INStfaSIIv03p0i0015`, `DHARMA_INStfaSIIv03p0i0016` |
+| val | `DHARMA_INStfaSIIv03p0i0022`, `DHARMA_INStfaSIIv03p0i0023` |
+| train | `DHARMA_INStfaSIIv03p0i0104`, `DHARMA_INStfaSIIv03p0i0105` |
+| train | `DHARMA_INStfaSIIv04p0i0140`, `DHARMA_INStfaSIIv04p0i0141` |
+| train | `DHARMA_INStfaSIIv04p0i0151`, `DHARMA_INStfaSIIv04p0i0153` |
+| train | `DHARMA_INStfaSIIv04p0i0155`, `DHARMA_INStfaSIIv04p0i0156`, `DHARMA_INStfaSIIv04p0i0157`, `DHARMA_INStfaSIIv04p0i0158` |
+| train | `DHARMA_INStfaSIIv13p0i0049`, `DHARMA_INStfaSIIv19p0i0135` |
+| train | `DHARMA_INStfaSIIv19p0i0229`, `DHARMA_INStfaSIIv19p0i0230` |
+| test | `DHARMA_INStfaSIIv38p0i0131`, `DHARMA_INStfaSIIv38p0i0139`, `DHARMA_INStfaSIIv38p0i0140` |
+
 ## What an item is
 
 One item per expert restoration: a `<supplied reason="lost">` or `<supplied reason="undefined">`
@@ -55,7 +188,7 @@ Fields `kind`, `reason` and `lang` are additions to the contract (allowed: the s
 
 - Inscriptions parsed: **1320** (1192 with Tamil as main language; 449 have at least one item); lines: 18066.
 - Restoration items: **3289** (by reason: lost 2525, undefined 764).
-- Age set (Pallava + Uttiramerur collections, the only set described as over 1,100 years old): **419** items from 506 inscriptions.
+- Age set (Pallava + Uttiramerur collections): **419** items from 506 inscriptions; 410 from the Pallava collection and 9 from Uttiramerur. Only the Pallava part may be described as over 1,100 years old (see Known limits).
 - Blank set (`kind: blank`, `<gap>` of a known size with no expert fill): **3557**.
 - Retrieval corpus (`corpus_lines.jsonl`, train inscriptions only): 14355 lines.
 
@@ -66,10 +199,12 @@ Fields `kind`, `reason` and `lang` are additions to the contract (allowed: the s
 | test | 131 | 413 | 317 | 76.8% | 51 | 406 |
 
 Splits are by inscription (seed 13, 80/10/10 within each collection), so no
-inscription appears in two splits. `items.test-hard.jsonl` and `items.test-age.jsonl` are the
+inscription appears in two splits, and editions of one stone share a split (see above).
+`items.test-hard.jsonl` and `items.test-age.jsonl` are the
 hard and age subsets of the test split.
 
-**Hard** = no train inscription other than the item's own contains the target with a similar
+**Hard** = no train inscription other than the item's own (or another edition of its stone)
+contains the target with a similar
 context: the item's query (15 characters of context on each side of the target; spaces, hyphens and apostrophes ignored) scores rapidfuzz `partial_ratio` >= 90 against the text around some occurrence of the target in that inscription (same window plus 3 characters each side; line breaks are crossed). Blank items are never hard (no target).
 
 ### Gap length (gap_chars)
@@ -102,23 +237,26 @@ context: the item's query (15 characters of context on each side of the target; 
 | tfa-tiruvavatuturai-epigraphy | 79 | 2934 | 136 | 60 |
 | tfa-uttiramerur-epigraphy | 26 | 109 | 9 | 18 |
 
-## Compared with the charter's planning numbers
+## Charter planning numbers (superseded)
 
-`docs/CHARTER.md` was written before this build. These are the measured values:
+The first `docs/CHARTER.md` was written before this build. It now quotes the measured values, and
+`tests/test_doc_numbers.py` checks the numbers in the charter and the README against `stats.json`.
 
-| Charter says | This build |
+| Charter planning number | This build |
 | --- | --- |
 | about 1,200 DHARMA editions | 1320 TEI editions parsed |
 | about 87% have damaged passages | 858 of 1320 (65%) have a restoration or a gap |
 | about 12,900 expert restorations | 3289 scorable restorations in Tamil lines; all `<supplied>` spans in all languages: 5752 (lost 2719, omitted 2227, undefined 806) |
-| about 3,800 in inscriptions over 1,100 years old | 419 restoration items in the Pallava + Uttiramerur collections |
+| about 3,800 in inscriptions over 1,100 years old | 419 restoration items in the Pallava + Uttiramerur collections, of which 410 Pallava |
+| DHARMA data under CC BY 4.0 | CC BY-SA 4.0 in 1249 edition headers (71 declare none); benchmark shared under CC BY-SA 4.0 |
 
 ## Known limits
 
 - Restorations are what DHARMA editors supplied; a model that reproduces them "matches expert
   restorations". It is not proof that the reading is correct.
+- The age set is defined by collection, not by date. The Pallava collection is DHARMA's corpus of Pallava-period inscriptions (the dynasty ended about 900 CE); its titles name Pallava kings and some local rulers, and the build does not check each inscription's date. The Uttiramerur collection also holds inscriptions of Chola and later kings (for example Rājarāja I Cōḻa and Kṛṣṇadevarāya); the titles of its 9 items name Parakesarivarman, Pārthivendra, Rājarāja I, Rājendra and Tribhuvana Vīra, so none is securely over 1,100 years old; say "over 1,100 years old" only of the Pallava items.
 - `dynasty` comes from the collection (Pallava, Pandya) or from ruler names in the title (415 inscriptions); it is null for 371.
-- Edition-specific marks that are not letters (for example `⌈`, `‡`, `=` and literal brackets) are kept exactly as in the source text.
+- Edition-specific marks that are not letters (for example `⌈`, `‡`, `=` and literal brackets) are kept exactly as in the source text in `text_iso`, `left`, `right` and `target`; score with `normalise_for_scoring` (see Scoring).
 - `approx_date` is the first CE date in the edition commentary, when there is one.
 - Items skipped: supplied_no_letters 45.
 - Files skipped because the same inscription id was already loaded from an earlier repository: `tfa-tamil-outside-TN-epigraphy/DHARMA_INSPondicherry00102.xml`.

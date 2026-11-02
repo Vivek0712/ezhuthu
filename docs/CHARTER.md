@@ -11,7 +11,7 @@
 - **Measurable improvement:** built-in pre-test and post-test on reading letters by era. The app reports each learner's gain in letters read correctly and time per letter. A pilot with AWS UG Madurai student volunteers produces the headline number. A simulated-learner evaluation checks the instrument before any real learners use it.
 
 ## Engine: AI restoration of damaged inscriptions
-Practice texts come from 1,200 published DHARMA editions (CC BY 4.0), about 87% of which have damaged passages. A restoration agent proposes the missing letters with calibrated confidence. It abstains when unsure, and the tutor then labels the gap as "experts are unsure", which is itself a teaching moment. The engine is evaluated on a benchmark of about 12,900 expert restorations, including about 3,800 in inscriptions over 1,100 years old.
+Practice texts come from 1,320 published DHARMA editions (the edition files declare CC BY-SA 4.0), 858 (65%) of which have damaged passages. A restoration agent proposes the missing letters with calibrated confidence. It abstains when unsure, and the tutor then labels the gap as "experts are unsure", which is itself a teaching moment. The engine is evaluated on a benchmark of 3,289 expert restorations in Tamil lines (test 413, of which 317 are hard: no close parallel in the training inscriptions), including 410 in Pallava inscriptions over 1,100 years old (the benchmark's age set adds 9 from Uttiramerur, 419 in all). Numbers: `benchmark/DATA_CARD.md` and `benchmark/stats.json`. Splits are by inscription, and retrieval and the ontology read the train split only (data card, "Leakage").
 
 ## Strands multi-agent design (loops to swarms)
 A Strands **Graph** (fixed lesson flow), with a **Swarm** inside the tutoring step:
@@ -31,6 +31,6 @@ Reading stone photographs automatically (photos are shown, not read), palm-leaf 
 ## Rules
 - Branding: say "built with Strands Agents" and "built with AWS Context Ontology Accelerator". Never "Strands AI" or "AWS AI".
 - Restorations are described as "matches expert restorations", never "correct".
-- "1,100 years old" applies only to the Pallava and Uttiramerur set.
-- Credit DHARMA (CC BY 4.0). Use the Tamil Lexicon for lookups only. No scraped data.
+- "1,100 years old" applies only to the Pallava collection (410 restorations). The age set also includes 9 Uttiramerur restorations, and Uttiramerur holds later Chola and Vijayanagara inscriptions, so do not call the whole age set "over 1,100 years old".
+- Credit DHARMA (CC BY-SA 4.0; the derived benchmark is shared under the same licence). Use the Tamil Lexicon for lookups only. No scraped data.
 - Every claim in the README and video is backed by a number in `eval/reports/`.

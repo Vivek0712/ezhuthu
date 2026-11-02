@@ -117,6 +117,41 @@ def test_mark_hard():
     assert [it["hard"] for it in items] == [False, True, True, False, False, False]
 
 
+def test_mark_hard_ignores_other_editions_of_its_stone():
+    # T1 and T2 are two editions of one stone; X is a different inscription with the same formula
+    text = bb.norm_for_match("uṭaiyārkku nantā viḷakku Oṉṟukku vaitta")
+    item = {"inscription_id": "T1", "left": "uṭaiyārkku nantā ", "target": "viḷakku", "right": " Oṉṟukku"}
+    same_stone = {"T1": {"T1", "T2"}, "T2": {"T1", "T2"}}
+    items = [dict(item)]
+    bb.mark_hard(items, [("T2", text)], same_stone=same_stone)
+    assert items[0]["hard"] is True  # the only parallel is another edition of its own stone
+    items = [dict(item)]
+    bb.mark_hard(items, [("T2", text), ("X", text)], same_stone=same_stone)
+    assert items[0]["hard"] is False  # a parallel in a different inscription counts
+
+
+def _fake(iid: str, col: str, title: str = "", ruler: str | None = None, year: int | None = None) -> Inscription:
+    return Inscription(id=iid, title=title, collection=col, path="", lang="tam-Latn", licence=None,
+                       licence_url=None, summary=None, dynasty=None, dynasty_source=None, ruler=ruler,
+                       regnal_year=year, approx_date=None)
+
+
+def test_grouped_editions_share_a_split_whatever_the_draw():
+    ins = [_fake(f"A{i:03d}", "a") for i in range(100)] + [_fake(f"B{i:03d}", "b") for i in range(100)]
+    plain = bb.assign_splits(ins)
+    # pick two pairs that the plain draw puts in different splits, in different collections
+    a_test = next(i for i, s in sorted(plain.items()) if i.startswith("A") and s == "test")
+    b_train = next(i for i, s in sorted(plain.items()) if i.startswith("B") and s == "train")
+    groups = [sorted([a_test, b_train])]
+    split = bb.assign_splits(ins, groups=groups)
+    assert split[a_test] == split[b_train] == plain[groups[0][0]]
+    # site + ruler + regnal year in the title links two editions with no shared text
+    same = [_fake("S1", "a", "Tañcāvūr, Bṛhadīśvara, time of Rājarāja, year 29", "Rājarāja", 29),
+            _fake("S2", "b", "Tancavur, Brhadisvara temple, time of Rajaraja, year 29", "Rajaraja", 29),
+            _fake("S3", "b", "Tancavur, time of Rajaraja, year 30", "Rajaraja", 30)]
+    assert bb.edition_groups(same) == [["S1", "S2"]]
+
+
 # ---------------------------------------------------------------------------------------------------
 # the committed artefacts (skipped until the benchmark has been built)
 
@@ -155,3 +190,56 @@ def test_real_subsets_and_stats_agree():
     train_ids = {r["id"] for r in _read(REAL / "inscriptions.jsonl") if r["split"] == "train"}
     assert {r["inscription_id"] for r in _read(REAL / "corpus_lines.jsonl")} <= train_ids
     assert str(stats["items"]) in (REAL / "DATA_CARD.md").read_text()
+
+
+@needs_real
+def test_edition_groups_share_a_split():
+    stats = json.loads((REAL / "stats.json").read_text())
+    meta = {r["id"]: r for r in _read(REAL / "inscriptions.jsonl")}
+    assert stats["edition_groups"]
+    for g in stats["edition_groups"]:
+        assert {meta[i]["split"] for i in g["ids"]} == {g["split"]}, g
+        for i in g["ids"]:
+            assert sorted(meta[i]["same_stone_as"]) == sorted(set(g["ids"]) - {i})
+    grouped = {i for g in stats["edition_groups"] for i in g["ids"]}
+    assert all(not r["same_stone_as"] for i, r in meta.items() if i not in grouped)
+
+
+def _flat(text: str) -> str:
+    """inscriptions.jsonl text as one string: a ``-``-prefixed line continues the previous word."""
+    return text.replace("\n-", "").replace("\n", " ")
+
+
+@needs_real
+def test_real_masked_text_hides_held_out_fills():
+    """Every val/test target sits behind its own ``[?N]`` in ``text_iso_masked``."""
+    meta = {r["id"]: r for r in _read(REAL / "inscriptions.jsonl")}
+    n = 0
+    for split in ("val", "test"):
+        for it in _read(REAL / f"items.{split}.jsonl"):
+            rec = meta[it["inscription_id"]]
+            masked = _flat(rec["text_iso_masked"])
+            tail = it["left"][-12:]
+            assert tail + f"[?{it['gap_chars']}]" in masked, it["id"]
+            n += 1
+    assert n == sum(len(_read(REAL / f"items.{s}.jsonl")) for s in ("val", "test")) > 0
+
+
+@needs_real
+def test_data_card_matches_stats():
+    """DATA_CARD.md is generated from stats.json; a hand edit or a stale card fails here."""
+    stats = json.loads((REAL / "stats.json").read_text())
+    assert (REAL / "DATA_CARD.md").read_text() == bb.render_data_card(stats), (
+        "benchmark/DATA_CARD.md is stale: re-run python -m ezhuthu.corpus.build_benchmark")
+
+
+@needs_real
+def test_data_card_points_to_tests_that_exist():
+    import re
+
+    card = (REAL / "DATA_CARD.md").read_text()
+    refs = set(re.findall(r"`(tests/[\w/]+\.py)::(\w+)`", card))
+    assert len(refs) >= 8
+    for path, name in refs:
+        assert re.search(rf"^def {name}\(", (ROOT / path).read_text(), re.MULTILINE), f"{path}::{name} missing"
+    assert (REAL / "LICENSE").read_text().count("CC BY-SA 4.0") >= 1

@@ -217,7 +217,8 @@ DHARMA repositories carry a CC BY 4.0 `LICENCE.txt`, while 1,127 of the 1,128 ed
 CC BY-SA 4.0 in their TEI header. Because the lookups and individuals are derived from those files,
 the derived data (`lookups/`, `letters_by_era.json`, individuals in `ezhuthu.ttl`) is released under
 **CC BY-SA 4.0** (`dcterms:license` in the TTL); the class/property model and the curated seeds are
-offered under CC BY 4.0. The lead should confirm this with the charter's "CC BY 4.0" wording.
+offered under CC BY 4.0. This matches the charter's CC BY-SA 4.0 decision for DHARMA-derived data and
+the benchmark's licence (`benchmark/LICENSE`).
 
 Cite DHARMA for the source texts:
 
