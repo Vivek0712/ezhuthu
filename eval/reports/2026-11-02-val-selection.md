@@ -3,7 +3,7 @@
 > **VAL split only (development data).** Everything the TEST run uses was chosen here, by the rules stated below, before TEST was scored. These numbers are not restoration quality and must not be cited as such; in-sample calibration numbers are optimistic.
 
 - LLM runs: seeded VAL sample of 120 items (seed 26), ontology on (train-only build), gap lengths in Tamil letters. Per-item rows: `2026-11-02-val-selection/rows/*.jsonl`.
-- Data commit `e83886327ff525f385c6865bd01b8e213fa597a8`; code commits `fd16403`; code_dirty=true.
+- Data commit `e83886327ff525f385c6865bd01b8e213fa597a8`; code commits `1343798`, `fd16403`; code_dirty=false.
 - Decider: `strands-decider-2B-qwen3.5-v1-2610` (local, strands-decider 0.2.0).
 
 ## 1. Retrieval-only gaps (no LLM): strategy
@@ -18,6 +18,8 @@ Full VAL, n = 443, retrieval + copy floor + 5-gram + ontology candidates. Copy b
 | choice-topk:5 | 0.2415 | 0.5079 | 44 / 44 | 33 / 42, p=0.3557 |
 | noul-topk:3 | 0.2483 | 0.5079 | 27 / 24 | 21 / 27, p=0.4709 |
 | choice-all | 0.2506 | 0.5079 | 51 / 47 | 40 / 45, p=0.6646 |
+
+`fallback` is restorer strategy `self-report` with no LLM fill: each retrieval candidate scores best parallel match x share of parallels agreeing (halved when the length is off); no decider call.
 
 Chosen: **fallback**. Best decider variant (scored on TEST as the decider row): **choice-all**.
 
@@ -65,7 +67,7 @@ Chosen: **0.6** (config/models.yaml `routing.escalate_if_confidence_below`; was 
 | `strands-decider-2B-qwen3.5-v1-2610|noul-topk|k3|llm-opus` | 100 | 28 | 2.431386 | -1.430561 | 0.3772 | yes |
 | `strands-decider-2B-qwen3.5-v1-2610|noul-topk|k3|llm-sonnet` | 120 | 23 | 1.648963 | -1.976991 | 0.4001 | yes |
 
-Baseline abstain thresholds (raw confidence, fitted on full VAL, used for coverage on TEST): baseline-copy 0.6012 (VAL top-1 0.2415, n=443); baseline-ngram 0.9103 (VAL top-1 0.298, n=443).
+Baseline abstain thresholds (raw confidence, fitted on full VAL, used for coverage on TEST): baseline-copy 0.6012 (VAL top-1 0.2415, n=443); baseline-ngram 0.9104 (VAL top-1 0.3002, n=443).
 
 ## Notes
 

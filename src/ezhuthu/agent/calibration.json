@@ -18,7 +18,7 @@
    "n": 120,
    "positives": 18,
    "split": "val",
-   "fitted_at": "2026-11-02T01:34:15+00:00",
+   "fitted_at": "2026-11-02T01:45:15+00:00",
    "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26"
   },
   "prerank|prerank|kall|retrieval": {
@@ -48,7 +48,7 @@
    "n": 120,
    "positives": 20,
    "split": "val",
-   "fitted_at": "2026-11-02T01:34:15+00:00",
+   "fitted_at": "2026-11-02T01:45:15+00:00",
    "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26"
   },
   "strands-decider-2B-qwen3.5-v1-2610|choice-topk|k3|retrieval": {
@@ -68,7 +68,7 @@
    "n": 120,
    "positives": 19,
    "split": "val",
-   "fitted_at": "2026-11-02T01:34:15+00:00",
+   "fitted_at": "2026-11-02T01:45:15+00:00",
    "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26"
   },
   "strands-decider-2B-qwen3.5-v1-2610|choice-topk|k5|retrieval": {
@@ -88,7 +88,7 @@
    "n": 100,
    "positives": 28,
    "split": "val",
-   "fitted_at": "2026-11-02T01:34:15+00:00",
+   "fitted_at": "2026-11-02T01:45:15+00:00",
    "note": "VAL seeded sample (seed 26), ontology on, n=100; issue #26"
   },
   "strands-decider-2B-qwen3.5-v1-2610|noul-topk|k3|llm-sonnet": {
@@ -98,7 +98,7 @@
    "n": 120,
    "positives": 23,
    "split": "val",
-   "fitted_at": "2026-11-02T01:34:15+00:00",
+   "fitted_at": "2026-11-02T01:45:15+00:00",
    "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26"
   },
   "strands-decider-2B-qwen3.5-v1-2610|noul-topk|k3|retrieval": {

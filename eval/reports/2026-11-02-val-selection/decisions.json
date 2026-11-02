@@ -249,7 +249,7 @@
    "n": 120,
    "positives": 18,
    "split": "val",
-   "fitted_at": "2026-11-02T01:34:15+00:00",
+   "fitted_at": "2026-11-02T01:45:15+00:00",
    "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26",
    "provisional": false
   },
@@ -260,7 +260,7 @@
    "n": 120,
    "positives": 20,
    "split": "val",
-   "fitted_at": "2026-11-02T01:34:15+00:00",
+   "fitted_at": "2026-11-02T01:45:15+00:00",
    "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26",
    "provisional": false
   },
@@ -271,7 +271,7 @@
    "n": 120,
    "positives": 19,
    "split": "val",
-   "fitted_at": "2026-11-02T01:34:15+00:00",
+   "fitted_at": "2026-11-02T01:45:15+00:00",
    "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26",
    "provisional": false
   },
@@ -282,7 +282,7 @@
    "n": 100,
    "positives": 28,
    "split": "val",
-   "fitted_at": "2026-11-02T01:34:15+00:00",
+   "fitted_at": "2026-11-02T01:45:15+00:00",
    "note": "VAL seeded sample (seed 26), ontology on, n=100; issue #26",
    "provisional": false
   },
@@ -293,7 +293,7 @@
    "n": 120,
    "positives": 23,
    "split": "val",
-   "fitted_at": "2026-11-02T01:34:15+00:00",
+   "fitted_at": "2026-11-02T01:45:15+00:00",
    "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26",
    "provisional": false
   }
@@ -407,8 +407,8 @@
    "n": 443
   },
   "baseline-ngram": {
-   "threshold": 0.9103,
-   "val_top1": 0.298,
+   "threshold": 0.9104,
+   "val_top1": 0.3002,
    "n": 443
   }
  }
