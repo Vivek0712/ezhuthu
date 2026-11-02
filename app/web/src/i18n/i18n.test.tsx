@@ -26,6 +26,13 @@ describe('strings', () => {
   });
 });
 
+describe('copy rules', () => {
+  it('never says "experimental" in any user-visible English string, nor names Aivar', () => {
+    const all = { ...en, ...Object.fromEntries(Object.entries(ta).filter(([, v]) => !/[\u0b80-\u0bff]/.test(v))) };
+    expect(Object.entries(all).filter(([, v]) => /experimental|aivar/i.test(v)).map(([k]) => k)).toEqual([]);
+  });
+});
+
 describe('language toggle', () => {
   it('defaults to English, sets <html lang>, and toggles to Tamil', async () => {
     render(

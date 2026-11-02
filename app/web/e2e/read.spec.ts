@@ -24,9 +24,10 @@ test.describe('restore: upload a photo', () => {
     expect(bytes.includes(Buffer.from('Exif\0\0'))).toBe(false);
     const result = page.getByTestId('read-result');
     await expect(result).toBeVisible();
-    // Bilingual experimental label.
-    await expect(page.getByTestId('read-experimental')).toContainText('Experimental reading');
-    await expect(page.getByTestId('read-experimental')).toContainText('சோதனை வாசிப்பு');
+    // Bilingual "check against the edition" note (never "experimental").
+    await expect(page.getByTestId('read-experimental')).toContainText('Check this reading against the edition');
+    await expect(page.getByTestId('read-experimental')).toContainText('பதிப்புடன் ஒப்பிட்டுச் சரிபாருங்கள்');
+    await expect(page.getByTestId('read-experimental')).not.toContainText(/experimental/i);
     await expect(result.locator('img')).toBeVisible();
     await page.getByTestId('read-script-iso15919').click();
     // The mock replays Sonnet 4.6's real reading of this plate (eval/reports/2026-11-02-ocr-app-samples.jsonl).

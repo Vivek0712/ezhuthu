@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { api, type Candidate, type Gap, type RestoreResponse } from '../api/client';
 import { ConfidenceMeter } from '../components/ConfidenceMeter';
 import { EditionReveal } from '../components/EditionReveal';
 import { Busy, DharmaCredit, ErrorNote } from '../components/Feedback';
 import { ExperimentalNote, ReadPanel, type Accepted, type Tab } from '../components/ReadPanel';
-import { GappedText, Lacuna } from '../components/SampleGallery';
+import { GappedText, Lacuna, SampleGallery } from '../components/SampleGallery';
 import { useI18n } from '../i18n/I18nProvider';
 import type { MessageKey } from '../i18n/strings';
 import { gapContext, parseGaps } from '../lib/gaps';
@@ -322,7 +322,16 @@ export function RestorePage() {
   const fromSample = useRestoreSample();
   // Upload is the primary input (user feedback: people rarely have the text to paste); typing is the third tab,
   // except when a gallery sample brings its own text.
-  const [tab, setTab] = useState<Tab>(fromSample ? 'type' : 'photo');
+  // /restore?tab=type (the home page's "Restore a line") opens on typing.
+  const location = useLocation();
+  const [tab, setTab] = useState<Tab>(fromSample || new URLSearchParams(location.search).get('tab') === 'type' ? 'type' : 'photo');
+  // /restore#samples (the home page's "Try a sample inscription") lands on the sample gallery below the form.
+  useEffect(() => {
+    if (location.hash !== '#samples') return;
+    const el = document.getElementById('samples');
+    el?.scrollIntoView({ block: 'start' });
+    el?.querySelector<HTMLElement>('h2')?.focus({ preventScroll: true });
+  }, [location.hash]);
   // "auto": the script follows what is in the box (Tamil letters or English letters); Advanced options can force it.
   const [scriptChoice, setScriptChoice] = useState<ScriptChoice>('auto');
   const [text, setText] = useState(fromSample?.text ?? '');
@@ -525,6 +534,8 @@ export function RestorePage() {
           <DharmaCredit testId="restore-credit" />
         </section>
       )}
+      {/* The try-it gallery lives here (it was on the home page, where its 13 cards pushed everything else down). */}
+      <SampleGallery />
     </>
   );
 }

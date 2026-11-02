@@ -1,10 +1,11 @@
-import { useRef, useState, type MouseEvent } from 'react';
+import { useRef, useState, type MouseEvent, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { Pipeline } from '../components/Pipeline';
+import { exampleSnippet, Pipeline } from '../components/Pipeline';
+import { Bi } from '../components/practice/Bi';
 import { MiniDrill } from '../components/practice/MiniDrill';
-import { SessionCards } from '../components/practice/SessionCards';
 import { StoneHero } from '../components/StoneHero';
 import { useI18n } from '../i18n/I18nProvider';
+import type { MessageKey } from '../i18n/strings';
 import { newSeed } from '../practice/engine';
 
 /** Scroll to an in-page section and move focus to its heading (keyboard and screen-reader users land there too). */
@@ -19,11 +20,59 @@ function jumpTo(id: string) {
   };
 }
 
-/** Home: the stone hero, then practice (with a question to answer right here), how it works, and a word for scholars. */
+interface Feature {
+  key: 'practice' | 'restore' | 'read' | 'how';
+  to: string;
+  icon: ReactNode;
+  /** A real micro-example: Tamil script, its English letters, and what it is. */
+  ex: { ta: string; iso: string; glyph?: { text: string; cls: string } };
+}
+
+const snippet = exampleSnippet();
+
+// Examples are real: the Tamil-Brahmi ka; the gap in the How-it-works passage (DHARMA_INSPallava00092, train);
+// the opening formula of many stones; the regnal-year word.
+const FEATURES: Feature[] = [
+  {
+    key: 'practice',
+    to: '/practice',
+    icon: <path d="M4 6c3-1.5 6-1.5 8 0v13c-2-1.5-5-1.5-8 0zM12 6c2-1.5 5-1.5 8 0v13c-3-1.5-6-1.5-8 0" />,
+    ex: { ta: 'க', iso: 'ka', glyph: { text: '𑀓', cls: 'script-brahmi' } },
+  },
+  {
+    key: 'restore',
+    to: '/restore?tab=type',
+    icon: <path d="M5 19 15 9M13 7l4 4M15 5l4 4-2 2-4-4zM4 20l2-1" />,
+    ex: { ta: snippet.ta, iso: snippet.iso },
+  },
+  {
+    key: 'read',
+    to: '/restore',
+    icon: (
+      <>
+        <path d="M4 8h3l2-3h6l2 3h3v11H4z" />
+        <circle cx="12" cy="13" r="3.5" />
+      </>
+    ),
+    ex: { ta: 'ஸ்வஸ்தி ஶ்ரீ', iso: 'svasti śrī' },
+  },
+  {
+    key: 'how',
+    to: '/how-it-works',
+    icon: <path d="M4 6h4v4H4zM16 6h4v4h-4zM10 15h4v4h-4zM8 8h8M6 10l5 5M18 10l-5 5" />,
+    ex: { ta: 'யாண்டு', iso: 'yāṇṭu' },
+  },
+];
+
+/**
+ * Home, kept short (user feedback: the long sample gallery buried the features): the stone hero, what you can do,
+ * one question to try, the pipeline in brief, and a strip for scholars.
+ */
 export function HomePage() {
   const { t } = useI18n();
   const ctaRef = useRef<HTMLDivElement>(null);
   const [seed] = useState(newSeed);
+  const k = (f: Feature, s: 'T' | 'D' | 'Ex' | 'Cta') => t(`home3.${f.key}${s}` as MessageKey);
   return (
     <>
       <div className="home-hero">
@@ -36,7 +85,7 @@ export function HomePage() {
             <p className="lede">{t('home.lede')}</p>
             <div className="hero-actions" ref={ctaRef} data-testid="hero-actions">
               {/* One primary call to action: answer a real question on this page. */}
-              <a className="btn btn-primary" href="#practice" data-testid="cta-practice" onClick={jumpTo('practice')}>
+              <a className="btn btn-primary" href="#try" data-testid="cta-practice" onClick={jumpTo('try')}>
                 {t('home2.ctaPractice')}
               </a>
               <Link className="btn btn-ghost" to="/restore" data-testid="cta-upload">
@@ -55,22 +104,57 @@ export function HomePage() {
         <StoneHero ctaRef={ctaRef} />
       </div>
 
-      <section id="practice" className="home-section home-practice" aria-labelledby="practice-title" data-testid="home-practice">
-        <header className="section-head">
+      <section id="features" className="home-section" aria-labelledby="features-title" data-testid="home-features">
+        <h2 id="features-title" tabIndex={-1}>
+          {t('home3.featuresTitle')}
+        </h2>
+        <ul className="feature-grid">
+          {FEATURES.map((f, i) => (
+            <li key={f.key} className="feature-card" style={{ ['--i' as string]: i }} data-testid={`feature-${f.key}`}>
+              <span className="pipe-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">{f.icon}</svg>
+              </span>
+              <h3>
+                <Link to={f.to} className="session-link" data-testid={`feature-link-${f.key}`}>
+                  {k(f, 'T')}
+                </Link>
+              </h3>
+              <p className="feature-desc">{k(f, 'D')}</p>
+              <div className="feature-ex">
+                {f.ex.glyph && (
+                  <span className={`feature-glyph ${f.ex.glyph.cls}`} aria-hidden="true">
+                    {f.ex.glyph.text} →
+                  </span>
+                )}
+                <Bi ta={f.ex.ta} iso={f.ex.iso} taClass="script-chola" />
+                <span className="pipe-ex-k">{k(f, 'Ex')}</span>
+              </div>
+              <span className="feature-cta" aria-hidden="true">
+                {k(f, 'Cta')} →
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="try" className="home-section home-try" aria-labelledby="try-title" data-testid="home-practice">
+        <div className="home-try-copy">
           <p className="kicker">{t('home2.practiceKicker')}</p>
-          <h2 id="practice-title" tabIndex={-1}>
-            {t('home2.practiceTitle')}
+          <h2 id="try-title" tabIndex={-1}>
+            {t('home2.tryTitle')}
           </h2>
-          <p className="lede">{t('home2.practiceLede')}</p>
-        </header>
-        <div className="home-practice-grid">
-          <div className="try-panel leaf" aria-labelledby="try-title">
-            <h3 id="try-title" className="try-title">
-              {t('home2.tryTitle')}
-            </h3>
-            <MiniDrill seed={seed} />
-          </div>
-          <SessionCards />
+          <p className="lede">{t('home3.tryLede')}</p>
+          <p className="audience-links">
+            <Link to="/practice" data-testid="home-all-practice">
+              {t('home2.tryAll')} →
+            </Link>
+            <Link to="/restore#samples" data-testid="home-samples-link">
+              {t('home3.samplesLink')} →
+            </Link>
+          </p>
+        </div>
+        <div className="try-panel leaf">
+          <MiniDrill seed={seed} />
         </div>
       </section>
 
@@ -83,23 +167,21 @@ export function HomePage() {
           <p className="lede">{t('home2.howLede')}</p>
         </header>
         <Pipeline />
-        <p>
-          <Link className="btn btn-ghost" to="/how-it-works" data-testid="how-more">
-            {t('home2.howMore')} →
-          </Link>
-        </p>
+        <Link className="btn btn-ghost" to="/how-it-works" data-testid="how-more">
+          {t('home2.howMore')} →
+        </Link>
       </section>
 
       <section id="scholars" className="home-section scholars" aria-labelledby="scholars-title" data-testid="scholars">
         <h2 id="scholars-title" tabIndex={-1}>
           {t('home2.scholarsTitle')}
         </h2>
-        <p>{t('home2.scholarsBody')}</p>
+        <p>{t('home3.scholarsNumbers')}</p>
         <p className="audience-links">
           <Link to="/benchmark" data-testid="scholars-benchmark">
             {t('home2.scholarsBench')} →
           </Link>
-          <Link to="/restore">{t('home2.scholarsRestore')} →</Link>
+          <Link to="/how-it-works">{t('how.limitsTitle')} →</Link>
           <Link to="/review">{t('nav.review')} →</Link>
         </p>
       </section>

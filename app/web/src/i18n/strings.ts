@@ -61,7 +61,7 @@ export const en = {
   'home.ctaScholars': 'For scholars',
   'home.scholarsTitle': 'For scholars: a restoration assistant',
   'home.scholar1':
-    'Read: upload a photo or a DHARMA EpiDoc file and get an editable transcription. Photo reading is experimental, and it cannot read Tamil-Brahmi.',
+    'Read: upload a photo or a DHARMA EpiDoc file and get an editable transcription. Check a photo reading against the edition; it cannot read Tamil-Brahmi.',
   'home.scholar2':
     'Restore: ranked fills for each gap, each with a confidence, and an abstain when the evidence is thin.',
   'home.scholar3': 'Parallels: every fill shows the DHARMA passages and ontology hints behind it.',
@@ -289,8 +289,9 @@ export const en = {
   'read.samplesTitle': 'No photo at hand? Try a sample',
   'read.preparing': 'Shrinking the photo on your device…',
   'read.reading': 'Reading the letters… this can take 10 to 25 seconds',
-  'read.experimental': 'Experimental reading: check it against the edition.',
-  'read.experimentalOther': 'சோதனை வாசிப்பு: பதிப்புடன் ஒப்பிட்டுச் சரிபாருங்கள்.',
+  // No "experimental" in the UI (user request): plain advice instead. Tamil pending a native-speaker check.
+  'read.experimental': 'Check this reading against the edition before relying on it.',
+  'read.experimentalOther': 'இதை நம்புவதற்கு முன் பதிப்புடன் ஒப்பிட்டுச் சரிபாருங்கள்.',
   'read.measured': 'How accurate is it?',
   'read.result': 'What the reader saw',
   'read.editHint': 'Correct any letter before restoring. Untick lines you do not want.',
@@ -401,7 +402,7 @@ export const en = {
     'Working scholars, who can use the restoration assistant and settle the cases it sends to expert review.',
   'about.limitsTitle': 'What it can’t do yet',
   'about.limit1':
-    'It cannot read Tamil-Brahmi from photos (error rate 0.83 to 0.91 on three real images). Reading Tamil-script photos is experimental and has not been measured on real stones.',
+    'It cannot read Tamil-Brahmi from photos (error rate 0.83 to 0.91 on three real images). Reading Tamil-script photos has not yet been measured on real stones, so check each reading against the edition.',
   'about.limit2':
     'Restorations are suggestions with a confidence. We report how often they match expert restorations; we never call them correct.',
   'about.limit3': 'No scholar has validated it yet: the expert studies have not run.',
@@ -475,7 +476,7 @@ export const ta: Record<MessageKey, string> = {
   'home.ctaScholars': 'அறிஞர்களுக்கு',
   'home.scholarsTitle': 'அறிஞர்களுக்கு: மீட்டமைப்பு உதவியாளர்',
   'home.scholar1':
-    'படி: ஒளிப்படத்தையோ DHARMA EpiDoc கோப்பையோ பதிவேற்றி, திருத்தக்கூடிய படியெடுப்பைப் பெறுங்கள். படவாசிப்பு சோதனை நிலையில் உள்ளது; தமிழ்-பிராமியைப் படிக்க இயலாது.',
+    'படி: ஒளிப்படத்தையோ DHARMA EpiDoc கோப்பையோ பதிவேற்றி, திருத்தக்கூடிய படியெடுப்பைப் பெறுங்கள். படவாசிப்பைப் பதிப்புடன் ஒப்பிட்டுச் சரிபாருங்கள்; தமிழ்-பிராமியைப் படிக்க இயலாது.',
   'home.scholar2':
     'மீட்டமை: ஒவ்வொரு இடைவெளிக்கும் நம்பகத்துடன் வரிசைப்படுத்திய நிரப்புகள்; சான்று போதாதபோது விலகல்.',
   'home.scholar3':
@@ -711,8 +712,8 @@ export const ta: Record<MessageKey, string> = {
   'read.samplesTitle': 'கையில் படம் இல்லையா? ஒரு மாதிரியை முயலுங்கள்',
   'read.preparing': 'உங்கள் சாதனத்திலேயே படத்தைச் சிறிதாக்குகிறோம்…',
   'read.reading': 'எழுத்துகளைப் படிக்கிறோம்… இதற்கு 10 முதல் 25 வினாடிகள் ஆகலாம்',
-  'read.experimental': 'சோதனை வாசிப்பு: பதிப்புடன் ஒப்பிட்டுச் சரிபாருங்கள்.',
-  'read.experimentalOther': 'Experimental reading: check it against the edition.',
+  'read.experimental': 'இதை நம்புவதற்கு முன் பதிப்புடன் ஒப்பிட்டுச் சரிபாருங்கள்.',
+  'read.experimentalOther': 'Check this reading against the edition before relying on it.',
   'read.measured': 'இது எவ்வளவு துல்லியம்?',
   'read.result': 'வாசிப்பான் கண்டது',
   'read.editHint': 'மீட்டமைக்கும் முன் எந்த எழுத்தையும் திருத்துங்கள். வேண்டாத வரிகளின் தேர்வை நீக்குங்கள்.',
@@ -823,7 +824,7 @@ export const ta: Record<MessageKey, string> = {
     'பணியிலுள்ள அறிஞர்கள்: மீட்டமைப்பு உதவியாளரைப் பயன்படுத்தலாம்; அது வல்லுநர் மதிப்பாய்வுக்கு அனுப்பும் ஐயங்களைத் தீர்க்கலாம்.',
   'about.limitsTitle': 'இன்னும் இயலாதவை',
   'about.limit1':
-    'ஒளிப்படங்களிலிருந்து தமிழ்-பிராமியைப் படிக்க இயலாது (மூன்று உண்மையான படங்களில் பிழை விகிதம் 0.83 முதல் 0.91). தமிழ் எழுத்துப் படவாசிப்பு சோதனை நிலையில் உள்ளது; உண்மையான கற்களில் இன்னும் அளவிடப்படவில்லை.',
+    'ஒளிப்படங்களிலிருந்து தமிழ்-பிராமியைப் படிக்க இயலாது (மூன்று உண்மையான படங்களில் பிழை விகிதம் 0.83 முதல் 0.91). தமிழ் எழுத்துப் படவாசிப்பு உண்மையான கற்களில் இன்னும் அளவிடப்படவில்லை; ஆகவே ஒவ்வொரு வாசிப்பையும் பதிப்புடன் ஒப்பிடுங்கள்.',
   'about.limit2':
     'மீட்டமைப்புகள் நம்பகத்துடன் கூடிய பரிந்துரைகள் மட்டுமே. அவை வல்லுநர் மீட்டமைப்புகளுடன் எவ்வளவு பொருந்துகின்றன என்று அறிவிக்கிறோம்; சரி என்று ஒருபோதும் சொல்வதில்லை.',
   'about.limit3': 'எந்த அறிஞரும் இன்னும் இதைச் சரிபார்க்கவில்லை; வல்லுநர் ஆய்வுகள் இன்னும் நடக்கவில்லை.',

@@ -2,15 +2,15 @@ import { expect, test } from '@playwright/test';
 import samples from '../src/samples/samples.json' with { type: 'json' };
 import { expectNoHorizontalScroll, setEnglish, setTamil } from './helpers';
 
-// Try-it samples and the era strip, against the mock build (MSW answers /api/*). Since the UX revamp the gallery closes
-// the How it works page and the era strip heads the Practice hub; the home page keeps hero, practice, how, scholars.
+// Try-it samples and the era strip, against the mock build (MSW answers /api/*). Since the UX revamp the gallery sits
+// under the Restore form and the era strip heads the Practice hub; the home page keeps hero, practice, how, scholars.
 const pallava = samples.find((s) => s.learn_level === 'L3')!;
 const chola = samples.find((s) => s.era === 'chola')!;
 
 test.describe('try-it samples', () => {
   test('sample -> restore -> learn, in English', async ({ page }) => {
     await setEnglish(page);
-    await page.goto('/how-it-works');
+    await page.goto('/restore');
     const gallery = page.getByTestId('sample-gallery');
     await expect(gallery.getByRole('article')).toHaveCount(samples.length);
     await expectNoHorizontalScroll(page);
@@ -56,7 +56,7 @@ test.describe('try-it samples', () => {
     await expect(reveal.getByRole('link', { name: /DHARMA/ })).toHaveAttribute('href', chola.dharma_url);
 
     // Back to the gallery, then "Practise with this" starts a lesson on that inscription at its level.
-    await page.goto('/how-it-works#samples');
+    await page.goto('/restore#samples');
     await page.getByTestId('era-pallava').click();
     await page.getByTestId(`learn-${pallava.id}`).click();
     await expect(page).toHaveURL(/\/practice\/guided\?inscription=/);
@@ -72,7 +72,7 @@ test.describe('try-it samples', () => {
 
   test('unsolved passages are a separate group whose result explains why there is nothing to compare', async ({ page }) => {
     await setEnglish(page);
-    await page.goto('/how-it-works');
+    await page.goto('/restore');
     const group = page.getByTestId('sample-group-unsolved');
     await group.scrollIntoViewIfNeeded();
     await expect(group.getByRole('heading', { name: 'Unsolved: even the editors left this blank' })).toBeVisible();
@@ -85,7 +85,7 @@ test.describe('try-it samples', () => {
 
   test('Tamil readers get the Tamil text; filters work on a phone too', async ({ page }) => {
     await setTamil(page);
-    await page.goto('/how-it-works');
+    await page.goto('/restore');
     await expect(page.getByRole('heading', { level: 2, name: 'உண்மையான கல்வெட்டை முயலுங்கள்' })).toBeAttached();
     await page.getByTestId('era-pandya').click();
     await expect(page.getByTestId('sample-gallery').getByRole('article')).toHaveCount(samples.filter((s) => s.era === 'pandya').length);

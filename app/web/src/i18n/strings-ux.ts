@@ -139,7 +139,7 @@ export const enUx = {
   'trial.again': 'Try again',
   'trial.timedOut': 'time ran out',
 
-  'how.title': 'How Ezhuthu reads an inscription',
+  'how.pageTitle': 'How Ezhuthu reads an inscription',
   'how.lede':
     'Ezhuthu is built with Strands Agents. Here is what happens to a damaged passage, step by step, with a real example in Tamil script and English letters.',
   'how.exampleTitle': 'A worked example',
@@ -187,6 +187,28 @@ export const enUx = {
   'prog.clear': 'Clear my practice history',
   'prog.noStorage': 'This browser is not saving data, so your progress lasts only for this visit.',
   'prog.assessTitle': 'Pre-test and post-test with the AI tutor',
+
+  'home3.featuresTitle': 'What you can do',
+  'home3.practiceT': 'Practice reading inscriptions',
+  'home3.practiceD': 'Short drills on real stones: letters, words, lost letters and set phrases, plus a timed trial.',
+  'home3.practiceEx': 'Tamil-Brahmi',
+  'home3.practiceCta': 'Start practising',
+  'home3.restoreT': 'Restore lost letters',
+  'home3.restoreD': 'Paste or type a line, mark the damage with [?], and see the letters proposed with how sure it is.',
+  'home3.restoreEx': 'Two letters lost',
+  'home3.restoreCta': 'Restore a line',
+  'home3.readT': 'Read a photo of a stone',
+  'home3.readD': 'Upload a photo of a stone, copper plate or printed page. You get the letters to check and correct. Tamil-Brahmi photos cannot be read yet.',
+  'home3.readEx': 'The opening of many stones',
+  'home3.readCta': 'Upload a photo',
+  'home3.howT': 'Learn how scholars read them',
+  'home3.howD': 'Step by step, with a real passage: how a reading is made, and when to ask an expert.',
+  'home3.howEx': 'regnal year',
+  'home3.howCta': 'See how it works',
+  'home3.samplesLink': 'Try a sample inscription',
+  'home3.scholarsNumbers':
+    'On 413 test gaps, the first proposal matches the editors’ restoration 63% of the time. When it is sure enough to fill (about half of the gaps), 91% of its fills match.',
+  'home3.tryLede': 'One question from a real inscription. Tap an answer to see why.',
 } as const;
 
 // Every Tamil string below is PENDING a native-speaker check (the convention in strings.ts).
@@ -326,7 +348,7 @@ export const taUx: Record<keyof typeof enUx, string> = {
   'trial.again': 'மீண்டும் முயல்க',
   'trial.timedOut': 'நேரம் முடிந்தது',
 
-  'how.title': 'எழுத்து ஒரு கல்வெட்டை எப்படிப் படிக்கிறது',
+  'how.pageTitle': 'எழுத்து ஒரு கல்வெட்டை எப்படிப் படிக்கிறது',
   'how.lede':
     'எழுத்து Strands Agents கொண்டு உருவானது. சிதைந்த ஒரு பகுதிக்கு என்ன நடக்கிறது என்பதை, தமிழ் எழுத்திலும் ஆங்கில எழுத்திலும் உண்மையான எடுத்துக்காட்டுடன், படிப்படியாகக் காணுங்கள்.',
   'how.exampleTitle': 'ஒரு செய்முறை எடுத்துக்காட்டு',
@@ -373,4 +395,26 @@ export const taUx: Record<keyof typeof enUx, string> = {
   'prog.clear': 'என் பயிற்சி வரலாற்றை அழி',
   'prog.noStorage': 'இந்த உலாவி தரவைச் சேமிக்கவில்லை; உங்கள் முன்னேற்றம் இந்த வருகைக்கு மட்டுமே.',
   'prog.assessTitle': 'AI ஆசிரியருடன் முன்தேர்வும் பின்தேர்வும்',
+
+  'home3.featuresTitle': 'நீங்கள் செய்யக்கூடியவை',
+  'home3.practiceT': 'கல்வெட்டுகளைப் படிக்கப் பயிற்சி',
+  'home3.practiceD': 'உண்மையான கற்களில் சிறு பயிற்சிகள்: எழுத்துகள், சொற்கள், அழிந்த எழுத்துகள், வழக்கமான தொடர்கள், கூடவே நேரப் போட்டி.',
+  'home3.practiceEx': 'தமிழ்-பிராமி',
+  'home3.practiceCta': 'பயிற்சியைத் தொடங்கு',
+  'home3.restoreT': 'அழிந்த எழுத்துகளை மீட்டமை',
+  'home3.restoreD': 'ஒரு வரியை ஒட்டவோ தட்டச்சிடவோ செய்து, சிதைவை [?] எனக் குறியுங்கள்; முன்மொழியப்படும் எழுத்துகளையும் அவற்றின் நம்பகத்தையும் காணுங்கள்.',
+  'home3.restoreEx': 'இரண்டு எழுத்துகள் அழிந்துள்ளன',
+  'home3.restoreCta': 'ஒரு வரியை மீட்டமை',
+  'home3.readT': 'கல்லின் ஒளிப்படத்தைப் படி',
+  'home3.readD': 'கல், செப்பேடு அல்லது அச்சுப் பக்கத்தின் ஒளிப்படத்தைப் பதிவேற்றுங்கள்; சரிபார்த்துத் திருத்த எழுத்துகள் கிடைக்கும். தமிழ்-பிராமி ஒளிப்படங்களை இன்னும் படிக்க இயலாது.',
+  'home3.readEx': 'பல கற்களின் தொடக்கம்',
+  'home3.readCta': 'ஒளிப்படத்தைப் பதிவேற்று',
+  'home3.howT': 'அறிஞர்கள் எப்படிப் படிக்கிறார்கள் என அறி',
+  'home3.howD': 'உண்மையான பகுதியுடன் படிப்படியாக: வாசிப்பு எப்படி உருவாகிறது, எப்போது வல்லுநரிடம் கேட்க வேண்டும்.',
+  'home3.howEx': 'ஆட்சியாண்டு',
+  'home3.howCta': 'எப்படி இயங்குகிறது எனக் காண்க',
+  'home3.samplesLink': 'ஒரு மாதிரிக் கல்வெட்டை முயலுங்கள்',
+  'home3.scholarsNumbers':
+    '413 சோதனை இடைவெளிகளில், முதல் முன்மொழிவு 63% பதிப்பாசிரியர்களின் மீட்டமைப்புடன் பொருந்துகிறது. நிரப்பும் அளவு உறுதியாக இருக்கும்போது (ஏறத்தாழப் பாதி இடைவெளிகள்), அதன் நிரப்புகளில் 91% பொருந்துகின்றன.',
+  'home3.tryLede': 'உண்மையான கல்வெட்டிலிருந்து ஒரு கேள்வி. ஏன் என்று அறிய ஒரு விடையைத் தொடுங்கள்.',
 };

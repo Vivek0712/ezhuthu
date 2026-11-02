@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import { DharmaCredit } from '../components/Feedback';
 import { EXAMPLE, exampleSnippet, Pipeline } from '../components/Pipeline';
 import { Bi } from '../components/practice/Bi';
-import { SampleGallery } from '../components/SampleGallery';
 import { useI18n } from '../i18n/I18nProvider';
 import { fmt, pctText } from '../practice/engine';
 
@@ -15,7 +14,7 @@ export function HowItWorksPage() {
   return (
     <>
       <header className="page-head">
-        <h1>{t('how.title')}</h1>
+        <h1>{t('how.pageTitle')}</h1>
         <p className="lede">{t('how.lede')}</p>
       </header>
 
@@ -121,7 +120,6 @@ export function HowItWorksPage() {
         </div>
       </section>
 
-      <SampleGallery />
     </>
   );
 }

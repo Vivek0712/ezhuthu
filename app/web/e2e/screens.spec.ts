@@ -108,7 +108,7 @@ test('@screens capture every page', async ({ page }, info) => {
 
   // Try-it samples: the gallery, and a sample opened in Restore (Tamil text) and restored.
   await page.emulateMedia({ colorScheme: 'light' });
-  await page.goto('/how-it-works');
+  await page.goto('/restore');
   await page.getByTestId('sample-gallery').scrollIntoViewIfNeeded();
   await expect(page.getByTestId('sample-gallery').getByRole('article').first()).toBeVisible();
   // The gallery's first screen (heading, filters, first cards), not all 13 cards.

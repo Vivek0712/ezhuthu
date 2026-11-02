@@ -37,15 +37,23 @@ for (const lang of ['en', 'ta'] as const) {
       await (lang === 'en' ? setEnglish(page) : setTamil(page));
     });
 
-    test('home: hero, then practice with a question to answer here, how it works, scholars', async ({ page }, info) => {
+    test('home: hero, what you can do, a question to answer here, how it works, scholars', async ({ page }, info) => {
       await page.goto('/');
       await expect(page.getByTestId('stone-hero')).toBeVisible();
       await expect(page.getByTestId('hero-actions').locator('.btn-primary')).toHaveCount(1);
-      // Sections in order.
+      // Sections in order, and no sample gallery on home (it lives on Restore).
       const ys = [];
-      for (const id of ['stone-hero', 'home-practice', 'home-how', 'scholars']) ys.push((await page.getByTestId(id).boundingBox())!.y);
+      for (const id of ['stone-hero', 'home-features', 'home-practice', 'home-how', 'scholars']) ys.push((await page.getByTestId(id).boundingBox())!.y);
       expect([...ys].sort((a, b) => a - b)).toEqual(ys);
-      // The primary call to action lands on the practice section; a question is answered within seconds.
+      await expect(page.getByTestId('sample-gallery')).toHaveCount(0);
+      await expect(page.getByTestId('home-samples-link')).toHaveAttribute('href', '/restore#samples');
+      // Four feature cards, each with Tamil script and English letters.
+      for (const f of ['practice', 'restore', 'read', 'how']) {
+        const card = page.getByTestId(`feature-${f}`);
+        await expect(card.locator('.bi-ta')).toBeVisible();
+        await expect(card.locator('.bi-iso')).toBeVisible();
+      }
+      // The primary call to action lands on the question; it is answered within seconds.
       await page.getByTestId('cta-practice').click();
       const drill = page.getByTestId('mini-drill');
       await expect(drill).toBeInViewport();
@@ -54,8 +62,6 @@ for (const lang of ['en', 'ta'] as const) {
       await expect(q.locator('.bi-iso').first()).toBeVisible();
       await drill.getByTestId('mini-next').click();
       await expect(drill.getByTestId('q-feedback')).toHaveCount(0);
-      // Session cards start right away.
-      await expect(page.getByTestId('session-cards').getByRole('listitem')).toHaveCount(6);
       // How it works: five steps with real examples in Tamil and English letters.
       const pipe = page.getByTestId('pipeline');
       await expect(pipe.locator('.pipe-step')).toHaveCount(5);
@@ -66,9 +72,15 @@ for (const lang of ['en', 'ta'] as const) {
       if (lang === 'en') {
         await page.evaluate(() => window.scrollTo(0, 0));
         await shot(page, 'home', info.project.name);
-        await page.getByTestId('home-practice').scrollIntoViewIfNeeded();
-        await shot(page, 'home-practice', info.project.name);
+        await shot(page, 'home-full', info.project.name, true);
       }
+    });
+
+    test('the sample link on home opens the gallery on Restore', async ({ page }) => {
+      await page.goto('/');
+      await page.getByTestId('home-samples-link').click();
+      await expect(page).toHaveURL(/\/restore#samples$/);
+      await expect(page.getByTestId('sample-gallery')).toBeInViewport();
     });
 
     test('a full practice session: ten questions, instant feedback, score, progress saved', async ({ page }, info) => {
@@ -171,5 +183,17 @@ test('small phone (375 px): the new pages fit without horizontal scroll and the 
   for (const name of ['Home', 'Practice', 'Restore', 'How']) await expect(tabs.getByRole('link', { name, exact: true })).toBeVisible();
   await page.getByTestId('menu-toggle').click();
   for (const name of ['Progress', 'Benchmark', 'About']) await expect(page.getByRole('navigation', { name: 'mobile' }).getByRole('link', { name })).toBeVisible();
+  await ctx.close();
+});
+
+test('home is short: at most about five screens at 1440 x 900', async ({ browser }) => {
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await ctx.newPage();
+  await setEnglish(page);
+  await page.goto('/');
+  await expect(page.getByTestId('scholars')).toBeVisible();
+  const h = await page.evaluate(() => document.documentElement.scrollHeight);
+  expect(h, `home height ${h}px`).toBeLessThanOrEqual(5 * 900);
+  if (SHOTS) await page.screenshot({ path: `${SHOTS}/after-home-full-1440.png`, fullPage: true });
   await ctx.close();
 });

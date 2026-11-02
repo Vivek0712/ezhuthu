@@ -12,7 +12,7 @@
 mark.formula-mark { background: var(--ez-lamp-soft); color: inherit; border-radius: var(--ez-radius-xs); padding: 0 3px; box-shadow: inset 0 -2px 0 var(--ez-lamp); }
 
 /* Home sections */
-.home-section { margin-top: var(--ez-space-16); scroll-margin-top: 84px; }
+.home-section { margin-top: var(--ez-space-12); scroll-margin-top: 84px; }
 .section-head { max-width: 760px; margin-bottom: var(--ez-space-6); }
 .section-head h2:focus { outline: none; }
 .section-head h2:focus-visible { outline: 3px solid var(--ez-focus); }
@@ -23,6 +23,27 @@ mark.formula-mark { background: var(--ez-lamp-soft); color: inherit; border-radi
 .try-title { font-size: var(--ez-text-md); margin-bottom: 8px; color: var(--ez-accent-text); }
 .scholars { max-width: 820px; }
 .scholars .audience-links a { min-height: var(--ez-space-tap); display: inline-flex; align-items: center; }
+
+/* Home: what you can do */
+.feature-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+.feature-card {
+  position: relative; display: grid; grid-template-rows: auto auto 1fr auto auto; gap: 8px; padding: 18px; min-width: 0;
+  border-radius: var(--ez-radius-lg); background: var(--ez-surface-raised); border: 1px solid var(--ez-border); box-shadow: var(--ez-shadow-1);
+  transition: transform var(--ez-dur-fast) var(--ez-ease-standard), box-shadow var(--ez-dur-fast) var(--ez-ease-standard), border-color var(--ez-dur-fast);
+  animation: rise var(--ez-dur-reveal) var(--ez-ease-enter) both; animation-delay: calc(var(--i, 0) * 70ms);
+}
+.feature-card:hover, .feature-card:focus-within { transform: translateY(-2px); box-shadow: var(--ez-shadow-2); border-color: var(--ez-border-strong); }
+.feature-card:has(.session-link:focus-visible) { outline: 3px solid var(--ez-focus); outline-offset: 2px; }
+.feature-card h3 { margin: 0; font-size: var(--ez-text-md); }
+.feature-desc { margin: 0; font-size: var(--ez-text-sm); color: var(--ez-text-muted); }
+.feature-ex { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; padding: 10px 12px; border-radius: var(--ez-radius-md); background: var(--ez-surface-sunk); }
+.feature-ex .pipe-ex-k { flex-basis: 100%; }
+.feature-glyph { font-size: 1.6rem; color: var(--ez-accent-text); }
+.feature-cta { font-weight: var(--ez-weight-semibold); color: var(--ez-accent-text); font-size: var(--ez-text-sm); }
+.home-try { display: grid; gap: var(--ez-space-6); align-items: start; }
+.home-try > * { min-width: 0; }
+@media (min-width: 1000px) { .home-try { grid-template-columns: 5fr 6fr; } }
+.home-try-copy h2:focus { outline: none; }
 
 /* Session cards */
 .session-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
@@ -91,7 +112,7 @@ html[lang='ta'] .level-pill strong { text-transform: none; letter-spacing: 0; }
 .q-glyph figcaption { text-align: center; }
 .q-word, .q-passage { margin: 0; padding: 16px; border-radius: var(--ez-radius-lg); background: var(--ez-surface-sunk); box-shadow: var(--ez-shadow-carved); }
 .q-passage .bi-ta { font-size: clamp(1.1rem, 3.2vw, 1.4rem); }
-.q-options { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); }
+.q-options { display: grid; gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .q-option {
   appearance: none; font: inherit; color: var(--ez-text); text-align: left; cursor: pointer; display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 10px;
   min-height: 56px; padding: 10px 14px; border-radius: var(--ez-radius-md); background: var(--ez-surface-raised); border: 1.5px solid var(--ez-border-strong);
@@ -197,7 +218,7 @@ label.check input { width: 20px; height: 20px; accent-color: var(--ez-accent); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .session-card, .q-card, .q-glyph-text, .pipe-step, .q-option.is-right { animation: none; }
-  .session-card:hover, .session-card:focus-within, .q-option:hover:not(:disabled) { transform: none; }
+  .feature-card, .session-card, .q-card, .q-glyph-text, .pipe-step, .q-option.is-right { animation: none; }
+  .feature-card:hover, .feature-card:focus-within, .session-card:hover, .session-card:focus-within, .q-option:hover:not(:disabled) { transform: none; }
   .q-bar > span { transition: none; }
 }

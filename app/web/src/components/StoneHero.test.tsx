@@ -93,16 +93,20 @@ describe('stone hero (home)', () => {
     renderApp(<AppRoutes />, { route: '/' });
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Learn to read the stone. Help read the backlog.');
     expect(screen.getByTestId('hero-actions').querySelectorAll('.btn-primary')).toHaveLength(1);
-    expect(screen.getByTestId('cta-practice')).toHaveAttribute('href', '#practice');
+    expect(screen.getByTestId('cta-practice')).toHaveAttribute('href', '#try');
     expect(screen.getByTestId('cta-upload')).toHaveAttribute('href', '/restore');
     expect(screen.getByTestId('cta-how')).toHaveAttribute('href', '#how');
     // The headline and calls to action come before the stone in the page (phones show them first).
     const h1 = screen.getByRole('heading', { level: 1 });
     expect(h1.compareDocumentPosition(screen.getByTestId('stone-hero')) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     // Sections in order: hero, practice, how it works, scholars.
-    const order = ['stone-hero', 'home-practice', 'home-how', 'scholars'].map((id) => screen.getByTestId(id));
+    const order = ['stone-hero', 'home-features', 'home-practice', 'home-how', 'scholars'].map((id) => screen.getByTestId(id));
     for (let i = 1; i < order.length; i++) expect(order[i - 1]!.compareDocumentPosition(order[i]!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(screen.getByTestId('mini-drill')).toBeInTheDocument();
+    // The long sample gallery is not on home (user feedback); one link leads to it on Restore.
+    expect(screen.queryByTestId('sample-gallery')).toBeNull();
+    expect(screen.getByTestId('home-samples-link')).toHaveAttribute('href', '/restore#samples');
+    for (const f of ['practice', 'restore', 'read', 'how']) expect(screen.getByTestId(`feature-${f}`)).toBeInTheDocument();
     const scholars = screen.getByTestId('scholars');
     expect(within(scholars).getByRole('link', { name: 'Expert review →' })).toHaveAttribute('href', '/review');
     expect(within(scholars).getByTestId('scholars-benchmark')).toHaveAttribute('href', '/benchmark');
