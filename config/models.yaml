@@ -11,7 +11,20 @@ routing:
   escalate_if_confidence_below: 0.6
   escalate_if_gap_chars_over: 12
   escalate_if_no_parallel: true
-  abstain_if_confidence_below: 0.5
+  abstain_if_confidence_below: 0.5   # used only when no calibration exists for the active decider
+# Restorer pipeline knobs (issue #22); eval flags override them per run (python -m ezhuthu.eval.run --help).
+restorer:
+  strategy: prerank         # choice-all | choice-topk | noul-topk | prerank | self-report. prerank: best retrieval-only VAL top-1, never below copy (eval/reports/2026-11-02-restorer-quality-dev-note.md)
+  strategy_llm: self-report # once an LLM answered: the LLM's own probability (prerank halves length-mismatched LLM fills; QA on PR #25)
+  top_k: 5                  # decider sees the top-k after a cheap pre-rank (copy-baseline fill always included)
+  llm_candidates: 8         # fills asked of the LLM per call (compact JSON: fill + probability only)
+  llm_max_tokens: 2048      # ceiling; the budget scales with llm_candidates x gap length
+  retry_on_truncation: true # one stricter retry when a reply is cut at max_tokens
+  parallels_k: 20           # retrieval depth (the copy-baseline fill is the best length-ok one); 5 go in the prompt
+  ngram_k: 3
+  calibration: calibration.json   # src/ezhuthu/agent/calibration.json, fitted on the VAL split only
+  calibration_min_n: 100          # entries fitted on fewer VAL items are provisional and ignored (raw thresholds)
+  calibration_min_positives: 10   # ... or on fewer correct top-1s
 decider:
   package: strands-decider==0.2.0
   local: StrandsAgents/strands-decider-E4B-gemma4-v1-2610      # fits 24 GB M4 Pro (mps/mlx), JevBench 187/231

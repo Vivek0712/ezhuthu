@@ -14,25 +14,48 @@ RESTORER_SYSTEM = (
 )
 
 
+PROPOSE_FORMAT = (
+    "Reply with ONE line of JSON and nothing else: no reasoning, no notes, no code fence. Format: "
+    '{"fills": [["<gap text>", <probability>], ...]}'
+)
+
+
 def propose_prompt(left: str, right: str, gap_chars: int | None, parallels: list[dict[str, Any]],
-                   hints: list[dict[str, Any]], k: int) -> str:
+                   hints: list[dict[str, Any]], k: int, *, strict: bool = False) -> str:
+    """Compact prompt: only the fills and a probability come back (the truncation fix, issue #22).
+
+    ``strict`` is the one retry after a reply was cut at ``max_tokens``: fewer fills, gap text only.
+    """
     par = "\n".join(
-        f"- {p['inscription_id']} l.{p['line_n']}: {p['snippet']}" + (f"  (aligned text: {p['fill']})" if p.get("fill")
-                                                                       else "")
+        f"- {p['inscription_id']} l.{p['line_n']}: {p['snippet'][:200]}"
+        + (f"  (aligned text: {p['fill'][:80]})" if p.get("fill") else "")
         for p in parallels
     ) or "- none found"
     hint = "\n".join(f"- {h['kind']}: {h['label']}" for h in hints) or "- none"
     size = f"about {gap_chars} characters" if gap_chars else "unknown length"
+    ask = (f"Give up to {k} distinct restorations of the gap only (never the surrounding text), best first, each "
+           "with your probability (0 to 1) that it matches what an expert editor would supply.")
+    if strict:
+        ask = (f"Your previous reply was cut off. Give at most {k} restorations, each ONLY the missing gap text "
+               "(a few words at most), best first, with a probability (0 to 1).")
     return (
         f"Line before the gap: «{left[-160:]}»\n"
         f"Line after the gap: «{right[:160]}»\n"
         f"Gap: {size} (ISO-15919 characters, spaces count).\n\n"
         f"Parallel passages from other inscriptions:\n{par}\n\n"
         f"Ontology hints (entities that may continue across the gap):\n{hint}\n\n"
-        f"Give up to {k} distinct candidate restorations for the gap only (not the surrounding text), best first. "
-        "For each, give your probability (0 to 1) that it matches what an expert editor would supply.\n"
-        'Reply as JSON: {"candidates": [{"text": "...", "confidence": 0.0}]}'
+        f"{ask}\n{PROPOSE_FORMAT}"
     )
+
+
+def propose_max_tokens(k: int, gap_chars: int | None, *, floor: int = 400, ceiling: int = 2048) -> int:
+    """Output budget for ``k`` fills of about ``gap_chars`` characters.
+
+    ISO-15919 diacritics tokenise poorly (about 1 token per 1-2 characters), so a fill costs about
+    ``gap_chars`` tokens plus ~10 for JSON and the probability; the floor covers a short preamble.
+    """
+    per = max(12, int((gap_chars or 24) * 1.2)) + 10
+    return max(floor, min(ceiling, 60 + k * per))
 
 
 def zero_shot_prompt(left: str, right: str, gap_chars: int | None, k: int) -> str:
@@ -40,29 +63,68 @@ def zero_shot_prompt(left: str, right: str, gap_chars: int | None, k: int) -> st
 
 
 _JSON_RE = re.compile(r"\{.*\}", re.DOTALL)
+_STR = r'"((?:[^"\\]|\\.)*)"'
+_NUM = r"(-?\d+(?:\.\d+)?(?:[eE]-?\d+)?|null)"
+_PAIR_RE = re.compile(r"\[\s*" + _STR + r"\s*,\s*" + _NUM + r"\s*\]")
+_OBJ_RE = re.compile(r"\{\s*\"text\"\s*:\s*" + _STR + r"(?:\s*,\s*\"confidence\"\s*:\s*" + _NUM + r")?\s*\}")
+_LIST_KEYS = ("fills", "candidates", "c")
+
+
+def _conf(v: Any) -> float | None:
+    if v is None or v == "null":
+        return None
+    try:
+        return max(0.0, min(1.0, float(v)))
+    except (TypeError, ValueError):
+        return None
+
+
+def _unescape(s: str) -> str:
+    try:
+        return json.loads(f'"{s}"')
+    except json.JSONDecodeError:
+        return s
+
+
+def _from_entries(entries: Any) -> list[tuple[str, float | None]]:
+    out: list[tuple[str, float | None]] = []
+    for c in entries if isinstance(entries, list) else []:
+        if isinstance(c, str):
+            out.append((c, None))
+        elif isinstance(c, list) and c and isinstance(c[0], str):
+            out.append((c[0], _conf(c[1]) if len(c) > 1 else None))
+        elif isinstance(c, dict) and isinstance(c.get("text"), str):
+            out.append((c["text"], _conf(c.get("confidence"))))
+    return out
 
 
 def parse_candidates(text: str) -> list[tuple[str, float | None]]:
-    """Parse ``{"candidates": [...]}`` from model output; tolerant of code fences and prose."""
-    m = _JSON_RE.search(text or "")
-    if not m:
-        return []
-    try:
-        data = json.loads(m.group(0))
-    except json.JSONDecodeError:
-        return []
-    out: list[tuple[str, float | None]] = []
-    for c in data.get("candidates", []) if isinstance(data, dict) else []:
-        if isinstance(c, str):
-            out.append((c, None))
-        elif isinstance(c, dict) and isinstance(c.get("text"), str):
-            conf = c.get("confidence")
-            try:
-                conf = None if conf is None else max(0.0, min(1.0, float(conf)))
-            except (TypeError, ValueError):
-                conf = None
-            out.append((c["text"], conf))
-    return out
+    """Fills from model output, in order.
+
+    Accepts ``{"fills": [["text", p], ...]}`` (current format) and ``{"candidates": [{"text", "confidence"}]}``
+    (earlier format), tolerant of code fences and prose. If the JSON is incomplete (a reply cut at
+    ``max_tokens``), every *complete* ``["text", p]`` pair or ``{"text": ..., "confidence": ...}`` object that
+    arrived is kept; a half-written last entry is dropped.
+    """
+    text = text or ""
+    m = _JSON_RE.search(text)
+    if m:
+        try:
+            data = json.loads(m.group(0))
+        except json.JSONDecodeError:
+            data = None
+        if isinstance(data, dict):
+            for key in _LIST_KEYS:
+                if key in data:
+                    return _from_entries(data[key])
+            return []
+    # Partial / malformed JSON: scan for complete entries.
+    found: list[tuple[int, str, float | None]] = []
+    for rx in (_PAIR_RE, _OBJ_RE):
+        for mm in rx.finditer(text):
+            found.append((mm.start(), _unescape(mm.group(1)), _conf(mm.group(2))))
+    found.sort(key=lambda x: x[0])
+    return [(t, c) for _, t, c in found]
 
 
 TUTOR_SYSTEM = (

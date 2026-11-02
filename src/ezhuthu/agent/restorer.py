@@ -7,6 +7,7 @@ fixed pipeline so the API is deterministic given the same model responses.
 from __future__ import annotations
 
 import logging
+import os
 import statistics
 import time
 import uuid
@@ -14,13 +15,14 @@ from dataclasses import dataclass, field
 from functools import cached_property
 from typing import Any
 
-from .config import ModelsConfig, load_models_config
+from .calibration import Calibration, CalibrationTable, variant_key
+from .config import ModelsConfig, RestorerSettings, load_models_config
 from .data import CorpusLine, load_corpus_lines
 from .decider import Decider, DeciderUnavailable, NoDecider
 from .llm import LiveCallsDisabled, LLMClient
 from .ngram import CharNgram
 from .ontology_port import Hint, OntologyPort, letters_ok_for_dynasty
-from .prompts import RESTORER_SYSTEM, parse_candidates, propose_prompt
+from .prompts import RESTORER_SYSTEM, parse_candidates, propose_max_tokens, propose_prompt
 from .retrieval import Parallel, ParallelIndex
 from .text import (
     DEFAULT_UNKNOWN_GAP,
@@ -41,6 +43,10 @@ DECIDER_INSTRUCTIONS = (
     "the gap, i.e. matches what an expert epigraphist would supply? Use the context, the gap length and the "
     "parallel passages. Choose 'none' if no candidate fits."
 )
+NOUL_INSTRUCTIONS = (
+    "A Tamil stone inscription (ISO-15919 transliteration) has a damaged gap. Is the candidate fill exactly what "
+    "an expert epigraphist would supply for the gap? Use the context, the gap length and the parallel passages."
+)
 
 
 @dataclass
@@ -56,6 +62,10 @@ class Candidate:
     confidence: float = 0.0
     confidence_source: str = ""
     decider_source: str = ""  # hosted | local | fallback
+    copy_floor: bool = False  # the copy baseline's fill: best length-ok parallel (never dropped from top-k)
+    ngram_rank: int | None = None  # rank among the n-gram model's proposals (0 = best)
+    prerank: float = 0.0  # cheap pre-rank score (LLM probability noisy-OR parallel support)
+    raw_confidence: float | None = None  # decider/fallback confidence before calibration
 
     @property
     def model(self) -> str:
@@ -74,7 +84,21 @@ class Candidate:
             "sources": sorted(self.sources), "confidence_source": self.confidence_source,
             "decider_source": self.decider_source or "fallback",
             "constraints": {"length_ok": self.length_ok, "letters_ok": self.letters_ok},
+            "features": {"prerank": round(self.prerank, 4), "copy_baseline": self.copy_floor,
+                         "llm_probability": self.llm_confidence, "parallel_support": len(self.parallels),
+                         "best_parallel_match": round(self.retrieval_score / 100.0, 4),
+                         "ngram_rank": self.ngram_rank,
+                         "raw_confidence": None if self.raw_confidence is None else round(self.raw_confidence, 4)},
         }
+
+    def option(self, lt: str, rt: str) -> dict[str, Any]:
+        """The decider's view of this candidate: the fill in context plus its evidence scores."""
+        return {"fill": self.text, "restored_line": f"{lt}{self.text}{rt}",
+                "parallel_lines_supporting": len(self.parallels),
+                "best_parallel_match": round(self.retrieval_score / 100.0, 2),
+                "llm_probability": None if self.llm_confidence is None else round(self.llm_confidence, 2),
+                "copy_baseline": self.copy_floor, "ngram_proposal": self.ngram_rank is not None,
+                "length_matches_gap": self.length_ok}
 
 
 @dataclass
@@ -88,6 +112,11 @@ class GapResult:
     models_used: list[str]
     escalated: bool = False
     parallels: list[Parallel] = field(default_factory=list)
+    strategy: str = ""
+    calibration: str | None = None  # variant key whose VAL calibration was applied, if any
+    abstain_below: float = 0.5
+    llm_truncated: int = 0  # LLM replies cut at max_tokens (after the parse of what arrived)
+    llm_retries: int = 0  # stricter re-asks after a truncation
 
     @property
     def best(self) -> Candidate | None:
@@ -97,6 +126,8 @@ class GapResult:
         return {
             "index": self.index, "gap_chars": self.gap_chars, "decision": self.decision, "chosen": self.chosen,
             "candidates": [c.to_api(self.decider_model) for c in self.candidates], "escalated": self.escalated,
+            # additive:
+            "strategy": self.strategy, "calibration": self.calibration, "abstain_below": self.abstain_below,
         }
 
 
@@ -104,16 +135,49 @@ def length_tolerance(gap_chars: int) -> int:
     return max(2, round(gap_chars * 0.34))
 
 
+def prerank_score(c: Candidate, n_parallel_fills: int) -> float:
+    """Cheap pre-rank: noisy-OR of the LLM's probability and parallel support, halved for a length mismatch.
+
+    Parallel support = best context match (0..1) x share of parallels whose aligned text is this fill; for the
+    copy-floor fill it is at least its own match score, so with no LLM evidence the pre-rank top-1 is the copy
+    baseline's.
+    Ontology completions (an entity running into the gap) and n-gram proposals get small epsilons
+    (ontology 0.02, n-gram 0.01/(rank+1)) so they order ahead of unsupported candidates.
+    """
+    llm = c.llm_confidence or 0.0
+    par = (c.retrieval_score / 100.0) * (len(c.parallels) / max(1, n_parallel_fills))
+    if c.copy_floor:  # the copy baseline's pick keeps its full match score (never diluted by disagreement)
+        par = max(par, c.retrieval_score / 100.0)
+    s = 1.0 - (1.0 - llm) * (1.0 - min(1.0, par))
+    if "ontology" in c.sources:
+        s += 0.02
+    if c.ngram_rank is not None:
+        s += 0.01 / (1 + c.ngram_rank)
+    if not c.length_ok:
+        s *= 0.5
+    return round(min(1.0, s), 6)
+
+
 class Restorer:
     def __init__(self, *, llm: LLMClient | None = None, decider: Decider | None = None,
                  ontology: OntologyPort | None = None, corpus: list[CorpusLine] | None = None,
-                 config: ModelsConfig | None = None, use_ontology: bool = True):
+                 config: ModelsConfig | None = None, use_ontology: bool = True,
+                 settings: RestorerSettings | None = None, calibration: CalibrationTable | None = None):
         self.llm = llm
         self.decider = decider or NoDecider()
         self._ontology = ontology
         self._corpus = corpus
         self.config = config or (llm.config if llm else load_models_config())
         self.use_ontology = use_ontology
+        # EZHUTHU_RESTORER_STRATEGY overrides config/models.yaml restorer.strategy (e.g. on the cloud runtime).
+        self.settings = settings or self.config.restorer.with_(strategy=os.environ.get("EZHUTHU_RESTORER_STRATEGY")
+                                                                or None)
+        if calibration is None:
+            env = os.environ.get("EZHUTHU_CALIBRATION")  # a path, or "none" for raw confidences
+            spec = None if env == "none" else (env or self.settings.calibration)
+            calibration = CalibrationTable.load(spec, min_n=self.settings.calibration_min_n,
+                                                min_positives=self.settings.calibration_min_positives)
+        self.calibration = calibration
 
     # ---- lazily built resources -------------------------------------------------
     @cached_property
@@ -163,17 +227,40 @@ class Restorer:
         return out
 
     def propose_fills(self, role: str, left: str, right: str, gap_chars: int | None,
-                      parallels: list[Parallel], hints: list[Hint], k: int) -> list[tuple[str, float | None]]:
+                      parallels: list[Parallel], hints: list[Hint], k: int,
+                      info: dict[str, int] | None = None) -> list[tuple[str, float | None]]:
+        """LLM fills (compact JSON). A reply cut at ``max_tokens`` keeps every complete fill that arrived and,
+        if ``restorer.retry_on_truncation``, is re-asked once with a stricter, shorter prompt."""
         if self.llm is None:
             return []
-        prompt = propose_prompt(
-            left, right, gap_chars,
-            [{"inscription_id": p.inscription_id, "line_n": p.line_n, "snippet": p.snippet, "fill": p.fill}
-             for p in parallels],
-            [h.to_api() for h in hints], k,
-        )
-        r = self.llm.complete(role, RESTORER_SYSTEM, prompt, max_tokens=800)
-        return [(normalize_iso(t), c) for t, c in parse_candidates(r.text) if normalize_iso(t)]
+        pars = [{"inscription_id": p.inscription_id, "line_n": p.line_n, "snippet": p.snippet, "fill": p.fill}
+                for p in parallels]
+        hs = [h.to_api() for h in hints]
+        budget = propose_max_tokens(k, gap_chars, ceiling=self.settings.llm_max_tokens)
+        r = self.llm.complete(role, RESTORER_SYSTEM, propose_prompt(left, right, gap_chars, pars, hs, k),
+                              max_tokens=budget)
+        got = parse_candidates(r.text)
+        if getattr(r, "truncated", False):
+            if info is not None:
+                info["truncated"] = info.get("truncated", 0) + 1
+            if self.settings.retry_on_truncation:
+                k2 = max(1, min(k, 4))
+                r2 = self.llm.complete(role, RESTORER_SYSTEM,
+                                       propose_prompt(left, right, gap_chars, pars, hs, k2, strict=True),
+                                       max_tokens=self.settings.llm_max_tokens)
+                if info is not None:
+                    info["retries"] = info.get("retries", 0) + 1
+                    if getattr(r2, "truncated", False):
+                        info["truncated"] = info.get("truncated", 0) + 1
+                got = parse_candidates(r2.text) + got  # the strict answer first, then what the first reply kept
+        out: list[tuple[str, float | None]] = []
+        seen: set[str] = set()
+        for t, c in got:
+            n = normalize_iso(t)
+            if n and n not in seen:
+                seen.add(n)
+                out.append((n, c))
+        return out
 
     def check_constraints(self, cands: list[Candidate], gap_chars: int, *, explicit_length: bool,
                           dynasty: str | None = None) -> list[Candidate]:
@@ -187,40 +274,69 @@ class Restorer:
         return kept
 
     def rank_and_decide(self, cands: list[Candidate], *, left: str, right: str, gap_chars: int,
-                        parallels: list[Parallel], hints: list[Hint]) -> tuple[str, list[Candidate]]:
-        """Set ``confidence`` on each candidate and sort. Returns the decider model name or fallback tag."""
+                        parallels: list[Parallel], hints: list[Hint],
+                        strategy: str | None = None, top_k: int | None = None) -> tuple[str, list[Candidate]]:
+        """Set ``confidence`` (raw, before calibration) on each candidate and sort; returns the decider model
+        name, ``prerank`` or a ``fallback:...`` tag. ``cands`` must already carry ``prerank`` and be in
+        pre-rank order (``restore_gap`` does both)."""
         if not cands:
             return "none", cands
-        top = cands[:23]  # 24 decider slots, one reserved for "none"
-        # Each option carries its evidence; in a probe this beat bare strings (see PR notes).
+        strategy = strategy or self.settings.strategy
+        k = top_k or self.settings.top_k
         lt, rt = left.split("\n")[-1][-60:], right.split("\n")[0][:60]
-        options: dict[str, Any] = {
-            f"c{i}": {"fill": c.text, "restored_line": f"{lt}{c.text}{rt}",
-                      "parallel_lines_supporting": len(c.parallels), "length_matches_gap": c.length_ok}
-            for i, c in enumerate(top)
-        }
-        options[NONE_OPTION] = "none of these candidates fits the gap"
         state = {
             "text_before_gap": left[-120:], "text_after_gap": right[:120], "gap_length_chars": gap_chars,
             "parallel_passages": [f"{p.inscription_id}: {p.snippet}" for p in parallels[:3]],
             "known_entities_nearby": [h.label for h in hints[:5]],
         }
+        if strategy == "prerank":
+            for c in cands:
+                c.confidence, c.confidence_source, c.decider_source = c.prerank, "prerank", "prerank"
+            return "prerank", sorted(cands, key=lambda c: c.confidence, reverse=True)
+
+        if strategy == "self-report":
+            return self._self_report(cands, parallels)
+        if strategy == "choice-all":
+            top, rest = cands[:23], cands[23:]  # 24 decider slots, one reserved for "none"
+        else:
+            top = cands[:k]
+            floor = next((c for c in cands if c.copy_floor), None)
+            if floor is not None and floor not in top:  # the copy baseline always gets a slot
+                top = top[: k - 1] + [floor] if k > 1 else [floor]
+            rest = [c for c in cands if c not in top]
         try:
-            res = self.decider.choice(state, DECIDER_INSTRUCTIONS, options, name="restoration")
-            for i, c in enumerate(top):
-                # An option missing from the answer was dropped to fit the request size limit
-                # (HostedDecider fit_choice): the decider never saw it, so do not label it as scored.
-                seen = f"c{i}" in res.probabilities
-                c.confidence = res.probabilities.get(f"c{i}", 0.0)
-                c.confidence_source = "decider" if seen else "decider-trimmed"
-                c.decider_source = res.source
-            for c in cands[23:]:
-                c.confidence, c.confidence_source, c.decider_source = 0.0, "decider-overflow", res.source
-            ranked = sorted(cands, key=lambda c: c.confidence, reverse=True)
-            return res.model, ranked
-        except DeciderUnavailable:
+            if strategy == "noul-topk":
+                model, source = "", ""
+                for c in top:
+                    res = self.decider.noul({**state, "candidate": c.option(lt, rt)}, NOUL_INSTRUCTIONS,
+                                            name="is_restoration")
+                    c.confidence, c.confidence_source, c.decider_source = res.probability, "decider-noul", res.source
+                    model, source = res.model, res.source
+            else:
+                options: dict[str, Any] = {f"c{i}": c.option(lt, rt) for i, c in enumerate(top)}
+                options[NONE_OPTION] = "none of these candidates fits the gap"
+                res = self.decider.choice(state, DECIDER_INSTRUCTIONS, options, name="restoration")
+                model, source = res.model, res.source
+                for i, c in enumerate(top):
+                    # An option missing from the answer was dropped to fit the request size limit
+                    # (HostedDecider fit_choice): the decider never saw it, so do not label it as scored.
+                    seen = f"c{i}" in res.probabilities
+                    c.confidence = res.probabilities.get(f"c{i}", 0.0)
+                    c.confidence_source = "decider" if seen else "decider-trimmed"
+                    c.decider_source = res.source
+            for c in rest:
+                c.confidence, c.decider_source = 0.0, source
+                c.confidence_source = "decider-overflow" if strategy == "choice-all" else "not-in-top-k"
+            ranked = sorted(top, key=lambda c: c.confidence, reverse=True) + rest
+            return model, ranked
+        except (DeciderUnavailable, AttributeError):  # AttributeError: a decider without noul()
             pass
-        # Fallback: LLM self-reported confidence; retrieval-only candidates use agreement among parallels.
+        return self._self_report(cands, parallels)
+
+    @staticmethod
+    def _self_report(cands: list[Candidate], parallels: list[Parallel]) -> tuple[str, list[Candidate]]:
+        """No decider (strategy ``self-report``, or the decider failed): LLM self-reported confidence;
+        retrieval-only candidates use agreement among parallels."""
         n_par = max(1, len([p for p in parallels if p.fill]))
         for c in cands:
             c.decider_source = "fallback"
@@ -234,6 +350,23 @@ class Restorer:
             else "fallback:retrieval-heuristic"
         return tag, sorted(cands, key=lambda c: c.confidence, reverse=True)
 
+    def calibrate(self, decider_model: str, ranked: list[Candidate], *, llm: bool | str | None,
+                  strategy: str | None = None, top_k: int | None = None) -> tuple[str | None, float]:
+        """Apply the VAL-fitted calibration of this decider variant (if any) to every candidate's confidence.
+
+        ``llm``: the short name of the strongest LLM that answered (``sonnet``/``opus``), or None.
+        Returns (variant key or None, abstain threshold). Without a usable (non-provisional) calibration the raw
+        confidence stays and the threshold is ``routing.abstain_if_confidence_below``."""
+        for c in ranked:
+            c.raw_confidence = c.confidence
+        key = variant_key(decider_model, strategy or self.settings.strategy, top_k or self.settings.top_k, llm)
+        cal: Calibration | None = self.calibration.get(key)
+        if cal is None:
+            return None, self.config.routing.abstain_if_confidence_below
+        for c in ranked:
+            c.confidence = cal.apply(c.confidence)
+        return key, cal.threshold
+
     # ---- pipeline ----------------------------------------------------------------
     def _estimate_len(self, gap_chars: int | None, parallels: list[Parallel]) -> int:
         if gap_chars:
@@ -246,17 +379,19 @@ class Restorer:
                     dynasty: str | None = None, include_llm: bool = True) -> GapResult:
         if router not in ROUTERS:
             raise ValueError(f"router must be one of {ROUTERS}")
-        rt = self.config.routing
-        parallels = self.retrieve_parallels(left, right, gap_chars, k=5, exclude_inscription=exclude_inscription)
+        rt, st = self.config.routing, self.settings
+        found = self.retrieve_parallels(left, right, gap_chars, k=max(st.parallels_k, st.prompt_parallels),
+                                        exclude_inscription=exclude_inscription)
+        parallels = found[: st.prompt_parallels]
         length = self._estimate_len(gap_chars, parallels)
         hints = self.ontology.hints_for_gap(left, right) if self.use_ontology else []
         pool: dict[str, Candidate] = {}
 
         def add(text: str, source: str, *, conf: float | None = None, par: Parallel | None = None,
-                hint: Hint | None = None) -> None:
+                hint: Hint | None = None) -> Candidate | None:
             t = normalize_iso(text)
             if not t:
-                return
+                return None
             c = pool.setdefault(t, Candidate(t))
             c.sources.add(source)
             if conf is not None:
@@ -266,15 +401,26 @@ class Restorer:
                 c.retrieval_score = max(c.retrieval_score, par.score)
             if hint is not None and hint not in c.hints:
                 c.hints.append(hint)
+            return c
 
         for p in parallels:
             if p.fill:
                 add(p.fill, "parallel", par=p)
+        # Copy floor (the copy baseline's top-1): the best-scoring parallel fill within the length tolerance,
+        # searched over the full retrieval depth, so the pipeline can always fall back to it.
+        tol = length_tolerance(gap_chars) if gap_chars else None
+        floor = next((p for p in found if p.fill and (tol is None or abs(len(p.fill) - gap_chars) <= tol)), None)
+        if floor is not None:
+            fc = add(floor.fill, "parallel", par=floor)
+            if fc is not None:
+                fc.copy_floor = True
         if self.use_ontology:
             for text, h in self.ontology_candidates(left, right, length):
                 add(text, "ontology", hint=h)
-        for text, _lp in self.ngram.fill(left, right, length, k=3):
-            add(text, "ngram")
+        for rank, (text, _lp) in enumerate(self.ngram.fill(left, right, length, k=st.ngram_k)):
+            c = add(text, "ngram")
+            if c is not None and (c.ngram_rank is None or rank < c.ngram_rank):
+                c.ngram_rank = rank
 
         good_parallel = any(p.fill and p.score >= 50 for p in parallels)
         models_used: list[str] = []
@@ -287,50 +433,66 @@ class Restorer:
             escalated = pre_escalate
         else:
             first_role = {"sonnet": "default", "opus": "escalate"}.get(router, "default")
-        k_llm = max(5, max_candidates)
+        info: dict[str, int] = {}
+        llm_answered: dict[str, str | None] = {"any": None}  # strongest LLM that answered: "sonnet" / "opus"
+        used = {"strategy": st.strategy}
 
         def call_llm(role: str) -> None:
             try:
-                props = self.propose_fills(role, left, right, gap_chars, parallels, hints, k_llm)
+                props = self.propose_fills(role, left, right, gap_chars, parallels, hints, st.llm_candidates,
+                                           info=info)
             except LiveCallsDisabled:
                 log.warning("LLM disabled (EZHUTHU_LIVE!=1); retrieval candidates only")
                 return
             mid = self.config.model_id(role)
             models_used.append(mid)
             short = "opus" if role == "escalate" else "sonnet"
+            if llm_answered["any"] != "opus":
+                llm_answered["any"] = short
             for t, c in props:
                 add(t, short, conf=c)
 
         if llm_on:
             call_llm(first_role)
 
-        def finalize() -> tuple[str, list[Candidate]]:
+        def finalize() -> tuple[str, list[Candidate], str | None, float]:
             cands = self.check_constraints(list(pool.values()), length, explicit_length=gap_chars is not None,
                                            dynasty=dynasty)
             for c in cands:  # attach gap-level hints to candidates that contain or continue them
                 for h in hints:
                     if h not in c.hints:
                         c.hints.append(h)
-            # stable pre-order: LLM-ranked first, then parallels by score, then the rest
-            cands.sort(key=lambda c: (-(c.llm_confidence or 0), -c.retrieval_score, c.text))
-            return self.rank_and_decide(cands, left=left, right=right, gap_chars=length, parallels=parallels,
-                                        hints=hints)
+            n_par = len([p for p in parallels if p.fill])
+            for c in cands:
+                c.prerank = prerank_score(c, n_par)
+            cands.sort(key=lambda c: (-c.prerank, -(c.llm_confidence or 0), -c.retrieval_score, c.text))
+            strat = st.strategy_for(bool(llm_answered["any"]))
+            used["strategy"] = strat
+            model, ranked = self.rank_and_decide(cands, left=left, right=right, gap_chars=length,
+                                                 parallels=parallels, hints=hints, strategy=strat)
+            key, thr = self.calibrate(model, ranked, llm=llm_answered["any"], strategy=strat)
+            return model, ranked, key, thr
 
-        decider_model, ranked = finalize()
-        best = ranked[0].confidence if ranked else 0.0
+        decider_model, ranked, cal_key, threshold = finalize()
+        # Escalation compares the RAW top-1 confidence with routing.escalate_if_confidence_below: that threshold
+        # is set on the raw scale, and a calibrated score (fitted per variant for the fill/abstain decision) lives
+        # on a different one. The fill/abstain decision below uses the calibrated score and its own threshold.
+        raw_best = (ranked[0].raw_confidence or 0.0) if ranked else 0.0
         if (llm_on and router == "routed" and allow_escalation and first_role == "default"
-                and best < rt.escalate_if_confidence_below):
+                and raw_best < rt.escalate_if_confidence_below):
             call_llm("escalate")
             escalated = True
-            decider_model, ranked = finalize()
-            best = ranked[0].confidence if ranked else 0.0
+            decider_model, ranked, cal_key, threshold = finalize()
+        best = ranked[0].confidence if ranked else 0.0
 
-        if decider_model not in ("none",) and not decider_model.startswith("fallback:"):
+        if decider_model not in ("none", "prerank") and not decider_model.startswith("fallback:"):
             models_used.append(decider_model)
-        decision = "fill" if ranked and best >= rt.abstain_if_confidence_below else "abstain"
+        decision = "fill" if ranked and best >= threshold else "abstain"
         return GapResult(index=index, gap_chars=length, decision=decision, chosen=0 if ranked else None,
                          candidates=ranked[:max(1, max_candidates)], decider_model=decider_model,
-                         models_used=models_used, escalated=escalated, parallels=parallels)
+                         models_used=models_used, escalated=escalated, parallels=parallels,
+                         strategy=used["strategy"], calibration=cal_key, abstain_below=threshold,
+                         llm_truncated=info.get("truncated", 0), llm_retries=info.get("retries", 0))
 
     def restore(self, text: str, *, script: str = "iso15919", max_candidates: int = 5,
                 allow_escalation: bool = True, router: str = "routed") -> dict[str, Any]:

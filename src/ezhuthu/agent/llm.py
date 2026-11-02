@@ -2,6 +2,15 @@
 
 Live calls need ``EZHUTHU_LIVE=1``. Responses are cached under ``.cache/llm/`` keyed by
 (model id, system prompt, prompt), so re-running an eval does not re-bill.
+
+Robustness (issue #22):
+
+* **Truncation.** A reply cut at ``max_tokens`` no longer raises: ``complete`` returns the partial text with
+  ``truncated=True`` (Strands puts the partial message in ``agent.messages``) so callers can parse what arrived
+  and decide whether to retry.
+* **Throttling.** Strands' own retry (fixed doubling, no jitter, so parallel workers retry in lockstep) is
+  turned off; ``complete`` retries throttling/transient errors with exponential backoff and full jitter, and a
+  process-wide ``RateLimiter`` paces calls (``EZHUTHU_LLM_RPM``, default unlimited; eval runs set it).
 """
 
 from __future__ import annotations
@@ -10,6 +19,7 @@ import hashlib
 import json
 import logging
 import os
+import random
 import threading
 import time
 from collections.abc import Callable
@@ -34,6 +44,77 @@ class LiveCallsDisabled(RuntimeError):
     """Raised when a Bedrock call is attempted without EZHUTHU_LIVE=1."""
 
 
+# Error class names / codes that mean "slow down and try again" (Strands, botocore, Bedrock runtime).
+RETRYABLE_NAMES = ("ModelThrottledException", "ThrottlingException", "TooManyRequestsException",
+                   "ServiceUnavailableException", "ModelNotReadyException", "InternalServerException",
+                   "ReadTimeoutError", "ConnectTimeoutError", "EndpointConnectionError")
+
+
+def is_retryable(exc: BaseException) -> bool:
+    """Throttling or a transient service fault (never a validation/auth error or a truncation)."""
+    names = {type(e).__name__ for e in (exc, exc.__cause__, exc.__context__) if e is not None}
+    code = ""
+    resp = getattr(exc, "response", None)
+    if isinstance(resp, dict):
+        code = str(resp.get("Error", {}).get("Code", ""))
+    text = str(exc)
+    return bool(names.intersection(RETRYABLE_NAMES)) or code in RETRYABLE_NAMES \
+        or "Too many requests" in text or "ThrottlingException" in text
+
+
+def backoff_delays(attempts: int, *, base: float = 2.0, cap: float = 30.0,
+                   rng: random.Random | None = None) -> list[float]:
+    """Full-jitter exponential backoff (AWS architecture blog): ``uniform(0, min(cap, base * 2**i))``."""
+    r = rng or random
+    return [r.uniform(0, min(cap, base * 2 ** i)) for i in range(max(0, attempts - 1))]
+
+
+def call_with_retries(fn: Callable[[], LLMResponse], *, attempts: int = 5, base: float = 2.0, cap: float = 30.0,
+                      sleep: Callable[[float], None] = time.sleep, rng: random.Random | None = None,
+                      retryable: Callable[[BaseException], bool] = is_retryable) -> LLMResponse:
+    delays = backoff_delays(attempts, base=base, cap=cap, rng=rng)
+    for i in range(attempts):
+        try:
+            return fn()
+        except Exception as exc:
+            if i >= attempts - 1 or not retryable(exc):
+                raise
+            log.warning("LLM call %s (attempt %d/%d); retrying in %.1fs", type(exc).__name__, i + 1, attempts,
+                        delays[i])
+            sleep(delays[i])
+    raise RuntimeError("unreachable")  # pragma: no cover
+
+
+class RateLimiter:
+    """Thread-safe pacing to at most ``rpm`` calls a minute (evenly spaced). ``rpm`` falsy = no limit."""
+
+    def __init__(self, rpm: float | None, *, clock: Callable[[], float] = time.monotonic,
+                 sleep: Callable[[float], None] = time.sleep):
+        self.interval = 60.0 / rpm if rpm else 0.0
+        self._clock, self._sleep = clock, sleep
+        self._lock = threading.Lock()
+        self._next = 0.0
+
+    def acquire(self) -> float:
+        if not self.interval:
+            return 0.0
+        with self._lock:
+            now = self._clock()
+            wait = max(0.0, self._next - now)
+            self._next = max(now, self._next) + self.interval
+        if wait:
+            self._sleep(wait)
+        return wait
+
+
+def env_rpm() -> float | None:
+    v = os.environ.get("EZHUTHU_LLM_RPM")
+    try:
+        return float(v) if v else None
+    except ValueError:
+        return None
+
+
 @dataclass
 class LLMResponse:
     text: str
@@ -42,6 +123,8 @@ class LLMResponse:
     output_tokens: int = 0
     cached: bool = False
     latency_ms: float = 0.0
+    truncated: bool = False  # stopped at max_tokens; ``text`` is the partial output
+    attempts: int = 1
 
 
 @dataclass
@@ -130,11 +213,15 @@ class BedrockLLM:
     """One fresh Strands ``Agent`` per call (no history), on ``BedrockModel``."""
 
     def __init__(self, config: ModelsConfig | None = None, *, cache_dir: Path | None | str = "default",
-                 temperature: float = 0.2):
+                 temperature: float = 0.2, rpm: float | None | str = "env", retry_attempts: int = 5,
+                 retry_base: float = 2.0, retry_cap: float = 30.0, sleep: Callable[[float], None] = time.sleep):
         self.config = config or load_models_config()
         self.ledger = UsageLedger()
         self.cache = _Cache(default_cache_dir() if cache_dir == "default" else (Path(cache_dir) if cache_dir else None))
         self.temperature = temperature
+        self.limiter = RateLimiter(env_rpm() if rpm == "env" else rpm, sleep=sleep)  # type: ignore[arg-type]
+        self.retry_attempts, self.retry_base, self.retry_cap = retry_attempts, retry_base, retry_cap
+        self._sleep = sleep
         self._session = None
 
     def _boto_session(self):
@@ -157,23 +244,49 @@ class BedrockLLM:
             return hit
         if not live_enabled():
             raise LiveCallsDisabled(f"Bedrock call to {model_id} needs EZHUTHU_LIVE=1")
-        from strands import Agent
-        from strands.models import BedrockModel
+        attempts = {"n": 0}
 
-        model = BedrockModel(model_id=model_id, boto_session=self._boto_session(),
-                             temperature=self.temperature, max_tokens=max_tokens)
-        agent = Agent(model=model, system_prompt=system, callback_handler=None)
-        t0 = time.perf_counter()
-        result = agent(prompt)
-        usage = result.metrics.accumulated_usage
-        r = LLMResponse(
-            text=str(result).strip(), model_id=model_id,
-            input_tokens=int(usage.get("inputTokens", 0)), output_tokens=int(usage.get("outputTokens", 0)),
-            latency_ms=round((time.perf_counter() - t0) * 1000, 1),
-        )
+        def once() -> LLMResponse:
+            attempts["n"] += 1
+            self.limiter.acquire()
+            return self._invoke(model_id, system, prompt, max_tokens)
+
+        r = call_with_retries(once, attempts=self.retry_attempts, base=self.retry_base, cap=self.retry_cap,
+                              sleep=self._sleep)
+        r.attempts = attempts["n"]
         self.cache.put(key, r)
         self.ledger.add(short_name(model_id), r)
         return r
+
+    def _model(self, model_id: str, max_tokens: int):
+        from strands.models import BedrockModel
+
+        return BedrockModel(model_id=model_id, boto_session=self._boto_session(),
+                            temperature=self.temperature, max_tokens=max_tokens)
+
+    def _invoke(self, model_id: str, system: str, prompt: str, max_tokens: int) -> LLMResponse:
+        from strands import Agent
+        from strands.types.exceptions import MaxTokensReachedException
+
+        model = self._model(model_id, max_tokens)
+        # retry_strategy=None: our call_with_retries (jittered) replaces Strands' lockstep doubling.
+        agent = Agent(model=model, system_prompt=system, callback_handler=None, retry_strategy=None)
+        t0 = time.perf_counter()
+        try:
+            result = agent(prompt)
+            text, usage, truncated = str(result).strip(), result.metrics.accumulated_usage, False
+        except MaxTokensReachedException:
+            # The partial assistant message is the last entry of the conversation; keep it.
+            last = agent.messages[-1] if agent.messages else {}
+            text = "".join(b.get("text", "") for b in last.get("content", []) if isinstance(b, dict)) \
+                if last.get("role") == "assistant" else ""
+            usage, truncated = agent.event_loop_metrics.accumulated_usage, True
+            log.warning("LLM reply hit max_tokens=%d (%d chars kept)", max_tokens, len(text))
+        return LLMResponse(
+            text=text.strip(), model_id=model_id,
+            input_tokens=int(usage.get("inputTokens", 0)), output_tokens=int(usage.get("outputTokens", 0)),
+            latency_ms=round((time.perf_counter() - t0) * 1000, 1), truncated=truncated,
+        )
 
 
 class FakeLLM:
@@ -184,13 +297,35 @@ class FakeLLM:
         self.config = config or load_models_config()
         self.ledger = UsageLedger()
         self.calls: list[tuple[str, str]] = []
+        self.max_tokens: list[int] = []
 
     def complete(self, role: str, system: str, prompt: str, *, max_tokens: int = 1024) -> LLMResponse:
         self.calls.append((role, prompt))
+        self.max_tokens.append(max_tokens)
         model_id = self.config.model_id(role)
-        r = LLMResponse(self.responder(role, system, prompt), model_id, len(prompt) // 4, 50)
+        out = self.responder(role, system, prompt)
+        # A responder may return (text, truncated) to simulate a reply cut at max_tokens.
+        text, truncated = out if isinstance(out, tuple) else (out, False)
+        r = LLMResponse(text, model_id, len(prompt) // 4, 50, truncated=truncated)
         self.ledger.add(short_name(model_id), r)
         return r
+
+
+class BudgetedLLM:
+    """Wraps an LLM client; after ``max_live`` uncached calls it raises ``LiveCallsDisabled`` (the restorer then
+    uses retrieval candidates only). Cached replies never count against the budget."""
+
+    def __init__(self, inner: BedrockLLM, max_live: int):
+        self.inner, self.max_live = inner, max_live
+        self.config, self.ledger = inner.config, inner.ledger
+        self.exhausted = 0
+
+    def complete(self, role: str, system: str, prompt: str, *, max_tokens: int = 1024) -> LLMResponse:
+        key = self.inner.cache.key(self.inner.config.model_id(role), system, prompt, max_tokens)
+        if self.inner.cache.get(key) is None and self.inner.ledger.calls >= self.max_live:
+            self.exhausted += 1
+            raise LiveCallsDisabled(f"live-call budget of {self.max_live} reached")
+        return self.inner.complete(role, system, prompt, max_tokens=max_tokens)
 
 
 def default_llm() -> LLMClient | None:

@@ -2,10 +2,16 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
+import logging
+import os
 import statistics
+import threading
 import time
 import uuid
 import zlib
+from collections import OrderedDict
 from collections.abc import Callable
 from typing import Any
 
@@ -15,8 +21,42 @@ from ..restorer import Restorer
 from ..text import GAP_RE, LEVELS, iso_to_tamil, looks_tamil, normalize_iso, tamil_to_iso
 from . import policy
 from .feedback import feedback
-from .graph import build_lesson_graph, run_lesson_graph, tutor_task_text
+from .graph import build_lesson_graph, explain_with_team, run_lesson_graph, tutor_task_text
 from .lesson import Item, assessment_items, build_items, grade
+
+log = logging.getLogger(__name__)
+EXPLAIN_MODES = ("async", "sync")
+CACHE_SIZE = 256
+
+
+def explain_mode() -> str:
+    """``EZHUTHU_LESSON_EXPLAIN``: ``async`` (default) answers /api/lesson with the template explanation and runs
+    the Tutor + Assessor Swarm in the background; ``sync`` runs the Swarm inside the lesson Graph (pre-#22)."""
+    m = (os.environ.get("EZHUTHU_LESSON_EXPLAIN") or "async").strip().lower()
+    return m if m in EXPLAIN_MODES else "async"
+
+
+def facts_key(facts: dict[str, Any]) -> str:
+    return hashlib.sha256(json.dumps(facts, ensure_ascii=False, sort_keys=True, default=str).encode()).hexdigest()[:24]
+
+
+class _LRU:
+    def __init__(self, size: int = CACHE_SIZE):
+        self.size, self._d, self._lock = size, OrderedDict(), threading.Lock()
+
+    def get(self, k: str) -> Any:
+        with self._lock:
+            if k in self._d:
+                self._d.move_to_end(k)
+                return self._d[k]
+        return None
+
+    def put(self, k: str, v: Any) -> None:
+        with self._lock:
+            self._d[k] = v
+            self._d.move_to_end(k)
+            while len(self._d) > self.size:
+                self._d.popitem(last=False)
 
 
 class NotFound(LookupError):
@@ -40,6 +80,14 @@ class TutorService:
         self.decider = decider
         self.model_factory = model_factory
         self.clock = clock
+        # Per-process caches (an AgentCore session keeps one learner on one microVM, so they stay warm):
+        self.restorations = _LRU()  # restored text of an inscription (restoration is deterministic per text)
+        self.explanations = _LRU()  # facts_key -> {"explain_ta", "explain_en"} from the Swarm
+        self._pending: dict[str, threading.Thread] = {}
+        self._pending_lock = threading.Lock()
+        # (start(name) -> token, done(token)): the AgentCore app marks the runtime HealthyBusy while
+        # a background explanation runs (BedrockAgentCoreApp.add_async_task / complete_async_task).
+        self.task_hooks: tuple[Callable[[str], Any], Callable[[Any], Any]] | None = None
 
     # ---- sessions ----------------------------------------------------------------
     def _new_session(self, session_id: str | None = None) -> dict[str, Any]:
@@ -90,7 +138,15 @@ class TutorService:
 
         def restore_fn(c: dict[str, Any]) -> str:
             if GAP_RE.search(c["text"]):
-                res = self.restorer.restore(c["text"], max_candidates=5)
+                key = hashlib.sha256(c["text"].encode()).hexdigest()
+                res = self.restorations.get(key)
+                if res is None:
+                    res = self.restorer.restore(c["text"], max_candidates=5)
+                    self.restorations.put(key, res)
+                    c["restore_cached"] = False
+                else:
+                    res = {**res, "trace_id": uuid.uuid4().hex, "latency_ms": 0.0, "cached": True}
+                    c["restore_cached"] = True
                 c["restore_result"] = res
                 c["restored"] = res["restored_text"]
             else:
@@ -112,21 +168,36 @@ class TutorService:
             }
             return tutor_task_text(c)
 
+        mode = explain_mode()
         model = self.model_factory() if self.model_factory else None
-        graph = build_lesson_graph(restore_fn=restore_fn, build_fn=build_fn, model=model)
+        # async: the Graph ends at explain_template (fast); the Swarm runs after the response (below).
+        graph = build_lesson_graph(restore_fn=restore_fn, build_fn=build_fn,
+                                   model=model if mode == "sync" else None)
         run_lesson_graph(graph, ctx)
+        fkey = facts_key(ctx["facts"])
+        explanation_status = "done" if ctx["explained_by"] in ("tutor_team",) else "template"
+        if ctx["explained_by"] == "tutor_team":
+            self.explanations.put(fkey, ctx["context_text"])
+        cached = self.explanations.get(fkey)
+        if cached is not None and ctx["explained_by"] != "tutor_team":
+            ctx["context_text"], ctx["explained_by"], explanation_status = cached, "tutor_team-cached", "done"
+        elif mode == "async" and model is not None:
+            explanation_status = "pending"
+            self._explain_later(fkey, model, ctx["facts"])
 
         # An unknown session_id starts a session with that id (the cloud proxy mints ids as "s-<uuid>").
         s = (self.store.get("session", session_id) or self._new_session(session_id)) if session_id else self._new_session()
         self._add_items(s, ctx["items"])
         s["lessons"].append({"inscription_id": meta.get("id"), "level": level, "lang": lang,
-                             "item_ids": [i.item_id for i in ctx["items"]], "explained_by": ctx["explained_by"]})
+                             "item_ids": [i.item_id for i in ctx["items"]], "explained_by": ctx["explained_by"],
+                             "explain_key": fkey, "explanation_status": explanation_status})
         self.store.put("session", s["session_id"], s)
 
         def first(kinds: tuple[str, ...]) -> str | None:
             return next((h.label for h in ctx["entities"] if h.kind in kinds), None)
 
-        context = {**ctx["context_text"], "explained_by": ctx["explained_by"]}
+        context = {**ctx["context_text"], "explained_by": ctx["explained_by"],
+                   "explanation_status": explanation_status}
         if meta.get("ruler"):  # the edition's own metadata beats an ontology match in the text
             context["ruler"] = meta["ruler"]
         for key, kinds in (("ruler", ("ruler", "title")), ("temple", ("temple",)), ("grant", ("grant_type",))):
@@ -144,8 +215,59 @@ class TutorService:
             "items": [i.to_api() for i in ctx["items"]],
             "context": context,
             "restoration": ctx["restore_result"],
-            "graph": {"nodes": ctx.get("graph_nodes", []), "status": ctx.get("graph_status")},
+            "graph": {"nodes": ctx.get("graph_nodes", []), "status": ctx.get("graph_status"),
+                      "explain": mode, "restoration_cached": bool(ctx.get("restore_cached"))},
         }
+
+    # ---- background explanation ----------------------------------------------------
+    def _explain_later(self, fkey: str, model: Any, facts: dict[str, Any]) -> None:
+        """Run the Tutor + Assessor Swarm after the lesson response; the result lands in ``self.explanations`` and
+        reaches the learner on the next /api/answer (``context_update``) or the next lesson on the same facts."""
+        with self._pending_lock:
+            if fkey in self._pending and self._pending[fkey].is_alive():
+                return
+
+            def work() -> None:
+                token = None
+                try:
+                    if self.task_hooks:
+                        token = self.task_hooks[0]("lesson_explanation")
+                    exp = explain_with_team(model, facts)
+                    if exp:
+                        self.explanations.put(fkey, exp)
+                    else:
+                        log.warning("tutor_team produced no JSON explanation; the template stays")
+                except Exception as exc:  # noqa: BLE001 - background work must never crash the runtime
+                    log.warning("background explanation failed: %s", type(exc).__name__)
+                finally:
+                    if self.task_hooks and token is not None:
+                        self.task_hooks[1](token)
+                    with self._pending_lock:
+                        self._pending.pop(fkey, None)
+
+            th = threading.Thread(target=work, name=f"ezhuthu-explain-{fkey[:8]}", daemon=True)
+            self._pending[fkey] = th
+        th.start()
+
+    def wait_explanations(self, timeout: float = 120.0) -> None:
+        """Block until background explanations finish (tests, offline profiling)."""
+        with self._pending_lock:
+            threads = list(self._pending.values())
+        for th in threads:
+            th.join(timeout)
+
+    def _context_update(self, s: dict[str, Any]) -> dict[str, Any] | None:
+        """The finished Swarm explanation for the session's latest lesson, once (marks it delivered)."""
+        if not s.get("lessons"):
+            return None
+        les = s["lessons"][-1]
+        if les.get("explanation_status") != "pending":
+            return None
+        exp = self.explanations.get(les.get("explain_key", ""))
+        if exp is None:
+            return None
+        les["explanation_status"], les["explained_by"] = "done", "tutor_team"
+        return {**exp, "explained_by": "tutor_team", "explanation_status": "done"}
 
     # ---- answers -----------------------------------------------------------------
     def answer(self, session_id: str, item_id: str, answer: str) -> dict[str, Any]:
@@ -187,9 +309,13 @@ class TutorService:
         if d.action == "advance":
             rec["done"] = True
         fb = feedback(correct, d.action, rec["type"], rec["answer"])
+        update = self._context_update(s)
         self.store.put("session", session_id, s)
-        return {"correct": correct, **fb, "next_action": d.action, "decider_confidence": d.confidence,
-                "decider_source": d.source, "decider_backend": d.backend, "policy_overridden": d.overridden, "cer": err}
+        out = {"correct": correct, **fb, "next_action": d.action, "decider_confidence": d.confidence,
+               "decider_source": d.source, "decider_backend": d.backend, "policy_overridden": d.overridden, "cer": err}
+        if update:
+            out["context_update"] = update  # additive: the Swarm explanation finished after /api/lesson returned
+        return out
 
     # ---- assessment and progress -------------------------------------------------
     def assessment(self, session_id: str | None, phase: str) -> dict[str, Any]:

@@ -18,11 +18,15 @@ from ..eval.run import LLM_ROUTERS, ROUTERS, evaluate_items
 from . import limits
 from .limits import Forbidden, check_text, check_token
 from .records import parse_records
-from .storage import Store, store_from_env
+from .storage import Store, _iso, store_from_env
 
 QUEUE_ACTIONS = {"approve": "approved", "edit": "edited", "reject": "rejected"}
 
-__all__ = ["BadRequest", "EzhuthuService", "Forbidden", "NotFound"]
+__all__ = ["BadRequest", "Conflict", "EzhuthuService", "Forbidden", "NotFound"]
+
+
+class Conflict(Exception):
+    """The request conflicts with the item's state (HTTP 409), e.g. reviewing an already reviewed queue item."""
 
 
 def default_model_factory():
@@ -121,7 +125,7 @@ class EzhuthuService:
                 raise BadRequest(f"{name} is longer than {limits.MAX_CORRECTION_CHARS} characters")
         if corrected_text is not None:
             check_text(corrected_text, field="corrected_text")
-        cid = uuid.uuid4().hex
+        cid = f"q-{uuid.uuid4()}"  # the cloud proxy's queue id shape (infra/lambda/proxy/queue.ts review())
         doc = {"id": cid, "gap_ref": gap_ref, "accepted_candidate": accepted_candidate,
                "corrected_text": corrected_text, "user": user, "created_at": self.clock(), "status": "pending",
                "text": corrected_text or accepted_candidate, "history": []}
@@ -130,7 +134,8 @@ class EzhuthuService:
         return {"id": cid, "status": "pending"}
 
     def queue(self) -> dict[str, Any]:
-        items = sorted(self.store.list("queue"), key=lambda d: (d["status"] != "pending", d["created_at"]))
+        # created_at is epoch seconds here and ISO-8601 in items the cloud proxy wrote; compare as ISO.
+        items = sorted(self.store.list("queue"), key=lambda d: (d.get("status") != "pending", _iso(d.get("created_at"))))
         return {"items": items, "pending": sum(1 for d in items if d["status"] == "pending")}
 
     def check_reviewer(self, admin_token: str | None) -> None:
@@ -150,12 +155,27 @@ class EzhuthuService:
             raise BadRequest("edit needs text")
         if text is not None:
             check_text(text, field="text")
-        doc["history"].append({"action": action, "text": text, "reviewer": reviewer, "at": self.clock(),
+        if doc.get("status") != "pending":
+            raise Conflict(f"queue item {qid} was already reviewed ({doc.get('status')})")
+        now = self.clock()
+        doc.setdefault("history", []).append({"action": action, "text": text, "reviewer": reviewer, "at": now,
                                "previous_status": doc["status"]})
         doc["status"] = QUEUE_ACTIONS[action]
+        doc["reviewed_by"] = reviewer
+        doc["reviewed_at"] = _iso(now)
         if action == "edit":
             doc["text"] = text
-        self.store.put("queue", qid, doc)
+        if action == "approve":
+            # As in the proxy: approve keeps the proposer's reading; an abstention has none, so it needs "edit".
+            proposal = doc.get("corrected_text") or doc.get("accepted_candidate") or doc.get("text")
+            if not proposal:
+                raise BadRequest("nothing to approve; use edit with a reading")
+            doc["text"] = proposal
+        if action in ("approve", "edit"):
+            doc["final_text"] = doc["text"]
+        # Conditional on status=pending (as the proxy's review): two reviewers racing cannot both win.
+        if not self.store.put_if_status("queue", qid, doc, "pending"):
+            raise Conflict(f"queue item {qid} does not exist or was already reviewed")
         self.store.put("correction", qid, doc)
         return doc
 

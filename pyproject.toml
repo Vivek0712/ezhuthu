@@ -34,7 +34,7 @@ build-backend = "setuptools.build_meta"
 where = ["src"]
 
 [tool.setuptools.package-data]
-"ezhuthu.agent" = ["fixtures/*.jsonl", "fixtures/*.json", "fixtures/*.md"]
+"ezhuthu.agent" = ["fixtures/*.jsonl", "fixtures/*.json", "fixtures/*.md", "calibration.json"]
 
 [tool.ruff]
 line-length = 110

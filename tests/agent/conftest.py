@@ -12,6 +12,12 @@ from strands.models.model import Model
 
 os.environ.setdefault("EZHUTHU_FIXTURES", "1")
 os.environ.setdefault("EZHUTHU_DECIDER", "off")
+# Tests that script the Swarm turn by turn run it inside the Graph; async-explanation tests set "async".
+os.environ.setdefault("EZHUTHU_LESSON_EXPLAIN", "sync")
+# Unit tests use raw confidences; calibration tests pass their own CalibrationTable.
+os.environ.setdefault("EZHUTHU_CALIBRATION", "none")
+# Pre-#22 tests exercise the decider over all candidates; the strategy tests pass explicit settings.
+os.environ.setdefault("EZHUTHU_RESTORER_STRATEGY", "choice-all")
 os.environ.setdefault("EZHUTHU_NO_CACHE", "0" if os.environ.get("EZHUTHU_LIVE") == "1" else "1")
 
 

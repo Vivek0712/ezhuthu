@@ -21,6 +21,9 @@ MAX_ATTEMPTS = 3
 
 @dataclass(frozen=True)
 class PolicyDecision:
+    """``confidence`` is None whenever the rules chose (``source == "rules"``): there is no decider number, and
+    the app must show no confidence rather than 0% (issue #22)."""
+
     action: str
     confidence: float | None
     source: str  # decider model name, or "rules"
@@ -42,7 +45,9 @@ def decide(decider: Decider, state: dict[str, Any]) -> PolicyDecision:
         res = decider.choice(state, INSTRUCTIONS, ACTIONS, name="pedagogy")
     except DeciderUnavailable:
         return PolicyDecision(rules(correct, attempts, hint_given), None, "rules")
-    action = res.choice if res.choice in ACTIONS else rules(correct, attempts, hint_given)
+    if res.choice not in ACTIONS:  # unusable answer: the rules decide, so there is no decider confidence
+        return PolicyDecision(rules(correct, attempts, hint_given), None, "rules")
+    action = res.choice
     # Guardrails: never drill an item the learner just read correctly; never loop past MAX_ATTEMPTS.
     overridden = False
     if action != "advance" and (correct or attempts >= MAX_ATTEMPTS):

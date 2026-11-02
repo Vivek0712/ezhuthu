@@ -95,7 +95,13 @@ def swarm_explanation(result: Any) -> dict[str, str] | None:
     node = getattr(result, "results", {}).get("tutor_team")
     if node is None or not isinstance(node.result, MultiAgentResult):
         return None
-    inner = node.result
+    return team_explanation(node.result)
+
+
+def team_explanation(inner: Any) -> dict[str, str] | None:
+    """``{"explain_ta", "explain_en"}`` from a tutor_team Swarm result (last agent output with both keys)."""
+    if not isinstance(inner, MultiAgentResult):
+        return None
     order = [n.node_id for n in getattr(inner, "node_history", [])] or list(inner.results)
     for node_id in reversed(order):
         nr = inner.results.get(node_id)
@@ -123,6 +129,12 @@ def run_lesson_graph(graph: Any, ctx: dict[str, Any]) -> dict[str, Any]:
             log.warning("tutor_team produced no JSON explanation; using template")
             ctx["context_text"], ctx["explained_by"] = explain_template(ctx["facts"]), "template-fallback"
     return ctx
+
+
+def explain_with_team(model: Any, facts: dict[str, Any]) -> dict[str, str] | None:
+    """Run the Tutor + Assessor Swarm on its own (the async path of /api/lesson); None if no usable JSON."""
+    team = build_tutor_team(model)
+    return team_explanation(team(explain_prompt(facts)))
 
 
 def tutor_task_text(ctx: dict[str, Any]) -> str:

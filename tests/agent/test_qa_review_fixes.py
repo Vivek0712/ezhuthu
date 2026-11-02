@@ -284,3 +284,10 @@ def test_review_requires_token_unless_open_review():
     c3 = closed.add_correction("t:2", accepted_candidate="ka")
     with pytest.raises(PermissionError):  # no token configured = nobody may review
         closed.review(c3["id"], "approve", admin_token="")
+
+
+def test_second_review_is_409_over_http(client):
+    c = client.post("/api/corrections", json={"gap_ref": "t:0", "corrected_text": "paṉmaṟku"}).json()
+    assert client.post(f"/api/queue/{c['id']}", json={"action": "approve"}, headers=ADMIN).status_code == 200
+    r = client.post(f"/api/queue/{c['id']}", json={"action": "reject"}, headers=ADMIN)
+    assert r.status_code == 409 and "already reviewed" in r.json()["detail"]
