@@ -56,5 +56,5 @@ export async function gotoNav(page: Page, name: RegExp | string) {
 }
 
 export async function setEnglish(page: Page) {
-  await page.addInitScript(() => window.localStorage.setItem('ezhuthu.lang', 'en'));
+  await page.addInitScript(() => window.localStorage.setItem('ezhuthu.lang.v2', 'en'));
 }

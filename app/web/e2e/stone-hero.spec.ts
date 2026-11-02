@@ -235,7 +235,7 @@ test.describe('stone hero', () => {
 
   test('shows the composed static frame under reduced motion', async ({ browser }) => {
     const ctx = await browser.newContext({ reducedMotion: 'reduce' });
-    await ctx.addInitScript(() => window.localStorage.setItem('ezhuthu.lang', 'en'));
+    await ctx.addInitScript(() => window.localStorage.setItem('ezhuthu.lang.v2', 'en'));
     const page = await ctx.newPage();
     await page.goto('/');
     const hero = page.getByTestId('stone-hero');

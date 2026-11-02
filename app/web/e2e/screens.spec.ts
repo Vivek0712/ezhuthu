@@ -122,7 +122,7 @@ test('@screens capture every page', async ({ page }, info) => {
   // A fresh tab without the English init script, switched back to Tamil.
   const ta = await page.context().newPage();
   await ta.goto('/');
-  await ta.evaluate(() => window.localStorage.setItem('ezhuthu.lang', 'ta'));
+  await ta.evaluate(() => window.localStorage.setItem('ezhuthu.lang.v2', 'ta'));
   await ta.goto('/restore?sample=nagapattinam-srivijaya-gift');
   await expect(ta.getByTestId('restore-sample-source')).toBeVisible();
   await expect(ta.getByTestId('restore-input')).toHaveValue(/ஸ்வஸ்தி/);

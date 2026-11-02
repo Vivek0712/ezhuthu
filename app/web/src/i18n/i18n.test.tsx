@@ -27,7 +27,7 @@ describe('strings', () => {
 });
 
 describe('language toggle', () => {
-  it('defaults to Tamil, sets <html lang>, and toggles to English', async () => {
+  it('defaults to English, sets <html lang>, and toggles to Tamil', async () => {
     render(
       <I18nProvider>
         <AuthProvider>
@@ -41,12 +41,17 @@ describe('language toggle', () => {
         </AuthProvider>
       </I18nProvider>,
     );
-    expect(document.documentElement.lang).toBe('ta');
-    expect(screen.getAllByText('பயிற்சி').length).toBeGreaterThan(0);
-    await userEvent.click(screen.getByTestId('lang-toggle'));
     expect(document.documentElement.lang).toBe('en');
     expect(screen.getAllByText('Practice').length).toBeGreaterThan(0);
-    expect(window.localStorage.getItem('ezhuthu.lang')).toBe('en');
+    await userEvent.click(screen.getByTestId('lang-toggle'));
+    expect(document.documentElement.lang).toBe('ta');
+    expect(screen.getAllByText('பயிற்சி').length).toBeGreaterThan(0);
+    expect(window.localStorage.getItem('ezhuthu.lang.v2')).toBe('ta');
+  });
+  it('ignores a language stored under the old key', () => {
+    window.localStorage.setItem('ezhuthu.lang', 'ta');
+    render(<I18nProvider><p>x</p></I18nProvider>);
+    expect(document.documentElement.lang).toBe('en');
   });
   it('shows the mock-mode banner in development', () => {
     renderApp(
