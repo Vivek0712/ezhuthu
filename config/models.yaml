@@ -40,6 +40,14 @@ restorer:
   calibration: calibration.json   # src/ezhuthu/agent/calibration.json, fitted on the VAL split only
   calibration_min_n: 100          # entries fitted on fewer VAL items are provisional and ignored (raw thresholds)
   calibration_min_positives: 10   # ... or on fewer correct top-1s
+  # Request budget for POST /api/restore (issue #41; eval/reports/2026-11-02-request-budget.md). A request's gaps run
+  # one after another (each uses the earlier fills as context) inside the proxy's 27 s. Per-gap evals do not use it.
+  # Per-call latency on the deployed-config runs: Sonnet p50 2.4 s / p90 7.1 s, Opus p50 3.1 s / p90 6.2 s.
+  request_budget_s: 25            # whole request; every LLM call's timeout is what is left (null or 0 = no budget)
+  escalate_min_remaining_s: 8     # start Opus (pre-escalation or after Sonnet) only with this much left
+  llm_min_remaining_s: 6          # below this, retrieval + 5-gram candidates only (llm_skipped: time_budget)
+  gap_min_remaining_s: 1          # below this, remaining gaps abstain with no work (abstain_reason: time_budget)
+  max_gaps_per_request: 8         # gaps past this abstain with no work (abstain_reason: gap_cap); null = no cap
 decider:
   package: strands-decider==0.2.0
   local: StrandsAgents/strands-decider-E4B-gemma4-v1-2610      # fits 24 GB M4 Pro (mps/mlx), JevBench 187/231

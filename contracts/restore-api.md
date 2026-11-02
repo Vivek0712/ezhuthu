@@ -37,6 +37,30 @@ Response:
 }
 ```
 
+**Request budget and gap cap (additive, 2026-11-02, issue #41).** A request's gaps are restored one after another
+(each uses the earlier chosen fills as context) inside the proxy's 27 s (API Gateway: 29 s). `config/models.yaml`
+`restorer:` sets the bounds; the defaults are in brackets:
+
+- `request_budget_s` [25]: the whole request. Every LLM call's timeout (retries and back-off included) is what is
+  left of it.
+- `escalate_min_remaining_s` [8]: Opus (pre-escalation for a long gap or a gap with no good parallel, or after an
+  unsure Sonnet) starts only with this much left; otherwise the gap keeps Sonnet's answer and says
+  `"escalation_skipped": "time_budget"`.
+- `llm_min_remaining_s` [6]: with less left, the gap gets retrieval and 5-gram candidates only and says
+  `"llm_skipped": "time_budget"`. An LLM call that fails under the budget keeps the other candidates and says
+  `"llm_skipped"` (or `"escalation_skipped"`) `"time_budget"` if the time ran out, else `"error"`.
+- `gap_min_remaining_s` [1]: with less left, the remaining gaps abstain with no work:
+  `"decision": "abstain", "chosen": null, "candidates": [], "abstain_reason": "time_budget"`; their markers stay
+  in `restored_text`.
+- `max_gaps_per_request` [8]: gaps past this many abstain the same way with `"abstain_reason": "gap_cap"`. The API
+  refuses more than `EZHUTHU_MAX_GAPS` (5) markers per request, so the cap bounds other callers (the tutor restores
+  whole inscriptions).
+
+The three gap fields are present only when set. Every response gains
+`"budget": {"request_budget_s": 25, "max_gaps_per_request": 8, "limited": false, "abstained": {"time_budget": 0,
+"gap_cap": 0}, "llm_skipped": 0, "escalation_skipped": 0}` (`limited`: any of those counts is non-zero). Until the
+budget runs low, every gap is restored exactly as without it (same candidates, confidences and decisions).
+
 ## POST /api/read (upload + OCR; experimental for photos)
 Turns what a learner has (a photo, a text file or a DHARMA EpiDoc file) into lines in the restorer's notation, so the
 result can go straight to `/api/restore` and then `/api/lesson`. Send **exactly one** of `image_base64` or `text`.

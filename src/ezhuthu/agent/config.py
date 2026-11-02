@@ -76,6 +76,20 @@ class RestorerSettings:
     ``ngram_slot``: a top-k decider strategy always shows the 5-gram's top fill (like the copy-baseline fill).
     ``ngram_gate``: if the 5-gram's top fill has ``ngram_prob`` >= this, fill it and ask no LLM (a cascade); ``None``
     turns the gate off.
+
+    Request budget for ``Restorer.restore`` (``POST /api/restore``, issue #41; per-gap evals call ``restore_gap``
+    and never see it). The proxy gives AgentCore 27 s per request and a request's gaps run one after another:
+    ``request_budget_s``: the whole request (``null`` or 0 = no budget). Every LLM call gets what is left as its
+    timeout (retries and back-off included).
+    ``escalate_min_remaining_s``: Opus (pre-escalation or after Sonnet) starts only with this much left; otherwise
+    the gap keeps Sonnet / the first answer and says ``escalation_skipped: time_budget``.
+    ``llm_min_remaining_s``: below this, a gap gets retrieval + 5-gram candidates only (``llm_skipped:
+    time_budget``).
+    ``gap_min_remaining_s``: below this, the remaining gaps abstain with no work (``abstain_reason: time_budget``).
+    ``max_gaps_per_request``: gaps past this many abstain with no work (``abstain_reason: gap_cap``); ``null`` or 0
+    = no cap. The API also refuses more than ``EZHUTHU_MAX_GAPS`` (5) markers; the cap bounds other callers
+    (the tutor restores whole inscriptions).
+    When the budget is not reached, every gap is restored exactly as without it.
     """
 
     strategy: str = "prerank"  # dataclass default; config/models.yaml sets the shipped value
@@ -94,6 +108,11 @@ class RestorerSettings:
     ngram_prerank: bool = False
     ngram_slot: bool = False
     ngram_gate: float | None = None
+    request_budget_s: float | None = 25.0
+    escalate_min_remaining_s: float = 8.0
+    llm_min_remaining_s: float = 6.0
+    gap_min_remaining_s: float = 1.0
+    max_gaps_per_request: int | None = 8
 
     @property
     def ngram_features(self) -> bool:
@@ -110,6 +129,12 @@ class RestorerSettings:
             raise ValueError("restorer.ngram_gate must be in (0, 1] or null")
         if self.ngram_beam < self.ngram_k:
             raise ValueError("restorer.ngram_beam must be >= restorer.ngram_k")
+        if self.request_budget_s is not None and self.request_budget_s < 0:
+            raise ValueError("restorer.request_budget_s must be >= 0 or null")
+        if min(self.escalate_min_remaining_s, self.llm_min_remaining_s, self.gap_min_remaining_s) < 0:
+            raise ValueError("restorer.*_min_remaining_s must be >= 0")
+        if self.max_gaps_per_request is not None and self.max_gaps_per_request < 0:
+            raise ValueError("restorer.max_gaps_per_request must be >= 0 or null")
 
     def with_(self, **kw: Any) -> RestorerSettings:
         from dataclasses import replace

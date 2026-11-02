@@ -177,6 +177,15 @@ function restore(body: Schemas['RestoreRequest']): Schemas['RestoreResponse'] {
     models_used: escalated ? ['sonnet', 'opus', MOCK_DECIDER] : ['sonnet', MOCK_DECIDER],
     trace_id: `mock-trace-${state.seq}`,
     latency_ms: 0,
+    // restorer.request_budget_s / max_gaps_per_request in config/models.yaml; the mock never runs out of time
+    budget: {
+      request_budget_s: 25,
+      max_gaps_per_request: 8,
+      limited: false,
+      abstained: { time_budget: 0, gap_cap: 0 },
+      llm_skipped: 0,
+      escalation_skipped: 0,
+    },
   };
 }
 

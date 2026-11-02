@@ -142,7 +142,8 @@ class TutorService:
                 res = self.restorations.get(key)
                 if res is None:
                     res = self.restorer.restore(c["text"], max_candidates=5)
-                    self.restorations.put(key, res)
+                    if not (res.get("budget") or {}).get("limited"):  # a budget-cut result is not reused
+                        self.restorations.put(key, res)
                     c["restore_cached"] = False
                 else:
                     res = {**res, "trace_id": uuid.uuid4().hex, "latency_ms": 0.0, "cached": True}
