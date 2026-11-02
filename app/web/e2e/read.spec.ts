@@ -29,20 +29,26 @@ test.describe('restore: upload a photo', () => {
     await expect(page.getByTestId('read-experimental')).toContainText('சோதனை வாசிப்பு');
     await expect(result.locator('img')).toBeVisible();
     await page.getByTestId('read-script-iso15919').click();
-    await expect(page.getByTestId('read-line-0')).toHaveValue('svasti śrī kō [?3] ya');
-    await page.getByTestId('read-line-0').fill('svasti śrī kō[?4]ya');
+    // The mock replays Sonnet 4.6's real reading of this plate (eval/reports/2026-11-02-ocr-app-samples.jsonl).
+    await expect(page.getByTestId('read-line-0')).toHaveValue('śrī tirukkaḻukunṟattu peṟumāṉ');
+    await page.getByTestId('read-line-0').fill('śrī tiru-k-kaḻu-kuṉṟattu [?2]');
     await expectNoHorizontalScroll(page);
     await Promise.all([page.waitForResponse('**/api/restore'), page.getByTestId('read-use-restore').click()]);
-    await expect(page.getByTestId('restore-input')).toHaveValue(/^svasti śrī kō\[\?4\]ya\n/);
+    await expect(page.getByTestId('restore-input')).toHaveValue(/^śrī tiru-k-kaḻu-kuṉṟattu \[\?2\]\n/);
     await expect(page.getByTestId('restore-result')).toBeVisible();
     await expectNoHorizontalScroll(page);
   });
 
-  test('sample photos work without a camera', async ({ page }) => {
-    await page.goto('/restore');
+  test('sample plates work without a camera, and warnings are localised', async ({ page }) => {
+    await page.goto('/restore'); // Tamil by default
     await page.getByTestId('sample-stone-brahmi').click();
     await expect(page.getByTestId('read-result')).toBeVisible();
     await expect(page.getByTestId('read-experimental')).toBeVisible();
+    const warning = page.locator('[data-code="low_reliability_script"]');
+    await expect(warning).toContainText('வட்டெழுத்து');
+    await expect(warning).not.toContainText('reliably');
+    // Low confidence and no time for Opus (the mock's stand-in): a one-time "read again" is offered.
+    await expect(page.getByTestId('read-again')).toBeVisible();
     await page.getByTestId('read-reset').click();
     await expect(page.getByTestId('dropzone')).toBeVisible();
   });

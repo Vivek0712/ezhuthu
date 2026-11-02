@@ -5,18 +5,22 @@ import { setEnglish } from './helpers';
 const SAVE = process.env.UPDATE_SCREENSHOTS === '1';
 test.use({ contextOptions: { reducedMotion: 'reduce' }, deviceScaleFactor: 1 });
 
-async function shot(page: Page, name: string, project: string) {
+// The home page is long (hero, frieze, 13 sample cards): its shots are the first screen only, which is what a visitor
+// sees, and keeps each PNG small. The gallery has its own shot (15).
+// Shots added since wave 4 are JPEG (q 80): the paper grain makes PNGs of long pages several MB.
+async function shot(page: Page, name: string, project: string, { fullPage = true, jpeg = false } = {}) {
   await page.evaluate(() => document.fonts.ready);
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.waitForTimeout(150);
-  if (SAVE) await page.screenshot({ path: `screenshots/${project}-${name}.png`, fullPage: true });
+  const path = `screenshots/${project}-${name}.${jpeg ? 'jpg' : 'png'}`;
+  if (SAVE) await page.screenshot({ path, fullPage, ...(jpeg ? { type: 'jpeg' as const, quality: 80 } : {}) });
 }
 
 test('@screens capture every page', async ({ page }, info) => {
   const p = info.project.name;
   await page.goto('/');
   await expect(page.getByTestId('evolution-hero')).toBeVisible();
-  await shot(page, '01-home-ta', p);
+  await shot(page, '01-home-ta', p, { fullPage: false });
 
   await page.goto('/learn');
   await page.getByTestId('level-L5').click();
@@ -36,7 +40,7 @@ test('@screens capture every page', async ({ page }, info) => {
 
   await setEnglish(page);
   await page.goto('/');
-  await shot(page, '05-home-en', p);
+  await shot(page, '05-home-en', p, { fullPage: false });
 
   await page.goto('/learn');
   await page.getByTestId('level-L4').click();
@@ -94,11 +98,44 @@ test('@screens capture every page', async ({ page }, info) => {
   await page.emulateMedia({ colorScheme: 'dark' });
   await page.goto('/');
   await expect(page.getByTestId('evolution-hero')).toBeVisible();
-  await shot(page, '13-home-dark-en', p);
+  await shot(page, '13-home-dark-en', p, { fullPage: false });
   await page.goto('/restore');
   await page.getByTestId('read-tab-type').click();
   await page.getByTestId('use-sample').click();
   await page.getByTestId('restore-submit').click();
   await expect(page.getByTestId('restore-result')).toBeVisible();
   await shot(page, '14-restore-dark-en', p);
+
+  // Try-it samples: the gallery, and a sample opened in Restore (Tamil text) and restored.
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.goto('/');
+  await page.getByTestId('sample-gallery').scrollIntoViewIfNeeded();
+  await expect(page.getByTestId('sample-gallery').getByRole('article').first()).toBeVisible();
+  // The gallery's first screen (heading, filters, first cards), not all 13 cards.
+  const g = (await page.getByTestId('sample-gallery').boundingBox())!;
+  const vh = page.viewportSize()!.height;
+  if (SAVE)
+    await page.screenshot({
+      path: `screenshots/${p}-15-samples-gallery-en.jpg`, type: 'jpeg', quality: 80, fullPage: true,
+      clip: { x: g.x, y: g.y + (await page.evaluate(() => window.scrollY)), width: g.width, height: Math.min(g.height, vh) },
+    });
+  // A fresh tab without the English init script, switched back to Tamil.
+  const ta = await page.context().newPage();
+  await ta.goto('/');
+  await ta.evaluate(() => window.localStorage.setItem('ezhuthu.lang', 'ta'));
+  await ta.goto('/restore?sample=nagapattinam-srivijaya-gift');
+  await expect(ta.getByTestId('restore-sample-source')).toBeVisible();
+  await expect(ta.getByTestId('restore-input')).toHaveValue(/ஸ்வஸ்தி/);
+  await ta.getByTestId('restore-submit').click();
+  await expect(ta.getByTestId('restore-result')).toBeVisible();
+  await shot(ta, '16-restore-from-sample-ta', p, { jpeg: true });
+
+  // Upload + OCR: the photo tab with sample plates, and a reading with its localised warning and "read again".
+  await ta.goto('/restore');
+  await expect(ta.getByTestId('sample-stone-tamil')).toBeVisible();
+  await shot(ta, '17-read-upload-ta', p, { jpeg: true });
+  await ta.getByTestId('sample-stone-brahmi').click();
+  await expect(ta.locator('[data-code="low_reliability_script"]')).toBeVisible();
+  await expect(ta.getByTestId('read-again')).toBeVisible();
+  await shot(ta, '18-read-warning-ta', p, { jpeg: true });
 });

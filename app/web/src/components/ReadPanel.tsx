@@ -16,6 +16,7 @@ import { READ_SAMPLES, type ReadSample } from '../lib/readSamples';
 import { safeHref } from '../lib/format';
 import { LEARN_TEXT_LIMIT } from '../lib/learn';
 import { ConfidenceMeter } from './ConfidenceMeter';
+import { TrySampleImage } from './TrySampleImage';
 import { ErrorNote } from './Feedback';
 import '../styles/read.css';
 
@@ -375,6 +376,7 @@ export function ReadPanel({
             </div>
           )}
           {phase !== 'review' && samples('photo')}
+          {phase !== 'review' && <TrySampleImage disabled={busy} onPick={(file) => void onPhoto(file)} />}
         </div>
       )}
 

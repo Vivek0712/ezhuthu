@@ -1,13 +1,16 @@
 import { http, HttpResponse, delay } from 'msw';
 import type { Schemas } from '../api/client';
+import { SAMPLE_IMAGES } from '../samples';
 
 /**
  * Mock POST /api/read (contracts/restore-api.md), mirroring the server's rules (src/ezhuthu/agent/reader.py) so demo
  * screenshots show what the real reader shows, warnings included.
  *
  * The mock cannot read photos. A sample plate (recognised by its file name) gets Sonnet 4.6's real reading of that
- * plate (eval/reports/2026-11-02-ocr-app-samples.jsonl, TRAIN-split DHARMA lines, CC BY-SA 4.0); any other image gets
- * the worn-stone reading. Warnings, escalation and the one-time "read again" token follow the server's rules. The mock
+ * plate (eval/reports/2026-11-02-ocr-app-samples.jsonl, TRAIN-split DHARMA lines, CC BY-SA 4.0). A sample picture from
+ * the home gallery track (src/samples/sample-images.json) gets the edition text it was rendered from, with no
+ * confidence (there is no measured reading of it), so the server's "unsure" rule applies. Any other image gets the
+ * worn-stone reading. Warnings, escalation and the one-time "read again" token follow the server's rules. The mock
  * has no Opus reading: "read again" returns the first reading with escalation_skipped "error", as the server does when
  * the larger model cannot answer.
  */
@@ -134,7 +137,21 @@ function envelope(source: Schemas['ReadResponse']['source'], lines: Schemas['Rea
 
 function sampleKey(filename: string | undefined): string {
   const base = (filename ?? '').replace(/^.*[\\/]/, '').replace(/\.[a-z]+$/i, '');
-  return base in MOCK_SAMPLE_READINGS ? base : 'stone-weathered';
+  if (base in MOCK_SAMPLE_READINGS || SAMPLE_IMAGES.some((im) => im.id === base)) return base;
+  return 'stone-weathered';
+}
+
+function readingFor(key: string): Sample {
+  const known = MOCK_SAMPLE_READINGS[key];
+  if (known) return known;
+  const im = SAMPLE_IMAGES.find((x) => x.id === key)!;
+  return {
+    lines: im.lines.map((l, i) => lineOf(i + 1, l)),
+    confidence: null,
+    kind: im.style === 'page' ? 'printed' : 'inscription',
+    note: 'Mock: the edition text this sample picture was rendered from (no measured reading).',
+    script_guess: { ...MODERN, confidence: null },
+  };
 }
 
 export const readHandlers = [
@@ -150,7 +167,7 @@ export const readHandlers = [
         if (!body.reread_token || issued.get(body.reread_token) !== key) return errBody(403, 'reread_token_invalid', "router 'opus' needs this photo's reread_token (it works once)");
         issued.delete(body.reread_token);
       }
-      const s = MOCK_SAMPLE_READINGS[key]!;
+      const s = readingFor(key);
       const bytes = Math.floor((body.image_base64.length * 3) / 4);
       const extra: Partial<Schemas['ReadResponse']> = {
         script_guess: s.script_guess,

@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api, type Gap, type RestoreResponse } from '../api/client';
 import { ConfidenceMeter } from '../components/ConfidenceMeter';
@@ -6,8 +6,9 @@ import { Busy, DharmaCredit, ErrorNote } from '../components/Feedback';
 import { ExperimentalNote, ReadPanel, type Accepted, type Tab } from '../components/ReadPanel';
 import { useI18n } from '../i18n/I18nProvider';
 import { gapContext, parseGaps } from '../lib/gaps';
-import { safeHref } from '../lib/format';
+import { plural, safeHref } from '../lib/format';
 import { SAMPLE_RESTORE_ISO, SAMPLE_RESTORE_TAMIL } from '../lib/samples';
+import { useRestoreSample } from '../samples';
 
 type Script = 'iso15919' | 'tamil';
 
@@ -96,11 +97,24 @@ function Candidates({ abstain, label, count, children }: { abstain: boolean; lab
 export function RestorePage() {
   const { t, lang } = useI18n();
   const navigate = useNavigate();
-  // Upload is the primary input (user feedback: people rarely have the text to paste); typing is the third tab.
-  const [tab, setTab] = useState<Tab>('photo');
-  const [script, setScript] = useState<Script>(lang === 'ta' ? 'tamil' : 'iso15919');
-  const [text, setText] = useState('');
+  // /restore?sample=<id> (the home gallery) starts the form with that DHARMA passage.
+  // The samples load on demand, so the passage arrives a moment after the first render: fill the form once per sample.
+  const fromSample = useRestoreSample(lang);
+  // Upload is the primary input (user feedback: people rarely have the text to paste); typing is the third tab,
+  // except when a gallery sample brings its own text.
+  const [tab, setTab] = useState<Tab>(fromSample ? 'type' : 'photo');
+  const [script, setScript] = useState<Script>(fromSample?.script ?? (lang === 'ta' ? 'tamil' : 'iso15919'));
+  const [text, setText] = useState(fromSample?.text ?? '');
   const [fromReader, setFromReader] = useState<Accepted['source'] | null>(null);
+  const filledFrom = useRef<string | null>(fromSample?.sample.id ?? null);
+  useEffect(() => {
+    if (!fromSample || filledFrom.current === fromSample.sample.id) return;
+    filledFrom.current = fromSample.sample.id;
+    setScript(fromSample.script);
+    setText(fromSample.text);
+    setFromReader(null);
+    setTab('type');
+  }, [fromSample]);
   const [max, setMax] = useState(5);
   const [escalate, setEscalate] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -142,6 +156,18 @@ export function RestorePage() {
   const typePanel = (
     <form className="grid" onSubmit={submit}>
       {fromReader === 'image' && <ExperimentalNote />}
+      {fromSample && text === fromSample.text && (
+        <p className="sample-from" data-testid="restore-sample-source">
+          {t('samples.from')}: <strong>{lang === 'ta' ? fromSample.sample.title_ta : fromSample.sample.title_en}</strong> ·{' '}
+          <a href={fromSample.sample.dharma_url} target="_blank" rel="noreferrer">
+            {t('credit.edition')} ↗
+          </a>{' '}
+          ·{' '}
+          <a href={fromSample.sample.licence_url} target="_blank" rel="noreferrer license">
+            {fromSample.sample.licence}
+          </a>
+        </p>
+      )}
       <label className="field">
         {t('restore.input')}
         <textarea
@@ -154,7 +180,7 @@ export function RestorePage() {
       </label>
       <div className="row" style={{ justifyContent: 'space-between' }}>
         <span className={gapCount ? 'badge accent' : 'badge'} data-testid="gap-count">
-          {gapCount} {t('restore.gapsFound')}
+          {gapCount} {t(plural(gapCount, 'restore.gapFound', 'restore.gapsFound'))}
         </span>
         <button
           className="btn btn-ghost btn-small"

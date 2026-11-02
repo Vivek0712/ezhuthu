@@ -2,8 +2,9 @@
 
 benchmark/DATA_CARD.md, leakage rule 2: text of a val/test inscription is never shown next to a restoration task
 with its expert fills. The samples are public and invite the learner to restore their gaps, so they may only use
-TRAIN inscriptions. app/web/public/samples/**/SOURCES.json names the inscription behind each file; this test checks
-that every file is listed, that each listed inscription is TRAIN, and that the file's own content agrees.
+TRAIN inscriptions. app/web/public/samples/**/SOURCES.json (reader samples) and app/web/src/samples/sample-images.json
+(the home gallery's sample pictures) name the inscription behind each file; this test checks that every file is
+listed, that each listed inscription is TRAIN, and that the file's own content agrees.
 """
 
 from __future__ import annotations
@@ -29,8 +30,20 @@ def _manifests() -> list[Path]:
     return sorted(SAMPLES.rglob("SOURCES.json"))
 
 
+GALLERY = ROOT / "app" / "web" / "src" / "samples" / "sample-images.json"
+DOCS = {"ATTRIBUTION.md"}  # human-readable credits, not a sample
+
+
 def _entries() -> list[tuple[Path, dict]]:
-    return [(m.parent, e) for m in _manifests() for e in json.loads(m.read_text(encoding="utf-8"))["files"]]
+    out = [(m.parent, e) for m in _manifests() for e in json.loads(m.read_text(encoding="utf-8"))["files"]]
+    if GALLERY.is_file():
+        for im in json.loads(GALLERY.read_text(encoding="utf-8")):
+            ins = INS.get(im["inscription_id"], {})
+            f = SAMPLES.parent / im["file"]
+            out.append((f.parent, {"file": f.name, "kind": "gallery-picture", "inscription_id": im["inscription_id"],
+                                   "split": ins.get("split"), "licence": im["licence"],
+                                   "source_url": ins.get("source_url"), "lines_text": "\n".join(im["lines"])}))
+    return out
 
 
 def _letters(s: str) -> str:
@@ -44,7 +57,7 @@ def test_every_sample_file_is_listed_in_a_sources_manifest():
         listed.add(d / e["file"])
         if e.get("thumb"):
             listed.add(d / e["thumb"])
-    files = {p for p in SAMPLES.rglob("*") if p.is_file() and p.name != "SOURCES.json"}
+    files = {p for p in SAMPLES.rglob("*") if p.is_file() and p.name != "SOURCES.json" and p.name not in DOCS}
     assert files - listed == set(), f"unlisted sample files: {sorted(str(p.relative_to(SAMPLES)) for p in files - listed)}"
     assert listed - files == set(), f"listed but missing: {sorted(str(p) for p in listed - files)}"
 
@@ -57,7 +70,9 @@ def test_every_sample_resolves_to_a_train_inscription(entry):
     assert entry["split"] == "train"
     for other in ins.get("same_stone_as") or []:
         assert INS[other]["split"] == "train"
-    assert entry["licence"] == ins["licence"] and entry["source_url"] == ins["source_url"]
+    assert entry["licence"] == ins["licence"]
+    if entry["kind"] != "gallery-picture":
+        assert entry["source_url"] == ins["source_url"]
 
 
 def test_epidoc_samples_are_the_named_train_edition():
@@ -96,6 +111,8 @@ def test_no_sample_quotes_a_val_or_test_line():
             ins = INS[e["inscription_id"]]
             a, b = (int(x) for x in e["lines"].split("-"))
             text = "\n".join(ins["text_iso"].split("\n")[a - 1:b])
+        elif e["kind"] == "gallery-picture":
+            text = tamil_to_iso(e["lines_text"])
         else:
             raw = (d / e["file"]).read_text(encoding="utf-8")
             text = tamil_to_iso(raw) if e["kind"] == "text" else raw

@@ -1,0 +1,96 @@
+[
+ {
+  "id": "stone-chola",
+  "sample": "melappaluvur-who-took-madurai",
+  "script": "tamil",
+  "style": "stone",
+  "title_en": "Carved granite, Tamil",
+  "title_ta": "கருங்கல் செதுக்கல், தமிழ்",
+  "file": "samples/stone-chola.jpg",
+  "inscription_id": "DHARMA_INSMelKil00001",
+  "lines": [
+   "ஸ்வஸ்தி ஶ்ரீ மதிரை கொண்ட கோப்பரகேசரிபன்மர்க்கு யா",
+   "ண்டு 3 10 6 ஆவது அவனிகந்தற்பபுரத்து மஹாதெவர்க்",
+   "கு கண்டன் நெறியான் திருத்த குளத்தின் கீழ் அபொஹநங் கிடந்",
+   "த பூமியை மசக்கி இதிந் நிர்க் கிடன்த நிலம் [?8] றி [?1]"
+  ],
+  "expected_text": "ஸ்வஸ்தி ஶ்ரீ மதிரை கொண்ட கோப்பரகேசரிபன்மர்க்கு யா\nண்டு 3 10 6 ஆவது அவனிகந்தற்பபுரத்து மஹாதெவர்க்\nகு கண்டன் நெறியான் திருத்த குளத்தின் கீழ் அபொஹநங் கிடந்\nத பூமியை மசக்கி இதிந் நிர்க் கிடன்த நிலம் [?8] றி [?1]",
+  "credit": "Synthetic render (Ezhuthu, Noto fonts SIL OFL) of the DHARMA edition DHARMA_INSMelKil00001, CC BY-SA 4.0",
+  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSMelKil00001",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+ },
+ {
+  "id": "hero-stone",
+  "sample": "hero-stone-naiya-vatukan",
+  "script": "tamil",
+  "style": "hero",
+  "title_en": "Hero stone, Tamil",
+  "title_ta": "நடுகல், தமிழ்",
+  "file": "samples/hero-stone.jpg",
+  "inscription_id": "DHARMA_INSPallava00418",
+  "lines": [
+   "கோவிசையமயீந்",
+   "ந்திரபருமற்கி யாண்",
+   "ண்ட் ஏழாவது பெரும்",
+   "பாணிளவரைசர்",
+   "சேவகன் நையவ",
+   "டுகன் [?5]",
+   "[?5]",
+   "ப் பட்டான்"
+  ],
+  "expected_text": "கோவிசையமயீந்\nந்திரபருமற்கி யாண்\nண்ட் ஏழாவது பெரும்\nபாணிளவரைசர்\nசேவகன் நையவ\nடுகன் [?5]\n[?5]\nப் பட்டான்",
+  "credit": "Synthetic render (Ezhuthu, Noto fonts SIL OFL) of the DHARMA edition DHARMA_INSPallava00418, CC BY-SA 4.0",
+  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSPallava00418",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+ },
+ {
+  "id": "photo-angle",
+  "sample": "nagapattinam-srivijaya-gift",
+  "script": "tamil",
+  "style": "photo",
+  "title_en": "Temple wall photo, tilted",
+  "title_ta": "கோயில் சுவர் படம், சாய்வாக",
+  "file": "samples/photo-angle.jpg",
+  "inscription_id": "DHARMA_INSTamilNadu00166",
+  "lines": [
+   "ஸ்வஸ்தி ஶ்ரீ கோப்பரகேசரிபந்மரான ஶ்ரீராஜெந்த்ரசோழதேவர்கு",
+   "யாண்டு 3 ஆவது க்ஷத்ரியசிகாமணிவளநாட்டு [?8] பட்டின [?10]",
+   "ரோண [?8] வெள்ளித்தி"
+  ],
+  "expected_text": "ஸ்வஸ்தி ஶ்ரீ கோப்பரகேசரிபந்மரான ஶ்ரீராஜெந்த்ரசோழதேவர்கு\nயாண்டு 3 ஆவது க்ஷத்ரியசிகாமணிவளநாட்டு [?8] பட்டின [?10]\nரோண [?8] வெள்ளித்தி",
+  "credit": "Synthetic render (Ezhuthu, Noto fonts SIL OFL) of the DHARMA edition DHARMA_INSTamilNadu00166, CC BY-SA 4.0",
+  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSTamilNadu00166",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+ },
+ {
+  "id": "handout-iso",
+  "sample": "mamallapuram-calf-pasture",
+  "script": "iso15919",
+  "style": "page",
+  "title_en": "Printed transliteration",
+  "title_ta": "அச்சிட்ட ஒலிபெயர்ப்பு",
+  "file": "samples/handout-iso.jpg",
+  "inscription_id": "DHARMA_INSPallava00092",
+  "lines": [
+   "svasti śrī pallava-vaṁsasya nan=ti",
+   "-bodhuvarmmaku rājyāvibhirddhya",
+   "-ñ cellā-niṉṟatu Āṟupattu",
+   "Aint-āvatu māmallapu",
+   "-rattu nakarattār Iṭaivalañ",
+   "-cāṉ kaṇṭaṉ kaṉṟu-mēy-kaḻa",
+   "-ṉi-y-āka koṇṭa nilam Ā",
+   "-mūr-nāṭṭu kuṉṟattūr iṭai",
+   "-vāḻum· kuṉṟat·tūr-kiḻā",
+   "-r Iḷa-naṭuvuṇār makaṉ [?2]",
+   "ṉ kaṇṭaṉ iṭai kaṉṟu-mēy-kaḻaṉi"
+  ],
+  "expected_text": "svasti śrī pallava-vaṁsasya nan=ti\n-bodhuvarmmaku rājyāvibhirddhya\n-ñ cellā-niṉṟatu Āṟupattu\nAint-āvatu māmallapu\n-rattu nakarattār Iṭaivalañ\n-cāṉ kaṇṭaṉ kaṉṟu-mēy-kaḻa\n-ṉi-y-āka koṇṭa nilam Ā\n-mūr-nāṭṭu kuṉṟattūr iṭai\n-vāḻum· kuṉṟat·tūr-kiḻā\n-r Iḷa-naṭuvuṇār makaṉ [?2]\nṉ kaṇṭaṉ iṭai kaṉṟu-mēy-kaḻaṉi",
+  "credit": "Synthetic render (Ezhuthu, Noto fonts SIL OFL) of the DHARMA edition DHARMA_INSPallava00092, CC BY-SA 4.0",
+  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSPallava00092",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+ }
+]
