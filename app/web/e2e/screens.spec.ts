@@ -22,7 +22,7 @@ test('@screens capture every page', async ({ page }, info) => {
   await expect(page.getByTestId('evolution-hero')).toBeVisible();
   await shot(page, '01-home-ta', p, { fullPage: false });
 
-  await page.goto('/learn');
+  await page.goto('/practice');
   await page.getByTestId('level-L5').click();
   await shot(page, '02-learn-levels-ta', p);
   await page.getByTestId('start-lesson').click();
@@ -42,7 +42,7 @@ test('@screens capture every page', async ({ page }, info) => {
   await page.goto('/');
   await shot(page, '05-home-en', p, { fullPage: false });
 
-  await page.goto('/learn');
+  await page.goto('/practice');
   await page.getByTestId('level-L4').click();
   await page.getByTestId('start-lesson').click();
   await expect(page.getByTestId('glyph-tile').locator('img')).toBeVisible();
@@ -65,7 +65,7 @@ test('@screens capture every page', async ({ page }, info) => {
   await expect(page.getByTestId('gain')).toHaveText('+60 pts');
   await shot(page, '07-progress-en', p);
 
-  await page.goto('/test');
+  await page.goto('/benchmark');
   await page.getByTestId('auth-gate').getByRole('button', { name: 'Sign in' }).click();
   await page.getByTestId('run-benchmark').click();
   await expect(page.getByTestId('score-report')).toBeVisible();
@@ -79,7 +79,7 @@ test('@screens capture every page', async ({ page }, info) => {
   await shot(page, '10-about-en', p);
 
   // Wave 3 states: rules-decided answer with the tutor team's explanation, a 409 on review, dark mode.
-  await page.goto('/learn');
+  await page.goto('/practice');
   await page.getByTestId('level-L5').click();
   await page.getByTestId('start-lesson').click();
   for (let i = 0; i < 3; i++) {
@@ -122,12 +122,14 @@ test('@screens capture every page', async ({ page }, info) => {
   // A fresh tab without the English init script, switched back to Tamil.
   const ta = await page.context().newPage();
   await ta.goto('/');
-  await ta.evaluate(() => window.localStorage.setItem('ezhuthu.lang', 'ta'));
-  await ta.goto('/restore?sample=nagapattinam-srivijaya-gift');
+  await ta.evaluate(() => window.localStorage.setItem('ezhuthu.lang.v2', 'ta'));
+  // A masked sample: the mock replays the live restorer's recorded answer, then the edition's reading is shown.
+  await ta.goto('/restore?sample=tirunallaru-temple-office');
   await expect(ta.getByTestId('restore-sample-source')).toBeVisible();
-  await expect(ta.getByTestId('restore-input')).toHaveValue(/ஸ்வஸ்தி/);
+  await expect(ta.getByTestId('restore-input')).toHaveValue(/சுந்தரப்பெருமானுக்கு/);
   await ta.getByTestId('restore-submit').click();
   await expect(ta.getByTestId('restore-result')).toBeVisible();
+  await expect(ta.getByTestId('edition-reveal')).toHaveAttribute('data-state', 'match');
   await shot(ta, '16-restore-from-sample-ta', p, { jpeg: true });
 
   // Upload + OCR: the photo tab with sample plates, and a reading with its localised warning and "read again".

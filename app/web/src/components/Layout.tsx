@@ -9,25 +9,25 @@ import { useI18n } from '../i18n/I18nProvider';
 import type { MessageKey } from '../i18n/strings';
 import { DharmaCredit } from './Feedback';
 
-// Top nav at 1000 px and wider. Review is shown only to signed-in experts (design/ux/UX.md section 2).
+// Top nav at 1000 px and wider. Expert review is shown only to signed-in experts (design/ux/UX.md section 2).
 const TOP: [string, MessageKey, boolean][] = [
-  ['/learn', 'nav.learn', false],
+  ['/practice', 'nav.learn', false],
   ['/restore', 'nav.restore', false],
   ['/progress', 'nav.progress', false],
-  ['/test', 'nav.test', false],
+  ['/benchmark', 'nav.test', false],
   ['/review', 'nav.review', true],
   ['/about', 'nav.about', false],
 ];
-// Bottom tabs below 1000 px; Test, About, Home, sign-in and the language live in the "More" sheet.
+// Bottom tabs below 1000 px (short labels); Benchmark, About, Home, sign-in and the language live in the "More" sheet.
 const TABS: [string, MessageKey, boolean, ReactNode][] = [
-  ['/learn', 'nav.learn', false, <path key="i" d="M4 6c3-1.5 6-1.5 8 0v13c-2-1.5-5-1.5-8 0zM12 6c2-1.5 5-1.5 8 0v13c-3-1.5-6-1.5-8 0" />],
+  ['/practice', 'nav.learn', false, <path key="i" d="M4 6c3-1.5 6-1.5 8 0v13c-2-1.5-5-1.5-8 0zM12 6c2-1.5 5-1.5 8 0v13c-3-1.5-6-1.5-8 0" />],
   ['/restore', 'nav.restore', false, <path key="i" d="M5 19 15 9M13 7l4 4M15 5l4 4-2 2-4-4z M4 20l2-1" />],
   ['/progress', 'nav.progress', false, <path key="i" d="M5 19V12M10 19V8M15 19v-5M20 19V5M3 19h18" />],
-  ['/review', 'nav.review', true, <path key="i" d="M5 12.5 10 17l9-10" />],
+  ['/review', 'nav.reviewShort', true, <path key="i" d="M5 12.5 10 17l9-10" />],
 ];
 const MORE: [string, MessageKey][] = [
   ['/', 'nav.home'],
-  ['/test', 'nav.test'],
+  ['/benchmark', 'nav.test'],
   ['/about', 'nav.about'],
 ];
 

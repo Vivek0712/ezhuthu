@@ -2,14 +2,16 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { en, ta, type MessageKey } from './strings';
 
 export type Lang = 'ta' | 'en';
-const STORAGE_KEY = 'ezhuthu.lang';
+// v2: the default changed from Tamil to English, so a value stored under the old key (written on
+// every first visit, not only by an explicit choice) must not keep returning visitors in Tamil.
+const STORAGE_KEY = 'ezhuthu.lang.v2';
 
 function readStoredLang(): Lang {
   try {
     const v = window.localStorage.getItem(STORAGE_KEY);
-    return v === 'en' || v === 'ta' ? v : 'ta';
+    return v === 'en' || v === 'ta' ? v : 'en';
   } catch {
-    return 'ta';
+    return 'en';
   }
 }
 

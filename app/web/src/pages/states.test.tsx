@@ -13,7 +13,7 @@ import { renderApp } from '../test/render';
 
 async function startLesson(level = 'L5') {
   const user = userEvent.setup();
-  renderApp(<AppRoutes />, { route: '/learn' });
+  renderApp(<AppRoutes />, { route: '/practice' });
   await user.click(screen.getByTestId(`level-${level}`));
   await user.click(screen.getByTestId('start-lesson'));
   await screen.findByTestId('glyph-tile');
@@ -51,7 +51,7 @@ describe('tutor: decider confidence', () => {
 
   it('says it in Tamil too', async () => {
     const user = userEvent.setup();
-    renderApp(<AppRoutes />, { route: '/learn', lang: 'ta' });
+    renderApp(<AppRoutes />, { route: '/practice', lang: 'ta' });
     await user.click(screen.getByTestId('level-L5'));
     await user.click(screen.getByTestId('start-lesson'));
     await screen.findByTestId('glyph-tile');
@@ -139,7 +139,7 @@ describe('tutor: async lesson explanation (context_update)', () => {
 
   it('makes no DHARMA claim for the learner’s own text', async () => {
     const user = userEvent.setup();
-    renderApp(<AppRoutes />, { route: '/learn' });
+    renderApp(<AppRoutes />, { route: '/practice' });
     await user.type(screen.getByRole('textbox'), 'kal');
     await user.click(screen.getByTestId('start-lesson'));
     await screen.findByTestId('glyph-tile');
@@ -216,7 +216,7 @@ describe('error and loading states', () => {
   it('says it could not reach Ezhuthu when the network fails', async () => {
     server.use(http.post('/api/lesson', () => HttpResponse.error()));
     const user = userEvent.setup();
-    renderApp(<AppRoutes />, { route: '/learn' });
+    renderApp(<AppRoutes />, { route: '/practice' });
     await user.click(screen.getByTestId('start-lesson'));
     const alert = await screen.findByRole('alert');
     expect(alert).toHaveTextContent('Could not reach Ezhuthu');
@@ -281,7 +281,7 @@ describe('layout', () => {
     expect(srcs.join(' ')).toMatch(/wordmark-ta-color\.svg/);
     const tabs = screen.getByTestId('tabbar');
     expect(within(tabs).queryByRole('link', { name: 'Review' })).toBeNull();
-    expect(within(screen.getByRole('navigation', { name: 'primary' })).queryByRole('link', { name: 'Review' })).toBeNull();
+    expect(within(screen.getByRole('navigation', { name: 'primary' })).queryByRole('link', { name: 'Expert review' })).toBeNull();
     await user.click(screen.getByTestId('menu-toggle'));
     await user.click(within(screen.getByRole('navigation', { name: 'mobile' })).getByRole('button', { name: 'Sign in' }));
     expect(within(screen.getByTestId('tabbar')).getByRole('link', { name: 'Review' })).toBeInTheDocument();
@@ -302,7 +302,7 @@ describe('layout', () => {
 
   it('credits the benchmark licence on the Test page', async () => {
     const user = userEvent.setup();
-    renderApp(<AppRoutes />, { route: '/test' });
+    renderApp(<AppRoutes />, { route: '/benchmark' });
     await user.click(within(screen.getByTestId('auth-gate')).getByRole('button', { name: 'Sign in' }));
     expect(await screen.findByTestId('benchmark-credit')).toHaveTextContent('shared under the same licence, CC BY-SA 4.0');
   });

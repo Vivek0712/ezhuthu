@@ -1,7 +1,10 @@
 """The app's try-it samples (app/web/src/samples/*.json, built by scripts/build_samples.py).
 
-Leakage guard: a sample shown in the app and sent to /api/restore must never come from a val or test inscription
-(benchmark/DATA_CARD.md, "Leakage"), and every gap in it must be a train blank, not a held-out item.
+Leakage guard (benchmark/DATA_CARD.md, "Leakage"; eval/reports/2026-11-02-samples.md):
+- no sample ever comes from a TEST inscription;
+- "masked" samples hide one VAL item's target (VAL only: train would be leaky, the 5-gram and retrieval read it) and
+  are exactly the items the pre-declared rule in select_masked() draws;
+- "unsolved" samples are TRAIN passages whose every gap is a train blank, not a held-out item.
 """
 from __future__ import annotations
 
@@ -56,26 +59,75 @@ def _build_module():
     return mod
 
 
-def test_no_val_or_test_inscription_in_samples(samples, images, splits, held_out_ids):
+def test_no_test_inscription_in_samples_masked_are_val_unsolved_are_train(samples, images, splits, held_out_ids):
     assert held_out_ids, "held-out ids must load"
+    test_ids = {r["inscription_id"] for n in ("items.test.jsonl", "items.test-hard.jsonl", "items.test-age.jsonl")
+                for r in _read(BENCH / n)}
+    val_items = {r["id"]: r for r in _read(BENCH / "items.val.jsonl")}
+    assert {s["group"] for s in samples} == {"masked", "unsolved"}
     for s in samples:
-        assert splits[s["inscription_id"]] == "train", s["id"]
-        assert s["split"] == "train"
-        assert s["inscription_id"] not in held_out_ids, s["id"]
+        assert splits[s["inscription_id"]] != "test" and s["inscription_id"] not in test_ids, s["id"]
+        if s["group"] == "masked":
+            assert s["split"] == "val" and splits[s["inscription_id"]] == "val", s["id"]
+            item = val_items[s["item_id"]]
+            assert item["split"] == "val" and item["inscription_id"] == s["inscription_id"]
+            assert s["edition_reading"]["text_iso"] == item["target"]
+        else:
+            assert s["group"] == "unsolved"
+            assert splits[s["inscription_id"]] == "train" and s["split"] == "train", s["id"]
+            assert s["inscription_id"] not in held_out_ids, s["id"]
+            assert s["edition_reading"] is None and s["item_id"] is None
     for im in images:
         assert splits[im["inscription_id"]] == "train", im["id"]
         assert im["inscription_id"] not in held_out_ids, im["id"]
 
 
-def test_every_gap_is_a_train_blank(samples):
+def test_every_unsolved_gap_is_a_train_blank(samples):
     blanks = {b["id"]: b for b in _read(BENCH / "blank.jsonl")}
     held_items = {r["id"] for n in ("items.val.jsonl", "items.test.jsonl") for r in _read(BENCH / n)}
     for s in samples:
+        if s["group"] != "unsolved":
+            assert s["blank_ids"] == []
+            continue
         assert len(s["blank_ids"]) == s["gaps"] == len(GAP_RE.findall(s["text_iso"])), s["id"]
         for bid in s["blank_ids"]:
             b = blanks[bid]
             assert b["split"] == "train" and b["kind"] == "blank" and b["inscription_id"] == s["inscription_id"]
             assert bid not in held_items
+
+
+def test_masked_samples_are_the_pre_declared_draw(samples):
+    """Rule 1-3 of eval/reports/2026-11-02-samples.md: the gallery's masked items are exactly select_masked()'s."""
+    mod = _build_module()
+    drawn = mod.select_masked()
+    masked = [s for s in samples if s["group"] == "masked"]
+    assert [s["item_id"] for s in masked] == [it["id"] for it in drawn]
+    assert 8 <= len(masked) <= 10
+    assert len({s["inscription_id"] for s in masked}) == len(masked)
+    for s, it in zip(masked, drawn):
+        assert 1 <= it["gap_chars"] <= mod.MASKED_MAX_GAP
+        assert s["gaps"] == 1 and [m.group(0) for m in GAP_RE.finditer(s["text_iso"])] == [f"[?{it['gap_chars']}]"]
+        assert s["hard"] == it["hard"]
+        # The hidden reading itself never appears in the text sent to the restorer.
+        assert s["text_iso"] == mod.masked_text(it)
+
+
+def test_every_sample_has_its_live_recording(samples):
+    from ezhuthu.corpus.script import normalise_for_scoring
+
+    rec = json.loads((SAMPLES / "recorded-restores.json").read_text(encoding="utf-8"))
+    assert rec["meta"]["bedrock"]["calls"] <= 40
+    assert set(rec["samples"]) == {s["id"] for s in samples}
+    for s in samples:
+        got = rec["samples"][s["id"]]
+        assert got["text_iso"] == s["text_iso"]
+        gaps = got["response"]["gaps"]
+        assert len(gaps) == s["gaps"] == len(s["recorded"]["gaps"])
+        if s["group"] == "masked":
+            g, want = gaps[0], s["edition_reading"]["norm"]
+            best = g["candidates"][g["chosen"]]["text"] if g["decision"] == "fill" else None
+            outcome = "open" if best is None else "match" if normalise_for_scoring(best) == want else "differs"
+            assert s["recorded"]["gaps"][0]["outcome"] == outcome
 
 
 def test_the_api_accepts_every_sample(samples):
@@ -87,6 +139,7 @@ def test_the_api_accepts_every_sample(samples):
 
 def test_gallery_shape_credit_and_spread(samples):
     assert 10 <= len(samples) <= 14
+    assert 2 <= sum(s["group"] == "unsolved" for s in samples) <= 3
     assert len({s["id"] for s in samples}) == len(samples)
     assert len({s["era"] for s in samples}) >= 4
     for s in samples:
@@ -101,7 +154,7 @@ def test_gallery_shape_credit_and_spread(samples):
 
 
 def test_sample_images_exist_and_are_attributed(images, samples):
-    ids = {s["id"] for s in samples}
+    ids = {p["id"] for p in _build_module().PICKS}  # source passages; not all are in the gallery
     attribution = (PUBLIC / "samples" / "ATTRIBUTION.md").read_text(encoding="utf-8")
     assert 3 <= len(images) <= 5
     for im in images:

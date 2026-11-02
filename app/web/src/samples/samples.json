@@ -1,12 +1,586 @@
 [
  {
+  "id": "tiruvorriyur-paddy-for-worship",
+  "group": "masked",
+  "inscription_id": "DHARMA_INSPallava00219",
+  "split": "val",
+  "blank_ids": [],
+  "item_id": "DHARMA_INSPallava00219:23:0",
+  "hard": true,
+  "era": "pallava",
+  "era_ta": "பல்லவர்",
+  "era_en": "Pallava",
+  "learn_level": "L3",
+  "title_ta": "திருவொற்றியூரில் வழிபாட்டுக்கு நெல்",
+  "title_en": "Paddy for worship at Tiruvoṟṟiyūr",
+  "place_ta": "திருவொற்றியூர்",
+  "place_en": "Tiruvoṟṟiyūr",
+  "edition_title": "Tiruvoṟṟiyūr, time of Kampavarman, year 1[.]",
+  "ruler": "Kampavarman",
+  "regnal_year": 1,
+  "dynasty": "Pallava",
+  "why_ta": "பல்லவ மன்னன் கம்பவர்மனின் ஆட்சியில் ஊரார் கோயிலுக்கான பொன்னைப் பெற்று, அதன் வட்டியாக நெல்லைக் காடி அளவில் அளந்து வழிபாட்டுக்குத் தருகின்றனர்.",
+  "why_en": "In the Pallava king Kampavarman's reign the villagers' assembly (ūrār) takes gold for the temple and pays its interest in paddy, measured in kāṭi, to keep the worship going.",
+  "lines": [
+   22,
+   23
+  ],
+  "gaps": 1,
+  "text_iso": "l irupatiṉ kāṭiyum vaikkāṭu kiḻārē āy Ēt[?2] pulattiṉ nel nūṟṟ’ iru-patiṉ",
+  "text_tamil": "ல் இருபதின் காடியும் வைக்காடு கிழாரே ஆய் ஏத்[?2] புலத்தின் நெல் நூற்ற் இருபதின்",
+  "edition_reading": {
+   "text_iso": "ta-p",
+   "text_tamil": "தப்",
+   "norm": "tap"
+  },
+  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSPallava00219",
+  "source_url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00219.xml",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "ta_review": "pending",
+  "recorded": {
+   "date": "2026-11-02",
+   "models_used": [
+    "us.anthropic.claude-opus-4-6-v1"
+   ],
+   "gaps": [
+    {
+     "decision": "abstain",
+     "proposal_iso": "tu-p",
+     "proposal_tamil": "து-ப்",
+     "confidence": 0.093,
+     "top_matches": false,
+     "any_matches": true,
+     "outcome": "open"
+    }
+   ]
+  }
+ },
+ {
+  "id": "tirunallaru-temple-office",
+  "group": "masked",
+  "inscription_id": "DHARMA_INSTamilNadu00140",
+  "split": "val",
+  "blank_ids": [],
+  "item_id": "DHARMA_INSTamilNadu00140:5:0",
+  "hard": true,
+  "era": "pandya",
+  "era_ta": "பாண்டியர்",
+  "era_en": "Pāṇḍya",
+  "learn_level": "L4",
+  "title_ta": "திருநள்ளாற்றில் ஒரு கோயில் பணி",
+  "title_en": "A temple office at Tirunaḷḷāṟu",
+  "place_ta": "திருநள்ளாறு, தர்ப்பாரண்யேசுவரர் கோயில்",
+  "place_en": "Tirunaḷḷāṟu, Tarppāraṇyēcuvarar temple",
+  "edition_title": "Tirunaḷḷāṟu, Tarppāraṇyēcuvarar temple, time of Caṭaiyavarman Sundara Pāṇḍya, year 13 + 1",
+  "ruler": "Caṭaiyavarman Sundara Pāṇḍya",
+  "regnal_year": 13,
+  "dynasty": "Pāṇḍya",
+  "why_ta": "சடையவர்மன் சுந்தர பாண்டியனின் ஆட்சியாண்டு: திருநள்ளாற்று இறைவனின் பணியில் ஒருவருக்கு நியோகம் (பதவி) அளிக்கப்படுகிறது. ஒரு சொல்லின் முதல் எழுத்து மறைந்துள்ளது.",
+  "why_en": "Dated by Caṭaiyavarman Sundara Pāṇḍya: a man is given an office (niyōkam) in the service of the lord of Tirunaḷḷāṟu. One letter is lost at the start of a word.",
+  "lines": [
+   5,
+   6
+  ],
+  "gaps": 1,
+  "text_iso": "c-cakai Aḻakiyār makaṉ cuntara-p-perumāṉukku tāṉa-niyōkam kuṭutta paric’ āvatu [?1]ṭaiyār tiru-naḷḷāṟ-uṭaiya nāyaṉārkku perumāḷ tiru-nāmattālē kō-taṇṭa-rāmaṉ cantiyum puraṭṭāci",
+  "text_tamil": "ச்சகை அழகியார் மகன் சுந்தரப்பெருமானுக்கு தானநியோகம் குடுத்த பரிச் ஆவது [?1]டையார் திருநள்ளாறுடைய நாயனார்க்கு பெருமாள் திருநாமத்தாலே கோதண்டராமன் சந்தியும் புரட்டாசி",
+  "edition_reading": {
+   "text_iso": "U",
+   "text_tamil": "உ",
+   "norm": "u"
+  },
+  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSTamilNadu00140",
+  "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00140.xml",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "ta_review": "pending",
+  "recorded": {
+   "date": "2026-11-02",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6"
+   ],
+   "gaps": [
+    {
+     "decision": "fill",
+     "proposal_iso": "u",
+     "proposal_tamil": "உ",
+     "confidence": 0.5988,
+     "top_matches": true,
+     "any_matches": true,
+     "outcome": "match"
+    }
+   ]
+  }
+ },
+ {
+  "id": "vellore-rajadhiraja-praise",
+  "group": "masked",
+  "inscription_id": "DHARMA_INStfaSIIv04p0i0139",
+  "split": "val",
+  "blank_ids": [],
+  "item_id": "DHARMA_INStfaSIIv04p0i0139:9:0",
+  "hard": false,
+  "era": "chola",
+  "era_ta": "சோழர்",
+  "era_en": "Chola",
+  "learn_level": "L2",
+  "title_ta": "இராசாதிராசனின் மெய்க்கீர்த்தி",
+  "title_en": "Rājādhirāja's praise of his own reign",
+  "place_ta": "வேலூர்",
+  "place_en": "Vēlūr (Vellore)",
+  "edition_title": "Vēlūr, time of Rājādhirāja, year lost",
+  "ruler": "Rājādhirāja",
+  "regnal_year": null,
+  "dynasty": "Cōḻa",
+  "why_ta": "சோழ அரசாணைகளைத் தொடங்கும் வெற்றிப் பட்டியலான முதலாம் இராசாதிராசனின் மெய்க்கீர்த்தியின் ஒரு பகுதி. இக்கல் வேலூர் தொல்லியல் அருங்காட்சியகத்தில் உள்ளது.",
+  "why_en": "Part of the meykkīrtti, the poetic list of victories that opens Chola royal orders, of Rājādhirāja I. The slab is in the ASI museum at Vellore.",
+  "lines": [
+   9,
+   11
+  ],
+  "gaps": 1,
+  "text_iso": "ṉṉāṭakar viṭu kaṭakari puraḷat taṉṉāṭaiyiṟ tamiḻpparaṇikoṇ ṭoṉṉār vacci[?1]neṭuvāḷ vicciyaṉ veruneḷitt",
+  "text_tamil": "ன்னாடகர் விடு கடகரி புரளத் தன்னாடையிற் தமிழ்ப்பரணிகொண் டொன்னார் வச்சி[?1]நெடுவாள் விச்சியன் வெருநெளித்த்",
+  "edition_reading": {
+   "text_iso": "ra",
+   "text_tamil": "ர",
+   "norm": "ra"
+  },
+  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INStfaSIIv04p0i0139",
+  "source_url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv04p0i0139.xml",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "ta_review": "pending",
+  "recorded": {
+   "date": "2026-11-02",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6"
+   ],
+   "gaps": [
+    {
+     "decision": "abstain",
+     "proposal_iso": "ra",
+     "proposal_tamil": "ர",
+     "confidence": 0.3913,
+     "top_matches": true,
+     "any_matches": true,
+     "outcome": "open"
+    }
+   ]
+  }
+ },
+ {
+  "id": "tiruvalisvaram-district-name",
+  "group": "masked",
+  "inscription_id": "DHARMA_INSPandya00160",
+  "split": "val",
+  "blank_ids": [],
+  "item_id": "DHARMA_INSPandya00160:85:0",
+  "hard": true,
+  "era": "pandya",
+  "era_ta": "பாண்டியர்",
+  "era_en": "Pāṇḍya",
+  "learn_level": "L4",
+  "title_ta": "திருவாலீசுவரத்தில் ஒரு நாட்டுப் பெயர்",
+  "title_en": "A district's name at Tiruvālīśvaram",
+  "place_ta": "திருவாலீசுவரம், வாலீசுவரர் கோயில்",
+  "place_en": "Tiruvālīśvaram, Vālīśvara temple",
+  "edition_title": "Tiruvalīśvaram, Valīśvara, time of Sundara Cōḻapāṇḍya, year 16",
+  "ruler": "Sundara Cōḻapāṇḍya",
+  "regnal_year": 16,
+  "dynasty": "Pāṇḍya",
+  "why_ta": "சுந்தர சோழபாண்டியனின் 16ஆம் ஆண்டின் நீண்ட கல்வெட்டு. ஒரு கூற்றத்தின் (நாட்டுப் பிரிவு) பெயருக்குள் இணைக்கும் ஓர் எழுத்து மறைந்துள்ளது.",
+  "why_en": "A long record of Sundara Cōḻapāṇḍya's 16th year. The gap sits inside the name of a district (kūṟṟam), where a single joining letter is missing.",
+  "lines": [
+   85,
+   86
+  ],
+  "gaps": 1,
+  "text_iso": "r-āṉa Aḻakiya pāṇṭiya mūvēnta-veḷārum nittavinota-vaḷa-nāṭṭu-p pāmpuṇi-[?1] kūṟṟattu vaḷava-nallūr Uṭaiyār nilaṉ",
+  "text_tamil": "ரான அழகிய பாண்டிய மூவேந்தவெளாரும் நித்தவிநொதவளநாட்டுப் பாம்புணி[?1] கூற்றத்து வளவநல்லூர் உடையார் நிலன்",
+  "edition_reading": {
+   "text_iso": "k",
+   "text_tamil": "க்",
+   "norm": "k"
+  },
+  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSPandya00160",
+  "source_url": "https://github.com/erc-dharma/tfa-pandya-epigraphy/blob/562e33f4e7ae082013e3ff268bd59d6c450944bc/DHARMA_INSPandya00160.xml",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "ta_review": "pending",
+  "recorded": {
+   "date": "2026-11-02",
+   "models_used": [
+    "us.anthropic.claude-opus-4-6-v1"
+   ],
+   "gaps": [
+    {
+     "decision": "fill",
+     "proposal_iso": "k",
+     "proposal_tamil": "க்",
+     "confidence": 0.8545,
+     "top_matches": true,
+     "any_matches": true,
+     "outcome": "match"
+    }
+   ]
+  }
+ },
+ {
+  "id": "tiruvavaduturai-taxes-paid-in-gold",
+  "group": "masked",
+  "inscription_id": "DHARMA_INSTiruvavatuturai10142",
+  "split": "val",
+  "blank_ids": [],
+  "item_id": "DHARMA_INSTiruvavatuturai10142:23:0",
+  "hard": true,
+  "era": "chola",
+  "era_ta": "சோழர்",
+  "era_en": "Chola",
+  "learn_level": "L2",
+  "title_ta": "பொன்னால் வரி நீக்கம்",
+  "title_en": "Taxes paid off with gold",
+  "place_ta": "திருவாவடுதுறை, கோமுக்தீசுவரர் கோயில்",
+  "place_en": "Tiruvāvaṭutuṟai, Gomuktīśvara temple",
+  "edition_title": "Tiruvāvaṭutuṟai, Gomuktīśvara temple, time of Parakesarivarman, year 38",
+  "ruler": "Parakesarivarman",
+  "regnal_year": 38,
+  "dynasty": "Cōḻa",
+  "why_ta": "பரகேசரிவர்மனின் 38ஆம் ஆண்டில் ஊர்ச் சபை திருக்கற்றளிப் பிச்சரிடம் பொன் பெற்று, இறைவனின் நிலத்துக்கான வரிகளை என்றும் தானே செலுத்த ஒப்புகிறது; கல் அந்த வரிகளைப் பட்டியலிடுகிறது.",
+  "why_en": "In Parakesarivarman's 38th year a village assembly takes gold from Tirukkaṟṟaḷi Piccar and in return pays the land's taxes for ever, so the god's land is tax-free. The stone lists the dues.",
+  "lines": [
+   22,
+   24
+  ],
+  "gaps": 1,
+  "text_iso": "māvum Āka Oṉpatu mā v-araiyum vācalil pōnta kuṭimai Ūr iṭu vari-[?1]-pāṭum ceṉṉīr-veṭṭiyum candrādit=ta-val Iṟai kāttu-k kuṭup",
+  "text_tamil": "மாவும் ஆக ஒன்பது மா வரையும் வாசலில் போந்த குடிமை ஊர் இடு வரி[?1]பாடும் சென்னீர்வெட்டியும் சந்த்ராதித்தவல் இறை காத்துக் குடுப்",
+  "edition_reading": {
+   "text_iso": "p",
+   "text_tamil": "ப்",
+   "norm": "p"
+  },
+  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSTiruvavatuturai10142",
+  "source_url": "https://github.com/erc-dharma/tfa-tiruvavatuturai-epigraphy/blob/53e5dee31e1804ea7a2c0ffdcfe4344b40507f98/DHARMA_INSTiruvavatuturai10142.xml",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "ta_review": "pending",
+  "recorded": {
+   "date": "2026-11-02",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6"
+   ],
+   "gaps": [
+    {
+     "decision": "fill",
+     "proposal_iso": "p",
+     "proposal_tamil": "ப்",
+     "confidence": 0.9628,
+     "top_matches": true,
+     "any_matches": true,
+     "outcome": "match"
+    }
+   ]
+  }
+ },
+ {
+  "id": "kodumbalur-four-boundaries",
+  "group": "masked",
+  "inscription_id": "DHARMA_INSKotumpalur00038",
+  "split": "val",
+  "blank_ids": [],
+  "item_id": "DHARMA_INSKotumpalur00038:20:0",
+  "hard": true,
+  "era": "pandya",
+  "era_ta": "பாண்டியர்",
+  "era_en": "Pāṇḍya",
+  "learn_level": "L4",
+  "title_ta": "கொடும்பாளூரில் நான்கெல்லை",
+  "title_en": "Four boundaries at Koṭumpāḷūr",
+  "place_ta": "கொடும்பாளூர், மூவர்கோயில்",
+  "place_en": "Koṭumpāḷūr, Mūvarkōyil",
+  "edition_title": "Koṭumpāḷūr, Mūvarkōyil, time of Vīra Pāṇḍya, year 17",
+  "ruler": "Vīra Pāṇḍya",
+  "regnal_year": 17,
+  "dynasty": "Pāṇḍya",
+  "why_ta": "வீரபாண்டியனின் 17ஆம் ஆண்டு, மூவர்கோயில் கல்வெட்டு: நன்செய், புன்செய், குளம், நத்தம் என உள்ளடங்கிய அனைத்துடன் நிலம் அதன் நான்கெல்லைகளால் வரையறுக்கப்படுகிறது.",
+  "why_en": "From the Mūvarkōyil, dated by Vīra Pāṇḍya's 17th year: land is marked out by its four boundaries with everything inside them, wet and dry fields, tank and house sites.",
+  "lines": [
+   20,
+   21
+  ],
+  "gaps": 1,
+  "text_iso": "ellai Umpaḷa-p-pāṭi vayalukku-t teṟkum Āka Icainta peru-nānk’ ellaikk’ uḷpaṭṭa kuḷamuṅ kuḷapparippu[?1] naṉcaiyum puṉcaiyum nattamum natta-p-pāḻum piḷḷaiyarāyaṉ kuṭikkāṭṭukkum vaiyyakattaraiyaṉ kuṭikkā",
+  "text_tamil": "எல்லை உம்பளப்பாடி வயலுக்குத் தெற்கும் ஆக இசைந்த பெருநாந்க் எல்லைக்க் உள்பட்ட குளமுங் குளப்பரிப்பு[?1] நன்சையும் புன்சையும் நத்தமும் நத்தப்பாழும் பிள்ளையராயன் குடிக்காட்டுக்கும் வைய்யகத்தரையன் குடிக்கா",
+  "edition_reading": {
+   "text_iso": "m",
+   "text_tamil": "ம்",
+   "norm": "m"
+  },
+  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSKotumpalur00038",
+  "source_url": "https://github.com/erc-dharma/tfa-kotumpalur-epigraphy/blob/783a257761cdbb6138fe4b4955d066aede0e4edb/DHARMA_INSKotumpalur00038.xml",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "ta_review": "pending",
+  "recorded": {
+   "date": "2026-11-02",
+   "models_used": [
+    "us.anthropic.claude-opus-4-6-v1"
+   ],
+   "gaps": [
+    {
+     "decision": "abstain",
+     "proposal_iso": "m",
+     "proposal_tamil": "ம்",
+     "confidence": 0.4327,
+     "top_matches": true,
+     "any_matches": true,
+     "outcome": "open"
+    }
+   ]
+  }
+ },
+ {
+  "id": "kolar-rajendra-praise",
+  "group": "masked",
+  "inscription_id": "DHARMA_INSTamilOutsideTN00003",
+  "split": "val",
+  "blank_ids": [],
+  "item_id": "DHARMA_INSTamilOutsideTN00003:3:0",
+  "hard": true,
+  "era": "chola",
+  "era_ta": "சோழர்",
+  "era_en": "Chola",
+  "learn_level": "L2",
+  "title_ta": "கோலாரில் இராசேந்திரனின் மெய்க்கீர்த்தி",
+  "title_en": "Rājendra Cōḻa's praise, at Kōlār",
+  "place_ta": "கோலார், கோலாரம்மா கோயில்",
+  "place_en": "Kōlār, Kōlārammā temple",
+  "edition_title": "Kōlār, Kōlārammā temple, time of Rājendra Cōḻa, year 20",
+  "ruler": "Rājendra Cōḻa",
+  "regnal_year": 20,
+  "dynasty": "Cōḻa",
+  "why_ta": "தமிழ்நாட்டுக்கு வெளியே, கர்நாடகத்தில் உள்ள தமிழ்க் கல்வெட்டு (இராசேந்திர சோழனின் 20ஆம் ஆண்டு). மன்னன் நிலமகளைச் சலியாமல் எடுத்த வராகத் திருமாலுக்கு ஒப்பிடப்படுகிறான்.",
+  "why_en": "A Tamil inscription outside Tamil Nadu, in Karnataka, from Rājendra Cōḻa's 20th year. The king is likened to Viṣṇu as the boar, lifting the earth unharmed.",
+  "lines": [
+   3,
+   3
+  ],
+  "gaps": 1,
+  "text_iso": "vannāḷ tirumāl āti-k kēḻal āki y-eṭu-t taṉavi yātuñ caliyā vakaiyi[?1]it’ eṭuttu-t taṉ kuṭai niḻalil iṉpuṟa Iruttil tikiriyum puliyun= ticai toṟu naṭāttip pukaḻun=",
+  "text_tamil": "வந்நாள் திருமால் ஆதிக் கேழல் ஆகி யெடுத் தனவி யாதுஞ் சலியா வகையி[?1]இத் எடுத்துத் தன் குடை நிழலில் இன்புற இருத்தில் திகிரியும் புலியுந் திசை தொறு நடாத்திப் புகழுந்",
+  "edition_reading": {
+   "text_iso": "ṉ",
+   "text_tamil": "ன்",
+   "norm": "ṉ"
+  },
+  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSTamilOutsideTN00003",
+  "source_url": "https://github.com/erc-dharma/tfa-tamil-outside-TN-epigraphy/blob/25117cef8368fca9b46580a2610bbd5da84c00bb/DHARMA_INSTamilOutsideTN00003.xml",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "ta_review": "pending",
+  "recorded": {
+   "date": "2026-11-02",
+   "models_used": [
+    "us.anthropic.claude-opus-4-6-v1"
+   ],
+   "gaps": [
+    {
+     "decision": "abstain",
+     "proposal_iso": "l",
+     "proposal_tamil": "ல்",
+     "confidence": 0.3266,
+     "top_matches": false,
+     "any_matches": true,
+     "outcome": "open"
+    }
+   ]
+  }
+ },
+ {
+  "id": "sirkazhi-traitors-lands",
+  "group": "masked",
+  "inscription_id": "DHARMA_INSCirkali00008",
+  "split": "val",
+  "blank_ids": [],
+  "item_id": "DHARMA_INSCirkali00008:6:0",
+  "hard": true,
+  "era": "chola",
+  "era_ta": "சோழர்",
+  "era_en": "Chola",
+  "learn_level": "L2",
+  "title_ta": "சீர்காழியில் துரோகிகளின் நிலம்",
+  "title_en": "The traitors' lands at Cīrkāḻi",
+  "place_ta": "சீர்காழி, பிரமபுரீசுவரர் கோயில்",
+  "place_en": "Cīrkāḻi, Brahmapurīśvara temple",
+  "edition_title": "Cīrkāḻi, Brahmapurīśvara, time of Rājarāja, year 7+1, day 317",
+  "ruler": "Rājarāja",
+  "regnal_year": 7,
+  "dynasty": "Cōḻa",
+  "why_ta": "முதலாம் இராசராசனின் ஆட்சி: துரோகம் செய்தவர்களின் நிலங்கள் பறிக்கப்பட்டு விற்கப்படுகின்றன. ஓர் அரசனின் பெயரால் அமைந்த வளநாட்டின் பெயரில் இடைவெளி உள்ளது.",
+  "why_en": "From Rājarāja I's reign: the lands of men who committed treason (turōkam) are taken and sold. The gap is in the name of a division (vaḷanāṭu) called after a king.",
+  "lines": [
+   5,
+   6
+  ],
+  "gaps": 1,
+  "text_iso": "Eḻuttu . yāṇṭu Oṉpat-āvatu ṉāḷ 3 100 5 10 l Ip-paṭi niṉaippiṉ paṭi . tiru-puvaṉa-c-cakkara-vartti kōṉēriṉmai-koṉ[?8]-vaḷanāṭṭu-t tiru-k-kaḻumalattu Uṭaiyār tiru-t-tōṇi-puram-uṭaiyār kōyil tēvarkaṉmikku",
+  "text_tamil": "எழுத்து . யாண்டு ஒன்பதாவது னாள் 3 100 5 10 ல் இப்படி நினைப்பின் படி . திருபுவனச்சக்கரவர்த்தி கோனேரின்மைகொன்[?8]வளநாட்டுத் திருக்கழுமலத்து உடையார் திருத்தோணிபுரமுடையார் கோயில் தேவர்கன்மிக்கு",
+  "edition_reading": {
+   "text_iso": "ṭāṉ Irājātirāja",
+   "text_tamil": "டான் இராஜாதிராஜ",
+   "norm": "ṭāṉirājātirāja"
+  },
+  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSCirkali00008",
+  "source_url": "https://github.com/erc-dharma/tfa-cirkali-epigraphy/blob/9ff78b784d4d5b0c774f72aa78e462349b1c7d48/DHARMA_INSCirkali00008.xml",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "ta_review": "pending",
+  "recorded": {
+   "date": "2026-11-02",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "us.anthropic.claude-opus-4-6-v1"
+   ],
+   "gaps": [
+    {
+     "decision": "abstain",
+     "proposal_iso": "tu rājādhirāja",
+     "proposal_tamil": "து ராஜாதிராஜ",
+     "confidence": 0.1503,
+     "top_matches": false,
+     "any_matches": false,
+     "outcome": "open"
+    }
+   ]
+  }
+ },
+ {
+  "id": "sirkazhi-feeding-house",
+  "group": "masked",
+  "inscription_id": "DHARMA_INSCirkali00034",
+  "split": "val",
+  "blank_ids": [],
+  "item_id": "DHARMA_INSCirkali00034:2:2",
+  "hard": true,
+  "era": "chola",
+  "era_ta": "சோழர்",
+  "era_en": "Chola",
+  "learn_level": "L2",
+  "title_ta": "சீர்காழியில் ஒரு சத்திரம்",
+  "title_en": "A feeding house at Cīrkāḻi",
+  "place_ta": "சீர்காழி, பிரமபுரீசுவரர் கோயில்",
+  "place_en": "Cīrkāḻi, Brahmapurīśvara temple",
+  "edition_title": "Cīrkāḻi, Brahmapurīśvara, time of Kulottuṅga Cōḻa, year 27",
+  "ruler": "Kulottuṅga Cōḻa",
+  "regnal_year": 27,
+  "dynasty": "Cōḻa",
+  "why_ta": "குலோத்துங்க சோழனின் 27ஆம் ஆண்டில் உடன்பிறந்தோர் சிலர் ஒரு சத்திரத்துக்காகக் காசு பெறுகின்றனர்; கல் அவர்களை ஒவ்வொருவராகப் பெயரிடுகிறது.",
+  "why_en": "In Kulottuṅga Cōḻa's 27th year a group of brothers receive money for a feeding house (catiram); the stone names each of them in turn.",
+  "lines": [
+   2,
+   2
+  ],
+  "gaps": 1,
+  "text_iso": "vētavaṉaṉāṭāḻvāṉum ivan tampi tiru-k-kaḻi-p-pālai Uṭaiyā[?1]m ivaṉ tampi Aḻakaṉum pakkal koṇṭa Ik-kaṇṇāṟṟu Ic-catirattu 1 kācu 8 100 r̥ṣapa-ṉāyaṟṟu",
+  "text_tamil": "வேதவனனாடாழ்வானும் இவந் தம்பி திருக்கழிப்பாலை உடையா[?1]ம் இவன் தம்பி அழகனும் பக்கல் கொண்ட இக்கண்ணாற்று இச்சதிரத்து 1 காசு 8 100 ருஷபனாயற்று",
+  "edition_reading": {
+   "text_iso": "ṉu",
+   "text_tamil": "னு",
+   "norm": "ṉu"
+  },
+  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSCirkali00034",
+  "source_url": "https://github.com/erc-dharma/tfa-cirkali-epigraphy/blob/9ff78b784d4d5b0c774f72aa78e462349b1c7d48/DHARMA_INSCirkali00034.xml",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "ta_review": "pending",
+  "recorded": {
+   "date": "2026-11-02",
+   "models_used": [
+    "us.anthropic.claude-opus-4-6-v1"
+   ],
+   "gaps": [
+    {
+     "decision": "fill",
+     "proposal_iso": "ṉu",
+     "proposal_tamil": "னு",
+     "confidence": 0.4961,
+     "top_matches": true,
+     "any_matches": true,
+     "outcome": "match"
+    }
+   ]
+  }
+ },
+ {
+  "id": "melappaluvur-rajendra-conquests",
+  "group": "masked",
+  "inscription_id": "DHARMA_INSMelKil00011",
+  "split": "val",
+  "blank_ids": [],
+  "item_id": "DHARMA_INSMelKil00011:3:0",
+  "hard": false,
+  "era": "chola",
+  "era_ta": "சோழர்",
+  "era_en": "Chola",
+  "learn_level": "L2",
+  "title_ta": "இராசேந்திரனின் வெற்றிகள், கோயில் அடித்தளத்தில்",
+  "title_en": "Rājendra I's conquests, on a temple base",
+  "place_ta": "மேலப்பழுவூர், அகத்தீசுவரர் கோயில்",
+  "place_en": "Mēlappaḻuvūr, Agastyeśvara temple",
+  "edition_title": "Mēlappaḻuvūr, Kīḻaiyūr, Ireṭṭaikkōyil, Agastyeśvara, time of Rājendracōḻa I, year 15",
+  "ruler": "Rājendracōḻa I",
+  "regnal_year": 15,
+  "dynasty": "Cōḻa",
+  "why_ta": "முதலாம் இராசேந்திரனின் 15ஆம் ஆண்டில் (சுமார் கி.பி. 1027) கருவறை அடித்தளத்தைச் சுற்றிச் செதுக்கப்பட்டது: அவன் வென்ற நாடுகளின் பட்டியல்.",
+  "why_en": "Carved round the base of a shrine in Rājendra I's 15th year (about 1027 CE): the list of lands he took, from the Western Ghats to Sri Lanka.",
+  "lines": [
+   3,
+   3
+  ],
+  "gaps": 1,
+  "text_iso": "lamum kāmiṭai vaḷar nāmaṇaik kōṇaiyum veñ cilai vīrar pañca-p-paḷḷiyum pārcaṭaip paḻaṉa mācuṇitēcamum ayarvil vaṇ kīrttiy ātinakar-avayi[?1] can=tiraṉ tol-kulatt’ in=tira-rātaṉai viḷaiyamark kaḷattuṭ kiḷaiyoṭum piṭittu pala taṉat toṭuniṟai",
+  "text_tamil": "லமும் காமிடை வளர் நாமணைக் கோணையும் வெஞ் சிலை வீரர் பஞ்சப்பள்ளியும் பார்சடைப் பழன மாசுணிதேசமும் அயர்வில் வண் கீர்த்திய் ஆதிநகரவயி[?1] சந்திரன் தொல்குலத்த் இந்திரராதனை விளையமர்க் களத்துட் கிளையொடும் பிடித்து பல தனத் தொடுநிறை",
+  "edition_reading": {
+   "text_iso": "l",
+   "text_tamil": "ல்",
+   "norm": "l"
+  },
+  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSMelKil00011",
+  "source_url": "https://github.com/erc-dharma/tfa-melappaluvur-kilappaluvur-epigraphy/blob/3c1804e3e7d4e28f84a783de018f728c64d5505f/DHARMA_INSMelKil00011.xml",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "ta_review": "pending",
+  "recorded": {
+   "date": "2026-11-02",
+   "models_used": [
+    "us.anthropic.claude-opus-4-6-v1"
+   ],
+   "gaps": [
+    {
+     "decision": "abstain",
+     "proposal_iso": "ṟ",
+     "proposal_tamil": "ற்",
+     "confidence": 0.4277,
+     "top_matches": false,
+     "any_matches": true,
+     "outcome": "open"
+    }
+   ]
+  }
+ },
+ {
   "id": "hero-stone-naiya-vatukan",
+  "group": "unsolved",
   "inscription_id": "DHARMA_INSPallava00418",
   "split": "train",
   "blank_ids": [
    "DHARMA_INSPallava00418:6:0",
    "DHARMA_INSPallava00418:7:0"
   ],
+  "item_id": null,
+  "hard": null,
   "era": "pallava",
   "era_ta": "பல்லவர்",
   "era_en": "Pallava",
@@ -28,18 +602,45 @@
   "gaps": 2,
   "text_iso": "kō-vicaiya-mayīnntira-parumaṟki yāṇṇṭ' Ēḻ-āvatu perum-pāṇ-iḷavaraicar cēvakaṉ naiya-vaṭukaṉ [?5] [?5]p paṭṭāṉ",
   "text_tamil": "கோவிசையமயீந்ந்திரபருமற்கி யாண்ண்ட் ஏழாவது பெரும்பாணிளவரைசர் சேவகன் நையவடுகன் [?5] [?5]ப் பட்டான்",
+  "edition_reading": null,
   "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSPallava00418",
   "source_url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00418.xml",
   "licence": "CC BY-SA 4.0",
-  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "ta_review": "done",
+  "recorded": {
+   "date": "2026-11-02",
+   "models_used": [
+    "us.anthropic.claude-opus-4-6-v1"
+   ],
+   "gaps": [
+    {
+     "decision": "abstain",
+     "proposal_iso": "kūṟṟattu",
+     "proposal_tamil": "கூற்றத்து",
+     "confidence": 0.1263,
+     "outcome": "open"
+    },
+    {
+     "decision": "abstain",
+     "proposal_iso": "kai-y-p",
+     "proposal_tamil": "கை-ய்-ப்",
+     "confidence": 0.1397,
+     "outcome": "open"
+    }
+   ]
+  }
  },
  {
   "id": "mamallapuram-calf-pasture",
+  "group": "unsolved",
   "inscription_id": "DHARMA_INSPallava00092",
   "split": "train",
   "blank_ids": [
    "DHARMA_INSPallava00092:10:0"
   ],
+  "item_id": null,
+  "hard": null,
   "era": "pallava",
   "era_ta": "பல்லவர்",
   "era_en": "Pallava",
@@ -61,357 +662,39 @@
   "gaps": 1,
   "text_iso": "svasti śrī pallava-vaṁsasya nan=tibodhuvarmmaku rājyāvibhirddhyañ cellā-niṉṟatu Āṟupattu Aint-āvatu māmallapurattu nakarattār Iṭaivalañcāṉ kaṇṭaṉ kaṉṟu-mēy-kaḻaṉi-y-āka koṇṭa nilam Āmūr-nāṭṭu kuṉṟattūr iṭaivāḻum· kuṉṟat·tūr-kiḻār Iḷa-naṭuvuṇār makaṉ [?2] ṉ kaṇṭaṉ iṭai kaṉṟu-mēy-kaḻaṉi",
   "text_tamil": "ஸ்வஸ்தி ஶ்ரீ பல்லவவம்ஸஸ்ய நந்திபொதுவர்ம்மகு ராஜ்யாவிபிர்த்த்யஞ் செல்லாநின்றது ஆறுபத்து ஐந்தாவது மாமல்லபுரத்து நகரத்தார் இடைவலஞ்சான் கண்டன் கன்றுமேய்கழனியாக கொண்ட நிலம் ஆமூர்நாட்டு குன்றத்தூர் இடைவாழும் குன்றத்தூர்கிழார் இளநடுவுணார் மகன் [?2] ன் கண்டன் இடை கன்றுமேய்கழனி",
+  "edition_reading": null,
   "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSPallava00092",
   "source_url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00092.xml",
   "licence": "CC BY-SA 4.0",
-  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
- },
- {
-  "id": "uttiramerur-tank-gold",
-  "inscription_id": "DHARMA_INSPallava00217",
-  "split": "train",
-  "blank_ids": [
-   "DHARMA_INSPallava00217:1:0",
-   "DHARMA_INSPallava00217:2:0"
-  ],
-  "era": "pallava",
-  "era_ta": "பல்லவர்",
-  "era_en": "Pallava",
-  "learn_level": "L3",
-  "title_ta": "உத்திரமேரூர் ஏரிக்கு ஆயிரம் கழஞ்சு பொன்",
-  "title_en": "A thousand kaḻañcu of gold for Uttiramērūr's tank",
-  "place_ta": "உத்திரமேரூர்",
-  "place_en": "Uttiramērūr",
-  "edition_title": "Uttiramērūr, time of Kampavarman, year 15",
-  "ruler": "Kampavarman",
-  "regnal_year": 15,
-  "dynasty": "Pallava",
-  "why_ta": "கம்பவர்மனின் 15ஆம் ஆண்டில் வயிரமேகத் தடாகத்துக்குப் பொன்; ஆண்டுதோறும் ஏரியைத் தூர்வார ஊர்ச் சபை உறுதியளிக்கிறது.",
-  "why_en": "Gold for the Vayiramēka tank in Kampavarman's 15th year, and the village assembly (sabhai) promising to dredge it every year.",
-  "lines": [
-   1,
-   2
-  ],
-  "gaps": 2,
-  "text_iso": "svasti śrī kō-vicaiya-kampa-varmmaṟku yāṇṭu patiṉ aint-āvatu Īkkāṭṭu-k-kōṭṭattu-t toḻūr-nāṭṭu-t tiru [?10] perumāṉaṭikaḷ aṭiyēṉ ceyya Aparājitaṉēṉ Eḻuttu-k kāliyūr-k-kōṭṭattu Uttara-meru-c-caturvveti-maṅkalattu vayirameka-taṭākattukku [?4]",
-  "text_tamil": "ஸ்வஸ்தி ஶ்ரீ கோவிசையகம்பவர்ம்மற்கு யாண்டு பதின் ஐந்தாவது ஈக்காட்டுக்கோட்டத்துத் தொழூர்நாட்டுத் திரு [?10] பெருமானடிகள் அடியேன் செய்ய அபராஜிதனேன் எழுத்துக் காலியூர்க்கோட்டத்து உத்தரமெருச்சதுர்வ்வெதிமங்கலத்து வயிரமெகதடாகத்துக்கு [?4]",
-  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSPallava00217",
-  "source_url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00217.xml",
-  "licence": "CC BY-SA 4.0",
-  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
- },
- {
-  "id": "piranmalai-undying-goats",
-  "inscription_id": "DHARMA_INSTamilNadu00406",
-  "split": "train",
-  "blank_ids": [
-   "DHARMA_INSTamilNadu00406:3:0",
-   "DHARMA_INSTamilNadu00406:4:0"
-  ],
-  "era": "pandya",
-  "era_ta": "பாண்டியர்",
-  "era_en": "Pāṇḍya",
-  "learn_level": "L4",
-  "title_ta": "சாவா மூவாப் பேராடு",
-  "title_en": "Goats that never die, for a lamp",
-  "place_ta": "பிரான்மலை, மங்கைபாகர் கோயில்",
-  "place_en": "Pirāṉmalai, Maṅkai Pākar temple",
-  "edition_title": "Pirāṉmalai, Maṅkai Pākar temple, time of Sundara Pāṇḍya, year 3",
-  "ruler": "Sundara Pāṇḍya",
-  "regnal_year": 3,
-  "dynasty": "Pāṇḍya",
-  "why_ta": "'சோணாடு கொண்டருளிய' சுந்தர பாண்டியனின் ஆட்சியாண்டு. ஓர் அடியார் 50 'சாவா மூவாப் பேராடு' அளிக்கிறார்: விளக்கின் நெய் என்றும் குறையாதபடி மந்தை என்றும் பேணப்படும்.",
-  "why_en": "Dated by Sundara Pāṇḍya, 'who took the Chola country'. A devotee gives 50 'undying, unageing' goats (cāvā mūvā pēr āṭu): the flock is kept up for ever so the lamp's ghee never runs out.",
-  "lines": [
-   1,
-   8
-  ],
-  "gaps": 2,
-  "text_iso": "svasti śrī kō-māṟa-paṉmar-āṉa tiri-puvaṉa-c-cakkara-varttikaḷ cōṇāṭu koṇṭ-aruḷiya śrī-cuntara-pāṇṭiya-tēvaṟku yāṇṭu 3-vatu tiru-malai-nāṭṭu-t tiru-k-koṭuṅ-kuṉṟattu Uṭaiyār tiru-k-koṭuṅ-kuṉṟam-uṭaiya nāyaṉāṟku t [?4] valil paratēci Aṇṭārkaḷil tiru-naṭṭa-p-perumāḷ piḷḷaikaḷil Etir-illā-p perumāḷ [?3] ceyam-uṭaiya perumāḷ-āṉa tiru-nīṟu pēṇi yaṇivāṉēṉ cantirātitta-vaṟ celvat’ āka tiru-ṉuntā-viḷakku Oṉṟukku cāvā mūvā-p pēr-āṭ’ āka-k koṇṭu viṭṭa Āṭu 5 10 Inta viḷakk’ eriya Iṭṭa pittaḷai viḷakku Oṉṟināl Iṭai 7 10 2 palamum Iv-āṭu Aim-patum koṇṭu kalveṭṭi-k kuṭuttōm tiru-nīṟu pēṇi Aṇivāṟku",
-  "text_tamil": "ஸ்வஸ்தி ஶ்ரீ கோமாறபன்மரான திரிபுவனச்சக்கரவர்த்திகள் சோணாடு கொண்டருளிய ஶ்ரீசுந்தரபாண்டியதேவற்கு யாண்டு 3வது திருமலைநாட்டுத் திருக்கொடுங்குன்றத்து உடையார் திருக்கொடுங்குன்றமுடைய நாயனாற்கு த் [?4] வலில் பரதேசி அண்டார்களில் திருநட்டப்பெருமாள் பிள்ளைகளில் எதிரில்லாப் பெருமாள் [?3] செயமுடைய பெருமாளான திருநீறு பேணி யணிவானேன் சந்திராதித்தவற் செல்வத் ஆக திருனுந்தாவிளக்கு ஒன்றுக்கு சாவா மூவாப் பேராட் ஆகக் கொண்டு விட்ட ஆடு 5 10 இந்த விளக்க் எரிய இட்ட பித்தளை விளக்கு ஒன்றிநால் இடை 7 10 2 பலமும் இவாடு ஐம்பதும் கொண்டு கல்வெட்டிக் குடுத்தோம் திருநீறு பேணி அணிவாற்கு",
-  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSTamilNadu00406",
-  "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00406.xml",
-  "licence": "CC BY-SA 4.0",
-  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
- },
- {
-  "id": "tiruppattur-tamil-singers",
-  "inscription_id": "DHARMA_INStfaSIIv25p0i0099",
-  "split": "train",
-  "blank_ids": [
-   "DHARMA_INStfaSIIv25p0i0099:7:0"
-  ],
-  "era": "pandya",
-  "era_ta": "பாண்டியர்",
-  "era_en": "Pāṇḍya",
-  "learn_level": "L4",
-  "title_ta": "தமிழ் பாடுவார்க்குக் கொடை",
-  "title_en": "A gift for the singers of Tamil",
-  "place_ta": "திருப்பத்தூர், திருத்தளீசுவரர் கோயில்",
-  "place_en": "Tiruppattūr, Tiruttaḷīśvara temple",
-  "edition_title": "Tiruppattūr, Tiruttaḷīśvara, time of Kulaśekhara, year 4",
-  "ruler": "Kulaśekhara",
-  "regnal_year": 4,
-  "dynasty": "Pāṇḍya",
-  "why_ta": "குலசேகரன் ஆட்சியில் ஒருவர் தம் பிறந்த நாளான புனர்பூசத்தன்று திருநாளும் அமுதுபடியும் ஏற்படுத்தி, மத்தளக்காரனுக்கும் தமிழ் பாடுவார்க்கும் வழிசெய்கிறார்.",
-  "why_en": "In Kulaśekhara's reign a man marks his birthday star, Punarpūcam, with a festival and food offerings, and provides for the drummer and those who sing in Tamil (tamiḻ pāṭuvār).",
-  "lines": [
-   1,
-   8
-  ],
-  "gaps": 1,
-  "text_iso": "svasti śrī tri-bhuvana-c-cakra-vart=tikaḷ kula-śekhara-devaṟku yāṇṭu 2 Etir-ām āṇṭiṉ etir-ām āṇṭai ciṅka-nāyiṟṟu mu-p-patān= tiyati nāḷ kēraḷa-ciṅka-vaḷanāṭṭu brahma-deyan= tiru-p-puttūr tiru-t-taḷi-y āṇṭa nāyaṉār kōyililē teṉāṟṟu-p pōkku niyamattu-k kaṇṭaṉ Uyya-van=tāṉ-āṉa kāṅkayaṉ-ēṉ Eṉ piṟan=ta nāḷ puṇar-pūcattu nāḷ tiṇkaḷ tiru-nāḷ Eḻun=t-aruḷukaikkum Aṟṟai nāḷāl vēṇṭum amutu-paṭi viñjaṉaṅkaḷukkum nittaṟ tiru-p-patiyam viṇṇappañ ceyvārkaḷuṭaṉ kūṭa-c cevikku-devaraṭiyār [?10] campāṉukkum mattaḷa-k-kāraṉukkum tamiḻ pāṭuvāṟkum nittal niman=tam-āka-c candrādit=ta-vaṟ celkaikku muṉpē varakuṇa-p perumāḷ kūttāṭu",
-  "text_tamil": "ஸ்வஸ்தி ஶ்ரீ த்ரிபுவநச்சக்ரவர்த்திகள் குலஶெகரதெவற்கு யாண்டு 2 எதிராம் ஆண்டின் எதிராம் ஆண்டை சிங்கநாயிற்று முப்பதாந் தியதி நாள் கேரளசிங்கவளநாட்டு ப்ரஹ்மதெயந் திருப்புத்தூர் திருத்தளிய் ஆண்ட நாயனார் கோயிலிலே தெனாற்றுப் போக்கு நியமத்துக் கண்டன் உய்யவந்தானான காங்கயனேன் என் பிறந்த நாள் புணர்பூசத்து நாள் திண்கள் திருநாள் எழுந்தருளுகைக்கும் அற்றை நாளால் வேண்டும் அமுதுபடி விஞ்ஜனங்களுக்கும் நித்தற் திருப்பதியம் விண்ணப்பஞ் செய்வார்களுடன் கூடச் செவிக்குதெவரடியார் [?10] சம்பானுக்கும் மத்தளக்காரனுக்கும் தமிழ் பாடுவாற்கும் நித்தல் நிமந்தமாகச் சந்த்ராதித்தவற் செல்கைக்கு முன்பே வரகுணப் பெருமாள் கூத்தாடு",
-  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INStfaSIIv25p0i0099",
-  "source_url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv25p0i0099.xml",
-  "licence": "CC BY-SA 4.0",
-  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
- },
- {
-  "id": "melappaluvur-who-took-madurai",
-  "inscription_id": "DHARMA_INSMelKil00001",
-  "split": "train",
-  "blank_ids": [
-   "DHARMA_INSMelKil00001:4:0",
-   "DHARMA_INSMelKil00001:4:1"
-  ],
-  "era": "chola",
-  "era_ta": "சோழர்",
-  "era_en": "Chola",
-  "learn_level": "L2",
-  "title_ta": "'மதிரை கொண்ட' பராந்தகன்",
-  "title_en": "'He who took Madurai'",
-  "place_ta": "மேலப்பழுவூர், அகத்தீசுவரர் கோயில்",
-  "place_en": "Mēlappaḻuvūr, Agastyeśvara temple",
-  "edition_title": "Mēlappaḻuvūr, Agastyeśvara temple, time of Parāntaka I, year 36",
-  "ruler": "Parāntaka I",
-  "regnal_year": 36,
-  "dynasty": "Cōḻa",
-  "why_ta": "'மதிரை கொண்ட' என்ற முதலாம் பராந்தகனின் பட்டத்துடன் தொடங்குகிறது. சோழர் கல்வெட்டுகள் இப்படிப் பட்டத்தாலும் ஆட்சியாண்டாலும் (இங்கே 36) காலம் குறிக்கின்றன.",
-  "why_en": "Opens with Parāntaka I's title 'matirai koṇṭa', 'who took Madurai'. Chola stones date themselves by such titles and the regnal year, here year 36.",
-  "lines": [
-   1,
-   5
-  ],
-  "gaps": 2,
-  "text_iso": "svasti śrī matirai koṇṭa kō-p-para-kēcari-paṉmarkku yāṇṭu 3 10 6 Āvatu Avaṉi-kantaṟpa-purattu mahā-devarkku kaṇṭaṉ neṟiyāṉ tirutta kuḷattiṉ kīḻ Apohanaṅ kiṭanta bhūmiyai macakki Itin nirk kiṭaṉta nilam [?8] ṟi [?1] tu Uṭump' ōṭiy āmai tavaḻntatu Eppērpaṭṭatu Uṇṇilam Oḻiv' iṉṟiy",
-  "text_tamil": "ஸ்வஸ்தி ஶ்ரீ மதிரை கொண்ட கோப்பரகேசரிபன்மர்க்கு யாண்டு 3 10 6 ஆவது அவனிகந்தற்பபுரத்து மஹாதெவர்க்கு கண்டன் நெறியான் திருத்த குளத்தின் கீழ் அபொஹநங் கிடந்த பூமியை மசக்கி இதிந் நிர்க் கிடன்த நிலம் [?8] றி [?1] து உடும்ப் ஓடிய் ஆமை தவழ்ந்தது எப்பேர்பட்டது உண்ணிலம் ஒழிவ் இன்றிய்",
-  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSMelKil00001",
-  "source_url": "https://github.com/erc-dharma/tfa-melappaluvur-kilappaluvur-epigraphy/blob/3c1804e3e7d4e28f84a783de018f728c64d5505f/DHARMA_INSMelKil00001.xml",
-  "licence": "CC BY-SA 4.0",
-  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
- },
- {
-  "id": "tiruvavaduturai-coconut-grove",
-  "inscription_id": "DHARMA_INSTiruvavatuturai10135",
-  "split": "train",
-  "blank_ids": [
-   "DHARMA_INSTiruvavatuturai10135:2:2"
-  ],
-  "era": "chola",
-  "era_ta": "சோழர்",
-  "era_en": "Chola",
-  "learn_level": "L2",
-  "title_ta": "இறைவனுக்குத் தென்னந்தோப்பு",
-  "title_en": "A coconut grove for the god",
-  "place_ta": "திருவாவடுதுறை, கோமுக்தீசுவரர் கோயில்",
-  "place_en": "Tiruvāvaṭutuṟai, Gomuktīśvara temple",
-  "edition_title": "Tiruvāvaṭutuṟai, Gomuktīṡvara, time of Parāntaka I, year 2",
-  "ruler": "Parāntaka I",
-  "regnal_year": 2,
-  "dynasty": "Cōḻa",
-  "why_ta": "சாத்தனூர் சபையார் தங்கள் பொது நிலத்தில் நான்கு மா நிலத்தை இறையிலியாக விற்று, கோயில் தென்னந்தோப்புக்கு அளித்தனர் (முதலாம் பராந்தகன், 2ஆம் ஆண்டு).",
-  "why_en": "The assembly of Cāttaṉūr sells four mā of its common land, tax-free, to keep up a coconut garden for the temple, in Parāntaka I's 2nd year.",
-  "lines": [
-   1,
-   2
-  ],
-  "gaps": 1,
-  "text_iso": "svasti śrī kō-p-parakēsari-paṉmaṟku 2 yāṇṭu Āvatu teṉkarai-t tiraimūr-nāṭṭu brahmatēyam cāttuṉūr sabhaiyōm tiruvāvaṭutuṟai mahādevaṟku Āyiravaṉāḷ teṅku-nan=tavāṉañ ceyta Ātittapaṉma-t-terin=ta kaikkōḷaril caṅkayaṉoṟṟikku Eṅkaḷūr miṟṟalaṅkuṭi eṅkaḷ potunilam-āṉa nālmā-c ceyyum cantrātittavaṟ niṟkka iṟaiyiḻicci viṟṟu-k-kuṭutta nilattukk' ellai Uṭciṟuvāykkālukku meṟkkum kāmakkāṇi kumaraṉaṅki nilattukku vaṭa [?6]",
-  "text_tamil": "ஸ்வஸ்தி ஶ்ரீ கோப்பரகேஸரிபன்மற்கு 2 யாண்டு ஆவது தென்கரைத் திரைமூர்நாட்டு ப்ரஹ்மதேயம் சாத்துனூர் ஸபையோம் திருவாவடுதுறை மஹாதெவற்கு ஆயிரவனாள் தெங்குநந்தவானஞ் செய்த ஆதித்தபன்மத்தெரிந்த கைக்கோளரில் சங்கயனொற்றிக்கு எங்களூர் மிற்றலங்குடி எங்கள் பொதுநிலமான நால்மாச் செய்யும் சந்த்ராதித்தவற் நிற்க்க இறையிழிச்சி விற்றுக்குடுத்த நிலத்துக்க் எல்லை உட்சிறுவாய்க்காலுக்கு மெற்க்கும் காமக்காணி குமரனங்கி நிலத்துக்கு வட [?6]",
-  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSTiruvavatuturai10135",
-  "source_url": "https://github.com/erc-dharma/tfa-tiruvavatuturai-epigraphy/blob/53e5dee31e1804ea7a2c0ffdcfe4344b40507f98/DHARMA_INSTiruvavatuturai10135.xml",
-  "licence": "CC BY-SA 4.0",
-  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
- },
- {
-  "id": "thanjavur-kuntavai-jewels",
-  "inscription_id": "DHARMA_INStfaSIIv02p0i0002",
-  "split": "train",
-  "blank_ids": [
-   "DHARMA_INStfaSIIv02p0i0002:3.8=24:0"
-  ],
-  "era": "chola",
-  "era_ta": "சோழர்",
-  "era_en": "Chola",
-  "learn_level": "L2",
-  "title_ta": "குந்தவையின் அணிகலன்கள், தஞ்சைப் பெரிய கோயில்",
-  "title_en": "Kuntavai's jewels for the Big Temple",
-  "place_ta": "தஞ்சாவூர், பெருவுடையார் கோயில்",
-  "place_en": "Thanjavur, Bṛhadīśvara temple",
-  "edition_title": "Tanjore, Br̥hadīśvara, time of Rājarāja I Cōḻa, year 29 (SII 2.2)",
-  "ruler": "Rājarāja I Cōḻa",
-  "regnal_year": 29,
-  "dynasty": "Cōḻa",
-  "why_ta": "இராசராசனின் தமக்கை குந்தவை தஞ்சைக் கோயிலுக்கு அளித்த பொன் அணிகலன்கள்; ஒவ்வொன்றின் எடையும் கழஞ்சு, மஞ்சாடியில் குறிக்கப்பட்டுள்ளது.",
-  "why_en": "Rājarāja I's elder sister Kuntavai gives gold jewels to the Thanjavur temple; every piece is listed with its weight in kaḻañcu and mañcāṭi.",
-  "lines": [
-   24,
-   25
-  ],
-  "gaps": 1,
-  "text_iso": "patt’ ēḻum tiru O [?4] paṭukaṇ nālum kaḷḷippū nālum kokku-vāy Oṉṟum cavakkam Iraṇṭum Uṭpaṭa poṉ patiṉoru kaḻañcēy mañcāṭi · mūṉṟ’ oṉṟ’ āka Aṭuttu viḷakkiṉa kaṇṭattuṭar Oṉṟu poṉ Aṟu-pattu Iru-kaḻañcu · puṟattuṭar paṭukaṇṇuṅ kaḷḷippūvuṅ kokkuvāyum Uṭpaṭa Oṉṟu poṉ Irupattu nāṟ-kaḻañc’ arai",
-  "text_tamil": "பத்த் ஏழும் திரு ஒ [?4] படுகண் நாலும் கள்ளிப்பூ நாலும் கொக்குவாய் ஒன்றும் சவக்கம் இரண்டும் உட்பட பொன் பதினொரு கழஞ்சேய் மஞ்சாடி மூன்ற் ஒன்ற் ஆக அடுத்து விளக்கின கண்டத்துடர் ஒன்று பொன் அறுபத்து இருகழஞ்சு புறத்துடர் படுகண்ணுங் கள்ளிப்பூவுங் கொக்குவாயும் உட்பட ஒன்று பொன் இருபத்து நாற்கழஞ்ச் அரை",
-  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INStfaSIIv02p0i0002",
-  "source_url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv02p0i0002.xml",
-  "licence": "CC BY-SA 4.0",
-  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
- },
- {
-  "id": "nagapattinam-srivijaya-gift",
-  "inscription_id": "DHARMA_INSTamilNadu00166",
-  "split": "train",
-  "blank_ids": [
-   "DHARMA_INSTamilNadu00166:1:0",
-   "DHARMA_INSTamilNadu00166:1:1",
-   "DHARMA_INSTamilNadu00166:1:2",
-   "DHARMA_INSTamilNadu00166:2:0",
-   "DHARMA_INSTamilNadu00166:2:2"
-  ],
-  "era": "chola",
-  "era_ta": "சோழர்",
-  "era_en": "Chola",
-  "learn_level": "L2",
-  "title_ta": "நாகையில் ஸ்ரீவிஜயத்தின் கொடை",
-  "title_en": "A gift from Śrīvijaya at Nākappaṭṭiṉam",
-  "place_ta": "நாகப்பட்டினம், காயாரோகணர் கோயில்",
-  "place_en": "Nākappaṭṭiṉam, Kāyārōkaṇam temple",
-  "edition_title": "Nākappaṭṭiṉam, Kāyārōkaṇam temple, time of Rājendra Cōḻa, year 3",
-  "ruler": "Rājendra Cōḻa",
-  "regnal_year": 3,
-  "dynasty": "Cōḻa",
-  "why_ta": "கடல் கடந்த ஸ்ரீவிஜய அரசனின் கன்மி (அலுவலர்) ஒருவர், இராசேந்திர சோழனின் 3ஆம் ஆண்டில் நாகை இறைவனுக்குப் பொன்னும் மணிகளும் அளித்தார்.",
-  "why_en": "An officer (kaṉmi) of the king of Śrīvijaya, across the sea in Southeast Asia, gives gold and jewels to the Nākai temple in Rājendra Cōḻa's 3rd year.",
-  "lines": [
-   1,
-   2
-  ],
-  "gaps": 5,
-  "text_iso": "svasti śrī kō-p-para-kēcari-panmar-āṉa śrī-rājendra-cōḻa-tēvarku yāṇṭu 3 Āvatu kṣatriya-cikhāmaṇi-vaḷanāṭṭu [?8] paṭṭiṉa [?10] rōṇa [?8] veḷḷi-t-tiru-mēṉi nākai-y-aḻakaṟku śrī-vijaiyatt’ araiyar kanmi rājarāja-maṇṭalattu kīṭcempiṉāṭṭu mēṉṟōṉṟi-paṭṭiṉat [?10] ceyvitta kṣe [?6] ca niṟai po",
-  "text_tamil": "ஸ்வஸ்தி ஶ்ரீ கோப்பரகேசரிபந்மரான ஶ்ரீராஜெந்த்ரசோழதேவர்கு யாண்டு 3 ஆவது க்ஷத்ரியசிகாமணிவளநாட்டு [?8] பட்டின [?10] ரோண [?8] வெள்ளித்திருமேனி நாகையழகற்கு ஶ்ரீவிஜையத்த் அரையர் கந்மி ராஜராஜமண்டலத்து கீட்செம்பினாட்டு மேன்றோன்றிபட்டினத் [?10] செய்வித்த க்ஷெ [?6] ச நிறை பொ",
-  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSTamilNadu00166",
-  "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00166.xml",
-  "licence": "CC BY-SA 4.0",
-  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
- },
- {
-  "id": "narttamalai-carpenter",
-  "inscription_id": "DHARMA_INStfaSIIv17p0i0387",
-  "split": "train",
-  "blank_ids": [
-   "DHARMA_INStfaSIIv17p0i0387:10:0",
-   "DHARMA_INStfaSIIv17p0i0387:11:0"
-  ],
-  "era": "chola",
-  "era_ta": "சோழர்",
-  "era_en": "Chola",
-  "learn_level": "L2",
-  "title_ta": "கோயில் கட்டிய தச்சருக்கு நிலம்",
-  "title_en": "Land for the carpenter who built the temples",
-  "place_ta": "நார்த்தாமலை, திருமலைக்கடம்பர் கோயில்",
-  "place_en": "Nārttāmalai, Tirumalaikkatampar temple",
-  "edition_title": "Nārttāmalai, Tirumalaikkatampar temple, time of Tribhuvanachakravartin Śrī Rājendracōḻadeva, 7th regnal year",
-  "ruler": "Tribhuvanachakravartin Śrī Rājendracōḻadeva",
-  "regnal_year": null,
-  "dynasty": "Cōḻa",
-  "why_ta": "கோயில்களைக் கட்டிய தச்சர் அகளங்க ஆசாரிக்கு நிலம் கொடுத்த பதிவு; கொடையாளி மட்டுமல்ல, கட்டியவரின் பெயரும் கல்லில் நிற்கிறது.",
-  "why_en": "The temple's managers reward the carpenter Akaḷaṅka Ācāri with land for building the shrines: the stone names the builder, not only the donor.",
-  "lines": [
-   1,
-   11
-  ],
-  "gaps": 2,
-  "text_iso": "svasti tiri-puvaṉa-c-cakkara-vartikaḷ śrī Irācentira-cōḻa-tēvarkku y-āṇṭu 7 vatu teliṅka-kula-kāla-pura-tevar-k kulōttuṅka-cōḻa-paṭṭiṉattu Uṭaiyār tiru-malai-kaṭampūr Uṭaiya nāyanār kōyil Āti-caṇṭeśvara-tēvar kanmikaḷōm I-ṉ-ṉāyanār kōyil taccar Ācāryaṉ pōr-ēṟu-cēmaṉ Āna Akaḷaṅka Ācāriyaṉukku cātanam paṇṇi-k-kuṭutta paric' āvatu I-ṉ-[?1] yanār kōyililum Uṭaiyār Tiru-vāṉaikkā U[?1]aiya nāyanār tiru-k-kōyililym nāccimār tiru-k-kō",
-  "text_tamil": "ஸ்வஸ்தி திரிபுவனச்சக்கரவர்திகள் ஶ்ரீ இராசெந்திரசோழதேவர்க்கு யாண்டு 7 வது தெலிங்ககுலகாலபுரதெவர்க் குலோத்துங்கசோழபட்டினத்து உடையார் திருமலைகடம்பூர் உடைய நாயநார் கோயில் ஆதிசண்டெஶ்வரதேவர் கந்மிகளோம் இன்னாயநார் கோயில் தச்சர் ஆசார்யன் போரேறுசேமன் ஆந அகளங்க ஆசாரியனுக்கு சாதநம் பண்ணிக்குடுத்த பரிச் ஆவது இன்[?1] யநார் கோயிலிலும் உடையார் திருவானைக்கா உ[?1]ஐய நாயநார் திருக்கோயிலில்ய்ம் நாச்சிமார் திருக்கோ",
-  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INStfaSIIv17p0i0387",
-  "source_url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv17p0i0387.xml",
-  "licence": "CC BY-SA 4.0",
-  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
- },
- {
-  "id": "darasuram-poyya-tamilar",
-  "inscription_id": "DHARMA_INSTamilNadu00610",
-  "split": "train",
-  "blank_ids": [
-   "DHARMA_INSTamilNadu00610:2:1"
-  ],
-  "era": "chola",
-  "era_ta": "சோழர்",
-  "era_en": "Chola",
-  "learn_level": "L2",
-  "title_ta": "தாராசுரத்தில் 'பொய்யாத் தமிழர்'",
-  "title_en": "'The Tamil who does not lie' at Darasuram",
-  "place_ta": "தாராசுரம், ஐராவதேசுவரர் கோயில்",
-  "place_en": "Tārācuram (Darasuram), Airāvateśvara temple",
-  "edition_title": "Tārācuram / Darasuram, Airavateśvara temple, time of Tribhuvanacakravartin Rājarāja, year 23",
-  "ruler": "Tribhuvanacakravartin Rājarāja",
-  "regnal_year": 23,
-  "dynasty": "Cōḻa",
-  "why_ta": "'பெரும் சோழர் கோயில்கள்' உலகப் பாரம்பரியச் சின்னத்தில் உள்ள கோயில் இது; 'பொய்யாத் தமிழர்' என்ற கண்காணி இறைவனுக்கு நிலம் வேண்டி விண்ணப்பிக்கிறார்.",
-  "why_en": "From a temple in the Great Living Chola Temples World Heritage site: an overseer named Poyyā-t-tamiḻar petitions for land for the god.",
-  "lines": [
-   1,
-   2
-  ],
-  "gaps": 1,
-  "text_iso": "svasti śrī tribhuvana-c-cakravat=tikaḷ śrī-rājarāja-devaṟku yāṇṭu Iru-pattu mūṉṟ-āvatu nāḷil Ip-pattiyil śrī-māheśvara-kkaṇkāṇi paḻaiyaṉūr-uṭaiyār poyyā-t-tamiḻar Eḻunt-aruḷa viṇṇappam ceyya Uṭaiyār tiru-Ālaṅkāṭ-uṭaiyārku Ivar pala [?5] ṉuṭa",
-  "text_tamil": "ஸ்வஸ்தி ஶ்ரீ த்ரிபுவநச்சக்ரவத்திகள் ஶ்ரீராஜராஜதெவற்கு யாண்டு இருபத்து மூன்றாவது நாளில் இப்பத்தியில் ஶ்ரீமாஹெஶ்வரக்கண்காணி பழையனூருடையார் பொய்யாத்தமிழர் எழுந்தருள விண்ணப்பம் செய்ய உடையார் திருஆலங்காடுடையார்கு இவர் பல [?5] னுட",
-  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INSTamilNadu00610",
-  "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00610.xml",
-  "licence": "CC BY-SA 4.0",
-  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
- },
- {
-  "id": "ukkal-who-took-kacci-tancai",
-  "inscription_id": "DHARMA_INStfaSIIv03p0i0007",
-  "split": "train",
-  "blank_ids": [
-   "DHARMA_INStfaSIIv03p0i0007:4:7",
-   "DHARMA_INStfaSIIv03p0i0007:5:7"
-  ],
-  "era": "rashtrakuta",
-  "era_ta": "இராஷ்டிரகூடர்",
-  "era_en": "Rāṣṭrakūṭa",
-  "learn_level": "L2",
-  "title_ta": "'கச்சியும் தஞ்சையும் கொண்ட' கன்னரதேவன்",
-  "title_en": "'He who took Kacci and Tañcai'",
-  "place_ta": "உக்கல், பெருமாள் கோயில்",
-  "place_en": "Ukkal, Perumāḷ temple",
-  "edition_title": "Ukkal, Perumāḷ temple, time of Kaṇṇaradeva, year 16",
-  "ruler": "Kaṇṇaradeva",
-  "regnal_year": 16,
-  "dynasty": "Rāṣṭrakūṭa",
-  "why_ta": "'கச்சியும் தஞ்சையும் கொண்ட' இராஷ்டிரகூட மன்னன் கன்னரதேவனின் ஆட்சியாண்டில், ஊர்ச் சபை நிலம், தண்டம் பற்றிய தன் விதிகளைப் பதிகிறது.",
-  "why_en": "Dated by the Rāṣṭrakūṭa king Kaṇṇaradeva, 'who took Kacci and Tañcai' (Kanchipuram and Thanjavur): the village assembly records its rules on land and fines.",
-  "lines": [
-   1,
-   6
-  ],
-  "gaps": 2,
-  "text_iso": "svasti śrī kacciyun tañcaiyuṅ koṇṭa śrī-kaṇṇara-devaṟku yāṇṭu patiṉ āṟ-āvatu kāliyūr-k-kōṭṭattu-t taṉ kūṟṟu-c civa-cūḷamaṇi-maṅkalam-ākiya vikramabharaṇa-c-caturvveti-maṅkalattu sabhaiyōm Emm-ūr-p puvaṉi-māṇikka-viṣṇu-gr̥hattu muka-maṇṭakattē-y kūṭi y-iruntu Emm-iṟ ceyta vyavastai y-āvatu Emmūr-k kuṭikaḷ Emmūr-p paṭākai-vaṭṭattu kuṭupp-ōlai mēṟ-paṭṭa nilaṅkaḷu maṟṟum eppērppaṭṭaṉavum sabhai-madhyamam āvaṉa v-ākavum Ip-paricu madhyamam-āy-k kiṭanta nilaṅkaḷ kuḻi-vari y-eṟṟi Iṟai Iṟuppōm eṉṟa kuṭikaḷukku viṟṟu-k kuṭuppōm ākavum Iv-viṟṟu-k kuṭutta bhūmikaḷ Emmut' eṉṟu Eppērppaṭṭāruṅ kuṭupp-ōlaiyum Āvaṇamuṅ kāṭṭa-p peṟātār ākavum Ip-paricu kāṭṭiṉa kuṭi-makkaḷai ta [?8] kaḻañcu poṉ sabhaiyōmē daṇḍippōm ākavum It-taṭutta kuṭi-makkaḷē dharmmāsaṉattu nicati mey-vēṟu nūṟṟ' eṭṭu-k kāṇam daṇḍam iṭa-p peṟuvār ākavum Id-daṇḍam iṭa-p poṅ kuṭi-makkaḷukku Avvavv-āṇṭu vāriyañ ceyyum peru-makkaḷē-y pērāl nicataṅ kuṉṟi-p poṉ [?10]",
-  "text_tamil": "ஸ்வஸ்தி ஶ்ரீ கச்சியுந் தஞ்சையுங் கொண்ட ஶ்ரீகண்ணரதெவற்கு யாண்டு பதின் ஆறாவது காலியூர்க்கோட்டத்துத் தன் கூற்றுச் சிவசூளமணிமங்கலமாகிய விக்ரமபரணச்சதுர்வ்வெதிமங்கலத்து ஸபையோம் எம்மூர்ப் புவனிமாணிக்கவிஷ்ணுக்ருஹத்து முகமண்டகத்தேய் கூடி யிருந்து எம்மிற் செய்த வ்யவஸ்தை யாவது எம்மூர்க் குடிகள் எம்மூர்ப் படாகைவட்டத்து குடுப்போலை மேற்பட்ட நிலங்களு மற்றும் எப்பேர்ப்பட்டனவும் ஸபைமத்யமம் ஆவன வாகவும் இப்பரிசு மத்யமமாய்க் கிடந்த நிலங்கள் குழிவரி யெற்றி இறை இறுப்போம் என்ற குடிகளுக்கு விற்றுக் குடுப்போம் ஆகவும் இவ்விற்றுக் குடுத்த பூமிகள் எம்முத் என்று எப்பேர்ப்பட்டாருங் குடுப்போலையும் ஆவணமுங் காட்டப் பெறாதார் ஆகவும் இப்பரிசு காட்டின குடிமக்களை த [?8] கழஞ்சு பொன் ஸபையோமே தண்டிப்போம் ஆகவும் இத்தடுத்த குடிமக்களே தர்ம்மாஸனத்து நிசதி மெய்வேறு நூற்ற் எட்டுக் காணம் தண்டம் இடப் பெறுவார் ஆகவும் இத்தண்டம் இடப் பொங் குடிமக்களுக்கு அவ்வவ்வாண்டு வாரியஞ் செய்யும் பெருமக்களேய் பேரால் நிசதங் குன்றிப் பொன் [?10]",
-  "dharma_url": "https://dharmalekha.info/texts/DHARMA_INStfaSIIv03p0i0007",
-  "source_url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv03p0i0007.xml",
-  "licence": "CC BY-SA 4.0",
-  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "ta_review": "done",
+  "recorded": {
+   "date": "2026-11-02",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "us.anthropic.claude-opus-4-6-v1"
+   ],
+   "gaps": [
+    {
+     "decision": "abstain",
+     "proposal_iso": "ṉ",
+     "proposal_tamil": "ன்",
+     "confidence": 0.1495,
+     "outcome": "open"
+    }
+   ]
+  }
  },
  {
   "id": "tiruvannamalai-krishnadevaraya",
+  "group": "unsolved",
   "inscription_id": "DHARMA_INStfaSIIv08p0i0165",
   "split": "train",
   "blank_ids": [
    "DHARMA_INStfaSIIv08p0i0165:30:0"
   ],
+  "item_id": null,
+  "hard": null,
   "era": "vijayanagara",
   "era_ta": "விஜயநகரம்",
   "era_en": "Vijayanagara",
@@ -433,9 +716,27 @@
   "gaps": 1,
   "text_iso": "tirumpi vicaiya-nakarattukku Eḻunt-aruḷi mīḷa-k kaḷiṅka-tēca-tikku-vicaiyam āka pacavāṭaikku Eḻunt-aruḷi koṇṭa-paḷḷi-tuṟkkam koṇṭu Anta tuṟ kattilē piṟakarāca-ciṟa-c-cantiṟa-mahā-pāttira [?4]mahā-pāttiram pijilikkāṉaṉ y-ivarkaḷ mutal-āṉa pāttiṟaṅkaḷai cīvat=tuṭaṉē piṭittu-k koṇṭu A",
   "text_tamil": "திரும்பி விசையநகரத்துக்கு எழுந்தருளி மீளக் களிங்கதேசதிக்குவிசையம் ஆக பசவாடைக்கு எழுந்தருளி கொண்டபள்ளிதுற்க்கம் கொண்டு அந்த துற் கத்திலே பிறகராசசிறச்சந்திறமஹாபாத்திர [?4]மஹாபாத்திரம் பிஜிலிக்கானன் யிவர்கள் முதலான பாத்திறங்களை சீவத்துடனே பிடித்துக் கொண்டு அ",
+  "edition_reading": null,
   "dharma_url": "https://dharmalekha.info/texts/DHARMA_INStfaSIIv08p0i0165",
   "source_url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv08p0i0165.xml",
   "licence": "CC BY-SA 4.0",
-  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "ta_review": "done",
+  "recorded": {
+   "date": "2026-11-02",
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "us.anthropic.claude-opus-4-6-v1"
+   ],
+   "gaps": [
+    {
+     "decision": "abstain",
+     "proposal_iso": "-cantira-",
+     "proposal_tamil": "-சந்திர-",
+     "confidence": 0.1065,
+     "outcome": "open"
+    }
+   ]
+  }
  }
 ]

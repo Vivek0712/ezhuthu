@@ -1,0 +1,377 @@
+{
+  "method": "Reader.read_glyphs: per row, the clean crop and the crop with numbered boxes (design/hero/boxes.json) in one vision call; the model names the modern Tamil letter in each box with its probability that the letter is right",
+  "role": "escalate",
+  "script_hint": "chola-tamil",
+  "rows": [
+    {
+      "row": 1,
+      "band_y": [
+        0,
+        176
+      ],
+      "n_boxes": 12,
+      "glyphs": [
+        {
+          "box": 1,
+          "ta": "கி",
+          "iso": "ki",
+          "confidence": 0.8,
+          "note": "Chola ki with angular loop, vowel mark on top left"
+        },
+        {
+          "box": 2,
+          "ta": "ல",
+          "iso": "la",
+          "confidence": 0.7,
+          "note": "Rounded la form, open loop typical of Chola period"
+        },
+        {
+          "box": 3,
+          "ta": "ம",
+          "iso": "ma",
+          "confidence": 0.75,
+          "note": "Angular ma with squared top, Chola style"
+        },
+        {
+          "box": 4,
+          "ta": "ழ",
+          "iso": "ḻa",
+          "confidence": 0.6,
+          "note": "Retroflex zha, rectangular body with tail descending"
+        },
+        {
+          "box": 5,
+          "ta": "ர",
+          "iso": "ra",
+          "confidence": 0.7,
+          "note": "Rounded ra with open loop, compact Chola form"
+        },
+        {
+          "box": 6,
+          "ta": "ர",
+          "iso": "ra",
+          "confidence": 0.55,
+          "note": "Worn but visible loop suggests ra form"
+        },
+        {
+          "box": 7,
+          "ta": "கு",
+          "iso": "ku",
+          "confidence": 0.75,
+          "note": "Ka with u-vowel mark, rounded top loop Chola style"
+        },
+        {
+          "box": 8,
+          "ta": "டி",
+          "iso": "ṭi",
+          "confidence": 0.65,
+          "note": "Retroflex da with i-mark, angular Chola form"
+        },
+        {
+          "box": 9,
+          "ta": "க",
+          "iso": "ka",
+          "confidence": 0.7,
+          "note": "Simple ka with angular body, typical Chola shape"
+        },
+        {
+          "box": 10,
+          "ta": "கு",
+          "iso": "ku",
+          "confidence": 0.65,
+          "note": "Ka with u-sign, large rounded loop on top"
+        },
+        {
+          "box": 11,
+          "ta": "ள",
+          "iso": "ḷa",
+          "confidence": 0.7,
+          "note": "Retroflex ḷa with large S-curve, Chola period form"
+        },
+        {
+          "box": 12,
+          "ta": "ம்",
+          "iso": "m",
+          "confidence": 0.6,
+          "note": "Ma with pulli dot, compact rounded form"
+        }
+      ],
+      "model": "opus",
+      "truncated": false
+    },
+    {
+      "row": 2,
+      "band_y": [
+        134,
+        426
+      ],
+      "n_boxes": 12,
+      "glyphs": [
+        {
+          "box": 1,
+          "ta": "ண",
+          "iso": "ṇa",
+          "confidence": 0.7,
+          "note": "Rounded form with open loop, typical Chola retroflexed nasal"
+        },
+        {
+          "box": 2,
+          "ta": "டு",
+          "iso": "ṭu",
+          "confidence": 0.65,
+          "note": "Angular base with u-marker curving down, Chola ṭu form"
+        },
+        {
+          "box": 3,
+          "ta": "நீ",
+          "iso": "nī",
+          "confidence": 0.6,
+          "note": "Dental na with long ī sign, elongated vertical stroke"
+        },
+        {
+          "box": 4,
+          "ta": "பி",
+          "iso": "pi",
+          "confidence": 0.7,
+          "note": "Pa with i-marker on top, small loop above"
+        },
+        {
+          "box": 5,
+          "ta": "செ",
+          "iso": "ce",
+          "confidence": 0.6,
+          "note": "Ca with e-vowel prefix, Chola angular style"
+        },
+        {
+          "box": 6,
+          "ta": "ய",
+          "iso": "ya",
+          "confidence": 0.75,
+          "note": "Open curved form, typical Chola ya with wide loops"
+        },
+        {
+          "box": 7,
+          "ta": "நு",
+          "iso": "nu",
+          "confidence": 0.6,
+          "note": "Dental na with u-marker, rounded Chola form"
+        },
+        {
+          "box": 8,
+          "ta": "ம",
+          "iso": "ma",
+          "confidence": 0.75,
+          "note": "Broad open loop, classic Chola ma without angular corners"
+        },
+        {
+          "box": 9,
+          "ta": "ல",
+          "iso": "la",
+          "confidence": 0.65,
+          "note": "Curved la form with open top, Chola style wider than modern"
+        },
+        {
+          "box": 10,
+          "ta": "ப",
+          "iso": "pa",
+          "confidence": 0.7,
+          "note": "Rounded pa with single loop, typical Chola simplification"
+        },
+        {
+          "box": 11,
+          "ta": "ல",
+          "iso": "la",
+          "confidence": 0.6,
+          "note": "Similar curved la, slightly worn but loop visible"
+        },
+        {
+          "box": 12,
+          "ta": "தி",
+          "iso": "ti",
+          "confidence": 0.7,
+          "note": "Ta with i-marker dot/loop on top, Chola angular ta base"
+        }
+      ],
+      "model": "opus",
+      "truncated": false
+    },
+    {
+      "row": 3,
+      "band_y": [
+        329,
+        601
+      ],
+      "n_boxes": 11,
+      "glyphs": [
+        {
+          "box": 1,
+          "ta": "ப",
+          "iso": "pa",
+          "confidence": 0.85,
+          "note": "Open-topped pa, angular Chola form without modern curve"
+        },
+        {
+          "box": 2,
+          "ta": "ண்ணி",
+          "iso": "ṇṇi",
+          "confidence": 0.45,
+          "note": "Conjunct ṇṇi with double loop, worn surface makes reading uncertain"
+        },
+        {
+          "box": 3,
+          "ta": "பி",
+          "iso": "pi",
+          "confidence": 0.75,
+          "note": "Pa with kombu vowel sign above, rounded Chola style"
+        },
+        {
+          "box": 4,
+          "ta": "ர",
+          "iso": "ra",
+          "confidence": 0.7,
+          "note": "Vertical stroke with slight curve, Chola ra form"
+        },
+        {
+          "box": 5,
+          "ta": "வ",
+          "iso": "va",
+          "confidence": 0.7,
+          "note": "Rounded va with open top, typical Chola period form"
+        },
+        {
+          "box": 6,
+          "ta": "ள",
+          "iso": "ḷa",
+          "confidence": 0.65,
+          "note": "Retroflex ḷa with elongated loop, Chola angular style"
+        },
+        {
+          "box": 7,
+          "ta": "நி",
+          "iso": "ni",
+          "confidence": 0.6,
+          "note": "Na with kombu, tall vertical strokes characteristic of Chola era"
+        },
+        {
+          "box": 8,
+          "ta": "லை",
+          "iso": "lai",
+          "confidence": 0.55,
+          "note": "La with ai-sign, double dot above partially worn"
+        },
+        {
+          "box": 9,
+          "ta": "கொ",
+          "iso": "ko",
+          "confidence": 0.65,
+          "note": "Ka with o-vowel sign, rounded Chola form with left kombu"
+        },
+        {
+          "box": 10,
+          "ta": "டு",
+          "iso": "ṭu",
+          "confidence": 0.6,
+          "note": "Retroflex ṭa with u-sign, angular Chola loop form"
+        },
+        {
+          "box": 11,
+          "ta": "ம",
+          "iso": "ma",
+          "confidence": 0.7,
+          "note": "Rounded ma with open loop, typical Chola period shape"
+        }
+      ],
+      "model": "opus",
+      "truncated": false
+    },
+    {
+      "row": 4,
+      "band_y": [
+        534,
+        778
+      ],
+      "n_boxes": 11,
+      "glyphs": [
+        {
+          "box": 1,
+          "ta": "எ",
+          "iso": "e",
+          "confidence": 0.65,
+          "note": "Rounded Chola form of independent vowel e, open loop at top"
+        },
+        {
+          "box": 2,
+          "ta": "ண",
+          "iso": "ṇa",
+          "confidence": 0.7,
+          "note": "Circular body with tail, typical Chola retroflexed ṇa"
+        },
+        {
+          "box": 3,
+          "ta": "டு",
+          "iso": "ṭu",
+          "confidence": 0.6,
+          "note": "Looped ṭa with u-marker, compact Chola form"
+        },
+        {
+          "box": 4,
+          "ta": "ப",
+          "iso": "pa",
+          "confidence": 0.7,
+          "note": "Angular pa with open top, Chola style narrower than modern"
+        },
+        {
+          "box": 5,
+          "ta": "ர்",
+          "iso": "r",
+          "confidence": 0.55,
+          "note": "Small ra with pulli, cursive Chola loop form"
+        },
+        {
+          "box": 6,
+          "ta": "கு",
+          "iso": "ku",
+          "confidence": 0.65,
+          "note": "Ka with u-vowel sign, rounded Chola loop at right"
+        },
+        {
+          "box": 7,
+          "ta": "தி",
+          "iso": "ti",
+          "confidence": 0.6,
+          "note": "Ta with i-marker above, Chola rounded body"
+        },
+        {
+          "box": 8,
+          "ta": "கொ",
+          "iso": "ko",
+          "confidence": 0.55,
+          "note": "Ka with kompu and au-mark, Chola composite form"
+        },
+        {
+          "box": 9,
+          "ta": "ல்",
+          "iso": "l",
+          "confidence": 0.5,
+          "note": "Small la with pulli, worn surface, Chola cursive loop"
+        },
+        {
+          "box": 10,
+          "ta": "வ",
+          "iso": "va",
+          "confidence": 0.6,
+          "note": "Open-topped va, Chola rounded form differs from modern angular"
+        },
+        {
+          "box": 11,
+          "ta": "டு",
+          "iso": "ṭu",
+          "confidence": 0.55,
+          "note": "Looped ṭa with u-sign, similar to box 3 Chola form"
+        }
+      ],
+      "model": "opus",
+      "truncated": false
+    }
+  ]
+}

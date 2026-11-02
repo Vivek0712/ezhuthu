@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { expect, test } from '@playwright/test';
-import { expectNoHorizontalScroll, setEnglish } from './helpers';
+import { expectNoHorizontalScroll, setEnglish, setTamil } from './helpers';
 
 // Upload + OCR flow on /restore against the MSW mock of POST /api/read (contracts/restore-api.md).
 const samplePhoto = path.join(import.meta.dirname, '..', 'public', 'samples', 'read', 'stone-tamil.jpg');
@@ -40,7 +40,8 @@ test.describe('restore: upload a photo', () => {
   });
 
   test('sample plates work without a camera, and warnings are localised', async ({ page }) => {
-    await page.goto('/restore'); // Tamil by default
+    await setTamil(page);
+    await page.goto('/restore');
     await page.getByTestId('sample-stone-brahmi').click();
     await expect(page.getByTestId('read-result')).toBeVisible();
     await expect(page.getByTestId('read-experimental')).toBeVisible();

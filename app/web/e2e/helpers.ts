@@ -56,5 +56,10 @@ export async function gotoNav(page: Page, name: RegExp | string) {
 }
 
 export async function setEnglish(page: Page) {
-  await page.addInitScript(() => window.localStorage.setItem('ezhuthu.lang', 'en'));
+  await page.addInitScript(() => window.localStorage.setItem('ezhuthu.lang.v2', 'en'));
+}
+
+/** Tamil is one tap away since English became the default (bd651d0); tests about the Tamil UI start in Tamil. */
+export async function setTamil(page: Page) {
+  await page.addInitScript(() => window.localStorage.setItem('ezhuthu.lang.v2', 'ta'));
 }

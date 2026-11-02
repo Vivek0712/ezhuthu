@@ -100,7 +100,7 @@ export function ProgressPage() {
           title="progress.noSession"
           testId="no-session"
           action={
-            <Link className="btn btn-primary" to="/learn">
+            <Link className="btn btn-primary" to="/practice">
               {t('home.ctaLearn')}
             </Link>
           }
