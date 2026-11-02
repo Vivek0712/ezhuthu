@@ -1,8 +1,9 @@
 import { useId, useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 import { useI18n } from '../i18n/I18nProvider';
+import { plural } from '../lib/format';
 import { parseGaps } from '../lib/gaps';
-import { ERAS, SAMPLES, learnHref, restoreHref, type Era, type Sample } from '../samples';
+import { ERAS, learnHref, restoreHref, useSamples, type Era, type Sample } from '../samples';
 
 /**
  * A card-sized excerpt that always shows the first gap: about `width` characters, starting a little before it,
@@ -44,7 +45,7 @@ function SampleCard({ s, i }: { s: Sample; i: number }) {
       <header className="sample-head">
         <span className={`era-chip era-${s.era}`}>{ta ? s.era_ta : s.era_en}</span>
         <span className="sample-gaps">
-          {s.gaps} {t('samples.gaps')}
+          {s.gaps} {t(plural(s.gaps, 'samples.gap', 'samples.gaps'))}
         </span>
       </header>
       <h3 id={titleId} className="sample-title">
@@ -82,9 +83,11 @@ function SampleCard({ s, i }: { s: Sample; i: number }) {
   );
 }
 
-/** The try-it gallery on the home page: 13 DHARMA passages, filterable by period. */
-export function SampleGallery({ samples = SAMPLES }: { samples?: Sample[] }) {
+/** The try-it gallery on the home page: 13 DHARMA passages, filterable by period. Loads them on demand. */
+export function SampleGallery({ samples: given }: { samples?: Sample[] }) {
   const { lang, t } = useI18n();
+  const loaded = useSamples(!given);
+  const samples = given ?? loaded ?? [];
   const [era, setEra] = useState<Era | 'all'>('all');
   const shown = era === 'all' ? samples : samples.filter((s) => s.era === era);
   const eras = ERAS.filter((e) => samples.some((s) => s.era === e));
@@ -114,10 +117,10 @@ export function SampleGallery({ samples = SAMPLES }: { samples?: Sample[] }) {
       <p className="visually-hidden" aria-live="polite">
         {shown.length} {t('samples.showing')}
       </p>
-      <div className="sample-grid" key={era}>
-        {shown.map((s, i) => (
-          <SampleCard key={s.id} s={s} i={i} />
-        ))}
+      <div className="sample-grid" key={era} aria-busy={samples.length === 0} data-testid="sample-grid">
+        {samples.length === 0
+          ? [0, 1, 2].map((i) => <div key={i} className="sample-card sample-card-skeleton" aria-hidden="true" />)
+          : shown.map((s, i) => <SampleCard key={s.id} s={s} i={i} />)}
       </div>
       <p className="note">{t('samples.normalised')}</p>
       <p className="note">{t('samples.noBrahmi')}</p>

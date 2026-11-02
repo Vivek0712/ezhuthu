@@ -24,7 +24,7 @@ BOX = 70.0  # glyph ink fits a 70-unit square centred on the 100-unit grid (same
 STAGES = [
     ("brahmi", "L5", "தமிழ்-பிராமி", "Tamil-Brahmi", "கி.மு. 3 நூ. முதல்", "from c. 3rd c. BCE", BRAHMI, "\U00011013", None),
     ("vatteluttu", "L4", "வட்டெழுத்து", "Vatteluttu", "கி.பி. 6–11 நூ.", "c. 6th–11th c. CE", None, None, None),
-    ("pallava", "L3", "பல்லவர்", "Pallava (Grantha form)", "கி.பி. 6–9 நூ.", "c. 6th–9th c. CE", GRANTHA, "\U00011315", None),
+    ("pallava", "L3", "பல்லவர் (கிரந்த வடிவம்)", "Pallava (Grantha form)", "கி.பி. 6–9 நூ.", "c. 6th–9th c. CE", GRANTHA, "\U00011315", None),
     ("chola", "L2", "சோழர்", "Chola", "கி.பி. 9–13 நூ.", "c. 9th–13th c. CE", TA_SERIF, "க", {"wght": 600}),
     ("modern", "L1", "இன்று", "Today", "இன்று", "today", TA_SANS, "க", {"wght": 500}),
 ]

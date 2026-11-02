@@ -245,6 +245,29 @@ html[lang='ta'] .lede { font-size: var(--ez-text-md); line-height: var(--ez-lh-l
 .evo-hero figcaption > span { flex: 1 1 260px; }
 .evo-toggle { min-height: var(--ez-space-tap); padding: 4px 12px; border-radius: var(--ez-radius-pill); border: 1px solid var(--ez-border-strong); background: transparent; color: var(--ez-text); font: inherit; font-size: var(--ez-text-xs); cursor: pointer; }
 .evo-toggle:hover { background: var(--ez-surface-sunk); }
+/* Phones and narrow tablets: the hero comes first, as a compact band (well left, label and rail right), so the motion
+   is on screen above the fold instead of under the copy and the tab bar. DOM order (copy first) is unchanged. */
+@media (max-width: 899px) {
+  .hero { gap: 18px; padding-top: 4px; }
+  .hero > .evo-hero { order: -1; }
+  .evo-stage {
+    grid-template-columns: auto minmax(0, 1fr); grid-template-areas: 'well labels' 'well rail';
+    align-items: center; align-content: center; justify-items: stretch; gap: 8px 16px; padding: 14px 16px;
+  }
+  .evo-word { display: none; }
+  .evo-well { grid-area: well; width: clamp(96px, 30vw, 136px); margin: 0; box-shadow: var(--ez-shadow-carved), 0 0 0 6px color-mix(in srgb, var(--ez-surface-raised) 55%, transparent); }
+  /* Labels stack in one grid cell, so the box is as tall as the longest label (e.g. பல்லவர் (கிரந்த வடிவம்) on two
+     lines) and never changes size while the stages cycle. */
+  .evo-labels { grid-area: labels; height: auto; display: grid; text-align: start; }
+  .evo-label { position: static; grid-area: 1 / 1; margin: 0; }
+  .evo-label-main { line-height: 1.3; }
+  .evo-rail { grid-area: rail; gap: 4px; }
+  .evo-pip svg { width: clamp(22px, 6vw, 30px); padding: 4px; border-radius: 8px; }
+  .evo-hero[data-motion='animated'] .evo-pip::after { width: calc(clamp(22px, 6vw, 30px) + 4px); border-radius: 10px; }
+  .evo-hero[data-motion='static'] .evo-rail { grid-column: 1 / -1; grid-row: 2; margin-top: 4px; }
+  .evo-hero[data-motion='static'] .evo-well { grid-row: 1; grid-column: 1 / -1; justify-self: center; }
+  .evo-hero figcaption { margin-top: 8px; font-size: var(--ez-text-xs); }
+}
 
 .steps { counter-reset: s; list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
 @media (min-width: 760px) { .steps { grid-template-columns: repeat(4, 1fr); } }
@@ -417,6 +440,8 @@ footer.site .wrap { display: grid; gap: 8px; }
   animation: rise var(--ez-dur-slow) var(--ez-ease-enter) both; animation-delay: calc(min(var(--i), 8) * 45ms);
   transition: transform var(--ez-dur-base) var(--ez-ease-standard), box-shadow var(--ez-dur-base) var(--ez-ease-standard), border-color var(--ez-dur-base) var(--ez-ease-standard);
 }
+.sample-card-skeleton { min-height: 280px; background: linear-gradient(100deg, var(--ez-surface-sunk) 30%, var(--ez-surface-raised) 50%, var(--ez-surface-sunk) 70%) 0 0 / 300% 100%; animation: shimmer 1.4s linear infinite; }
+@keyframes shimmer { to { background-position: -150% 0; } }
 .sample-card:hover, .sample-card:focus-within { transform: translateY(-3px); box-shadow: var(--ez-shadow-2); border-color: var(--ez-border-strong); }
 .sample-card p { margin: 0; max-width: none; }
 .sample-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
@@ -463,6 +488,6 @@ mark.lacuna { background: var(--ez-lamp-soft); color: var(--ez-lamp-text); borde
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
   .frieze-track { animation: none; }
-  .hero-copy > *, .sample-card, .page, .tile-glyph, .tile-svg, .tile img, .meter .seg.on { animation: none; }
+  .hero-copy > *, .sample-card, .sample-card-skeleton, .page, .tile-glyph, .tile-svg, .tile img, .meter .seg.on { animation: none; }
   .sample-card:hover, .sample-card:focus-within, .level:hover { transform: none; }
 }

@@ -55,12 +55,44 @@ test.describe('try-it samples', () => {
     await expect(page.getByTestId('restore-input')).toHaveValue(s.text_tamil);
   });
 
-  test('the upload CTA opens the restore page in upload mode', async ({ page }) => {
+  test('the primary CTA says what it does and lands on a form the reader can use', async ({ page }) => {
     await setEnglish(page);
     await page.goto('/');
-    await page.getByTestId('cta-upload').click();
-    await expect(page).toHaveURL(/\/restore\?input=upload$/);
-    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    const cta = page.getByTestId('cta-restore');
+    await expect(cta).toHaveText('Try restoring a line');
+    // No upload promise until the upload/OCR flow is on main (then: "Upload a photo" and a file input on /restore).
+    await expect(page.getByTestId('cta-upload')).toHaveCount(0);
+    await cta.click();
+    await expect(page).toHaveURL(/\/restore$/);
+    await expect(page.getByTestId('restore-input')).toBeVisible();
+    await expect(page.getByTestId('restore-input')).toBeEditable();
+  });
+});
+
+test.describe('animated hero on a small phone (375 x 740)', () => {
+  test.use({ viewport: { width: 375, height: 740 } });
+  test('is the first thing on screen, above the tab bar, and still animating', async ({ page }) => {
+    for (const lang of ['ta', 'en'] as const) {
+      if (lang === 'en') await setEnglish(page);
+      await page.goto('/');
+      const hero = page.getByTestId('evolution-hero');
+      await expect(hero).toHaveAttribute('data-motion', 'animated');
+      await page.waitForFunction(() => document.querySelector('.page')!.getAnimations().every((a) => a.playState === 'finished'));
+      const tabbarTop = await page.evaluate(() => {
+        const bar = document.querySelector('.tabbar');
+        return bar && getComputedStyle(bar).display !== 'none' ? bar.getBoundingClientRect().top : window.innerHeight;
+      });
+      const well = (await hero.locator('.evo-well').boundingBox())!;
+      expect(well.y, `${lang}: well starts on screen`).toBeGreaterThanOrEqual(0);
+      expect(well.y + well.height, `${lang}: well ends above the tab bar`).toBeLessThanOrEqual(tabbarTop);
+      const label = (await hero.locator('.evo-labels').boundingBox())!;
+      expect(label.y + label.height, `${lang}: stage label above the tab bar`).toBeLessThanOrEqual(tabbarTop);
+      // The hero sits above the heading on a phone, and the primary CTA is still reachable without horizontal scroll.
+      const h1 = (await page.getByRole('heading', { level: 1 }).boundingBox())!;
+      expect(h1.y).toBeGreaterThan(well.y);
+      await expect(hero.locator('.evo-frame').first()).toHaveCSS('animation-play-state', 'running');
+      await expectNoHorizontalScroll(page);
+    }
   });
 });
 

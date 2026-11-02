@@ -1,9 +1,10 @@
-import { existsSync, readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { join, relative, resolve, sep } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { countGaps } from '../lib/gaps';
 import { isLevel } from '../lib/levels';
-import { ERAS, learnHref, restoreHref, SAMPLE_IMAGES, SAMPLES, sampleById, sampleByInscription } from '.';
+import { ERAS, learnHref, loadSamples, restoreHref, SAMPLE_IMAGES, sampleById, sampleByInscription } from '.';
+import { SAMPLES } from './data';
 
 const REPO = resolve(__dirname, '../../../..');
 const jsonl = (name: string) =>
@@ -54,9 +55,10 @@ describe('try-it samples', () => {
     expect(u.pathname).toBe('/learn');
     expect(u.searchParams.get('inscription')).toBe(s.inscription_id);
     expect(u.searchParams.get('level')).toBe(s.learn_level);
-    expect(sampleById(s.id)).toBe(s);
-    expect(sampleByInscription(s.inscription_id)).toBe(s);
-    expect(sampleById('nope')).toBeUndefined();
+    expect(sampleById(SAMPLES, s.id)).toBe(s);
+    expect(sampleByInscription(SAMPLES, s.inscription_id)).toBe(s);
+    expect(sampleById(SAMPLES, 'nope')).toBeUndefined();
+    expect(sampleById(null, s.id)).toBeUndefined();
   });
 
   it('ships every sample image under public/ with attribution', () => {
@@ -65,8 +67,33 @@ describe('try-it samples', () => {
     for (const im of SAMPLE_IMAGES) {
       expect(existsSync(resolve(__dirname, '../../public', im.file)), im.file).toBe(true);
       expect(attribution).toContain(im.file.split('/').pop()!);
-      expect(sampleById(im.sample)).toBeDefined();
+      expect(sampleById(SAMPLES, im.sample)).toBeDefined();
       expect(im.expected_text).toBe(im.lines.join('\n'));
     }
+  });
+
+  it('load on demand: loadSamples() resolves to the same passages, once', async () => {
+    const a = await loadSamples();
+    expect(a).toBe(SAMPLES);
+    expect(await loadSamples()).toBe(a);
+  });
+
+  it('stay out of the main bundle: only data.ts, tests and the mock API import the JSON statically', () => {
+    const src = resolve(__dirname, '..');
+    const offenders: string[] = [];
+    const walk = (dir: string) => {
+      for (const e of readdirSync(dir, { withFileTypes: true })) {
+        const f = resolve(dir, e.name);
+        if (e.isDirectory()) walk(f);
+        else if (/\.tsx?$/.test(e.name) && !/\.test\.tsx?$/.test(e.name)) {
+          const rel = relative(src, f);
+          if (rel === join('samples', 'data.ts') || rel.startsWith(`mocks${sep}`)) continue;
+          const code = readFileSync(f, 'utf8');
+          if (/^import[^;]*from\s+'[^']*(samples\.json|samples\/data|\.\/data)'/m.test(code)) offenders.push(rel);
+        }
+      }
+    };
+    walk(src);
+    expect(offenders).toEqual([]);
   });
 });

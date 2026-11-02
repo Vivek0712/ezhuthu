@@ -68,11 +68,11 @@ another starts a lesson on it. The passages come from the benchmark's train spli
 (`scripts/build_samples.py`, checked by `tests/test_samples.py`). There is no Tamil-Brahmi passage because the
 DHARMA Tamil collections used here have no Tamil-Brahmi editions.
 
-<p align="center"><img src="docs/media/hero-evolution.gif" alt="Animated hero: the letter ka drawn in Tamil-Brahmi, Vatteluttu, Pallava (Grantha form), Chola and modern Tamil, one after another" width="360"></p>
+<p align="center"><a href="docs/media/hero-evolution.webm"><img src="docs/media/hero-evolution-poster.jpg" alt="The home hero: the letter ka in Tamil-Brahmi, Vatteluttu, Pallava (Grantha form), Chola and modern Tamil, side by side" width="360"></a></p>
 
-<p align="center"><sub>The home hero (<a href="docs/media/hero-evolution.webm">WebM</a>, <a href="docs/media/hero-evolution-dark.webm">dark</a>). It shows a static frame when the device asks for reduced motion, and has a pause button.</sub></p>
+<p align="center"><sub>The home hero, still frame. Watch it animate: <a href="docs/media/hero-evolution.webm">WebM</a>, <a href="docs/media/hero-evolution-dark.webm">dark</a>. Each stage is traced, then filled, in turn. It shows this still frame when the device asks for reduced motion, has a pause button, and on phones sits above the headline as a compact band.</sub></p>
 
-<p align="center"><img src="app/web/screenshots/desktop-15-samples-gallery-en.png" alt="Sample gallery: cards with Tamil and English titles, the passage with its gaps marked, a DHARMA credit, and Restore this / Learn with this buttons" width="88%"></p>
+<p align="center"><img src="app/web/screenshots/desktop-15-samples-gallery-en.jpg" alt="Sample gallery: cards with Tamil and English titles, the passage with its gaps marked, a DHARMA credit, and Restore this / Learn with this buttons" width="88%"></p>
 
 ## Screenshots
 

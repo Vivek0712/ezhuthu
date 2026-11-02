@@ -4,6 +4,7 @@ import { parseGaps, gapContext } from '../lib/gaps';
 import { isLevel } from '../lib/levels';
 import { expectedCalibrationError } from '../lib/reliability';
 import { sampleByInscription } from '../samples';
+import { SAMPLES } from '../samples/data';
 import { ASSESSMENT, LESSONS, REVIEWED_ELSEWHERE, SEED_QUEUE, templateContext, type MockItem } from './fixtures';
 
 /** In-memory backend state for the mock API. `resetMockState()` gives tests a clean slate. */
@@ -306,7 +307,7 @@ export const handlers = [
     const lesson = LESSONS[body.level];
     const own = body.text?.trim();
     // inscription_id: the gallery samples are known; any other id is unknown, as on the real API (404).
-    const linked = !own && body.inscription_id ? sampleByInscription(body.inscription_id) : undefined;
+    const linked = !own && body.inscription_id ? sampleByInscription(SAMPLES, body.inscription_id) : undefined;
     if (!own && body.inscription_id && !linked) return err(404, 'not_found', `inscription ${body.inscription_id} not found`);
     const session_id = newSession(body.level);
     // Like EZHUTHU_LESSON_EXPLAIN=async: the template explanation now, the tutor team's on the next answer.

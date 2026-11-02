@@ -7,7 +7,7 @@ import { LevelPicker } from '../components/LevelPicker';
 import { useI18n } from '../i18n/I18nProvider';
 import type { MessageKey } from '../i18n/strings';
 import { isLevel, levelInfo } from '../lib/levels';
-import { sampleById, sampleByInscription } from '../samples';
+import { sampleById, sampleByInscription, useSamples } from '../samples';
 import { isDharmaUrl, safeHref } from '../lib/format';
 import { setSessionId } from '../lib/session';
 
@@ -16,7 +16,9 @@ export function LearnPage() {
   // "Learn with this" from the home gallery: /learn?inscription=<id>&level=L3&sample=<id> starts that lesson.
   const [params] = useSearchParams();
   const linkedInscription = params.get('inscription')?.trim() || null;
-  const linkedSample = sampleById(params.get('sample')) ?? sampleByInscription(linkedInscription);
+  const linkedSampleId = params.get('sample');
+  const samples = useSamples(linkedSampleId != null || linkedInscription != null);
+  const linkedSample = sampleById(samples, linkedSampleId) ?? sampleByInscription(samples, linkedInscription);
   const [level, setLevel] = useState<Level>(() => {
     const l = params.get('level');
     return isLevel(l) ? l : 'L2';

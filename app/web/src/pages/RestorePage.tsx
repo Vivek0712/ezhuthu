@@ -1,10 +1,10 @@
-import { useMemo, useState, type FormEvent, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { api, type Gap, type RestoreResponse } from '../api/client';
 import { ConfidenceMeter } from '../components/ConfidenceMeter';
 import { Busy, DharmaCredit, ErrorNote } from '../components/Feedback';
 import { useI18n } from '../i18n/I18nProvider';
 import { gapContext, parseGaps } from '../lib/gaps';
-import { safeHref } from '../lib/format';
+import { plural, safeHref } from '../lib/format';
 import { SAMPLE_RESTORE_ISO, SAMPLE_RESTORE_TAMIL } from '../lib/samples';
 import { useRestoreSample } from '../samples';
 
@@ -95,9 +95,17 @@ function Candidates({ abstain, label, count, children }: { abstain: boolean; lab
 export function RestorePage() {
   const { t, lang } = useI18n();
   // /restore?sample=<id> (the home gallery) starts the form with that DHARMA passage.
+  // The samples load on demand, so the passage arrives a moment after the first render: fill the form once per sample.
   const fromSample = useRestoreSample(lang);
   const [script, setScript] = useState<Script>(fromSample?.script ?? (lang === 'ta' ? 'tamil' : 'iso15919'));
   const [text, setText] = useState(fromSample?.text ?? '');
+  const filledFrom = useRef<string | null>(fromSample?.sample.id ?? null);
+  useEffect(() => {
+    if (!fromSample || filledFrom.current === fromSample.sample.id) return;
+    filledFrom.current = fromSample.sample.id;
+    setScript(fromSample.script);
+    setText(fromSample.text);
+  }, [fromSample]);
   const [max, setMax] = useState(5);
   const [escalate, setEscalate] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -147,7 +155,7 @@ export function RestorePage() {
         </label>
         <div className="row" style={{ justifyContent: 'space-between' }}>
           <span className={gapCount ? 'badge accent' : 'badge'} data-testid="gap-count">
-            {gapCount} {t('restore.gapsFound')}
+            {gapCount} {t(plural(gapCount, 'restore.gapFound', 'restore.gapsFound'))}
           </span>
           <button
             className="btn btn-ghost btn-small"
