@@ -143,9 +143,11 @@ def build_json(boxes: dict, sizes: dict) -> dict:
             "abstain_below": ABSTAIN_BELOW,
             "models": restore["response"].get("models_used"),
             "decisions": [g["decision"] for g in gaps_resp],
-            "note": "The restorer config uses the LLM's self-reported probability once the LLM has answered "
-                    "(config/models.yaml restorer.strategy_llm: self-report); all three fills were under the 0.5 "
-                    "abstain threshold, so each gap is left open and the reading goes to expert review.",
+            "note": "Candidate fills from the LLM (Opus 4.6) were ranked by the hosted Strands Decider "
+                    "(restorer.strategy_llm: noul-topk, top 3: 'is this the expert's restoration?'). The cloud runtime "
+                    "has no calibration for that decider, so it fills only at confidence >= 0.5; the best fills scored "
+                    "0.38, 0.48 and 0.44, so each gap is left open and the reading goes to expert review.",
+            "decider_models": sorted({c.get("decider_model") for g in gaps_resp for c in g["candidates"]} - {None}),
         },
         "edition": None,
         "cer": None,
@@ -153,8 +155,11 @@ def build_json(boxes: dict, sizes: dict) -> dict:
                         "reference text and no character error rate. The reading is Ezhuthu's own, at low "
                         "confidence, and two Opus reads of overlapping crops disagree with each other: treat it as "
                         "unverified. No English gloss is given for the same reason.",
-        "live_calls": {"reader": 4, "restorer": 3, "note": "including one earlier read of a 6-line crop of the same "
-                                                           "photo that was not used"},
+        "live_calls": {"reader": 4, "restorer": 6,
+                       "note": "Bedrock calls. Reader: includes a Sonnet+Opus read of a 6-line crop of the same photo "
+                               "that was not used. Restorer: a first run (3 calls) under the earlier self-report "
+                               "config, superseded by this run under the current config (3 calls). Strands Decider "
+                               "calls go to the hosted decider API, not Bedrock."},
         "run_date": "2026-11-02",
     }
 

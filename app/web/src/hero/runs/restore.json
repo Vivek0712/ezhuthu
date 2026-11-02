@@ -13,9 +13,9 @@
           {
             "text": "ṭu",
             "text_tamil": "டு",
-            "confidence": 0.3,
+            "confidence": 0.38,
             "model": "opus",
-            "decider_model": "fallback:llm-self-report",
+            "decider_model": "strands-decider-2b-hobson-v19",
             "parallels": [],
             "ontology_hints": [
               {
@@ -27,28 +27,61 @@
             "sources": [
               "opus"
             ],
-            "confidence_source": "llm-self-report",
-            "decider_source": "fallback",
+            "confidence_source": "decider-noul",
+            "decider_source": "hosted",
             "constraints": {
               "length_ok": true,
               "letters_ok": true
             },
             "features": {
-              "prerank": 0.3,
+              "prerank": 0.25,
               "copy_baseline": false,
-              "llm_probability": 0.3,
+              "llm_probability": 0.25,
               "parallel_support": 0,
               "best_parallel_match": 0.0,
               "ngram_rank": null,
-              "raw_confidence": 0.3
+              "raw_confidence": 0.38
+            }
+          },
+          {
+            "text": "ṭṭa",
+            "text_tamil": "ட்ட",
+            "confidence": 0.3666,
+            "model": "opus",
+            "decider_model": "strands-decider-2b-hobson-v19",
+            "parallels": [],
+            "ontology_hints": [
+              {
+                "id": "ez:ruler/aparajita",
+                "kind": "ruler",
+                "label": "Aparājitavarman"
+              }
+            ],
+            "sources": [
+              "opus"
+            ],
+            "confidence_source": "decider-noul",
+            "decider_source": "hosted",
+            "constraints": {
+              "length_ok": true,
+              "letters_ok": true
+            },
+            "features": {
+              "prerank": 0.18,
+              "copy_baseline": false,
+              "llm_probability": 0.18,
+              "parallel_support": 0,
+              "best_parallel_match": 0.0,
+              "ngram_rank": null,
+              "raw_confidence": 0.3666
             }
           },
           {
             "text": "ṭa",
             "text_tamil": "ட",
-            "confidence": 0.25,
+            "confidence": 0.3646,
             "model": "opus",
-            "decider_model": "fallback:llm-self-report",
+            "decider_model": "strands-decider-2b-hobson-v19",
             "parallels": [],
             "ontology_hints": [
               {
@@ -60,224 +93,8 @@
             "sources": [
               "opus"
             ],
-            "confidence_source": "llm-self-report",
-            "decider_source": "fallback",
-            "constraints": {
-              "length_ok": true,
-              "letters_ok": true
-            },
-            "features": {
-              "prerank": 0.25,
-              "copy_baseline": false,
-              "llm_probability": 0.25,
-              "parallel_support": 0,
-              "best_parallel_match": 0.0,
-              "ngram_rank": null,
-              "raw_confidence": 0.25
-            }
-          },
-          {
-            "text": "pi",
-            "text_tamil": "பி",
-            "confidence": 0.1,
-            "model": "opus",
-            "decider_model": "fallback:llm-self-report",
-            "parallels": [
-              {
-                "inscription_id": "DHARMA_INSTamilNadu00432",
-                "line_n": "5",
-                "snippet": "kku piṭi-pāṭu paṇṇi-k kuṭutta paric’ āvatu in-nāyaṉārkkum nalla-maṅkaiyārkkum tām ceyvitta mahā-maṇṭa",
-                "url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00432.xml"
-              }
-            ],
-            "ontology_hints": [
-              {
-                "id": "ez:ruler/aparajita",
-                "kind": "ruler",
-                "label": "Aparājitavarman"
-              }
-            ],
-            "sources": [
-              "opus",
-              "parallel"
-            ],
-            "confidence_source": "llm-self-report",
-            "decider_source": "fallback",
-            "constraints": {
-              "length_ok": true,
-              "letters_ok": true
-            },
-            "features": {
-              "prerank": 0.1579,
-              "copy_baseline": false,
-              "llm_probability": 0.1,
-              "parallel_support": 1,
-              "best_parallel_match": 0.3214,
-              "ngram_rank": null,
-              "raw_confidence": 0.1
-            }
-          },
-          {
-            "text": "vē",
-            "text_tamil": "வே",
-            "confidence": 0.08,
-            "model": "opus",
-            "decider_model": "fallback:llm-self-report",
-            "parallels": [
-              {
-                "inscription_id": "DHARMA_INSCirkali00048",
-                "line_n": "5",
-                "snippet": "viñcaṉattukkum tēvai ceyvārkku vēṇṭuvaṉa vayiṟṟu",
-                "url": "https://github.com/erc-dharma/tfa-cirkali-epigraphy/blob/9ff78b784d4d5b0c774f72aa78e462349b1c7d48/DHARMA_INSCirkali00048.xml"
-              }
-            ],
-            "ontology_hints": [
-              {
-                "id": "ez:ruler/aparajita",
-                "kind": "ruler",
-                "label": "Aparājitavarman"
-              }
-            ],
-            "sources": [
-              "opus",
-              "parallel"
-            ],
-            "confidence_source": "llm-self-report",
-            "decider_source": "fallback",
-            "constraints": {
-              "length_ok": true,
-              "letters_ok": true
-            },
-            "features": {
-              "prerank": 0.147,
-              "copy_baseline": false,
-              "llm_probability": 0.08,
-              "parallel_support": 1,
-              "best_parallel_match": 0.3643,
-              "ngram_rank": null,
-              "raw_confidence": 0.08
-            }
-          },
-          {
-            "text": "śr",
-            "text_tamil": "ஶ்ர்",
-            "confidence": 0.05,
-            "model": "opus",
-            "decider_model": "fallback:llm-self-report",
-            "parallels": [
-              {
-                "inscription_id": "DHARMA_INSTamilNadu00426",
-                "line_n": "23",
-                "snippet": "ceyvār kōyil-k-kaṇakkarōm ip-paṭikku śrī-mākēśvara-k-kaṇ",
-                "url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00426.xml"
-              }
-            ],
-            "ontology_hints": [
-              {
-                "id": "ez:ruler/aparajita",
-                "kind": "ruler",
-                "label": "Aparājitavarman"
-              }
-            ],
-            "sources": [
-              "opus",
-              "parallel"
-            ],
-            "confidence_source": "llm-self-report",
-            "decider_source": "fallback",
-            "constraints": {
-              "length_ok": true,
-              "letters_ok": true
-            },
-            "features": {
-              "prerank": 0.1148,
-              "copy_baseline": false,
-              "llm_probability": 0.05,
-              "parallel_support": 1,
-              "best_parallel_match": 0.3409,
-              "ngram_rank": null,
-              "raw_confidence": 0.05
-            }
-          }
-        ],
-        "escalated": true,
-        "strategy": "self-report",
-        "calibration": null,
-        "abstain_below": 0.5
-      },
-      {
-        "index": 1,
-        "gap_chars": 1,
-        "decision": "abstain",
-        "chosen": 0,
-        "candidates": [
-          {
-            "text": "r",
-            "text_tamil": "ர்",
-            "confidence": 0.25,
-            "model": "opus",
-            "decider_model": "fallback:llm-self-report",
-            "parallels": [],
-            "ontology_hints": [],
-            "sources": [
-              "opus"
-            ],
-            "confidence_source": "llm-self-report",
-            "decider_source": "fallback",
-            "constraints": {
-              "length_ok": true,
-              "letters_ok": true
-            },
-            "features": {
-              "prerank": 0.25,
-              "copy_baseline": false,
-              "llm_probability": 0.25,
-              "parallel_support": 0,
-              "best_parallel_match": 0.0,
-              "ngram_rank": null,
-              "raw_confidence": 0.25
-            }
-          },
-          {
-            "text": "l",
-            "text_tamil": "ல்",
-            "confidence": 0.15,
-            "model": "opus",
-            "decider_model": "fallback:llm-self-report",
-            "parallels": [],
-            "ontology_hints": [],
-            "sources": [
-              "opus"
-            ],
-            "confidence_source": "llm-self-report",
-            "decider_source": "fallback",
-            "constraints": {
-              "length_ok": true,
-              "letters_ok": true
-            },
-            "features": {
-              "prerank": 0.15,
-              "copy_baseline": false,
-              "llm_probability": 0.15,
-              "parallel_support": 0,
-              "best_parallel_match": 0.0,
-              "ngram_rank": null,
-              "raw_confidence": 0.15
-            }
-          },
-          {
-            "text": "ṉ",
-            "text_tamil": "ன்",
-            "confidence": 0.12,
-            "model": "opus",
-            "decider_model": "fallback:llm-self-report",
-            "parallels": [],
-            "ontology_hints": [],
-            "sources": [
-              "opus"
-            ],
-            "confidence_source": "llm-self-report",
-            "decider_source": "fallback",
+            "confidence_source": "decider-noul",
+            "decider_source": "hosted",
             "constraints": {
               "length_ok": true,
               "letters_ok": true
@@ -289,165 +106,28 @@
               "parallel_support": 0,
               "best_parallel_match": 0.0,
               "ngram_rank": null,
-              "raw_confidence": 0.12
+              "raw_confidence": 0.3646
             }
           },
           {
-            "text": "a",
-            "text_tamil": "அ",
-            "confidence": 0.1,
+            "text": "rku",
+            "text_tamil": "ர்கு",
+            "confidence": 0.0,
             "model": "opus",
-            "decider_model": "fallback:llm-self-report",
-            "parallels": [
+            "decider_model": "strands-decider-2b-hobson-v19",
+            "parallels": [],
+            "ontology_hints": [
               {
-                "inscription_id": "DHARMA_INSPallava00159",
-                "line_n": "14",
-                "snippet": "catti civa-kurava civa-nakka civa-kāma ci [?]",
-                "url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00159.xml"
+                "id": "ez:ruler/aparajita",
+                "kind": "ruler",
+                "label": "Aparājitavarman"
               }
             ],
-            "ontology_hints": [],
-            "sources": [
-              "opus",
-              "parallel"
-            ],
-            "confidence_source": "llm-self-report",
-            "decider_source": "fallback",
-            "constraints": {
-              "length_ok": true,
-              "letters_ok": true
-            },
-            "features": {
-              "prerank": 0.4235,
-              "copy_baseline": true,
-              "llm_probability": 0.1,
-              "parallel_support": 1,
-              "best_parallel_match": 0.3594,
-              "ngram_rank": null,
-              "raw_confidence": 0.1
-            }
-          },
-          {
-            "text": "ṟ",
-            "text_tamil": "ற்",
-            "confidence": 0.08,
-            "model": "opus",
-            "decider_model": "fallback:llm-self-report",
-            "parallels": [],
-            "ontology_hints": [],
             "sources": [
               "opus"
             ],
-            "confidence_source": "llm-self-report",
-            "decider_source": "fallback",
-            "constraints": {
-              "length_ok": true,
-              "letters_ok": true
-            },
-            "features": {
-              "prerank": 0.08,
-              "copy_baseline": false,
-              "llm_probability": 0.08,
-              "parallel_support": 0,
-              "best_parallel_match": 0.0,
-              "ngram_rank": null,
-              "raw_confidence": 0.08
-            }
-          }
-        ],
-        "escalated": true,
-        "strategy": "self-report",
-        "calibration": null,
-        "abstain_below": 0.5
-      },
-      {
-        "index": 2,
-        "gap_chars": 1,
-        "decision": "abstain",
-        "chosen": 0,
-        "candidates": [
-          {
-            "text": "p",
-            "text_tamil": "ப்",
-            "confidence": 0.3,
-            "model": "opus",
-            "decider_model": "fallback:llm-self-report",
-            "parallels": [
-              {
-                "inscription_id": "DHARMA_INStfaSIIv38p0i0489",
-                "line_n": "29",
-                "snippet": "tavira eṅkaṅkaḷ piṟappu-p pōnta paṭi tavira iṭaṅkai niyāyattu vaḻuvinōm ākil",
-                "url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv38p0i0489.xml"
-              },
-              {
-                "inscription_id": "DHARMA_INSTiruvavatuturai00014",
-                "line_n": "59r=59",
-                "snippet": "kuṉāta pāḷāci kiṣṇa kōpālaṉ avarkaḷ pūtāṉa c",
-                "url": "https://github.com/erc-dharma/tfa-tiruvavatuturai-epigraphy/blob/53e5dee31e1804ea7a2c0ffdcfe4344b40507f98/DHARMA_INSTiruvavatuturai00014.xml"
-              }
-            ],
-            "ontology_hints": [],
-            "sources": [
-              "opus",
-              "parallel"
-            ],
-            "confidence_source": "llm-self-report",
-            "decider_source": "fallback",
-            "constraints": {
-              "length_ok": true,
-              "letters_ok": true
-            },
-            "features": {
-              "prerank": 0.525,
-              "copy_baseline": true,
-              "llm_probability": 0.3,
-              "parallel_support": 2,
-              "best_parallel_match": 0.3214,
-              "ngram_rank": null,
-              "raw_confidence": 0.3
-            }
-          },
-          {
-            "text": "ā",
-            "text_tamil": "ஆ",
-            "confidence": 0.15,
-            "model": "opus",
-            "decider_model": "fallback:llm-self-report",
-            "parallels": [],
-            "ontology_hints": [],
-            "sources": [
-              "ngram",
-              "opus"
-            ],
-            "confidence_source": "llm-self-report",
-            "decider_source": "fallback",
-            "constraints": {
-              "length_ok": true,
-              "letters_ok": true
-            },
-            "features": {
-              "prerank": 0.16,
-              "copy_baseline": false,
-              "llm_probability": 0.15,
-              "parallel_support": 0,
-              "best_parallel_match": 0.0,
-              "ngram_rank": 0,
-              "raw_confidence": 0.15
-            }
-          },
-          {
-            "text": "mu",
-            "text_tamil": "மு",
-            "confidence": 0.1,
-            "model": "opus",
-            "decider_model": "fallback:llm-self-report",
-            "parallels": [],
-            "ontology_hints": [],
-            "sources": [
-              "opus"
-            ],
-            "confidence_source": "llm-self-report",
-            "decider_source": "fallback",
+            "confidence_source": "not-in-top-k",
+            "decider_source": "hosted",
             "constraints": {
               "length_ok": true,
               "letters_ok": true
@@ -459,22 +139,28 @@
               "parallel_support": 0,
               "best_parallel_match": 0.0,
               "ngram_rank": null,
-              "raw_confidence": 0.1
+              "raw_confidence": 0.0
             }
           },
           {
-            "text": "ku",
-            "text_tamil": "கு",
-            "confidence": 0.08,
+            "text": "kku",
+            "text_tamil": "க்கு",
+            "confidence": 0.0,
             "model": "opus",
-            "decider_model": "fallback:llm-self-report",
+            "decider_model": "strands-decider-2b-hobson-v19",
             "parallels": [],
-            "ontology_hints": [],
+            "ontology_hints": [
+              {
+                "id": "ez:ruler/aparajita",
+                "kind": "ruler",
+                "label": "Aparājitavarman"
+              }
+            ],
             "sources": [
               "opus"
             ],
-            "confidence_source": "llm-self-report",
-            "decider_source": "fallback",
+            "confidence_source": "not-in-top-k",
+            "decider_source": "hosted",
             "constraints": {
               "length_ok": true,
               "letters_ok": true
@@ -486,22 +172,329 @@
               "parallel_support": 0,
               "best_parallel_match": 0.0,
               "ngram_rank": null,
-              "raw_confidence": 0.08
+              "raw_confidence": 0.0
+            }
+          }
+        ],
+        "escalated": true,
+        "strategy": "noul-topk",
+        "calibration": null,
+        "abstain_below": 0.5
+      },
+      {
+        "index": 1,
+        "gap_chars": 1,
+        "decision": "abstain",
+        "chosen": 0,
+        "candidates": [
+          {
+            "text": "nilam",
+            "text_tamil": "நிலம்",
+            "confidence": 0.4786,
+            "model": "retrieval",
+            "decider_model": "strands-decider-2b-hobson-v19",
+            "parallels": [
+              {
+                "inscription_id": "DHARMA_INSCirkali00002",
+                "line_n": "36",
+                "snippet": "ḷum aka-p-paṭa vanta nilam ci",
+                "url": "https://github.com/erc-dharma/tfa-cirkali-epigraphy/blob/9ff78b784d4d5b0c774f72aa78e462349b1c7d48/DHARMA_INSCirkali00002.xml"
+              }
+            ],
+            "ontology_hints": [],
+            "sources": [
+              "parallel"
+            ],
+            "confidence_source": "decider-noul",
+            "decider_source": "hosted",
+            "constraints": {
+              "length_ok": true,
+              "letters_ok": true
+            },
+            "features": {
+              "prerank": 0.4631,
+              "copy_baseline": true,
+              "llm_probability": null,
+              "parallel_support": 1,
+              "best_parallel_match": 0.4631,
+              "ngram_rank": null,
+              "raw_confidence": 0.4786
             }
           },
           {
-            "text": "ka",
-            "text_tamil": "க",
-            "confidence": 0.07,
+            "text": "ru",
+            "text_tamil": "ரு",
+            "confidence": 0.352,
             "model": "opus",
-            "decider_model": "fallback:llm-self-report",
+            "decider_model": "strands-decider-2b-hobson-v19",
             "parallels": [],
             "ontology_hints": [],
             "sources": [
               "opus"
             ],
-            "confidence_source": "llm-self-report",
-            "decider_source": "fallback",
+            "confidence_source": "decider-noul",
+            "decider_source": "hosted",
+            "constraints": {
+              "length_ok": true,
+              "letters_ok": true
+            },
+            "features": {
+              "prerank": 0.25,
+              "copy_baseline": false,
+              "llm_probability": 0.25,
+              "parallel_support": 0,
+              "best_parallel_match": 0.0,
+              "ngram_rank": null,
+              "raw_confidence": 0.352
+            }
+          },
+          {
+            "text": "ma",
+            "text_tamil": "ம",
+            "confidence": 0.3476,
+            "model": "opus",
+            "decider_model": "strands-decider-2b-hobson-v19",
+            "parallels": [
+              {
+                "inscription_id": "DHARMA_INSPallava00159",
+                "line_n": "14",
+                "snippet": "catti civa-kurava civa-nakka civa-kāma ci [?]",
+                "url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00159.xml"
+              }
+            ],
+            "ontology_hints": [],
+            "sources": [
+              "ngram",
+              "opus",
+              "parallel"
+            ],
+            "confidence_source": "decider-noul",
+            "decider_source": "hosted",
+            "constraints": {
+              "length_ok": true,
+              "letters_ok": true
+            },
+            "features": {
+              "prerank": 0.1866,
+              "copy_baseline": false,
+              "llm_probability": 0.12,
+              "parallel_support": 1,
+              "best_parallel_match": 0.3594,
+              "ngram_rank": 2,
+              "raw_confidence": 0.3476
+            }
+          },
+          {
+            "text": "ca",
+            "text_tamil": "ச",
+            "confidence": 0.0,
+            "model": "opus",
+            "decider_model": "strands-decider-2b-hobson-v19",
+            "parallels": [
+              {
+                "inscription_id": "DHARMA_INSPallava00464",
+                "line_n": "3",
+                "snippet": "vaitta caruvappāṉai nāṉk' uri arici aṭum keṭāmai rakṣippatu ūrum",
+                "url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00464.xml"
+              }
+            ],
+            "ontology_hints": [],
+            "sources": [
+              "opus",
+              "parallel"
+            ],
+            "confidence_source": "not-in-top-k",
+            "decider_source": "hosted",
+            "constraints": {
+              "length_ok": true,
+              "letters_ok": true
+            },
+            "features": {
+              "prerank": 0.1638,
+              "copy_baseline": false,
+              "llm_probability": 0.1,
+              "parallel_support": 1,
+              "best_parallel_match": 0.3544,
+              "ngram_rank": null,
+              "raw_confidence": 0.0
+            }
+          },
+          {
+            "text": "va",
+            "text_tamil": "வ",
+            "confidence": 0.0,
+            "model": "opus",
+            "decider_model": "strands-decider-2b-hobson-v19",
+            "parallels": [],
+            "ontology_hints": [],
+            "sources": [
+              "opus"
+            ],
+            "confidence_source": "not-in-top-k",
+            "decider_source": "hosted",
+            "constraints": {
+              "length_ok": true,
+              "letters_ok": true
+            },
+            "features": {
+              "prerank": 0.15,
+              "copy_baseline": false,
+              "llm_probability": 0.15,
+              "parallel_support": 0,
+              "best_parallel_match": 0.0,
+              "ngram_rank": null,
+              "raw_confidence": 0.0
+            }
+          }
+        ],
+        "escalated": true,
+        "strategy": "noul-topk",
+        "calibration": null,
+        "abstain_below": 0.5
+      },
+      {
+        "index": 2,
+        "gap_chars": 1,
+        "decision": "abstain",
+        "chosen": 0,
+        "candidates": [
+          {
+            "text": "āka",
+            "text_tamil": "ஆக",
+            "confidence": 0.4421,
+            "model": "opus",
+            "decider_model": "strands-decider-2b-hobson-v19",
+            "parallels": [
+              {
+                "inscription_id": "DHARMA_INStfaSIIv08p0i0749",
+                "line_n": "18",
+                "snippet": "viṇṇappañ ceyvārum ceytu vara-k-kaṭavarkaḷ āka ip-poyyāta cēvaṭi tēvar kaṇātaṉ-āṉa rājarāja-p-piccaṉukkum ivaṉ vaṟ",
+                "url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv08p0i0749.xml"
+              }
+            ],
+            "ontology_hints": [],
+            "sources": [
+              "opus",
+              "parallel"
+            ],
+            "confidence_source": "decider-noul",
+            "decider_source": "hosted",
+            "constraints": {
+              "length_ok": true,
+              "letters_ok": true
+            },
+            "features": {
+              "prerank": 0.1579,
+              "copy_baseline": false,
+              "llm_probability": 0.1,
+              "parallel_support": 1,
+              "best_parallel_match": 0.3214,
+              "ngram_rank": null,
+              "raw_confidence": 0.4421
+            }
+          },
+          {
+            "text": "pi",
+            "text_tamil": "பி",
+            "confidence": 0.4147,
+            "model": "opus",
+            "decider_model": "strands-decider-2b-hobson-v19",
+            "parallels": [
+              {
+                "inscription_id": "DHARMA_INStfaSIIv38p0i0489",
+                "line_n": "29",
+                "snippet": "tavira eṅkaṅkaḷ piṟappu-p pōnta paṭi tavira iṭaṅkai niyāyattu vaḻuvinōm ākil",
+                "url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv38p0i0489.xml"
+              }
+            ],
+            "ontology_hints": [],
+            "sources": [
+              "opus",
+              "parallel"
+            ],
+            "confidence_source": "decider-noul",
+            "decider_source": "hosted",
+            "constraints": {
+              "length_ok": true,
+              "letters_ok": true
+            },
+            "features": {
+              "prerank": 0.4232,
+              "copy_baseline": true,
+              "llm_probability": 0.15,
+              "parallel_support": 1,
+              "best_parallel_match": 0.3214,
+              "ngram_rank": null,
+              "raw_confidence": 0.4147
+            }
+          },
+          {
+            "text": "ru",
+            "text_tamil": "ரு",
+            "confidence": 0.357,
+            "model": "opus",
+            "decider_model": "strands-decider-2b-hobson-v19",
+            "parallels": [],
+            "ontology_hints": [],
+            "sources": [
+              "opus"
+            ],
+            "confidence_source": "decider-noul",
+            "decider_source": "hosted",
+            "constraints": {
+              "length_ok": true,
+              "letters_ok": true
+            },
+            "features": {
+              "prerank": 0.3,
+              "copy_baseline": false,
+              "llm_probability": 0.3,
+              "parallel_support": 0,
+              "best_parallel_match": 0.0,
+              "ngram_rank": null,
+              "raw_confidence": 0.357
+            }
+          },
+          {
+            "text": "ṉa",
+            "text_tamil": "ன",
+            "confidence": 0.0,
+            "model": "opus",
+            "decider_model": "strands-decider-2b-hobson-v19",
+            "parallels": [],
+            "ontology_hints": [],
+            "sources": [
+              "opus"
+            ],
+            "confidence_source": "not-in-top-k",
+            "decider_source": "hosted",
+            "constraints": {
+              "length_ok": true,
+              "letters_ok": true
+            },
+            "features": {
+              "prerank": 0.08,
+              "copy_baseline": false,
+              "llm_probability": 0.08,
+              "parallel_support": 0,
+              "best_parallel_match": 0.0,
+              "ngram_rank": null,
+              "raw_confidence": 0.0
+            }
+          },
+          {
+            "text": "ku",
+            "text_tamil": "கு",
+            "confidence": 0.0,
+            "model": "opus",
+            "decider_model": "strands-decider-2b-hobson-v19",
+            "parallels": [],
+            "ontology_hints": [],
+            "sources": [
+              "opus"
+            ],
+            "confidence_source": "not-in-top-k",
+            "decider_source": "hosted",
             "constraints": {
               "length_ok": true,
               "letters_ok": true
@@ -513,19 +506,20 @@
               "parallel_support": 0,
               "best_parallel_match": 0.0,
               "ngram_rank": null,
-              "raw_confidence": 0.07
+              "raw_confidence": 0.0
             }
           }
         ],
         "escalated": true,
-        "strategy": "self-report",
+        "strategy": "noul-topk",
         "calibration": null,
         "abstain_below": 0.5
       }
     ],
     "models_used": [
-      "us.anthropic.claude-opus-4-6-v1"
+      "us.anthropic.claude-opus-4-6-v1",
+      "strands-decider-2b-hobson-v19"
     ],
-    "latency_ms": 15096.8
+    "latency_ms": 59484.9
   }
 }

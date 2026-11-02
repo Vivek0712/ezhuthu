@@ -51,8 +51,9 @@ expert review queue, and every number it shows is published in `eval/reports/`.
 | --- | --- | --- |
 | Corpus | 1,320 DHARMA inscriptions, 65% damaged | `benchmark/DATA_CARD.md` |
 | Expert restorations in the benchmark | 3,289 (test 413, test-hard 317) | `benchmark/DATA_CARD.md` |
-| Copy-from-parallel baseline, fills that match the expert restoration (top-1) | 0.42 on test (413), 0.34 on test-hard (317) | `eval/reports/2026-11-02-baseline-copy-test-full.md` |
-| **Abstaining buys accuracy** (our one defensible engine claim; cite N) | LLM self-confidence: 0.40 top-1 overall, **0.67 on the 55% it keeps** at confidence >= 0.5; hosted Strands Decider 0.45 top-1, abstains on 83% (N = 60 test-hard items) | `eval/reports/2026-11-02-decider-benchmark.md` |
+| Fills that match the expert restoration (top-1, test, local 2B decider) | **49.6%** (205 of 413); copy-from-parallel 47.2% (not significantly different), character 5-gram **56.7%** | `eval/reports/2026-11-02-test-eval.md` |
+| **Abstaining buys accuracy** (our one defensible engine claim) | at the VAL-fitted threshold the engine fills 46.5% of test gaps and **63.5% of those fills match the expert**, vs 49.6% overall (N = 413) | `eval/reports/2026-11-02-test-eval.md` |
+| The same on the cloud runtime's deciders | 60 test-hard items only: hosted decider top-1 0.45 abstaining on 83%; self-report 0.40 overall, 0.67 on the 55% kept | `eval/reports/2026-11-02-decider-benchmark.md` |
 | Photo reading of Tamil script (experimental) | CER 0.10 on 72 synthetic plates (0.05 clean), 0.09 on 3 real printed pages; **not measured on real stones** | `eval/reports/2026-11-02-ocr-eval.md` |
 | Photo reading of Tamil-Brahmi | **fails**: CER 0.83 to 0.91 on 3 real images | `eval/reports/2026-11-02-ocr-eval.md` |
 | Restorations in inscriptions over 1,100 years old | 410, Pallava collection only | `benchmark/DATA_CARD.md` |
@@ -82,12 +83,13 @@ The home page now opens on a **real photograph** of a Chola-period inscription o
 (Richard Mortel, CC BY 2.0, via Wikimedia Commons; `app/web/public/hero/ATTRIBUTION.md`). The animation shows the
 letters lighting up on hand-annotated boxes, flying into Reader, Restorer and Strands Decider, and landing as the
 reading, and everything it shows is the **actual output** of our Reader and Restorer on that photo
-(`app/web/src/hero/hero-reading.json`, built by `scripts/hero_read.py` and `scripts/hero_build.py`, 7 live Bedrock
-calls):
+(`app/web/src/hero/hero-reading.json`, built by `scripts/hero_read.py` and `scripts/hero_build.py`; 10 live Bedrock
+calls, models from `config/models.yaml`):
 
 - Reader confidence **0.20** (Sonnet 4.6 at 0.15, then Opus 4.6 on "read again"); all 4 lines are under 0.5.
-- 3 gaps; the restorer's best fills were 0.30, 0.25 and 0.30, so **all three abstain** and the reading goes to expert
-  review.
+- 3 gaps; Opus proposed fills and the hosted Strands Decider (`strands-decider-2b-hobson-v19`, `noul` on the top 3,
+  the current `restorer.strategy_llm`) scored the best ones 0.38, 0.48 and 0.44. The cloud runtime has no calibration
+  for that decider, so it fills only at 0.5 or above: **all three abstain** and the reading goes to expert review.
 - **We could not identify this stone in a published edition**, so the hero shows no error rate and no translation, and
   says so. Two Opus reads of overlapping crops of the photo disagreed, which is itself evidence that the reading is
   unreliable.
@@ -123,9 +125,8 @@ Under it, the hero media:
 >   new epigraphists practise on real damaged stones with feedback in Tamil first. Working scholars get a restoration
 >   assistant that shows its confidence and sends what it cannot settle to an expert review queue.
 
-Numbers table, rows to add:
+Numbers table (PR #31 added the test-eval rows; keep them), rows to add:
 
-> | Fills that match the expert restoration when the assistant keeps them (confidence >= 0.5) | **0.67** on the 55% kept, vs 0.40 overall (N = 60 test-hard) | [eval/reports/2026-11-02-decider-benchmark.md](eval/reports/2026-11-02-decider-benchmark.md) |
 > | Photo reading, Tamil script / Tamil-Brahmi | CER **0.10** synthetic, 0.09 printed pages / **0.83 to 0.91 (fails)** | [eval/reports/2026-11-02-ocr-eval.md](eval/reports/2026-11-02-ocr-eval.md) |
 > | Expert study B (reading with vs without the assistant) | **TBD** | [docs/expert-validation/](docs/expert-validation/) |
 

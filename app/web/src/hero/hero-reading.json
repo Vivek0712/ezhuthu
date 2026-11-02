@@ -519,26 +519,26 @@
       "best": {
        "ta": "டு",
        "iso": "ṭu",
-       "confidence": 0.3
+       "confidence": 0.38
       },
       "candidates": [
        {
         "ta": "டு",
         "iso": "ṭu",
-        "confidence": 0.3
+        "confidence": 0.38
+       },
+       {
+        "ta": "ட்ட",
+        "iso": "ṭṭa",
+        "confidence": 0.3666
        },
        {
         "ta": "ட",
         "iso": "ṭa",
-        "confidence": 0.25
-       },
-       {
-        "ta": "பி",
-        "iso": "pi",
-        "confidence": 0.1
+        "confidence": 0.3646
        }
       ],
-      "confidence_source": "llm-self-report"
+      "confidence_source": "decider-noul"
      }
     ]
    },
@@ -568,28 +568,28 @@
       "gap_index": 1,
       "decision": "abstain",
       "best": {
-       "ta": "ர்",
-       "iso": "r",
-       "confidence": 0.25
+       "ta": "நிலம்",
+       "iso": "nilam",
+       "confidence": 0.4786
       },
       "candidates": [
        {
-        "ta": "ர்",
-        "iso": "r",
-        "confidence": 0.25
+        "ta": "நிலம்",
+        "iso": "nilam",
+        "confidence": 0.4786
        },
        {
-        "ta": "ல்",
-        "iso": "l",
-        "confidence": 0.15
+        "ta": "ரு",
+        "iso": "ru",
+        "confidence": 0.352
        },
        {
-        "ta": "ன்",
-        "iso": "ṉ",
-        "confidence": 0.12
+        "ta": "ம",
+        "iso": "ma",
+        "confidence": 0.3476
        }
       ],
-      "confidence_source": "llm-self-report"
+      "confidence_source": "decider-noul"
      },
      {
       "kind": "space"
@@ -625,28 +625,28 @@
       "gap_index": 2,
       "decision": "abstain",
       "best": {
-       "ta": "ப்",
-       "iso": "p",
-       "confidence": 0.3
+       "ta": "ஆக",
+       "iso": "āka",
+       "confidence": 0.4421
       },
       "candidates": [
        {
-        "ta": "ப்",
-        "iso": "p",
-        "confidence": 0.3
+        "ta": "ஆக",
+        "iso": "āka",
+        "confidence": 0.4421
        },
        {
-        "ta": "ஆ",
-        "iso": "ā",
-        "confidence": 0.15
+        "ta": "பி",
+        "iso": "pi",
+        "confidence": 0.4147
        },
        {
-        "ta": "மு",
-        "iso": "mu",
-        "confidence": 0.1
+        "ta": "ரு",
+        "iso": "ru",
+        "confidence": 0.357
        }
       ],
-      "confidence_source": "llm-self-report"
+      "confidence_source": "decider-noul"
      }
     ]
    }
@@ -656,22 +656,26 @@
   "endpoint": "POST /api/restore",
   "abstain_below": 0.5,
   "models": [
-   "us.anthropic.claude-opus-4-6-v1"
+   "us.anthropic.claude-opus-4-6-v1",
+   "strands-decider-2b-hobson-v19"
   ],
   "decisions": [
    "abstain",
    "abstain",
    "abstain"
   ],
-  "note": "The restorer config uses the LLM's self-reported probability once the LLM has answered (config/models.yaml restorer.strategy_llm: self-report); all three fills were under the 0.5 abstain threshold, so each gap is left open and the reading goes to expert review."
+  "note": "Candidate fills from the LLM (Opus 4.6) were ranked by the hosted Strands Decider (restorer.strategy_llm: noul-topk, top 3: 'is this the expert's restoration?'). The cloud runtime has no calibration for that decider, so it fills only at confidence >= 0.5; the best fills scored 0.38, 0.48 and 0.44, so each gap is left open and the reading goes to expert review.",
+  "decider_models": [
+   "strands-decider-2b-hobson-v19"
+  ]
  },
  "edition": null,
  "cer": null,
  "edition_note": "We could not identify this stone in DHARMA or another published edition, so there is no reference text and no character error rate. The reading is Ezhuthu's own, at low confidence, and two Opus reads of overlapping crops disagree with each other: treat it as unverified. No English gloss is given for the same reason.",
  "live_calls": {
   "reader": 4,
-  "restorer": 3,
-  "note": "including one earlier read of a 6-line crop of the same photo that was not used"
+  "restorer": 6,
+  "note": "Bedrock calls. Reader: includes a Sonnet+Opus read of a 6-line crop of the same photo that was not used. Restorer: a first run (3 calls) under the earlier self-report config, superseded by this run under the current config (3 calls). Strands Decider calls go to the hosted decider API, not Bedrock."
  },
  "run_date": "2026-11-02"
 }
