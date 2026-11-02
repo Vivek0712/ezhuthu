@@ -24,14 +24,14 @@ from pathlib import Path
 from typing import Any
 
 from ..agent.baselines import copy_best_parallel
-from ..agent.calibration import CalibrationTable, cross_validated, fit, variant_key
+from ..agent.calibration import MIN_N, MIN_POSITIVES, CalibrationTable, cross_validated, fit, variant_key
 from ..agent.config import PACKAGE_DIR, live_enabled, load_models_config, repo_root
 from ..agent.data import data_source, load_items
 from ..agent.decider import Decider, HttpDecider, NoDecider
 from ..agent.llm import BedrockLLM, BudgetedLLM
 from ..agent.restorer import Restorer
 from .metrics import canon, coverage_curve, ece
-from .run import git_commit
+from .run import code_provenance, git_commit
 
 log = logging.getLogger(__name__)
 
@@ -63,6 +63,8 @@ def run_variant(items, *, restorer: Restorer, router: str) -> list[dict[str, Any
             "correct": bool(top and canon(top.text) == canon(it.target)),
             "oracle": any(canon(c.text) == canon(it.target) for c in g.candidates),
             "decider_model": g.decider_model, "llm": any(m in g.models_used for m in restorer.config.llm.values()),
+            "llm_short": ("opus" if restorer.config.llm.get("escalate") in g.models_used
+                          else "sonnet" if restorer.config.llm.get("default") in g.models_used else None),
             "llm_truncated": g.llm_truncated, "llm_retries": g.llm_retries,
             "latency_ms": round((time.perf_counter() - t0) * 1000, 1),
         })
@@ -94,7 +96,8 @@ def summarize_variant(rows: list[dict[str, Any]], key: str, fitted) -> dict[str,
         "ece_calibrated_cv5": round(ece(cv_cal, ok), 4),
         "at_raw_0.5": sel([c >= 0.5 for c in raw]), "at_fitted_in_sample": sel(fill_in),
         "at_fitted_cv5": sel(cv_fill), "coverage_raw": coverage_curve(raw, ok),
-        "calibration": {"a": fitted.a, "b": fitted.b, "threshold": fitted.threshold},
+        "calibration": {"a": fitted.a, "b": fitted.b, "threshold": fitted.threshold,
+                        "provisional": fitted.provisional()},
         "llm_truncated": sum(int(r.get("llm_truncated") or 0) for r in rows),
         "llm_retries": sum(int(r.get("llm_retries") or 0) for r in rows),
         "latency_ms_p50": lat[len(lat) // 2] if lat else None,
@@ -123,7 +126,9 @@ def write_report(out_dir: Path, name: str, meta: dict[str, Any], results: dict[s
          f"- Date: {meta['date']}", f"- Items: {meta['n']} ({meta['split']}/{meta['subset']}, limit {meta['limit']})",
          (f"- Router: `{meta['router']}`; ontology: {'on' if meta['use_ontology'] else 'off'}; "
          f"decider: {meta['decider']}"),
-         f"- Data: `{meta['data_dir']}`" + (f" ({meta['data_commit']})" if meta.get("data_commit") else ""),
+         f"- Data: `{meta['data_dir']}`" + (f" (last data commit {meta['data_commit']})"
+                                            if meta.get("data_commit") else ""),
+         f"- Code: {meta.get('code_commit')}" + (" + uncommitted changes" if meta.get("code_dirty") else ""),
          f"- Command: `{meta['command']}`"]
     if meta.get("usage"):
         u = meta["usage"]
@@ -148,7 +153,10 @@ def write_report(out_dir: Path, name: str, meta: dict[str, Any], results: dict[s
                  f"{s['llm_truncated']} / {s['llm_retries']} | {s['latency_ms_p50']} |")
     L += ["", "Variant keys written to the calibration file:", ""]
     L += [f"- `{r['summary']['key']}`: a={r['summary']['calibration']['a']}, b={r['summary']['calibration']['b']}, "
-          f"threshold={r['summary']['calibration']['threshold']} (n={r['summary']['n']})" for r in results.values()]
+          f"threshold={r['summary']['calibration']['threshold']} (n={r['summary']['n']})"
+          + (f" - provisional (under n={MIN_N} or {MIN_POSITIVES} positives): stored, not used by the restorer"
+             if r['summary']['calibration'].get("provisional") else "")
+          for r in results.values()]
     if meta.get("notes"):
         L += ["", "## Notes", ""] + [f"- {n}" for n in meta["notes"]]
     mp = out_dir / f"{stem}.md"
@@ -206,7 +214,8 @@ def main(argv: list[str] | None = None) -> int:
         r.__dict__["index"], r.__dict__["ngram"] = probe.index, probe.ngram  # share the built indexes
         t0 = time.perf_counter()
         rows = run_variant(items, restorer=r, router=args.router)
-        used_llm = any(row.get("llm") for row in rows)
+        shorts = {row.get("llm_short") for row in rows if row.get("llm_short")}
+        used_llm = "opus" if "opus" in shorts else "sonnet" if "sonnet" in shorts else None
         model = next((row["decider_model"] for row in rows if row.get("decider_model")), decider_model)
         key = variant_key(model, settings.strategy, k, used_llm)
         fitted = fit([row["raw"] for row in rows], [row["correct"] for row in rows], split="val",
@@ -225,6 +234,7 @@ def main(argv: list[str] | None = None) -> int:
         "date": dt.datetime.now(dt.UTC).isoformat(timespec="seconds"), "split": args.split, "subset": args.subset,
         "limit": args.limit, "n": len(items), "router": args.router, "use_ontology": not args.no_ontology,
         "decider": decider_model, "data_dir": str(src.path), "data_commit": git_commit(src.path),
+        **code_provenance(),
         "copy_top1": round(sum(copy_ok.values()) / max(1, len(copy_ok)), 4),
         "usage": llm.ledger.to_dict() if llm else None, "max_live_calls": args.max_live_calls,
         "budget_exhausted": llm.exhausted if llm else 0, "notes": args.note,

@@ -175,7 +175,8 @@ class Restorer:
         if calibration is None:
             env = os.environ.get("EZHUTHU_CALIBRATION")  # a path, or "none" for raw confidences
             spec = None if env == "none" else (env or self.settings.calibration)
-            calibration = CalibrationTable.load(spec)
+            calibration = CalibrationTable.load(spec, min_n=self.settings.calibration_min_n,
+                                                min_positives=self.settings.calibration_min_positives)
         self.calibration = calibration
 
     # ---- lazily built resources -------------------------------------------------
@@ -293,6 +294,8 @@ class Restorer:
                 c.confidence, c.confidence_source, c.decider_source = c.prerank, "prerank", "prerank"
             return "prerank", sorted(cands, key=lambda c: c.confidence, reverse=True)
 
+        if strategy == "self-report":
+            return self._self_report(cands, parallels)
         if strategy == "choice-all":
             top, rest = cands[:23], cands[23:]  # 24 decider slots, one reserved for "none"
         else:
@@ -328,7 +331,12 @@ class Restorer:
             return model, ranked
         except (DeciderUnavailable, AttributeError):  # AttributeError: a decider without noul()
             pass
-        # Fallback: LLM self-reported confidence; retrieval-only candidates use agreement among parallels.
+        return self._self_report(cands, parallels)
+
+    @staticmethod
+    def _self_report(cands: list[Candidate], parallels: list[Parallel]) -> tuple[str, list[Candidate]]:
+        """No decider (strategy ``self-report``, or the decider failed): LLM self-reported confidence;
+        retrieval-only candidates use agreement among parallels."""
         n_par = max(1, len([p for p in parallels if p.fill]))
         for c in cands:
             c.decider_source = "fallback"
@@ -342,12 +350,13 @@ class Restorer:
             else "fallback:retrieval-heuristic"
         return tag, sorted(cands, key=lambda c: c.confidence, reverse=True)
 
-    def calibrate(self, decider_model: str, ranked: list[Candidate], *, llm: bool,
+    def calibrate(self, decider_model: str, ranked: list[Candidate], *, llm: bool | str | None,
                   strategy: str | None = None, top_k: int | None = None) -> tuple[str | None, float]:
         """Apply the VAL-fitted calibration of this decider variant (if any) to every candidate's confidence.
 
-        Returns (variant key or None, abstain threshold). Without a calibration the raw confidence stays and
-        the threshold is ``routing.abstain_if_confidence_below``."""
+        ``llm``: the short name of the strongest LLM that answered (``sonnet``/``opus``), or None.
+        Returns (variant key or None, abstain threshold). Without a usable (non-provisional) calibration the raw
+        confidence stays and the threshold is ``routing.abstain_if_confidence_below``."""
         for c in ranked:
             c.raw_confidence = c.confidence
         key = variant_key(decider_model, strategy or self.settings.strategy, top_k or self.settings.top_k, llm)
@@ -425,7 +434,8 @@ class Restorer:
         else:
             first_role = {"sonnet": "default", "opus": "escalate"}.get(router, "default")
         info: dict[str, int] = {}
-        llm_answered = {"any": False}
+        llm_answered: dict[str, str | None] = {"any": None}  # strongest LLM that answered: "sonnet" / "opus"
+        used = {"strategy": st.strategy}
 
         def call_llm(role: str) -> None:
             try:
@@ -436,8 +446,9 @@ class Restorer:
                 return
             mid = self.config.model_id(role)
             models_used.append(mid)
-            llm_answered["any"] = True
             short = "opus" if role == "escalate" else "sonnet"
+            if llm_answered["any"] != "opus":
+                llm_answered["any"] = short
             for t, c in props:
                 add(t, short, conf=c)
 
@@ -455,19 +466,24 @@ class Restorer:
             for c in cands:
                 c.prerank = prerank_score(c, n_par)
             cands.sort(key=lambda c: (-c.prerank, -(c.llm_confidence or 0), -c.retrieval_score, c.text))
+            strat = st.strategy_for(bool(llm_answered["any"]))
+            used["strategy"] = strat
             model, ranked = self.rank_and_decide(cands, left=left, right=right, gap_chars=length,
-                                                 parallels=parallels, hints=hints)
-            key, thr = self.calibrate(model, ranked, llm=llm_answered["any"])
+                                                 parallels=parallels, hints=hints, strategy=strat)
+            key, thr = self.calibrate(model, ranked, llm=llm_answered["any"], strategy=strat)
             return model, ranked, key, thr
 
         decider_model, ranked, cal_key, threshold = finalize()
-        best = ranked[0].confidence if ranked else 0.0
+        # Escalation compares the RAW top-1 confidence with routing.escalate_if_confidence_below: that threshold
+        # is set on the raw scale, and a calibrated score (fitted per variant for the fill/abstain decision) lives
+        # on a different one. The fill/abstain decision below uses the calibrated score and its own threshold.
+        raw_best = (ranked[0].raw_confidence or 0.0) if ranked else 0.0
         if (llm_on and router == "routed" and allow_escalation and first_role == "default"
-                and best < rt.escalate_if_confidence_below):
+                and raw_best < rt.escalate_if_confidence_below):
             call_llm("escalate")
             escalated = True
             decider_model, ranked, cal_key, threshold = finalize()
-            best = ranked[0].confidence if ranked else 0.0
+        best = ranked[0].confidence if ranked else 0.0
 
         if decider_model not in ("none", "prerank") and not decider_model.startswith("fallback:"):
             models_used.append(decider_model)
@@ -475,7 +491,7 @@ class Restorer:
         return GapResult(index=index, gap_chars=length, decision=decision, chosen=0 if ranked else None,
                          candidates=ranked[:max(1, max_candidates)], decider_model=decider_model,
                          models_used=models_used, escalated=escalated, parallels=parallels,
-                         strategy=st.strategy, calibration=cal_key, abstain_below=threshold,
+                         strategy=used["strategy"], calibration=cal_key, abstain_below=threshold,
                          llm_truncated=info.get("truncated", 0), llm_retries=info.get("retries", 0))
 
     def restore(self, text: str, *, script: str = "iso15919", max_candidates: int = 5,

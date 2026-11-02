@@ -5,7 +5,9 @@
 - Date: 2026-11-01T23:46:36+00:00
 - Items: 443 (val/full, limit None)
 - Router: `none`; ontology: off; decider: strands-decider-2B-qwen3.5-v1-2610
-- Data: `/Users/vivekrajaps/tamil-script/ezhuthu-wt/w3-restorer/benchmark` (585bbad4953b91f0dd7c6a7c3d7dbaf03f99efd1)
+- Data: `/Users/vivekrajaps/tamil-script/ezhuthu-wt/w3-restorer/benchmark` (last data commit 20584c8)
+- Code: 575f3ab
+- Provenance note: Provenance corrected (QA on PR #25): the original data_commit field held the checkout HEAD 585bbad, but these numbers came from the uncommitted copy-floor pre-rank fix later committed as 575f3ab. data_commit is now the last commit touching benchmark/. Re-running the prerank and fallback variants at 575f3ab (router none, no Bedrock) on 2026-11-02 reproduced their rows exactly (prerank top-1 0.2348, fallback 0.2167); the decider variants were not re-run.
 - Command: `python -m ezhuthu.eval.calibrate --split val --router none --no-ontology --name restorer-val-calibration-retrieval --note Router none: candidates are retrieval parallels (train-only corpus_lines), the copy-floor fill and the character 5-gram; no LLM, no Bedrock calls. --note Ontology off: the shipped ontology build reads val/test inscriptions (QA gotcha), so it is excluded from any eval.`
 
 Copy baseline on the same items: top-1 0.228.

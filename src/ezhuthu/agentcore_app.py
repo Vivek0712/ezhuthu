@@ -15,7 +15,7 @@ import logging
 from collections.abc import Callable
 from typing import Any
 
-from .api.service import BadRequest, EzhuthuService, Forbidden, NotFound
+from .api.service import BadRequest, Conflict, EzhuthuService, Forbidden, NotFound
 
 log = logging.getLogger(__name__)
 _service: EzhuthuService | None = None
@@ -100,6 +100,8 @@ def handle(payload: dict[str, Any], svc: EzhuthuService | None = None) -> dict[s
         return {"error": {"status": 404, "detail": str(exc)}}
     except Forbidden as exc:
         return {"error": {"status": 403, "detail": str(exc)}}
+    except Conflict as exc:
+        return {"error": {"status": 409, "detail": str(exc)}}
     except (BadRequest, ValueError, TypeError) as exc:
         return {"error": {"status": 422, "detail": str(exc)}}
     except Exception as exc:

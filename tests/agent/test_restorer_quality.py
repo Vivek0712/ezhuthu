@@ -307,12 +307,17 @@ def test_fit_and_cross_validation_and_table_round_trip(tmp_path):
     assert c.n == 40 and c.positives == 20 and c.apply(0.4) > c.apply(0.1)
     cal, filled = cross_validated(conf, ok, folds=5)
     assert len(cal) == 40 and any(filled)
-    key = variant_key("m", "choice-topk", 3, True)
-    assert key == "m|choice-topk|k3|llm" and variant_key("m", "choice-all", 3, False) == "m|choice-all|kall|retrieval"
+    key = variant_key("m", "choice-topk", 3, "sonnet")
+    assert key == "m|choice-topk|k3|llm-sonnet" and variant_key("m", "choice-all", 3, False) == "m|choice-all|kall|retrieval"
+    assert variant_key("m", "prerank", 5, "opus") == "m|prerank|kall|llm-opus"
+    assert variant_key("m", "prerank", 5, True) == "m|prerank|kall|llm"  # legacy, router-agnostic
     p = tmp_path / "cal.json"
     p.write_text(CalibrationTable({key: c}).to_json())
-    t = CalibrationTable.load(p)
+    t = CalibrationTable.load(p, min_n=0, min_positives=0)
     assert t.get(key) == c and CalibrationTable.load(tmp_path / "missing.json").entries == {}
+    # n=40 is under the default minimum: stored, but provisional and not handed to the restorer
+    guarded = CalibrationTable.load(p)
+    assert c.provisional() and guarded.get(key) is None and guarded.raw_get(key) == c
 
 
 def test_restorer_applies_per_decider_calibration_and_threshold():
@@ -321,8 +326,8 @@ def test_restorer_applies_per_decider_calibration_and_threshold():
         return {**{n: 0.05 for n in names}, names[0]: 0.3, "none": 0.0}
 
     dec = FakeDecider(picker)
-    key = variant_key("fake-decider", "choice-topk", 3, True)
-    table = CalibrationTable({key: Calibration(a=1.0, b=1.5, threshold=0.4)})
+    key = variant_key("fake-decider", "choice-topk", 3, "sonnet")
+    table = CalibrationTable({key: Calibration(a=1.0, b=1.5, threshold=0.4, n=200, positives=50)})
     r = Restorer(llm=llm_with([["paṉmaṟku", 0.8]]), decider=dec, use_ontology=False,
                  settings=CFG.restorer.with_(strategy="choice-topk", top_k=3), calibration=table)
     g = r.restore_gap(LEFT, RIGHT, GAP, router="sonnet")

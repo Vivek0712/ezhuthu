@@ -9,7 +9,7 @@
   "use_ontology": false,
   "decider": "strands-decider-2B-qwen3.5-v1-2610",
   "data_dir": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/w3-restorer/benchmark",
-  "data_commit": "585bbad4953b91f0dd7c6a7c3d7dbaf03f99efd1",
+  "data_commit": "20584c871156a94a4657cd2b72a295d699297b83",
   "copy_top1": 0.228,
   "usage": null,
   "max_live_calls": 40,
@@ -19,7 +19,10 @@
    "Ontology off: the shipped ontology build reads val/test inscriptions (QA gotcha), so it is excluded from any eval."
   ],
   "calibration_file": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/w3-restorer/src/ezhuthu/agent/calibration.json",
-  "command": "python -m ezhuthu.eval.calibrate --split val --router none --no-ontology --name restorer-val-calibration-retrieval --note Router none: candidates are retrieval parallels (train-only corpus_lines), the copy-floor fill and the character 5-gram; no LLM, no Bedrock calls. --note Ontology off: the shipped ontology build reads val/test inscriptions (QA gotcha), so it is excluded from any eval."
+  "command": "python -m ezhuthu.eval.calibrate --split val --router none --no-ontology --name restorer-val-calibration-retrieval --note Router none: candidates are retrieval parallels (train-only corpus_lines), the copy-floor fill and the character 5-gram; no LLM, no Bedrock calls. --note Ontology off: the shipped ontology build reads val/test inscriptions (QA gotcha), so it is excluded from any eval.",
+  "code_commit": "575f3ab6eb4493bc0a2f44099c604100a9d6699d",
+  "code_dirty": false,
+  "provenance_note": "Provenance corrected (QA on PR #25): the original data_commit field held the checkout HEAD 585bbad, but these numbers came from the uncommitted copy-floor pre-rank fix later committed as 575f3ab. data_commit is now the last commit touching benchmark/. Re-running the prerank and fallback variants at 575f3ab (router none, no Bedrock) on 2026-11-02 reproduced their rows exactly (prerank top-1 0.2348, fallback 0.2167); the decider variants were not re-run."
  },
  "variants": {
   "choice-all": {

@@ -22,7 +22,7 @@ from pathlib import Path
 from typing import Any
 
 from ..agent.baselines import copy_best_parallel, ngram_fill, zero_shot
-from ..agent.config import live_enabled, repo_root
+from ..agent.config import DECIDER_STRATEGIES, live_enabled, repo_root
 from ..agent.data import BenchmarkItem, data_source, load_items
 from ..agent.decider import Decider, HttpDecider, NoDecider
 from ..agent.llm import BedrockLLM, BudgetedLLM, LLMClient
@@ -122,6 +122,7 @@ def write_report(result: dict[str, Any], meta: dict[str, Any], out_dir: Path, na
     lines += [f"- Date: {meta['date']}", f"- Router: `{meta['router']}`",
               f"- Split/subset: {meta['split']}/{meta['subset']}, n = {result['n']}", f"- Data: `{meta['data_dir']}`"
               + (f" ({meta['data_commit']})" if meta.get("data_commit") else ""),
+              f"- Code: {meta.get('code_commit')}" + (" + uncommitted changes" if meta.get("code_dirty") else ""),
               f"- Decider: {meta['decider']}",
               f"- Ontology constraints/hints: {meta['use_ontology']}"
               + (f" ({meta['ontology']}" + (f", {meta['ontology_ref']}" if meta.get("ontology_ref") else "") + ")"
@@ -150,14 +151,28 @@ def write_report(result: dict[str, Any], meta: dict[str, Any], out_dir: Path, na
     return jp, mp
 
 
-def git_commit(path: Path) -> str | None:
-    """HEAD commit of the git checkout holding ``path`` (data provenance for reports), if any."""
+def _git(path: Path, *args: str) -> str | None:
     try:
-        out = subprocess.run(["git", "-C", str(path), "rev-parse", "HEAD"], capture_output=True, text=True,
-                             timeout=10, check=True)
-        return out.stdout.strip() or None
+        out = subprocess.run(["git", "-C", str(path), *args], capture_output=True, text=True, timeout=10,
+                             check=True)
+        return out.stdout.strip()
     except (OSError, subprocess.SubprocessError):
         return None
+
+
+def git_commit(path: Path) -> str | None:
+    """Data provenance: the last commit that touched ``path`` (the data directory), not the checkout's HEAD.
+    None if ``path`` is not in a git checkout or has never been committed."""
+    return _git(path, "log", "-1", "--format=%H", "--", ".") or None
+
+
+def code_provenance(root: Path | None = None) -> dict[str, object]:
+    """``code_commit`` (HEAD of the checkout running the eval) and ``code_dirty`` (uncommitted changes under
+    src/ or config/, i.e. the numbers came from code that is not in ``code_commit``)."""
+    root = root or Path(__file__).resolve().parents[3]
+    head = _git(root, "rev-parse", "HEAD") or None
+    status = _git(root, "status", "--porcelain", "--", "src", "config")
+    return {"code_commit": head, "code_dirty": None if status is None else bool(status)}
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -172,7 +187,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--workers", type=int, default=1)
     ap.add_argument("--name", default=None)
     ap.add_argument("--out", default=None, help="report dir (default eval/reports)")
-    ap.add_argument("--strategy", default=None, choices=["choice-all", "choice-topk", "noul-topk", "prerank"],
+    ap.add_argument("--strategy", default=None, choices=list(DECIDER_STRATEGIES),
                     help="decider strategy (default: config/models.yaml restorer.strategy)")
     ap.add_argument("--top-k", type=int, default=None, help="decider top-k (default restorer.top_k)")
     ap.add_argument("--calibration", default=None,
@@ -214,6 +229,7 @@ def main(argv: list[str] | None = None) -> int:
         "date": dt.datetime.now(dt.UTC).isoformat(timespec="seconds"), "router": args.router, "split": args.split,
         "subset": args.subset, "limit": args.limit, "data_dir": str(src.path), "data_is_fixture": src.is_fixture,
         "data_commit": None if src.is_fixture else (args.data_ref or git_commit(src.path)),
+        **code_provenance(),
         "ontology_ref": args.ontology_ref,
         "decider": (health or {}).get("model", "none (fallback confidence)"), "use_ontology": not args.no_ontology,
         "ontology": restorer.ontology.name if not args.no_ontology else None,

@@ -22,8 +22,9 @@ For each `[?]` / `[?N]` gap:
    flags length outside `max(2, 34%)` of `[?N]`.
 4. Pre-rank (cheap, no model call): `prerank = 1 - (1 - llm_probability) x (1 - parallel support)`, halved for a
    length mismatch, small epsilons for ontology and n-gram proposals.
-5. `rank_and_decide`, by `restorer.strategy` (config/models.yaml, default `prerank` since issue #22 because it had
-   the best VAL top-1 and was never below the copy baseline; `eval.run --strategy/--top-k` override it):
+5. `rank_and_decide`, by `restorer.strategy` for retrieval-only gaps (config/models.yaml, default `prerank` since
+   issue #22: best retrieval-only VAL top-1, never below the copy baseline) and `restorer.strategy_llm` once an LLM
+   answered (default `self-report`, see below); `eval.run --strategy/--top-k` and `EZHUTHU_RESTORER_STRATEGY` set both:
 
    | strategy | decider calls | confidence |
    |---|---|---|
@@ -31,17 +32,34 @@ For each `[?]` / `[?N]` gap:
    | `choice-topk` | 1 `choice` over the top `top_k` + `none`; the copy floor always gets a slot | option probability |
    | `noul-topk` | `top_k` `noul` calls ("is this the restoration?") | P(yes) per candidate |
    | `prerank` | none | the pre-rank score |
+   | `self-report` | none | LLM fills: the LLM's own probability; other candidates: parallel agreement |
 
-   Then **calibration**: the confidences of the active variant (`<decider model>|<strategy>|k<k>|<llm|retrieval>`) go
-   through the Platt parameters fitted on the **VAL split** (`calibration.json` next to this README, written by
-   `python -m ezhuthu.eval.calibrate`, which refuses any other split), and the gap abstains under that variant's
-   own fitted threshold. A variant with no calibration keeps raw confidences and `routing.abstain_if_confidence_below`.
+   Why `self-report` for LLM gaps (QA on PR #25): `[?N]` counts Tamil letters while the length check counts ISO
+   characters, so 29% of VAL targets (130/443) fail it; `prerank` halves such a fill, and a correct p=0.85 Sonnet fill
+   then abstained. `self-report` (main's behaviour without a decider) keeps the LLM's probability and had the better
+   top-1 on the 20 live-Sonnet VAL rows (0.15 vs 0.10). Making the length check count letters (`text.aksharas`) is a
+   separate fix: it changes the copy baseline and every committed number.
+
+   Then **calibration**: the confidences of the active variant
+   (`<decider model>|<strategy>|k<k>|<llm-sonnet|llm-opus|retrieval>`; `llm-opus` whenever Opus answered, alone or
+   after Sonnet) go through the Platt parameters fitted on the **VAL split** (`calibration.json` next to this README,
+   written by `python -m ezhuthu.eval.calibrate`, which refuses any other split), and the gap abstains under that
+   variant's own fitted threshold. A variant with no calibration keeps raw confidences and
+   `routing.abstain_if_confidence_below`. **Minimum-sample guard:** an entry fitted on fewer than
+   `restorer.calibration_min_n` (100) VAL items or `calibration_min_positives` (10) correct top-1s is provisional:
+   it stays in the file but is not used. Today that means every `|llm-*` entry (n=20, 0-3 positives) is ignored, so
+   LLM-on gaps use raw confidences and the 0.5 abstain threshold; only the retrieval-only entries (n=443) apply.
    Gaps report `strategy`, `calibration` (the key used, or null) and `abstain_below`. If the decider is unreachable
    or refuses the request, the confidence falls back to the LLM's self-report (or a retrieval heuristic),
    `decider_model` says `fallback:...` and each candidate's `decider_source` says `fallback`.
 6. Router (`config/models.yaml` `routing`): `routed` starts on `llm.default` (Sonnet 4.6); it goes straight to
    `llm.escalate` (Opus 4.6) when the gap is over 12 characters or there is no good parallel, and escalates
-   after Sonnet when the best (calibrated) confidence is under 0.6.
+   after Sonnet when the best **raw** confidence is under `escalate_if_confidence_below` (0.6). The threshold is on
+   the raw scale; a calibrated score (fitted for fill/abstain) is never compared with it. Cost note: on the 20
+   live-Sonnet VAL rows (`eval/reports/2026-11-02-restorer-val-live-sonnet.json`, `fallback` = self-report) the raw
+   top-1 is under 0.6 on 15/20, so a routed run on similar gaps would call Opus after Sonnet on about three gaps in
+   four (where it did not already start on Opus); these rows come from 2 inscriptions and Sonnet's top-1 was right on
+   3/20, so the low confidences are mostly earned.
 
 Bedrock robustness (`llm.py`): Strands' built-in throttling retry (fixed doubling, no jitter) is off; `complete`
 retries throttling and transient faults with exponential backoff and full jitter (5 attempts, base 2 s, cap 30 s)
@@ -74,7 +92,13 @@ well under a second for a gap-free inscription (measured 0.66 s cold / 0.04-0.08
 Swarm inline, `eval/reports/2026-11-02-restorer-quality-dev-note.md`), with `context.explanation_status: "pending"`.
 The same Swarm then runs in a background thread (the AgentCore app reports HealthyBusy meanwhile); its explanation
 is returned once as `context_update` on the next `/api/answer`, and later lessons on the same facts get it directly
-(`explained_by: "tutor_team-cached"`). Restored inscriptions are cached per text in-process, so repeat lessons skip
+(`explained_by: "tutor_team-cached"`). Delivery is **best effort**: `context_update` arrives only if that lesson
+is still the session's latest when an `/api/answer` comes in after the Swarm finished (a newer `/api/lesson`
+supersedes it), and the
+explanation lives in a per-process LRU, so a recycled microVM / restarted process loses it (the learner keeps the
+template explanation). The latency figures above are for a lesson whose inscription has 0 gaps; a lesson with gaps
+still pays for restoration on its first request (pre-restoring lesson inscriptions offline is the planned
+follow-up). Restored inscriptions are cached per text in-process, so repeat lessons skip
 restoration (`graph.restoration_cached`). `EZHUTHU_LESSON_EXPLAIN=sync` restores the inline Swarm. When the pedagogy
 decision comes from the rules (`decider_source: "rules"`), `decider_confidence` is `null`. `/api/answer` grades the reading, then the decider chooses
 `advance | repeat | hint` with rule guardrails (`tutor/policy.py`); pre/post tests never hint or reveal.

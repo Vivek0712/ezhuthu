@@ -26,3 +26,31 @@ def test_summary_and_paired_copy():
     assert s["at_raw_0.5"]["coverage"] == 0.5 and s["latency_ms_p50"] == 10.0
     pv = calibrate.paired_vs_copy(rows[:4], {"0": True, "2": True})
     assert pv == {"both": 1, "only_variant": 1, "only_copy": 1}
+
+
+def test_provenance_separates_code_and_data_commits(tmp_path):
+    import subprocess
+
+    from ezhuthu.eval.run import code_provenance, git_commit
+
+    def git(*a):
+        return subprocess.run(["git", "-C", str(tmp_path), *a], check=True, capture_output=True, text=True).stdout
+
+    git("init", "-q")
+    git("config", "user.email", "t@example.com")
+    git("config", "user.name", "t")
+    (tmp_path / "benchmark").mkdir()
+    (tmp_path / "src").mkdir()
+    (tmp_path / "benchmark" / "items.val.jsonl").write_text("{}\n")
+    git("add", ".")
+    git("commit", "-qm", "data")
+    data_c = git("rev-parse", "HEAD").strip()
+    (tmp_path / "src" / "code.py").write_text("x = 1\n")
+    git("add", ".")
+    git("commit", "-qm", "code")
+    head = git("rev-parse", "HEAD").strip()
+    assert git_commit(tmp_path / "benchmark") == data_c != head  # last commit touching the data, not HEAD
+    assert code_provenance(tmp_path) == {"code_commit": head, "code_dirty": False}
+    (tmp_path / "src" / "code.py").write_text("x = 2\n")  # numbers produced from uncommitted code are flagged
+    assert code_provenance(tmp_path) == {"code_commit": head, "code_dirty": True}
+    assert git_commit(tmp_path / "nope") is None

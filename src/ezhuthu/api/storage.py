@@ -11,7 +11,12 @@ TTL attribute ``ttl``:
                               the same keys and top-level fields the proxy's QueueStore writes and lists
 
 Each item keeps the full document as JSON in ``doc``; queue items also carry the proxy's top-level fields, and
-items the proxy wrote (no ``doc``) are read from those fields.
+items the proxy wrote (no ``doc``) are read from those fields. The two writers interoperate both ways:
+
+* queue ids are ``q-<uuid4>`` on both sides (the proxy's ``review`` only accepts that shape);
+* on read, the review fields the proxy updates in place (``status``, ``reviewed_by``, ``reviewed_at``,
+  ``final_text``) override the copy inside ``doc``, so an item the proxy reviewed reads as reviewed here;
+* a review is a conditional write (``status = pending``), as in the proxy, so an item is reviewed once.
 """
 
 from __future__ import annotations
@@ -29,6 +34,10 @@ KINDS = ("session", "correction", "queue")
 
 class Store(Protocol):
     def put(self, kind: str, id: str, doc: dict[str, Any]) -> None: ...
+
+    def put_if_status(self, kind: str, id: str, doc: dict[str, Any], expected: str) -> bool:
+        """Write ``doc`` only if the stored item exists and its ``status`` is ``expected``; False otherwise."""
+        ...
 
     def get(self, kind: str, id: str) -> dict[str, Any] | None: ...
 
@@ -49,6 +58,15 @@ class MemoryStore:
         _check(kind)
         with self._lock:
             self._d[(kind, id)] = json.dumps(doc, ensure_ascii=False)
+
+    def put_if_status(self, kind: str, id: str, doc: dict[str, Any], expected: str) -> bool:
+        _check(kind)
+        with self._lock:
+            cur = self._d.get((kind, id))
+            if cur is None or json.loads(cur).get("status") != expected:
+                return False
+            self._d[(kind, id)] = json.dumps(doc, ensure_ascii=False)
+            return True
 
     def get(self, kind: str, id: str) -> dict[str, Any] | None:
         _check(kind)
@@ -77,6 +95,17 @@ class SQLiteStore:
                                (kind, id, json.dumps(doc, ensure_ascii=False)))
             self._conn.commit()
 
+    def put_if_status(self, kind: str, id: str, doc: dict[str, Any], expected: str) -> bool:
+        _check(kind)
+        with self._lock:  # one connection behind a lock: read-compare-write is atomic for this process
+            row = self._conn.execute("SELECT doc FROM docs WHERE kind = ? AND id = ?", (kind, id)).fetchone()
+            if row is None or json.loads(row[0]).get("status") != expected:
+                return False
+            self._conn.execute("UPDATE docs SET doc = ? WHERE kind = ? AND id = ?",
+                               (json.dumps(doc, ensure_ascii=False), kind, id))
+            self._conn.commit()
+            return True
+
     def get(self, kind: str, id: str) -> dict[str, Any] | None:
         _check(kind)
         with self._lock:
@@ -95,6 +124,8 @@ _PREFIX = {"session": "SESSION", "correction": "CORRECTION", "queue": "QUEUE"}
 _SK = {"session": "STATE", "correction": "ITEM", "queue": "ITEM"}
 QUEUE_STATUSES = ("pending", "approved", "edited", "rejected")
 _KEY_ATTRS = ("pk", "sk", "gsi1pk", "gsi1sk", "ttl", "doc", "kind")
+# Queue fields the proxy's review() SETs in place; on read they win over the copy inside ``doc``.
+_REVIEW_ATTRS = ("status", "reviewed_by", "reviewed_at", "final_text")
 
 
 def _iso(ts: Any) -> str:
@@ -124,7 +155,7 @@ class DynamoStore:
         _check(kind)
         return {"pk": f"{_PREFIX[kind]}#{id}", "sk": _SK[kind]}
 
-    def put(self, kind: str, id: str, doc: dict[str, Any]) -> None:
+    def _item(self, kind: str, id: str, doc: dict[str, Any]) -> dict[str, Any]:
         item: dict[str, Any] = {**self.key(kind, id), "kind": kind, "doc": json.dumps(doc, ensure_ascii=False)}
         if kind == "session":
             item["ttl"] = int(self.clock()) + SESSION_TTL_SECONDS
@@ -133,17 +164,43 @@ class DynamoStore:
             created = _iso(doc.get("created_at"))
             item.update({"gsi1pk": f"STATUS#{status}", "gsi1sk": created, "id": str(doc.get("id", id)),
                          "status": status, "created_at": created})
-            for f in ("gap_ref", "accepted_candidate", "corrected_text", "user", "final_text"):
+            for f in ("gap_ref", "accepted_candidate", "corrected_text", "user", "final_text", "reviewed_by",
+                      "reviewed_at"):
                 if isinstance(doc.get(f), str) and doc[f]:
                     item[f] = doc[f]
-            if doc.get("status") in ("edited",) and isinstance(doc.get("text"), str):
+            if doc.get("status") in ("edited", "approved") and isinstance(doc.get("text"), str) and doc["text"]:
                 item["final_text"] = doc["text"]
-        self.table.put_item(Item=item)
+        return item
+
+    def put(self, kind: str, id: str, doc: dict[str, Any]) -> None:
+        self.table.put_item(Item=self._item(kind, id, doc))
+
+    def put_if_status(self, kind: str, id: str, doc: dict[str, Any], expected: str) -> bool:
+        """Conditional put (``attribute_exists(pk) AND status = expected``), the proxy's review condition."""
+        from boto3.dynamodb.conditions import Attr
+
+        try:
+            self.table.put_item(Item=self._item(kind, id, doc),
+                                ConditionExpression=Attr("pk").exists() & Attr("status").eq(expected))
+        except Exception as exc:  # botocore ClientError: the failed condition is only visible in its error code
+            if (getattr(exc, "response", None) or {}).get("Error", {}).get("Code") == "ConditionalCheckFailedException":
+                return False
+            raise
+        return True
 
     @staticmethod
     def _doc(item: dict[str, Any]) -> dict[str, Any]:
         if "doc" in item:
-            return json.loads(item["doc"])
+            d = json.loads(item["doc"])
+            if str(item.get("pk", "")).startswith("QUEUE#"):
+                # The proxy reviews in place (SET status, gsi1pk, reviewed_*, final_text) and leaves ``doc``
+                # stale: the top-level review fields are the truth.
+                for f in _REVIEW_ATTRS:
+                    if f in item:
+                        d[f] = item[f]
+                if isinstance(item.get("final_text"), str) and item["final_text"]:
+                    d["text"] = item["final_text"]
+            return d
         # Written by the proxy (infra/lambda/proxy/queue.ts): the record is the top-level attributes.
         return {k: v for k, v in item.items() if k not in _KEY_ATTRS}
 

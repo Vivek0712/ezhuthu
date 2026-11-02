@@ -17,7 +17,7 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError
 from ..agent.data import parse_jsonl_text
 from ..eval.run import ROUTERS
 from . import limits
-from .service import BadRequest, EzhuthuService, Forbidden, NotFound
+from .service import BadRequest, Conflict, EzhuthuService, Forbidden, NotFound
 
 AdminToken = Annotated[str | None, Header(alias="X-Ezhuthu-Admin-Token")]
 DEV_ORIGINS = ("http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:4173", "http://127.0.0.1:4173")
@@ -97,6 +97,10 @@ def create_app(service: EzhuthuService | None = None) -> FastAPI:
     @app.exception_handler(BadRequest)
     async def _br(_: Request, exc: BadRequest) -> JSONResponse:
         return JSONResponse({"detail": str(exc)}, status_code=422)
+
+    @app.exception_handler(Conflict)
+    async def _cf(_: Request, exc: Conflict) -> JSONResponse:
+        return JSONResponse({"detail": str(exc)}, status_code=409)
 
     @app.exception_handler(Forbidden)
     async def _fb(_: Request, exc: Forbidden) -> JSONResponse:

@@ -9,7 +9,7 @@
   "use_ontology": false,
   "decider": "strands-decider-2B-qwen3.5-v1-2610",
   "data_dir": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/w3-restorer/benchmark",
-  "data_commit": "585bbad4953b91f0dd7c6a7c3d7dbaf03f99efd1",
+  "data_commit": "20584c871156a94a4657cd2b72a295d699297b83",
   "copy_top1": 0.0,
   "usage": {
    "calls": 0,
@@ -27,7 +27,10 @@
    "n=20: the llm-keyed calibration entries are provisional."
   ],
   "calibration_file": "src/ezhuthu/agent/calibration.json",
-  "command": "python -m ezhuthu.eval.calibrate --split val --limit 20 --router sonnet --no-ontology --max-live-calls 0 --variants choice-topk:3,choice-topk:5,noul-topk:3,choice-all,prerank,fallback --calibration-out src/ezhuthu/agent/calibration.json --name restorer-val-live-sonnet --note Live sanity run: us.anthropic.claude-sonnet-4-6 (router sonnet, no Opus escalation) on the first 20 VAL items (all from 2 inscriptions, correlated). The 20 Bedrock calls were made once (20 live, 0 truncated, 0 retries, est. $0.0906); this re-scoring after the copy-floor pre-rank fix replays them from .cache/llm with a live-call budget of 0. --note Ontology off (the shipped ontology build reads val/test inscriptions). --note n=20: the llm-keyed calibration entries are provisional."
+  "command": "python -m ezhuthu.eval.calibrate --split val --limit 20 --router sonnet --no-ontology --max-live-calls 0 --variants choice-topk:3,choice-topk:5,noul-topk:3,choice-all,prerank,fallback --calibration-out src/ezhuthu/agent/calibration.json --name restorer-val-live-sonnet --note Live sanity run: us.anthropic.claude-sonnet-4-6 (router sonnet, no Opus escalation) on the first 20 VAL items (all from 2 inscriptions, correlated). The 20 Bedrock calls were made once (20 live, 0 truncated, 0 retries, est. $0.0906); this re-scoring after the copy-floor pre-rank fix replays them from .cache/llm with a live-call budget of 0. --note Ontology off (the shipped ontology build reads val/test inscriptions). --note n=20: the llm-keyed calibration entries are provisional.",
+  "code_commit": "575f3ab6eb4493bc0a2f44099c604100a9d6699d",
+  "code_dirty": false,
+  "provenance_note": "Provenance corrected (QA on PR #25): the original data_commit field held the checkout HEAD 585bbad, but this re-scoring used the uncommitted copy-floor pre-rank fix later committed as 575f3ab. data_commit is now the last commit touching benchmark/. Replaying the prerank and fallback variants from .cache/llm at 575f3ab (live-call budget 0, 0 Bedrock calls) on 2026-11-02 reproduced their rows exactly; the decider variants were not re-run. Calibration keys in this file were renamed |llm -> |llm-sonnet, and all n=20 entries are provisional (ignored by the restorer)."
  },
  "variants": {
   "choice-topk:3": {

@@ -30,6 +30,8 @@ Response: `{"n": 0, "top1": 0.0, "top20": 0.0, "cer": 0.0, "ece": 0.0, "coverage
 
 ## Corrections and review queue
 `POST /api/corrections` `{gap_ref, accepted_candidate | corrected_text, user}` ; `GET /api/queue` ; `POST /api/queue/{id}` `{action: approve|edit|reject, text?}`.
+Queue ids are `q-<uuid4>` (Python service and cloud proxy alike). An item is reviewed once: reviewing an item that is not
+`pending` returns 409. Approve and edit set `final_text` (approve keeps the proposer's reading).
 
 ## Tutor (Education track)
 Levels: `L1` modern Tamil, `L2` Chola Tamil, `L3` Pallava Tamil, `L4` Vatteluttu, `L5` Tamil-Brahmi.

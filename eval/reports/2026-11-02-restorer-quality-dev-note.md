@@ -119,3 +119,41 @@ unusable choice). The app's `confidence 0%` comes from rendering `null` as 0; ha
 Bedrock calls this wave: 20 Sonnet + 6 Opus for the eval runs (estimated $0.0906 + $0.0482, ledger list prices), plus
 three tutor Swarm runs for the latency profile (not in a ledger; the Swarm calls Bedrock directly, 2-4 calls each).
 Every re-scoring after the first live run replayed cached replies (0 live calls).
+
+## QA follow-up on PR #25 (same day)
+
+QA found that the shipped defaults (prerank + `calibration.json`) escalated and abstained on almost every LLM-on gap:
+the `prerank|...|llm` entry (n=20, 2 positives, cv5 fill coverage 0.0) squashed confidences, and `restore_gap`
+compared the *calibrated* top-1 with `escalate_if_confidence_below` (a raw-scale threshold). On the 20 live-Sonnet VAL
+rows that meant 19/20 escalations and 1/20 fills, and a confident, correct LLM fill (p=0.85 / 0.92) was escalated and
+abstained 10/10. Changes:
+
+- **Escalation compares the raw top-1** with `routing.escalate_if_confidence_below`; the calibrated score is used only
+  for fill/abstain against the variant's own threshold.
+- **Minimum-sample guard**: entries with n < `restorer.calibration_min_n` (100) or positives <
+  `calibration_min_positives` (10) are provisional and ignored. All n=20 `|llm` entries are therefore inert; LLM-on
+  gaps use raw confidences and the 0.5 abstain threshold, as on main. The retrieval-only entries (n=443) still apply.
+- **Router-aware keys**: `|llm` became `|llm-sonnet` / `|llm-opus` (Opus whenever Opus answered).
+- **`prerank` only for retrieval-only gaps**: new `restorer.strategy_llm` (default `self-report`: the LLM's own
+  probability, i.e. main's no-decider behaviour) once an LLM answered. Reason found while re-running QA's
+  simulation on real VAL items: `[?N]` counts Tamil letters but the length check counts ISO characters, so 130/443
+  VAL targets fail it and prerank halves them (a correct p=0.85 fill became 0.425 and abstained; with only the two
+  fixes above, 4/10 filled). With `self-report`: QA's simulation on the first 10 VAL items (FakeLLM returns the expert
+  target at p=0.85 or 0.92, router routed, shipped defaults) fills 10/10 correctly, 0 escalations after Sonnet; 8/10
+  start on Opus by the unchanged pre-escalation rule (no parallel scoring >= 50), exactly as on main. Self-report also
+  had the better top-1 of the two on the 20 live-Sonnet rows (0.15 vs 0.10). Counting letters in the length check
+  (`text.aksharas` matches `gap_chars` on 422/443 VAL targets) is left as a separate change because it moves the
+  copy baseline and every committed number.
+- **What this means in practice** (honest cost note): on the same 20 live-Sonnet rows the raw self-report top-1 is
+  under 0.6 on 15/20, so a routed run would still call Opus after Sonnet on about three gaps in four (5/20 no
+  escalation, versus 19/20 escalations before); at raw 0.5 it fills 9/20 and 2 of those fills are right. These are 20
+  items from 2 inscriptions where Sonnet's top-1 was right 3/20, so the escalations are mostly warranted, but the cost
+  and latency of Opus on most hard gaps is real. A routed eval on more VAL items (budgeted) is needed before tuning 0.6.
+- New end-to-end test (`tests/agent/test_restorer_defaults.py`): `Restorer(llm=FakeLLM)` with no env overrides, the
+  shipped `config/models.yaml` and `calibration.json`, and a FakeLLM returning the correct fill at p=0.85 and 0.92
+  fills every gap with one LLM call and never escalates without a pre-escalation reason; a second test covers a
+  correct fill that is 5 letters but 9 ISO characters. A copy-floor test now fails if the copy-floor line in
+  `prerank_score` is removed.
+- Report provenance: the three report files now name the last data commit (20584c8) and the code commit separately;
+  the prerank/fallback rows of the two calibration reports were replayed at 575f3ab (0 Bedrock calls) and reproduced
+  exactly. The routed-sanity report predates 585bbad; its replay matches top-1/top-20/abstain but not CER (see its note).

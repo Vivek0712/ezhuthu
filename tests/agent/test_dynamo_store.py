@@ -37,11 +37,21 @@ def _eval(cond: ConditionBase, item: dict) -> bool:
     if op == "AND":
         return _eval(vals[0], item) and _eval(vals[1], item)
     name = vals[0].name
+    if op == "attribute_exists":
+        return name in item
     if op == "=":
         return item.get(name) == vals[1]
     if op == "begins_with":
         return str(item.get(name, "")).startswith(vals[1])
     raise AssertionError(f"fake does not support {op}")
+
+
+class ConditionalCheckFailed(Exception):
+    """What boto3 raises for a failed ConditionExpression (botocore ClientError with this error code)."""
+
+    def __init__(self):
+        super().__init__("ConditionalCheckFailedException")
+        self.response = {"Error": {"Code": "ConditionalCheckFailedException"}}
 
 
 class SchemaTable:
@@ -55,10 +65,12 @@ class SchemaTable:
     def _key(self, d: dict) -> tuple[str, str]:
         return d[self.schema["pk"]], d[self.schema["sk"]]
 
-    def put_item(self, Item, **kw):
+    def put_item(self, Item, ConditionExpression=None, **kw):
         assert self.schema["pk"] in Item and self.schema["sk"] in Item, "item misses the table's key attributes"
         for v in Item.values():
             assert not isinstance(v, float), "boto3 rejects float attributes (needs Decimal)"
+        if ConditionExpression is not None and not _eval(ConditionExpression, self.items.get(self._key(Item), {})):
+            raise ConditionalCheckFailed()
         self.calls.append("put")
         self.items[self._key(Item)] = dict(Item)
 
@@ -83,6 +95,18 @@ class SchemaTable:
                       key=lambda i: i[isk], reverse=not ScanIndexForward)
         self.calls.append(f"query:{e['values'][1]}")
         return self._page(rows, ExclusiveStartKey)
+
+    def proxy_review(self, qid: str, status: str, reviewer: str, final_text: str | None = None) -> None:
+        """What infra/lambda/proxy/queue.ts review() does: an in-place UpdateItem (SET status, gsi1pk, reviewed_*,
+        final_text) conditional on status = pending. ``doc`` is not touched."""
+        assert re.fullmatch(r"q-[0-9a-f-]{36}", qid), "the proxy 404s on ids not shaped q-<uuid>"
+        it = self.items.get((f"QUEUE#{qid}", "ITEM"))
+        if not it or it.get("status") != "pending":
+            raise ConditionalCheckFailed()
+        it.update({"status": status, "gsi1pk": f"STATUS#{status}", "reviewed_by": reviewer,
+                   "reviewed_at": "2026-11-02T12:00:00.000Z"})
+        if final_text is not None:
+            it["final_text"] = final_text
 
     def scan(self, FilterExpression, ExclusiveStartKey=None, **kw):
         rows = [i for i in self.items.values() if _eval(FilterExpression, i)]
@@ -165,3 +189,70 @@ def test_store_from_env_reads_table_name(monkeypatch):
     monkeypatch.delenv("EZHUTHU_TABLE")
     with pytest.raises(ValueError, match="EZHUTHU_TABLE"):
         store_from_env()
+
+
+# ---------------------------------------------------------------- QA on PR #25: both directions --------------
+def _svc(table: SchemaTable) -> EzhuthuService:
+    return EzhuthuService(store=DynamoStore(table), llm=None, decider=None, model_factory=None, admin_token=None,
+                          open_review=True, clock=lambda: 1_800_000_000.0)
+
+
+def test_python_queue_ids_have_the_proxy_shape():
+    t = SchemaTable()
+    c = _svc(t).add_correction("trace:1", corrected_text="nāṭu")
+    assert re.fullmatch(r"q-[0-9a-f-]{36}", c["id"])  # infra/lambda/proxy/queue.ts review() id check
+    t.proxy_review(c["id"], "approved", "rev", final_text="nāṭu")  # the proxy can review it
+
+
+def test_proxy_review_of_a_python_item_reads_as_reviewed():
+    t = SchemaTable()
+    svc = _svc(t)
+    c = svc.add_correction("trace:1", corrected_text="nāṭu")
+    t.proxy_review(c["id"], "edited", "rev", final_text="nāṭṭu")
+    d = DynamoStore(t).get("queue", c["id"])
+    assert d["status"] == "edited" and d["final_text"] == "nāṭṭu" and d["text"] == "nāṭṭu"
+    assert d["reviewed_by"] == "rev"
+    q = svc.queue()
+    assert q["pending"] == 0 and q["items"][0]["status"] == "edited"
+    from ezhuthu.api.service import Conflict
+
+    with pytest.raises(Conflict):  # the proxy already reviewed it
+        svc.review(c["id"], "approve", reviewer="rev2")
+
+
+def test_python_review_is_conditional_and_approve_sets_final_text():
+    from ezhuthu.api.service import Conflict
+
+    t = SchemaTable()
+    svc = _svc(t)
+    c = svc.add_correction("trace:1", accepted_candidate="kōyil")
+    done = svc.review(c["id"], "approve", reviewer="rev")
+    row = t.items[(f"QUEUE#{c['id']}", "ITEM")]
+    assert done["status"] == "approved" and row["final_text"] == "kōyil" and row["status"] == "approved"
+    assert row["reviewed_by"] == "rev" and row["gsi1pk"] == "STATUS#approved"
+    with pytest.raises(Conflict):
+        svc.review(c["id"], "reject", reviewer="rev2")
+    assert t.items[(f"QUEUE#{c['id']}", "ITEM")]["status"] == "approved"
+
+    # a reviewer that read the item while it was pending loses the race at the conditional write
+    c2 = svc.add_correction("trace:2", corrected_text="nāṭu")
+    stale = DynamoStore(t).get("queue", c2["id"])
+    t.proxy_review(c2["id"], "rejected", "other")
+    stale["status"] = "approved"
+    assert DynamoStore(t).put_if_status("queue", c2["id"], stale, "pending") is False
+    assert t.items[(f"QUEUE#{c2['id']}", "ITEM")]["status"] == "rejected"
+
+
+@pytest.mark.parametrize("kind", ["memory", "sqlite"])
+def test_local_stores_review_once(kind, tmp_path):
+    from ezhuthu.api.service import Conflict
+    from ezhuthu.api.storage import MemoryStore, SQLiteStore
+
+    store = MemoryStore() if kind == "memory" else SQLiteStore(str(tmp_path / "s.db"))
+    svc = EzhuthuService(store=store, llm=None, decider=None, model_factory=None, admin_token=None,
+                         open_review=True, clock=lambda: 1_800_000_000.0)
+    c = svc.add_correction("trace:1", corrected_text="nāṭu")
+    assert svc.review(c["id"], "edit", "nāṭṭu", "rev")["final_text"] == "nāṭṭu"
+    with pytest.raises(Conflict):
+        svc.review(c["id"], "approve")
+    assert store.put_if_status("queue", "missing", {}, "pending") is False

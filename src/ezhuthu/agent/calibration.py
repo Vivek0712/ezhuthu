@@ -11,9 +11,16 @@ threshold of 0.5 abstained on everything. Each decider *variant* therefore gets 
   not) on VAL, i.e. fill only where a fill is more likely right than wrong. If no threshold has a positive
   margin the threshold is 1.0 (abstain unless certain).
 
-The variant key is ``<decider model>|<strategy>|k<top_k>|<llm|retrieval>``: the same decider sees a different
-candidate mix with and without LLM candidates, so they are calibrated separately. Test data is never used:
-``python -m ezhuthu.eval.calibrate`` refuses any split but ``val``.
+The variant key is ``<decider model>|<strategy>|k<top_k>|<llm-sonnet|llm-opus|retrieval>``: the same decider
+sees a different candidate mix with and without LLM candidates, and Sonnet's and Opus's fills differ again, so
+each is calibrated separately (a gap where Opus answered, alone or after Sonnet, uses the ``llm-opus`` entry).
+Test data is never used: ``python -m ezhuthu.eval.calibrate`` refuses any split but ``val``.
+
+**Minimum sample guard.** A fit on a handful of VAL items is not evidence: the 2026-11-02 ``|llm`` entries were
+fitted on n=20 with 1-3 positives, and their in-sample threshold equals the score of the single best item. An
+entry with ``n < min_n`` or ``positives < min_positives`` is *provisional*: it stays in the file (so the next run
+can extend it) but :meth:`CalibrationTable.get` does not return it, and the restorer keeps raw confidences and
+``routing.abstain_if_confidence_below`` for that variant.
 """
 
 from __future__ import annotations
@@ -29,6 +36,8 @@ from typing import Any
 from .config import PACKAGE_DIR
 
 EPS = 1e-4
+MIN_N = 100  # items a calibration entry needs before the restorer uses it
+MIN_POSITIVES = 10  # ... and items whose top-1 matched the expert
 
 
 def logit(p: float) -> float:
@@ -43,11 +52,22 @@ def sigmoid(x: float) -> float:
     return e / (1 + e)
 
 
-def variant_key(decider_model: str, strategy: str, top_k: int, llm: bool) -> str:
+def llm_tag(llm: bool | str | None) -> str:
+    """``retrieval`` (no LLM answered), ``llm-<short>`` for the strongest LLM that answered, ``llm`` if unknown."""
+    if not llm:
+        return "retrieval"
+    if isinstance(llm, str):
+        return f"llm-{llm}"
+    return "llm"
+
+
+def variant_key(decider_model: str, strategy: str, top_k: int, llm: bool | str | None) -> str:
+    """``llm``: False/None (retrieval only), or the short name of the LLM whose fills are in the pool
+    (``sonnet``/``opus``). ``True`` gives the legacy router-agnostic ``|llm`` key."""
     if decider_model.startswith("fallback:"):  # no decider ran: strategy and k do not apply
         strategy = "fallback"
     k = f"k{top_k}" if strategy in ("choice-topk", "noul-topk") else "kall"
-    return f"{decider_model}|{strategy}|{k}|{'llm' if llm else 'retrieval'}"
+    return f"{decider_model}|{strategy}|{k}|{llm_tag(llm)}"
 
 
 @dataclass(frozen=True)
@@ -60,6 +80,10 @@ class Calibration:
     split: str = "val"
     fitted_at: str = ""
     note: str = ""
+
+    def provisional(self, min_n: int = MIN_N, min_positives: int = MIN_POSITIVES) -> bool:
+        """Too few VAL items (or too few correct ones) for the fit or its threshold to mean anything."""
+        return self.n < min_n or self.positives < min_positives
 
     def apply(self, p: float) -> float:
         if p <= 0.0:
@@ -133,25 +157,40 @@ def cross_validated(conf: Sequence[float], correct: Sequence[bool], folds: int =
 
 
 class CalibrationTable:
-    def __init__(self, entries: dict[str, Calibration] | None = None, path: Path | None = None):
+    """Calibration entries by variant key. ``get`` skips provisional entries (see the module docstring);
+    pass ``min_n=0, min_positives=0`` to trust every entry (unit tests with hand-made entries do)."""
+
+    def __init__(self, entries: dict[str, Calibration] | None = None, path: Path | None = None, *,
+                 min_n: int = MIN_N, min_positives: int = MIN_POSITIVES):
         self.entries = dict(entries or {})
         self.path = path
+        self.min_n = min_n
+        self.min_positives = min_positives
 
     @classmethod
-    def load(cls, spec: str | Path | None) -> CalibrationTable:
+    def load(cls, spec: str | Path | None, *, min_n: int = MIN_N, min_positives: int = MIN_POSITIVES) -> CalibrationTable:
+        guard = {"min_n": min_n, "min_positives": min_positives}
         if not spec:
-            return cls()
+            return cls(**guard)
         p = Path(spec)
         if not p.is_absolute() and not p.exists():
             p = PACKAGE_DIR / p
         if not p.is_file():
-            return cls(path=p)
+            return cls(path=p, **guard)
         raw = json.loads(p.read_text(encoding="utf-8"))
         fields = Calibration.__dataclass_fields__
         return cls({k: Calibration(**{f: v for f, v in d.items() if f in fields})
-                    for k, d in raw.get("variants", {}).items()}, path=p)
+                    for k, d in raw.get("variants", {}).items()}, path=p, **guard)
 
     def get(self, key: str) -> Calibration | None:
+        """The entry for ``key`` if it has enough VAL data to be used; ``None`` if missing or provisional."""
+        c = self.entries.get(key)
+        if c is None or c.provisional(self.min_n, self.min_positives):
+            return None
+        return c
+
+    def raw_get(self, key: str) -> Calibration | None:
+        """The stored entry, provisional or not (reports and the calibrate CLI)."""
         return self.entries.get(key)
 
     def to_json(self, note: str = "") -> str:

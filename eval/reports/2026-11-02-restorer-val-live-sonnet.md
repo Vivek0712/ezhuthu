@@ -5,7 +5,9 @@
 - Date: 2026-11-01T23:11:12+00:00
 - Items: 20 (val/full, limit 20)
 - Router: `sonnet`; ontology: off; decider: strands-decider-2B-qwen3.5-v1-2610
-- Data: `/Users/vivekrajaps/tamil-script/ezhuthu-wt/w3-restorer/benchmark` (585bbad4953b91f0dd7c6a7c3d7dbaf03f99efd1)
+- Data: `/Users/vivekrajaps/tamil-script/ezhuthu-wt/w3-restorer/benchmark` (last data commit 20584c8)
+- Code: 575f3ab
+- Provenance note: Provenance corrected (QA on PR #25): the original data_commit field held the checkout HEAD 585bbad, but this re-scoring used the uncommitted copy-floor pre-rank fix later committed as 575f3ab. data_commit is now the last commit touching benchmark/. Replaying the prerank and fallback variants from .cache/llm at 575f3ab (live-call budget 0, 0 Bedrock calls) on 2026-11-02 reproduced their rows exactly; the decider variants were not re-run. Calibration keys in this file were renamed |llm -> |llm-sonnet, and all n=20 entries are provisional (ignored by the restorer).
 - Command: `python -m ezhuthu.eval.calibrate --split val --limit 20 --router sonnet --no-ontology --max-live-calls 0 --variants choice-topk:3,choice-topk:5,noul-topk:3,choice-all,prerank,fallback --calibration-out src/ezhuthu/agent/calibration.json --name restorer-val-live-sonnet --note Live sanity run: us.anthropic.claude-sonnet-4-6 (router sonnet, no Opus escalation) on the first 20 VAL items (all from 2 inscriptions, correlated). The 20 Bedrock calls were made once (20 live, 0 truncated, 0 retries, est. $0.0906); this re-scoring after the copy-floor pre-rank fix replays them from .cache/llm with a live-call budget of 0. --note Ontology off (the shipped ontology build reads val/test inscriptions). --note n=20: the llm-keyed calibration entries are provisional.`
 - Bedrock: 0 live calls, 120 cached, estimated $0.0 (budget 0, exhausted on 0 requests)
 
