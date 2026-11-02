@@ -1,6 +1,6 @@
 # Ezhuthu infrastructure (AWS CDK, TypeScript)
 
-Everything that serves Ezhuthu, as code. Account profile `heisenberg`, region `us-east-1` (read from `config/models.yaml`).
+Everything that serves Ezhuthu, as code. AWS profile and region come from `config/models.yaml` (`aws_profile`, `region`; the region is `us-east-1`). Commands below write the profile as `<profile>`.
 
 ```
 Browser ──> CloudFront ──┬── /*      ──> S3 (private, OAC)   React app + /config.json
@@ -36,8 +36,8 @@ The JWT authorizer enforces sign-in; the proxy enforces the `experts` group (and
 
 ## Prerequisites
 
-- Node 22, `uv`, AWS CLI v2 with the `heisenberg` profile.
-- CDK bootstrapped once: `npx cdk bootstrap aws://<account>/us-east-1 --profile heisenberg`.
+- Node 22, `uv`, AWS CLI v2 with a configured profile (`<profile>`; set the same name as `aws_profile` in `config/models.yaml`).
+- CDK bootstrapped once: `npx cdk bootstrap aws://<account>/us-east-1 --profile <profile>`.
 - The agent entry point `src/ezhuthu/agentcore_app.py` (Agent team) exposing `app = BedrockAgentCoreApp()`.
   `agentcore/agent_runtime.py` imports it; deploying before it exists creates a runtime that fails on start.
 
@@ -49,8 +49,8 @@ npm ci
 npm run check            # typecheck + unit tests (proxy logic, stack assertions)
 npm run package:agent    # linux/arm64 Python 3.12 bundle -> agentcore/build (~237 MB unpacked, ~67 MB zipped)
 npm run smoke:agent      # runs the bundle in linux/arm64 python:3.12-slim (Docker, --network none): MCP ontology, Dynamo store, decider
-npx cdk synth --quiet --profile heisenberg
-npx cdk diff --profile heisenberg   # read-only change sets against the live stacks
+npx cdk synth --quiet --profile <profile>
+npx cdk diff --profile <profile>   # read-only change sets against the live stacks
 (cd ../app/web && npm ci && npm run build)   # optional before deploy; the Web stack ships dist/ if present
 ```
 
@@ -76,22 +76,26 @@ creates the secret.
 
 ```bash
 # 1st pass: everything; the Cognito client only allows http://localhost:5173 callbacks for now
-npx cdk deploy --all --profile heisenberg --require-approval broadening
+npx cdk deploy --all --profile <profile> --require-approval broadening
 
 # read the web URL, then allow it as a Cognito callback and CORS origin
-WEB=$(aws cloudformation describe-stacks --stack-name EzhuthuWeb --profile heisenberg \
+WEB=$(aws cloudformation describe-stacks --stack-name EzhuthuWeb --profile <profile> \
   --query "Stacks[0].Outputs[?OutputKey=='WebUrl'].OutputValue" --output text)
-npx cdk deploy EzhuthuAuth EzhuthuApi --profile heisenberg -c ezhuthu:webUrl=$WEB
+npx cdk deploy EzhuthuAuth EzhuthuApi --profile <profile> -c ezhuthu:webUrl=$WEB
 ```
 
 Keep passing `-c ezhuthu:webUrl=$WEB` on later deploys (or set it in `cdk.json`). Set
 `-c ezhuthu:cognitoDomainPrefix=<name>` if the default `ezhuthu-<account>` prefix is taken.
 
+The `EzhuthuData` stack creates a USD 50 monthly budget for resources tagged `Project=ezhuthu`. To get an email at
+80% of it, pass `-c ezhuthu:budgetEmail=<address>` (or set `EZHUTHU_BUDGET_EMAIL`) on every deploy; without one the
+budget has no email notification.
+
 Make someone an expert reviewer:
 
 ```bash
 aws cognito-idp admin-add-user-to-group --user-pool-id <UserPoolId> --username <email> \
-  --group-name experts --profile heisenberg
+  --group-name experts --profile <profile>
 ```
 
 ### AgentCore CLI alternative
@@ -101,7 +105,7 @@ instead of the `EzhuthuAgent` stack, for fast iteration on the agent alone. Pass
 the Agent stack (and the code bundle) and points the proxy at it:
 
 ```bash
-npx cdk deploy --all --profile heisenberg -c ezhuthu:agentRuntimeArn=arn:aws:bedrock-agentcore:us-east-1:<acct>:runtime/<id>
+npx cdk deploy --all --profile <profile> -c ezhuthu:agentRuntimeArn=arn:aws:bedrock-agentcore:us-east-1:<acct>:runtime/<id>
 ```
 
 Give that runtime's execution role read/write on the `EzhuthuData` table yourself. CDK remains the source of truth
@@ -119,13 +123,13 @@ curl -s -o /dev/null -w '%{http_code}\n' $API/queue
 # SPA deep link -> index.html
 curl -s -o /dev/null -w '%{http_code}\n' $WEB/learn
 # proxy logs
-aws logs tail /aws/lambda/<ProxyFunctionName> --since 10m --profile heisenberg
+aws logs tail /aws/lambda/<ProxyFunctionName> --since 10m --profile <profile>
 ```
 
 ## Teardown
 
 ```bash
-npx cdk destroy --all --profile heisenberg
+npx cdk destroy --all --profile <profile>
 ```
 
 The DynamoDB table and the Cognito user pool use `RETAIN` so learner progress and reviewer accounts survive a

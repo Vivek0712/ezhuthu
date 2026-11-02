@@ -31,7 +31,9 @@ export function buildApp(app: cdk.App, opts: BuildOptions = {}) {
   const deciderSecretArn = opts.deciderSecretArn ?? secretArnFromContext(app.node.tryGetContext('ezhuthu:deciderSecretArn'));
   const tags = { track: 'education' }; // Project=ezhuthu comes from the cost tags below (tag keys are case-insensitive in IAM)
 
-  const data = new EzhuthuDataStack(app, 'EzhuthuData', { env, tags });
+  const budgetEmail =
+    (app.node.tryGetContext('ezhuthu:budgetEmail') as string | undefined) || process.env.EZHUTHU_BUDGET_EMAIL || undefined;
+  const data = new EzhuthuDataStack(app, 'EzhuthuData', { env, tags, budgetEmail });
   const domainPrefix =
     (app.node.tryGetContext('ezhuthu:cognitoDomainPrefix') as string | undefined) || `ezhuthu-${env.account ?? 'dev'}`;
   const auth = new EzhuthuAuthStack(app, 'EzhuthuAuth', { env, tags, webUrl, domainPrefix });

@@ -27,7 +27,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** @description Photo (base64) or text/EpiDoc file to transcription lines in the restorer's gap notation. Photo reading is experimental. */
+        /** @description Photo (base64) or text/EpiDoc file to transcription lines in the restorer's gap notation. Check a photo reading against the published edition. */
         post: operations["read"];
         delete?: never;
         options?: never;

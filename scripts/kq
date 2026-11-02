@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # KrewHQ spoke wrapper for Ezhuthu teams. Usage: scripts/kq <role> <krewhq args...>
 # roles: lead data onto agent app qa
+# Internal: the build team's local coordination hub (see docs/TEAMS.md). Not needed to build, test, run or
+# deploy Ezhuthu; it only works on a machine where that hub is installed.
 set -euo pipefail
 role="$1"; shift
 export KREWHQ_HUB_URL="${KREWHQ_HUB_URL:-http://127.0.0.1:7800}"

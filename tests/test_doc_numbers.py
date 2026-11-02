@@ -280,3 +280,38 @@ def test_readme_has_no_tbd_restoration_numbers():
     for row in ("Fills that match the expert restoration", "Calibration (ECE) and coverage"):
         line = next(ln for ln in text.splitlines() if row in ln)
         assert "TBD" not in line
+
+
+def _fmt(x: float) -> str:
+    """A rate as the reports print it: 0.615 stays 0.615, 0.6271 stays 0.6271."""
+    return f"{x:.4f}".rstrip("0").rstrip(".")
+
+
+@pytest.mark.skipif(not (EVAL_PATH.exists() and DEPLOY_PATH.exists()), reason="test evaluation not run")
+def test_readme_deployed_table_matches_the_reports():
+    """The README's 'deployed restorer on TEST' section quotes the deployed-config and test-eval JSON verbatim."""
+    text = " ".join((ROOT / "README.md").read_text(encoding="utf-8").split())
+    d = json.loads(DEPLOY_PATH.read_text(encoding="utf-8"))
+    r = json.loads(EVAL_PATH.read_text(encoding="utf-8"))
+    full, hard = d["by_subset"]["full"], d["by_subset"]["hard"]
+
+    def row(s: dict) -> str:
+        lo, hi = s["top1_ci"]
+        return f"{_fmt(s['top1'])}** [{_fmt(lo)}, {_fmt(hi)}]" if s is full else f"{_fmt(s['top1'])} [{_fmt(lo)}, {_fmt(hi)}]"
+
+    want = [
+        row(full) + f" | {round(full['top1'] * full['n'])} / {full['n']} | {_fmt(full['ece'])} | {_fmt(full['coverage'])}"
+        f" | {_fmt(full['selective_accuracy'])} ({full['filled_matching']}/{full['filled']})",
+        f"top-1 {row(hard)}, coverage {_fmt(hard['coverage'])}, selective accuracy {_fmt(hard['selective_accuracy'])}",
+        f"{d['vs']['ngram']['full']['only_a']} vs {d['vs']['ngram']['full']['only_b']} discordant gaps against the 5-gram",
+        f"{d['vs']['copy']['full']['only_a']} vs {d['vs']['copy']['full']['only_b']} against copy",
+        f"latency per gap p50 {round(d['latency']['p50_ms'] / 1000, 1)} s, p90 {round(d['latency']['p90_ms'] / 1000, 1)} s",
+    ]
+    for cfg in ("ngram", "copy", "sonnet"):
+        s = r["configs"][cfg]["by_subset"]["full"]
+        want.append(f"{_fmt(s['top1'])} [{_fmt(s['top1_ci'][0])}, {_fmt(s['top1_ci'][1])}]")
+    for name in ("deployed", "ngram", "copy"):
+        gl = d["by_gap_length"][name]
+        want.append(" | ".join(_fmt(gl[k]["top1"]) for k in ("1 letter", "2-3 letters", "4+ letters")) + " |")
+    for w in want:
+        assert w in text, f"README.md: expected {w!r} from the eval reports"

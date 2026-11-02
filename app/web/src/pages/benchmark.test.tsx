@@ -5,6 +5,7 @@ import { AppRoutes } from '../App';
 import { SUMMARY } from '../benchmark/summary';
 import { enBench, taBench } from '../i18n/strings-bench';
 import { renderApp } from '../test/render';
+import { mentionsBannedName } from '../test/copyRules';
 
 describe('Benchmark results page (/benchmark)', () => {
   it('renders anonymously with the leaderboard, and hides the runner until sign-in', async () => {
@@ -59,9 +60,10 @@ describe('Benchmark results page (/benchmark)', () => {
     expect(screen.getByTestId('leaderboard-table')).toHaveTextContent('0.6271');
   });
 
-  it('follows the copy rules: never "correct", "experimental" or Aivar; numbers only from summary.json', () => {
+  it('follows the copy rules: never "correct", "experimental" or the banned name; numbers only from summary.json', () => {
     for (const v of [...Object.values(enBench), ...Object.values(taBench)]) {
-      expect(v).not.toMatch(/\bcorrect|experimental|aivar/i);
+      expect(v).not.toMatch(/\bcorrect|experimental/i);
+      expect(mentionsBannedName(v)).toBe(false);
       expect(v.replace(/\{\w+\}|PR #31|v19|4\.6|5-gram|2B|95%|70%|CC BY-SA 4\.0|\b0\.05\b|\b[0-9]\b|stats\.json/g, '')).not.toMatch(/\d/);
     }
     expect(SUMMARY.leaderboard.full.rows[0]!.id).toBe('deployed');

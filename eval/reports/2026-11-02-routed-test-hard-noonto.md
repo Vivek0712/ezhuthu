@@ -5,7 +5,7 @@
 - Date: 2026-11-01T20:39:15+00:00
 - Router: `routed`
 - Split/subset: test/hard, n = 30
-- Data: `/Users/vivekrajaps/tamil-script/ezhuthu-wt/evalq/benchmark` (8e5f4a8005e4d5dd6dc2641e2dd7019e4c592f11)
+- Data: `benchmark` (8e5f4a8005e4d5dd6dc2641e2dd7019e4c592f11)
 - Decider: strands-decider-2B-qwen3.5-v1-2610
 - Ontology constraints/hints: False
 - Command: `python -m ezhuthu.eval.run --split test --subset hard --limit 30 --workers 3 --router routed --no-ontology`

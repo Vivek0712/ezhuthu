@@ -1,5 +1,10 @@
 # Teams, ownership and protocol
 
+> **Internal working notes.** Ezhuthu was built by a small team of AI coding agents, one per area below, coordinated
+> by a lead. This page records how that build was organised. "KrewHQ" is the local coordination hub the team used for
+> hand-offs and shared notes (`scripts/kq` is a thin wrapper around it); it is not part of Ezhuthu and is not needed
+> to build, test, run or deploy anything here. Contributors should follow [CONTRIBUTING.md](../CONTRIBUTING.md).
+
 | Team | KrewHQ actor | Owns (paths) | Milestone |
 | --- | --- | --- | --- |
 | Lead / integration | u:lead | `contracts/`, `docs/`, `config/`, root files, merges | all |
@@ -18,6 +23,6 @@
    - Start of work: `scripts/kq <role> recall "<topic>"` and `scripts/kq <role> handoffs`. Pick up anything addressed to you.
    - Decisions and gotchas: `scripts/kq <role> capture --type decision --title "..." "..." --ref <PR or issue URL> --promote`.
    - Hand-offs: `scripts/kq <role> handoff EZ-<issue#> "<what, where, how to use>" --to u:<role> --ref <PR URL>`.
-5. **AWS:** profile `heisenberg`, region `us-east-1`. Model IDs come only from `config/models.yaml`. Keep Bedrock spend small in development: use `limit` options, cache responses under `.cache/`, and set no per-test live calls by default (put live calls behind `EZHUTHU_LIVE=1`).
+5. **AWS:** the profile and region in `config/models.yaml` (`us-east-1`). Model IDs come only from `config/models.yaml`. Keep Bedrock spend small in development: use `limit` options, cache responses under `.cache/`, and set no per-test live calls by default (put live calls behind `EZHUTHU_LIVE=1`).
 6. **Data:** `make data` fetches DHARMA at the pinned commit into `data/raw/` (gitignored). Processed, small artefacts may be committed under `benchmark/` and `ontology/` with data cards.
 7. **Python 3.12 with uv.** Web: Node 22 with npm.

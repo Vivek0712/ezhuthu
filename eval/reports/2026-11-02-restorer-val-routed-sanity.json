@@ -5,7 +5,7 @@
   "split": "val",
   "subset": "full",
   "limit": 6,
-  "data_dir": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/w3-restorer/benchmark",
+  "data_dir": "benchmark",
   "data_is_fixture": false,
   "data_commit": "20584c871156a94a4657cd2b72a295d699297b83",
   "ontology_ref": null,

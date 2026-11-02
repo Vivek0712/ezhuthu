@@ -12,7 +12,7 @@ import { Construct } from 'constructs';
 export class EzhuthuDataStack extends cdk.Stack {
   public readonly table: dynamodb.TableV2;
 
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps & { budgetEmail?: string }) {
     super(scope, id, props);
     this.table = new dynamodb.TableV2(this, 'AppTable', {
       partitionKey: { name: 'pk', type: dynamodb.AttributeType.STRING },
@@ -33,6 +33,9 @@ export class EzhuthuDataStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'TableName', { value: this.table.tableName });
 
     // Monthly cost guardrail: USD 50 for resources tagged Project=ezhuthu, email at 80% of actual spend.
+    // The address comes from `-c ezhuthu:budgetEmail=<address>` or EZHUTHU_BUDGET_EMAIL; without one the
+    // budget is still created, with no email notification.
+    const budgetEmail = props?.budgetEmail;
     new budgets.CfnBudget(this, 'MonthlyBudget', {
       budget: {
         budgetName: 'ezhuthu-monthly',
@@ -41,12 +44,14 @@ export class EzhuthuDataStack extends cdk.Stack {
         budgetLimit: { amount: 50, unit: 'USD' },
         costFilters: { TagKeyValue: ['user:Project$ezhuthu'] },
       },
-      notificationsWithSubscribers: [
-        {
-          notification: { notificationType: 'ACTUAL', comparisonOperator: 'GREATER_THAN', threshold: 80, thresholdType: 'PERCENTAGE' },
-          subscribers: [{ subscriptionType: 'EMAIL', address: 'vivekraja98@gmail.com' }],
-        },
-      ],
+      notificationsWithSubscribers: budgetEmail
+        ? [
+            {
+              notification: { notificationType: 'ACTUAL', comparisonOperator: 'GREATER_THAN', threshold: 80, thresholdType: 'PERCENTAGE' },
+              subscribers: [{ subscriptionType: 'EMAIL', address: budgetEmail }],
+            },
+          ]
+        : undefined,
     });
   }
 }

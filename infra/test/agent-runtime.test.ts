@@ -226,4 +226,19 @@ describe('agent runtime: logs, tags, budget', () => {
       Budget: Match.objectLike({ BudgetName: 'ezhuthu-monthly', BudgetLimit: { Amount: 50, Unit: 'USD' } }),
     });
   });
+
+  it('emails the budget alert only to the address given at deploy time', () => {
+    const withEmail = synth({ context: { 'ezhuthu:budgetEmail': 'alerts@example.org' } }).data;
+    withEmail.hasResourceProperties('AWS::Budgets::Budget', {
+      NotificationsWithSubscribers: [Match.objectLike({ Subscribers: [{ SubscriptionType: 'EMAIL', Address: 'alerts@example.org' }] })],
+    });
+    const prev = process.env.EZHUTHU_BUDGET_EMAIL;
+    delete process.env.EZHUTHU_BUDGET_EMAIL;
+    try {
+      const none = synth().data;
+      none.hasResourceProperties('AWS::Budgets::Budget', { NotificationsWithSubscribers: Match.absent() });
+    } finally {
+      if (prev !== undefined) process.env.EZHUTHU_BUDGET_EMAIL = prev;
+    }
+  });
 });

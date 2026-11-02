@@ -35,7 +35,7 @@ edition", never "correct".
   consonant with its vowel (uyirmey). `kā` is 1 akshara, `nāḷ` is 2. The sheets say "aksharas" and explain
   the unit.
 - **AI proposals** (`propose`): the production restorer with ontology OFF, because the current ontology build
-  reads val/test text (KrewHQ gotcha 01M6CBX5). Retrieval runs over `benchmark/corpus_lines.jsonl`, which holds
+  reads val/test text (a known leak recorded during the build). Retrieval runs over `benchmark/corpus_lines.jsonl`, which holds
   train lines only and refuses to load if a held-out inscription appears in it. The decider is refused on
   purpose, so the ranking is the restorer's flagged fallback: the LLM's self-reported confidence, else the
   retrieval heuristic. The 2B decider abstains on everything at the current threshold

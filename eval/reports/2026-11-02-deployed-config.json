@@ -17,7 +17,7 @@
   "code_dirty": false,
   "decider": null,
   "decider_calls": 0,
-  "calibration": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/deploy-config/src/ezhuthu/agent/calibration.json",
+  "calibration": "src/ezhuthu/agent/calibration.json",
   "date": "2026-11-02T06:51:44+00:00"
  },
  "by_subset": {

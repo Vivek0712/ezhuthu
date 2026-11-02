@@ -5,7 +5,7 @@
 - Date: 2026-11-01T20:24:17+00:00
 - Router: `baseline-ngram`
 - Split/subset: test/full, n = 413
-- Data: `/Users/vivekrajaps/tamil-script/ezhuthu-wt/evalq/benchmark` (8e5f4a8005e4d5dd6dc2641e2dd7019e4c592f11)
+- Data: `benchmark` (8e5f4a8005e4d5dd6dc2641e2dd7019e4c592f11)
 - Decider: none (fallback confidence)
 - Ontology constraints/hints: True (ezhuthu.ontology.lookup)
 - Command: `python -m ezhuthu.eval.run --router baseline-ngram --split test --no-decider`
