@@ -20,14 +20,21 @@ describe('strings', () => {
   it('actually translates UI text (Tamil strings contain Tamil script)', () => {
     const tamil = /[஀-௿]/;
     const untranslated = (Object.keys(en) as (keyof typeof en)[]).filter(
-      (k) => !tamil.test(ta[k]) && !['about.builtWith', 'lang.toggle', 'test.cer', 'test.ece', 'restore.script.iso', 'learn.of', 'read.experimentalOther' /* the English half of the bilingual label */].includes(k),
+      (k) => !tamil.test(ta[k]) && !['about.builtWith', 'lang.toggle', 'test.cer', 'test.ece', 'restore.script.iso', 'learn.of', 'read.experimentalOther' /* the English half of the bilingual label */, 'stoneHero.decider' /* product name */].includes(k),
     );
     expect(untranslated).toEqual([]);
   });
 });
 
+describe('copy rules', () => {
+  it('never says "experimental" in any user-visible English string, nor names Aivar', () => {
+    const all = { ...en, ...Object.fromEntries(Object.entries(ta).filter(([, v]) => !/[\u0b80-\u0bff]/.test(v))) };
+    expect(Object.entries(all).filter(([, v]) => /experimental|aivar/i.test(v)).map(([k]) => k)).toEqual([]);
+  });
+});
+
 describe('language toggle', () => {
-  it('defaults to Tamil, sets <html lang>, and toggles to English', async () => {
+  it('defaults to English, sets <html lang>, and toggles to Tamil', async () => {
     render(
       <I18nProvider>
         <AuthProvider>
@@ -41,12 +48,17 @@ describe('language toggle', () => {
         </AuthProvider>
       </I18nProvider>,
     );
-    expect(document.documentElement.lang).toBe('ta');
-    expect(screen.getAllByText('கற்க').length).toBeGreaterThan(0);
-    await userEvent.click(screen.getByTestId('lang-toggle'));
     expect(document.documentElement.lang).toBe('en');
-    expect(screen.getAllByText('Learn').length).toBeGreaterThan(0);
-    expect(window.localStorage.getItem('ezhuthu.lang')).toBe('en');
+    expect(screen.getAllByText('Practice').length).toBeGreaterThan(0);
+    await userEvent.click(screen.getByTestId('lang-toggle'));
+    expect(document.documentElement.lang).toBe('ta');
+    expect(screen.getAllByText('பயிற்சி').length).toBeGreaterThan(0);
+    expect(window.localStorage.getItem('ezhuthu.lang.v2')).toBe('ta');
+  });
+  it('ignores a language stored under the old key', () => {
+    window.localStorage.setItem('ezhuthu.lang', 'ta');
+    render(<I18nProvider><p>x</p></I18nProvider>);
+    expect(document.documentElement.lang).toBe('en');
   });
   it('shows the mock-mode banner in development', () => {
     renderApp(

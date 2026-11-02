@@ -180,6 +180,27 @@ html[lang='ta'] .lede { font-size: var(--ez-text-md); line-height: var(--ez-lh-l
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 @keyframes pop { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
+/* ---- Home (positioning C): headline band, then the stone hero (stone-hero.css), then the era strip ---- */
+.hero-c { padding: 4px 0 18px; align-items: end; }
+.hero-c h1 { margin-bottom: 0; font-size: clamp(var(--ez-text-2xl), 3.6vw, var(--ez-text-3xl)); }
+html[lang='ta'] .hero-c h1 { font-size: clamp(1.35rem, 2.25vw, 1.8rem); }
+.hero-c .lede { margin-bottom: 0; font-size: var(--ez-text-md); }
+/* Phones: the headline, lede and calls to action share the first screen; the stone hero follows. */
+@media (max-width: 559px) {
+  .hero-c { gap: var(--ez-space-3); padding-bottom: var(--ez-space-3); }
+  .hero-c .hero-actions { margin-top: var(--ez-space-3); }
+  html[lang='ta'] .hero-c h1 { font-size: 1.3rem; }
+  html[lang='ta'] .hero-c .lede { font-size: 0.9rem; line-height: 1.6; }
+}
+.evo-section { display: grid; gap: 16px; align-items: center; margin: 36px 0 8px; }
+.evo-section h2 { margin: 0; }
+@media (min-width: 900px) { .evo-section { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 40px; } }
+.audience { margin-top: 36px; gap: 28px 40px; align-items: start; }
+.audience > * { min-width: 0; }
+.audience .steps { margin-bottom: 14px; }
+@media (min-width: 760px) { .audience .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.audience-links { display: flex; flex-wrap: wrap; gap: 8px 18px; font-weight: var(--ez-weight-semibold); }
+
 /* ---- Evolution hero: one letter through five stages (EvolutionHero.tsx) ---- */
 .evo-hero { margin: 0; --px: 0; --py: 0; }
 .evo-stage {
@@ -490,4 +511,89 @@ mark.lacuna { background: var(--ez-lamp-soft); color: var(--ez-lamp-text); borde
   .frieze-track { animation: none; }
   .hero-copy > *, .sample-card, .sample-card-skeleton, .page, .tile-glyph, .tile-svg, .tile img, .meter .seg.on { animation: none; }
   .sample-card:hover, .sample-card:focus-within, .level:hover { transform: none; }
+}
+
+/* Edition reveal under a try-it sample's Restore result (EditionReveal.tsx). */
+.edition-reveal { display: grid; gap: 10px; border-left: 4px solid var(--ez-accent); }
+.edition-reveal[data-state='unsolved'] { border-left-color: var(--ez-unsure); }
+.edition-reveal h3 { margin: 0; }
+.edition-reveal p { margin: 0; }
+.reveal-pair { display: grid; gap: 10px 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); margin: 0; }
+.reveal-pair dt { font-size: var(--ez-text-xs); font-weight: 700; color: var(--ez-text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.reveal-pair dd { margin: 2px 0 0; font-size: var(--ez-text-lg); overflow-wrap: anywhere; }
+.reveal-pair .iso { margin-left: 6px; font-size: var(--ez-text-sm); color: var(--ez-text-muted); }
+.reveal-state { font-weight: 600; padding: 8px 12px; border-radius: var(--ez-radius-md, 10px); background: var(--ez-surface-sunk); }
+.reveal-state.reveal-match { background: var(--ez-ok-soft); color: var(--ez-ok); }
+.reveal-state.reveal-open { background: var(--ez-unsure-soft); color: var(--ez-text); }
+.reveal-credit { font-size: var(--ez-text-xs); color: var(--ez-text-muted); }
+.sample-group { margin-top: 24px; }
+.sample-group h3 { margin: 0 0 4px; }
+.sample-group > p { margin: 0 0 8px; }
+.sample-badge { font-size: var(--ez-text-xs); color: var(--ez-text-muted); }
+
+/* Plain-language Restore (user feedback 2026-11-02): Tamil script first, English letters under it. */
+.biscript { display: grid; gap: 6px; }
+.biscript-ta { font-family: var(--ez-font-chola); }
+.biscript-iso, .input-preview p, .restored-iso p { margin: 0; font-size: var(--ez-text-sm); color: var(--ez-text-muted); overflow-wrap: anywhere; }
+.biscript-label { display: block; font-size: var(--ez-text-xs); font-weight: var(--ez-weight-bold); color: var(--ez-text-muted); letter-spacing: 0.02em; }
+.biscript-iso .biscript-label { display: inline; }
+.input-preview { display: grid; gap: 2px; padding: 8px 12px; border-radius: var(--ez-radius-md); background: var(--ez-surface-sunk); }
+.input-preview p:lang(ta) { font-family: var(--ez-font-chola); font-size: var(--ez-text-md); color: var(--ez-text); }
+.how { margin-bottom: 20px; padding: 14px 18px; }
+.how summary, .advanced summary, .tech summary { cursor: pointer; font-weight: var(--ez-weight-semibold); min-height: var(--ez-space-tap); display: flex; align-items: center; }
+.how-steps { margin: 6px 0 10px; padding-left: 22px; display: grid; gap: 6px; }
+.advanced { border-top: 1px solid var(--ez-border); padding-top: 4px; }
+.restore-summary { margin: 0; font-size: var(--ez-text-lg); font-weight: var(--ez-weight-semibold); line-height: var(--ez-lh-lg-ta); padding: 12px 16px; border-left: 4px solid var(--ez-accent); background: var(--ez-surface-raised); border-radius: 0 var(--ez-radius-md) var(--ez-radius-md) 0; }
+.restored-box { display: grid; gap: 8px; }
+.restored-box .restored { margin: 0; }
+.restored-ta { font-family: var(--ez-font-chola); }
+.restored-iso { display: grid; gap: 2px; padding: 0 4px; }
+.restored-legend { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.restored-legend .fill { padding: 0 6px; }
+mark.unsure { padding: 0 6px; }
+.gap-fill { display: grid; gap: 4px; }
+.cand-hints { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.reveal-ta { font-family: var(--ez-font-chola); font-weight: 700; }
+.reveal-iso { display: block; font-size: var(--ez-text-sm); color: var(--ez-text-muted); }
+
+/* Results page (/benchmark): horizontal bars with 95% interval whiskers, in HTML so labels stay readable on phones.
+   Highlighted row (the deployed system) uses the accent; the others the strong border ink. Both themes via tokens. */
+.bench-stats { margin-bottom: var(--ez-space-6); }
+.bench-stats .stat .v { font-size: 1.75rem; }
+.bench-section { margin: 0 0 var(--ez-space-12); min-width: 0; }
+.bench-section > .row { margin: 8px 0 12px; flex-wrap: wrap; }
+.bench-section table { margin-top: 14px; }
+.bench-source { margin: 4px 0 0; overflow-wrap: anywhere; }
+.bench-reports { padding-left: 18px; }
+.bench-reports li { margin: 4px 0; overflow-wrap: anywhere; }
+
+.hbar { margin: 12px 0 0; min-width: 0; max-width: 960px; }
+html .hbar li.hbar-row { max-width: none; }
+.hbar-rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.hbar-row { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: 4px 16px; align-items: center; }
+.hbar-label { display: grid; min-width: 0; }
+.hbar-name { font-weight: var(--ez-weight-semibold); }
+.hbar-sub { font-size: var(--ez-text-xs); color: var(--ez-text-muted); }
+.hbar-plot { display: grid; grid-template-columns: minmax(0, 1fr) 12.5rem; gap: 12px; align-items: center; min-width: 0; }
+.hbar-track { position: relative; height: 18px; border-radius: 0 4px 4px 0; background: var(--ez-surface-sunk); }
+.hbar-fill { position: absolute; inset: 0 auto 0 0; border-radius: 0 4px 4px 0; background: var(--ez-border-strong); }
+.hbar-row.hi .hbar-fill { background: var(--ez-accent); }
+.hbar-ci { position: absolute; top: 50%; height: 0; border-top: 2px solid var(--ez-text); transform: translateY(-1px); }
+.hbar-ci::before, .hbar-ci::after { content: ''; position: absolute; top: -7px; height: 12px; border-left: 2px solid var(--ez-text); }
+.hbar-ci::before { left: -1px; }
+.hbar-ci::after { right: -1px; }
+.hbar-value { font-variant-numeric: tabular-nums; font-weight: var(--ez-weight-semibold); font-size: var(--ez-text-sm); }
+.hbar-civ { font-weight: 400; color: var(--ez-text-muted); }
+.hbar-note { grid-column: 2; font-size: var(--ez-text-xs); color: var(--ez-text-muted); }
+.hbar-axisrow { margin-top: 2px; }
+.hbar-axis { position: relative; height: 1.2em; border-top: 1px solid var(--ez-border); font-size: var(--ez-text-xs); color: var(--ez-text-muted); }
+.hbar-axis span { position: absolute; top: 2px; transform: translateX(-50%); }
+.hbar-axis span:first-child { transform: none; }
+.hbar-axis span:last-child { transform: translateX(-100%); }
+@media (max-width: 759px) {
+  .hbar-row { grid-template-columns: minmax(0, 1fr); }
+  .hbar-axisrow .hbar-label { display: none; }
+  .hbar-plot { grid-template-columns: minmax(0, 1fr) 7.75rem; gap: 10px; }
+  .hbar-civ { display: block; font-size: var(--ez-text-xs); white-space: nowrap; }
+  .hbar-note { grid-column: 1; }
 }

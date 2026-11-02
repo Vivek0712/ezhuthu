@@ -5,6 +5,7 @@ import { isLevel } from '../lib/levels';
 import { expectedCalibrationError } from '../lib/reliability';
 import { sampleByInscription } from '../samples';
 import { SAMPLES } from '../samples/data';
+import recordedJson from '../samples/recorded-restores.json';
 import { readHandlers } from './read';
 import { ASSESSMENT, LESSONS, REVIEWED_ELSEWHERE, SEED_QUEUE, templateContext, type MockItem } from './fixtures';
 
@@ -122,6 +123,37 @@ const RULES: Rule[] = [
   },
 ];
 
+/* ---------------- recorded live restores (replayed for the try-it samples) ---------------- */
+interface Recorded {
+  meta: { date: string };
+  samples: Record<string, { group: string; text_iso: string; response: Schemas['RestoreResponse'] }>;
+}
+const RECORDED = recordedJson as unknown as Recorded;
+const squash = (t: string) => t.normalize('NFC').replace(/\s+/g, ' ').trim();
+
+/**
+ * A try-it sample's text (ISO or Tamil, as the gallery puts it in the form) gets the live restorer's real answer,
+ * recorded once by scripts/record_sample_restores.py; any other text falls through to the generic rules below.
+ */
+export function replayRecorded(body: Schemas['RestoreRequest']): Schemas['RestoreResponse'] | null {
+  const text = squash(body.text);
+  const sample = SAMPLES.find((s) => squash(s.text_iso) === text || squash(s.text_tamil) === text);
+  const rec = sample && RECORDED.samples[sample.id];
+  if (!sample || !rec) return null;
+  const r = structuredClone(rec.response);
+  const max = body.max_candidates ?? 5;
+  for (const g of r.gaps) {
+    g.candidates = g.candidates.slice(0, Math.max(max, (g.chosen ?? -1) + 1));
+  }
+  state.seq += 1;
+  return {
+    ...r,
+    restored_text: body.script === 'tamil' ? r.restored_text_tamil : r.restored_text,
+    trace_id: `mock-replay-${sample.id}-${state.seq}`,
+  };
+}
+
+/** Generic mock answers for free text (not a recording): a few hard-coded rules, else a low-confidence abstain. */
 function restore(body: Schemas['RestoreRequest']): Schemas['RestoreResponse'] {
   const tamil = body.script === 'tamil';
   const max = body.max_candidates ?? 5;
@@ -306,7 +338,7 @@ export const handlers = [
     const body = (await request.json()) as Schemas['RestoreRequest'];
     if (typeof body?.text !== 'string' || !body.text.trim()) return err(400, 'bad_request', 'text is required');
     if (!parseGaps(body.text).some((s) => s.kind === 'gap')) return err(422, 'no_gaps', 'no [?] or [?N] gap in text');
-    const out = restore(body);
+    const out = replayRecorded(body) ?? restore(body);
     persist();
     return HttpResponse.json(out);
   }),

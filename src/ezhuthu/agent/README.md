@@ -113,6 +113,22 @@ Warnings flag Tamil-Brahmi, Vatteluttu and Grantha readings and any reading unde
 reproducible with `python -m ezhuthu.eval.ocr` (synthetic plates are rendered by `src/ezhuthu/eval/ocr_render.mjs` with the
 app's Noto fonts; the real-image list with licences is `eval/ocr/real_images.json`).
 
+## Interpreter: letters to words, phrase and meaning (`interpreter.py`)
+
+Inscriptions are carved without word spaces and in older spelling. `Interpreter.interpret(lines)` takes the Reader's
+letters (one modern Tamil letter per carved letter, with its probability; an unread letter is `None`) and asks the model
+for **words** (each naming the ids of its letters, so a page can animate them and nothing is pinned on letters that were
+not read), each in today's spelling with ISO-15919, a short gloss and a probability; the words **arranged as a phrase
+in today's Tamil**; and the **meaning** in plain English (at most 30 words) and Tamil (at most 25). Grounding without a
+model: words attested in the DHARMA **train** split (`load_corpus_lines`, never val/test) that occur in the letter
+stream at letter boundaries, compared without pulli (`lexicon_hints`), and `find_entities` from the ontology. Routing
+like the Reader: Sonnet 4.6 first, Opus 4.6 when Sonnet's probability is under `routing.escalate_if_confidence_below`;
+the more confident answer with words is kept. The parser enforces one word per letter in reading order, gives a
+sandhi letter claimed by two words to the word that spells it, and pulls an unread letter inside a word's span into
+that word. Every word gets `attested` (in the train lexicon or not). `interpret_text(text)` takes typed or read text
+(`[?N]` gaps become unread letters) for a future `POST /api/interpret`. Used today by the home hero
+(`scripts/hero_read.py interpret`); tests: `tests/agent/test_interpreter.py` (FakeLLM).
+
 ## Ontology (`ontology_port.py`, `ontology_mcp.py`)
 
 `get_ontology()` starts `python -m ezhuthu.ontology.mcp_server` as a stdio subprocess of the same interpreter and

@@ -91,12 +91,12 @@ function ReadError({ error, onRetry }: { error: unknown; onRetry?: () => void })
   );
 }
 
-/** Bilingual "experimental" label, always both languages (design/ux: AI output is labelled in Tamil and English). */
+/** Bilingual "check against the edition" note on photo readings, always both languages (AI output is labelled in Tamil and English). */
 export function ExperimentalNote() {
   const { t, lang } = useI18n();
   return (
     <p className="read-experimental" data-testid="read-experimental">
-      <span className="badge unsure">β</span>
+      <span className="badge unsure" aria-hidden="true">!</span>
       <span>
         <strong lang={lang}>{t('read.experimental')}</strong>{' '}
         <span lang={lang === 'ta' ? 'en' : 'ta'} className="sub">

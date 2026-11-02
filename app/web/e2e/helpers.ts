@@ -42,7 +42,11 @@ export async function expectNoHorizontalScroll(page: Page) {
 export async function gotoNav(page: Page, name: RegExp | string) {
   const isMobile = (page.viewportSize()?.width ?? 1000) < 1000;
   if (!isMobile) {
-    await page.getByRole('navigation', { name: 'primary' }).getByRole('link', { name }).click();
+    await page.getByRole('navigation', { name: 'primary' }).waitFor(); // the app renders after the mock worker starts
+    const top = page.getByRole('navigation', { name: 'primary' }).getByRole('link', { name });
+    // Progress and Benchmark moved to the footer's secondary links.
+    if (await top.count()) await top.click();
+    else await page.getByTestId('footer-nav').getByRole('link', { name }).click();
     return;
   }
   await page.getByTestId('tabbar').waitFor(); // the app renders after the mock worker starts
@@ -56,5 +60,10 @@ export async function gotoNav(page: Page, name: RegExp | string) {
 }
 
 export async function setEnglish(page: Page) {
-  await page.addInitScript(() => window.localStorage.setItem('ezhuthu.lang', 'en'));
+  await page.addInitScript(() => window.localStorage.setItem('ezhuthu.lang.v2', 'en'));
+}
+
+/** Tamil is one tap away since English became the default (bd651d0); tests about the Tamil UI start in Tamil. */
+export async function setTamil(page: Page) {
+  await page.addInitScript(() => window.localStorage.setItem('ezhuthu.lang.v2', 'ta'));
 }

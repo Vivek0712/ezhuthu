@@ -21,7 +21,19 @@ Never write: EZHUTHU AI, Ezhuthu.ai, Ezuthu, Ezhutthu, E-zhuthu. All caps (EZHUT
 
 ## 3. Voice
 
-Ezhuthu sounds like a patient teacher at a temple: warm, exact and never grand.
+Ezhuthu sounds like a patient teacher at a temple: warm, exact and never grand. Since positioning C
+([docs/marketing/positioning.md](../../docs/marketing/positioning.md)) it speaks to two audiences in two registers of
+the same voice:
+
+- **To students and new epigraphists: a teacher.** Encouraging, specific, Tamil first, as below.
+- **To working scholars: a mentor briefing an apprentice's work.** Matter-of-fact and evidence-first: say what was
+  read, with what confidence, from which parallels, and what was left for an expert. Never grand, never salesy, and
+  never ahead of the numbers. "It abstained on 3 gaps and sent them to review" beats "AI-powered restoration".
+
+Tagline: *Learn to read the stone. Help read the backlog.* /
+*கல்வெட்டைப் படிக்கக் கற்றுக்கொள்ளுங்கள்; காத்திருக்கும் கல்வெட்டுகளைப் படிக்க உதவுங்கள்.* (the Tamil line is pending
+a native-speaker check). Product names: Practice (பயிற்சி), Restore (மீட்டமை), Benchmark (அளவுகோல்), Expert review
+(வல்லுநர் மதிப்பாய்வு), Progress (முன்னேற்றம்).
 
 | | Tamil | English |
 | --- | --- | --- |
@@ -30,6 +42,12 @@ Ezhuthu sounds like a patient teacher at a temple: warm, exact and never grand.
 | Praise | Specific: "குறுக்குக் கோடு வளைந்து க ஆனது." | "The cross-bar became a wave: that is ka." |
 | Uncertainty | "வல்லுநர்களுக்கும் உறுதியில்லை" | "Experts are unsure." |
 | Mistakes | Gentle, with a reason and a hint. Never "தவறு!" alone. | Never "Wrong!" alone. |
+| Scholar-facing | Evidence first: "46 எழுத்துகள்; சராசரி நம்பகம் 65%; ஒன்று நிரப்பப்படவில்லை." | "46 letters; mean confidence 65%; one left open." |
+| The backlog | "1886 முதல் கண்டெடுக்கப்பட்ட ஏறத்தாழ 1 இலட்சம் கல்வெட்டுகளில் 30,000–35,000 மட்டுமே வெளியிடப்பட்டன." | "About 23 epigraphists; of about 1 lakh inscriptions found since 1886, 30,000 to 35,000 published (The Federal, 2021)." Never "a backlog of 70,000". |
+
+**Never claim** that Ezhuthu clears the backlog, replaces epigraphists or deciphers inscriptions; that it reads
+Tamil-Brahmi, Grantha or Vatteluttu from photos; that scholars have validated it; or that L5 lessons come from
+Tamil-Brahmi editions. Say "built with Strands Agents", never "Strands AI" or "AWS AI".
 
 **Claims.** A restoration "matches expert restorations" (வல்லுநர் மீட்டமைப்புடன் பொருந்துகிறது). It is never "correct" or "true". "Over 1,100 years old" applies only to the Pallava collection (410 restorations); never say it of the Uttiramerur items or of the whole age set. Every number in the README, video or app comes from `eval/reports/` or `benchmark/DATA_CARD.md`; if a number is not there yet, write **TBD**.
 

@@ -17,6 +17,7 @@ import '@fontsource/instrument-sans/700.css';
 import '../../../design/tokens/tokens.css';
 import '../../../design/tokens/app-compat.css';
 import './styles/app.css';
+import './styles/practice.css';
 import { AppRoutes } from './App';
 import { AuthProvider } from './auth/AuthProvider';
 import { I18nProvider } from './i18n/I18nProvider';

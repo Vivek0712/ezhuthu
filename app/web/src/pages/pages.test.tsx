@@ -31,10 +31,10 @@ describe('Restore page', () => {
   });
 });
 
-describe('Learn page', () => {
+describe('Practice page (was Learn)', () => {
   it('starts a Tamil-Brahmi lesson, gives a hint on a wrong answer and advances on a right one', async () => {
     const user = userEvent.setup();
-    renderApp(<AppRoutes />, { route: '/learn' });
+    renderApp(<AppRoutes />, { route: '/practice/guided' });
     await user.click(screen.getByTestId('level-L5'));
     await user.click(screen.getByTestId('start-lesson'));
     expect(await screen.findByRole('heading', { level: 1, name: /Mangulam/ })).toBeInTheDocument();
@@ -55,7 +55,7 @@ describe('Learn page', () => {
   });
   it('renders Vatteluttu as an image, never as inline markup', async () => {
     const user = userEvent.setup();
-    renderApp(<AppRoutes />, { route: '/learn' });
+    renderApp(<AppRoutes />, { route: '/practice/guided' });
     await user.click(screen.getByTestId('level-L4'));
     await user.click(screen.getByTestId('start-lesson'));
     const tile = await screen.findByTestId('glyph-tile');
@@ -71,7 +71,7 @@ describe('Progress page', () => {
   });
   it('runs a pre-test and shows the score', async () => {
     const user = userEvent.setup();
-    renderApp(<AppRoutes />, { route: '/learn' });
+    renderApp(<AppRoutes />, { route: '/practice/guided' });
     await user.click(screen.getByTestId('start-lesson'));
     await screen.findByTestId('glyph-tile');
     await user.click(screen.getAllByRole('link', { name: 'Progress' })[0]!);
@@ -86,14 +86,14 @@ describe('Progress page', () => {
 });
 
 describe('protected pages', () => {
-  it('gates Test behind sign-in, then runs the benchmark and draws the reliability chart', async () => {
+  it('gates the benchmark runner (not the results) behind sign-in, then runs it and draws the reliability chart', async () => {
     const user = userEvent.setup();
-    renderApp(<AppRoutes />, { route: '/test' });
-    expect(screen.getByTestId('auth-gate')).toBeInTheDocument();
-    await user.click(within(screen.getByTestId('auth-gate')).getByRole('button', { name: 'Sign in' }));
+    renderApp(<AppRoutes />, { route: '/benchmark' });
+    expect(screen.getByTestId('leaderboard')).toBeInTheDocument();
+    await user.click(within(screen.getByTestId('runner-gate')).getByRole('button', { name: 'Sign in' }));
     await user.click(await screen.findByTestId('run-benchmark'));
-    expect(await screen.findByTestId('score-report')).toBeInTheDocument();
-    expect(screen.getByTestId('reliability-chart').querySelectorAll('rect.bar').length).toBeGreaterThan(0);
+    const report = await screen.findByTestId('score-report');
+    expect(within(report).getByTestId('reliability-chart').querySelectorAll('rect.bar').length).toBeGreaterThan(0);
   });
   it('lets an expert approve a queue item', async () => {
     const user = userEvent.setup();

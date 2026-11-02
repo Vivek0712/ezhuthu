@@ -9,26 +9,34 @@ import { useI18n } from '../i18n/I18nProvider';
 import type { MessageKey } from '../i18n/strings';
 import { DharmaCredit } from './Feedback';
 
-// Top nav at 1000 px and wider. Review is shown only to signed-in experts (design/ux/UX.md section 2).
+// Top nav at 1000 px and wider: Home · Practice · Restore · How it works · About. Expert review is shown only to
+// signed-in experts (design/ux/UX.md section 2). Progress and Benchmark results live in the footer and the "More" sheet.
 const TOP: [string, MessageKey, boolean][] = [
-  ['/learn', 'nav.learn', false],
+  ['/', 'nav.home', false],
+  ['/practice', 'nav.learn', false],
   ['/restore', 'nav.restore', false],
-  ['/progress', 'nav.progress', false],
-  ['/test', 'nav.test', false],
-  ['/review', 'nav.review', true],
+  ['/how-it-works', 'nav.how', false],
   ['/about', 'nav.about', false],
+  ['/review', 'nav.review', true],
 ];
-// Bottom tabs below 1000 px; Test, About, Home, sign-in and the language live in the "More" sheet.
-const TABS: [string, MessageKey, boolean, ReactNode][] = [
-  ['/learn', 'nav.learn', false, <path key="i" d="M4 6c3-1.5 6-1.5 8 0v13c-2-1.5-5-1.5-8 0zM12 6c2-1.5 5-1.5 8 0v13c-3-1.5-6-1.5-8 0" />],
-  ['/restore', 'nav.restore', false, <path key="i" d="M5 19 15 9M13 7l4 4M15 5l4 4-2 2-4-4z M4 20l2-1" />],
-  ['/progress', 'nav.progress', false, <path key="i" d="M5 19V12M10 19V8M15 19v-5M20 19V5M3 19h18" />],
-  ['/review', 'nav.review', true, <path key="i" d="M5 12.5 10 17l9-10" />],
+// Bottom tabs below 1000 px (short labels); Progress, Benchmark, About, expert review and sign-in are in "More".
+const TABS: [string, MessageKey, ReactNode][] = [
+  ['/', 'nav.home', <path key="i" d="M4 11 12 4l8 7M6 9.5V20h12V9.5M10 20v-5h4v5" />],
+  ['/practice', 'nav.learn', <path key="i" d="M4 6c3-1.5 6-1.5 8 0v13c-2-1.5-5-1.5-8 0zM12 6c2-1.5 5-1.5 8 0v13c-3-1.5-6-1.5-8 0" />],
+  ['/restore', 'nav.restore', <path key="i" d="M5 19 15 9M13 7l4 4M15 5l4 4-2 2-4-4z M4 20l2-1" />],
+  ['/how-it-works', 'nav.howShort', <path key="i" d="M4 6h4v4H4zM16 6h4v4h-4zM10 15h4v4h-4zM8 8h8M6 10l5 5M18 10l-5 5" />],
 ];
-const MORE: [string, MessageKey][] = [
-  ['/', 'nav.home'],
-  ['/test', 'nav.test'],
-  ['/about', 'nav.about'],
+const MORE: [string, MessageKey, boolean][] = [
+  ['/progress', 'nav.progress', false],
+  ['/benchmark', 'nav.test', false],
+  ['/about', 'nav.about', false],
+  ['/review', 'nav.review', true],
+];
+// Footer links: the secondary pages, on every screen size.
+const FOOTER: [string, MessageKey, boolean][] = [
+  ['/progress', 'nav.progress', false],
+  ['/benchmark', 'nav.test', false],
+  ['/review', 'nav.review', true],
 ];
 
 function useOnline(): boolean {
@@ -87,7 +95,7 @@ export function Layout() {
           </NavLink>
           <nav className="nav" aria-label="primary">
             {TOP.filter(([, , x]) => show(x)).map(([to, key]) => (
-              <NavLink key={to} to={to} className={cls}>
+              <NavLink key={to} to={to} end={to === '/'} className={cls}>
                 {t(key)}
               </NavLink>
             ))}
@@ -113,14 +121,21 @@ export function Layout() {
       </main>
       <footer className="site">
         <div className="wrap">
+          <nav className="footer-nav" aria-label={t('nav.secondary')} data-testid="footer-nav">
+            {FOOTER.filter(([, , x]) => show(x)).map(([to, key]) => (
+              <NavLink key={to} to={to} className={cls}>
+                {t(key)}
+              </NavLink>
+            ))}
+          </nav>
           <span lang="en">{t('about.builtWith')}</span>
           <DharmaCredit testId="footer-credit" />
         </div>
       </footer>
 
       <nav className="tabbar" aria-label={t('nav.tabs')} data-testid="tabbar">
-        {TABS.filter(([, , x]) => show(x)).map(([to, key, , icon]) => (
-          <NavLink key={to} to={to} className={cls}>
+        {TABS.map(([to, key, icon]) => (
+          <NavLink key={to} to={to} end={to === '/'} className={cls}>
             <svg viewBox="0 0 24 24" aria-hidden="true">
               {icon}
             </svg>
@@ -137,7 +152,7 @@ export function Layout() {
       {open && (
         <div className="sheet" id="more-sheet">
           <nav className="wrap" aria-label="mobile">
-            {MORE.map(([to, key]) => (
+            {MORE.filter(([, , x]) => show(x)).map(([to, key]) => (
               <NavLink key={to} to={to} end className={cls}>
                 {t(key)}
               </NavLink>

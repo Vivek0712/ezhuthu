@@ -425,3 +425,40 @@ def test_low_reliability_scripts_and_low_confidence_warn():
     assert any("unsure" in w for w in out["warnings"])
     r, _ = make_reader(lambda role, s, p: reply([["svasti", 0.9]], conf=0.9, script="chola-tamil"))
     assert r.read(image_base64=b64(jpeg_with_gps()), router="sonnet")["warnings"] == []
+
+
+# ---- letter-by-letter reading (the home hero's match stage) --------------------------------------------------
+
+
+def test_glyph_reply_parsing_fills_every_box():
+    from ezhuthu.agent.reader import parse_glyph_reply
+
+    text = '```json\n{"glyphs": [{"box": 1, "ta": "கி", "iso": "ki", "p": 0.8, "note": "Chola ki"},' \
+           ' {"box": 3, "ta": "?", "p": 0.1}, {"box": 9, "ta": "க"}, {"box": 2, "ta": "ம் ", "p": 1.7}]}\n```'
+    out = parse_glyph_reply(text, 3)
+    assert [g["box"] for g in out] == [1, 2, 3]
+    assert out[0] == {"box": 1, "ta": "கி", "iso": "ki", "confidence": 0.8, "note": "Chola ki"}
+    assert out[1]["ta"] == "ம்" and out[1]["confidence"] == 1.0          # trimmed, clamped
+    assert out[2]["ta"] is None and out[2]["confidence"] == 0.1          # worn: no letter
+    assert parse_glyph_reply("not json", 2) == [
+        {"box": 1, "ta": None, "iso": None, "confidence": 0.0, "note": None},
+        {"box": 2, "ta": None, "iso": None, "confidence": 0.0, "note": None}]
+
+
+def test_read_glyphs_sends_clean_and_numbered_crops_to_one_model_call():
+    from ezhuthu.agent.reader import GLYPH_MAX_BOXES
+
+    def responder(role, s, p):
+        assert "numbered 1 to 2" in p and "Chola-era Tamil" in p
+        return json.dumps({"glyphs": [{"box": 1, "ta": "ப", "iso": "pa", "p": 0.85}, {"box": 2, "ta": "ணி", "p": 0.4}]})
+
+    r, llm = make_reader(responder)
+    img = prepare_image(jpeg_with_gps())
+    out = r.read_glyphs(img, img, 2, script="chola-tamil")
+    assert [c[0] for c in llm.calls] == ["escalate"] and len(llm.images[0]) == 2
+    assert [(g["ta"], g["iso"], g["confidence"]) for g in out["glyphs"]] == [("ப", "pa", 0.85), ("ணி", "ṇi", 0.4)]
+    assert out["model"] == "opus"
+    with pytest.raises(ReadError):
+        r.read_glyphs(img, img, GLYPH_MAX_BOXES + 1)
+    with pytest.raises(ReaderUnavailable):
+        Reader(llm=None).read_glyphs(img, img, 1)

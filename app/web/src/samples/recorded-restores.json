@@ -1,0 +1,3199 @@
+{
+ "meta": {
+  "date": "2026-11-02",
+  "what": "EzhuthuService.restore(text_iso, script='iso15919', max_candidates=5, allow_escalation=True), once per sample, deployed configuration (config/models.yaml)",
+  "models": {
+   "default": "us.anthropic.claude-sonnet-4-6",
+   "escalate": "us.anthropic.claude-opus-4-6-v1"
+  },
+  "restorer": {
+   "strategy": "self-report",
+   "strategy_llm": "prerank",
+   "ngram_prerank": true
+  },
+  "bedrock": {
+   "calls": 11,
+   "calls_by_model": {
+    "opus": 7,
+    "sonnet": 4
+   },
+   "cached_calls": 6,
+   "input_tokens": {
+    "opus": 7120,
+    "sonnet": 3884
+   },
+   "output_tokens": {
+    "opus": 681,
+    "sonnet": 538
+   },
+   "estimated_cost_usd": 0.0723,
+   "price_basis": "USD/MTok list prices in ezhuthu.agent.llm.PRICE_PER_MTOK"
+  }
+ },
+ "samples": {
+  "tiruvorriyur-paddy-for-worship": {
+   "group": "masked",
+   "text_iso": "l irupatiṉ kāṭiyum vaikkāṭu kiḻārē āy Ēt[?2] pulattiṉ nel nūṟṟ’ iru-patiṉ",
+   "wall_s": 5.8,
+   "response": {
+    "restored_text": "l irupatiṉ kāṭiyum vaikkāṭu kiḻārē āy Ēt[?2] pulattiṉ nel nūṟṟ’ iru-patiṉ",
+    "restored_text_tamil": "ல் இருபதின் காடியும் வைக்காடு கிழாரே ஆய் ஏத்[?2] புலத்தின் நெல் நூற்ற்(அ) இரு-பதின்",
+    "gaps": [
+     {
+      "index": 0,
+      "gap_chars": 2,
+      "decision": "abstain",
+      "chosen": 0,
+      "candidates": [
+       {
+        "text": "tu-p",
+        "text_tamil": "து-ப்",
+        "confidence": 0.093,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "opus"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.35,
+         "copy_baseline": false,
+         "llm_probability": 0.35,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.35
+        }
+       },
+       {
+        "text": "tam",
+        "text_tamil": "தம்",
+        "confidence": 0.0756,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "ngram"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.2761,
+         "copy_baseline": false,
+         "llm_probability": null,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": 0,
+         "ngram_probability": 0.2761,
+         "raw_confidence": 0.2761
+        }
+       },
+       {
+        "text": "ta-p",
+        "text_tamil": "த-ப்",
+        "confidence": 0.0648,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "ngram",
+         "opus"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.2285,
+         "copy_baseline": false,
+         "llm_probability": 0.08,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": 1,
+         "ngram_probability": 0.1614,
+         "raw_confidence": 0.2285
+        }
+       },
+       {
+        "text": "tu p",
+        "text_tamil": "து ப்",
+        "confidence": 0.0584,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "opus"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.2,
+         "copy_baseline": false,
+         "llm_probability": 0.2,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.2
+        }
+       },
+       {
+        "text": "nel",
+        "text_tamil": "நெல்",
+        "confidence": 0.0581,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSPallava00340",
+          "line_n": "5",
+          "snippet": "tiṉ kāṭi āṇapaṭi nūṟṟ-iru-patiṉ kāṭi nel puṟa-k kālāl [?]",
+          "url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00340.xml"
+         }
+        ],
+        "ontology_hints": [],
+        "sources": [
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.1987,
+         "copy_baseline": true,
+         "llm_probability": null,
+         "parallel_support": 1,
+         "best_parallel_match": 0.1987,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.1987
+        }
+       }
+      ],
+      "escalated": true,
+      "strategy": "prerank",
+      "calibration": "prerank-ngram|prerank|kall|llm-opus",
+      "abstain_below": 0.4887
+     }
+    ],
+    "models_used": [
+     "us.anthropic.claude-opus-4-6-v1"
+    ],
+    "trace_id": "recorded-tiruvorriyur-paddy-for-worship",
+    "latency_ms": 5777.5
+   }
+  },
+  "tirunallaru-temple-office": {
+   "group": "masked",
+   "text_iso": "c-cakai Aḻakiyār makaṉ cuntara-p-perumāṉukku tāṉa-niyōkam kuṭutta paric’ āvatu [?1]ṭaiyār tiru-naḷḷāṟ-uṭaiya nāyaṉārkku perumāḷ tiru-nāmattālē kō-taṇṭa-rāmaṉ cantiyum puraṭṭāci",
+   "wall_s": 2.8,
+   "response": {
+    "restored_text": "c-cakai Aḻakiyār makaṉ cuntara-p-perumāṉukku tāṉa-niyōkam kuṭutta paric’ āvatu uṭaiyār tiru-naḷḷāṟ-uṭaiya nāyaṉārkku perumāḷ tiru-nāmattālē kō-taṇṭa-rāmaṉ cantiyum puraṭṭāci",
+    "restored_text_tamil": "ச்-சகை அழகியார் மகன் சுந்தர-ப்-பெருமானுக்கு தான-நியோகம் குடுத்த பரிச்(அ) ஆவது உடையார் திரு-நள்ளாற்-உடைய நாயனார்க்கு பெருமாள் திரு-நாமத்தாலே கோ-தண்ட-ராமன் சந்தியும் புரட்டாசி",
+    "gaps": [
+     {
+      "index": 0,
+      "gap_chars": 1,
+      "decision": "fill",
+      "chosen": 0,
+      "candidates": [
+       {
+        "text": "u",
+        "text_tamil": "உ",
+        "confidence": 0.5988,
+        "model": "sonnet",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSTamilNadu00141",
+          "line_n": "1",
+          "snippet": "svasti śrī uṭaiyār tiru-naḷḷāṟ-uṭaiyār kōyil-t tāṉattāṟk=ku ciṟu-muṟi tiru-naḷḷāṟṟil nāyaṉār avimutta-nātārkku amutu-paṭi cāttu-p-paṭi tiru-viḷak=ku mara eṇṇaik=ku",
+          "url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00141.xml"
+         },
+         {
+          "inscription_id": "DHARMA_INSTamilNadu00137",
+          "line_n": "1",
+          "snippet": "svasti śrī . aruḷi-c ceyal uṭaiyār tiru-naḷḷāṟ-uṭaiyār kōyil",
+          "url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00137.xml"
+         }
+        ],
+        "ontology_hints": [
+         {
+          "id": "ez:title/udaiyar",
+          "kind": "title",
+          "label": "uṭaiyār"
+         },
+         {
+          "id": "ez:place/putukkottai",
+          "kind": "place",
+          "label": "Putukkōṭṭai"
+         },
+         {
+          "id": "ez:place/palaiyankottai",
+          "kind": "place",
+          "label": "Pāḷaiyaṅkōṭṭai"
+         },
+         {
+          "id": "ez:place/cinnayyan-pettai",
+          "kind": "place",
+          "label": "Ciṉṉayyāṉ Pēṭṭai"
+         },
+         {
+          "id": "ez:place/koyil-tevarayan-pettai",
+          "kind": "place",
+          "label": "Kōyil-Tēvarāyaṉ-Pēṭṭai"
+         },
+         {
+          "id": "ez:formula/imprecation",
+          "kind": "formula",
+          "label": "… ceyvāṉ pāvam koḷvāṉ"
+         }
+        ],
+        "sources": [
+         "ngram",
+         "ontology",
+         "parallel",
+         "sonnet"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.9758,
+         "copy_baseline": true,
+         "llm_probability": 0.08,
+         "parallel_support": 2,
+         "best_parallel_match": 0.5717,
+         "ngram_rank": 0,
+         "ngram_probability": 0.8878,
+         "raw_confidence": 0.9758
+        }
+       },
+       {
+        "text": "uṭaiyār tiru-naḷḷāṟ-u",
+        "text_tamil": "உடையார் திரு-நள்ளாற்-உ",
+        "confidence": 0.0394,
+        "model": "sonnet",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [
+         {
+          "id": "ez:title/udaiyar",
+          "kind": "title",
+          "label": "uṭaiyār"
+         },
+         {
+          "id": "ez:place/putukkottai",
+          "kind": "place",
+          "label": "Putukkōṭṭai"
+         },
+         {
+          "id": "ez:place/palaiyankottai",
+          "kind": "place",
+          "label": "Pāḷaiyaṅkōṭṭai"
+         },
+         {
+          "id": "ez:place/cinnayyan-pettai",
+          "kind": "place",
+          "label": "Ciṉṉayyāṉ Pēṭṭai"
+         },
+         {
+          "id": "ez:place/koyil-tevarayan-pettai",
+          "kind": "place",
+          "label": "Kōyil-Tēvarāyaṉ-Pēṭṭai"
+         },
+         {
+          "id": "ez:formula/imprecation",
+          "kind": "formula",
+          "label": "… ceyvāṉ pāvam koḷvāṉ"
+         }
+        ],
+        "sources": [
+         "sonnet"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": false,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.175,
+         "copy_baseline": false,
+         "llm_probability": 0.35,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.175
+        }
+       },
+       {
+        "text": ". . u",
+        "text_tamil": ". . உ",
+        "confidence": 0.028,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSTamilNadu00144",
+          "line_n": "1",
+          "snippet": "svasti śrī. . uṭaiyār tiru-naḷḷāṟ-uṭaiyār kōyil tāṉattārkku ciṟu-muṟi tiru-mārka ḻi -t tiru-v-ātiraikku tiru-mañcaṉattukku uṭaiyār tiru-naḷḷāṟ-uṭaiyārkkum mutaliyār nāṭakam āṭum",
+          "url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00144.xml"
+         }
+        ],
+        "ontology_hints": [
+         {
+          "id": "ez:title/udaiyar",
+          "kind": "title",
+          "label": "uṭaiyār"
+         },
+         {
+          "id": "ez:place/putukkottai",
+          "kind": "place",
+          "label": "Putukkōṭṭai"
+         },
+         {
+          "id": "ez:place/palaiyankottai",
+          "kind": "place",
+          "label": "Pāḷaiyaṅkōṭṭai"
+         },
+         {
+          "id": "ez:place/cinnayyan-pettai",
+          "kind": "place",
+          "label": "Ciṉṉayyāṉ Pēṭṭai"
+         },
+         {
+          "id": "ez:place/koyil-tevarayan-pettai",
+          "kind": "place",
+          "label": "Kōyil-Tēvarāyaṉ-Pēṭṭai"
+         },
+         {
+          "id": "ez:formula/imprecation",
+          "kind": "formula",
+          "label": "… ceyvāṉ pāvam koḷvāṉ"
+         }
+        ],
+        "sources": [
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.1129,
+         "copy_baseline": false,
+         "llm_probability": null,
+         "parallel_support": 1,
+         "best_parallel_match": 0.5643,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.1129
+        }
+       },
+       {
+        "text": "uṭaiyār tiru-naḷḷāṟ-uṭaiya nāyaṉār kōyil tāṉattārkku uṭaiyār tiru-naḷḷāṟ-u",
+        "text_tamil": "உடையார் திரு-நள்ளாற்-உடைய நாயனார் கோயில் தானத்தார்க்கு உடையார் திரு-நள்ளாற்-உ",
+        "confidence": 0.0208,
+        "model": "sonnet",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [
+         {
+          "id": "ez:title/udaiyar",
+          "kind": "title",
+          "label": "uṭaiyār"
+         },
+         {
+          "id": "ez:place/putukkottai",
+          "kind": "place",
+          "label": "Putukkōṭṭai"
+         },
+         {
+          "id": "ez:place/palaiyankottai",
+          "kind": "place",
+          "label": "Pāḷaiyaṅkōṭṭai"
+         },
+         {
+          "id": "ez:place/cinnayyan-pettai",
+          "kind": "place",
+          "label": "Ciṉṉayyāṉ Pēṭṭai"
+         },
+         {
+          "id": "ez:place/koyil-tevarayan-pettai",
+          "kind": "place",
+          "label": "Kōyil-Tēvarāyaṉ-Pēṭṭai"
+         },
+         {
+          "id": "ez:formula/imprecation",
+          "kind": "formula",
+          "label": "… ceyvāṉ pāvam koḷvāṉ"
+         }
+        ],
+        "sources": [
+         "sonnet"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": false,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.075,
+         "copy_baseline": false,
+         "llm_probability": 0.15,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.075
+        }
+       },
+       {
+        "text": "tecamiyum tiṅka-ṭ-kiḻamai peṟṟa uttirattu nāḷ uyya-k-koṇṭār-vaḷanāṭṭu muḻaiyūr-nāṭṭu u",
+        "text_tamil": "தெசமியும் திங்க-ட்-கிழமை பெற்ற உத்திரத்து நாள் உய்ய-க்-கொண்டார்-வளநாட்டு முழையூர்-நாட்டு உ",
+        "confidence": 0.0179,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSTamilNadu00128",
+          "line_n": "2",
+          "snippet": "tu tecamiyum tiṅka-ṭ-kiḻamai peṟṟa uttirattu nāḷ uyya-k-koṇṭār-vaḷanāṭṭu muḻaiyūr-nāṭṭu uṭaiyār tiru-naḷḷāṟ-uṭaiyār kō",
+          "url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00128.xml"
+         }
+        ],
+        "ontology_hints": [
+         {
+          "id": "ez:title/udaiyar",
+          "kind": "title",
+          "label": "uṭaiyār"
+         },
+         {
+          "id": "ez:place/putukkottai",
+          "kind": "place",
+          "label": "Putukkōṭṭai"
+         },
+         {
+          "id": "ez:place/palaiyankottai",
+          "kind": "place",
+          "label": "Pāḷaiyaṅkōṭṭai"
+         },
+         {
+          "id": "ez:place/cinnayyan-pettai",
+          "kind": "place",
+          "label": "Ciṉṉayyāṉ Pēṭṭai"
+         },
+         {
+          "id": "ez:place/koyil-tevarayan-pettai",
+          "kind": "place",
+          "label": "Kōyil-Tēvarāyaṉ-Pēṭṭai"
+         },
+         {
+          "id": "ez:formula/imprecation",
+          "kind": "formula",
+          "label": "… ceyvāṉ pāvam koḷvāṉ"
+         }
+        ],
+        "sources": [
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": false,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.0609,
+         "copy_baseline": false,
+         "llm_probability": null,
+         "parallel_support": 1,
+         "best_parallel_match": 0.6095,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.0609
+        }
+       }
+      ],
+      "escalated": false,
+      "strategy": "prerank",
+      "calibration": "prerank-ngram|prerank|kall|llm-sonnet",
+      "abstain_below": 0.4111
+     }
+    ],
+    "models_used": [
+     "us.anthropic.claude-sonnet-4-6"
+    ],
+    "trace_id": "recorded-tirunallaru-temple-office",
+    "latency_ms": 2833.7
+   }
+  },
+  "vellore-rajadhiraja-praise": {
+   "group": "masked",
+   "text_iso": "ṉṉāṭakar viṭu kaṭakari puraḷat taṉṉāṭaiyiṟ tamiḻpparaṇikoṇ ṭoṉṉār vacci[?1]neṭuvāḷ vicciyaṉ veruneḷitt",
+   "wall_s": 2.0,
+   "response": {
+    "restored_text": "ṉṉāṭakar viṭu kaṭakari puraḷat taṉṉāṭaiyiṟ tamiḻpparaṇikoṇ ṭoṉṉār vacci[?1]neṭuvāḷ vicciyaṉ veruneḷitt",
+    "restored_text_tamil": "ன்னாடகர் விடு கடகரி புரளத் தன்னாடையிற் தமிழ்ப்பரணிகொண் டொன்னார் வச்சி[?1]நெடுவாள் விச்சியன் வெருநெளித்த்",
+    "gaps": [
+     {
+      "index": 0,
+      "gap_chars": 1,
+      "decision": "abstain",
+      "chosen": 0,
+      "candidates": [
+       {
+        "text": "ra",
+        "text_tamil": "ர",
+        "confidence": 0.3913,
+        "model": "sonnet",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSTamilNadu00103",
+          "line_n": "18",
+          "snippet": "ṉṉār vaccira neṭuvāḷ viccayaṉ veru neḷitt’ añci",
+          "url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00103.xml"
+         }
+        ],
+        "ontology_hints": [],
+        "sources": [
+         "parallel",
+         "sonnet"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.9218,
+         "copy_baseline": true,
+         "llm_probability": 0.82,
+         "parallel_support": 1,
+         "best_parallel_match": 0.5653,
+         "ngram_rank": null,
+         "ngram_probability": 0.0007,
+         "raw_confidence": 0.9218
+        }
+       },
+       {
+        "text": "ma-",
+        "text_tamil": "ம-",
+        "confidence": 0.1273,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "ngram"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.5752,
+         "copy_baseline": false,
+         "llm_probability": null,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": 0,
+         "ngram_probability": 0.5752,
+         "raw_confidence": 0.5752
+        }
+       },
+       {
+        "text": "ya",
+        "text_tamil": "ய",
+        "confidence": 0.0377,
+        "model": "sonnet",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "ngram",
+         "sonnet"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.1656,
+         "copy_baseline": false,
+         "llm_probability": 0.07,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": 1,
+         "ngram_probability": 0.1028,
+         "raw_confidence": 0.1656
+        }
+       },
+       {
+        "text": "ma",
+        "text_tamil": "ம",
+        "confidence": 0.0189,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "ngram"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.0657,
+         "copy_baseline": false,
+         "llm_probability": null,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": 2,
+         "ngram_probability": 0.0657,
+         "raw_confidence": 0.0657
+        }
+       },
+       {
+        "text": "yaṉ",
+        "text_tamil": "யன்",
+        "confidence": 0.0185,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSCirkali00004",
+          "line_n": "40",
+          "snippet": "ṇāṟṟu 2-ñ catirattu vācciyaṉ tiru",
+          "url": "https://github.com/erc-dharma/tfa-cirkali-epigraphy/blob/9ff78b784d4d5b0c774f72aa78e462349b1c7d48/DHARMA_INSCirkali00004.xml"
+         }
+        ],
+        "ontology_hints": [],
+        "sources": [
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.0638,
+         "copy_baseline": false,
+         "llm_probability": null,
+         "parallel_support": 1,
+         "best_parallel_match": 0.1914,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.0638
+        }
+       }
+      ],
+      "escalated": false,
+      "strategy": "prerank",
+      "calibration": "prerank-ngram|prerank|kall|llm-sonnet",
+      "abstain_below": 0.4111
+     }
+    ],
+    "models_used": [
+     "us.anthropic.claude-sonnet-4-6"
+    ],
+    "trace_id": "recorded-vellore-rajadhiraja-praise",
+    "latency_ms": 1987.4
+   }
+  },
+  "tiruvalisvaram-district-name": {
+   "group": "masked",
+   "text_iso": "r-āṉa Aḻakiya pāṇṭiya mūvēnta-veḷārum nittavinota-vaḷa-nāṭṭu-p pāmpuṇi-[?1] kūṟṟattu vaḷava-nallūr Uṭaiyār nilaṉ",
+   "wall_s": 3.2,
+   "response": {
+    "restored_text": "r-āṉa Aḻakiya pāṇṭiya mūvēnta-veḷārum nittavinota-vaḷa-nāṭṭu-p pāmpuṇi-k kūṟṟattu vaḷava-nallūr Uṭaiyār nilaṉ",
+    "restored_text_tamil": "ர்-ஆன அழகிய பாண்டிய மூவேந்த-வெளாரும் நித்தவிநொத-வள-நாட்டு-ப் பாம்புணி-க் கூற்றத்து வளவ-நல்லூர் உடையார் நிலன்",
+    "gaps": [
+     {
+      "index": 0,
+      "gap_chars": 1,
+      "decision": "fill",
+      "chosen": 0,
+      "candidates": [
+       {
+        "text": "k",
+        "text_tamil": "க்",
+        "confidence": 0.8545,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [
+         {
+          "id": "ez:admin_unit/avur-kurram",
+          "kind": "place",
+          "label": "Āvūr-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/azhur-kurram",
+          "kind": "place",
+          "label": "Āḻūr-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/tina-kurram",
+          "kind": "place",
+          "label": "Ṭiṉa-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/pampuni-nadu",
+          "kind": "place",
+          "label": "Pāmpuṇi-nāṭu"
+         },
+         {
+          "id": "ez:admin_unit/kattu-kurram",
+          "kind": "place",
+          "label": "Kāṭṭu-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/kunra-kurram",
+          "kind": "place",
+          "label": "Kuṉṟa-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/panur-kurram",
+          "kind": "place",
+          "label": "Pānūṟ-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/arvala-kurram",
+          "kind": "place",
+          "label": "Ār·vala-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/kalara-kurram",
+          "kind": "place",
+          "label": "Kalāra-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/paccir-kurram",
+          "kind": "place",
+          "label": "Pācciṟ-kūṟṟam"
+         }
+        ],
+        "sources": [
+         "ngram"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.9961,
+         "copy_baseline": false,
+         "llm_probability": null,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": 0,
+         "ngram_probability": 0.9961,
+         "raw_confidence": 0.9961
+        }
+       },
+       {
+        "text": "nā",
+        "text_tamil": "நா",
+        "confidence": 0.1495,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [
+         {
+          "id": "ez:admin_unit/avur-kurram",
+          "kind": "place",
+          "label": "Āvūr-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/azhur-kurram",
+          "kind": "place",
+          "label": "Āḻūr-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/tina-kurram",
+          "kind": "place",
+          "label": "Ṭiṉa-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/pampuni-nadu",
+          "kind": "place",
+          "label": "Pāmpuṇi-nāṭu"
+         },
+         {
+          "id": "ez:admin_unit/kattu-kurram",
+          "kind": "place",
+          "label": "Kāṭṭu-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/kunra-kurram",
+          "kind": "place",
+          "label": "Kuṉṟa-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/panur-kurram",
+          "kind": "place",
+          "label": "Pānūṟ-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/arvala-kurram",
+          "kind": "place",
+          "label": "Ār·vala-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/kalara-kurram",
+          "kind": "place",
+          "label": "Kalāra-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/paccir-kurram",
+          "kind": "place",
+          "label": "Pācciṟ-kūṟṟam"
+         }
+        ],
+        "sources": [
+         "opus"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.55,
+         "copy_baseline": false,
+         "llm_probability": 0.55,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.55
+        }
+       },
+       {
+        "text": "k-",
+        "text_tamil": "க்-",
+        "confidence": 0.1351,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INStfaSIIv03p0i0019",
+          "line_n": "9",
+          "snippet": "-pāmpuṇi-k-kūṟṟatt' araicūr-araicūr-uṭaiyāṉ īr-āyiravaṉ pal",
+          "url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv03p0i0019.xml"
+         }
+        ],
+        "ontology_hints": [
+         {
+          "id": "ez:admin_unit/avur-kurram",
+          "kind": "place",
+          "label": "Āvūr-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/azhur-kurram",
+          "kind": "place",
+          "label": "Āḻūr-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/tina-kurram",
+          "kind": "place",
+          "label": "Ṭiṉa-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/pampuni-nadu",
+          "kind": "place",
+          "label": "Pāmpuṇi-nāṭu"
+         },
+         {
+          "id": "ez:admin_unit/kattu-kurram",
+          "kind": "place",
+          "label": "Kāṭṭu-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/kunra-kurram",
+          "kind": "place",
+          "label": "Kuṉṟa-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/panur-kurram",
+          "kind": "place",
+          "label": "Pānūṟ-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/arvala-kurram",
+          "kind": "place",
+          "label": "Ār·vala-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/kalara-kurram",
+          "kind": "place",
+          "label": "Kalāra-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/paccir-kurram",
+          "kind": "place",
+          "label": "Pācciṟ-kūṟṟam"
+         }
+        ],
+        "sources": [
+         "opus",
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.5053,
+         "copy_baseline": true,
+         "llm_probability": 0.3,
+         "parallel_support": 1,
+         "best_parallel_match": 0.2932,
+         "ngram_rank": null,
+         "ngram_probability": 0.0001,
+         "raw_confidence": 0.5053
+        }
+       },
+       {
+        "text": "na",
+        "text_tamil": "ந",
+        "confidence": 0.0539,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSPandya00161",
+          "line_n": "1",
+          "snippet": "variyil iṭu rājentra cōḻa-vaḷa-nāṭṭu-k kīḻkuṇṭāṟṟu-c cōḻa-cikāmaṇi-nallūr uṭaiyāṉ centil-cēntaṉum paṭṭōlai in-nāṭṭu mēl iraṇiya muṭṭattu-k kaṇkāṭuntai-k-kuḷam uṭaiyāṉ ātitēvaṉum matu",
+          "url": "https://github.com/erc-dharma/tfa-pandya-epigraphy/blob/562e33f4e7ae082013e3ff268bd59d6c450944bc/DHARMA_INSPandya00161.xml"
+         },
+         {
+          "inscription_id": "DHARMA_INSTamilNadu00513",
+          "line_n": "3",
+          "snippet": "vēṭṭaraiyar maṟavaṅ kaṇṭaṉār kaṉmi kuṉṟa-k-kūṟṟattu aṟaṇi-nallūr-uṭaiya maṉa-p-perumai cuvāmi-y-āṉa kuṉṟa-nāṭṭu",
+          "url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00513.xml"
+         }
+        ],
+        "ontology_hints": [
+         {
+          "id": "ez:admin_unit/avur-kurram",
+          "kind": "place",
+          "label": "Āvūr-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/azhur-kurram",
+          "kind": "place",
+          "label": "Āḻūr-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/tina-kurram",
+          "kind": "place",
+          "label": "Ṭiṉa-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/pampuni-nadu",
+          "kind": "place",
+          "label": "Pāmpuṇi-nāṭu"
+         },
+         {
+          "id": "ez:admin_unit/kattu-kurram",
+          "kind": "place",
+          "label": "Kāṭṭu-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/kunra-kurram",
+          "kind": "place",
+          "label": "Kuṉṟa-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/panur-kurram",
+          "kind": "place",
+          "label": "Pānūṟ-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/arvala-kurram",
+          "kind": "place",
+          "label": "Ār·vala-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/kalara-kurram",
+          "kind": "place",
+          "label": "Kalāra-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/paccir-kurram",
+          "kind": "place",
+          "label": "Pācciṟ-kūṟṟam"
+         }
+        ],
+        "sources": [
+         "opus",
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.1803,
+         "copy_baseline": false,
+         "llm_probability": 0.08,
+         "parallel_support": 2,
+         "best_parallel_match": 0.218,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.1803
+        }
+       },
+       {
+        "text": "nāṭṭu",
+        "text_tamil": "நாட்டு",
+        "confidence": 0.0224,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSPandya00161",
+          "line_n": "2",
+          "snippet": "rāntaka-vaḷa-nāṭṭu māṉavīra-vaḷa-nāṭṭu attikk' uṭaiyāṉ cēntaṉ ciṅkamum iv-eṇṇi-nāṭṭu vīracōḻa-nallūr uṭaiyāṉ araiyaṉ mātēvaṉum rājentra-cōḻa-vaḷa-nāṭṭu-k kīḻ iraṇiya muṭṭattu-c",
+          "url": "https://github.com/erc-dharma/tfa-pandya-epigraphy/blob/562e33f4e7ae082013e3ff268bd59d6c450944bc/DHARMA_INSPandya00161.xml"
+         }
+        ],
+        "ontology_hints": [
+         {
+          "id": "ez:admin_unit/avur-kurram",
+          "kind": "place",
+          "label": "Āvūr-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/azhur-kurram",
+          "kind": "place",
+          "label": "Āḻūr-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/tina-kurram",
+          "kind": "place",
+          "label": "Ṭiṉa-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/pampuni-nadu",
+          "kind": "place",
+          "label": "Pāmpuṇi-nāṭu"
+         },
+         {
+          "id": "ez:admin_unit/kattu-kurram",
+          "kind": "place",
+          "label": "Kāṭṭu-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/kunra-kurram",
+          "kind": "place",
+          "label": "Kuṉṟa-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/panur-kurram",
+          "kind": "place",
+          "label": "Pānūṟ-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/arvala-kurram",
+          "kind": "place",
+          "label": "Ār·vala-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/kalara-kurram",
+          "kind": "place",
+          "label": "Kalāra-kūṟṟam"
+         },
+         {
+          "id": "ez:admin_unit/paccir-kurram",
+          "kind": "place",
+          "label": "Pācciṟ-kūṟṟam"
+         }
+        ],
+        "sources": [
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.0522,
+         "copy_baseline": false,
+         "llm_probability": null,
+         "parallel_support": 1,
+         "best_parallel_match": 0.2086,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.0522
+        }
+       }
+      ],
+      "escalated": true,
+      "strategy": "prerank",
+      "calibration": "prerank-ngram|prerank|kall|llm-opus",
+      "abstain_below": 0.4887
+     }
+    ],
+    "models_used": [
+     "us.anthropic.claude-opus-4-6-v1"
+    ],
+    "trace_id": "recorded-tiruvalisvaram-district-name",
+    "latency_ms": 3190.5
+   }
+  },
+  "tiruvavaduturai-taxes-paid-in-gold": {
+   "group": "masked",
+   "text_iso": "māvum Āka Oṉpatu mā v-araiyum vācalil pōnta kuṭimai Ūr iṭu vari-[?1]-pāṭum ceṉṉīr-veṭṭiyum candrādit=ta-val Iṟai kāttu-k kuṭup",
+   "wall_s": 2.1,
+   "response": {
+    "restored_text": "māvum Āka Oṉpatu mā v-araiyum vācalil pōnta kuṭimai Ūr iṭu vari-p-pāṭum ceṉṉīr-veṭṭiyum candrādit=ta-val Iṟai kāttu-k kuṭup",
+    "restored_text_tamil": "மாவும் ஆக ஒன்பது மா வ்-அரையும் வாசலில் போந்த குடிமை ஊர் இடு வரி-ப்-பாடும் சென்னீர்-வெட்டியும் சந்த்ராதித்=த-வல் இறை காத்து-க் குடுப்",
+    "gaps": [
+     {
+      "index": 0,
+      "gap_chars": 1,
+      "decision": "fill",
+      "chosen": 0,
+      "candidates": [
+       {
+        "text": "p",
+        "text_tamil": "ப்",
+        "confidence": 0.9628,
+        "model": "sonnet",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSTiruvavatuturai10101",
+          "line_n": "A.4",
+          "snippet": "il śrī-rājarāja-devar ulak-aḷan=t-aruḷi iṟai y-eṟiṉa piṉpu itukku iṟai-kāval āka it-tē var pakkal nāṅkaḷ muṉpu koṇṭa poṉ kuṭukka māṭṭāmaiyil innilattāl van=ta iṟai-yum eccōṟum veṭṭi-vētiṉaikaḷum maṟṟu sābhai y-iṭu vari-p-pāṭum ceṉṉīr-veṭṭiyum tiru-k-koṟṟa-vācalil pōn=ta kuṭimai eppērppaṭṭatum sabhaiyōmē iṉ-ṉāṅku simai-ilum akappaṭṭa nilattukku iṟai iṟuttu-k kāttu-k kuṭuppat’ ākavum ip-poṉ tiruvaiyāṟṟu-maṭam-uṭaiya sadācivabhaṭār irun=tu it-tēvar kāmmikaḷai iṭṭu ip-poṉ taravallirkaḷō eṉṟu kēḻkka nāṅkaḷ ip-poṉ kuṭukka māṭ",
+          "url": "https://github.com/erc-dharma/tfa-tiruvavatuturai-epigraphy/blob/53e5dee31e1804ea7a2c0ffdcfe4344b40507f98/DHARMA_INSTiruvavatuturai10101.xml"
+         },
+         {
+          "inscription_id": "DHARMA_INStfaSIIv19p0i0181",
+          "line_n": "2.6",
+          "snippet": "[?] lattayalum vaikal sabhaiyōm in-nilam [?4] eppēṟppaṭṭa ūr iṭu vari-p-pāṭum kāttu-k kuṭuppōm āṉōm ivv-ōlai mēl paṭṭa paricē kallil veṭṭi-k-koḷḷa-p peṟuvat' ākavum",
+          "url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv19p0i0181.xml"
+         },
+         {
+          "inscription_id": "DHARMA_INStfaSIIv19p0i0181",
+          "line_n": "2.5",
+          "snippet": "m iru-vēli nilam mu-p-patām āṇṭiṉ kiḻ [?6] ttāl ivv-iru-vēli nilattukkum iṟaiyum e-c-cōṟum kāttu-k kuṭuppōm āṉōm ivv-ūr iṭu vari-p-pāṭum kāttu-k kuṭuppōm āṉōm",
+          "url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv19p0i0181.xml"
+         }
+        ],
+        "ontology_hints": [
+         {
+          "id": "ez:tax/vari",
+          "kind": "measure",
+          "label": "vari"
+         },
+         {
+          "id": "ez:admin_unit/variyilitucozhacikamani-mandalam",
+          "kind": "place",
+          "label": "Variyiliṭu-cōḻa-cikāmaṇi-maṇṭalam"
+         }
+        ],
+        "sources": [
+         "ngram",
+         "parallel",
+         "sonnet"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.9996,
+         "copy_baseline": true,
+         "llm_probability": 0.82,
+         "parallel_support": 3,
+         "best_parallel_match": 0.6979,
+         "ngram_rank": 0,
+         "ngram_probability": 0.9929,
+         "raw_confidence": 0.9996
+        }
+       },
+       {
+        "text": "pu",
+        "text_tamil": "பு",
+        "confidence": 0.0344,
+        "model": "sonnet",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSTiruvavatuturai10103",
+          "line_n": "49",
+          "snippet": "yāṇṭu 2 10 -āvatu mutal cantirātittaval tiru-k-koṟṟavācalil pōnta kuṭimaiyum ūr iṭu varippāṭum veṭṭi-vētiṉai veḷḷāṉ veṭṭiyum uḷppaṭa eppērppaṭṭatum in-nilattāl vantatu sabhaiyōmē iṟukka in-nilam iṟai-ili ceytu kuṭuttōm tiru-v-āvaṭu-tuṟai iṉit’ eḻunt-aruḷi inta tiri-puvaṉa-bhavatikku mūlapirittiyaṉ-ākiya āti-caṇṭeśvara-tēvarkku mēṟ-k-kiḷimaṅkalattu sabhaiyōm in-nila",
+          "url": "https://github.com/erc-dharma/tfa-tiruvavatuturai-epigraphy/blob/53e5dee31e1804ea7a2c0ffdcfe4344b40507f98/DHARMA_INSTiruvavatuturai10103.xml"
+         }
+        ],
+        "ontology_hints": [
+         {
+          "id": "ez:tax/vari",
+          "kind": "measure",
+          "label": "vari"
+         },
+         {
+          "id": "ez:admin_unit/variyilitucozhacikamani-mandalam",
+          "kind": "place",
+          "label": "Variyiliṭu-cōḻa-cikāmaṇi-maṇṭalam"
+         }
+        ],
+        "sources": [
+         "parallel",
+         "sonnet"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.1472,
+         "copy_baseline": false,
+         "llm_probability": 0.1,
+         "parallel_support": 1,
+         "best_parallel_match": 0.2625,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.1472
+        }
+       },
+       {
+        "text": "pa",
+        "text_tamil": "ப",
+        "confidence": 0.0145,
+        "model": "sonnet",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [
+         {
+          "id": "ez:tax/vari",
+          "kind": "measure",
+          "label": "vari"
+         },
+         {
+          "id": "ez:admin_unit/variyilitucozhacikamani-mandalam",
+          "kind": "place",
+          "label": "Variyiliṭu-cōḻa-cikāmaṇi-maṇṭalam"
+         }
+        ],
+        "sources": [
+         "ngram",
+         "sonnet"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.0456,
+         "copy_baseline": false,
+         "llm_probability": 0.04,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": 1,
+         "ngram_probability": 0.0058,
+         "raw_confidence": 0.0456
+        }
+       },
+       {
+        "text": "ka",
+        "text_tamil": "க",
+        "confidence": 0.0136,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSUttiramerur00060",
+          "line_n": "2",
+          "snippet": "lai kalam arutt-aruḷi vēṅkai-nāṭum kaṅka-pāṭiyum nuḷampa-pāṭiyum taṭikai-pāṭiyum kuṭa-malai-nāṭum ko",
+          "url": "https://github.com/erc-dharma/tfa-uttiramerur-epigraphy/blob/4b97baaffa2607003d7cf4dd02fd3cf861322ae3/DHARMA_INSUttiramerur00060.xml"
+         }
+        ],
+        "ontology_hints": [
+         {
+          "id": "ez:tax/vari",
+          "kind": "measure",
+          "label": "vari"
+         },
+         {
+          "id": "ez:admin_unit/variyilitucozhacikamani-mandalam",
+          "kind": "place",
+          "label": "Variyiliṭu-cōḻa-cikāmaṇi-maṇṭalam"
+         }
+        ],
+        "sources": [
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.0417,
+         "copy_baseline": false,
+         "llm_probability": null,
+         "parallel_support": 1,
+         "best_parallel_match": 0.2083,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.0417
+        }
+       },
+       {
+        "text": "pi",
+        "text_tamil": "பி",
+        "confidence": 0.0082,
+        "model": "sonnet",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [
+         {
+          "id": "ez:tax/vari",
+          "kind": "measure",
+          "label": "vari"
+         },
+         {
+          "id": "ez:admin_unit/variyilitucozhacikamani-mandalam",
+          "kind": "place",
+          "label": "Variyiliṭu-cōḻa-cikāmaṇi-maṇṭalam"
+         }
+        ],
+        "sources": [
+         "sonnet"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.02,
+         "copy_baseline": false,
+         "llm_probability": 0.02,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.02
+        }
+       }
+      ],
+      "escalated": false,
+      "strategy": "prerank",
+      "calibration": "prerank-ngram|prerank|kall|llm-sonnet",
+      "abstain_below": 0.4111
+     }
+    ],
+    "models_used": [
+     "us.anthropic.claude-sonnet-4-6"
+    ],
+    "trace_id": "recorded-tiruvavaduturai-taxes-paid-in-gold",
+    "latency_ms": 2137.5
+   }
+  },
+  "kodumbalur-four-boundaries": {
+   "group": "masked",
+   "text_iso": "ellai Umpaḷa-p-pāṭi vayalukku-t teṟkum Āka Icainta peru-nānk’ ellaikk’ uḷpaṭṭa kuḷamuṅ kuḷapparippu[?1] naṉcaiyum puṉcaiyum nattamum natta-p-pāḻum piḷḷaiyarāyaṉ kuṭikkāṭṭukkum vaiyyakattaraiyaṉ kuṭikkā",
+   "wall_s": 3.1,
+   "response": {
+    "restored_text": "ellai Umpaḷa-p-pāṭi vayalukku-t teṟkum Āka Icainta peru-nānk’ ellaikk’ uḷpaṭṭa kuḷamuṅ kuḷapparippu[?1] naṉcaiyum puṉcaiyum nattamum natta-p-pāḻum piḷḷaiyarāyaṉ kuṭikkāṭṭukkum vaiyyakattaraiyaṉ kuṭikkā",
+    "restored_text_tamil": "எல்லை உம்பள-ப்-பாடி வயலுக்கு-த் தெற்கும் ஆக இசைந்த பெரு-நாந்க்(அ) எல்லைக்க்(அ) உள்பட்ட குளமுங் குளப்பரிப்பு[?1] நன்சையும் புன்சையும் நத்தமும் நத்த-ப்-பாழும் பிள்ளையராயன் குடிக்காட்டுக்கும் வைய்யகத்தரையன் குடிக்கா",
+    "gaps": [
+     {
+      "index": 0,
+      "gap_chars": 1,
+      "decision": "abstain",
+      "chosen": 0,
+      "candidates": [
+       {
+        "text": "m",
+        "text_tamil": "ம்",
+        "confidence": 0.4327,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSTamilNadu00423",
+          "line_n": "2",
+          "snippet": "vēṇṭum nitta-nimantaṅkaḷukkum tirunāḷ eḻunt-aruḷa vēṇṭuvaṉavukkum kōṉāṭ-āṉa kaṭal-aṭaiyātu-ilaṅkai-koṇṭa-cōḻa-vaḷanāṭṭu teṉkō-nāṭṭu iṭaiyāṟṟūr ṉāṉk' ellaikk' uṭ-p-paṭṭa nīr-nilamum nañ-cey puṉ-ceyum nattamum natta-pāḻum kuḷamum kuḷa-p-parippum uṭ-p-paṭṭa nilattil paḻan tēva-tāṉamum paḷḷi-c-cantamum brāhmaṇa-iṟai-y-iliyum nīkki uḷḷa nilattukku iṟukkum kaṭamaiyum antarāyamum taruvatāṉa accum kāriya-v-ārāṭcciyum veṭṭi-pāṭṭamum pañcu-piliyu [?4] ṭṭamum iṭai-y-variyum iṉa-variyum poṉ-variyum uṭ-paṭa maṟṟu",
+          "url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00423.xml"
+         },
+         {
+          "inscription_id": "DHARMA_INSTamilNadu00433",
+          "line_n": "3",
+          "snippet": "ttamum naṉ-cey puṉ-ceyum kuḷamum kuḷa-parippum pala-vr̥kṣaṅkaḷum uḷ-paṭa paṇṭ-uṭaiyaraiyum paḻaṅkāṇiyāḷaraiyum tavuttu muṉṉṉāḷ ivar tēva-tāṉam-āka kuṭutta paṭiyilē aṉai-t tāyaṅkaḷu",
+          "url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00433.xml"
+         },
+         {
+          "inscription_id": "DHARMA_INSTamilNadu00434",
+          "line_n": "3",
+          "snippet": "ṉari-p paṟṟil pārīśvaramum iv-ūrkaḷ nāṉk' ellaikk' uḷ-paṭṭa nattamum nañ-cey puñ-ceyuṅ kuḷamuṅ kuḷa parippum pala-vr̥kṣaṅkaḷum[?3] kāṇi uḷḷa [?3] yum tavuttu muṉṉāḷ",
+          "url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00434.xml"
+         }
+        ],
+        "ontology_hints": [],
+        "sources": [
+         "ngram",
+         "opus",
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.9195,
+         "copy_baseline": false,
+         "llm_probability": 0.55,
+         "parallel_support": 3,
+         "best_parallel_match": 0.2855,
+         "ngram_rank": 0,
+         "ngram_probability": 0.7841,
+         "raw_confidence": 0.9195
+        }
+       },
+       {
+        "text": "m uṭ",
+        "text_tamil": "ம் உட்",
+        "confidence": 0.0913,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSTamilNadu00489",
+          "line_n": "3",
+          "snippet": "tōṭṭamum kuḷamum kuḷa-p-parippum uṭ [?]",
+          "url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00489.xml"
+         }
+        ],
+        "ontology_hints": [],
+        "sources": [
+         "opus",
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.3427,
+         "copy_baseline": true,
+         "llm_probability": 0.02,
+         "parallel_support": 1,
+         "best_parallel_match": 0.3293,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.3427
+        }
+       },
+       {
+        "text": "muṅ",
+        "text_tamil": "முங்",
+        "confidence": 0.047,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "opus"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.15,
+         "copy_baseline": false,
+         "llm_probability": 0.15,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.15
+        }
+       },
+       {
+        "text": "ṟa",
+        "text_tamil": "ற",
+        "confidence": 0.043,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "ngram"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.1329,
+         "copy_baseline": false,
+         "llm_probability": null,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": 1,
+         "ngram_probability": 0.1329,
+         "raw_confidence": 0.1329
+        }
+       },
+       {
+        "text": "mu",
+        "text_tamil": "மு",
+        "confidence": 0.0218,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "opus"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.05,
+         "copy_baseline": false,
+         "llm_probability": 0.05,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.05
+        }
+       }
+      ],
+      "escalated": true,
+      "strategy": "prerank",
+      "calibration": "prerank-ngram|prerank|kall|llm-opus",
+      "abstain_below": 0.4887
+     }
+    ],
+    "models_used": [
+     "us.anthropic.claude-opus-4-6-v1"
+    ],
+    "trace_id": "recorded-kodumbalur-four-boundaries",
+    "latency_ms": 3128.9
+   }
+  },
+  "kolar-rajendra-praise": {
+   "group": "masked",
+   "text_iso": "vannāḷ tirumāl āti-k kēḻal āki y-eṭu-t taṉavi yātuñ caliyā vakaiyi[?1]it’ eṭuttu-t taṉ kuṭai niḻalil iṉpuṟa Iruttil tikiriyum puliyun= ticai toṟu naṭāttip pukaḻun=",
+   "wall_s": 3.1,
+   "response": {
+    "restored_text": "vannāḷ tirumāl āti-k kēḻal āki y-eṭu-t taṉavi yātuñ caliyā vakaiyi[?1]it’ eṭuttu-t taṉ kuṭai niḻalil iṉpuṟa Iruttil tikiriyum puliyun= ticai toṟu naṭāttip pukaḻun=",
+    "restored_text_tamil": "வந்நாள் திருமால் ஆதி-க் கேழல் ஆகி ய்-எடு-த் தனவி யாதுஞ் சலியா வகையி[?1]இத்(அ) எடுத்து-த் தன் குடை நிழலில் இன்புற இருத்தில் திகிரியும் புலியுந்= திசை தொறு நடாத்திப் புகழுந்=",
+    "gaps": [
+     {
+      "index": 0,
+      "gap_chars": 1,
+      "decision": "abstain",
+      "chosen": 0,
+      "candidates": [
+       {
+        "text": "l",
+        "text_tamil": "ல்",
+        "confidence": 0.3266,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INStfaSIIv04p0i0223",
+          "line_n": "13",
+          "snippet": "nāmaṅ kuṭuttu-t tiru-muṭi cūṭṭi-t teṉṉavar iruvar mutaliṉarkku-t taṉ kulam aḷittu-t tār-k-kaṭal ilaṅkaiyil poṟpuravi naṭātti viṟaṟ paṭai-k kali-kāmaṉ viracalā mēkaṉai-k kaṭar-k kaḷiṟṟ-ōṭum aka-p-paṭa-p piṭittu-k katir-muṭi-t",
+          "url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv04p0i0223.xml"
+         },
+         {
+          "inscription_id": "DHARMA_INStfaSIIv26p0i0333",
+          "line_n": "15",
+          "snippet": "y-āka viṟṟu viṟṟa paṇam ivarkaḷai-t teṇṭam āka-k karu-v-ulakattē oṭukkuvat’ ākavum aṟuti iṭukaiyil ivarkaḷ kāṇi y-āy uṭaiyār tiru-vaktiśvaram uṭaiya nāyaṉārkkum uṭaiyār śrī-kayi",
+          "url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv26p0i0333.xml"
+         }
+        ],
+        "ontology_hints": [],
+        "sources": [
+         "ngram",
+         "opus",
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.8514,
+         "copy_baseline": true,
+         "llm_probability": 0.55,
+         "parallel_support": 2,
+         "best_parallel_match": 0.2167,
+         "ngram_rank": 0,
+         "ngram_probability": 0.5785,
+         "raw_confidence": 0.8514
+        }
+       },
+       {
+        "text": "ṉ",
+        "text_tamil": "ன்",
+        "confidence": 0.0957,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "ngram",
+         "opus"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.3609,
+         "copy_baseline": false,
+         "llm_probability": 0.15,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": 1,
+         "ngram_probability": 0.2481,
+         "raw_confidence": 0.3609
+        }
+       },
+       {
+        "text": "ṟ",
+        "text_tamil": "ற்",
+        "confidence": 0.0442,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INStfaSIIv04p0i0223",
+          "line_n": "9",
+          "snippet": "palavu muṉaivaiyiṟ kavantu poṟ-kaḷa-vaṉattu-p pārttivārāṉār muṉṉaruñ ceyt' aṟiyātu piṉṉaruñ ceytum eṉṟ' eṇṇi-t tariyātu kaikalant’ aṉaṉōr paṭaiyār-t taṉ tiru-mēṉiyil cempuṉal poḻiya",
+          "url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv04p0i0223.xml"
+         },
+         {
+          "inscription_id": "DHARMA_INSTamilNadu00006",
+          "line_n": "3",
+          "snippet": "ṉṉi-y āṭai naṉṉila-p pāvai taṉimaiyun tavira vantu punitaṟ ṟirumaṇi makuṭa muṟaimaiyiṟ cūṭi-t taṉṉaṭi iraṇtumn taṭa muṭi-y āka-t toṉṉila ventara cūṭa muṉṉai maṉuvāṟu peruka-k kaliyāṟu vaṟuppa-c ceṅkōl",
+          "url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00006.xml"
+         }
+        ],
+        "ontology_hints": [],
+        "sources": [
+         "opus",
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.1379,
+         "copy_baseline": false,
+         "llm_probability": 0.06,
+         "parallel_support": 2,
+         "best_parallel_match": 0.2021,
+         "ngram_rank": null,
+         "ngram_probability": 0.0022,
+         "raw_confidence": 0.1379
+        }
+       },
+       {
+        "text": "ṉa",
+        "text_tamil": "ன",
+        "confidence": 0.03,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "opus"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.08,
+         "copy_baseline": false,
+         "llm_probability": 0.08,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.08
+        }
+       },
+       {
+        "text": "n",
+        "text_tamil": "ந்",
+        "confidence": 0.0292,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "ngram"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.0768,
+         "copy_baseline": false,
+         "llm_probability": null,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": 2,
+         "ngram_probability": 0.0768,
+         "raw_confidence": 0.0768
+        }
+       }
+      ],
+      "escalated": true,
+      "strategy": "prerank",
+      "calibration": "prerank-ngram|prerank|kall|llm-opus",
+      "abstain_below": 0.4887
+     }
+    ],
+    "models_used": [
+     "us.anthropic.claude-opus-4-6-v1"
+    ],
+    "trace_id": "recorded-kolar-rajendra-praise",
+    "latency_ms": 3068.3
+   }
+  },
+  "sirkazhi-traitors-lands": {
+   "group": "masked",
+   "text_iso": "Eḻuttu . yāṇṭu Oṉpat-āvatu ṉāḷ 3 100 5 10 l Ip-paṭi niṉaippiṉ paṭi . tiru-puvaṉa-c-cakkara-vartti kōṉēriṉmai-koṉ[?8]-vaḷanāṭṭu-t tiru-k-kaḻumalattu Uṭaiyār tiru-t-tōṇi-puram-uṭaiyār kōyil tēvarkaṉmikku",
+   "wall_s": 7.7,
+   "response": {
+    "restored_text": "Eḻuttu . yāṇṭu Oṉpat-āvatu ṉāḷ 3 100 5 10 l Ip-paṭi niṉaippiṉ paṭi . tiru-puvaṉa-c-cakkara-vartti kōṉēriṉmai-koṉ[?8]-vaḷanāṭṭu-t tiru-k-kaḻumalattu Uṭaiyār tiru-t-tōṇi-puram-uṭaiyār kōyil tēvarkaṉmikku",
+    "restored_text_tamil": "எழுத்து . யாண்டு ஒன்பத்-ஆவது னாள் 3 100 5 10 ல் இப்-படி நினைப்பின் படி . திரு-புவன-ச்-சக்கர-வர்த்தி கோனேரின்மை-கொன்[?8]-வளநாட்டு-த் திரு-க்-கழுமலத்து உடையார் திரு-த்-தோணி-புரம்-உடையார் கோயில் தேவர்கன்மிக்கு",
+    "gaps": [
+     {
+      "index": 0,
+      "gap_chars": 8,
+      "decision": "abstain",
+      "chosen": 0,
+      "candidates": [
+       {
+        "text": "tu rājādhirāja",
+        "text_tamil": "து ராஜாதிராஜ",
+        "confidence": 0.1503,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSCirkali00027",
+          "line_n": "3",
+          "snippet": "tu rājādhirāja-vaḷanāṭṭu-t tiru-k-kaḻumala-nāṭṭu brahmadeyam tiru-k-kaḻumalattu āḷuṭaiya-piḷḷaiyārkku-t tiru-p-pāṟ-pōṉakam amutu ceyt-aruḷukaikku tiru-maṭai-p-paḷḷi-p-puṟam-āka nāṅkaḷ viṟṟu-k kuṭutta nilam āva",
+          "url": "https://github.com/erc-dharma/tfa-cirkali-epigraphy/blob/9ff78b784d4d5b0c774f72aa78e462349b1c7d48/DHARMA_INSCirkali00027.xml"
+         }
+        ],
+        "ontology_hints": [],
+        "sources": [
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.5523,
+         "copy_baseline": true,
+         "llm_probability": null,
+         "parallel_support": 1,
+         "best_parallel_match": 0.5523,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.5523
+        }
+       },
+       {
+        "text": "ṟam-uṭaiyār kōyil",
+        "text_tamil": "றம்-உடையார் கோயில்",
+        "confidence": 0.1034,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "ngram"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.3917,
+         "copy_baseline": false,
+         "llm_probability": null,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": 0,
+         "ngram_probability": 0.3917,
+         "raw_confidence": 0.3917
+        }
+       },
+       {
+        "text": "irājādhirāja",
+        "text_tamil": "இராஜாதிராஜ",
+        "confidence": 0.093,
+        "model": "sonnet",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "sonnet"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.35,
+         "copy_baseline": false,
+         "llm_probability": 0.35,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.35
+        }
+       },
+       {
+        "text": "rājādhirāja",
+        "text_tamil": "ராஜாதிராஜ",
+        "confidence": 0.0696,
+        "model": "sonnet",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "sonnet"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.25,
+         "copy_baseline": false,
+         "llm_probability": 0.25,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.25
+        }
+       },
+       {
+        "text": "ṭaṉ irāja",
+        "text_tamil": "டன் இராஜ",
+        "confidence": 0.0696,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "opus"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.25,
+         "copy_baseline": false,
+         "llm_probability": 0.25,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.25
+        }
+       }
+      ],
+      "escalated": true,
+      "strategy": "prerank",
+      "calibration": "prerank-ngram|prerank|kall|llm-opus",
+      "abstain_below": 0.4887
+     }
+    ],
+    "models_used": [
+     "us.anthropic.claude-sonnet-4-6",
+     "us.anthropic.claude-opus-4-6-v1"
+    ],
+    "trace_id": "recorded-sirkazhi-traitors-lands",
+    "latency_ms": 7727.6
+   }
+  },
+  "sirkazhi-feeding-house": {
+   "group": "masked",
+   "text_iso": "vētavaṉaṉāṭāḻvāṉum ivan tampi tiru-k-kaḻi-p-pālai Uṭaiyā[?1]m ivaṉ tampi Aḻakaṉum pakkal koṇṭa Ik-kaṇṇāṟṟu Ic-catirattu 1 kācu 8 100 r̥ṣapa-ṉāyaṟṟu",
+   "wall_s": 3.5,
+   "response": {
+    "restored_text": "vētavaṉaṉāṭāḻvāṉum ivan tampi tiru-k-kaḻi-p-pālai Uṭaiyāṉum ivaṉ tampi Aḻakaṉum pakkal koṇṭa Ik-kaṇṇāṟṟu Ic-catirattu 1 kācu 8 100 r̥ṣapa-ṉāyaṟṟu",
+    "restored_text_tamil": "வேதவனனாடாழ்வானும் இவந் தம்பி திரு-க்-கழி-ப்-பாலை உடையானும் இவன் தம்பி அழகனும் பக்கல் கொண்ட இக்-கண்ணாற்று இச்-சதிரத்து 1 காசு 8 100 ருʼஷப-னாயற்று",
+    "gaps": [
+     {
+      "index": 0,
+      "gap_chars": 1,
+      "decision": "fill",
+      "chosen": 0,
+      "candidates": [
+       {
+        "text": "ṉu",
+        "text_tamil": "னு",
+        "confidence": 0.4961,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSCempiyanMahadevi00006",
+          "line_n": "32",
+          "snippet": "ṉum ivaṉ tampi caṅkara",
+          "url": "https://github.com/erc-dharma/tfa-cempiyan-mahadevi-epigraphy/blob/8953cda9883492b163f38f1f2aaec1992395de0c/DHARMA_INSCempiyanMahadevi00006.xml"
+         }
+        ],
+        "ontology_hints": [
+         {
+          "id": "ez:title/udaiyar",
+          "kind": "title",
+          "label": "uṭaiyār"
+         },
+         {
+          "id": "ez:place/utaiyarkuti",
+          "kind": "place",
+          "label": "Uṭaiyārkuṭi"
+         }
+        ],
+        "sources": [
+         "ngram",
+         "opus",
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.944,
+         "copy_baseline": true,
+         "llm_probability": 0.72,
+         "parallel_support": 1,
+         "best_parallel_match": 0.4078,
+         "ngram_rank": 0,
+         "ngram_probability": 0.662,
+         "raw_confidence": 0.944
+        }
+       },
+       {
+        "text": "ṉ",
+        "text_tamil": "ன்",
+        "confidence": 0.0511,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSCirkali00029",
+          "line_n": "19",
+          "snippet": "l ūr-k-kaṇakku-t tiru-nīlakaṇṭaṉ tiru-k-kaḻippālai uṭaiyāṉ eḻutt-iṭṭatu",
+          "url": "https://github.com/erc-dharma/tfa-cirkali-epigraphy/blob/9ff78b784d4d5b0c774f72aa78e462349b1c7d48/DHARMA_INSCirkali00029.xml"
+         }
+        ],
+        "ontology_hints": [
+         {
+          "id": "ez:title/udaiyar",
+          "kind": "title",
+          "label": "uṭaiyār"
+         },
+         {
+          "id": "ez:place/utaiyarkuti",
+          "kind": "place",
+          "label": "Uṭaiyārkuṭi"
+         }
+        ],
+        "sources": [
+         "opus",
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.1679,
+         "copy_baseline": false,
+         "llm_probability": 0.1,
+         "parallel_support": 1,
+         "best_parallel_match": 0.375,
+         "ngram_rank": null,
+         "ngram_probability": 0.0005,
+         "raw_confidence": 0.1679
+        }
+       },
+       {
+        "text": "ru",
+        "text_tamil": "ரு",
+        "confidence": 0.0504,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [
+         {
+          "id": "ez:title/udaiyar",
+          "kind": "title",
+          "label": "uṭaiyār"
+         },
+         {
+          "id": "ez:place/utaiyarkuti",
+          "kind": "place",
+          "label": "Uṭaiyārkuṭi"
+         }
+        ],
+        "sources": [
+         "ngram"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.165,
+         "copy_baseline": false,
+         "llm_probability": null,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": 1,
+         "ngram_probability": 0.165,
+         "raw_confidence": 0.165
+        }
+       },
+       {
+        "text": "lu",
+        "text_tamil": "லு",
+        "confidence": 0.0475,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [
+         {
+          "id": "ez:title/udaiyar",
+          "kind": "title",
+          "label": "uṭaiyār"
+         },
+         {
+          "id": "ez:place/utaiyarkuti",
+          "kind": "place",
+          "label": "Uṭaiyārkuṭi"
+         }
+        ],
+        "sources": [
+         "ngram"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.1522,
+         "copy_baseline": false,
+         "llm_probability": null,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": 2,
+         "ngram_probability": 0.1522,
+         "raw_confidence": 0.1522
+        }
+       },
+       {
+        "text": "ṇu",
+        "text_tamil": "ணு",
+        "confidence": 0.0383,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSTamilNadu00022",
+          "line_n": "10=40",
+          "snippet": "bhāradvāja-nārāyaṇa-p-paṭṭaṇum ivaṉ tampimārum uḷḷiṭṭa śiva-brāhmaṇar-ō",
+          "url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00022.xml"
+         }
+        ],
+        "ontology_hints": [
+         {
+          "id": "ez:title/udaiyar",
+          "kind": "title",
+          "label": "uṭaiyār"
+         },
+         {
+          "id": "ez:place/utaiyarkuti",
+          "kind": "place",
+          "label": "Uṭaiyārkuṭi"
+         }
+        ],
+        "sources": [
+         "opus",
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.1133,
+         "copy_baseline": false,
+         "llm_probability": 0.05,
+         "parallel_support": 1,
+         "best_parallel_match": 0.3329,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.1133
+        }
+       }
+      ],
+      "escalated": true,
+      "strategy": "prerank",
+      "calibration": "prerank-ngram|prerank|kall|llm-opus",
+      "abstain_below": 0.4887
+     }
+    ],
+    "models_used": [
+     "us.anthropic.claude-opus-4-6-v1"
+    ],
+    "trace_id": "recorded-sirkazhi-feeding-house",
+    "latency_ms": 3536.9
+   }
+  },
+  "melappaluvur-rajendra-conquests": {
+   "group": "masked",
+   "text_iso": "lamum kāmiṭai vaḷar nāmaṇaik kōṇaiyum veñ cilai vīrar pañca-p-paḷḷiyum pārcaṭaip paḻaṉa mācuṇitēcamum ayarvil vaṇ kīrttiy ātinakar-avayi[?1] can=tiraṉ tol-kulatt’ in=tira-rātaṉai viḷaiyamark kaḷattuṭ kiḷaiyoṭum piṭittu pala taṉat toṭuniṟai",
+   "wall_s": 6.2,
+   "response": {
+    "restored_text": "lamum kāmiṭai vaḷar nāmaṇaik kōṇaiyum veñ cilai vīrar pañca-p-paḷḷiyum pārcaṭaip paḻaṉa mācuṇitēcamum ayarvil vaṇ kīrttiy ātinakar-avayi[?1] can=tiraṉ tol-kulatt’ in=tira-rātaṉai viḷaiyamark kaḷattuṭ kiḷaiyoṭum piṭittu pala taṉat toṭuniṟai",
+    "restored_text_tamil": "லமும் காமிடை வளர் நாமணைக் கோணையும் வெஞ் சிலை வீரர் பஞ்ச-ப்-பள்ளியும் பார்சடைப் பழன மாசுணிதேசமும் அயர்வில் வண் கீர்த்திய் ஆதிநகர்-அவயி[?1] சந்=திரன் தொல்-குலத்த்(அ) இந்=திர-ராதனை விளையமர்க் களத்துட் கிளையொடும் பிடித்து பல தனத் தொடுநிறை",
+    "gaps": [
+     {
+      "index": 0,
+      "gap_chars": 1,
+      "decision": "abstain",
+      "chosen": 0,
+      "candidates": [
+       {
+        "text": "ṟ",
+        "text_tamil": "ற்",
+        "confidence": 0.4277,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSTamilNadu00022",
+          "line_n": "14",
+          "snippet": "vaiyiṟ can=tiraṉ ṟol-kulatt' intira rataṉai viḷaiyamar-k= kaḷattu=k= kiḷaiyoṭum piṭi",
+          "url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00022.xml"
+         },
+         {
+          "inscription_id": "DHARMA_INSTamilNadu01014",
+          "line_n": "1r13=13",
+          "snippet": "ḻaṉa mācuṇi-tēcamum ayarv-il-vaṇ pūrttiyai y-ātinakar-avaiyiṟ cantiraṉ ṟol-kulatt’ intira-rataṉai vi",
+          "url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu01014.xml"
+         },
+         {
+          "inscription_id": "DHARMA_INStfaSIIv04p0i0828",
+          "line_n": "5",
+          "snippet": "llai matura-maṇṭalamuṅ kāmiṭai vaḷar nāmaṇaiy-k kōṇaiyum veñcilai virar pañca-p-paḷḷiyu pācaṭai-p paḻaṉa mācuṇi-tēcamum ayarvilvaṇ kirttīy yātinakaravaiyiṟ cantiraṉ ṟol-kulatt' intirātaṉai viḷaiyamark kaḷattuk ki",
+          "url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv04p0i0828.xml"
+         }
+        ],
+        "ontology_hints": [],
+        "sources": [
+         "ngram",
+         "opus",
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.9172,
+         "copy_baseline": true,
+         "llm_probability": 0.75,
+         "parallel_support": 3,
+         "best_parallel_match": 0.3638,
+         "ngram_rank": 0,
+         "ngram_probability": 0.4792,
+         "raw_confidence": 0.9172
+        }
+       },
+       {
+        "text": "r",
+        "text_tamil": "ர்",
+        "confidence": 0.1023,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "ngram",
+         "opus"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.3872,
+         "copy_baseline": false,
+         "llm_probability": 0.01,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": 1,
+         "ngram_probability": 0.381,
+         "raw_confidence": 0.3872
+        }
+       },
+       {
+        "text": "l",
+        "text_tamil": "ல்",
+        "confidence": 0.0574,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INStfaSIIv04p0i0223",
+          "line_n": "7",
+          "snippet": "tti ātiṉakaravaiyil cantiraṉ tolkula-t tintira rataṉai viḷai amar-k-kaḷattu-k kiḷai-oṭum paṭittu-p palataṉa-t toṭu_niṟaikulataṉa-k kuvaiyuñ ciṭṭaruñ ceṟipuṉal oṭṭa viṣaiyamum pūcurar cerunaṟ ko",
+          "url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv04p0i0223.xml"
+         }
+        ],
+        "ontology_hints": [],
+        "sources": [
+         "opus",
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.1959,
+         "copy_baseline": false,
+         "llm_probability": 0.12,
+         "parallel_support": 1,
+         "best_parallel_match": 0.3023,
+         "ngram_rank": null,
+         "ngram_probability": 0.0274,
+         "raw_confidence": 0.1959
+        }
+       },
+       {
+        "text": "ri",
+        "text_tamil": "ரி",
+        "confidence": 0.0363,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSTiruvavatuturai10103",
+          "line_n": "81",
+          "snippet": "m kuravacari can=tira-cēkara-sahasrāṉum kompuṟattu",
+          "url": "https://github.com/erc-dharma/tfa-tiruvavatuturai-epigraphy/blob/53e5dee31e1804ea7a2c0ffdcfe4344b40507f98/DHARMA_INSTiruvavatuturai10103.xml"
+         }
+        ],
+        "ontology_hints": [],
+        "sources": [
+         "opus",
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.1047,
+         "copy_baseline": false,
+         "llm_probability": 0.05,
+         "parallel_support": 1,
+         "best_parallel_match": 0.2881,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.1047
+        }
+       },
+       {
+        "text": "yiṟ",
+        "text_tamil": "யிற்",
+        "confidence": 0.0155,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "opus"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.03,
+         "copy_baseline": false,
+         "llm_probability": 0.03,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.03
+        }
+       }
+      ],
+      "escalated": true,
+      "strategy": "prerank",
+      "calibration": "prerank-ngram|prerank|kall|llm-opus",
+      "abstain_below": 0.4887
+     }
+    ],
+    "models_used": [
+     "us.anthropic.claude-opus-4-6-v1"
+    ],
+    "trace_id": "recorded-melappaluvur-rajendra-conquests",
+    "latency_ms": 6202.5
+   }
+  },
+  "hero-stone-naiya-vatukan": {
+   "group": "unsolved",
+   "text_iso": "kō-vicaiya-mayīnntira-parumaṟki yāṇṇṭ' Ēḻ-āvatu perum-pāṇ-iḷavaraicar cēvakaṉ naiya-vaṭukaṉ [?5] [?5]p paṭṭāṉ",
+   "wall_s": 0.2,
+   "response": {
+    "restored_text": "kō-vicaiya-mayīnntira-parumaṟki yāṇṇṭ' Ēḻ-āvatu perum-pāṇ-iḷavaraicar cēvakaṉ naiya-vaṭukaṉ [?5] [?5]p paṭṭāṉ",
+    "restored_text_tamil": "கோ-விசைய-மயீந்ந்திர-பருமற்கி யாண்ண்ட்' ஏழ்-ஆவது பெரும்-பாண்-இளவரைசர் சேவகன் நைய-வடுகன் [?5] [?5]ப் பட்டான்",
+    "gaps": [
+     {
+      "index": 0,
+      "gap_chars": 5,
+      "decision": "abstain",
+      "chosen": 0,
+      "candidates": [
+       {
+        "text": "kūṟṟattu",
+        "text_tamil": "கூற்றத்து",
+        "confidence": 0.1263,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "ngram"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.4758,
+         "copy_baseline": false,
+         "llm_probability": null,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": 0,
+         "ngram_probability": 0.4758,
+         "raw_confidence": 0.4758
+        }
+       },
+       {
+        "text": "naiya-va",
+        "text_tamil": "நைய-வ",
+        "confidence": 0.1031,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSPallava00418",
+          "line_n": "5",
+          "snippet": "cēvakaṉ naiya-va",
+          "url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00418.xml"
+         }
+        ],
+        "ontology_hints": [],
+        "sources": [
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.3903,
+         "copy_baseline": true,
+         "llm_probability": null,
+         "parallel_support": 1,
+         "best_parallel_match": 0.3903,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.3903
+        }
+       },
+       {
+        "text": "kai-y-oṭṭi",
+        "text_tamil": "கை-ய்-ஒட்டி",
+        "confidence": 0.0538,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "opus"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.18,
+         "copy_baseline": false,
+         "llm_probability": 0.18,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.18
+        }
+       },
+       {
+        "text": "kai-y-eḻutu",
+        "text_tamil": "கை-ய்-எழுது",
+        "confidence": 0.047,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "opus"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.15,
+         "copy_baseline": false,
+         "llm_probability": 0.15,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.15
+        }
+       },
+       {
+        "text": "kai-y-oṭṭip",
+        "text_tamil": "கை-ய்-ஒட்டிப்",
+        "confidence": 0.0447,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "opus"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.14,
+         "copy_baseline": false,
+         "llm_probability": 0.14,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.14
+        }
+       }
+      ],
+      "escalated": true,
+      "strategy": "prerank",
+      "calibration": "prerank-ngram|prerank|kall|llm-opus",
+      "abstain_below": 0.4887
+     },
+     {
+      "index": 1,
+      "gap_chars": 5,
+      "decision": "abstain",
+      "chosen": 0,
+      "candidates": [
+       {
+        "text": "kai-y-p",
+        "text_tamil": "கை-ய்-ப்",
+        "confidence": 0.1397,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "opus"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.52,
+         "copy_baseline": false,
+         "llm_probability": 0.52,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.52
+        }
+       },
+       {
+        "text": "cantirikai-",
+        "text_tamil": "சந்திரிகை-",
+        "confidence": 0.134,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "ngram"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.5018,
+         "copy_baseline": false,
+         "llm_probability": null,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": 0,
+         "ngram_probability": 0.5018,
+         "raw_confidence": 0.5018
+        }
+       },
+       {
+        "text": "naiya-va",
+        "text_tamil": "நைய-வ",
+        "confidence": 0.1031,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSPallava00418",
+          "line_n": "5",
+          "snippet": "cēvakaṉ naiya-va",
+          "url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00418.xml"
+         }
+        ],
+        "ontology_hints": [],
+        "sources": [
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.3903,
+         "copy_baseline": true,
+         "llm_probability": null,
+         "parallel_support": 1,
+         "best_parallel_match": 0.3903,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.3903
+        }
+       },
+       {
+        "text": "tiru-v-amutu-",
+        "text_tamil": "திரு-வ்-அமுது-",
+        "confidence": 0.0869,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "ngram"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.3243,
+         "copy_baseline": false,
+         "llm_probability": null,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": 1,
+         "ngram_probability": 0.3243,
+         "raw_confidence": 0.3243
+        }
+       },
+       {
+        "text": "kutti-y",
+        "text_tamil": "குத்தி-ய்",
+        "confidence": 0.03,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "opus"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.08,
+         "copy_baseline": false,
+         "llm_probability": 0.08,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.08
+        }
+       }
+      ],
+      "escalated": true,
+      "strategy": "prerank",
+      "calibration": "prerank-ngram|prerank|kall|llm-opus",
+      "abstain_below": 0.4887
+     }
+    ],
+    "models_used": [
+     "us.anthropic.claude-opus-4-6-v1"
+    ],
+    "trace_id": "recorded-hero-stone-naiya-vatukan",
+    "latency_ms": 183.8
+   }
+  },
+  "mamallapuram-calf-pasture": {
+   "group": "unsolved",
+   "text_iso": "svasti śrī pallava-vaṁsasya nan=tibodhuvarmmaku rājyāvibhirddhyañ cellā-niṉṟatu Āṟupattu Aint-āvatu māmallapurattu nakarattār Iṭaivalañcāṉ kaṇṭaṉ kaṉṟu-mēy-kaḻaṉi-y-āka koṇṭa nilam Āmūr-nāṭṭu kuṉṟattūr iṭaivāḻum· kuṉṟat·tūr-kiḻār Iḷa-naṭuvuṇār makaṉ [?2] ṉ kaṇṭaṉ iṭai kaṉṟu-mēy-kaḻaṉi",
+   "wall_s": 0.1,
+   "response": {
+    "restored_text": "svasti śrī pallava-vaṁsasya nan=tibodhuvarmmaku rājyāvibhirddhyañ cellā-niṉṟatu Āṟupattu Aint-āvatu māmallapurattu nakarattār Iṭaivalañcāṉ kaṇṭaṉ kaṉṟu-mēy-kaḻaṉi-y-āka koṇṭa nilam Āmūr-nāṭṭu kuṉṟattūr iṭaivāḻum· kuṉṟat·tūr-kiḻār Iḷa-naṭuvuṇār makaṉ [?2] ṉ kaṇṭaṉ iṭai kaṉṟu-mēy-kaḻaṉi",
+    "restored_text_tamil": "ஸ்வஸ்தி ஶ்ரீ பல்லவ-வம்ʼஸஸ்ய நந்=திபொதுவர்ம்மகு ராஜ்யாவிபிர்த்த்யஞ் செல்லா-நின்றது ஆறுபத்து ஐந்த்-ஆவது மாமல்லபுரத்து நகரத்தார் இடைவலஞ்சான் கண்டன் கன்று-மேய்-கழனி-ய்-ஆக கொண்ட நிலம் ஆமூர்-நாட்டு குன்றத்தூர் இடைவாழும்· குன்றத்·தூர்-கிழார் இள-நடுவுணார் மகன் [?2] ன் கண்டன் இடை கன்று-மேய்-கழனி",
+    "gaps": [
+     {
+      "index": 0,
+      "gap_chars": 2,
+      "decision": "abstain",
+      "chosen": 0,
+      "candidates": [
+       {
+        "text": "ṉ",
+        "text_tamil": "ன்",
+        "confidence": 0.1495,
+        "model": "sonnet",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "sonnet"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.55,
+         "copy_baseline": false,
+         "llm_probability": 0.55,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.55
+        }
+       },
+       {
+        "text": "ka",
+        "text_tamil": "க",
+        "confidence": 0.1033,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSPallava00276",
+          "line_n": "10",
+          "snippet": "makaṉ ka",
+          "url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00276.xml"
+         }
+        ],
+        "ontology_hints": [],
+        "sources": [
+         "opus",
+         "parallel",
+         "sonnet"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.3911,
+         "copy_baseline": false,
+         "llm_probability": 0.35,
+         "parallel_support": 1,
+         "best_parallel_match": 0.3163,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.3911
+        }
+       },
+       {
+        "text": "kat",
+        "text_tamil": "கத்",
+        "confidence": 0.0699,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSPallava00282",
+          "line_n": "12",
+          "snippet": "poṅkiyār makaṉ kat",
+          "url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00282.xml"
+         }
+        ],
+        "ontology_hints": [],
+        "sources": [
+         "opus",
+         "parallel",
+         "sonnet"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.2512,
+         "copy_baseline": false,
+         "llm_probability": 0.2,
+         "parallel_support": 1,
+         "best_parallel_match": 0.3203,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.2512
+        }
+       },
+       {
+        "text": "ak",
+        "text_tamil": "அக்",
+        "confidence": 0.0602,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSPallava00312",
+          "line_n": "8",
+          "snippet": "ṉār makaṉ akkaḻi",
+          "url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00312.xml"
+         }
+        ],
+        "ontology_hints": [],
+        "sources": [
+         "opus",
+         "parallel",
+         "sonnet"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.2083,
+         "copy_baseline": false,
+         "llm_probability": 0.15,
+         "parallel_support": 1,
+         "best_parallel_match": 0.3432,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.2083
+        }
+       },
+       {
+        "text": "cevan",
+        "text_tamil": "செவந்",
+        "confidence": 0.0385,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSTamilNadu00473",
+          "line_n": "4",
+          "snippet": "yār makaṉ cevan",
+          "url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00473.xml"
+         }
+        ],
+        "ontology_hints": [],
+        "sources": [
+         "opus",
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.114,
+         "copy_baseline": false,
+         "llm_probability": 0.05,
+         "parallel_support": 1,
+         "best_parallel_match": 0.337,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.114
+        }
+       }
+      ],
+      "escalated": true,
+      "strategy": "prerank",
+      "calibration": "prerank-ngram|prerank|kall|llm-opus",
+      "abstain_below": 0.4887
+     }
+    ],
+    "models_used": [
+     "us.anthropic.claude-sonnet-4-6",
+     "us.anthropic.claude-opus-4-6-v1"
+    ],
+    "trace_id": "recorded-mamallapuram-calf-pasture",
+    "latency_ms": 78.1
+   }
+  },
+  "tiruvannamalai-krishnadevaraya": {
+   "group": "unsolved",
+   "text_iso": "tirumpi vicaiya-nakarattukku Eḻunt-aruḷi mīḷa-k kaḷiṅka-tēca-tikku-vicaiyam āka pacavāṭaikku Eḻunt-aruḷi koṇṭa-paḷḷi-tuṟkkam koṇṭu Anta tuṟ kattilē piṟakarāca-ciṟa-c-cantiṟa-mahā-pāttira [?4]mahā-pāttiram pijilikkāṉaṉ y-ivarkaḷ mutal-āṉa pāttiṟaṅkaḷai cīvat=tuṭaṉē piṭittu-k koṇṭu A",
+   "wall_s": 0.1,
+   "response": {
+    "restored_text": "tirumpi vicaiya-nakarattukku Eḻunt-aruḷi mīḷa-k kaḷiṅka-tēca-tikku-vicaiyam āka pacavāṭaikku Eḻunt-aruḷi koṇṭa-paḷḷi-tuṟkkam koṇṭu Anta tuṟ kattilē piṟakarāca-ciṟa-c-cantiṟa-mahā-pāttira [?4]mahā-pāttiram pijilikkāṉaṉ y-ivarkaḷ mutal-āṉa pāttiṟaṅkaḷai cīvat=tuṭaṉē piṭittu-k koṇṭu A",
+    "restored_text_tamil": "திரும்பி விசைய-நகரத்துக்கு எழுந்த்-அருளி மீள-க் களிங்க-தேச-திக்கு-விசையம் ஆக பசவாடைக்கு எழுந்த்-அருளி கொண்ட-பள்ளி-துற்க்கம் கொண்டு அந்த துற் கத்திலே பிறகராச-சிற-ச்-சந்திற-மஹா-பாத்திர [?4]மஹா-பாத்திரம் பிஜிலிக்கானன் ய்-இவர்கள் முதல்-ஆன பாத்திறங்களை சீவத்=துடனே பிடித்து-க் கொண்டு அ",
+    "gaps": [
+     {
+      "index": 0,
+      "gap_chars": 4,
+      "decision": "abstain",
+      "chosen": 0,
+      "candidates": [
+       {
+        "text": "-cantira-",
+        "text_tamil": "-சந்திர-",
+        "confidence": 0.1065,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [
+         {
+          "inscription_id": "DHARMA_INSTamilNadu00023",
+          "line_n": "3",
+          "snippet": "kaḷaiyum cīvakkiṟākam āka piṭittu-k-koṇṭu avarkaḷukku apaiyatāṉam koṭuttu taraṇi-k-koṭṭai amarēcurattil tulā-puruṣa-mahātāṉam paṇṇi tirumpi vicaiya-nakarattukku eḻunt-aruḷi-c cāmprājjiyam· paṇṇi-k-koṇṭu piṉṉaiyum kaliṅka-tēcam tikku-vicaiyam āka becavāṭaikku eḻunt-aruḷi koṇṭa-p-paḷḷi-t tuṟkamum kai-k-koṇṭu anta tuṟkattiṉ mēlē irunta prakarāśaṉ cira-c-cantira-mahā-pāttiraṉ pōṭṭujaṉa-mahā-pāttiraṉ vicili-kāṉāṉ ivarkaḷ mutal āṉavarkaḷaiyum cīvakiṟakam āka piṭittu apaiya-t-tāṉamum",
+          "url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00023.xml"
+         }
+        ],
+        "ontology_hints": [],
+        "sources": [
+         "parallel"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.4037,
+         "copy_baseline": true,
+         "llm_probability": null,
+         "parallel_support": 1,
+         "best_parallel_match": 0.4037,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.4037
+        }
+       },
+       {
+        "text": "pāṇṭiya-",
+        "text_tamil": "பாண்டிய-",
+        "confidence": 0.0799,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "ngram"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.2948,
+         "copy_baseline": false,
+         "llm_probability": null,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": 0,
+         "ngram_probability": 0.2948,
+         "raw_confidence": 0.2948
+        }
+       },
+       {
+        "text": "pāṇṭiya",
+        "text_tamil": "பாண்டிய",
+        "confidence": 0.0684,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "ngram"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.2446,
+         "copy_baseline": false,
+         "llm_probability": null,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": 1,
+         "ngram_probability": 0.2446,
+         "raw_confidence": 0.2446
+        }
+       },
+       {
+        "text": "m-ā",
+        "text_tamil": "ம்-ஆ",
+        "confidence": 0.0527,
+        "model": "opus",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "opus"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": false,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.175,
+         "copy_baseline": false,
+         "llm_probability": 0.35,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": null,
+         "ngram_probability": 0.0,
+         "raw_confidence": 0.175
+        }
+       },
+       {
+        "text": "ṟā niṉṟa",
+        "text_tamil": "றா நின்ற",
+        "confidence": 0.0524,
+        "model": "retrieval",
+        "decider_model": "prerank-ngram",
+        "parallels": [],
+        "ontology_hints": [],
+        "sources": [
+         "ngram"
+        ],
+        "confidence_source": "prerank-ngram",
+        "decider_source": "prerank",
+        "constraints": {
+         "length_ok": true,
+         "letters_ok": true
+        },
+        "features": {
+         "prerank": 0.1737,
+         "copy_baseline": false,
+         "llm_probability": null,
+         "parallel_support": 0,
+         "best_parallel_match": 0.0,
+         "ngram_rank": 2,
+         "ngram_probability": 0.1737,
+         "raw_confidence": 0.1737
+        }
+       }
+      ],
+      "escalated": true,
+      "strategy": "prerank",
+      "calibration": "prerank-ngram|prerank|kall|llm-opus",
+      "abstain_below": 0.4887
+     }
+    ],
+    "models_used": [
+     "us.anthropic.claude-sonnet-4-6",
+     "us.anthropic.claude-opus-4-6-v1"
+    ],
+    "trace_id": "recorded-tiruvannamalai-krishnadevaraya",
+    "latency_ms": 91.6
+   }
+  }
+ }
+}

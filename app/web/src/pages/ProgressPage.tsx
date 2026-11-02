@@ -7,6 +7,68 @@ import { useI18n } from '../i18n/I18nProvider';
 import { pct, signedPct } from '../lib/format';
 import { LEVELS } from '../lib/levels';
 import { getSessionId } from '../lib/session';
+import { useProgress } from '../components/practice/SessionCards';
+import type { MessageKey } from '../i18n/strings';
+import { fmt, pctText } from '../practice/engine';
+import { clearProgress, storageAvailable } from '../practice/progress';
+import type { SessionKind } from '../practice/types';
+
+const KINDS: SessionKind[] = ['letters', 'words', 'gaps', 'formulas', 'trial'];
+
+/** Instant-practice progress, kept on this device (src/practice/progress.ts). */
+function LocalPractice() {
+  const { t } = useI18n();
+  const p = useProgress();
+  const any = KINDS.some((k) => (p.kinds[k]?.answered ?? 0) > 0);
+  return (
+    <section className="leaf local-practice" aria-labelledby="local-title" data-testid="local-progress">
+      <h2 id="local-title">{t('prog.practiceTitle')}</h2>
+      <p className="hint-text">{storageAvailable() ? t('prog.practiceLede') : t('prog.noStorage')}</p>
+      {!any ? (
+        <p data-testid="local-none">
+          {t('prog.none')}{' '}
+          <Link to="/practice">{t('home.ctaLearn')} →</Link>
+        </p>
+      ) : (
+        <>
+          <table className="local-table">
+            <thead>
+              <tr>
+                <th scope="col">{t('prac.title')}</th>
+                <th scope="col">{t('prog.answered')}</th>
+                <th scope="col">{t('prog.right')}</th>
+                <th scope="col">{t('prog.sessions')}</th>
+                <th scope="col">{t('prog.best')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {KINDS.filter((k) => p.kinds[k]).map((k) => {
+                const s = p.kinds[k]!;
+                return (
+                  <tr key={k} data-testid={`local-row-${k}`}>
+                    <th scope="row">{t(`sess.${k}.title` as MessageKey)}</th>
+                    <td>{s.answered}</td>
+                    <td>{s.answered ? pctText(s.right / s.answered) : '—'}</td>
+                    <td>{k === 'trial' ? p.trial.runs : s.sessions}</td>
+                    <td>{k === 'trial' ? (p.trial.best ? `${p.trial.best.right}/${p.trial.best.total}` : '—') : s.best === null ? '—' : pctText(s.best)}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          {p.trial.best && (
+            <p data-testid="local-trial-best">
+              {t('prog.trialBest')}: <strong>{fmt(t('sum.score'), { c: p.trial.best.right, n: p.trial.best.total })}</strong> · {(p.trial.best.ms / 1000).toFixed(1)} s
+            </p>
+          )}
+          <button className="btn btn-ghost btn-small" type="button" onClick={() => clearProgress()} data-testid="local-clear">
+            {t('prog.clear')}
+          </button>
+        </>
+      )}
+    </section>
+  );
+}
 
 type Phase = 'pre' | 'post';
 
@@ -94,14 +156,16 @@ export function ProgressPage() {
       <>
         <header className="page-head">
           <h1>{t('progress.title')}</h1>
-          <p className="lede">{t('progress.lede')}</p>
         </header>
+        <LocalPractice />
+        <h2 className="assess-title">{t('prog.assessTitle')}</h2>
+        <p className="lede">{t('progress.lede')}</p>
         <EmptyState
           title="progress.noSession"
           testId="no-session"
           action={
-            <Link className="btn btn-primary" to="/learn">
-              {t('home.ctaLearn')}
+            <Link className="btn btn-primary" to="/practice/guided">
+              {t('sess.guided.start')}
             </Link>
           }
         />
@@ -113,8 +177,10 @@ export function ProgressPage() {
     <>
       <header className="page-head">
         <h1>{t('progress.title')}</h1>
-        <p className="lede">{t('progress.lede')}</p>
       </header>
+      <LocalPractice />
+      <h2 className="assess-title">{t('prog.assessTitle')}</h2>
+      <p className="lede">{t('progress.lede')}</p>
       {error != null && <ErrorNote error={error} onRetry={load} />}
       {phase ? (
         <Assessment

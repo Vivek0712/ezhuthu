@@ -1,0 +1,180 @@
+{
+  "input": "kilamaḻararakuṭikakuḷam\nṇaṭunīpiceyanumalapalati\npa[?2]piravaḷanilaikoṭuma\neṇaṭuparkutikolvaṭu",
+  "response": {
+    "restored_text": "kilamaḻararakuṭikakuḷam\nṇaṭunīpiceyanumalapalati\npa[?2]piravaḷanilaikoṭuma\neṇaṭuparkutikolvaṭu",
+    "restored_text_tamil": "கிலமழரரகுடிககுளம்\nணடுநீபிசெயநுமலபலதி\nப[?2]பிரவளநிலைகொடும\nஎணடுபர்குதிகொல்வடு",
+    "gaps": [
+      {
+        "index": 0,
+        "gap_chars": 2,
+        "decision": "abstain",
+        "chosen": 0,
+        "candidates": [
+          {
+            "text": "ku-p",
+            "text_tamil": "கு-ப்",
+            "confidence": 0.0823,
+            "model": "retrieval",
+            "decider_model": "prerank-ngram",
+            "parallels": [
+              {
+                "inscription_id": "DHARMA_INSPallava00046",
+                "line_n": "B.71",
+                "snippet": "ḷukku-p piramatēyaṅ koṭuppataṟkum maṇayiṟ-kōṭṭattu-p paṉmā-nāṭṭu-p para",
+                "url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00046.xml"
+              }
+            ],
+            "ontology_hints": [],
+            "sources": [
+              "parallel"
+            ],
+            "confidence_source": "prerank-ngram",
+            "decider_source": "prerank",
+            "constraints": {
+              "length_ok": true,
+              "letters_ok": true
+            },
+            "features": {
+              "prerank": 0.3048,
+              "copy_baseline": true,
+              "llm_probability": null,
+              "parallel_support": 1,
+              "best_parallel_match": 0.3048,
+              "ngram_rank": null,
+              "ngram_probability": 0.0,
+              "raw_confidence": 0.3048
+            }
+          },
+          {
+            "text": "ṇam",
+            "text_tamil": "ணம்",
+            "confidence": 0.0809,
+            "model": "retrieval",
+            "decider_model": "prerank-ngram",
+            "parallels": [],
+            "ontology_hints": [],
+            "sources": [
+              "ngram"
+            ],
+            "confidence_source": "prerank-ngram",
+            "decider_source": "prerank",
+            "constraints": {
+              "length_ok": true,
+              "letters_ok": true
+            },
+            "features": {
+              "prerank": 0.2989,
+              "copy_baseline": false,
+              "llm_probability": null,
+              "parallel_support": 0,
+              "best_parallel_match": 0.0,
+              "ngram_rank": 0,
+              "ngram_probability": 0.2989,
+              "raw_confidence": 0.2989
+            }
+          },
+          {
+            "text": "ram",
+            "text_tamil": "ரம்",
+            "confidence": 0.0774,
+            "model": "retrieval",
+            "decider_model": "prerank-ngram",
+            "parallels": [],
+            "ontology_hints": [],
+            "sources": [
+              "ngram"
+            ],
+            "confidence_source": "prerank-ngram",
+            "decider_source": "prerank",
+            "constraints": {
+              "length_ok": true,
+              "letters_ok": true
+            },
+            "features": {
+              "prerank": 0.2841,
+              "copy_baseline": false,
+              "llm_probability": null,
+              "parallel_support": 0,
+              "best_parallel_match": 0.0,
+              "ngram_rank": 1,
+              "ngram_probability": 0.2841,
+              "raw_confidence": 0.2841
+            }
+          },
+          {
+            "text": "ma-",
+            "text_tamil": "ம-",
+            "confidence": 0.0696,
+            "model": "opus",
+            "decider_model": "prerank-ngram",
+            "parallels": [],
+            "ontology_hints": [],
+            "sources": [
+              "opus"
+            ],
+            "confidence_source": "prerank-ngram",
+            "decider_source": "prerank",
+            "constraints": {
+              "length_ok": true,
+              "letters_ok": true
+            },
+            "features": {
+              "prerank": 0.25,
+              "copy_baseline": false,
+              "llm_probability": 0.25,
+              "parallel_support": 0,
+              "best_parallel_match": 0.0,
+              "ngram_rank": null,
+              "ngram_probability": 0.0,
+              "raw_confidence": 0.25
+            }
+          },
+          {
+            "text": "tu",
+            "text_tamil": "து",
+            "confidence": 0.0646,
+            "model": "opus",
+            "decider_model": "prerank-ngram",
+            "parallels": [
+              {
+                "inscription_id": "DHARMA_INSPallava00255",
+                "line_n": "7",
+                "snippet": "tu piramatāyaṅ koṭuttēm i",
+                "url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00255.xml"
+              }
+            ],
+            "ontology_hints": [],
+            "sources": [
+              "opus",
+              "parallel"
+            ],
+            "confidence_source": "prerank-ngram",
+            "decider_source": "prerank",
+            "constraints": {
+              "length_ok": true,
+              "letters_ok": true
+            },
+            "features": {
+              "prerank": 0.2276,
+              "copy_baseline": false,
+              "llm_probability": 0.18,
+              "parallel_support": 1,
+              "best_parallel_match": 0.2905,
+              "ngram_rank": null,
+              "ngram_probability": 0.0,
+              "raw_confidence": 0.2276
+            }
+          }
+        ],
+        "escalated": true,
+        "strategy": "prerank",
+        "calibration": "prerank-ngram|prerank|kall|llm-opus",
+        "abstain_below": 0.4887
+      }
+    ],
+    "models_used": [
+      "us.anthropic.claude-opus-4-6-v1"
+    ],
+    "latency_ms": 8812.7
+  }
+}

@@ -1,0 +1,369 @@
+/* Stone hero (StoneHero.tsx): a real photograph read letter by letter by Ezhuthu. Colours and spacing from
+   design/tokens/tokens.css. The stage is a lamp-lit granite panel in both themes (glows need a dark ground); its border
+   and the text around it follow the theme. Motion is WAAPI; these rules are the composed static frame, which is what
+   reduced-motion visitors see. */
+
+.stone-hero { margin: var(--ez-space-2) 0 var(--ez-space-8); }
+.sh-stage {
+  --sh-ink: var(--ez-stone-50);
+  --sh-muted: var(--ez-stone-300);
+  --sh-glow: rgba(245, 196, 104, 0.6);
+  --sh-high: var(--ez-stone-50);
+  --sh-mid: var(--ez-lamp-300);
+  --sh-low: var(--ez-kumkum-300);
+  --sh-glass: rgba(19, 16, 13, 0.86);
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--ez-space-4);
+  padding: clamp(var(--ez-space-3), 2.2vw, var(--ez-space-6));
+  border-radius: var(--ez-radius-xl);
+  color: var(--sh-ink);
+  background:
+    radial-gradient(120% 90% at 18% 10%, rgba(234, 164, 58, 0.16), transparent 60%),
+    radial-gradient(80% 70% at 100% 100%, rgba(155, 61, 34, 0.22), transparent 70%),
+    linear-gradient(160deg, var(--ez-granite-800), var(--ez-granite-950));
+  box-shadow: var(--ez-shadow-3);
+  isolation: isolate;
+  overflow: hidden;
+}
+.sh-stage::after { content: ''; position: absolute; inset: 0; background: var(--grain); opacity: 0.5; pointer-events: none; z-index: -1; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .sh-stage { border: 1px solid var(--ez-granite-700); }
+}
+:root[data-theme='dark'] .sh-stage { border: 1px solid var(--ez-granite-700); }
+.sh-stage .sh-c-high { color: var(--sh-high); }
+.sh-stage .sh-c-mid { color: var(--sh-mid); }
+.sh-stage .sh-c-low { color: var(--sh-low); }
+
+/* ---- (a, b) the photograph ---- */
+.sh-photo { margin: 0; min-width: 0; }
+.sh-frame {
+  position: relative;
+  aspect-ratio: var(--sh-aspect);
+  border-radius: var(--ez-radius-md);
+  overflow: hidden;
+  background: var(--ez-laterite-900);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 18px 40px -20px rgba(0, 0, 0, 0.9);
+  container-type: inline-size;
+}
+.sh-kb { position: absolute; inset: 0; transform-origin: 50% 50%; will-change: transform; }
+.sh-kb > picture img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.sh-box {
+  position: absolute;
+  border-radius: 1.2cqw;
+  border: 2px solid var(--ez-lamp-300);
+  background: rgba(245, 196, 104, 0.08);
+  box-shadow: 0 0 0 1px rgba(36, 29, 22, 0.35), 0 0 14px 2px var(--sh-glow), inset 0 0 12px rgba(245, 196, 104, 0.28);
+  opacity: 0.6;
+  pointer-events: none;
+}
+.sh-rake {
+  position: absolute;
+  inset: 0 -40%;
+  background: linear-gradient(100deg, transparent 38%, rgba(255, 236, 200, 0.34) 50%, transparent 62%);
+  opacity: 0;
+  pointer-events: none;
+}
+.sh-beam {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0 44%, rgba(245, 196, 104, 0.32) 48.5%, rgba(255, 249, 232, 0.95) 50%, rgba(245, 196, 104, 0.32) 51.5%, transparent 56% 100%);
+  opacity: 0;
+  pointer-events: none;
+}
+.sh-place { margin: var(--ez-space-2) 0 0; font-size: var(--ez-text-xs); color: var(--sh-muted); letter-spacing: 0.02em; }
+/* What the stage does not claim: the boxes were marked by hand (the Reader only names the letter in each). */
+.sh-boxes { opacity: 0.85; }
+
+/* Badges: the matched modern letter and its confidence, straddling the bottom edge of each box. Sized in units of
+   the photo's width (cqw), so they keep their place on every screen. */
+.sh-badge {
+  position: absolute;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  min-width: 3.1cqw;
+  padding: 0.25cqw 0.45cqw 0.2cqw;
+  border-radius: 0.8cqw;
+  border: 1px solid currentColor;
+  background: var(--sh-glass);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
+  font-size: clamp(8px, 1.45cqw, 13px);
+  line-height: 1.05;
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.sh-badge-a { display: grid; justify-items: center; }
+.sh-badge b { font-family: var(--ez-font-body-ta); font-weight: var(--ez-weight-semibold); font-size: 1.3em; }
+.sh-badge small { font-size: 0.78em; font-variant-numeric: tabular-nums; opacity: 0.85; }
+.sh-badge-gap { border-style: dashed; }
+.sh-badge-b { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; color: var(--sh-low); }
+
+/* Match cards: the carved glyph (zoomed) -> the modern Tamil letter, its confidence ring, the era. */
+.sh-card {
+  position: absolute;
+  z-index: 3;
+  display: grid;
+  gap: 0.35em;
+  padding: 0.6em 0.75em 0.55em;
+  border-radius: 0.9em;
+  border: 1px solid rgba(245, 196, 104, 0.5);
+  background: var(--sh-glass);
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(0, 0, 0, 0.45);
+  color: var(--sh-ink);
+  font-size: clamp(8.5px, 1.9cqw, 13px);
+  line-height: 1.25;
+  white-space: nowrap;
+  transform-origin: 0 0;
+  pointer-events: none;
+}
+.sh-card-row { display: flex; align-items: center; gap: 0.6em; }
+.sh-crop {
+  position: relative;
+  flex: none;
+  width: 4.8em;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 0.6em;
+  background: var(--ez-laterite-900);
+  box-shadow: 0 0 0 1.5px var(--ez-lamp-300), 0 0 14px rgba(245, 196, 104, 0.45);
+}
+.sh-crop-in { position: absolute; display: block; }
+.sh-crop-in img { display: block; width: 100%; height: 100%; filter: brightness(1.15) contrast(1.08); }
+.sh-arrow { color: var(--ez-lamp-300); font-size: 1.5em; line-height: 1; }
+.sh-card-ta { min-width: 1.3em; font-family: var(--ez-font-body-ta); font-weight: var(--ez-weight-semibold); font-size: 2.7em; line-height: 1; text-align: center; }
+.sh-ring { position: relative; display: grid; place-items: center; flex: none; width: 3.5em; height: 3.5em; }
+.sh-ring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+.sh-ring circle { fill: none; stroke-width: 3.4; }
+.sh-ring-bg { stroke: rgba(255, 255, 255, 0.14); }
+.sh-ring-fg { stroke: currentColor; stroke-linecap: round; }
+.sh-ring b { font-size: 0.95em; font-variant-numeric: tabular-nums; color: var(--sh-ink); }
+.sh-card-foot { display: grid; gap: 0.1em; color: var(--sh-muted); font-size: 0.86em; }
+.sh-card-foot > span:first-child { color: var(--ez-lamp-200); letter-spacing: 0.02em; }
+.sh-card[data-gap] .sh-card-foot > span { grid-area: 1 / 1; }
+.sh-card[data-gap] .sh-card-foot > span:last-child { color: var(--sh-ink); }
+
+/* ---- (c, d) the pipeline ---- */
+.sh-pipe { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--ez-space-2); margin: 0; padding: 0; list-style: none; }
+.sh-pipe::before {
+  content: '';
+  position: absolute;
+  top: 21px;
+  left: 12.5%;
+  right: 12.5%;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, rgba(245, 196, 104, 0.55) 0 6px, transparent 6px 11px);
+}
+.sh-node { position: relative; display: grid; align-content: start; justify-items: center; text-align: center; gap: var(--ez-space-1); max-width: none; }
+.sh-node-dot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--ez-granite-800);
+  border: 1.5px solid var(--ez-lamp-500);
+  color: var(--ez-lamp-200);
+  font-family: var(--ez-font-display-latin);
+  font-weight: var(--ez-weight-semibold);
+  box-shadow: 0 0 0 4px rgba(27, 23, 19, 0.9);
+}
+.sh-node-glow { position: absolute; inset: -12px; border-radius: 50%; background: radial-gradient(circle, rgba(245, 196, 104, 0.6), rgba(245, 196, 104, 0) 68%); opacity: 0; }
+.sh-node-n { position: relative; }
+.sh-node-text { display: grid; gap: 2px; line-height: 1.3; }
+.sh-node-text b { font-size: var(--ez-text-sm); color: var(--sh-ink); }
+.sh-node-text small { font-size: 0.74rem; color: var(--sh-muted); }
+.sh-node-out { margin-top: 2px; font-size: 0.76rem; color: var(--ez-lamp-200); font-variant-numeric: tabular-nums; }
+.sh-wire { position: absolute; left: 50%; top: 22px; width: 0; height: 0; }
+.sh-spark { position: absolute; left: -4px; top: -4px; width: 8px; height: 8px; border-radius: 50%; background: var(--ez-lamp-200); box-shadow: 0 0 10px 3px var(--sh-glow); opacity: 0; }
+
+/* ---- (e-h) the reading: letters -> words, then the phrase and its meaning ---- */
+.sh-out { min-width: 0; display: flex; flex-direction: column; }
+.sh-out-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--ez-space-1) var(--ez-space-3); margin: 0 0 var(--ez-space-3); font-size: var(--ez-text-xs); letter-spacing: 0.02em; color: var(--sh-muted); max-width: none !important; }
+.sh-legend { display: inline-flex; gap: var(--ez-space-3); font-size: 0.72rem; font-variant-numeric: tabular-nums; }
+.sh-legend i { font-style: normal; display: inline-flex; align-items: center; gap: 5px; }
+.sh-legend i::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.sh-legend-note { flex-basis: 100%; font-size: 0.7rem; opacity: 0.85; }
+/* The two panes share one cell: the letter rows, then (crossfading in) the phrase and meaning. */
+.sh-panes { display: grid; flex: 1; }
+.sh-panes > * { grid-area: 1 / 1; min-width: 0; }
+.sh-lines { display: grid; }
+.sh-line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--ez-space-3);
+  align-items: center;
+  padding: var(--ez-space-2) 0 calc(var(--ez-space-2) + 3px);
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+.sh-line:first-child { padding-top: 2px; }
+/* --sh-fit (set by StoneHero's fitReading) shrinks the type so the widest line, words spaced apart, fits its column
+   at every width; letters are measured for their flight after it is set. */
+.sh-ta { position: relative; margin: 0; font-family: var(--ez-font-body-ta); font-size: calc(clamp(1.05rem, 1.32vw, 1.24rem) * var(--sh-fit, 1)); line-height: 1.45; white-space: nowrap; max-width: none !important; }
+/* A word: its letters, then an underline in the word's confidence tint (drawn at the WORDS beat). */
+.sh-word { position: relative; display: inline-block; }
+.sh-word + .sh-word { margin-left: 0.42em; }
+.sh-wline { position: absolute; left: 0.04em; right: 0.04em; bottom: -2px; height: 2px; border-radius: 2px; background: currentColor; opacity: 0.85; transform-origin: 0 50%; }
+.sh-slot { position: relative; display: inline-block; }
+.sh-dot { position: absolute; left: 50%; top: 50%; width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%; background: currentColor; box-shadow: 0 0 8px currentColor; opacity: 0; pointer-events: none; }
+.sh-l { display: inline-block; }
+.sh-gap { padding: 0 0.22em; margin: 0 0.06em; border: 1.5px dashed var(--sh-low); border-radius: 6px; color: var(--sh-low); line-height: 1.2; }
+.sh-lc {
+  min-width: 3rem;
+  padding: 1px 8px;
+  border: 1px solid currentColor;
+  border-radius: var(--ez-radius-pill);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+.sh-gapnote { display: flex; gap: var(--ez-space-2); align-items: flex-start; margin: var(--ez-space-3) 0 0; font-size: 0.78rem; line-height: 1.5; color: var(--sh-muted); max-width: none !important; }
+.sh-gap-mark { display: inline-grid; flex: none; place-items: center; width: 1.4em; height: 1.4em; margin-top: 0.05em; border: 1px dashed var(--sh-low); border-radius: 4px; color: var(--sh-low); line-height: 1; }
+/* The phrase in today's Tamil, then the meaning. */
+.sh-mean { display: flex; flex-direction: column; }
+.sh-mean > p { margin: 0; max-width: none !important; }
+.sh-k { display: flex; align-items: center; justify-content: space-between; gap: var(--ez-space-2); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ez-lamp-200); }
+html[lang='ta'] .sh-k { text-transform: none; letter-spacing: 0.02em; font-size: 0.78rem; }
+.sh-phrase { margin-top: var(--ez-space-2) !important; font-family: var(--ez-font-body-ta); font-weight: var(--ez-weight-semibold); font-size: clamp(1.3rem, 1.75vw, 1.62rem); line-height: 1.4; color: var(--sh-ink); }
+.sh-tok { display: inline-block; }
+.sh-phrase-iso { margin-top: var(--ez-space-1) !important; font-size: 0.8rem; letter-spacing: 0.02em; color: var(--sh-muted); }
+.sh-mean-head { margin-top: var(--ez-space-5) !important; padding-top: var(--ez-space-3); border-top: 1px solid rgba(255, 255, 255, 0.12); }
+.sh-mc { padding: 0 7px; border: 1px solid currentColor; border-radius: var(--ez-radius-pill); font-size: 0.7rem; letter-spacing: 0; text-transform: none; font-variant-numeric: tabular-nums; }
+.sh-mean-en { margin-top: var(--ez-space-2) !important; text-wrap: pretty; font-size: 0.95rem; line-height: 1.55; color: var(--ez-stone-100); }
+.sh-mean-ta { margin-top: var(--ez-space-2) !important; text-wrap: pretty; font-family: var(--ez-font-body-ta); font-size: 0.95rem; line-height: 1.6; color: var(--ez-stone-200, var(--ez-stone-100)); }
+/* The verdict closes the reading column (no band of its own under the stage, which sat empty for most of the cycle). */
+.sh-sum { min-width: 0; margin-top: var(--ez-space-4); padding-top: var(--ez-space-3); border-top: 1px solid rgba(255, 255, 255, 0.14); }
+.sh-verdict { display: flex; flex-wrap: wrap; gap: var(--ez-space-1) var(--ez-space-4); margin: 0; font-size: 0.86rem; color: var(--ez-stone-100); max-width: none !important; }
+.sh-verdict b { color: var(--ez-lamp-200); font-variant-numeric: tabular-nums; }
+.sh-flagged { margin: var(--ez-space-1) 0 0; font-size: 0.76rem; color: var(--sh-muted); max-width: none !important; }
+
+/* ---- credit and controls ---- */
+.sh-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--ez-space-2) var(--ez-space-4); margin-top: var(--ez-space-3); }
+.sh-credit { margin: 0; font-size: var(--ez-text-xs); color: var(--ez-text-muted); max-width: none !important; }
+.sh-controls { display: inline-flex; gap: var(--ez-space-2); }
+
+/* Static frame (reduced motion, no WAAPI): every letter badged, two match cards, the gap shown as "?", the reading in
+   words, then the phrase and the meaning below it (the panes stack instead of crossfading). */
+.stone-hero[data-motion='static'] :is(.sh-rake, .sh-beam, .sh-node-glow, .sh-spark, .sh-dot, .sh-card:not([data-static])) { display: none; }
+.stone-hero[data-motion='static'] .sh-badge-gap .sh-badge-a { opacity: 0; }
+.stone-hero[data-motion='static'] .sh-badge-gap .sh-badge-b { opacity: 1; }
+.stone-hero[data-motion='static'] .sh-card[data-gap] .sh-card-foot > span:first-child { visibility: hidden; }
+.stone-hero[data-motion='static'] .sh-panes > * { grid-area: auto; }
+.stone-hero[data-motion='static'] .sh-mean { margin-top: var(--ez-space-5); }
+/* Animated mode: before the first cycle starts, hide what the cycle will reveal (no flash of the final frame). */
+.stone-hero[data-motion='animated'] .sh-card { opacity: 0; }
+.stone-hero[data-phase='idle'] :is(.sh-kb, .sh-box, .sh-badge, .sh-l, .sh-lc, .sh-wline, .sh-node-out, .sh-gapnote, .sh-mean, [data-anim='verdict']) { opacity: 0; }
+
+/* Wide screens: the stone large on the left (about 64% of the stage) with the pipeline right under it; on the right
+   the reading (letters, then words), which gives way to the phrase and its meaning; the verdict runs along the bottom.
+   Letters fly from the stone, past the Decider, into the reading. */
+@media (min-width: 980px) {
+  .sh-stage {
+    grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+    grid-template-areas: 'photo out' 'pipe out';
+    grid-template-rows: auto 1fr;
+    column-gap: var(--ez-space-8);
+    row-gap: var(--ez-space-5);
+    padding: var(--ez-space-6);
+    align-items: start;
+  }
+  .sh-photo { grid-area: photo; }
+  .sh-pipe { grid-area: pipe; }
+  .sh-out { grid-area: out; align-self: stretch; padding-left: var(--ez-space-6); border-left: 1px solid rgba(255, 255, 255, 0.1); }
+  .sh-sum { margin-top: auto; }
+  .sh-verdict { gap: 2px var(--ez-space-3); font-size: 0.8rem; }
+  /* Kept short so the reading column is no taller than the stone and pipeline beside it: the legend above already
+     marks the letters under the cut-off, and the phrase is one size down from phones. */
+  .stone-hero[data-motion='animated'] .sh-flagged { display: none; }
+  .stone-hero[data-motion='animated'] .sh-phrase { font-size: clamp(1.15rem, 1.45vw, 1.4rem); }
+  .stone-hero[data-motion='animated'] .sh-mean-head { margin-top: var(--ez-space-3) !important; }
+  .sh-node-text small { white-space: nowrap; }
+  html[lang='ta'] .sh-node-text small { white-space: normal; }
+}
+/* Wide static frame: stone | reading in words on top, then the phrase | the meaning as one band across the stage. */
+@media (min-width: 980px) {
+  .stone-hero[data-motion='static'] .sh-stage {
+    grid-template-areas: 'photo head' 'photo read' 'pipe read' 'mean mean' 'sum sum';
+    grid-template-rows: auto auto 1fr auto auto;
+  }
+  .stone-hero[data-motion='static'] :is(.sh-out, .sh-panes) { display: contents; }
+  .stone-hero[data-motion='static'] :is(.sh-out-head, .sh-read) { padding-left: var(--ez-space-6); border-left: 1px solid rgba(255, 255, 255, 0.1); }
+  .stone-hero[data-motion='static'] .sh-out-head { grid-area: head; margin: 0; padding-bottom: var(--ez-space-3); }
+  .stone-hero[data-motion='static'] .sh-read { grid-area: read; align-self: stretch; }
+  .stone-hero[data-motion='static'] .sh-sum { grid-area: sum; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--ez-space-1) var(--ez-space-6); margin-top: 0; }
+  .stone-hero[data-motion='static'] .sh-verdict { font-size: 0.86rem; gap: var(--ez-space-1) var(--ez-space-4); }
+  .stone-hero[data-motion='static'] .sh-flagged { margin: 0; }
+  .stone-hero[data-motion='static'] .sh-mean {
+    grid-area: mean;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+    grid-template-rows: auto auto 1fr;
+    column-gap: var(--ez-space-8);
+    margin-top: 0;
+    padding-top: var(--ez-space-4);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .stone-hero[data-motion='static'] .sh-mean-k { grid-area: 1 / 1; }
+  .stone-hero[data-motion='static'] .sh-phrase { grid-area: 2 / 1; }
+  .stone-hero[data-motion='static'] .sh-phrase-iso { grid-area: 3 / 1; }
+  .stone-hero[data-motion='static'] .sh-mean-head { grid-area: 1 / 2; margin-top: 0 !important; padding-top: 0; border-top: 0; }
+  .stone-hero[data-motion='static'] [data-anim='mean-1'] { grid-area: 2 / 2; }
+  .stone-hero[data-motion='static'] [data-anim='mean-2'] { grid-area: 3 / 2; }
+}
+/* Phones: the headline, lede and calls to action come first (they share the first screen); the stone follows, full
+   width, then the pipeline and the reading. */
+@media (max-width: 559px) {
+  .stone-hero { margin-top: var(--ez-space-1); }
+  .sh-stage { border-radius: var(--ez-radius-lg); gap: var(--ez-space-3); padding: var(--ez-space-2) var(--ez-space-2) var(--ez-space-4); }
+  .sh-frame { border-radius: var(--ez-radius-sm, 8px); }
+  .sh-place, .sh-out { padding-inline: var(--ez-space-1); }
+  .sh-pipe { gap: var(--ez-space-1); }
+  .sh-badge small { display: none; }
+  .sh-node-dot { width: 36px; height: 36px; font-size: 0.9rem; }
+  .sh-pipe::before, .sh-wire { top: 18px; }
+  .sh-node-text small { display: none; }
+  .sh-node-text b { font-size: 0.66rem; line-height: 1.2; white-space: normal; }
+  html[lang='ta'] .sh-node-text b { font-size: 0.6rem; letter-spacing: -0.01em; }
+  /* The pipeline's sub-outputs repeat what the stone, the gap card and the verdict already say; on a phone they would
+     push the meaning under the tab bar, so the pipeline shows its four steps only. */
+  .sh-node-out { display: none; }
+  .sh-place { margin-top: var(--ez-space-1); font-size: 0.7rem; }
+  .sh-line { column-gap: var(--ez-space-2); padding: 6px 0 9px; }
+  .sh-ta { font-size: 1.08rem; }
+  .sh-lc { min-width: 2.6rem; padding: 1px 6px; font-size: 0.68rem; }
+  .sh-phrase { font-size: 1.3rem; }
+  .sh-mean-en, .sh-mean-ta { font-size: 0.88rem; line-height: 1.5; }
+  .sh-mean-ta { margin-top: var(--ez-space-1) !important; }
+  .sh-mean-head { margin-top: var(--ez-space-3) !important; padding-top: var(--ez-space-2); }
+  .sh-out-head { margin-bottom: var(--ez-space-2); }
+  .sh-sum { margin-top: var(--ez-space-3); padding-top: var(--ez-space-2); }
+  .sh-gapnote, .sh-flagged { font-size: 0.74rem; }
+  .sh-verdict { font-size: 0.8rem; }
+  .sh-bar { padding: 0 var(--ez-space-1); }
+}
+
+/* ---- Home hero header (HomePage.tsx, .hh): one column above the stone. Centred on wider screens, so it sits
+   balanced over the full-width stage; left-aligned on phones. One short headline, a two-sentence subline, one primary
+   and one secondary call to action, and "How it works" as a quiet text link. ---- */
+.hh { display: grid; justify-items: center; text-align: center; gap: 0; padding: var(--ez-space-6) 0 var(--ez-space-5); }
+.hh > * { max-width: 46rem; margin-inline: auto; }
+.hh .hh-kicker { margin: 0 0 var(--ez-space-2); }
+.hh .hh-title { margin: 0; font-size: clamp(var(--ez-text-2xl), 3.4vw, var(--ez-text-3xl)); line-height: 1.12; text-wrap: balance; }
+html[lang='ta'] .hh .hh-title { font-size: clamp(1.4rem, 2.4vw, 1.9rem); line-height: 1.4; }
+.hh .hh-sub { margin: var(--ez-space-3) auto 0; max-width: 40rem; font-size: var(--ez-text-md); line-height: 1.55; text-wrap: pretty; }
+html[lang='ta'] .hh .hh-sub { font-size: 0.95rem; line-height: 1.7; }
+.hh .hh-actions { justify-content: center; margin-top: var(--ez-space-5); }
+.hh .hh-how { font-weight: var(--ez-weight-medium, 500); font-size: var(--ez-text-sm); color: var(--ez-text-muted); text-decoration-color: currentColor; }
+.hh .hh-how:hover { color: var(--ez-accent-text); }
+@media (max-width: 559px) {
+  .hh { justify-items: start; text-align: left; padding: var(--ez-space-4) 0 var(--ez-space-4); }
+  .hh > * { margin-inline: 0; }
+  .hh .hh-sub { margin-inline: 0; font-size: 0.95rem; }
+  html[lang='ta'] .hh .hh-title { font-size: 1.3rem; }
+  html[lang='ta'] .hh .hh-sub { font-size: 0.88rem; line-height: 1.6; }
+  .hh .hh-actions { justify-content: flex-start; margin-top: var(--ez-space-4); }
+}

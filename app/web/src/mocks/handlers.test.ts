@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { api, ApiError, setTokenGetter } from '../api/client';
+import { SAMPLES } from '../samples/data';
+import recorded from '../samples/recorded-restores.json';
 import { ASSESSMENT, LESSONS, SAMPLE_RESTORE_ISO, SAMPLE_RESTORE_TAMIL } from './fixtures';
 
 // The mocks stand in for the backend, so they must honour contracts/restore-api.md exactly.
@@ -21,6 +23,31 @@ describe('mock API honours the restore contract', () => {
     const r = await api.restore({ text: SAMPLE_RESTORE_TAMIL, script: 'tamil', max_candidates: 1 });
     expect(r.restored_text).toContain('கோப்பர');
     expect(r.gaps.every((g) => g.candidates.length <= 1)).toBe(true);
+  });
+  it('replays the live restorer\'s recorded answer for every try-it sample (ISO and Tamil), not invented candidates', async () => {
+    const rec = recorded as unknown as { samples: Record<string, { response: { gaps: { decision: string; candidates: { text: string; confidence: number }[] }[]; restored_text: string; restored_text_tamil: string; models_used: string[] } }> };
+    for (const s of SAMPLES) {
+      const want = rec.samples[s.id]!.response;
+      for (const [text, script] of [[s.text_iso, 'iso15919'], [s.text_tamil, 'tamil']] as const) {
+        const r = await api.restore({ text, script, max_candidates: 5, allow_escalation: true });
+        expect(r.gaps.map((g) => g.decision), s.id).toEqual(want.gaps.map((g) => g.decision));
+        expect(r.gaps.map((g) => g.candidates.map((c) => [c.text, c.confidence])), s.id).toEqual(
+          want.gaps.map((g) => g.candidates.map((c) => [c.text, c.confidence])),
+        );
+        expect(r.models_used).toEqual(want.models_used);
+        expect(r.restored_text).toBe(script === 'tamil' ? want.restored_text_tamil : want.restored_text);
+        expect(r.trace_id).toMatch(/^mock-replay-/);
+        // The old generic mock answered every unknown gap with 'ā' at 0.21; a recording never does.
+        expect(r.gaps.flatMap((g) => g.candidates).some((c) => c.text === 'ā' && c.confidence === 0.21)).toBe(false);
+      }
+    }
+  });
+  it('replays the recorded match state: a masked sample whose fill matched the edition fills here too', async () => {
+    const s = SAMPLES.find((x) => x.group === 'masked' && x.recorded!.gaps[0]!.outcome === 'match')!;
+    const r = await api.restore({ text: s.text_iso, script: 'iso15919', max_candidates: 1 });
+    expect(r.gaps[0]).toMatchObject({ decision: 'fill', chosen: 0 });
+    expect(r.gaps[0]!.candidates).toHaveLength(1);
+    expect(r.gaps[0]!.candidates[0]!.text).toBe(s.recorded!.gaps[0]!.proposal_iso);
   });
   it('rejects text without gaps with a contract error body', async () => {
     await expect(api.restore({ text: 'no gaps' })).rejects.toMatchObject({ status: 422, code: 'no_gaps' });

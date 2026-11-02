@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useI18n } from '../i18n/I18nProvider';
 import { plural } from '../lib/format';
 import { parseGaps } from '../lib/gaps';
-import { ERAS, learnHref, restoreHref, useSamples, type Era, type Sample } from '../samples';
+import { ERAS, learnHref, restoreHref, useSamples, type Era, type Sample, type SampleGroup } from '../samples';
 
 /**
  * A card-sized excerpt that always shows the first gap: about `width` characters, starting a little before it,
@@ -19,20 +19,51 @@ export function excerptAroundGap(text: string, width = 230): string {
   return `${start > 0 ? '… ' : ''}${text.slice(start, end).trim()}${end < text.length ? ' …' : ''}`;
 }
 
-/** Inscription text with its gap markers drawn as lacunae (still read out as "[?N]" to screen readers). */
+/** Plain words for a gap marker: "about 3 letters missing". */
+export function useGapLabel() {
+  const { t } = useI18n();
+  return (chars: number | null) =>
+    chars == null ? t('gap.missingUnknown') : chars === 1 ? t('gap.missing1') : t('gap.missingN').replace('{n}', String(chars));
+}
+
+/**
+ * One lacuna drawn as a dashed box with a "?" per lost letter (at most 6; "…?…" when the number is unknown), so it
+ * reads the same in Tamil script and in English letters. Screen readers hear "about N letters missing".
+ */
+export function Lacuna({ chars, raw, className = 'lacuna' }: { chars: number | null; raw: string; className?: string }) {
+  const label = useGapLabel()(chars);
+  return (
+    <mark className={className} title={`${raw} · ${label}`} data-raw={raw}>
+      <span aria-hidden="true">{chars == null ? '…?…' : '?'.repeat(Math.min(chars, 6))}</span>
+      <span className="visually-hidden">[{label}]</span>
+    </mark>
+  );
+}
+
+/** Inscription text with its gap markers drawn as lacunae. */
 export function GappedText({ text, lang }: { text: string; lang?: string }) {
   return (
     <span lang={lang}>
-      {parseGaps(text).map((s, i) =>
-        s.kind === 'text' ? (
-          <span key={i}>{s.text}</span>
-        ) : (
-          <mark key={i} className="lacuna" title={s.raw}>
-            {s.raw}
-          </mark>
-        ),
-      )}
+      {parseGaps(text).map((s, i) => (s.kind === 'text' ? <span key={i}>{s.text}</span> : <Lacuna key={i} chars={s.chars} raw={s.raw} />))}
     </span>
+  );
+}
+
+/**
+ * A passage in Tamil script first, with the same passage in English letters (ISO-15919) under it, labelled in
+ * plain words. Used by the gallery cards.
+ */
+export function BiscriptText({ tamil, iso, testId }: { tamil: string; iso: string; testId?: string }) {
+  const { t } = useI18n();
+  return (
+    <div className="biscript" data-testid={testId}>
+      <p className="sample-text biscript-ta">
+        <GappedText text={tamil} lang="ta" />
+      </p>
+      <p className="biscript-iso">
+        <span className="biscript-label">{t('samples.inEnglish')}:</span> <GappedText text={iso} lang="ta-Latn" />
+      </p>
+    </div>
   );
 }
 
@@ -45,7 +76,13 @@ function SampleCard({ s, i }: { s: Sample; i: number }) {
       <header className="sample-head">
         <span className={`era-chip era-${s.era}`}>{ta ? s.era_ta : s.era_en}</span>
         <span className="sample-gaps">
-          {s.gaps} {t(plural(s.gaps, 'samples.gap', 'samples.gaps'))}
+          <span>
+            {s.gaps} {t(plural(s.gaps, 'samples.gap', 'samples.gaps'))}
+          </span>
+          {' · '}
+          <span className="sample-badge" data-testid={`badge-${s.id}`}>
+            {t(s.group === 'masked' ? 'samples.badgeMasked' : 'samples.badgeUnsolved')}
+          </span>
         </span>
       </header>
       <h3 id={titleId} className="sample-title">
@@ -58,15 +95,13 @@ function SampleCard({ s, i }: { s: Sample; i: number }) {
       <p className="sample-edition" lang="en">
         {t('samples.edition')}: {s.edition_title}
       </p>
-      <p className="sample-text">
-        <GappedText text={excerptAroundGap(ta ? s.text_tamil : s.text_iso)} lang={ta ? 'ta' : 'ta-Latn'} />
-      </p>
+      <BiscriptText tamil={excerptAroundGap(s.text_tamil, 120)} iso={excerptAroundGap(s.text_iso, 130)} testId={`sample-passage-${s.id}`} />
       <p className="sample-why">{ta ? s.why_ta : s.why_en}</p>
       <p className="sample-credit">
         <a href={s.dharma_url} target="_blank" rel="noreferrer">
           DHARMA {s.inscription_id.replace('DHARMA_INS', '')} ↗
         </a>{' '}
-        · {t('samples.lines')} {s.lines[0]}–{s.lines[1]} ·{' '}
+        · {s.lines[0] === s.lines[1] ? `${t('samples.line')} ${s.lines[0]}` : `${t('samples.lines')} ${s.lines[0]}–${s.lines[1]}`} ·{' '}
         <a href={s.licence_url} target="_blank" rel="noreferrer license">
           {s.licence}
         </a>
@@ -83,7 +118,31 @@ function SampleCard({ s, i }: { s: Sample; i: number }) {
   );
 }
 
-/** The try-it gallery on the home page: 13 DHARMA passages, filterable by period. Loads them on demand. */
+/** Live counts for the masked group, from each sample's recorded run (scripts/record_sample_restores.py). */
+function MaskedStats({ samples }: { samples: Sample[] }) {
+  const { t } = useI18n();
+  const gaps = samples.flatMap((s) => s.recorded?.gaps ?? []);
+  const date = samples.find((s) => s.recorded)?.recorded?.date;
+  if (!gaps.length || !date) return null;
+  const filled = gaps.filter((g) => g.decision === 'fill').length;
+  const matched = gaps.filter((g) => g.outcome === 'match').length;
+  return (
+    <p className="hint-text" data-testid="masked-stats">
+      {t('samples.recordedOn')} {date}: {filled}/{gaps.length} {t('samples.statFilled')} · {matched}/{filled} {t('samples.statMatch')} ·{' '}
+      {gaps.length - filled} {t('samples.statOpen')}
+    </p>
+  );
+}
+
+const GROUPS: { group: SampleGroup; title: 'samples.maskedTitle' | 'samples.unsolvedTitle'; lede: 'samples.maskedLede' | 'samples.unsolvedLede' }[] = [
+  { group: 'masked', title: 'samples.maskedTitle', lede: 'samples.maskedLede' },
+  { group: 'unsolved', title: 'samples.unsolvedTitle', lede: 'samples.unsolvedLede' },
+];
+
+/**
+ * The try-it gallery on the home page, filterable by period, in two groups: passages with a hidden span whose
+ * edition reading is known (compare after restoring), and gaps the editors left blank. Loads them on demand.
+ */
 export function SampleGallery({ samples: given }: { samples?: Sample[] }) {
   const { lang, t } = useI18n();
   const loaded = useSamples(!given);
@@ -100,6 +159,9 @@ export function SampleGallery({ samples: given }: { samples?: Sample[] }) {
       <p className="kicker">{t('samples.kicker')}</p>
       <h2 id="samples-title" tabIndex={-1}>{t('samples.title')}</h2>
       <p className="lede">{t('samples.lede')}</p>
+      <p className="hint-text" data-testid="samples-legend">
+        <Lacuna chars={1} raw="[?1]" /> {t('samples.legend')}
+      </p>
       <div className="era-filter" role="group" aria-label={t('samples.filter')}>
         {(['all', ...eras] as const).map((e) => (
           <button
@@ -117,11 +179,30 @@ export function SampleGallery({ samples: given }: { samples?: Sample[] }) {
       <p className="visually-hidden" aria-live="polite">
         {shown.length} {t('samples.showing')}
       </p>
-      <div className="sample-grid" key={era} aria-busy={samples.length === 0} data-testid="sample-grid">
-        {samples.length === 0
-          ? [0, 1, 2].map((i) => <div key={i} className="sample-card sample-card-skeleton" aria-hidden="true" />)
-          : shown.map((s, i) => <SampleCard key={s.id} s={s} i={i} />)}
-      </div>
+      {samples.length === 0 ? (
+        <div className="sample-grid" aria-busy="true" data-testid="sample-grid">
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="sample-card sample-card-skeleton" aria-hidden="true" />
+          ))}
+        </div>
+      ) : (
+        GROUPS.map(({ group, title, lede }) => {
+          const inGroup = shown.filter((s) => s.group === group);
+          if (!inGroup.length) return null;
+          return (
+            <div key={group} className="sample-group" data-testid={`sample-group-${group}`}>
+              <h3>{t(title)}</h3>
+              <p className="note">{t(lede)}</p>
+              {group === 'masked' && <MaskedStats samples={samples.filter((s) => s.group === 'masked')} />}
+              <div className="sample-grid" key={era} data-testid="sample-grid">
+                {inGroup.map((s, i) => (
+                  <SampleCard key={s.id} s={s} i={i} />
+                ))}
+              </div>
+            </div>
+          );
+        })
+      )}
       <p className="note">{t('samples.normalised')}</p>
       <p className="note">{t('samples.noBrahmi')}</p>
     </section>

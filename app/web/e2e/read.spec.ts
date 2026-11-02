@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { expect, test } from '@playwright/test';
-import { expectNoHorizontalScroll, setEnglish } from './helpers';
+import { expectNoHorizontalScroll, setEnglish, setTamil } from './helpers';
 
 // Upload + OCR flow on /restore against the MSW mock of POST /api/read (contracts/restore-api.md).
 const samplePhoto = path.join(import.meta.dirname, '..', 'public', 'samples', 'read', 'stone-tamil.jpg');
@@ -24,9 +24,10 @@ test.describe('restore: upload a photo', () => {
     expect(bytes.includes(Buffer.from('Exif\0\0'))).toBe(false);
     const result = page.getByTestId('read-result');
     await expect(result).toBeVisible();
-    // Bilingual experimental label.
-    await expect(page.getByTestId('read-experimental')).toContainText('Experimental reading');
-    await expect(page.getByTestId('read-experimental')).toContainText('சோதனை வாசிப்பு');
+    // Bilingual "check against the edition" note (never "experimental").
+    await expect(page.getByTestId('read-experimental')).toContainText('Check this reading against the edition');
+    await expect(page.getByTestId('read-experimental')).toContainText('பதிப்புடன் ஒப்பிட்டுச் சரிபாருங்கள்');
+    await expect(page.getByTestId('read-experimental')).not.toContainText(/experimental/i);
     await expect(result.locator('img')).toBeVisible();
     await page.getByTestId('read-script-iso15919').click();
     // The mock replays Sonnet 4.6's real reading of this plate (eval/reports/2026-11-02-ocr-app-samples.jsonl).
@@ -40,7 +41,8 @@ test.describe('restore: upload a photo', () => {
   });
 
   test('sample plates work without a camera, and warnings are localised', async ({ page }) => {
-    await page.goto('/restore'); // Tamil by default
+    await setTamil(page);
+    await page.goto('/restore');
     await page.getByTestId('sample-stone-brahmi').click();
     await expect(page.getByTestId('read-result')).toBeVisible();
     await expect(page.getByTestId('read-experimental')).toBeVisible();

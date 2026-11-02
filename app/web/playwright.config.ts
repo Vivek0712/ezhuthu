@@ -1,13 +1,15 @@
 import { defineConfig, devices } from '@playwright/test';
 
 // e2e runs against a production build in mock mode: MSW's service worker answers /api/* per contracts/restore-api.md.
+// E2E_PORT picks another port when 4173 is busy (parallel worktrees).
+const PORT = Number(process.env.E2E_PORT ?? 4173);
 export default defineConfig({
   testDir: 'e2e',
   fullyParallel: true,
   retries: process.env.CI ? 1 : 0,
   reporter: [['list']],
   use: {
-    baseURL: 'http://localhost:4173',
+    baseURL: `http://localhost:${PORT}`,
     trace: 'retain-on-failure',
   },
   projects: [
@@ -15,8 +17,8 @@ export default defineConfig({
     { name: 'mobile', use: { ...devices['Pixel 7'] } },
   ],
   webServer: {
-    command: 'npm run build:mock && npm run preview:mock',
-    url: 'http://localhost:4173',
+    command: PORT === 4173 ? 'npm run build:mock && npm run preview:mock' : `npm run build:mock && npx vite preview --mode mock --outDir dist-mock --port ${PORT} --strictPort`,
+    url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,
   },

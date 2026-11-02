@@ -1,8 +1,21 @@
-import { reliabilityBins, type Scored } from '../lib/reliability';
+import { reliabilityBins, type Bin, type Scored } from '../lib/reliability';
 
-/** Reliability diagram: observed accuracy per confidence bin against the perfect-calibration diagonal. */
-export function ReliabilityChart({ items, title, bins = 10 }: { items: readonly Scored[]; title: string; bins?: number }) {
-  const data = reliabilityBins(items, bins);
+/**
+ * Reliability diagram: observed accuracy per confidence bin against the perfect-calibration diagonal.
+ * Pass `items` to bin scored predictions here, or `binned` for bins already computed (e.g. from a committed report).
+ */
+export function ReliabilityChart({
+  items = [],
+  binned,
+  title,
+  bins = 10,
+}: {
+  items?: readonly Scored[];
+  binned?: readonly Bin[];
+  title: string;
+  bins?: number;
+}) {
+  const data = binned ?? reliabilityBins(items, bins);
   const W = 320;
   const H = 240;
   const P = { l: 36, r: 10, t: 12, b: 30 };
@@ -10,7 +23,7 @@ export function ReliabilityChart({ items, title, bins = 10 }: { items: readonly 
   const ih = H - P.t - P.b;
   const x = (v: number) => P.l + v * iw;
   const y = (v: number) => P.t + (1 - v) * ih;
-  const bw = iw / bins;
+  const bw = iw / data.length;
   return (
     <svg className="chart" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={title} data-testid="reliability-chart">
       <title>{title}</title>

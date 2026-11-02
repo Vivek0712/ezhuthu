@@ -1,0 +1,27 @@
+{
+ "meta": {"built_by": "scripts/build_practice.py", "seed": 20261102, "split": "train", "credit": "Inscription texts: DHARMA project editions, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)", "ta_review": "pending a native-speaker check"},
+ "sample_id": "mamallapuram-calf-pasture",
+ "inscription_id": "DHARMA_INSPallava00092",
+ "split": "train",
+ "title_en": "A pasture for calves at Māmallapuram",
+ "title_ta": "மாமல்லபுரத்தில் கன்று மேய் கழனி",
+ "place_en": "Mahābalipuram, Ādivarāha",
+ "place_ta": "மாமல்லபுரம், ஆதிவராகர் கோயில்",
+ "why_en": "The town's merchants (nakarattār) buy land as grazing for calves in Nandivarman's 65th year. The stone names Māmallapuram itself.",
+ "why_ta": "மாமல்லபுரத்து நகரத்தார் கன்றுகள் மேய நிலம் வாங்கிய பதிவு; நந்திவர்மனின் 65ஆம் ஆட்சியாண்டு. ஊரின் பெயரே கல்லில் உள்ளது.",
+ "url": "https://dharmalekha.info/texts/DHARMA_INSPallava00092",
+ "licence": "CC BY-SA 4.0",
+ "recorded_on": "2026-11-02",
+ "left": {"iso": "iṭaivāḻum· kuṉṟat·tūr-kiḻār Iḷa-naṭuvuṇār makaṉ ", "ta": "இடைவாழும் குன்றத்தூர்கிழார் இளநடுவுணார் மகன்"},
+ "right": {"iso": " ṉ kaṇṭaṉ iṭai kaṉṟu-mēy-kaḻaṉi", "ta": "ன் கண்டன் இடை கன்றுமேய்கழனி"},
+ "gap_chars": 2,
+ "decision": "abstain",
+ "candidates": [
+  {"iso": "ṉ", "ta": "ன்", "confidence": 0.1495, "model": "sonnet", "sources": ["sonnet"]},
+  {"iso": "ka", "ta": "க", "confidence": 0.1033, "model": "opus", "sources": ["opus", "parallel", "sonnet"]},
+  {"iso": "kat", "ta": "கத்", "confidence": 0.0699, "model": "opus", "sources": ["opus", "parallel", "sonnet"]}
+ ],
+ "threshold": 0.4111,
+ "calibration_key": "prerank-ngram|prerank|kall|llm-sonnet",
+ "word": {"iso": "makaṉ", "ta": "மகன்", "en": "son", "ta_meaning": "மகன்"}
+}
