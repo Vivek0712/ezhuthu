@@ -38,6 +38,7 @@ decider:
     secret_name: ezhuthu/decider-api-key
     rpm: 10
     max_input_chars: 8000   # free-tier limit; the client drops tail candidates (keeps 'none') to fit
+    max_options: 24         # decider-cloud rejects a choice with more options (422 invalid_request)
 # Reader: photo / text-file upload to transcription (POST /api/read, src/ezhuthu/agent/reader.py, issue: Upload + OCR).
 # Vision uses llm.default (Sonnet 4.6) and escalates to llm.escalate (Opus 4.6) under
 # routing.escalate_if_confidence_below, only if the first read finished within escalate_if_elapsed_below_s
