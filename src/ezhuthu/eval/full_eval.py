@@ -668,7 +668,7 @@ def render_test_md(res: dict[str, Any], *, title: str, preface: list[str]) -> st
          "calibration). Each rows file names its own commit."),
         f"- Models (config/models.yaml): default `{res['models']['default']}`, escalate `{res['models']['escalate']}`.",
         (f"- Local decider: `{res['decider']}` (strands-decider 0.2.0, `strands-decider serve`, mps). The hosted "
-        "v19 decider (decider-cloud) is **not measured** here."),
+         "v19 decider (decider-cloud) was not part of this evaluation."),
         ("- Ontology: train-only build (`ontology/coverage.json` -> `splits.used = [train]`; all 862 source inscriptions "
         "are train in the current benchmark), direct lookup API (same functions the MCP server serves)."),
         ("- Every threshold, strategy and calibration below was chosen on VAL "
