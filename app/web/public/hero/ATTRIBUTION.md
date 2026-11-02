@@ -12,11 +12,15 @@ The home hero animates **one real photograph**. It is shown in the app with a sm
 | **Files** | `thanjavur-{480,800,1568}.{avif,webp,jpg}`; the crop they are made from is `design/hero/thanjavur-crop.jpg` |
 
 The stone is a Chola-period Tamil inscription on the Brihadisvara (Peruvudaiyar) temple in Thanjavur. **We could not
-identify which published inscription it is**, so the hero shows no edition text and no error rate. The reading in the
-hero is Ezhuthu's own (Reader: Sonnet 4.6, then Opus 4.6 on "read again"), at confidence 0.20, and is labelled as
-unverified. How it was produced: `scripts/hero_read.py`, `scripts/hero_build.py` and
-`app/web/src/hero/hero-reading.json`.
+identify which published inscription it is** (it is not in the DHARMA split; a search of Wikimedia Commons for an
+openly licensed photo of a DHARMA inscription, on 2 November 2026, found none whose text could be matched to an
+edition), so the hero shows no edition text, no match rate and no translation.
 
-The letter boxes drawn over the photo were annotated by hand (`design/hero/boxes.json`,
-checked against `design/hero/boxes-overlay.jpg`). They mark carved letters, not the reader's output letters: the
-reader returns text line by line, not letter positions.
+The hero shows Ezhuthu's own letter-by-letter reading: for each box, the modern Tamil letter the Reader (Opus 4.6)
+named and its own probability, and, for the one letter under 0.5, the Restorer's best fill and the Strands Decider's
+decision (abstain). How it was produced: `scripts/hero_read.py` (`glyphs`, `restore --from-glyphs`),
+`scripts/hero_build.py` and `app/web/src/hero/hero-reading.json`.
+
+The letter boxes drawn over the photo were annotated by hand (`design/hero/boxes.json`, checked against
+`design/hero/boxes-overlay.jpg`), one box per carved letter group; the Reader was shown the boxes numbered, so each
+matched letter belongs to a box.

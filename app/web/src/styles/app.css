@@ -185,6 +185,13 @@ html[lang='ta'] .lede { font-size: var(--ez-text-md); line-height: var(--ez-lh-l
 .hero-c h1 { margin-bottom: 0; font-size: clamp(var(--ez-text-2xl), 3.6vw, var(--ez-text-3xl)); }
 html[lang='ta'] .hero-c h1 { font-size: clamp(1.35rem, 2.25vw, 1.8rem); }
 .hero-c .lede { margin-bottom: 0; font-size: var(--ez-text-md); }
+/* Phones: the headline, lede and calls to action share the first screen; the stone hero follows. */
+@media (max-width: 559px) {
+  .hero-c { gap: var(--ez-space-3); padding-bottom: var(--ez-space-3); }
+  .hero-c .hero-actions { margin-top: var(--ez-space-3); }
+  html[lang='ta'] .hero-c h1 { font-size: 1.3rem; }
+  html[lang='ta'] .hero-c .lede { font-size: 0.9rem; line-height: 1.6; }
+}
 .evo-section { display: grid; gap: 16px; align-items: center; margin: 36px 0 8px; }
 .evo-section h2 { margin: 0; }
 @media (min-width: 900px) { .evo-section { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 40px; } }

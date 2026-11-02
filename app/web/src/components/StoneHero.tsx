@@ -1,49 +1,57 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type RefObject } from 'react';
-import { HERO, heroSrcSet, type HeroAkshara, type HeroLine } from '../hero/heroData';
-import { AFTER_LINE_MS, BEATS, buildTimeline, FADE_MS, LAND_MS, LETTER_BOX, LETTER_LIFT, ROW_BOX, ROW_LIFT, VERDICT_MS, VERDICT_STAGGER } from '../hero/timeline';
+import { confClass, HERO, heroSrcSet, pctLabel, type Box, type HeroGlyph } from '../hero/heroData';
+import {
+  BADGE_MS,
+  BEATS,
+  buildTimeline,
+  CHIP_MS,
+  FADE_MS,
+  FLY_MS,
+  HIDDEN,
+  KB_END,
+  kbAt,
+  kbTransform,
+  readingIndex,
+  SHOWN,
+  trackKeyframes,
+  VERDICT_MS,
+  VERDICT_STAGGER,
+  type Stop,
+} from '../hero/timeline';
 import { useI18n } from '../i18n/I18nProvider';
 import { usePrefersReducedMotion } from '../lib/motion';
 import '../styles/stone-hero.css';
 
 /**
  * The home hero: a real photograph of a Chola-period inscription (Brihadisvara temple, Thanjavur; Richard Mortel,
- * CC BY 2.0), read by Ezhuthu's own Reader and Restorer. Every letter, confidence and abstention shown comes from
- * src/hero/hero-reading.json (scripts/hero_read.py + scripts/hero_build.py): nothing is invented for the animation.
+ * CC BY 2.0), read letter by letter by Ezhuthu's Reader, with the Restorer and the Strands Decider on the letter it
+ * could not name with confidence. Every letter, percentage and decision shown comes from src/hero/hero-view.json
+ * (scripts/hero_read.py + scripts/hero_build.py): nothing is invented for the animation.
  *
- * Storyboard, one cycle of TL.cycle ms (src/hero/timeline.ts derives every beat from the reading, so each line's
- * transliteration follows its own letters and the verdict follows the last one): (a) the stone fades in (first cycle
- * only; later cycles keep it on screen and reverse the slow Ken Burns drift, so the loop has no cut) and a raking
- * light sweeps it;
- * (b) a scan beam passes and the carved letters light up on their hand-annotated boxes, line by line; (c) the lit
- * letters lift off as glowing fragments and fly along curves into the pipeline (Reader -> Restorer -> Strands
- * Decider), whose nodes pulse as they work; (d) the reading lands letter by letter as Tamil Unicode, tinted by
- * confidence, with each abstained gap shown as "?"; (e) the transliteration, the verdict (confidence, gaps left open,
- * expert review) and the honest note follow, and the page's call-to-action row glows.
+ * Storyboard (src/hero/timeline.ts derives every beat from the reading): (a) the stone (fades in on the first cycle
+ * only; later cycles keep it and reverse its slow drift, so the loop has no cut) and a raking light; (b) a scan beam
+ * lights the carved letters row by row; (c) MATCH: the first letters one at a time in a card (the carved glyph,
+ * zoomed -> the modern Tamil letter, a ring filling to the Reader's confidence), speeding up into a cascade of small
+ * badges (letter + %) over every box; (d) the letter under the cut-off: the Restorer proposes, the Strands Decider
+ * fills or abstains, and its badge turns to "?"; (e) the letters fly from the stone past the pipeline and assemble
+ * into the reading, row by row, each row's mean confidence in the right-hand column; (f) the verdict, a hold, a fade.
  *
- * Motion is the Web Animations API on transform and opacity only (no library). Positions are measured once per cycle
- * (getBoundingClientRect, batched before any animation starts), so there is no layout thrash during the cycle. The
- * cycle starts when the hero is on screen, pauses off screen or in a hidden tab, and has visible Pause and Replay
- * buttons. Under prefers-reduced-motion, or without element.animate (old browsers, jsdom), it renders the composed
- * final frame: photo with the letters marked, the pipeline, and the full reading. The artwork is aria-hidden; the
- * reading is real, selectable text with lang="ta".
+ * Motion is the Web Animations API, one animation per element over the whole cycle (so nothing composites over a
+ * stale fill and the loop seam is explicit), on transform and opacity (plus the ring's stroke). Positions are
+ * measured once per cycle, before any animation starts. The cycle runs while the hero is on screen, pauses off screen
+ * or in a hidden tab, and has Pause and Replay buttons. Under prefers-reduced-motion, or without element.animate, it
+ * renders a composed static frame: the photo with every letter marked and badged, two match cards, and the reading.
+ * The artwork is aria-hidden; the reading is real, selectable text with lang="ta".
  */
 
-// Landing elements (letters and gap tiles) per line, and the clock built from them.
-const LETTERS = HERO.lines.map((l) => l.aksharas.filter((a) => a.kind !== 'space').length);
-const TL = buildTimeline(LETTERS);
-// Ken Burns drift of the photo: scale and translate (in % of the photo) at the wide end, reaching none at KB_END of
-// the cycle. Even cycles drift from wide to none, odd cycles back, so consecutive cycles meet without a jump.
-const KB = { s: 1.06, tx: -0.012, ty: 0.008 };
-const KB_END = 0.9;
-/** The drift at time t (ms into the cycle): linear, as the keyframes below. */
-function kbAt(t: number, out: boolean) {
-  const p0 = Math.min(1, t / (TL.cycle * KB_END));
-  const p = out ? p0 : 1 - p0;
-  return { s: KB.s + (1 - KB.s) * p, tx: KB.tx * (1 - p), ty: KB.ty * (1 - p) };
-}
-const kbTransform = ({ s, tx, ty }: { s: number; tx: number; ty: number }) => `scale(${s}) translate(${tx * 100}%, ${ty * 100}%)`;
-/** Boxes rest at this opacity after their letters lift off; their fade-out starts from it (no flash). */
-const BOX_REST = 0.35;
+const LETTERS = HERO.rows.map((r) => r.glyphs.length);
+const TL = buildTimeline(LETTERS, HERO.featured, HERO.gaps.length);
+/** Boxes rest at this opacity once their letter has left; the fade-out starts from it. */
+const BOX_REST = 0.55;
+/** The photo's rendered width: the stone column at >= 980 px (~61% of the stage, capped by the page), else the
+ * stage width. Checked against the laid-out width in e2e/stone-hero.spec.ts. */
+const PHOTO_SIZES = '(min-width: 1180px) 650px, (min-width: 980px) calc(61vw - 70px), calc(100vw - 40px)';
+const EASE = 'cubic-bezier(.2,0,0,1)';
 
 type Phase = 'idle' | 'running' | 'paused';
 
@@ -51,81 +59,118 @@ function canAnimate(): boolean {
   return typeof Element !== 'undefined' && typeof Element.prototype.animate === 'function';
 }
 
-function pct(v: number, of: number): string {
-  return `${((v / of) * 100).toFixed(3)}%`;
-}
+const pct = (v: number, of: number) => `${((v / of) * 100).toFixed(3)}%`;
+const fill = (s: string, vars: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k: string) => String(vars[k] ?? ''));
 
-function confClass(c: number | null | undefined): string {
-  if (c == null) return 'sh-c-none';
-  if (c >= 0.75) return 'sh-c-high';
-  if (c >= 0.5) return 'sh-c-mid';
-  return 'sh-c-low';
-}
+/** Reading-order list of letters with their row, index and box. */
+const FLAT = HERO.rows.flatMap((row, r) => row.glyphs.map((g, i) => ({ r, i, g, box: HERO.boxes[r]![i]! as Box, idx: readingIndex(LETTERS, r, i) })));
+const GAP0 = HERO.gaps[0];
+/** Static frame: the first featured card, and the card of the first gap (or the second featured letter). */
+const STATIC_CARDS = new Set([0, GAP0 ? readingIndex(LETTERS, GAP0.r, GAP0.i) : 1]);
 
-function fmt(c: number | null | undefined): string {
-  return c == null ? '–' : c.toFixed(2);
-}
-
-/** Quadratic Bezier from (0,0) to (dx,dy) bowing sideways, sampled for WAAPI keyframes. */
-function flightKeyframes(dx: number, dy: number, bow: number, endScale: number): Keyframe[] {
-  const cx = dx * 0.5 - dy * bow;
-  const cy = dy * 0.5 + dx * bow - Math.abs(dx) * 0.18;
-  const frames: Keyframe[] = [];
-  const N = 12;
-  for (let k = 0; k <= N; k++) {
-    const t = k / N;
-    const lift = k === 1 ? 0.08 : 0;
-    const x = 2 * (1 - t) * t * cx + t * t * dx;
-    const y = 2 * (1 - t) * t * cy + t * t * dy - lift * 40;
-    const s = k === 0 ? 1 : k === 1 ? 1.12 : 1.12 + (endScale - 1.12) * ((k - 1) / (N - 1));
-    frames.push({
-      transform: `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${s.toFixed(3)})`,
-      opacity: k === 0 || k === N ? 0 : k >= N - 2 ? 0.7 : 1,
-      offset: t,
-    });
-  }
-  return frames;
-}
-
-function Akshara({ a, gapLabel }: { a: HeroAkshara; gapLabel: string }) {
-  if (a.kind === 'space') return <span className="sh-sp"> </span>;
-  if (a.kind === 'gap')
-    return (
-      <span className="sh-ak sh-gap">
-        <span aria-hidden="true">?</span>
-        <span className="visually-hidden">{gapLabel}</span>
-      </span>
-    );
+function Photo({ cls }: { cls?: string }) {
   return (
-    <span className="sh-ak">
-      {a.ta}
+    <picture>
+      <source type="image/avif" srcSet={heroSrcSet('avif')} sizes={PHOTO_SIZES} />
+      <source type="image/webp" srcSet={heroSrcSet('webp')} sizes={PHOTO_SIZES} />
+      <img
+        className={cls}
+        src="/hero/thanjavur-800.jpg"
+        srcSet={heroSrcSet('jpg')}
+        sizes={PHOTO_SIZES}
+        width={HERO.photo.width}
+        height={HERO.photo.height}
+        alt=""
+        decoding="async"
+        fetchPriority={cls ? 'low' : 'high'}
+      />
+    </picture>
+  );
+}
+
+/** The carved glyph, zoomed: the photo inside a square window centred on the box. Same srcset and sizes as the main
+ * photo, so the browser reuses the file it already picked. */
+function Crop({ box }: { box: Box }) {
+  const { width: W, height: H } = HERO.photo;
+  const [x0, y0, x1, y1] = box;
+  const side = Math.max(x1 - x0, y1 - y0) * 1.12;
+  const cx = (x0 + x1) / 2;
+  const cy = (y0 + y1) / 2;
+  const style: CSSProperties = {
+    width: `${(W / side) * 100}%`,
+    left: `${(-(cx - side / 2) / side) * 100}%`,
+    top: `${(-(cy - side / 2) / side) * 100}%`,
+    height: 'auto',
+    aspectRatio: `${W} / ${H}`,
+  };
+  return (
+    <span className="sh-crop">
+      <span className="sh-crop-in" style={style}>
+        <Photo cls="sh-crop-img" />
+      </span>
     </span>
   );
 }
 
-/** The restorer's best guess for each gap of a line, each under the fill cut-off, so left open. */
-function Guesses({ line, label, under }: { line: HeroLine; label: string; under: string }) {
-  const best = line.aksharas.filter((a) => a.kind === 'gap' && a.best).map((a) => a.best!);
+function Ring({ c }: { c: number | null }) {
+  const off = 100 * (1 - (c ?? 0));
   return (
-    <p className="sh-guesses" data-anim="after-line">
-      <span className="sh-gap-mark" aria-hidden="true">
-        ?
-      </span>{' '}
-      {label}:{' '}
-      {best.map((b, i) => (
-        <span key={i}>
-          {i > 0 && ' · '}
-          <span lang="ta">{b.ta}</span> <span className="sh-num">{fmt(b.confidence)}</span>
-        </span>
-      ))}
-      , {under}
-    </p>
+    <span className={`sh-ring ${confClass(c)}`}>
+      <svg viewBox="0 0 36 36" aria-hidden="true">
+        <circle className="sh-ring-bg" cx="18" cy="18" r="15.915" />
+        <circle className="sh-ring-fg" cx="18" cy="18" r="15.915" pathLength={100} strokeDasharray="100" style={{ strokeDashoffset: off }} />
+      </svg>
+      <b>{pctLabel(c)}</b>
+    </span>
   );
 }
 
-/** The photo's rendered width: the stone column at >= 980 px (measured: 1.7fr of the stage, capped by the page),
- * else the full stage width minus its padding. */
-const PHOTO_SIZES = '(min-width: 1180px) 640px, (min-width: 980px) calc(58vw - 40px), calc(100vw - 60px)';
+/** A match card beside its box: carved glyph -> modern Tamil letter, the confidence ring, the era. */
+function MatchCard({ idx, g, box, place, foot, era, gap }: { idx: number; g: HeroGlyph; box: Box; place: 'below' | 'right'; foot: string; era: string; gap?: boolean }) {
+  const { width: W, height: H } = HERO.photo;
+  const [x0, y0, x1, y1] = box;
+  const style: CSSProperties =
+    place === 'below'
+      ? { left: pct(Math.max(6, x0 - 10), W), top: pct(y1 + 8, H) }
+      : { left: pct(x1 + 10, W), top: pct(Math.max(6, y0 - 10), H) };
+  return (
+    <span className="sh-card" data-card={idx} data-place={place} data-gap={gap ? '' : undefined} data-static={STATIC_CARDS.has(idx) ? '' : undefined} style={style}>
+      <span className="sh-card-row">
+        <Crop box={box} />
+        <span className="sh-arrow" aria-hidden="true">
+          →
+        </span>
+        <span className={`sh-card-ta ${confClass(g.c)}`} lang="ta">
+          {g.ta || '?'}
+        </span>
+        <Ring c={g.c} />
+      </span>
+      <span className="sh-card-foot">
+        <span>{era}</span>
+        <span>{foot}</span>
+      </span>
+    </span>
+  );
+}
+
+function Badge({ idx, g, box }: { idx: number; g: HeroGlyph; box: Box }) {
+  const { width: W, height: H } = HERO.photo;
+  const [x0, , x1, y1] = box;
+  const open = g.gap && g.gap.decision === 'abstain';
+  return (
+    <span className={`sh-badge ${confClass(g.c)}${g.gap ? ' sh-badge-gap' : ''}`} data-idx={idx} style={{ left: pct((x0 + x1) / 2, W), top: pct(y1, H) }}>
+      <span className="sh-badge-a">
+        <b lang="ta">{g.ta || '?'}</b>
+        <small>{Math.round((g.c ?? 0) * 100)}</small>
+      </span>
+      {g.gap && (
+        <span className="sh-badge-b">
+          <b lang="ta">{open ? '?' : g.gap.best?.ta}</b>
+        </span>
+      )}
+    </span>
+  );
+}
 
 export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }) {
   const { lang, t } = useI18n();
@@ -133,14 +178,13 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
   const animated = !reduced && canAnimate();
   const rootRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
-  const flightRef = useRef<HTMLDivElement>(null);
   const anims = useRef<Animation[]>([]);
   const [phase, setPhase] = useState<Phase>('idle');
   const [userPaused, setUserPaused] = useState(false);
   const visible = useRef(false);
   const tabVisible = useRef(true);
   const userPausedRef = useRef(false);
-  /** The photo has decoded (the cycle needs its chosen source and its pixels). */
+  /** The photo has decoded (the first frame of the cycle has pixels to show). */
   const ready = useRef(false);
   const cycleN = useRef(0);
   const photoShown = useRef(false);
@@ -149,180 +193,255 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
   const clear = useCallback(() => {
     for (const a of anims.current) a.cancel();
     anims.current = [];
-    const fl = flightRef.current;
-    if (fl) fl.replaceChildren();
   }, []);
 
   /** Build and start one full cycle. All measuring happens here, before the first animation is created. */
-  const start = useCallback((next = false) => {
-    const root = rootRef.current;
-    const stage = stageRef.current;
-    const flight = flightRef.current;
-    if (!root || !stage || !flight) return;
-    clear();
-    cycleN.current = next ? cycleN.current + 1 : 0;
-    const zoomOut = cycleN.current % 2 === 0;
-    const fadeIn = !photoShown.current;
-    photoShown.current = true;
-    const list: Animation[] = [];
-    const add = (el: Element, kf: Keyframe[], o: KeyframeAnimationOptions) => {
-      list.push(el.animate(kf, { fill: 'both', easing: 'cubic-bezier(.2,0,0,1)', ...o }));
-    };
-    const fadeOut = (el: Element, from = 1) => add(el, [{ opacity: from }, { opacity: 0 }], { duration: FADE_MS, delay: TL.fadeOut, fill: 'forwards' });
-    const q = <E extends Element>(sel: string) => Array.from(root.querySelectorAll<E>(sel));
+  const start = useCallback(
+    (next = false) => {
+      const root = rootRef.current;
+      const stage = stageRef.current;
+      if (!root || !stage) return;
+      clear();
+      cycleN.current = next ? cycleN.current + 1 : 0;
+      const zoomOut = cycleN.current % 2 === 0;
+      const fadeIn = !photoShown.current;
+      photoShown.current = true;
+      const C = TL.cycle;
+      const list: Animation[] = [];
+      /** One animation per element over the whole cycle. `reset`: an element inside a card or badge returns to its
+       * first state once everything is hidden, so the next cycle starts from the same frame. */
+      const track = (el: Element | null | undefined, stops: Stop[], reset = false) => {
+        if (!el) return;
+        const all: Stop[] = reset && stops.length ? [...stops, [TL.fadeOut + FADE_MS, stops[0]![1]]] : stops;
+        list.push(el.animate(trackKeyframes(all, C), { duration: C, fill: 'both', easing: 'linear' }));
+      };
+      const q = <E extends Element>(sel: string) => Array.from(root.querySelectorAll<E>(sel));
+      const one = <E extends Element>(sel: string) => root.querySelector<E>(sel);
+      const fadeStops = (from = 1): Stop[] => [
+        [TL.fadeOut, { opacity: from, transform: 'none' }, 'ease-in'],
+        [TL.fadeOut + FADE_MS, HIDDEN],
+      ];
+      const rise = (at: number, ms: number, dy = 6): Stop[] => [
+        [at, { opacity: 0, transform: `translateY(${dy}px)` }, EASE],
+        [at + ms, SHOWN],
+        ...fadeStops(),
+      ];
 
-    // ---- measure (one batch of reads) ----
-    const sr = stage.getBoundingClientRect();
-    const rel = (r: DOMRect) => ({ x: r.left - sr.left, y: r.top - sr.top, w: r.width, h: r.height });
-    const img = root.querySelector<HTMLImageElement>('.sh-photo img');
-    const kb = root.querySelector<HTMLElement>('.sh-kb');
-    const boxes = q<HTMLElement>('.sh-box');
-    const boxRects = boxes.map((b) => rel(b.getBoundingClientRect()));
-    const kbRect = kb ? rel(kb.getBoundingClientRect()) : null;
-    const nodes = q<HTMLElement>('.sh-node-dot');
-    const nodeRects = nodes.map((n) => rel(n.getBoundingClientRect()));
-    const landEls = q<HTMLElement>('[data-anim="land"]');
-    const landRects = landEls.map((n) => rel(n.getBoundingClientRect()));
-    // The source the <picture> chose (start() runs only after the image has decoded, so currentSrc is set).
-    const src = img?.currentSrc || img?.src || '';
-    const vertical = nodeRects.length === 3 && Math.abs(nodeRects[2]!.y - nodeRects[0]!.y) > Math.abs(nodeRects[2]!.x - nodeRects[0]!.x);
+      // ---- measure (one batch of reads) ----
+      const sr = stage.getBoundingClientRect();
+      const rel = (r: DOMRect) => ({ x: r.left - sr.left, y: r.top - sr.top, w: r.width, h: r.height });
+      const kb = one<HTMLElement>('.sh-kb');
+      const kbRect = kb ? rel(kb.getBoundingClientRect()) : null;
+      const badges = q<HTMLElement>('.sh-badge');
+      const badgeRects = badges.map((b) => rel(b.getBoundingClientRect()));
+      const nodeRects = q<HTMLElement>('.sh-node-dot').map((n) => rel(n.getBoundingClientRect()));
+      const lands = q<HTMLElement>('[data-anim="land"]');
+      const landRects = lands.map((n) => rel(n.getBoundingClientRect()));
 
-    // ---- (a) stone, drift, raking light ----
-    if (kb) {
-      const wide = kbTransform(kbAt(0, true));
-      const [from, to] = zoomOut ? [wide, 'scale(1) translate(0%, 0%)'] : ['scale(1) translate(0%, 0%)', wide];
-      add(kb, [
-        { opacity: fadeIn ? 0 : 1, transform: from },
-        { opacity: 1, offset: BEATS.photoIn / TL.cycle },
-        { opacity: 1, transform: to, offset: KB_END },
-        { opacity: 1, transform: to },
-      ], { duration: TL.cycle, easing: 'linear' });
-    }
-    q('.sh-rake').forEach((el) =>
-      add(el, [{ transform: 'translateX(-60%)', opacity: 0 }, { opacity: 1, offset: 0.25 }, { opacity: 1, offset: 0.7 }, { transform: 'translateX(60%)', opacity: 0 }], { duration: 2400, delay: BEATS.rake, easing: 'cubic-bezier(.65,0,.35,1)' }),
-    );
-    // ---- (b) scan beam + letters lighting up ----
-    q('.sh-beam').forEach((el) =>
-      add(el, [{ transform: 'translateY(-56%)', opacity: 0 }, { opacity: 1, offset: 0.1 }, { opacity: 1, offset: 0.88 }, { transform: 'translateY(56%)', opacity: 0 }], { duration: 2900, delay: BEATS.beam, easing: 'linear' }),
-    );
-    boxes.forEach((b) => {
-      const r = Number(b.dataset.row);
-      const i = Number(b.dataset.i);
-      const on = BEATS.boxes + r * ROW_BOX + i * LETTER_BOX;
-      const lift = BEATS.lift + r * ROW_LIFT + i * LETTER_LIFT;
-      add(b, [
-        { opacity: 0, transform: 'scale(1.18)' },
-        { opacity: 1, transform: 'scale(1)', offset: 420 / (lift - on + 900) },
-        { opacity: 1, transform: 'scale(1)', offset: (lift - on) / (lift - on + 900) },
-        { opacity: BOX_REST, transform: 'scale(1)' },
-      ], { duration: lift - on + 900, delay: on });
-      fadeOut(b, BOX_REST);
-    });
+      // ---- (a) the stone: drift, raking light ----
+      if (kb) {
+        const from = kbTransform(kbAt(0, C, zoomOut));
+        const to = kbTransform(kbAt(C, C, zoomOut));
+        track(kb, [
+          [0, { opacity: fadeIn ? 0 : 1, transform: from }],
+          [BEATS.photoIn, { opacity: 1, transform: kbTransform(kbAt(BEATS.photoIn, C, zoomOut)) }],
+          [C * KB_END, { opacity: 1, transform: to }],
+        ]);
+      }
+      track(one('.sh-rake'), [
+        [BEATS.rake, { opacity: 0, transform: 'translateX(-60%)' }, 'cubic-bezier(.65,0,.35,1)'],
+        [BEATS.rake + 600, { opacity: 1, transform: 'translateX(-30%)' }],
+        [BEATS.rake + 1700, { opacity: 1, transform: 'translateX(30%)' }],
+        [BEATS.rake + 2400, { opacity: 0, transform: 'translateX(60%)' }],
+      ]);
+      track(one('.sh-beam'), [
+        [BEATS.beam, { opacity: 0, transform: 'translateY(-56%)' }],
+        [BEATS.beam + 220, { opacity: 1, transform: 'translateY(-45%)' }],
+        [BEATS.beam + BEATS.beamMs - 260, { opacity: 1, transform: 'translateY(45%)' }],
+        [BEATS.beam + BEATS.beamMs, { opacity: 0, transform: 'translateY(56%)' }],
+      ]);
 
-    // ---- (c) fragments fly into the Reader; nodes pulse ----
-    const reader = nodeRects[0];
-    if (reader && kbRect && src) {
-      const frag = document.createDocumentFragment();
-      boxes.forEach((b, idx) => {
+      // ---- (b) boxes light up; they dim to rest once their letter flies off ----
+      q<HTMLElement>('.sh-box').forEach((b) => {
         const r = Number(b.dataset.row);
         const i = Number(b.dataset.i);
-        const delay = BEATS.lift + r * ROW_LIFT + i * LETTER_LIFT;
-        // Where the letter is at lift time: the photo is still drifting (scale about its centre, then translate).
-        const { s, tx, ty } = kbAt(delay, zoomOut);
-        const cx = kbRect.x + kbRect.w / 2;
-        const cy = kbRect.y + kbRect.h / 2;
-        const map = (x: number, y: number) => [cx + s * (x - cx + tx * kbRect.w), cy + s * (y - cy + ty * kbRect.h)] as const;
-        const b0 = boxRects[idx]!;
-        const [bx, by] = map(b0.x, b0.y);
-        const [kx, ky] = map(kbRect.x, kbRect.y);
-        const br = { x: bx, y: by, w: b0.w * s, h: b0.h * s };
-        const el = document.createElement('span');
-        el.className = 'sh-frag';
-        el.style.left = `${br.x}px`;
-        el.style.top = `${br.y}px`;
-        el.style.width = `${br.w}px`;
-        el.style.height = `${br.h}px`;
-        el.style.backgroundImage = `url("${src}")`;
-        el.style.backgroundSize = `${kbRect.w * s}px ${kbRect.h * s}px`;
-        el.style.backgroundPosition = `${kx - br.x}px ${ky - br.y}px`;
-        frag.appendChild(el);
-        const dx = reader.x + reader.w / 2 - (br.x + br.w / 2);
-        const dy = reader.y + reader.h / 2 - (br.y + br.h / 2);
-        const bow = vertical ? 0.12 + (i % 3) * 0.05 : (i % 2 ? 1 : -1) * (0.06 + (r % 2) * 0.05 + (i % 3) * 0.03);
-        list.push(el.animate(flightKeyframes(dx, dy, bow, 0.18), { duration: 1250 + (i % 4) * 90, delay, fill: 'both', easing: 'cubic-bezier(.45,0,.25,1)' }));
+        const on = TL.boxOn(r, i);
+        const fly = TL.flyAt(r, i);
+        track(b, [
+          [on, { opacity: 0, transform: 'scale(1.18)' }, EASE],
+          [on + 380, { opacity: 1, transform: 'none' }],
+          [fly, { opacity: 1, transform: 'none' }],
+          [fly + 300, { opacity: BOX_REST, transform: 'none' }],
+          ...fadeStops(BOX_REST),
+        ]);
       });
-      flight.appendChild(frag);
-    }
-    const pulse = (sel: string, at: number, ms: number) =>
-      q(sel).forEach((el) => {
-        add(el, [{ opacity: 0, transform: 'scale(.8)' }, { opacity: 1, transform: 'scale(1)', offset: 0.15 }, { opacity: 1, transform: 'scale(1.06)', offset: 0.5 }, { opacity: 1, transform: 'scale(1)', offset: 0.85 }, { opacity: 0, transform: 'scale(1.25)' }], { duration: ms, delay: at, easing: 'ease-in-out' });
-      });
-    // The Decider keeps glowing while it hands out the letters.
-    pulse('[data-node="reader"] .sh-node-glow', BEATS.reader, 2200);
-    pulse('[data-node="restorer"] .sh-node-glow', BEATS.restorer, 1400);
-    pulse('[data-node="decider"] .sh-node-glow', BEATS.decider, TL.lines[TL.lines.length - 1]!.landed - LAND_MS / 2 - BEATS.decider);
-    const readout = (sel: string, at: number) =>
-      q(sel).forEach((el) => add(el, [{ opacity: 0, transform: 'translateY(4px)' }, { opacity: 1, transform: 'none' }], { duration: 380, delay: at }));
-    readout('[data-node="reader"] .sh-node-out', BEATS.reader + 1900);
-    readout('[data-node="restorer"] .sh-node-out', BEATS.restorer + 1100);
-    readout('[data-node="decider"] .sh-node-out', BEATS.decider + 900);
-    // Sparks along the connectors, Reader -> Restorer -> Decider.
-    q<HTMLElement>('.sh-spark').forEach((el) => {
-      const seg = Number(el.dataset.seg);
-      const a = nodeRects[seg];
-      const z = nodeRects[seg + 1];
-      if (!a || !z) return;
-      const dx = z.x - a.x;
-      const dy = z.y - a.y;
-      const k = Number(el.dataset.k);
-      add(el, [{ transform: 'translate(0,0) scale(.6)', opacity: 0 }, { opacity: 1, offset: 0.2 }, { opacity: 1, offset: 0.8 }, { transform: `translate(${dx}px, ${dy}px) scale(1)`, opacity: 0 }], { duration: 650, delay: (seg === 0 ? BEATS.restorer - 450 : BEATS.decider - 420) + k * 120, easing: 'cubic-bezier(.45,0,.25,1)' });
-    });
 
-    // ---- (d) the reading lands, line by line, letter by letter, out of the Decider ----
-    const dec = nodeRects[2];
-    if (dec) {
-      landEls.forEach((el, idx) => {
-        const lr = landRects[idx]!;
-        const line = Number(el.closest<HTMLElement>('[data-line]')?.dataset.line ?? 0);
-        const k = Number(el.dataset.k ?? 0); // index within its line
-        const dx = dec.x + dec.w / 2 - (lr.x + lr.w / 2);
-        const dy = dec.y + dec.h / 2 - (lr.y + lr.h / 2);
-        add(el, [
-          { opacity: 0, transform: `translate(${dx}px, ${dy}px) scale(.35)` },
-          { opacity: 1, offset: 0.35 },
-          { opacity: 1, transform: 'translate(0, -6%) scale(1.12)', offset: 0.78 },
-          { opacity: 1, transform: 'none' },
-        ], { duration: LAND_MS, delay: TL.landAt(line, k), easing: 'cubic-bezier(.3,0,.2,1)' });
-        fadeOut(el);
+      // ---- (c) MATCH: featured cards one at a time, then the cascade of badges ----
+      const cardStops = (inAt: number, outAt: number, endAt: number): Stop[] => [
+        [inAt, { opacity: 0, transform: 'translateY(6px) scale(.86)' }, 'cubic-bezier(.2,.9,.3,1.2)'],
+        [inAt + 240, { opacity: 1, transform: 'none' }],
+        [outAt, { opacity: 1, transform: 'none' }, 'cubic-bezier(.5,0,.75,0)'],
+        [endAt, { opacity: 0, transform: 'translateY(-4px) scale(.55)' }],
+      ];
+      const ringStops = (c: number | null, from: number, to: number): Stop[] => [
+        [from, { strokeDashoffset: 100 }, 'cubic-bezier(.3,0,.2,1)'],
+        [to, { strokeDashoffset: 100 * (1 - (c ?? 0)) }],
+      ];
+      TL.cards.forEach((cd) => {
+        const el = one(`.sh-card[data-card="${cd.idx}"]`);
+        track(el, cardStops(cd.in, cd.out, cd.end));
+        track(el?.querySelector('.sh-ring-fg'), ringStops(FLAT[cd.idx]!.g.c, cd.ringFrom, cd.ringTo), true);
+        track(el?.querySelector('.sh-ring b'), [
+          [cd.ringFrom, HIDDEN],
+          [cd.ringFrom + 200, SHOWN],
+        ], true);
       });
-    }
-    q<HTMLElement>('[data-anim="after-line"]').forEach((el) => {
-      const line = Number(el.closest<HTMLElement>('[data-line]')?.dataset.line ?? 0);
-      add(el, [{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: AFTER_LINE_MS, delay: TL.lines[line]?.afterLine ?? TL.verdict });
-      fadeOut(el);
-    });
-    // ---- (e) verdict, note, call to action ----
-    q<HTMLElement>('[data-anim="verdict"]').forEach((el, i) => {
-      add(el, [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], { duration: VERDICT_MS, delay: TL.verdict + i * VERDICT_STAGGER });
-      fadeOut(el);
-    });
-    q('[data-anim="node-out-hide"]').forEach((el) => fadeOut(el));
-    const cta = ctaRef?.current;
-    if (cta) {
-      cta.querySelectorAll('.btn').forEach((b, i) =>
-        list.push(b.animate([{ transform: 'none' }, { transform: 'translateY(-3px) scale(1.04)', offset: 0.35 }, { transform: 'none' }], { duration: 800, delay: TL.cta + i * 140, easing: 'ease-in-out' })),
-      );
-    }
+      // The gap's card: the Reader's letter under the cut-off -> the Restorer's best fill -> the Decider's call.
+      if (GAP0) {
+        const gi = readingIndex(LETTERS, GAP0.r, GAP0.i);
+        const el = one(`.sh-card[data-card="${gi}"]`);
+        const g = TL.gap;
+        track(el, cardStops(g.start, g.resolve + 250, g.end - 80));
+        track(el?.querySelector('.sh-ring-fg'), ringStops(GAP0.g.c, g.start + 150, g.start + 550), true);
+        track(el?.querySelector('.sh-ring b'), [
+          [g.start + 150, HIDDEN],
+          [g.start + 350, SHOWN],
+        ], true);
+        el?.querySelectorAll('.sh-card-foot > span').forEach((s, k) =>
+          track(s, k === 0 ? [[g.restorerOut, SHOWN], [g.restorerOut + 200, HIDDEN]] : [[g.restorerOut, HIDDEN], [g.restorerOut + 250, SHOWN]], true),
+        );
+      }
+      badges.forEach((b) => {
+        const idx = Number(b.dataset.idx);
+        const { r, i, g } = FLAT[idx]!;
+        const at = TL.badgeAt(idx);
+        const fly = TL.flyAt(r, i);
+        track(b, [
+          [at, { opacity: 0, transform: 'translate(-50%, -30%) scale(.4)' }, 'cubic-bezier(.2,.9,.3,1.3)'],
+          [at + BADGE_MS, { opacity: 1, transform: 'translate(-50%, -50%)' }],
+          [fly, { opacity: 1, transform: 'translate(-50%, -50%)' }, 'ease-in'],
+          [fly + 180, { opacity: 0, transform: 'translate(-50%, -50%) scale(.7)' }],
+        ]);
+        if (g.gap) {
+          const res = TL.gap.resolve;
+          track(b.querySelector('.sh-badge-a'), [
+            [res, SHOWN],
+            [res + 220, { opacity: 0, transform: 'scale(.6)' }],
+          ], true);
+          track(b.querySelector('.sh-badge-b'), [
+            [res + 120, { opacity: 0, transform: 'scale(1.6)' }, 'cubic-bezier(.2,.9,.3,1.2)'],
+            [res + 380, SHOWN],
+          ], true);
+        }
+      });
 
-    // The clock: when it finishes, the next cycle starts (if still on screen and not paused).
-    const clock = stage.animate([], { duration: TL.cycle });
-    clock.onfinish = () => {
-      if (visible.current && tabVisible.current && !userPausedRef.current) startRef.current(true);
-    };
-    list.push(clock);
-    anims.current = list;
-    setPhase('running');
-  }, [clear, ctaRef]);
+      // ---- (d) the pipeline: Reader glows through the match; Restorer and Decider on the gap ----
+      const glow = (key: string, from: number, to: number) =>
+        track(one(`[data-node="${key}"] .sh-node-glow`), [
+          [from, { opacity: 0, transform: 'scale(.8)' }, 'ease-out'],
+          [from + 250, { opacity: 1, transform: 'none' }],
+          [Math.max(from + 260, to - 300), { opacity: 1, transform: 'scale(1.05)' }, 'ease-in'],
+          [Math.max(from + 300, to), { opacity: 0, transform: 'scale(1.25)' }],
+        ]);
+      glow('reader', TL.match - 200, TL.cascadeEnd + 200);
+      glow('restorer', TL.gap.restorer, TL.gap.decider + 100);
+      glow('decider', TL.gap.decider, TL.rows[TL.rows.length - 1]!.landed - FLY_MS / 2);
+      track(one('[data-node="reader"] .sh-node-out'), rise(TL.cascadeEnd - 150, 380, 4));
+      track(one('[data-node="restorer"] .sh-node-out'), rise(TL.gap.restorerOut, 380, 4));
+      track(one('[data-node="decider"] .sh-node-out'), rise(TL.gap.deciderOut, 380, 4));
+      q<HTMLElement>('.sh-spark').forEach((el) => {
+        const seg = Number(el.dataset.seg);
+        const a = nodeRects[seg];
+        const z = nodeRects[seg + 1];
+        if (!a || !z) return;
+        const k = Number(el.dataset.k);
+        const at = (seg === 0 ? TL.gap.restorer - 350 : TL.gap.decider - 330) + k * 110;
+        track(el, [
+          [at, { opacity: 0, transform: 'translate(0px, 0px) scale(.6)' }, 'cubic-bezier(.45,0,.25,1)'],
+          [at + 130, { opacity: 1, transform: `translate(${(z.x - a.x) * 0.2}px, ${(z.y - a.y) * 0.2}px) scale(.8)` }],
+          [at + 520, { opacity: 1, transform: `translate(${(z.x - a.x) * 0.8}px, ${(z.y - a.y) * 0.8}px) scale(1)` }],
+          [at + 650, { opacity: 0, transform: `translate(${z.x - a.x}px, ${z.y - a.y}px) scale(1)` }],
+        ]);
+      });
+
+      // ---- (e) the letters fly from the stone, past the Decider, into the reading ----
+      const dec = nodeRects[2];
+      lands.forEach((el, n) => {
+        const lr = landRects[n]!;
+        const r = Number(el.closest<HTMLElement>('[data-line]')?.dataset.line ?? 0);
+        const i = Number(el.dataset.k ?? 0);
+        const at = TL.flyAt(r, i);
+        const idx = readingIndex(LETTERS, r, i);
+        const b0 = badgeRects[idx];
+        const stops: Stop[] = [];
+        if (b0 && kbRect && dec) {
+          // Where the badge is at take-off: the photo is still drifting (scale about its centre, then translate).
+          const { s, tx, ty } = kbAt(at, C, zoomOut);
+          const cx = kbRect.x + kbRect.w / 2;
+          const cy = kbRect.y + kbRect.h / 2;
+          const bx = cx + s * (b0.x + b0.w / 2 - cx + tx * kbRect.w);
+          const by = cy + s * (b0.y + b0.h / 2 - cy + ty * kbRect.h);
+          const ex = lr.x + lr.w / 2;
+          const ey = lr.y + lr.h / 2;
+          // Quadratic Bezier start -> end with its control point at the Decider, so every letter passes it.
+          const kx = dec.x + dec.w / 2 + (i % 3 - 1) * 10;
+          const ky = dec.y + dec.h / 2 + (r - 1.5) * 8;
+          const N = 10;
+          for (let k = 0; k <= N; k++) {
+            const u = k / N;
+            const x = (1 - u) * (1 - u) * bx + 2 * (1 - u) * u * kx + u * u * ex - ex;
+            const y = (1 - u) * (1 - u) * by + 2 * (1 - u) * u * ky + u * u * ey - ey;
+            const sc = k === N ? 1 : 0.8 + 0.5 * Math.sin(Math.PI * u) * (1 - u) + 0.2 * u;
+            stops.push([at + u * FLY_MS, { opacity: k === 0 ? 0 : 1, transform: k === N ? 'none' : `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${sc.toFixed(3)})` }, k === 0 ? 'ease-out' : k === N - 1 ? 'cubic-bezier(.3,0,.2,1.4)' : undefined]);
+          }
+        } else {
+          stops.push([at, { opacity: 0, transform: 'translateY(10px)' }, EASE], [at + FLY_MS, SHOWN]);
+        }
+        track(el, [...stops, ...fadeStops()]);
+      });
+      // While the Reader matches, each letter's slot in the reading lights as a dot in its confidence tint.
+      q<HTMLElement>('.sh-dot').forEach((el) => {
+        const idx = Number(el.dataset.idx);
+        const { r, i } = FLAT[idx]!;
+        const at = TL.badgeAt(idx);
+        const land = TL.flyAt(r, i) + FLY_MS;
+        track(el, [
+          [at, { opacity: 0, transform: 'scale(.2)' }, 'cubic-bezier(.2,.9,.3,1.4)'],
+          [at + 260, SHOWN],
+          [land - 220, SHOWN],
+          [land - 40, { opacity: 0, transform: 'scale(.4)' }],
+        ]);
+      });
+      q<HTMLElement>('[data-anim="chip"]').forEach((el) => {
+        const r = Number(el.closest<HTMLElement>('[data-line]')?.dataset.line ?? 0);
+        const at = TL.rows[r]!.landed;
+        track(el, [[at, { opacity: 0, transform: 'scale(.7)' }, 'cubic-bezier(.2,.9,.3,1.3)'], [at + CHIP_MS, SHOWN], ...fadeStops()]);
+      });
+      q<HTMLElement>('[data-anim="iso"]').forEach((el) => {
+        const r = Number(el.closest<HTMLElement>('[data-line]')?.dataset.line ?? 0);
+        track(el, rise(TL.rows[r]!.landed + 120, 420, 4));
+      });
+      q<HTMLElement>('[data-anim="gapnote"]').forEach((el) => track(el, rise(GAP0 ? TL.rows[GAP0.r]!.landed + 200 : TL.verdict, 480)));
+      // ---- (f) verdict, call to action ----
+      q<HTMLElement>('[data-anim="verdict"]').forEach((el, k) => track(el, rise(TL.verdict + k * VERDICT_STAGGER, VERDICT_MS, 8)));
+      const cta = ctaRef?.current;
+      if (cta) {
+        cta.querySelectorAll('.btn').forEach((b, k) =>
+          list.push(b.animate([{ transform: 'none' }, { transform: 'translateY(-3px) scale(1.04)', offset: 0.35 }, { transform: 'none' }], { duration: 800, delay: TL.cta + k * 140, easing: 'ease-in-out' })),
+        );
+      }
+
+      // The clock: when it finishes, the next cycle starts (if still on screen and not paused).
+      const clock = stage.animate([], { duration: C });
+      clock.onfinish = () => {
+        if (visible.current && tabVisible.current && !userPausedRef.current) startRef.current(true);
+      };
+      list.push(clock);
+      anims.current = list;
+      setPhase('running');
+    },
+    [clear, ctaRef],
+  );
   startRef.current = start;
 
   const pause = useCallback(() => {
@@ -345,10 +464,9 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
       if (go) resume();
       else pause();
     };
-    // Wait until the <picture> has picked its source and the image has decoded: the fragments reuse that exact
-    // source (no second download) and the first frame of the cycle has pixels to show.
+    // Wait until the photo has decoded, so the first frame of the cycle has pixels to show.
     let cancelled = false;
-    const img = root.querySelector<HTMLImageElement>('.sh-photo img');
+    const img = root.querySelector<HTMLImageElement>('.sh-kb > picture img');
     const loaded = !img
       ? Promise.resolve()
       : img.complete && img.naturalWidth > 0
@@ -367,10 +485,13 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
       });
     let io: IntersectionObserver | null = null;
     if (typeof IntersectionObserver !== 'undefined') {
-      io = new IntersectionObserver(([e]) => {
-        visible.current = !!e?.isIntersecting;
-        sync();
-      }, { threshold: 0.2 });
+      io = new IntersectionObserver(
+        ([e]) => {
+          visible.current = !!e?.isIntersecting;
+          sync();
+        },
+        { threshold: 0.2 },
+      );
       io.observe(root);
     } else {
       visible.current = true;
@@ -430,8 +551,15 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
     if (ready.current) start();
   };
 
-  const { photo, boxes, lines } = HERO;
+  const { photo, boxes, rows } = HERO;
   const vars = { '--sh-aspect': `${photo.width} / ${photo.height}` } as CSSProperties;
+  const era = lang === 'ta' ? HERO.script.label_ta : HERO.script.label_en;
+  const cut = pctLabel(HERO.abstainBelow);
+  const best0 = GAP0?.g.gap?.best;
+  const gapFoot = GAP0
+    ? `${t('stoneHero.restorer')}: ${best0?.ta ?? '–'} ${pctLabel(best0?.c)} · ${GAP0.g.gap!.decision === 'abstain' ? t('stoneHero.abstain') : t('stoneHero.decider')}`
+    : '';
+  const open = HERO.gaps.length - HERO.fills;
 
   return (
     <section
@@ -447,20 +575,7 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
         <figure className="sh-photo" aria-hidden="true">
           <div className="sh-frame">
             <div className="sh-kb">
-              <picture>
-                <source type="image/avif" srcSet={heroSrcSet('avif')} sizes={PHOTO_SIZES} />
-                <source type="image/webp" srcSet={heroSrcSet('webp')} sizes={PHOTO_SIZES} />
-                <img
-                  src="/hero/thanjavur-800.jpg"
-                  srcSet={heroSrcSet('jpg')}
-                  sizes={PHOTO_SIZES}
-                  width={photo.width}
-                  height={photo.height}
-                  alt=""
-                  decoding="async"
-                  fetchPriority="high"
-                />
-              </picture>
+              <Photo />
               {boxes.map((row, r) =>
                 row.map(([x0, y0, x1, y1], i) => (
                   <span
@@ -472,6 +587,23 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
                   />
                 )),
               )}
+              {FLAT.map(({ idx, g, box }) => (
+                <Badge key={idx} idx={idx} g={g} box={box} />
+              ))}
+              {FLAT.slice(0, HERO.featured).map(({ idx, g, box }) => (
+                <MatchCard key={idx} idx={idx} g={g} box={box} place="below" era={era} foot={`→ ${t('stoneHero.toModern')}`} />
+              ))}
+              {GAP0 && readingIndex(LETTERS, GAP0.r, GAP0.i) >= HERO.featured && (
+                <MatchCard
+                  gap
+                  idx={readingIndex(LETTERS, GAP0.r, GAP0.i)}
+                  g={GAP0.g}
+                  box={HERO.boxes[GAP0.r]![GAP0.i]!}
+                  place="right"
+                  era={`${t('stoneHero.match')} ${pctLabel(GAP0.g.c)} < ${cut}`}
+                  foot={gapFoot}
+                />
+              )}
             </div>
             <span className="sh-rake" />
             <span className="sh-beam" />
@@ -482,9 +614,9 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
         <ol className="sh-pipe" aria-hidden="true">
           {(
             [
-              ['reader', 'stoneHero.reader', 'stoneHero.readerSub', `${lang === 'ta' ? HERO.script.label_ta : HERO.script.label_en} · ${fmt(HERO.confidence)}`],
-              ['restorer', 'stoneHero.restorer', 'stoneHero.restorerSub', `${HERO.gaps} ${t('stoneHero.gaps')}`],
-              ['decider', 'stoneHero.decider', 'stoneHero.deciderSub', `${HERO.gaps - HERO.fills} × ? · ${t('stoneHero.abstain')}`],
+              ['reader', 'stoneHero.reader', 'stoneHero.readerSub', `${HERO.letters} ${t('stoneHero.letters')} · ${pctLabel(HERO.mean)}`],
+              ['restorer', 'stoneHero.restorer', 'stoneHero.restorerSub', best0 ? `${best0.ta} ${pctLabel(best0.c)}` : `0 ${t('stoneHero.gaps')}`],
+              ['decider', 'stoneHero.decider', 'stoneHero.deciderSub', open ? `? · ${t('stoneHero.abstain')}` : `${HERO.fills} ✓`],
             ] as const
           ).map(([key, label, sub, out], i) => (
             <li key={key} className="sh-node" data-node={key}>
@@ -495,7 +627,7 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
               <span className="sh-node-text">
                 <b>{t(label)}</b>
                 <small>{t(sub)}</small>
-                <span className="sh-node-out" data-anim="node-out-hide">
+                <span className="sh-node-out" lang={key === 'restorer' ? 'ta' : undefined}>
                   {out}
                 </span>
               </span>
@@ -513,55 +645,76 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
         <div className="sh-out">
           <p className="sh-out-head">
             <span>{t('stoneHero.output')}</span>
-            <span className="sh-chip">{t('stoneHero.unverified')}</span>
+            <span className="sh-legend" aria-label={t('stoneHero.legend')}>
+              <i className="sh-c-high">≥ 70%</i>
+              <i className="sh-c-mid">50–69%</i>
+              <i className="sh-c-low">&lt; 50%</i>
+            </span>
           </p>
           <div className="sh-lines">
-            {lines.map((l, li) => {
-              let k = 0; // landing order within this line (timeline.ts schedules per line)
-              const guesses = l.aksharas.filter((a) => a.kind === 'gap' && a.best);
-              return (
-                <div key={l.n} className="sh-line" data-line={li}>
-                  <p className={`sh-ta script-chola ${confClass(l.confidence)}`} lang="ta">
-                    {l.aksharas.map((a, ai) => {
-                      if (a.kind === 'space') return <Akshara key={ai} a={a} gapLabel={t('stoneHero.gap')} />;
-                      return (
-                        <span key={ai} className="sh-akw" data-k={k++} data-anim="land">
-                          <Akshara a={a} gapLabel={t('stoneHero.gap')} />
+            {rows.map((row, r) => (
+              <div key={r} className="sh-line" data-line={r}>
+                <p className="sh-ta" lang="ta">
+                  {row.glyphs.map((g, i) => {
+                    const openGap = g.gap && g.gap.decision === 'abstain';
+                    const text = g.gap ? (openGap ? null : g.gap.best?.ta) : g.ta;
+                    return (
+                      <span key={i} className="sh-slot">
+                        <span className={`sh-dot ${confClass(g.c)}`} data-idx={readingIndex(LETTERS, r, i)} aria-hidden="true" />
+                        <span className={`sh-l ${openGap ? 'sh-gap' : confClass(g.gap ? g.gap.best?.c : g.c)}`} data-anim="land" data-k={i}>
+                          {openGap ? (
+                            <>
+                              <span aria-hidden="true">?</span>
+                              <span className="visually-hidden">{t('stoneHero.gap')}</span>
+                            </>
+                          ) : (
+                            text
+                          )}
                         </span>
-                      );
-                    })}
-                  </p>
-                  <p className="sh-meta" data-anim="after-line">
-                    <span className="sh-iso iso" lang="ta-Latn">
-                      {l.iso}
-                    </span>
-                    <span className="sh-lc" title={t('stoneHero.lineConfidence')}>
-                      {fmt(l.confidence)}
-                    </span>
-                  </p>
-                  {guesses.length > 0 && <Guesses line={l} label={t(guesses.length > 1 ? 'stoneHero.bestGuesses' : 'stoneHero.bestGuess')} under={t('stoneHero.underCut')} />}
-                </div>
-              );
-            })}
+                      </span>
+                    );
+                  })}
+                </p>
+                <span className={`sh-lc ${confClass(row.c)}`} data-anim="chip" title={t('stoneHero.rowConfidence')}>
+                  {pctLabel(row.c)}
+                </span>
+                <p className="sh-iso" lang="ta-Latn" data-anim="iso">
+                  {row.iso}
+                </p>
+              </div>
+            ))}
           </div>
+          {HERO.gaps.map(({ r, g }, k) => (
+            <p key={k} className="sh-gapnote" data-anim="gapnote">
+              <span className="sh-gap-mark" aria-hidden="true">
+                ?
+              </span>
+              <span>
+                {fill(t(g.gap!.decision === 'abstain' ? 'stoneHero.gapOpen' : 'stoneHero.gapFilled'), {
+                  r: r + 1,
+                  ta: g.ta,
+                  c: pctLabel(g.c),
+                  cut,
+                  fill: g.gap!.best?.ta ?? '–',
+                  fc: pctLabel(g.gap!.best?.c),
+                })}
+              </span>
+            </p>
+          ))}
+        </div>
+        <div className="sh-sum">
           <p className="sh-verdict" data-anim="verdict">
+            <span>{fill(t('stoneHero.verdictLetters'), { n: HERO.letters })}</span>
             <span>
-              {t('stoneHero.confidence')} <b>{fmt(HERO.confidence)}</b>
+              {fill(t('stoneHero.verdictMean'), { c: '' })}
+              <b>{pctLabel(HERO.mean)}</b>
             </span>
-            <span>
-              {HERO.gaps - HERO.fills} {t('stoneHero.abstained')}
-            </span>
+            {open > 0 && <span>{fill(t('stoneHero.verdictOpen'), { n: open })}</span>}
           </p>
-          <p className="sh-review" data-anim="verdict">
-            {/* Display wording for a low reading, not an app threshold: in the app a learner or scholar corrects the gaps
-                (RestorePage -> POST /api/corrections) and each correction waits in the expert review queue. */}
-            {HERO.confidence < 0.5 ? t('stoneHero.toReview') : null}
-          </p>
-          <p className="sh-note" data-anim="verdict">
-            {t('stoneHero.noEdition')}
+          <p className="sh-flagged" data-anim="verdict">
+            {fill(t('stoneHero.flagged'), { cut })}
           </p>
         </div>
-        <div className="sh-flight" ref={flightRef} aria-hidden="true" />
       </div>
 
       <div className="sh-bar">
@@ -575,6 +728,10 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
           </a>
           {', '}
           {t('stoneHero.creditVia')}
+          <span className="sh-credit-sep" aria-hidden="true">
+            {' · '}
+          </span>
+          <span className="sh-credit-by">{t('stoneHero.readingBy')}</span>
         </p>
         {animated && (
           <span className="sh-controls">

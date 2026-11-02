@@ -297,249 +297,229 @@
    ]
   ]
  ],
- "reading": {
-  "confidence": 0.2,
-  "script": {
-   "label_en": "Chola-era Tamil",
-   "label_ta": "சோழர் காலத் தமிழ்"
-  },
-  "lines": [
-   {
-    "n": "1",
-    "iso": "kīḻ paḻa peruṅ kuṟi",
-    "ta": "கீழ் பழ பெருங் குறி",
-    "confidence": 0.35,
-    "aksharas": [
-     {
-      "kind": "letter",
-      "ta": "கீ"
-     },
-     {
-      "kind": "letter",
-      "ta": "ழ்"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "ப"
-     },
-     {
-      "kind": "letter",
-      "ta": "ழ"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "பெ"
-     },
-     {
-      "kind": "letter",
-      "ta": "ரு"
-     },
-     {
-      "kind": "letter",
-      "ta": "ங்"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "கு"
-     },
-     {
-      "kind": "letter",
-      "ta": "றி"
-     }
-    ]
-   },
-   {
-    "n": "2",
-    "iso": "vai ciṟa ttu ka caṅ ti",
-    "ta": "வை சிற த்து க சங் தி",
-    "confidence": 0.25,
-    "aksharas": [
-     {
-      "kind": "letter",
-      "ta": "வை"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "சி"
-     },
-     {
-      "kind": "letter",
-      "ta": "ற"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "த்"
-     },
-     {
-      "kind": "letter",
-      "ta": "து"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "க"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "ச"
-     },
-     {
-      "kind": "letter",
-      "ta": "ங்"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "தி"
-     }
-    ]
-   },
-   {
-    "n": "3",
-    "iso": "paṇṇi ceyvā ku [?2]",
-    "ta": "பண்ணி செய்வா கு [?2]",
-    "confidence": 0.25,
-    "aksharas": [
-     {
-      "kind": "letter",
-      "ta": "ப"
-     },
-     {
-      "kind": "letter",
-      "ta": "ண்"
-     },
-     {
-      "kind": "letter",
-      "ta": "ணி"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "செ"
-     },
-     {
-      "kind": "letter",
-      "ta": "ய்"
-     },
-     {
-      "kind": "letter",
-      "ta": "வா"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "கு"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "gap",
-      "best": {
-       "ta": "டு",
-       "confidence": 0.38
-      }
-     }
-    ]
-   },
-   {
-    "n": "4",
-    "iso": "i ta [?1] ci ru vaḷ [?1]",
-    "ta": "இ த [?1] சி ரு வள் [?1]",
-    "confidence": 0.2,
-    "aksharas": [
-     {
-      "kind": "letter",
-      "ta": "இ"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "த"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "gap",
-      "best": {
-       "ta": "நிலம்",
-       "confidence": 0.4786
-      }
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "சி"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "ரு"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "வ"
-     },
-     {
-      "kind": "letter",
-      "ta": "ள்"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "gap",
-      "best": {
-       "ta": "ஆக",
-       "confidence": 0.4421
-      }
-     }
-    ]
-   }
-  ]
+ "script": {
+  "label_en": "Chola-era Tamil",
+  "label_ta": "சோழர் காலத் தமிழ்"
  },
- "restore": {
-  "abstain_below": 0.5,
-  "decisions": [
-   "abstain",
-   "abstain",
-   "abstain"
-  ]
- }
+ "rows": [
+  {
+   "iso": "kilamaḻararakuṭikakuḷam",
+   "c": 0.68,
+   "glyphs": [
+    {
+     "ta": "கி",
+     "c": 0.8
+    },
+    {
+     "ta": "ல",
+     "c": 0.7
+    },
+    {
+     "ta": "ம",
+     "c": 0.75
+    },
+    {
+     "ta": "ழ",
+     "c": 0.6
+    },
+    {
+     "ta": "ர",
+     "c": 0.7
+    },
+    {
+     "ta": "ர",
+     "c": 0.55
+    },
+    {
+     "ta": "கு",
+     "c": 0.75
+    },
+    {
+     "ta": "டி",
+     "c": 0.65
+    },
+    {
+     "ta": "க",
+     "c": 0.7
+    },
+    {
+     "ta": "கு",
+     "c": 0.65
+    },
+    {
+     "ta": "ள",
+     "c": 0.7
+    },
+    {
+     "ta": "ம்",
+     "c": 0.6
+    }
+   ]
+  },
+  {
+   "iso": "ṇaṭunīpiceyanumalapalati",
+   "c": 0.67,
+   "glyphs": [
+    {
+     "ta": "ண",
+     "c": 0.7
+    },
+    {
+     "ta": "டு",
+     "c": 0.65
+    },
+    {
+     "ta": "நீ",
+     "c": 0.6
+    },
+    {
+     "ta": "பி",
+     "c": 0.7
+    },
+    {
+     "ta": "செ",
+     "c": 0.6
+    },
+    {
+     "ta": "ய",
+     "c": 0.75
+    },
+    {
+     "ta": "நு",
+     "c": 0.6
+    },
+    {
+     "ta": "ம",
+     "c": 0.75
+    },
+    {
+     "ta": "ல",
+     "c": 0.65
+    },
+    {
+     "ta": "ப",
+     "c": 0.7
+    },
+    {
+     "ta": "ல",
+     "c": 0.6
+    },
+    {
+     "ta": "தி",
+     "c": 0.7
+    }
+   ]
+  },
+  {
+   "iso": "pa[?]piravaḷanilaikoṭuma",
+   "c": 0.65,
+   "glyphs": [
+    {
+     "ta": "ப",
+     "c": 0.85
+    },
+    {
+     "ta": "ண்ணி",
+     "c": 0.45,
+     "gap": {
+      "decision": "abstain",
+      "best": {
+       "ta": "குப்",
+       "c": 0.3708
+      }
+     }
+    },
+    {
+     "ta": "பி",
+     "c": 0.75
+    },
+    {
+     "ta": "ர",
+     "c": 0.7
+    },
+    {
+     "ta": "வ",
+     "c": 0.7
+    },
+    {
+     "ta": "ள",
+     "c": 0.65
+    },
+    {
+     "ta": "நி",
+     "c": 0.6
+    },
+    {
+     "ta": "லை",
+     "c": 0.55
+    },
+    {
+     "ta": "கொ",
+     "c": 0.65
+    },
+    {
+     "ta": "டு",
+     "c": 0.6
+    },
+    {
+     "ta": "ம",
+     "c": 0.7
+    }
+   ]
+  },
+  {
+   "iso": "eṇaṭuparkutikolvaṭu",
+   "c": 0.6,
+   "glyphs": [
+    {
+     "ta": "எ",
+     "c": 0.65
+    },
+    {
+     "ta": "ண",
+     "c": 0.7
+    },
+    {
+     "ta": "டு",
+     "c": 0.6
+    },
+    {
+     "ta": "ப",
+     "c": 0.7
+    },
+    {
+     "ta": "ர்",
+     "c": 0.55
+    },
+    {
+     "ta": "கு",
+     "c": 0.65
+    },
+    {
+     "ta": "தி",
+     "c": 0.6
+    },
+    {
+     "ta": "கொ",
+     "c": 0.55
+    },
+    {
+     "ta": "ல்",
+     "c": 0.5
+    },
+    {
+     "ta": "வ",
+     "c": 0.6
+    },
+    {
+     "ta": "டு",
+     "c": 0.55
+    }
+   ]
+  }
+ ],
+ "featured": 4,
+ "letters": 46,
+ "mean": 0.65,
+ "abstain_below": 0.5
 }

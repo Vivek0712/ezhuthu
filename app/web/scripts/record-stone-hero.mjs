@@ -1,8 +1,8 @@
 // Record one full cycle of the home stone hero (StoneHero.tsx) for the README and the PR:
-//   design/brand/banners/hero-stone.webm        light theme, desktop, one 16 s cycle
+//   design/brand/banners/hero-stone.webm        light theme, 1440 x 900 desktop, one cycle (length read from the page)
 //   design/brand/banners/hero-stone-dark.webm   dark theme
-//   design/brand/banners/hero-stone-phone.webm  375 px phone, Tamil, the whole first screen
-//   design/brand/banners/hero-stone.gif         the light recording as a GIF (480 px, 8 fps) for places without video
+//   design/brand/banners/hero-stone-phone.webm  375 x 740 phone, Tamil, scrolled to the stone
+//   design/brand/banners/hero-stone.gif         the light recording as a GIF (420 px, 6 fps) for places without video
 //   design/brand/banners/hero-stone-poster.png  the composed final frame (what reduced-motion visitors see)
 // Needs the mock preview running (npm run build:mock && npm run preview:mock) and ffmpeg on PATH.
 // Usage (from app/web): node scripts/record-stone-hero.mjs
@@ -16,18 +16,18 @@ import { fileURLToPath } from 'node:url';
 const WEB = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = resolve(WEB, '../../design/brand/banners');
 const URL = 'http://localhost:4173/';
-const CYCLE_S = 16;
 mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch();
 
 // Poster: the static composed frame, English, light.
 {
-  const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, reducedMotion: 'reduce', deviceScaleFactor: 1 });
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce', deviceScaleFactor: 1 });
   await ctx.addInitScript(() => window.localStorage.setItem('ezhuthu.lang', 'en'));
   const p = await ctx.newPage();
   await p.goto(URL);
   await p.getByTestId('stone-hero').waitFor();
   await p.evaluate(() => document.fonts.ready);
+  await p.addStyleTag({ content: '.mock-banner{display:none!important}' });
   await p.waitForTimeout(500);
   const poster = join(OUT, 'hero-stone-poster.png');
   await p.getByTestId('stone-hero').locator('.sh-stage').screenshot({ path: poster });
@@ -35,7 +35,7 @@ const browser = await chromium.launch();
   console.log(`wrote ${poster}`);
 }
 
-async function record({ name, theme = 'light', lang = 'en', viewport = { width: 1280, height: 900 }, fullScreen = false }) {
+async function record({ name, theme = 'light', lang = 'en', viewport = { width: 1440, height: 900 }, fullScreen = false }) {
   const tmp = mkdtempSync(join(tmpdir(), 'ez-stone-'));
   const ctx = await browser.newContext({ viewport, colorScheme: theme, recordVideo: { dir: tmp, size: viewport } });
   await ctx.addInitScript((l) => window.localStorage.setItem('ezhuthu.lang', l), lang);
@@ -61,13 +61,16 @@ async function record({ name, theme = 'light', lang = 'en', viewport = { width: 
   const box = fullScreen ? { x: 0, y: 0, ...viewport } : await hero.locator('.sh-stage').boundingBox();
   const start = (Date.now() - t0) / 1000;
   await page.getByTestId('stone-replay').evaluate((b) => b.click());
-  await page.waitForTimeout(CYCLE_S * 1000 - 1000); // one cycle, ending on the held final frame
+  const cycleMs = await page.evaluate(() => Number(document.querySelector('.sh-stage').getAnimations()[0]?.effect.getTiming().duration ?? 20000));
+  // One cycle, ending on the held final frame (before the 0.7 s fade and 0.3 s rest).
+  const CLIP_S = (cycleMs - 1300) / 1000;
+  await page.waitForTimeout(CLIP_S * 1000 + 400);
   await ctx.close();
   const raw = join(tmp, readdirSync(tmp).find((f) => f.endsWith('.webm')));
   const even = (n) => Math.floor(n / 2) * 2;
   const crop = `crop=${even(box.width)}:${even(box.height)}:${Math.round(box.x)}:${Math.round(box.y)}`;
   const webm = join(OUT, `${name}.webm`);
-  execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-ss', start.toFixed(2), '-t', String(CYCLE_S - 1), '-i', raw, '-vf', `${crop},scale='min(960,iw)':-2`, '-c:v', 'libvpx-vp9', '-b:v', '0', '-crf', '40', '-row-mt', '1', '-an', webm]);
+  execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-ss', start.toFixed(2), '-t', CLIP_S.toFixed(2), '-i', raw, '-vf', `${crop},scale='min(960,iw)':-2`, '-c:v', 'libvpx-vp9', '-b:v', '0', '-crf', '40', '-row-mt', '1', '-an', webm]);
   rmSync(tmp, { recursive: true, force: true });
   console.log(`wrote ${webm}`);
   return webm;
@@ -75,9 +78,9 @@ async function record({ name, theme = 'light', lang = 'en', viewport = { width: 
 
 const light = await record({ name: 'hero-stone' });
 await record({ name: 'hero-stone-dark', theme: 'dark' });
-await record({ name: 'hero-stone-phone', lang: 'ta', viewport: { width: 375, height: 812 }, fullScreen: true });
+await record({ name: 'hero-stone-phone', lang: 'ta', viewport: { width: 375, height: 740 }, fullScreen: true });
 await browser.close();
 
 const gif = join(OUT, 'hero-stone.gif');
-execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', light, '-vf', 'fps=8,scale=480:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=96:stats_mode=diff[p];[b][p]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle', gif]);
+execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', light, '-vf', 'fps=6,scale=420:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=64:stats_mode=diff[p];[b][p]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle', gif]);
 console.log(`wrote ${gif}`);

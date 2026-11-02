@@ -1,47 +1,59 @@
-import { screen, within } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { screen, waitFor, within } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { AppRoutes } from '../App';
 import heroRaw from '../hero/hero-reading.json';
 import heroView from '../hero/hero-view.json';
-import read from '../hero/runs/read.json';
+import glyphs from '../hero/runs/glyphs.json';
 import restore from '../hero/runs/restore.json';
 import { HERO } from '../hero/heroData';
+import { buildTimeline } from '../hero/timeline';
 import { en, ta } from '../i18n/strings';
 import { renderApp } from '../test/render';
 
+const cleanText = (el: Element) => (el.textContent ?? '').replace(/\s+/g, ' ').trim();
+
 describe('stone hero (home)', () => {
-  it('renders the composed final frame when it cannot animate (jsdom has no element.animate)', () => {
+  it('renders the composed static frame when it cannot animate (jsdom has no element.animate)', () => {
     renderApp(<AppRoutes />, { route: '/' });
     const hero = screen.getByTestId('stone-hero');
     expect(hero).toHaveAttribute('data-motion', 'static');
     expect(screen.queryByTestId('stone-toggle')).toBeNull();
-    // The reading is real text, in Tamil, one paragraph per line, from the actual Reader run.
-    const ta = hero.querySelectorAll('p[lang="ta"]');
-    expect(ta).toHaveLength(read.lines.length);
-    read.lines.forEach((l, i) => expect(ta[i]!.textContent!.replace(/\s+/g, ' ')).toContain(l.text_tamil.split(' ')[0]!));
-    // Each gap the restorer abstained on is a "?" tile with an accessible name.
-    expect(hero.querySelectorAll('.sh-gap')).toHaveLength(restore.response.gaps.length);
-    expect(within(hero).getAllByText('gap').length).toBeGreaterThanOrEqual(restore.response.gaps.length);
-    // Honest labels: experimental, no edition, and what happens in the app (no claim that anything was queued).
-    expect(hero).toHaveTextContent('Experimental reading, not checked against an edition');
-    expect(hero).toHaveTextContent('In the app, you fill the gaps yourself and an expert reviews each one.');
-    expect(hero.textContent).not.toMatch(/goes to expert review/);
-    // The restorer's best guesses are labelled as guesses under the cut-off, beside (not inside) the reading.
-    expect(hero.querySelectorAll('.sh-guesses')).toHaveLength(2);
-    expect(hero.querySelectorAll('.sh-ta .sh-guess')).toHaveLength(0);
-    expect(hero).toHaveTextContent('Best guesses: நிலம் 0.48 · ஆக 0.44, under 0.5, so left open');
-    // Letters are indexed within their own line (the timeline schedules per line).
+    // The reading is real text, in Tamil, one paragraph per row: the letters the Reader matched box by box, run
+    // together as on the stone, with the letter the Decider left open as a "?" tile.
+    const paras = hero.querySelectorAll('.sh-ta[lang="ta"]');
+    expect(paras).toHaveLength(glyphs.rows.length);
+    glyphs.rows.forEach((row, r) => {
+      const expected = row.glyphs.map((g) => (g.confidence !== null && g.confidence >= 0.5 && g.ta ? g.ta : 'gap')).join('');
+      expect(cleanText(paras[r]!).replace(/\?/g, '')).toBe(expected);
+    });
+    expect(hero.querySelectorAll('.sh-ta .sh-gap')).toHaveLength(restore.response.gaps.length);
+    // Every box has a badge; the static frame shows two match cards.
+    expect(hero.querySelectorAll('.sh-badge')).toHaveLength(glyphs.rows.reduce((n, r) => n + r.n_boxes, 0));
+    expect(hero.querySelectorAll('.sh-card[data-static]')).toHaveLength(2);
+    expect(hero.querySelector('.sh-card[data-card="0"]')).toHaveTextContent('கி');
+    expect(hero.querySelector('.sh-card[data-card="0"]')).toHaveTextContent('80%');
+    expect(hero.querySelector('.sh-card[data-card="0"]')).toHaveTextContent('Chola-era Tamil');
+    // Row confidence chips sit in their own column, one per row.
+    expect(Array.from(hero.querySelectorAll('.sh-lc')).map(cleanText)).toEqual(heroRaw.glyphs.rows.map((r) => `${Math.round(r.mean_confidence * 100)}%`));
+    // Letters are indexed within their own row (the timeline schedules per row).
     hero.querySelectorAll('.sh-line').forEach((line) => {
       const ks = Array.from(line.querySelectorAll<HTMLElement>('[data-anim="land"]')).map((e) => Number(e.dataset.k));
       expect(ks).toEqual(ks.map((_, i) => i));
     });
-    expect(hero).toHaveTextContent('no error rate and no translation');
-    expect(hero.textContent).not.toMatch(/\bcorrect\b|deciph/i);
-    // Photo credit with author, licence link and source.
+    // What happened to the uncertain letter, in plain words, with the real numbers.
+    expect(hero).toHaveTextContent('Line 3: the Reader named this letter ண்ணி at 45%, under 50%. The Restorer’s best fill, குப் at 37%, was under 50% too, so the Strands Decider left it open.');
+    expect(hero).toHaveTextContent('46 letters matched to modern Tamil');
+    expect(hero).toHaveTextContent('mean confidence 65%');
+    expect(hero).toHaveTextContent('1 left open');
+    expect(hero).toHaveTextContent('Letters under 50% are flagged as uncertain.');
+    // No hedging labels, no claims of correctness or of anything being queued.
+    expect(hero.textContent).not.toMatch(/experimental|not checked|edition|goes to expert review|\bcorrect\b|deciph/i);
+    // Credits: photo author, licence, source, and the reading's maker.
     expect(screen.getByTestId('hero-credit')).toHaveAttribute('href', expect.stringContaining('commons.wikimedia.org'));
     expect(within(hero).getByRole('link', { name: 'CC BY 2.0' })).toHaveAttribute('href', 'https://creativecommons.org/licenses/by/2.0/');
     expect(hero).toHaveTextContent('Richard Mortel');
+    expect(hero).toHaveTextContent('Reading by Ezhuthu, built with Strands Agents');
     // The artwork is hidden from assistive tech; the reading is not.
     expect(hero.querySelector('.sh-photo')).toHaveAttribute('aria-hidden', 'true');
     expect(hero.querySelector('.sh-pipe')).toHaveAttribute('aria-hidden', 'true');
@@ -55,6 +67,9 @@ describe('stone hero (home)', () => {
     expect(screen.getByTestId('cta-upload')).toHaveAttribute('href', '/restore');
     expect(screen.getByTestId('cta-samples')).toHaveAttribute('href', '#samples');
     expect(screen.getByTestId('cta-scholars')).toHaveAttribute('href', '#scholars');
+    // The headline and calls to action come before the stone in the page (phones show them first).
+    const h1 = screen.getByRole('heading', { level: 1 });
+    expect(h1.compareDocumentPosition(screen.getByTestId('stone-hero')) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     const scholars = screen.getByTestId('scholars');
     expect(within(scholars).getByRole('link', { name: 'Expert review' })).toHaveAttribute('href', '/review');
     expect(within(scholars).getByRole('link', { name: 'Benchmark' })).toHaveAttribute('href', '/benchmark');
@@ -64,32 +79,135 @@ describe('stone hero (home)', () => {
     renderApp(<AppRoutes />, { route: '/', lang: 'ta' });
     const hero = screen.getByTestId('stone-hero');
     expect(hero).toHaveTextContent('வாசிப்பாளர்');
-    expect(hero).toHaveTextContent('வல்லுநர் மதிப்பாய்வு செய்வார்');
+    expect(hero).toHaveTextContent('சோழர் காலத் தமிழ்');
+    expect(hero).toHaveTextContent('Strands Agents');
   });
 });
 
-describe('hero data (src/hero/hero-reading.json) is the real run, not hand-written', () => {
-  it('matches the Reader and Restorer responses it was built from', () => {
-    expect(HERO.lines.map((l) => l.iso)).toEqual(read.lines.map((l) => l.text));
-    expect(HERO.lines.map((l) => l.ta)).toEqual(read.lines.map((l) => l.text_tamil));
-    expect(HERO.confidence).toBe(read.confidence);
-    expect(HERO.gaps).toBe(restore.response.gaps.length);
+describe('stone hero animation: one track per element, and the loop has no seam', () => {
+  type Rec = { el: Element; kf: Keyframe[]; opts: KeyframeAnimationOptions };
+  let recs: Rec[] = [];
+  const proto = Element.prototype as unknown as { animate?: unknown };
+  const original = proto.animate;
+  const matchMedia = window.matchMedia;
+
+  beforeEach(() => {
+    recs = [];
+    proto.animate = function (this: Element, kf: Keyframe[], opts: KeyframeAnimationOptions) {
+      recs.push({ el: this, kf, opts });
+      return { cancel() {}, pause() {}, play() {}, playState: 'running', onfinish: null } as unknown as Animation;
+    };
+    window.matchMedia = ((q: string) => ({ matches: false, media: q, addEventListener() {}, removeEventListener() {} })) as unknown as typeof window.matchMedia;
+  });
+  afterEach(() => {
+    proto.animate = original;
+    window.matchMedia = matchMedia;
+  });
+
+  async function startCycle() {
+    renderApp(<AppRoutes />, { route: '/' });
+    const hero = screen.getByTestId('stone-hero');
+    expect(hero).toHaveAttribute('data-motion', 'animated');
+    hero.querySelector('.sh-kb > picture img')!.dispatchEvent(new Event('load'));
+    await waitFor(() => expect(hero).toHaveAttribute('data-phase', 'running'));
+    return hero;
+  }
+
+  it('animates every hero element over exactly one cycle, ending where the next cycle begins', async () => {
+    const hero = await startCycle();
+    const tl = buildTimeline(HERO.rows.map((r) => r.glyphs.length), HERO.featured, HERO.gaps.length);
+    const inHero = recs.filter((r) => hero.contains(r.el) && r.kf.length > 0);
+    expect(inHero.length).toBeGreaterThan(150);
+    const perEl = new Map<Element, number>();
+    for (const r of inHero) {
+      expect(r.opts.duration).toBe(tl.cycle);
+      expect(r.opts.delay ?? 0).toBe(0);
+      expect(r.kf[0]!.offset).toBe(0);
+      expect(r.kf[r.kf.length - 1]!.offset).toBe(1);
+      perEl.set(r.el, (perEl.get(r.el) ?? 0) + 1);
+      if (r.el.classList.contains('sh-kb')) continue;
+      // Everything except the photo starts hidden and is hidden again at the end: nothing blinks at the seam.
+      const first = r.kf[0]!;
+      const last = r.kf[r.kf.length - 1]!;
+      if ('opacity' in first) expect(last.opacity).toBe(first.opacity);
+      if ('strokeDashoffset' in first) {
+        expect(first.strokeDashoffset).toBe(100);
+        expect(last.strokeDashoffset).toBe(100);
+      }
+    }
+    // One animation per element: no two animations composite over each other.
+    for (const n of perEl.values()) expect(n).toBe(1);
+    // Boxes fade out from their resting opacity, not from full (no flash of all boxes before the fade).
+    const box = inHero.find((r) => r.el.classList.contains('sh-box'))!;
+    const fade = box.kf.filter((k) => (k.offset as number) >= tl.fadeOut / tl.cycle);
+    expect(fade[0]!.opacity).toBeLessThan(1);
+    // The photo fades in on the first cycle only and is fully shown at the end of it.
+    const kb = inHero.find((r) => r.el.classList.contains('sh-kb'))!;
+    expect(kb.kf[0]!.opacity).toBe(0);
+    expect(kb.kf[kb.kf.length - 1]!.opacity).toBe(1);
+  });
+
+  it('reads letters out in order: every letter of row r lands before row r+1 starts landing', async () => {
+    const hero = await startCycle();
+    const tl = buildTimeline(HERO.rows.map((r) => r.glyphs.length), HERO.featured, HERO.gaps.length);
+    const landed = (el: Element) => {
+      const kf = recs.find((r) => r.el === el)!.kf;
+      // The first keyframe where the letter is at rest in place.
+      return kf.find((k) => k.transform === 'none' && k.opacity === 1)!.offset as number;
+    };
+    const rows = Array.from(hero.querySelectorAll('.sh-line')).map((l) => Array.from(l.querySelectorAll('[data-anim="land"]')).map(landed));
+    rows.forEach((row, r) => {
+      for (let i = 1; i < row.length; i++) expect(row[i]).toBeGreaterThan(row[i - 1]!);
+      if (r > 0) expect(row[row.length - 1]).toBeGreaterThan(rows[r - 1]![rows[r - 1]!.length - 1]!);
+      expect(row[0]! * tl.cycle).toBeGreaterThan(tl.gap.end);
+    });
+  });
+});
+
+describe('stone hero under reduced motion', () => {
+  const matchMedia = window.matchMedia;
+  afterEach(() => {
+    window.matchMedia = matchMedia;
+  });
+  it('shows the static frame even where element.animate exists', () => {
+    const proto = Element.prototype as unknown as { animate?: unknown };
+    const original = proto.animate;
+    proto.animate = () => ({ cancel() {} });
+    window.matchMedia = ((q: string) => ({ matches: q.includes('reduce'), media: q, addEventListener() {}, removeEventListener() {} })) as unknown as typeof window.matchMedia;
+    try {
+      renderApp(<AppRoutes />, { route: '/' });
+      const hero = screen.getByTestId('stone-hero');
+      expect(hero).toHaveAttribute('data-motion', 'static');
+      expect(hero.querySelectorAll('.sh-card[data-static]')).toHaveLength(2);
+      expect(hero.querySelectorAll('.sh-ta[lang="ta"]')).toHaveLength(HERO.rows.length);
+      expect(screen.queryByTestId('stone-replay')).toBeNull();
+    } finally {
+      proto.animate = original;
+    }
+  });
+});
+
+describe('hero data (src/hero/hero-view.json) is the real run, not hand-written', () => {
+  it('matches the letter-by-letter Reader run and the Restorer run it was built from', () => {
+    expect(HERO.rows.map((r) => r.glyphs.map((g) => [g.ta, g.c]))).toEqual(glyphs.rows.map((r) => r.glyphs.map((g) => [g.ta ?? '', g.confidence])));
+    expect(HERO.letters).toBe(glyphs.rows.reduce((n, r) => n + r.n_boxes, 0));
+    expect(HERO.gaps).toHaveLength(restore.response.gaps.length);
+    expect(HERO.gaps.map((x) => x.g.gap!.decision)).toEqual(restore.response.gaps.map((g) => g.decision));
+    expect(HERO.gaps.map((x) => x.g.gap!.best!.c)).toEqual(restore.response.gaps.map((g) => g.candidates[0]!.confidence));
     expect(HERO.fills).toBe(restore.response.gaps.filter((g) => g.decision !== 'abstain').length);
-    const gapsInReading = read.lines.reduce((n, l) => n + l.gaps, 0);
-    expect(HERO.gaps).toBe(gapsInReading);
+    // Letters under the cut-off are exactly the gaps the Restorer was given.
+    const under = glyphs.rows.flatMap((r) => r.glyphs.filter((g) => !g.ta || (g.confidence ?? 0) < 0.5));
+    expect(under).toHaveLength(restore.response.gaps.length);
+    expect(HERO.mean).toBe(heroRaw.glyphs.mean_confidence);
   });
   it('ships a trimmed view that agrees with the full record', () => {
     expect(heroView.boxes).toEqual(heroRaw.boxes);
-    expect(heroView.reading.confidence).toBe(heroRaw.reading.final.confidence);
-    expect(heroView.restore.decisions).toEqual(heroRaw.restore.decisions);
-    expect(heroView.reading.lines.map((l) => [l.n, l.iso, l.ta, l.confidence])).toEqual(heroRaw.reading.lines.map((l) => [l.n, l.iso, l.ta, l.confidence]));
-    const bestOf = (ls: { aksharas: { kind: string; best?: { ta: string; confidence: number } | null }[] }[]) =>
-      ls.flatMap((l) => l.aksharas.filter((a) => a.kind === 'gap').map((a) => a.best && [a.best.ta, a.best.confidence]));
-    expect(bestOf(heroView.reading.lines)).toEqual(bestOf(heroRaw.reading.lines));
-    expect(JSON.stringify(heroView).length).toBeLessThan(JSON.stringify(heroRaw).length * 0.7);
+    expect(heroView.rows.map((r) => r.c)).toEqual(heroRaw.glyphs.rows.map((r) => r.mean_confidence));
+    expect(JSON.stringify(heroView).length).toBeLessThan(JSON.stringify(heroRaw).length * 0.3);
+    expect(JSON.stringify(heroView)).not.toMatch(/note|candidates|model/);
   });
-  it('has one row of letter boxes per reading line, all inside the photo', () => {
-    expect(HERO.boxes).toHaveLength(read.lines.length);
+  it('has one box per matched letter, all inside the photo', () => {
+    expect(HERO.boxes.map((r) => r.length)).toEqual(HERO.rows.map((r) => r.glyphs.length));
     for (const row of HERO.boxes)
       for (const [x0, y0, x1, y1] of row) {
         expect(x0).toBeGreaterThanOrEqual(0);
@@ -100,12 +218,13 @@ describe('hero data (src/hero/hero-reading.json) is the real run, not hand-writt
         expect(y1).toBeGreaterThan(y0);
       }
   });
-  it('records the photo licence and states that there is no edition to score against', () => {
+  it('records the photo licence, and no edition or match rate (none could be found)', () => {
     expect(heroRaw.photo.licence).toBe('CC BY 2.0');
     expect(heroRaw.photo.author).toBe('Richard Mortel');
     expect(heroRaw.edition).toBeNull();
-    expect(heroRaw.cer).toBeNull();
-    expect(heroRaw.live_calls.reader + heroRaw.live_calls.restorer).toBeLessThanOrEqual(20);
+    expect(heroRaw.match_rate).toBeNull();
+    const calls = heroRaw.live_calls;
+    expect(calls.reader + calls.glyphs + calls.restorer).toBeLessThanOrEqual(60);
   });
 });
 

@@ -79,28 +79,33 @@ only, and tests enforce it (`tests/ontology/test_artefacts.py::test_shipped_buil
 
 ## The home hero, and why it is honest
 
-The home page now opens on a **real photograph** of a Chola-period inscription on the Brihadisvara temple, Thanjavur
-(Richard Mortel, CC BY 2.0, via Wikimedia Commons; `app/web/public/hero/ATTRIBUTION.md`). The animation shows the
-letters lighting up on hand-annotated boxes, flying into Reader, Restorer and Strands Decider, and landing as the
-reading, and everything it shows is the **actual output** of our Reader and Restorer on that photo
-(`app/web/src/hero/hero-reading.json`, built by `scripts/hero_read.py` and `scripts/hero_build.py`; 10 live Bedrock
-calls, models from `config/models.yaml`):
+The home page opens on a **real photograph** of a Chola-period inscription on the Brihadisvara temple, Thanjavur
+(Richard Mortel, CC BY 2.0, via Wikimedia Commons; `app/web/public/hero/ATTRIBUTION.md`). The animation lights the
+carved letters on hand-annotated boxes, then **matches them letter by letter**: the first few one at a time in a card
+(the carved glyph, zoomed -> the modern Tamil letter -> a ring filling to the Reader's confidence), then a fast
+cascade of badges over the other boxes. The letter the Reader was least sure of goes to the Restorer and the Strands
+Decider; then the letters fly past the pipeline and assemble into the reading. Everything it shows is the **actual
+output** of our system on that photo (`app/web/src/hero/hero-reading.json`, built by `scripts/hero_read.py` and
+`scripts/hero_build.py`; models from `config/models.yaml`):
 
-- Reader confidence **0.20** (Sonnet 4.6 at 0.15, then Opus 4.6 on "read again"); all 4 lines are under 0.5.
-- 3 gaps; Opus proposed fills and the hosted Strands Decider (`strands-decider-2b-hobson-v19`, `noul` on the top 3,
-  the current `restorer.strategy_llm`) scored the best ones 0.38, 0.48 and 0.44. The cloud runtime has no calibration
-  for that decider, so it fills only at 0.5 or above: **all three abstain** and the gaps stay open for an expert.
-- **We could not identify this stone in a published edition**, so the hero shows no error rate and no translation, and
-  says so. Two Opus reads of overlapping crops of the photo disagreed, which is itself evidence that the reading is
-  unreliable.
+- **Letter by letter** (`Reader.read_glyphs`, Opus 4.6, one call per row of boxes, 4 calls): 46 boxes, each named as a
+  modern Tamil letter with the model's own probability (self-reported, not calibrated). Mean **0.65**; per row 0.68,
+  0.67, 0.65, 0.60.
+- One letter (line 3, box 2: ண்ணி at 0.45) is under the 0.5 cut-off, so it was sent to the Restorer as a gap
+  (`POST /api/restore` code path, 1 Bedrock call). Opus proposed fills; the hosted Strands Decider
+  (`strands-decider-2b-hobson-v19`, `noul` on the top 3) scored the best, குப், at 0.37. That is under 0.5, so the
+  Decider **abstains** and the hero shows "?".
+- **No published edition of this stone was found** (it is not in the DHARMA split, and a Commons search for an openly
+  licensed photo of a DHARMA inscription found none that could be matched), so the hero shows no match rate and no
+  translation. It does not call itself experimental and it makes no claim that the letters are right: it shows the
+  numbers.
+- The app's own line-by-line reading of the same crop (Sonnet 4.6, then Opus 4.6; confidence 0.20) and the Restorer
+  on its gaps are kept in the record (`line_reading`) but are not shown.
 
-That is positioning C in one screen: a real stone, an assistant that shows how unsure it is, and a route to an expert.
-A follow-up worth doing: an epigraphist identifies the inscription (SII volume 2 is the likely place), and we add its
-edition and a CER, or swap to a photo of a DHARMA train inscription with a published reading.
-
-Media: `design/brand/banners/hero-stone.webm` (desktop, light), `hero-stone-dark.webm`, `hero-stone-phone.webm`
-(375 px, Tamil), and `hero-stone-poster.jpg` (the reduced-motion frame). There is no GIF: a 1.6 MB GIF was dropped for
-weight, so the README shows the poster and links it to the video.
+Media: `design/brand/banners/hero-stone.webm` (1440 x 900 desktop, light), `hero-stone-dark.webm`,
+`hero-stone-phone.webm` (375 x 740, Tamil), `hero-stone.gif` (light, small, for places without video) and
+`hero-stone-poster.png` (the reduced-motion frame). `design/hero/contact-sheet.png` shows one frame per second of a
+cycle for review.
 
 ## Proposed README copy (for the lead; README.md is owned by PR #31)
 
@@ -113,9 +118,9 @@ Replace the bold one-liner and the Tamil line under the badges with:
 
 Under it, the hero media:
 
-> <p align="center"><a href="design/brand/banners/hero-stone.webm"><img src="design/brand/banners/hero-stone-poster.jpg" alt="A real Chola-period inscription from Thanjavur: letters light up, fly through Reader, Restorer and Strands Decider, and land as Ezhuthu's reading, with low confidence, three abstained gaps and a note that a reading this unsure needs an expert" width="88%"></a></p>
-> <p align="center"><sub>A real photo (Richard Mortel, CC BY 2.0), read by Ezhuthu: confidence 0.20, three gaps left
-> open for an expert. No published edition of this stone was found, so no error rate is shown.</sub></p>
+> <p align="center"><a href="design/brand/banners/hero-stone.webm"><img src="design/brand/banners/hero-stone-poster.png" alt="A real Chola-period inscription from Thanjavur: each carved letter is matched to a modern Tamil letter with a confidence, the least certain one goes to the Restorer and the Strands Decider, which leaves it open, and the letters assemble into Ezhuthu's reading" width="88%"></a></p>
+> <p align="center"><sub>A real photo (Richard Mortel, CC BY 2.0), read letter by letter by Ezhuthu: 46 letters, mean
+> confidence 0.65, one left open by the Strands Decider.</sub></p>
 
 "Why it matters", first two bullets:
 

@@ -42,20 +42,39 @@ def test_image_variants_exist_and_fit_the_budget():
 
 def test_reading_is_the_recorded_run():
     hero = _hero()
-    read = json.loads((RUNS / "read.json").read_text(encoding="utf-8"))
+    glyphs = json.loads((RUNS / "glyphs.json").read_text(encoding="utf-8"))
     restore = json.loads((RUNS / "restore.json").read_text(encoding="utf-8"))
-    assert [ln["iso"] for ln in hero["reading"]["lines"]] == [ln["text"] for ln in read["lines"]]
-    assert hero["reading"]["final"]["confidence"] == read["confidence"]
+    rows = hero["glyphs"]["rows"]
+    assert [[g["ta"] for g in r["glyphs"]] for r in rows] == [[g["ta"] for g in r["glyphs"]] for r in glyphs["rows"]]
+    assert [len(r) for r in hero["boxes"]] == [r["n_boxes"] for r in glyphs["rows"]]
+    # The Restorer ran on the letter-by-letter reading, with each letter under the cut-off as a gap.
+    import sys
+
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from hero_read import glyph_is_gap, glyph_text
+
+    assert restore["input"] == glyph_text(glyphs)
+    n_gaps = sum(glyph_is_gap(g) for r in glyphs["rows"] for g in r["glyphs"])
+    assert n_gaps == len(restore["response"]["gaps"]) == len(hero["restore"]["gaps"])
     assert hero["restore"]["decisions"] == [g["decision"] for g in restore["response"]["gaps"]]
-    assert restore["input"] == read["text"]
-    assert len(hero["boxes"]) == len(read["lines"])
-    assert hero["live_calls"]["reader"] + hero["live_calls"]["restorer"] <= 20
+    calls = hero["live_calls"]
+    assert calls["reader"] + calls["glyphs"] + calls["restorer"] <= 60
 
 
-def test_no_edition_means_no_score_and_no_claims():
+def test_view_is_a_trimmed_subset():
     hero = _hero()
-    assert hero["edition"] is None and hero["cer"] is None
-    assert "unverified" in hero["edition_note"]
+    view = json.loads((WEB / "src" / "hero" / "hero-view.json").read_text(encoding="utf-8"))
+    assert view["boxes"] == hero["boxes"]
+    assert view["letters"] == hero["glyphs"]["letters"]
+    assert [[g["c"] for g in r["glyphs"]] for r in view["rows"]] == \
+        [[g["confidence"] for g in r["glyphs"]] for r in hero["glyphs"]["rows"]]
+    assert len(json.dumps(view)) < 0.3 * len(json.dumps(hero))
+
+
+def test_no_edition_means_no_match_rate_and_no_claims():
+    hero = _hero()
+    assert hero["edition"] is None and hero["match_rate"] is None
+    assert "not identified" in hero["edition_note"]
     text = json.dumps(hero, ensure_ascii=False).lower()
-    for banned in ("deciphered", "is correct", "are correct", "strands ai", "aws ai"):
+    for banned in ("deciphered", "is correct", "are correct", "strands ai", "aws ai", "goes to expert review"):
         assert banned not in text

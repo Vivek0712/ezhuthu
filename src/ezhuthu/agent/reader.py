@@ -292,6 +292,83 @@ def parse_reader_reply(text: str) -> dict[str, Any]:
 
 
 # ---------------------------------------------------------------------------------------------------------------
+# per-glyph reading (letter by letter, on boxes someone drew around the carved letters)
+
+GLYPH_MAX_BOXES = 40
+
+
+def glyph_prompt(n_boxes: int, *, script: str | None = None, line_hint: str | None = None) -> str:
+    """Ask for the modern Tamil letter behind each numbered box. The first image is the clean photo, the second the
+    same photo with boxes 1..n drawn on it (outlines and numbers only, so the strokes stay visible in the first)."""
+    era = f"\nThe script is probably {SCRIPT_LABELS.get(script, (script,))[0]}." if script else ""
+    hint = (f"\nA line-level reading of this line was {line_hint[:200]!r}; it may be wrong or split differently. "
+            "Read each box from the image.") if line_hint else ""
+    return (
+        f"Two images of the same line of an inscription. In the second, {n_boxes} carved letters are outlined and "
+        f"numbered 1 to {n_boxes} from left to right; the first is the same photo without marks.\n"
+        "For EACH numbered box, say which letter of today's Tamil script the carved letter in it is: one akshara "
+        "(an independent vowel, or a consonant with its vowel sign, or a consonant with pulli). If the box holds two "
+        "letters, give both. If it is worn beyond reading, give \"?\" and a low probability. Never guess from what "
+        "the text should say: read the shape." + era + hint + "\n"
+        "Give your probability (0 to 1) that the letter is right, its ISO-15919 transliteration, and a short note on "
+        "the old letterform (what differs from today's shape), at most 12 words.\n"
+        f"Reply with ONE line of JSON: {{\"glyphs\": [{{\"box\": 1, \"ta\": \"<Tamil>\", \"iso\": \"<iso>\", "
+        f"\"p\": 0.0, \"note\": \"...\"}}, ...]}} with exactly {n_boxes} entries."
+    )
+
+
+def _glyph_ta(raw: Any) -> str | None:
+    s = unicodedata.normalize("NFC", str(raw or "")).strip()
+    if not s or s in ("?", "[?]", "[?1]"):
+        return None
+    s = "".join(ch for ch in s if "஀" <= ch <= "௿")
+    return s[:8] or None
+
+
+def parse_glyph_reply(text: str, n_boxes: int) -> list[dict[str, Any]]:
+    """One entry per box 1..n_boxes: ``{"box", "ta", "iso", "confidence", "note"}``. ``ta`` is None where the model
+    gave no Tamil letter (worn, or missing from the reply), with confidence 0 if it said nothing about that box."""
+    raw = text.strip()
+    if raw.startswith("```"):
+        raw = re.sub(r"^```[a-z]*\s*|\s*```$", "", raw)
+    m = _JSON_RE.search(raw)
+    items: list[Any] = []
+    if m:
+        try:
+            data = json.loads(m.group(0))
+            items = data.get("glyphs") or [] if isinstance(data, dict) else []
+        except json.JSONDecodeError:
+            items = [json.loads(g) for g in re.findall(r"\{[^{}]*\"box\"[^{}]*\}", raw) if _loads_ok(g)]
+    by_box: dict[int, dict[str, Any]] = {}
+    for it in items:
+        if not isinstance(it, dict):
+            continue
+        try:
+            b = int(it.get("box"))
+        except (TypeError, ValueError):
+            continue
+        if 1 <= b <= n_boxes and b not in by_box:
+            by_box[b] = it
+    out = []
+    for b in range(1, n_boxes + 1):
+        it = by_box.get(b, {})
+        ta = _glyph_ta(it.get("ta"))
+        iso = tamil_to_iso(ta) if ta else None
+        conf = _prob(it.get("p", it.get("confidence")))
+        out.append({"box": b, "ta": ta, "iso": iso, "confidence": 0.0 if not it else conf,
+                    "note": (str(it.get("note") or "").strip()[:120] or None)})
+    return out
+
+
+def _loads_ok(s: str) -> bool:
+    try:
+        json.loads(s)
+        return True
+    except json.JSONDecodeError:
+        return False
+
+
+# ---------------------------------------------------------------------------------------------------------------
 # line normalisation (image, text and XML all end here)
 
 _DOTS_RE = re.compile(r"(?:\.\s*){3,}|…+")
@@ -621,6 +698,22 @@ class Reader:
         if skipped:
             out["escalation_skipped"] = skipped
         return out
+
+    def read_glyphs(self, clean: PreparedImage, marked: PreparedImage, n_boxes: int, *, role: str = "escalate",
+                    script: str | None = None, line_hint: str | None = None) -> dict[str, Any]:
+        """Letter-by-letter reading: the modern Tamil letter and a probability for each of ``n_boxes`` numbered
+        boxes drawn on ``marked`` (``clean`` is the same crop without marks). Used offline to build the home hero
+        (scripts/hero_read.py glyphs); not an API route. One model call."""
+        if self.llm is None or not hasattr(self.llm, "complete_image"):
+            raise ReaderUnavailable("photo reading needs a live model (EZHUTHU_LIVE=1)")
+        if not 1 <= n_boxes <= GLYPH_MAX_BOXES:
+            raise ReadError("bad_request", f"n_boxes must be 1..{GLYPH_MAX_BOXES}")
+        r = self.llm.complete_image(role, READER_SYSTEM, glyph_prompt(n_boxes, script=script, line_hint=line_hint),
+                                    [(clean.data, clean.format), (marked.data, marked.format)],
+                                    max_tokens=self.settings.max_tokens,
+                                    timeout_s=self.settings.request_budget_s * 4)
+        return {"glyphs": parse_glyph_reply(r.text, n_boxes), "model": short_name(r.model_id),
+                "truncated": bool(r.truncated)}
 
     # ---- internals ---------------------------------------------------------------------------------------------
     @staticmethod

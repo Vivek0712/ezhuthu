@@ -1,35 +1,100 @@
 import { expect, test, type Page } from '@playwright/test';
 import { expectNoHorizontalScroll, setEnglish } from './helpers';
 
-// The home hero (StoneHero.tsx): a real photo, read by Ezhuthu, animated with WAAPI. One cycle is 16 s.
+// The home hero (StoneHero.tsx): a real photo, read letter by letter by Ezhuthu, animated with WAAPI (~19 s cycle).
 
 const pageSettled = async (page: Page) => {
   await page.getByTestId('stone-hero').waitFor(); // the app renders after the mock worker starts
   await page.waitForFunction(() => document.querySelector('.page')?.getAnimations().every((a) => a.playState === 'finished'));
 };
+const hideDemoBanner = (page: Page) => page.addStyleTag({ content: '.mock-banner{display:none!important}' });
+/** On phones the headline comes first: bring the stone on screen so its cycle starts. */
+const showHero = async (page: Page) => {
+  const hero = page.getByTestId('stone-hero');
+  await hero.locator('.sh-stage').scrollIntoViewIfNeeded();
+  await expect(hero).toHaveAttribute('data-phase', 'running');
+  return hero;
+};
 
-/** Opacity of every landed letter of the reading (they end at 1 once the cycle has delivered them). */
-const letterOpacities = (page: Page) =>
-  page.locator('.sh-akw').evaluateAll((els) => els.map((e) => Number(getComputedStyle(e).opacity)));
+/** Opacity of every letter of the reading (each ends at 1 once it has landed). */
+const letterOpacities = (page: Page) => page.locator('.sh-l').evaluateAll((els) => els.map((e) => Number(getComputedStyle(e).opacity)));
+const shown = (page: Page, sel: string) => page.locator(sel).evaluateAll((els) => els.filter((e) => Number(getComputedStyle(e).opacity) > 0.5).length);
 
 test.describe('stone hero', () => {
-  test('plays the whole story: letters light up, fly into the pipeline and land as the reading', async ({ page }) => {
+  test('plays the whole story: scan, match cards, cascade, gap, assembly, verdict', async ({ page }) => {
     await setEnglish(page);
     await page.goto('/');
-    const hero = page.getByTestId('stone-hero');
-    await expect(hero).toHaveAttribute('data-motion', 'animated');
-    await expect(hero).toHaveAttribute('data-phase', 'running');
-    // (b) letter boxes light up on the stone
+    await expect(page.getByTestId('stone-hero')).toHaveAttribute('data-motion', 'animated');
+    const hero = await showHero(page);
+    // (b) the carved letters light up
     await expect.poll(() => hero.locator('.sh-box').first().evaluate((n) => Number(getComputedStyle(n).opacity)), { timeout: 5000 }).toBeGreaterThan(0.9);
-    // (c) glowing fragments are in flight
-    await expect.poll(() => hero.locator('.sh-frag').evaluateAll((els) => els.filter((e) => Number(getComputedStyle(e).opacity) > 0.5).length), { timeout: 8000 }).toBeGreaterThan(3);
-    // (d) every letter lands, (e) then the verdict
+    // (c) the first match card: carved glyph -> modern letter, confidence ring
+    await expect.poll(() => shown(page, '.sh-card[data-card="0"]'), { timeout: 6000 }).toBe(1);
+    await expect(hero.locator('.sh-card[data-card="0"] .sh-card-ta')).toHaveText('கி');
+    await expect(hero.locator('.sh-card[data-card="0"] .sh-ring b')).toHaveText('80%');
+    // ... then the cascade puts a badge on every box
+    const boxes = await hero.locator('.sh-box').count();
+    await expect.poll(() => shown(page, '.sh-badge'), { timeout: 8000 }).toBe(boxes);
+    // (d) the gap: the Decider abstains and the badge turns to "?"
+    await expect.poll(() => shown(page, '.sh-badge-gap .sh-badge-b'), { timeout: 6000 }).toBe(1);
+    // (e) every letter lands, (f) then the verdict
     await expect.poll(async () => Math.min(...(await letterOpacities(page))), { timeout: 12_000 }).toBeGreaterThan(0.99);
-    await expect.poll(() => hero.locator('.sh-review').evaluate((n) => Number(getComputedStyle(n).opacity)), { timeout: 4000 }).toBeGreaterThan(0.99);
-    await expect(hero.locator('.sh-review')).toHaveText('Under 0.5, so this reading goes to expert review.');
-    await expect(hero.locator('p[lang="ta"]')).toHaveCount(4);
+    await expect.poll(() => shown(page, '.sh-verdict'), { timeout: 4000 }).toBe(1);
+    await expect(hero.locator('.sh-verdict')).toContainText('46 letters matched to modern Tamil');
+    await expect(hero.locator('.sh-ta[lang="ta"]')).toHaveCount(4);
+    await expect(hero).not.toContainText(/experimental|not checked against/i);
     await expect(page.getByTestId('hero-credit')).toContainText('Richard Mortel');
+    await expect(hero).toContainText('Reading by Ezhuthu, built with Strands Agents');
     await expectNoHorizontalScroll(page);
+  });
+
+  test('loops without the photo blinking out', async ({ page }) => {
+    await page.goto('/');
+    await pageSettled(page);
+    const hero = await showHero(page);
+    // Jump every hero animation to just before the end of the cycle, then let the next cycle start.
+    const opacityAcrossSeam = await page.evaluate(async () => {
+      const stage = document.querySelector('.sh-stage')!;
+      const clock = stage.getAnimations()[0]!;
+      const C = Number(clock.effect!.getTiming().duration);
+      for (const a of document.getAnimations()) if (a.effect?.getTiming().duration === C) a.currentTime = C - 120;
+      const kb = document.querySelector('.sh-kb')!;
+      const seen: number[] = [];
+      const t0 = performance.now();
+      await new Promise<void>((res) => {
+        const tick = () => {
+          seen.push(Number(getComputedStyle(kb).opacity));
+          if (performance.now() - t0 < 600) requestAnimationFrame(tick);
+          else res();
+        };
+        requestAnimationFrame(tick);
+      });
+      return seen;
+    });
+    expect(Math.min(...opacityAcrossSeam)).toBeGreaterThan(0.99);
+    await expect(hero).toHaveAttribute('data-phase', 'running');
+  });
+
+  test('desktop composition: the photo is the hero, the reading sits beside it', async ({ page }, info) => {
+    test.skip(info.project.name !== 'desktop', 'desktop layout');
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/');
+    const hero = page.getByTestId('stone-hero');
+    await pageSettled(page);
+    const stage = (await hero.locator('.sh-stage').boundingBox())!;
+    const photo = (await hero.locator('.sh-frame').boundingBox())!;
+    const out = (await hero.locator('.sh-out').boundingBox())!;
+    expect(photo.width / stage.width).toBeGreaterThan(0.55);
+    expect(out.x).toBeGreaterThan(photo.x + photo.width);
+    // The browser picks a photo at least as wide as it is drawn (srcset sizes match the layout).
+    const { natural, drawn, dpr } = await hero.locator('.sh-kb > picture img').evaluate((img: HTMLImageElement) => ({ natural: img.naturalWidth, drawn: img.getBoundingClientRect().width, dpr: window.devicePixelRatio }));
+    expect(natural).toBeGreaterThanOrEqual(Math.min(1568, drawn * dpr * 0.98));
+    // Row confidence chips are aligned in one right-hand column.
+    const xs = await hero.locator('.sh-lc').evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().right)));
+    expect(new Set(xs).size).toBe(1);
+    // Each line of the reading stays on one line (no orphaned letters).
+    const heights = await hero.locator('.sh-ta').evaluateAll((els) => els.map((e) => e.getBoundingClientRect().height));
+    for (const h of heights) expect(h).toBeLessThan(heights[0]! * 1.4);
   });
 
   test('does not shift the layout, and Pause / Replay work from the keyboard', async ({ page }) => {
@@ -42,10 +107,10 @@ test.describe('stone hero', () => {
       }).observe({ type: 'layout-shift', buffered: true });
     });
     await page.goto('/');
-    const hero = page.getByTestId('stone-hero');
     await pageSettled(page);
+    const hero = await showHero(page);
     const box1 = await hero.boundingBox();
-    await page.waitForTimeout(9000); // through the flight and the landing
+    await page.waitForTimeout(9000); // through the match and the gap stage
     const box2 = await hero.boundingBox();
     expect(box2).toEqual(box1);
     const cls = await page.evaluate(() => (window as unknown as { __cls: number }).__cls);
@@ -65,26 +130,27 @@ test.describe('stone hero', () => {
 
     await page.getByTestId('stone-replay').focus();
     await page.keyboard.press('Enter');
-    // Replay starts a fresh cycle: the letters are hidden again for a few seconds.
+    // Replay starts a fresh cycle: the letters are hidden again for several seconds.
     await expect.poll(async () => Math.max(...(await letterOpacities(page))), { timeout: 2000 }).toBeLessThan(0.01);
   });
 
   test('pauses when scrolled out of view', async ({ page }) => {
     await page.goto('/');
-    const hero = page.getByTestId('stone-hero');
-    await expect(hero).toHaveAttribute('data-phase', 'running');
+    await pageSettled(page);
+    const hero = await showHero(page);
     await page.getByTestId('sample-gallery').scrollIntoViewIfNeeded();
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     await expect(hero).toHaveAttribute('data-phase', 'paused');
-    await page.evaluate(() => window.scrollTo(0, 0));
+    await hero.locator('.sh-stage').scrollIntoViewIfNeeded();
     await expect(hero).toHaveAttribute('data-phase', 'running');
   });
 
-  test('keeps a smooth frame rate while the fragments fly', async ({ page }) => {
+  test('keeps a smooth frame rate through the cascade and the assembly', async ({ page }) => {
     await page.goto('/');
     await pageSettled(page);
+    await showHero(page);
     await page.getByTestId('stone-replay').click();
-    // Sample frame times from the lift-off through the landing (about 4.5 s to 10 s into the cycle).
+    // Sample frame times from the cascade through the assembly (about 7 s to 14 s into the cycle).
     const deltas = await page.evaluate(
       () =>
         new Promise<number[]>((resolve) => {
@@ -92,11 +158,11 @@ test.describe('stone hero', () => {
           let last = 0;
           const t0 = performance.now();
           const tick = (t: number) => {
-            if (t - t0 > 4500) {
+            if (t - t0 > 7000) {
               if (last) out.push(t - last);
               last = t;
             }
-            if (t - t0 < 10_000) requestAnimationFrame(tick);
+            if (t - t0 < 14_000) requestAnimationFrame(tick);
             else resolve(out);
           };
           requestAnimationFrame(tick);
@@ -108,7 +174,7 @@ test.describe('stone hero', () => {
     expect(p95, `p95 frame time ${p95.toFixed(1)} ms over ${deltas.length} frames`).toBeLessThan(34);
   });
 
-  test('shows the composed final frame under reduced motion', async ({ browser }) => {
+  test('shows the composed static frame under reduced motion', async ({ browser }) => {
     const ctx = await browser.newContext({ reducedMotion: 'reduce' });
     await ctx.addInitScript(() => window.localStorage.setItem('ezhuthu.lang', 'en'));
     const page = await ctx.newPage();
@@ -118,7 +184,8 @@ test.describe('stone hero', () => {
     await expect(page.getByTestId('stone-toggle')).toHaveCount(0);
     expect(Math.min(...(await letterOpacities(page)))).toBe(1);
     expect(await hero.locator('.sh-box').evaluateAll((els) => els.every((e) => Number(getComputedStyle(e).opacity) > 0.5))).toBe(true);
-    await expect(hero.locator('.sh-flight')).toBeHidden();
+    await expect(hero.locator('.sh-card:visible')).toHaveCount(2);
+    expect(await shown(page, '.sh-badge')).toBe(await hero.locator('.sh-box').count());
     const running = await page.evaluate(() => document.getAnimations().filter((a) => a.playState === 'running').length);
     expect(running).toBe(0);
     await ctx.close();
@@ -138,22 +205,25 @@ test.describe('stone hero', () => {
 
 test.describe('stone hero on a small phone (375 x 740)', () => {
   test.use({ viewport: { width: 375, height: 740 } });
-  test('leads the page: the stone is on screen above the heading, no horizontal scroll', async ({ page }) => {
+  test('the headline and calls to action share the first screen; the stone follows, full width', async ({ page }) => {
     for (const lang of ['ta', 'en'] as const) {
       if (lang === 'en') await setEnglish(page);
       await page.goto('/');
       const hero = page.getByTestId('stone-hero');
       await expect(hero).toHaveAttribute('data-motion', 'animated');
       await pageSettled(page);
-      const photo = (await hero.locator('.sh-frame').boundingBox())!;
+      await hideDemoBanner(page); // the live site has no demo banner
       const tabbarTop = await page.evaluate(() => {
         const bar = document.querySelector('.tabbar');
         return bar && getComputedStyle(bar).display !== 'none' ? bar.getBoundingClientRect().top : window.innerHeight;
       });
-      expect(photo.y, `${lang}: photo starts on screen`).toBeGreaterThanOrEqual(0);
-      expect(photo.y + photo.height, `${lang}: photo ends above the tab bar`).toBeLessThanOrEqual(tabbarTop);
       const h1 = (await page.getByRole('heading', { level: 1 }).boundingBox())!;
-      expect(h1.y).toBeGreaterThan(photo.y);
+      const cta = (await page.getByTestId('cta-upload').boundingBox())!;
+      expect(h1.y, `${lang}: heading on screen`).toBeGreaterThanOrEqual(0);
+      expect(cta.y + cta.height, `${lang}: first call to action above the tab bar`).toBeLessThanOrEqual(tabbarTop);
+      const photo = (await hero.locator('.sh-frame').boundingBox())!;
+      expect(photo.y).toBeGreaterThan(cta.y);
+      expect(photo.width).toBeGreaterThanOrEqual(375 - 48);
       // The pipeline is a row under the photo on a phone.
       const nodes = await hero.locator('.sh-node-dot').evaluateAll((els) => els.map((e) => e.getBoundingClientRect().top));
       expect(Math.max(...nodes) - Math.min(...nodes)).toBeLessThan(2);

@@ -326,22 +326,458 @@
   ]
  ],
  "boxes_method": "Hand-annotated on 2x zooms with a pixel grid, guided by a groove-detection pass (local-darkness threshold + connected components). One box per carved letter group (a consonant with its attached vowel signs). Verified by rendering design/hero/boxes-overlay.jpg.",
- "boxes_note": "Boxes mark carved letter groups. The Reader returns text line by line, not letter positions, so a box is not matched to a particular output letter; rows are matched to reading lines.",
- "reading": {
+ "glyphs": {
+  "method": "Reader.read_glyphs: per row, the clean crop and the crop with numbered boxes (design/hero/boxes.json) in one vision call; the model names the modern Tamil letter in each box with its probability that the letter is right",
+  "role": "escalate",
+  "models": [
+   "opus"
+  ],
+  "script": {
+   "script": "chola-tamil",
+   "label_en": "Chola-era Tamil",
+   "label_ta": "சோழர் காலத் தமிழ்",
+   "era": "Chola period, circa 10th-11th century CE",
+   "confidence": 0.8,
+   "level": "L2"
+  },
+  "rows": [
+   {
+    "row": 1,
+    "model": "opus",
+    "glyphs": [
+     {
+      "box": 1,
+      "ta": "கி",
+      "iso": "ki",
+      "confidence": 0.8,
+      "note": "Chola ki with angular loop, vowel mark on top left"
+     },
+     {
+      "box": 2,
+      "ta": "ல",
+      "iso": "la",
+      "confidence": 0.7,
+      "note": "Rounded la form, open loop typical of Chola period"
+     },
+     {
+      "box": 3,
+      "ta": "ம",
+      "iso": "ma",
+      "confidence": 0.75,
+      "note": "Angular ma with squared top, Chola style"
+     },
+     {
+      "box": 4,
+      "ta": "ழ",
+      "iso": "ḻa",
+      "confidence": 0.6,
+      "note": "Retroflex zha, rectangular body with tail descending"
+     },
+     {
+      "box": 5,
+      "ta": "ர",
+      "iso": "ra",
+      "confidence": 0.7,
+      "note": "Rounded ra with open loop, compact Chola form"
+     },
+     {
+      "box": 6,
+      "ta": "ர",
+      "iso": "ra",
+      "confidence": 0.55,
+      "note": "Worn but visible loop suggests ra form"
+     },
+     {
+      "box": 7,
+      "ta": "கு",
+      "iso": "ku",
+      "confidence": 0.75,
+      "note": "Ka with u-vowel mark, rounded top loop Chola style"
+     },
+     {
+      "box": 8,
+      "ta": "டி",
+      "iso": "ṭi",
+      "confidence": 0.65,
+      "note": "Retroflex da with i-mark, angular Chola form"
+     },
+     {
+      "box": 9,
+      "ta": "க",
+      "iso": "ka",
+      "confidence": 0.7,
+      "note": "Simple ka with angular body, typical Chola shape"
+     },
+     {
+      "box": 10,
+      "ta": "கு",
+      "iso": "ku",
+      "confidence": 0.65,
+      "note": "Ka with u-sign, large rounded loop on top"
+     },
+     {
+      "box": 11,
+      "ta": "ள",
+      "iso": "ḷa",
+      "confidence": 0.7,
+      "note": "Retroflex ḷa with large S-curve, Chola period form"
+     },
+     {
+      "box": 12,
+      "ta": "ம்",
+      "iso": "m",
+      "confidence": 0.6,
+      "note": "Ma with pulli dot, compact rounded form"
+     }
+    ],
+    "mean_confidence": 0.68
+   },
+   {
+    "row": 2,
+    "model": "opus",
+    "glyphs": [
+     {
+      "box": 1,
+      "ta": "ண",
+      "iso": "ṇa",
+      "confidence": 0.7,
+      "note": "Rounded form with open loop, typical Chola retroflexed nasal"
+     },
+     {
+      "box": 2,
+      "ta": "டு",
+      "iso": "ṭu",
+      "confidence": 0.65,
+      "note": "Angular base with u-marker curving down, Chola ṭu form"
+     },
+     {
+      "box": 3,
+      "ta": "நீ",
+      "iso": "nī",
+      "confidence": 0.6,
+      "note": "Dental na with long ī sign, elongated vertical stroke"
+     },
+     {
+      "box": 4,
+      "ta": "பி",
+      "iso": "pi",
+      "confidence": 0.7,
+      "note": "Pa with i-marker on top, small loop above"
+     },
+     {
+      "box": 5,
+      "ta": "செ",
+      "iso": "ce",
+      "confidence": 0.6,
+      "note": "Ca with e-vowel prefix, Chola angular style"
+     },
+     {
+      "box": 6,
+      "ta": "ய",
+      "iso": "ya",
+      "confidence": 0.75,
+      "note": "Open curved form, typical Chola ya with wide loops"
+     },
+     {
+      "box": 7,
+      "ta": "நு",
+      "iso": "nu",
+      "confidence": 0.6,
+      "note": "Dental na with u-marker, rounded Chola form"
+     },
+     {
+      "box": 8,
+      "ta": "ம",
+      "iso": "ma",
+      "confidence": 0.75,
+      "note": "Broad open loop, classic Chola ma without angular corners"
+     },
+     {
+      "box": 9,
+      "ta": "ல",
+      "iso": "la",
+      "confidence": 0.65,
+      "note": "Curved la form with open top, Chola style wider than modern"
+     },
+     {
+      "box": 10,
+      "ta": "ப",
+      "iso": "pa",
+      "confidence": 0.7,
+      "note": "Rounded pa with single loop, typical Chola simplification"
+     },
+     {
+      "box": 11,
+      "ta": "ல",
+      "iso": "la",
+      "confidence": 0.6,
+      "note": "Similar curved la, slightly worn but loop visible"
+     },
+     {
+      "box": 12,
+      "ta": "தி",
+      "iso": "ti",
+      "confidence": 0.7,
+      "note": "Ta with i-marker dot/loop on top, Chola angular ta base"
+     }
+    ],
+    "mean_confidence": 0.67
+   },
+   {
+    "row": 3,
+    "model": "opus",
+    "glyphs": [
+     {
+      "box": 1,
+      "ta": "ப",
+      "iso": "pa",
+      "confidence": 0.85,
+      "note": "Open-topped pa, angular Chola form without modern curve"
+     },
+     {
+      "box": 2,
+      "ta": "ண்ணி",
+      "iso": "ṇṇi",
+      "confidence": 0.45,
+      "note": "Conjunct ṇṇi with double loop, worn surface makes reading uncertain",
+      "gap": {
+       "index": 0,
+       "decision": "abstain",
+       "best": {
+        "ta": "குப்",
+        "iso": "ku-p",
+        "confidence": 0.3708,
+        "confidence_source": "decider-noul",
+        "decider_model": "strands-decider-2b-hobson-v19"
+       },
+       "candidates": [
+        {
+         "ta": "குப்",
+         "confidence": 0.3708
+        },
+        {
+         "ta": "து",
+         "confidence": 0.3598
+        },
+        {
+         "ta": "ம",
+         "confidence": 0.3223
+        }
+       ]
+      }
+     },
+     {
+      "box": 3,
+      "ta": "பி",
+      "iso": "pi",
+      "confidence": 0.75,
+      "note": "Pa with kombu vowel sign above, rounded Chola style"
+     },
+     {
+      "box": 4,
+      "ta": "ர",
+      "iso": "ra",
+      "confidence": 0.7,
+      "note": "Vertical stroke with slight curve, Chola ra form"
+     },
+     {
+      "box": 5,
+      "ta": "வ",
+      "iso": "va",
+      "confidence": 0.7,
+      "note": "Rounded va with open top, typical Chola period form"
+     },
+     {
+      "box": 6,
+      "ta": "ள",
+      "iso": "ḷa",
+      "confidence": 0.65,
+      "note": "Retroflex ḷa with elongated loop, Chola angular style"
+     },
+     {
+      "box": 7,
+      "ta": "நி",
+      "iso": "ni",
+      "confidence": 0.6,
+      "note": "Na with kombu, tall vertical strokes characteristic of Chola era"
+     },
+     {
+      "box": 8,
+      "ta": "லை",
+      "iso": "lai",
+      "confidence": 0.55,
+      "note": "La with ai-sign, double dot above partially worn"
+     },
+     {
+      "box": 9,
+      "ta": "கொ",
+      "iso": "ko",
+      "confidence": 0.65,
+      "note": "Ka with o-vowel sign, rounded Chola form with left kombu"
+     },
+     {
+      "box": 10,
+      "ta": "டு",
+      "iso": "ṭu",
+      "confidence": 0.6,
+      "note": "Retroflex ṭa with u-sign, angular Chola loop form"
+     },
+     {
+      "box": 11,
+      "ta": "ம",
+      "iso": "ma",
+      "confidence": 0.7,
+      "note": "Rounded ma with open loop, typical Chola period shape"
+     }
+    ],
+    "mean_confidence": 0.65
+   },
+   {
+    "row": 4,
+    "model": "opus",
+    "glyphs": [
+     {
+      "box": 1,
+      "ta": "எ",
+      "iso": "e",
+      "confidence": 0.65,
+      "note": "Rounded Chola form of independent vowel e, open loop at top"
+     },
+     {
+      "box": 2,
+      "ta": "ண",
+      "iso": "ṇa",
+      "confidence": 0.7,
+      "note": "Circular body with tail, typical Chola retroflexed ṇa"
+     },
+     {
+      "box": 3,
+      "ta": "டு",
+      "iso": "ṭu",
+      "confidence": 0.6,
+      "note": "Looped ṭa with u-marker, compact Chola form"
+     },
+     {
+      "box": 4,
+      "ta": "ப",
+      "iso": "pa",
+      "confidence": 0.7,
+      "note": "Angular pa with open top, Chola style narrower than modern"
+     },
+     {
+      "box": 5,
+      "ta": "ர்",
+      "iso": "r",
+      "confidence": 0.55,
+      "note": "Small ra with pulli, cursive Chola loop form"
+     },
+     {
+      "box": 6,
+      "ta": "கு",
+      "iso": "ku",
+      "confidence": 0.65,
+      "note": "Ka with u-vowel sign, rounded Chola loop at right"
+     },
+     {
+      "box": 7,
+      "ta": "தி",
+      "iso": "ti",
+      "confidence": 0.6,
+      "note": "Ta with i-marker above, Chola rounded body"
+     },
+     {
+      "box": 8,
+      "ta": "கொ",
+      "iso": "ko",
+      "confidence": 0.55,
+      "note": "Ka with kompu and au-mark, Chola composite form"
+     },
+     {
+      "box": 9,
+      "ta": "ல்",
+      "iso": "l",
+      "confidence": 0.5,
+      "note": "Small la with pulli, worn surface, Chola cursive loop"
+     },
+     {
+      "box": 10,
+      "ta": "வ",
+      "iso": "va",
+      "confidence": 0.6,
+      "note": "Open-topped va, Chola rounded form differs from modern angular"
+     },
+     {
+      "box": 11,
+      "ta": "டு",
+      "iso": "ṭu",
+      "confidence": 0.55,
+      "note": "Looped ṭa with u-sign, similar to box 3 Chola form"
+     }
+    ],
+    "mean_confidence": 0.6
+   }
+  ],
+  "letters": 46,
+  "mean_confidence": 0.65,
+  "gap_below": 0.5,
+  "note": "The hero shows this letter-by-letter reading: for each hand-drawn box, the modern Tamil letter the Reader named and its own probability that the letter is right (self-reported, not calibrated). Letters it named under 0.5 were treated as gaps and sent to the Restorer."
+ },
+ "restore": {
+  "endpoint": "POST /api/restore",
+  "input": "kilamaḻararakuṭikakuḷam\nṇaṭunīpiceyanumalapalati\npa[?2]piravaḷanilaikoṭuma\neṇaṭuparkutikolvaṭu",
+  "abstain_below": 0.5,
+  "models": [
+   "us.anthropic.claude-opus-4-6-v1",
+   "strands-decider-2b-hobson-v19"
+  ],
+  "decisions": [
+   "abstain"
+  ],
+  "gaps": [
+   {
+    "row": 2,
+    "box": 1,
+    "index": 0,
+    "decision": "abstain",
+    "best": {
+     "ta": "குப்",
+     "iso": "ku-p",
+     "confidence": 0.3708,
+     "confidence_source": "decider-noul",
+     "decider_model": "strands-decider-2b-hobson-v19"
+    },
+    "candidates": [
+     {
+      "ta": "குப்",
+      "confidence": 0.3708
+     },
+     {
+      "ta": "து",
+      "confidence": 0.3598
+     },
+     {
+      "ta": "ம",
+      "confidence": 0.3223
+     }
+    ]
+   }
+  ],
+  "note": "Candidate fills from the LLM were ranked by the hosted Strands Decider (restorer.strategy_llm: noul-topk, top 3). Without a calibration for that decider the Restorer fills only at confidence >= 0.5; the best fill scored under that, so the gap is left open."
+ },
+ "line_reading": {
   "endpoint": "POST /api/read",
+  "note": "The app's own line-by-line reading of the same crop (Sonnet 4.6, then Opus 4.6 on 'read again'), and the Restorer on its gaps. Kept for the record; the hero shows the letter-by-letter reading.",
   "first_pass": {
    "models": [
     "sonnet"
    ],
    "confidence": 0.15,
-   "escalation_skipped": "time_budget",
    "text": "[?2] ṉ [?1] ṭu [?1] ka [?2] ṭa [?1] ka [?2] ṉ [?1] ka [?2]\n[?1] ṭi [?1] ṭu [?1] ka [?1] ṭu [?1] ṭa [?2] ka [?1] ṭu [?2]\n[?1] ṭi [?1] ṭu [?1] ka [?1] ṭu [?1] ṭa [?2] ka [?1] ṭu [?2]\n[?2] ṭi [?1] ṭu [?2] ka [?2] ṭa [?2] ka [?2]"
   },
   "final": {
    "models": [
     "opus"
    ],
-   "router": "opus (the app's 'read again with the larger model')",
    "confidence": 0.2,
    "script": {
     "script": "chola-tamil",
@@ -351,331 +787,56 @@
     "confidence": 0.8,
     "level": "L2"
    },
-   "warnings": [
-    "the reader is unsure about much of this reading; check every line against the stone"
+   "lines": [
+    [
+     "kīḻ paḻa peruṅ kuṟi",
+     0.35
+    ],
+    [
+     "vai ciṟa ttu ka caṅ ti",
+     0.25
+    ],
+    [
+     "paṇṇi ceyvā ku [?2]",
+     0.25
+    ],
+    [
+     "i ta [?1] ci ru vaḷ [?1]",
+     0.2
+    ]
    ]
   },
-  "lines": [
-   {
-    "n": "1",
-    "iso": "kīḻ paḻa peruṅ kuṟi",
-    "ta": "கீழ் பழ பெருங் குறி",
-    "confidence": 0.35,
-    "aksharas": [
-     {
-      "kind": "letter",
-      "ta": "கீ"
-     },
-     {
-      "kind": "letter",
-      "ta": "ழ்"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "ப"
-     },
-     {
-      "kind": "letter",
-      "ta": "ழ"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "பெ"
-     },
-     {
-      "kind": "letter",
-      "ta": "ரு"
-     },
-     {
-      "kind": "letter",
-      "ta": "ங்"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "கு"
-     },
-     {
-      "kind": "letter",
-      "ta": "றி"
-     }
+  "restore": {
+   "input": "kīḻ paḻa peruṅ kuṟi\nvai ciṟa ttu ka caṅ ti\npaṇṇi ceyvā ku [?2]\ni ta [?1] ci ru vaḷ [?1]",
+   "decisions": [
+    "abstain",
+    "abstain",
+    "abstain"
+   ],
+   "best": [
+    [
+     "டு",
+     0.38
+    ],
+    [
+     "நிலம்",
+     0.4786
+    ],
+    [
+     "ஆக",
+     0.4421
     ]
-   },
-   {
-    "n": "2",
-    "iso": "vai ciṟa ttu ka caṅ ti",
-    "ta": "வை சிற த்து க சங் தி",
-    "confidence": 0.25,
-    "aksharas": [
-     {
-      "kind": "letter",
-      "ta": "வை"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "சி"
-     },
-     {
-      "kind": "letter",
-      "ta": "ற"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "த்"
-     },
-     {
-      "kind": "letter",
-      "ta": "து"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "க"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "ச"
-     },
-     {
-      "kind": "letter",
-      "ta": "ங்"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "தி"
-     }
-    ]
-   },
-   {
-    "n": "3",
-    "iso": "paṇṇi ceyvā ku [?2]",
-    "ta": "பண்ணி செய்வா கு [?2]",
-    "confidence": 0.25,
-    "aksharas": [
-     {
-      "kind": "letter",
-      "ta": "ப"
-     },
-     {
-      "kind": "letter",
-      "ta": "ண்"
-     },
-     {
-      "kind": "letter",
-      "ta": "ணி"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "செ"
-     },
-     {
-      "kind": "letter",
-      "ta": "ய்"
-     },
-     {
-      "kind": "letter",
-      "ta": "வா"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "கு"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "gap",
-      "size": 2,
-      "gap_index": 0,
-      "decision": "abstain",
-      "best": {
-       "ta": "டு",
-       "iso": "ṭu",
-       "confidence": 0.38
-      },
-      "candidates": [
-       {
-        "ta": "டு",
-        "iso": "ṭu",
-        "confidence": 0.38
-       },
-       {
-        "ta": "ட்ட",
-        "iso": "ṭṭa",
-        "confidence": 0.3666
-       },
-       {
-        "ta": "ட",
-        "iso": "ṭa",
-        "confidence": 0.3646
-       }
-      ],
-      "confidence_source": "decider-noul"
-     }
-    ]
-   },
-   {
-    "n": "4",
-    "iso": "i ta [?1] ci ru vaḷ [?1]",
-    "ta": "இ த [?1] சி ரு வள் [?1]",
-    "confidence": 0.2,
-    "aksharas": [
-     {
-      "kind": "letter",
-      "ta": "இ"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "த"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "gap",
-      "size": 1,
-      "gap_index": 1,
-      "decision": "abstain",
-      "best": {
-       "ta": "நிலம்",
-       "iso": "nilam",
-       "confidence": 0.4786
-      },
-      "candidates": [
-       {
-        "ta": "நிலம்",
-        "iso": "nilam",
-        "confidence": 0.4786
-       },
-       {
-        "ta": "ரு",
-        "iso": "ru",
-        "confidence": 0.352
-       },
-       {
-        "ta": "ம",
-        "iso": "ma",
-        "confidence": 0.3476
-       }
-      ],
-      "confidence_source": "decider-noul"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "சி"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "ரு"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "letter",
-      "ta": "வ"
-     },
-     {
-      "kind": "letter",
-      "ta": "ள்"
-     },
-     {
-      "kind": "space"
-     },
-     {
-      "kind": "gap",
-      "size": 1,
-      "gap_index": 2,
-      "decision": "abstain",
-      "best": {
-       "ta": "ஆக",
-       "iso": "āka",
-       "confidence": 0.4421
-      },
-      "candidates": [
-       {
-        "ta": "ஆக",
-        "iso": "āka",
-        "confidence": 0.4421
-       },
-       {
-        "ta": "பி",
-        "iso": "pi",
-        "confidence": 0.4147
-       },
-       {
-        "ta": "ரு",
-        "iso": "ru",
-        "confidence": 0.357
-       }
-      ],
-      "confidence_source": "decider-noul"
-     }
-    ]
-   }
-  ]
- },
- "restore": {
-  "endpoint": "POST /api/restore",
-  "abstain_below": 0.5,
-  "models": [
-   "us.anthropic.claude-opus-4-6-v1",
-   "strands-decider-2b-hobson-v19"
-  ],
-  "decisions": [
-   "abstain",
-   "abstain",
-   "abstain"
-  ],
-  "note": "Candidate fills from the LLM (Opus 4.6) were ranked by the hosted Strands Decider (restorer.strategy_llm: noul-topk, top 3: 'is this the expert's restoration?'). The cloud runtime has no calibration for that decider, so it fills only at confidence >= 0.5; the best fills scored 0.38, 0.48 and 0.44, so each gap is left open and the reading goes to expert review.",
-  "decider_models": [
-   "strands-decider-2b-hobson-v19"
-  ]
+   ]
+  }
  },
  "edition": null,
- "cer": null,
- "edition_note": "We could not identify this stone in DHARMA or another published edition, so there is no reference text and no character error rate. The reading is Ezhuthu's own, at low confidence, and two Opus reads of overlapping crops disagree with each other: treat it as unverified. No English gloss is given for the same reason.",
+ "match_rate": null,
+ "edition_note": "This stone is not identified in DHARMA or another published edition we could find, so the hero shows no edition text, no match rate and no translation. A search of Wikimedia Commons for an openly licensed photo of an inscription in the DHARMA split found none whose text could be matched to an edition (2026-11-02).",
  "live_calls": {
   "reader": 4,
-  "restorer": 6,
-  "note": "Bedrock calls. Reader: includes a Sonnet+Opus read of a 6-line crop of the same photo that was not used. Restorer: a first run (3 calls) under the earlier self-report config, superseded by this run under the current config (3 calls). Strands Decider calls go to the hosted decider API, not Bedrock."
+  "glyphs": 4,
+  "restorer": 7,
+  "note": "Bedrock calls. Reader: includes a Sonnet+Opus read of a 6-line crop of the same photo that was not used. Glyphs: one Opus call per row. Restorer: 6 on the line reading (two runs) and 1 on the letter-by-letter reading. Strands Decider calls go to the hosted decider API, not Bedrock."
  },
  "run_date": "2026-11-02"
 }
