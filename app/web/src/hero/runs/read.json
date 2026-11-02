@@ -1,0 +1,81 @@
+{
+  "source": "image",
+  "experimental": true,
+  "lines": [
+    {
+      "n": "1",
+      "text": "kīḻ paḻa peruṅ kuṟi",
+      "text_tamil": "கீழ் பழ பெருங் குறி",
+      "confidence": 0.35,
+      "gaps": 0
+    },
+    {
+      "n": "2",
+      "text": "vai ciṟa ttu ka caṅ ti",
+      "text_tamil": "வை சிற த்து க சங் தி",
+      "confidence": 0.25,
+      "gaps": 0
+    },
+    {
+      "n": "3",
+      "text": "paṇṇi ceyvā ku [?2]",
+      "text_tamil": "பண்ணி செய்வா கு [?2]",
+      "confidence": 0.25,
+      "gaps": 1
+    },
+    {
+      "n": "4",
+      "text": "i ta [?1] ci ru vaḷ [?1]",
+      "text_tamil": "இ த [?1] சி ரு வள் [?1]",
+      "confidence": 0.2,
+      "gaps": 2
+    }
+  ],
+  "text": "kīḻ paḻa peruṅ kuṟi\nvai ciṟa ttu ka caṅ ti\npaṇṇi ceyvā ku [?2]\ni ta [?1] ci ru vaḷ [?1]",
+  "text_tamil": "கீழ் பழ பெருங் குறி\nவை சிற த்து க சங் தி\nபண்ணி செய்வா கு [?2]\nஇ த [?1] சி ரு வள் [?1]",
+  "gaps": 3,
+  "script_guess": {
+    "script": "chola-tamil",
+    "label_en": "Chola-era Tamil",
+    "label_ta": "சோழர் காலத் தமிழ்",
+    "era": "Chola period, circa 10th-11th century CE",
+    "confidence": 0.8,
+    "level": "L2"
+  },
+  "confidence": 0.2,
+  "models_used": [
+    "opus"
+  ],
+  "escalated": true,
+  "warnings": [
+    "the reader is unsure about much of this reading; check every line against the stone"
+  ],
+  "warning_codes": [
+    {
+      "code": "unsure",
+      "params": {}
+    }
+  ],
+  "kind": "inscription",
+  "note": "Stone inscription in Chola-period Tamil script. The image shows only a partial section of the inscription. Many letters are weathered and difficult to read with certainty. The rounded letterforms are characteristic of Chola-era Tamil epigraphy. Readings are tentative due to erosion and partial visibility.",
+  "image": {
+    "width": 1568,
+    "height": 778,
+    "bytes": 506354,
+    "format": "jpeg",
+    "source_format": "jpeg",
+    "source_bytes": 484255,
+    "resized": false,
+    "metadata_removed": []
+  },
+  "model": "opus",
+  "latency_ms": 8402.8,
+  "reread_of": {
+    "confidence": 0.15,
+    "models_used": [
+      "sonnet"
+    ],
+    "escalation_skipped": "time_budget",
+    "text": "[?2] ṉ [?1] ṭu [?1] ka [?2] ṭa [?1] ka [?2] ṉ [?1] ka [?2]\n[?1] ṭi [?1] ṭu [?1] ka [?1] ṭu [?1] ṭa [?2] ka [?1] ṭu [?2]\n[?1] ṭi [?1] ṭu [?1] ka [?1] ṭu [?1] ṭa [?2] ka [?1] ṭu [?2]\n[?2] ṭi [?1] ṭu [?2] ka [?2] ṭa [?2] ka [?2]"
+  }
+}

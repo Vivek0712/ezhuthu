@@ -1,0 +1,173 @@
+/* Stone hero (StoneHero.tsx): a real photograph read by Ezhuthu. Colours from design/tokens/tokens.css.
+   The stage is a lamp-lit granite panel in both themes (glows need a dark ground); its border and the text around it
+   follow the theme. Motion is WAAPI on transform/opacity; these rules are the static, composed final frame, which is
+   exactly what reduced-motion visitors see. */
+
+.stone-hero { margin: 4px 0 28px; }
+.sh-stage {
+  --sh-ink: var(--ez-stone-50);
+  --sh-muted: var(--ez-stone-300);
+  --sh-glow: rgba(245, 196, 104, 0.6);
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  padding: clamp(14px, 2.4vw, 26px);
+  border-radius: var(--ez-radius-xl);
+  color: var(--sh-ink);
+  background:
+    radial-gradient(120% 90% at 18% 10%, rgba(234, 164, 58, 0.16), transparent 60%),
+    radial-gradient(80% 70% at 100% 100%, rgba(155, 61, 34, 0.22), transparent 70%),
+    linear-gradient(160deg, var(--ez-granite-800), var(--ez-granite-950));
+  box-shadow: var(--ez-shadow-3);
+  isolation: isolate;
+  overflow: hidden;
+}
+.sh-stage::after { content: ''; position: absolute; inset: 0; background: var(--grain); opacity: 0.5; pointer-events: none; z-index: -1; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .sh-stage { border: 1px solid var(--ez-granite-700); }
+}
+:root[data-theme='dark'] .sh-stage { border: 1px solid var(--ez-granite-700); }
+
+/* ---- (a, b) the photograph ---- */
+.sh-photo { margin: 0; min-width: 0; }
+.sh-frame {
+  position: relative;
+  aspect-ratio: var(--sh-aspect);
+  border-radius: var(--ez-radius-md);
+  overflow: hidden;
+  background: var(--ez-laterite-900);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 18px 40px -20px rgba(0, 0, 0, 0.9);
+}
+.sh-kb { position: absolute; inset: 0; transform-origin: 50% 50%; will-change: transform; }
+.sh-kb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.sh-box {
+  position: absolute;
+  border-radius: 9px;
+  border: 2px solid var(--ez-lamp-300);
+  background: rgba(245, 196, 104, 0.08);
+  box-shadow: 0 0 0 1px rgba(36, 29, 22, 0.35), 0 0 16px 2px var(--sh-glow), inset 0 0 14px rgba(245, 196, 104, 0.3);
+  opacity: 0.85;
+  pointer-events: none;
+}
+.sh-rake {
+  position: absolute;
+  inset: 0 -40%;
+  background: linear-gradient(100deg, transparent 38%, rgba(255, 236, 200, 0.34) 50%, transparent 62%);
+  opacity: 0;
+  pointer-events: none;
+}
+.sh-beam {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0 44%, rgba(245, 196, 104, 0.32) 48.5%, rgba(255, 249, 232, 0.95) 50%, rgba(245, 196, 104, 0.32) 51.5%, transparent 56% 100%);
+  opacity: 0;
+  pointer-events: none;
+}
+.sh-place { margin-top: 8px; font-size: var(--ez-text-xs); color: var(--sh-muted); letter-spacing: 0.02em; }
+
+/* ---- (c) the pipeline ---- */
+.sh-pipe { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
+.sh-pipe::before {
+  content: '';
+  position: absolute;
+  top: 21px;
+  left: 16.6%;
+  right: 16.6%;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, rgba(245, 196, 104, 0.55) 0 6px, transparent 6px 11px);
+}
+.sh-node { position: relative; display: grid; justify-items: center; text-align: center; gap: 6px; max-width: none; }
+.sh-node-dot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--ez-granite-800);
+  border: 1.5px solid var(--ez-lamp-500);
+  color: var(--ez-lamp-200);
+  font-family: var(--ez-font-display-latin);
+  font-weight: var(--ez-weight-semibold);
+  box-shadow: 0 0 0 4px rgba(27, 23, 19, 0.9);
+}
+.sh-node-glow { position: absolute; inset: -12px; border-radius: 50%; background: radial-gradient(circle, rgba(245, 196, 104, 0.6), rgba(245, 196, 104, 0) 68%); opacity: 0; }
+.sh-node-n { position: relative; }
+.sh-node-text { display: grid; gap: 1px; line-height: 1.3; }
+.sh-node-text b { font-size: var(--ez-text-sm); color: var(--sh-ink); }
+.sh-node-text small { font-size: 0.72rem; color: var(--sh-muted); }
+.sh-node-out { margin-top: 3px; font-size: 0.72rem; color: var(--ez-lamp-200); font-variant-numeric: tabular-nums; }
+.sh-wire { position: absolute; left: 50%; top: 22px; width: 0; height: 0; }
+.sh-spark { position: absolute; left: -4px; top: -4px; width: 8px; height: 8px; border-radius: 50%; background: var(--ez-lamp-200); box-shadow: 0 0 10px 3px var(--sh-glow); opacity: 0; }
+
+/* ---- (d, e) the reading ---- */
+.sh-out { min-width: 0; }
+.sh-out-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 0 0 6px; font-size: var(--ez-text-sm); color: var(--sh-muted); max-width: none !important; }
+.sh-chip { display: inline-block; padding: 1px 9px; border: 1px solid var(--ez-lamp-500); border-radius: var(--ez-radius-pill); color: var(--ez-lamp-200); font-size: 0.72rem; }
+.sh-line { margin-bottom: 6px; }
+.sh-ta { margin: 0; font-size: clamp(1.15rem, 1.75vw, 1.42rem); line-height: 1.5; max-width: none !important; }
+.sh-c-high { color: var(--sh-ink); }
+.sh-c-mid { color: var(--ez-lamp-200); }
+.sh-c-low { color: var(--ez-neelam-300); }
+.sh-akw { display: inline-block; }
+.sh-sp { display: inline-block; width: 0.32em; }
+.sh-gap { display: inline-flex; white-space: nowrap; align-items: baseline; gap: 0.2em; padding: 0 0.25em; border: 1.5px dashed var(--ez-kumkum-300); border-radius: 6px; color: var(--ez-kumkum-300); }
+.sh-guess { font-family: var(--ez-font-body); font-size: 0.5em; color: var(--sh-muted); font-variant-numeric: tabular-nums; }
+.sh-meta { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 0; font-size: 0.82rem; max-width: none !important; }
+.sh-iso { color: var(--sh-muted); }
+.sh-lc { flex: none; padding: 0 7px; border: 1px solid currentColor; border-radius: var(--ez-radius-pill); color: var(--ez-neelam-300); font-size: 0.72rem; font-variant-numeric: tabular-nums; }
+.sh-verdict { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 12px 0 4px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.14); font-size: var(--ez-text-sm); color: var(--ez-stone-100); max-width: none !important; }
+.sh-verdict b { color: var(--ez-neelam-300); font-variant-numeric: tabular-nums; }
+.sh-review { margin: 0 0 4px; font-size: var(--ez-text-sm); font-weight: var(--ez-weight-semibold); color: var(--ez-lamp-200); }
+.sh-note { margin: 0; font-size: 0.78rem; color: var(--sh-muted); }
+
+/* ---- fragments in flight ---- */
+.sh-flight { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+.sh-frag {
+  position: absolute;
+  border-radius: 9px;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 0 1.5px var(--ez-lamp-300), 0 0 20px 5px var(--sh-glow);
+  filter: brightness(1.35) saturate(1.15) contrast(1.05);
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+  opacity: 0;
+}
+
+/* ---- credit and controls ---- */
+.sh-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px; margin-top: 10px; }
+.sh-credit { margin: 0; font-size: var(--ez-text-xs); color: var(--ez-text-muted); }
+.sh-controls { display: inline-flex; gap: 8px; }
+
+/* Animated mode: before the first cycle starts, hide what the cycle will reveal (no flash of the final frame). */
+.stone-hero[data-phase='idle'] :is(.sh-kb, .sh-box, .sh-akw, .sh-node-out, [data-anim='after-line'], [data-anim='verdict']) { opacity: 0; }
+.stone-hero[data-motion='static'] :is(.sh-rake, .sh-beam, .sh-node-glow, .sh-spark, .sh-flight) { display: none; }
+
+/* Wide screens: stone | pipeline (vertical) | reading. */
+@media (min-width: 980px) {
+  .sh-stage { grid-template-columns: minmax(0, 1.2fr) 176px minmax(0, 1fr); align-items: start; gap: 22px; }
+  .sh-node-text { min-width: 0; }
+  html[lang='ta'] .sh-node-text b { font-size: 0.84rem; }
+  .sh-pipe { grid-template-columns: 1fr; gap: 26px; padding-top: 4px; }
+  .sh-pipe::before { top: 22px; bottom: 22px; left: 21px; right: auto; width: 2px; height: auto; background: repeating-linear-gradient(180deg, rgba(245, 196, 104, 0.55) 0 6px, transparent 6px 11px); }
+  .sh-node { grid-template-columns: 44px minmax(0, 1fr); justify-items: start; text-align: start; align-items: center; gap: 10px; }
+  .sh-wire { left: 22px; }
+}
+/* Phones: stone, then the pipeline as a row, then the reading; the hero leads the page. */
+@media (max-width: 899px) {
+  .home-hero { display: flex; flex-direction: column; }
+  .home-hero > .stone-hero { order: -1; margin: 0 0 18px; }
+}
+@media (max-width: 559px) {
+  .sh-stage { border-radius: var(--ez-radius-lg); gap: 14px; }
+  .sh-node-dot { width: 40px; height: 40px; }
+  .sh-pipe::before, .sh-wire { top: 20px; }
+  .sh-node-text small { display: none; }
+  .sh-node-text b { font-size: 0.7rem; line-height: 1.25; white-space: nowrap; }
+  .sh-node-out { font-size: 0.68rem; }
+  .sh-place { margin-top: 6px; font-size: 0.72rem; }
+  .sh-out-head { margin-bottom: 4px; }
+  .sh-line { margin-bottom: 4px; }
+  .sh-verdict { margin-top: 8px; padding-top: 8px; }
+}
