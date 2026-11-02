@@ -42,7 +42,7 @@ a native-speaker check). Product names: Practice (பயிற்சி), Restor
 | Praise | Specific: "குறுக்குக் கோடு வளைந்து க ஆனது." | "The cross-bar became a wave: that is ka." |
 | Uncertainty | "வல்லுநர்களுக்கும் உறுதியில்லை" | "Experts are unsure." |
 | Mistakes | Gentle, with a reason and a hint. Never "தவறு!" alone. | Never "Wrong!" alone. |
-| Scholar-facing | Evidence first: "நம்பகம் 0.20; மூன்று இடைவெளிகள் வல்லுநர் மதிப்பாய்வுக்கு." | "Confidence 0.20; three gaps sent to expert review." |
+| Scholar-facing | Evidence first: "நம்பகம் 0.20; மூன்று இடைவெளிகள் வல்லுநர் மதிப்பாய்வுக்கு." | "Confidence 0.20; three gaps left open for expert review." |
 | The backlog | "1886 முதல் கண்டெடுக்கப்பட்ட ஏறத்தாழ 1 இலட்சம் கல்வெட்டுகளில் 30,000–35,000 மட்டுமே வெளியிடப்பட்டன." | "About 23 epigraphists; of about 1 lakh inscriptions found since 1886, 30,000 to 35,000 published (The Federal, 2021)." Never "a backlog of 70,000". |
 
 **Never claim** that Ezhuthu clears the backlog, replaces epigraphists or deciphers inscriptions; that it reads

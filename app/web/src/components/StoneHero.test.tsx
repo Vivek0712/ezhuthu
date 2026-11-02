@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { AppRoutes } from '../App';
 import heroRaw from '../hero/hero-reading.json';
+import heroView from '../hero/hero-view.json';
 import read from '../hero/runs/read.json';
 import restore from '../hero/runs/restore.json';
 import { HERO } from '../hero/heroData';
@@ -22,9 +23,19 @@ describe('stone hero (home)', () => {
     // Each gap the restorer abstained on is a "?" tile with an accessible name.
     expect(hero.querySelectorAll('.sh-gap')).toHaveLength(restore.response.gaps.length);
     expect(within(hero).getAllByText('gap').length).toBeGreaterThanOrEqual(restore.response.gaps.length);
-    // Honest labels: experimental, no edition, sent to expert review.
+    // Honest labels: experimental, no edition, and what happens in the app (no claim that anything was queued).
     expect(hero).toHaveTextContent('Experimental reading, not checked against an edition');
-    expect(hero).toHaveTextContent('Under 0.5, so this reading goes to expert review.');
+    expect(hero).toHaveTextContent('In the app, you fill the gaps yourself and an expert reviews each one.');
+    expect(hero.textContent).not.toMatch(/goes to expert review/);
+    // The restorer's best guesses are labelled as guesses under the cut-off, beside (not inside) the reading.
+    expect(hero.querySelectorAll('.sh-guesses')).toHaveLength(2);
+    expect(hero.querySelectorAll('.sh-ta .sh-guess')).toHaveLength(0);
+    expect(hero).toHaveTextContent('Best guesses: நிலம் 0.48 · ஆக 0.44, under 0.5, so left open');
+    // Letters are indexed within their own line (the timeline schedules per line).
+    hero.querySelectorAll('.sh-line').forEach((line) => {
+      const ks = Array.from(line.querySelectorAll<HTMLElement>('[data-anim="land"]')).map((e) => Number(e.dataset.k));
+      expect(ks).toEqual(ks.map((_, i) => i));
+    });
     expect(hero).toHaveTextContent('no error rate and no translation');
     expect(hero.textContent).not.toMatch(/\bcorrect\b|deciph/i);
     // Photo credit with author, licence link and source.
@@ -53,7 +64,7 @@ describe('stone hero (home)', () => {
     renderApp(<AppRoutes />, { route: '/', lang: 'ta' });
     const hero = screen.getByTestId('stone-hero');
     expect(hero).toHaveTextContent('வாசிப்பாளர்');
-    expect(hero).toHaveTextContent('வல்லுநர் மதிப்பாய்வுக்குச் செல்கிறது');
+    expect(hero).toHaveTextContent('வல்லுநர் மதிப்பாய்வு செய்வார்');
   });
 });
 
@@ -66,6 +77,16 @@ describe('hero data (src/hero/hero-reading.json) is the real run, not hand-writt
     expect(HERO.fills).toBe(restore.response.gaps.filter((g) => g.decision !== 'abstain').length);
     const gapsInReading = read.lines.reduce((n, l) => n + l.gaps, 0);
     expect(HERO.gaps).toBe(gapsInReading);
+  });
+  it('ships a trimmed view that agrees with the full record', () => {
+    expect(heroView.boxes).toEqual(heroRaw.boxes);
+    expect(heroView.reading.confidence).toBe(heroRaw.reading.final.confidence);
+    expect(heroView.restore.decisions).toEqual(heroRaw.restore.decisions);
+    expect(heroView.reading.lines.map((l) => [l.n, l.iso, l.ta, l.confidence])).toEqual(heroRaw.reading.lines.map((l) => [l.n, l.iso, l.ta, l.confidence]));
+    const bestOf = (ls: { aksharas: { kind: string; best?: { ta: string; confidence: number } | null }[] }[]) =>
+      ls.flatMap((l) => l.aksharas.filter((a) => a.kind === 'gap').map((a) => a.best && [a.best.ta, a.best.confidence]));
+    expect(bestOf(heroView.reading.lines)).toEqual(bestOf(heroRaw.reading.lines));
+    expect(JSON.stringify(heroView).length).toBeLessThan(JSON.stringify(heroRaw).length * 0.7);
   });
   it('has one row of letter boxes per reading line, all inside the photo', () => {
     expect(HERO.boxes).toHaveLength(read.lines.length);

@@ -1,6 +1,8 @@
-// Typed view of hero-reading.json: the real output of Ezhuthu's Reader and Restorer on one real photograph
-// (scripts/hero_read.py, scripts/hero_build.py). Nothing here is invented for the animation.
-import raw from './hero-reading.json';
+// Typed view of hero-view.json: the real output of Ezhuthu's Reader and Restorer on one real photograph
+// (scripts/hero_read.py, scripts/hero_build.py). Nothing here is invented for the animation. hero-view.json is the
+// trimmed subset the page needs; the full record (models, candidates, notes) is hero-reading.json, kept out of the
+// bundle and checked against this view in StoneHero.test.tsx and tests/test_hero_assets.py.
+import raw from './hero-view.json';
 
 export type Box = [number, number, number, number]; // x0, y0, x1, y1 in photo pixels
 
@@ -8,8 +10,7 @@ export interface HeroAkshara {
   kind: 'letter' | 'gap' | 'space';
   ta?: string;
   size?: number;
-  decision?: string;
-  best?: { ta: string; iso: string; confidence: number } | null;
+  best?: { ta: string; confidence: number } | null;
 }
 
 export interface HeroLine {
@@ -21,13 +22,9 @@ export interface HeroLine {
 }
 
 interface Raw {
-  photo: { width: number; height: number; widths: number[]; commons_url: string; author_url: string; licence_url: string };
+  photo: { width: number; height: number; widths: number[]; commons_url: string; licence_url: string };
   boxes: Box[][];
-  reading: {
-    final: { confidence: number; script: { label_en: string; label_ta: string; confidence: number } };
-    first_pass: { confidence: number | null };
-    lines: HeroLine[];
-  };
+  reading: { confidence: number; script: { label_en: string; label_ta: string }; lines: HeroLine[] };
   restore: { abstain_below: number; decisions: string[] };
 }
 
@@ -37,9 +34,8 @@ export const HERO = {
   photo: data.photo,
   boxes: data.boxes,
   lines: data.reading.lines,
-  confidence: data.reading.final.confidence,
-  firstPassConfidence: data.reading.first_pass.confidence,
-  script: data.reading.final.script,
+  confidence: data.reading.confidence,
+  script: data.reading.script,
   abstainBelow: data.restore.abstain_below,
   gaps: data.restore.decisions.length,
   fills: data.restore.decisions.filter((d) => d !== 'abstain').length,

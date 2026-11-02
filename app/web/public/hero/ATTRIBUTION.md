@@ -18,5 +18,5 @@ unverified. How it was produced: `scripts/hero_read.py`, `scripts/hero_build.py`
 `app/web/src/hero/hero-reading.json`.
 
 The letter boxes drawn over the photo were annotated by hand (`design/hero/boxes.json`,
-checked against `design/hero/boxes-overlay.png`). They mark carved letters, not the reader's output letters: the
+checked against `design/hero/boxes-overlay.jpg`). They mark carved letters, not the reader's output letters: the
 reader returns text line by line, not letter positions.

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type RefObject } from 'react';
-import { HERO, heroSrcSet, type HeroAkshara } from '../hero/heroData';
+import { HERO, heroSrcSet, type HeroAkshara, type HeroLine } from '../hero/heroData';
+import { AFTER_LINE_MS, BEATS, buildTimeline, FADE_MS, LAND_MS, LETTER_BOX, LETTER_LIFT, ROW_BOX, ROW_LIFT, VERDICT_MS, VERDICT_STAGGER } from '../hero/timeline';
 import { useI18n } from '../i18n/I18nProvider';
 import { usePrefersReducedMotion } from '../lib/motion';
 import '../styles/stone-hero.css';
@@ -9,7 +10,10 @@ import '../styles/stone-hero.css';
  * CC BY 2.0), read by Ezhuthu's own Reader and Restorer. Every letter, confidence and abstention shown comes from
  * src/hero/hero-reading.json (scripts/hero_read.py + scripts/hero_build.py): nothing is invented for the animation.
  *
- * Storyboard, one cycle of CYCLE_MS: (a) the stone fades in with a slow Ken Burns drift and a raking-light sweep;
+ * Storyboard, one cycle of TL.cycle ms (src/hero/timeline.ts derives every beat from the reading, so each line's
+ * transliteration follows its own letters and the verdict follows the last one): (a) the stone fades in (first cycle
+ * only; later cycles keep it on screen and reverse the slow Ken Burns drift, so the loop has no cut) and a raking
+ * light sweeps it;
  * (b) a scan beam passes and the carved letters light up on their hand-annotated boxes, line by line; (c) the lit
  * letters lift off as glowing fragments and fly along curves into the pipeline (Reader -> Restorer -> Strands
  * Decider), whose nodes pulse as they work; (d) the reading lands letter by letter as Tamil Unicode, tinted by
@@ -24,35 +28,22 @@ import '../styles/stone-hero.css';
  * reading is real, selectable text with lang="ta".
  */
 
-const CYCLE_MS = 16_000;
-// Ken Burns drift of the photo: scale and translate (in % of the photo) at the start, reaching none at KB_END.
+// Landing elements (letters and gap tiles) per line, and the clock built from them.
+const LETTERS = HERO.lines.map((l) => l.aksharas.filter((a) => a.kind !== 'space').length);
+const TL = buildTimeline(LETTERS);
+// Ken Burns drift of the photo: scale and translate (in % of the photo) at the wide end, reaching none at KB_END of
+// the cycle. Even cycles drift from wide to none, odd cycles back, so consecutive cycles meet without a jump.
 const KB = { s: 1.06, tx: -0.012, ty: 0.008 };
 const KB_END = 0.9;
 /** The drift at time t (ms into the cycle): linear, as the keyframes below. */
-function kbAt(t: number) {
-  const p = Math.min(1, t / (CYCLE_MS * KB_END));
+function kbAt(t: number, out: boolean) {
+  const p0 = Math.min(1, t / (TL.cycle * KB_END));
+  const p = out ? p0 : 1 - p0;
   return { s: KB.s + (1 - KB.s) * p, tx: KB.tx * (1 - p), ty: KB.ty * (1 - p) };
 }
-const T = {
-  photoIn: 0,
-  rake: 500,
-  beam: 1500,
-  boxes: 1800, // + row * ROW_BOX + i * LETTER_BOX
-  lift: 4600, // + row * ROW_LIFT + i * LETTER_LIFT
-  reader: 4900,
-  restorer: 6700,
-  decider: 7500,
-  land: 8500, // + line * ROW_LAND + k * LETTER_LAND
-  verdict: 11_100,
-  cta: 11_700,
-  fadeOut: 14_300,
-};
-const ROW_BOX = 600;
-const LETTER_BOX = 45;
-const ROW_LIFT = 330;
-const LETTER_LIFT = 32;
-const ROW_LAND = 480;
-const LETTER_LAND = 42;
+const kbTransform = ({ s, tx, ty }: { s: number; tx: number; ty: number }) => `scale(${s}) translate(${tx * 100}%, ${ty * 100}%)`;
+/** Boxes rest at this opacity after their letters lift off; their fade-out starts from it (no flash). */
+const BOX_REST = 0.35;
 
 type Phase = 'idle' | 'running' | 'paused';
 
@@ -103,11 +94,6 @@ function Akshara({ a, gapLabel }: { a: HeroAkshara; gapLabel: string }) {
       <span className="sh-ak sh-gap">
         <span aria-hidden="true">?</span>
         <span className="visually-hidden">{gapLabel}</span>
-        {a.best && (
-          <small className="sh-guess">
-            {a.best.ta} {fmt(a.best.confidence)}
-          </small>
-        )}
       </span>
     );
   return (
@@ -116,6 +102,30 @@ function Akshara({ a, gapLabel }: { a: HeroAkshara; gapLabel: string }) {
     </span>
   );
 }
+
+/** The restorer's best guess for each gap of a line, each under the fill cut-off, so left open. */
+function Guesses({ line, label, under }: { line: HeroLine; label: string; under: string }) {
+  const best = line.aksharas.filter((a) => a.kind === 'gap' && a.best).map((a) => a.best!);
+  return (
+    <p className="sh-guesses" data-anim="after-line">
+      <span className="sh-gap-mark" aria-hidden="true">
+        ?
+      </span>{' '}
+      {label}:{' '}
+      {best.map((b, i) => (
+        <span key={i}>
+          {i > 0 && ' · '}
+          <span lang="ta">{b.ta}</span> <span className="sh-num">{fmt(b.confidence)}</span>
+        </span>
+      ))}
+      , {under}
+    </p>
+  );
+}
+
+/** The photo's rendered width: the stone column at >= 980 px (measured: 1.7fr of the stage, capped by the page),
+ * else the full stage width minus its padding. */
+const PHOTO_SIZES = '(min-width: 1180px) 640px, (min-width: 980px) calc(58vw - 40px), calc(100vw - 60px)';
 
 export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }) {
   const { lang, t } = useI18n();
@@ -130,6 +140,11 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
   const visible = useRef(false);
   const tabVisible = useRef(true);
   const userPausedRef = useRef(false);
+  /** The photo has decoded (the cycle needs its chosen source and its pixels). */
+  const ready = useRef(false);
+  const cycleN = useRef(0);
+  const photoShown = useRef(false);
+  const startRef = useRef<(next?: boolean) => void>(() => {});
 
   const clear = useCallback(() => {
     for (const a of anims.current) a.cancel();
@@ -139,16 +154,21 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
   }, []);
 
   /** Build and start one full cycle. All measuring happens here, before the first animation is created. */
-  const start = useCallback(() => {
+  const start = useCallback((next = false) => {
     const root = rootRef.current;
     const stage = stageRef.current;
     const flight = flightRef.current;
     if (!root || !stage || !flight) return;
     clear();
+    cycleN.current = next ? cycleN.current + 1 : 0;
+    const zoomOut = cycleN.current % 2 === 0;
+    const fadeIn = !photoShown.current;
+    photoShown.current = true;
     const list: Animation[] = [];
     const add = (el: Element, kf: Keyframe[], o: KeyframeAnimationOptions) => {
       list.push(el.animate(kf, { fill: 'both', easing: 'cubic-bezier(.2,0,0,1)', ...o }));
     };
+    const fadeOut = (el: Element, from = 1) => add(el, [{ opacity: from }, { opacity: 0 }], { duration: FADE_MS, delay: TL.fadeOut, fill: 'forwards' });
     const q = <E extends Element>(sel: string) => Array.from(root.querySelectorAll<E>(sel));
 
     // ---- measure (one batch of reads) ----
@@ -163,37 +183,40 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
     const nodeRects = nodes.map((n) => rel(n.getBoundingClientRect()));
     const landEls = q<HTMLElement>('[data-anim="land"]');
     const landRects = landEls.map((n) => rel(n.getBoundingClientRect()));
+    // The source the <picture> chose (start() runs only after the image has decoded, so currentSrc is set).
     const src = img?.currentSrc || img?.src || '';
     const vertical = nodeRects.length === 3 && Math.abs(nodeRects[2]!.y - nodeRects[0]!.y) > Math.abs(nodeRects[2]!.x - nodeRects[0]!.x);
 
     // ---- (a) stone, drift, raking light ----
     if (kb) {
+      const wide = kbTransform(kbAt(0, true));
+      const [from, to] = zoomOut ? [wide, 'scale(1) translate(0%, 0%)'] : ['scale(1) translate(0%, 0%)', wide];
       add(kb, [
-        { opacity: 0, transform: `scale(${KB.s}) translate(${KB.tx * 100}%, ${KB.ty * 100}%)` },
-        { opacity: 1, offset: 0.07 },
-        { opacity: 1, transform: 'scale(1) translate(0, 0)', offset: KB_END },
-        { opacity: 1, transform: 'scale(1) translate(0, 0)' },
-      ], { duration: CYCLE_MS, easing: 'linear' });
+        { opacity: fadeIn ? 0 : 1, transform: from },
+        { opacity: 1, offset: BEATS.photoIn / TL.cycle },
+        { opacity: 1, transform: to, offset: KB_END },
+        { opacity: 1, transform: to },
+      ], { duration: TL.cycle, easing: 'linear' });
     }
     q('.sh-rake').forEach((el) =>
-      add(el, [{ transform: 'translateX(-60%)', opacity: 0 }, { opacity: 1, offset: 0.25 }, { opacity: 1, offset: 0.7 }, { transform: 'translateX(60%)', opacity: 0 }], { duration: 2400, delay: T.rake, easing: 'cubic-bezier(.65,0,.35,1)' }),
+      add(el, [{ transform: 'translateX(-60%)', opacity: 0 }, { opacity: 1, offset: 0.25 }, { opacity: 1, offset: 0.7 }, { transform: 'translateX(60%)', opacity: 0 }], { duration: 2400, delay: BEATS.rake, easing: 'cubic-bezier(.65,0,.35,1)' }),
     );
     // ---- (b) scan beam + letters lighting up ----
     q('.sh-beam').forEach((el) =>
-      add(el, [{ transform: 'translateY(-56%)', opacity: 0 }, { opacity: 1, offset: 0.1 }, { opacity: 1, offset: 0.88 }, { transform: 'translateY(56%)', opacity: 0 }], { duration: 2900, delay: T.beam, easing: 'linear' }),
+      add(el, [{ transform: 'translateY(-56%)', opacity: 0 }, { opacity: 1, offset: 0.1 }, { opacity: 1, offset: 0.88 }, { transform: 'translateY(56%)', opacity: 0 }], { duration: 2900, delay: BEATS.beam, easing: 'linear' }),
     );
     boxes.forEach((b) => {
       const r = Number(b.dataset.row);
       const i = Number(b.dataset.i);
-      const on = T.boxes + r * ROW_BOX + i * LETTER_BOX;
-      const lift = T.lift + r * ROW_LIFT + i * LETTER_LIFT;
+      const on = BEATS.boxes + r * ROW_BOX + i * LETTER_BOX;
+      const lift = BEATS.lift + r * ROW_LIFT + i * LETTER_LIFT;
       add(b, [
         { opacity: 0, transform: 'scale(1.18)' },
         { opacity: 1, transform: 'scale(1)', offset: 420 / (lift - on + 900) },
         { opacity: 1, transform: 'scale(1)', offset: (lift - on) / (lift - on + 900) },
-        { opacity: 0.35, transform: 'scale(1)' },
+        { opacity: BOX_REST, transform: 'scale(1)' },
       ], { duration: lift - on + 900, delay: on });
-      add(b, [{ opacity: 1 }, { opacity: 0 }], { duration: 700, delay: T.fadeOut, composite: 'replace', fill: 'forwards' });
+      fadeOut(b, BOX_REST);
     });
 
     // ---- (c) fragments fly into the Reader; nodes pulse ----
@@ -203,9 +226,9 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
       boxes.forEach((b, idx) => {
         const r = Number(b.dataset.row);
         const i = Number(b.dataset.i);
-        const delay = T.lift + r * ROW_LIFT + i * LETTER_LIFT;
+        const delay = BEATS.lift + r * ROW_LIFT + i * LETTER_LIFT;
         // Where the letter is at lift time: the photo is still drifting (scale about its centre, then translate).
-        const { s, tx, ty } = kbAt(delay);
+        const { s, tx, ty } = kbAt(delay, zoomOut);
         const cx = kbRect.x + kbRect.w / 2;
         const cy = kbRect.y + kbRect.h / 2;
         const map = (x: number, y: number) => [cx + s * (x - cx + tx * kbRect.w), cy + s * (y - cy + ty * kbRect.h)] as const;
@@ -225,7 +248,7 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
         frag.appendChild(el);
         const dx = reader.x + reader.w / 2 - (br.x + br.w / 2);
         const dy = reader.y + reader.h / 2 - (br.y + br.h / 2);
-        const bow = vertical ? 0.12 + (i % 3) * 0.05 : -0.1 - (r % 2) * 0.08 - (i % 3) * 0.03;
+        const bow = vertical ? 0.12 + (i % 3) * 0.05 : (i % 2 ? 1 : -1) * (0.06 + (r % 2) * 0.05 + (i % 3) * 0.03);
         list.push(el.animate(flightKeyframes(dx, dy, bow, 0.18), { duration: 1250 + (i % 4) * 90, delay, fill: 'both', easing: 'cubic-bezier(.45,0,.25,1)' }));
       });
       flight.appendChild(frag);
@@ -234,14 +257,15 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
       q(sel).forEach((el) => {
         add(el, [{ opacity: 0, transform: 'scale(.8)' }, { opacity: 1, transform: 'scale(1)', offset: 0.15 }, { opacity: 1, transform: 'scale(1.06)', offset: 0.5 }, { opacity: 1, transform: 'scale(1)', offset: 0.85 }, { opacity: 0, transform: 'scale(1.25)' }], { duration: ms, delay: at, easing: 'ease-in-out' });
       });
-    pulse('[data-node="reader"] .sh-node-glow', T.reader, 2200);
-    pulse('[data-node="restorer"] .sh-node-glow', T.restorer, 1400);
-    pulse('[data-node="decider"] .sh-node-glow', T.decider, 1500);
+    // The Decider keeps glowing while it hands out the letters.
+    pulse('[data-node="reader"] .sh-node-glow', BEATS.reader, 2200);
+    pulse('[data-node="restorer"] .sh-node-glow', BEATS.restorer, 1400);
+    pulse('[data-node="decider"] .sh-node-glow', BEATS.decider, TL.lines[TL.lines.length - 1]!.landed - LAND_MS / 2 - BEATS.decider);
     const readout = (sel: string, at: number) =>
       q(sel).forEach((el) => add(el, [{ opacity: 0, transform: 'translateY(4px)' }, { opacity: 1, transform: 'none' }], { duration: 380, delay: at }));
-    readout('[data-node="reader"] .sh-node-out', T.reader + 1900);
-    readout('[data-node="restorer"] .sh-node-out', T.restorer + 1100);
-    readout('[data-node="decider"] .sh-node-out', T.decider + 1200);
+    readout('[data-node="reader"] .sh-node-out', BEATS.reader + 1900);
+    readout('[data-node="restorer"] .sh-node-out', BEATS.restorer + 1100);
+    readout('[data-node="decider"] .sh-node-out', BEATS.decider + 900);
     // Sparks along the connectors, Reader -> Restorer -> Decider.
     q<HTMLElement>('.sh-spark').forEach((el) => {
       const seg = Number(el.dataset.seg);
@@ -251,61 +275,62 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
       const dx = z.x - a.x;
       const dy = z.y - a.y;
       const k = Number(el.dataset.k);
-      add(el, [{ transform: 'translate(0,0) scale(.6)', opacity: 0 }, { opacity: 1, offset: 0.2 }, { opacity: 1, offset: 0.8 }, { transform: `translate(${dx}px, ${dy}px) scale(1)`, opacity: 0 }], { duration: 650, delay: (seg === 0 ? T.restorer - 450 : T.decider - 420) + k * 120, easing: 'cubic-bezier(.45,0,.25,1)' });
+      add(el, [{ transform: 'translate(0,0) scale(.6)', opacity: 0 }, { opacity: 1, offset: 0.2 }, { opacity: 1, offset: 0.8 }, { transform: `translate(${dx}px, ${dy}px) scale(1)`, opacity: 0 }], { duration: 650, delay: (seg === 0 ? BEATS.restorer - 450 : BEATS.decider - 420) + k * 120, easing: 'cubic-bezier(.45,0,.25,1)' });
     });
 
-    // ---- (d) the reading lands, letter by letter, out of the Decider ----
+    // ---- (d) the reading lands, line by line, letter by letter, out of the Decider ----
     const dec = nodeRects[2];
     if (dec) {
       landEls.forEach((el, idx) => {
         const lr = landRects[idx]!;
         const line = Number(el.closest<HTMLElement>('[data-line]')?.dataset.line ?? 0);
-        const k = Number(el.dataset.k ?? idx);
+        const k = Number(el.dataset.k ?? 0); // index within its line
         const dx = dec.x + dec.w / 2 - (lr.x + lr.w / 2);
         const dy = dec.y + dec.h / 2 - (lr.y + lr.h / 2);
-        const at = T.land + line * ROW_LAND + k * LETTER_LAND;
         add(el, [
           { opacity: 0, transform: `translate(${dx}px, ${dy}px) scale(.35)` },
           { opacity: 1, offset: 0.35 },
           { opacity: 1, transform: 'translate(0, -6%) scale(1.12)', offset: 0.78 },
           { opacity: 1, transform: 'none' },
-        ], { duration: 760, delay: at, easing: 'cubic-bezier(.3,0,.2,1)' });
-        add(el, [{ opacity: 1 }, { opacity: 0 }], { duration: 700, delay: T.fadeOut, fill: 'forwards' });
+        ], { duration: LAND_MS, delay: TL.landAt(line, k), easing: 'cubic-bezier(.3,0,.2,1)' });
+        fadeOut(el);
       });
     }
     q<HTMLElement>('[data-anim="after-line"]').forEach((el) => {
       const line = Number(el.closest<HTMLElement>('[data-line]')?.dataset.line ?? 0);
-      add(el, [{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 500, delay: T.land + line * ROW_LAND + 620 });
-      add(el, [{ opacity: 1 }, { opacity: 0 }], { duration: 700, delay: T.fadeOut, fill: 'forwards' });
+      add(el, [{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: AFTER_LINE_MS, delay: TL.lines[line]?.afterLine ?? TL.verdict });
+      fadeOut(el);
     });
     // ---- (e) verdict, note, call to action ----
     q<HTMLElement>('[data-anim="verdict"]').forEach((el, i) => {
-      add(el, [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], { duration: 600, delay: T.verdict + i * 380 });
-      add(el, [{ opacity: 1 }, { opacity: 0 }], { duration: 700, delay: T.fadeOut, fill: 'forwards' });
+      add(el, [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], { duration: VERDICT_MS, delay: TL.verdict + i * VERDICT_STAGGER });
+      fadeOut(el);
     });
-    q('[data-anim="node-out-hide"]').forEach((el) => add(el, [{ opacity: 1 }, { opacity: 0 }], { duration: 700, delay: T.fadeOut, fill: 'forwards' }));
+    q('[data-anim="node-out-hide"]').forEach((el) => fadeOut(el));
     const cta = ctaRef?.current;
     if (cta) {
       cta.querySelectorAll('.btn').forEach((b, i) =>
-        list.push(b.animate([{ transform: 'none' }, { transform: 'translateY(-3px) scale(1.04)', offset: 0.35 }, { transform: 'none' }], { duration: 800, delay: T.cta + i * 140, easing: 'ease-in-out' })),
+        list.push(b.animate([{ transform: 'none' }, { transform: 'translateY(-3px) scale(1.04)', offset: 0.35 }, { transform: 'none' }], { duration: 800, delay: TL.cta + i * 140, easing: 'ease-in-out' })),
       );
     }
 
     // The clock: when it finishes, the next cycle starts (if still on screen and not paused).
-    const clock = stage.animate([], { duration: CYCLE_MS });
+    const clock = stage.animate([], { duration: TL.cycle });
     clock.onfinish = () => {
-      if (visible.current && tabVisible.current && !userPausedRef.current) start();
+      if (visible.current && tabVisible.current && !userPausedRef.current) startRef.current(true);
     };
     list.push(clock);
     anims.current = list;
     setPhase('running');
   }, [clear, ctaRef]);
+  startRef.current = start;
 
   const pause = useCallback(() => {
     for (const a of anims.current) if (a.playState === 'running') a.pause();
     setPhase((p) => (p === 'running' ? 'paused' : p));
   }, []);
   const resume = useCallback(() => {
+    if (!ready.current) return;
     if (!anims.current.length) return start();
     for (const a of anims.current) if (a.playState === 'paused') a.play();
     setPhase('running');
@@ -316,10 +341,30 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
     const root = rootRef.current;
     if (!animated || !root) return;
     const sync = () => {
-      const go = visible.current && tabVisible.current && !userPausedRef.current;
+      const go = ready.current && visible.current && tabVisible.current && !userPausedRef.current;
       if (go) resume();
       else pause();
     };
+    // Wait until the <picture> has picked its source and the image has decoded: the fragments reuse that exact
+    // source (no second download) and the first frame of the cycle has pixels to show.
+    let cancelled = false;
+    const img = root.querySelector<HTMLImageElement>('.sh-photo img');
+    const loaded = !img
+      ? Promise.resolve()
+      : img.complete && img.naturalWidth > 0
+        ? Promise.resolve()
+        : new Promise<void>((res) => {
+            img.addEventListener('load', () => res(), { once: true });
+            img.addEventListener('error', () => res(), { once: true });
+          });
+    loaded
+      .then(() => img?.decode?.())
+      .catch(() => undefined)
+      .then(() => {
+        if (cancelled) return;
+        ready.current = true;
+        sync();
+      });
     let io: IntersectionObserver | null = null;
     if (typeof IntersectionObserver !== 'undefined') {
       io = new IntersectionObserver(([e]) => {
@@ -337,6 +382,7 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
     };
     document.addEventListener('visibilitychange', onVis);
     return () => {
+      cancelled = true;
       io?.disconnect();
       document.removeEventListener('visibilitychange', onVis);
       clear();
@@ -381,12 +427,10 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
   const replay = () => {
     userPausedRef.current = false;
     setUserPaused(false);
-    start();
+    if (ready.current) start();
   };
 
   const { photo, boxes, lines } = HERO;
-  const lowestLine = Math.min(...lines.map((l) => l.confidence ?? 1));
-  let k = 0;
   const vars = { '--sh-aspect': `${photo.width} / ${photo.height}` } as CSSProperties;
 
   return (
@@ -404,12 +448,12 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
           <div className="sh-frame">
             <div className="sh-kb">
               <picture>
-                <source type="image/avif" srcSet={heroSrcSet('avif')} sizes="(min-width: 900px) 46vw, 100vw" />
-                <source type="image/webp" srcSet={heroSrcSet('webp')} sizes="(min-width: 900px) 46vw, 100vw" />
+                <source type="image/avif" srcSet={heroSrcSet('avif')} sizes={PHOTO_SIZES} />
+                <source type="image/webp" srcSet={heroSrcSet('webp')} sizes={PHOTO_SIZES} />
                 <img
                   src="/hero/thanjavur-800.jpg"
                   srcSet={heroSrcSet('jpg')}
-                  sizes="(min-width: 900px) 46vw, 100vw"
+                  sizes={PHOTO_SIZES}
                   width={photo.width}
                   height={photo.height}
                   alt=""
@@ -472,28 +516,33 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
             <span className="sh-chip">{t('stoneHero.unverified')}</span>
           </p>
           <div className="sh-lines">
-            {lines.map((l, li) => (
-              <div key={l.n} className="sh-line" data-line={li}>
-                <p className={`sh-ta script-chola ${confClass(l.confidence)}`} lang="ta">
-                  {l.aksharas.map((a, ai) => {
-                    if (a.kind === 'space') return <Akshara key={ai} a={a} gapLabel={t('stoneHero.gap')} />;
-                    return (
-                      <span key={ai} className="sh-akw" data-k={k++} data-anim="land">
-                        <Akshara a={a} gapLabel={t('stoneHero.gap')} />
-                      </span>
-                    );
-                  })}
-                </p>
-                <p className="sh-meta" data-anim="after-line">
-                  <span className="sh-iso iso" lang="ta-Latn">
-                    {l.iso}
-                  </span>
-                  <span className="sh-lc" title={t('stoneHero.lineConfidence')}>
-                    {fmt(l.confidence)}
-                  </span>
-                </p>
-              </div>
-            ))}
+            {lines.map((l, li) => {
+              let k = 0; // landing order within this line (timeline.ts schedules per line)
+              const guesses = l.aksharas.filter((a) => a.kind === 'gap' && a.best);
+              return (
+                <div key={l.n} className="sh-line" data-line={li}>
+                  <p className={`sh-ta script-chola ${confClass(l.confidence)}`} lang="ta">
+                    {l.aksharas.map((a, ai) => {
+                      if (a.kind === 'space') return <Akshara key={ai} a={a} gapLabel={t('stoneHero.gap')} />;
+                      return (
+                        <span key={ai} className="sh-akw" data-k={k++} data-anim="land">
+                          <Akshara a={a} gapLabel={t('stoneHero.gap')} />
+                        </span>
+                      );
+                    })}
+                  </p>
+                  <p className="sh-meta" data-anim="after-line">
+                    <span className="sh-iso iso" lang="ta-Latn">
+                      {l.iso}
+                    </span>
+                    <span className="sh-lc" title={t('stoneHero.lineConfidence')}>
+                      {fmt(l.confidence)}
+                    </span>
+                  </p>
+                  {guesses.length > 0 && <Guesses line={l} label={t(guesses.length > 1 ? 'stoneHero.bestGuesses' : 'stoneHero.bestGuess')} under={t('stoneHero.underCut')} />}
+                </div>
+              );
+            })}
           </div>
           <p className="sh-verdict" data-anim="verdict">
             <span>
@@ -504,7 +553,9 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
             </span>
           </p>
           <p className="sh-review" data-anim="verdict">
-            {HERO.confidence < HERO.abstainBelow && lowestLine < HERO.abstainBelow ? t('stoneHero.toReview') : null}
+            {/* Display wording for a low reading, not an app threshold: in the app a learner or scholar corrects the gaps
+                (RestorePage -> POST /api/corrections) and each correction waits in the expert review queue. */}
+            {HERO.confidence < 0.5 ? t('stoneHero.toReview') : null}
           </p>
           <p className="sh-note" data-anim="verdict">
             {t('stoneHero.noEdition')}

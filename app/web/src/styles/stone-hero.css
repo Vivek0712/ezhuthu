@@ -105,7 +105,7 @@
 .sh-out { min-width: 0; }
 .sh-out-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 0 0 6px; font-size: var(--ez-text-sm); color: var(--sh-muted); max-width: none !important; }
 .sh-chip { display: inline-block; padding: 1px 9px; border: 1px solid var(--ez-lamp-500); border-radius: var(--ez-radius-pill); color: var(--ez-lamp-200); font-size: 0.72rem; }
-.sh-line { margin-bottom: 6px; }
+.sh-line { margin-bottom: 6px; padding-bottom: 2px; border-bottom: 1px dashed rgba(255, 255, 255, 0.09); }
 .sh-ta { margin: 0; font-size: clamp(1.15rem, 1.75vw, 1.42rem); line-height: 1.5; max-width: none !important; }
 .sh-c-high { color: var(--sh-ink); }
 .sh-c-mid { color: var(--ez-lamp-200); }
@@ -113,9 +113,12 @@
 .sh-akw { display: inline-block; }
 .sh-sp { display: inline-block; width: 0.32em; }
 .sh-gap { display: inline-flex; white-space: nowrap; align-items: baseline; gap: 0.2em; padding: 0 0.25em; border: 1.5px dashed var(--ez-kumkum-300); border-radius: 6px; color: var(--ez-kumkum-300); }
-.sh-guess { font-family: var(--ez-font-body); font-size: 0.5em; color: var(--sh-muted); font-variant-numeric: tabular-nums; }
+.sh-guesses { margin: 1px 0 0; font-size: 0.74rem; color: var(--sh-muted); max-width: none !important; }
+.sh-guesses [lang='ta'] { color: var(--ez-stone-100); }
+.sh-gap-mark { display: inline-grid; place-items: center; width: 1.3em; height: 1.3em; border: 1px dashed var(--ez-kumkum-300); border-radius: 4px; color: var(--ez-kumkum-300); font-size: 0.9em; line-height: 1; }
+.sh-num { font-variant-numeric: tabular-nums; }
 .sh-meta { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 0; font-size: 0.82rem; max-width: none !important; }
-.sh-iso { color: var(--sh-muted); }
+.sh-iso { color: var(--sh-muted); font-family: var(--ez-font-body); font-style: normal; } /* roman: the italic display face misplaces the macron of ā */
 .sh-lc { flex: none; padding: 0 7px; border: 1px solid currentColor; border-radius: var(--ez-radius-pill); color: var(--ez-neelam-300); font-size: 0.72rem; font-variant-numeric: tabular-nums; }
 .sh-verdict { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 12px 0 4px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.14); font-size: var(--ez-text-sm); color: var(--ez-stone-100); max-width: none !important; }
 .sh-verdict b { color: var(--ez-neelam-300); font-variant-numeric: tabular-nums; }
@@ -144,30 +147,47 @@
 .stone-hero[data-phase='idle'] :is(.sh-kb, .sh-box, .sh-akw, .sh-node-out, [data-anim='after-line'], [data-anim='verdict']) { opacity: 0; }
 .stone-hero[data-motion='static'] :is(.sh-rake, .sh-beam, .sh-node-glow, .sh-spark, .sh-flight) { display: none; }
 
-/* Wide screens: stone | pipeline (vertical) | reading. */
+/* Wide screens: the stone large on the left with the pipeline as a row under it; the reading on the right, ruled
+   and waiting from the first frame. Letters fly down into the Reader and land from the Decider across to the right. */
 @media (min-width: 980px) {
-  .sh-stage { grid-template-columns: minmax(0, 1.2fr) 176px minmax(0, 1fr); align-items: start; gap: 22px; }
-  .sh-node-text { min-width: 0; }
-  html[lang='ta'] .sh-node-text b { font-size: 0.84rem; }
-  .sh-pipe { grid-template-columns: 1fr; gap: 26px; padding-top: 4px; }
-  .sh-pipe::before { top: 22px; bottom: 22px; left: 21px; right: auto; width: 2px; height: auto; background: repeating-linear-gradient(180deg, rgba(245, 196, 104, 0.55) 0 6px, transparent 6px 11px); }
-  .sh-node { grid-template-columns: 44px minmax(0, 1fr); justify-items: start; text-align: start; align-items: center; gap: 10px; }
-  .sh-wire { left: 22px; }
+  .sh-stage {
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+    grid-template-areas: 'photo out' 'pipe out';
+    grid-template-rows: auto 1fr;
+    column-gap: 28px;
+    row-gap: 12px;
+    align-items: start;
+  }
+  .sh-photo { grid-area: photo; }
+  .sh-pipe { grid-area: pipe; }
+  .sh-out { grid-area: out; align-self: stretch; padding-left: 24px; border-left: 1px solid rgba(255, 255, 255, 0.1); }
+  .sh-node-text small { white-space: nowrap; }
+  html[lang='ta'] .sh-node-text small { white-space: normal; }
 }
-/* Phones: stone, then the pipeline as a row, then the reading; the hero leads the page. */
+/* Phones and tablets: the tagline first, then the stone, then the lede and the calls to action, so the heading and
+   the stone share the first screen. */
 @media (max-width: 899px) {
   .home-hero { display: flex; flex-direction: column; }
-  .home-hero > .stone-hero { order: -1; margin: 0 0 18px; }
+  .home-hero > .hero-c { display: contents; }
+  .home-hero > .hero-c > .hero-copy:first-child { order: 0; margin-bottom: 12px; }
+  .home-hero > .stone-hero { order: 1; margin: 0 0 14px; }
+  .home-hero > .hero-c > .hero-copy:last-child { order: 2; margin-bottom: 18px; }
 }
 @media (max-width: 559px) {
-  .sh-stage { border-radius: var(--ez-radius-lg); gap: 14px; }
-  .sh-node-dot { width: 40px; height: 40px; }
-  .sh-pipe::before, .sh-wire { top: 20px; }
+  .sh-stage { border-radius: var(--ez-radius-lg); gap: 12px; }
+  .sh-node-dot { width: 36px; height: 36px; font-size: 0.9rem; }
+  .sh-pipe::before, .sh-wire { top: 18px; }
+  .sh-node { gap: 4px; }
   .sh-node-text small { display: none; }
   .sh-node-text b { font-size: 0.7rem; line-height: 1.25; white-space: nowrap; }
-  .sh-node-out { font-size: 0.68rem; }
-  .sh-place { margin-top: 6px; font-size: 0.72rem; }
-  .sh-out-head { margin-bottom: 4px; }
-  .sh-line { margin-bottom: 4px; }
-  .sh-verdict { margin-top: 8px; padding-top: 8px; }
+  .sh-node-out { margin-top: 1px; font-size: 0.68rem; }
+  .sh-place { margin-top: 5px; font-size: 0.7rem; }
+  .sh-out-head { margin-bottom: 2px; font-size: 0.8rem; }
+  .sh-ta { font-size: 1.05rem; line-height: 1.4; }
+  .sh-meta { font-size: 0.74rem; }
+  .sh-line { margin-bottom: 3px; }
+  .sh-guesses { display: none; }
+  .sh-verdict { margin-top: 6px; padding-top: 6px; font-size: 0.8rem; }
+  .sh-review { font-size: 0.8rem; }
+  .sh-note { font-size: 0.72rem; }
 }

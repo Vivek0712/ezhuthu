@@ -1,7 +1,7 @@
 {
   "image": "design/hero/thanjavur-crop.jpg",
   "size": [1568, 778],
-  "method": "Hand-annotated on 2x zooms with a pixel grid, guided by a groove-detection pass (local-darkness threshold + connected components). One box per carved letter group (a consonant with its attached vowel signs). Verified by rendering design/hero/boxes-overlay.png.",
+  "method": "Hand-annotated on 2x zooms with a pixel grid, guided by a groove-detection pass (local-darkness threshold + connected components). One box per carved letter group (a consonant with its attached vowel signs). Verified by rendering design/hero/boxes-overlay.jpg.",
   "rows": [
     [[65,15,170,150],[200,40,285,135],[280,30,362,130],[352,40,500,125],[522,38,632,140],[668,55,752,122],[800,15,882,112],[888,15,970,124],[1005,12,1100,102],[1110,12,1222,78],[1236,5,1395,135],[1405,4,1530,100]],
     [[12,240,102,318],[112,220,212,335],[195,222,342,400],[378,160,480,290],[510,200,612,316],[606,198,740,298],[762,188,920,368],[918,195,1040,262],[1060,188,1250,282],[1265,185,1340,250],[1342,185,1482,332],[1505,190,1560,336]],

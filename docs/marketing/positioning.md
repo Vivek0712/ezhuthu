@@ -89,7 +89,7 @@ calls, models from `config/models.yaml`):
 - Reader confidence **0.20** (Sonnet 4.6 at 0.15, then Opus 4.6 on "read again"); all 4 lines are under 0.5.
 - 3 gaps; Opus proposed fills and the hosted Strands Decider (`strands-decider-2b-hobson-v19`, `noul` on the top 3,
   the current `restorer.strategy_llm`) scored the best ones 0.38, 0.48 and 0.44. The cloud runtime has no calibration
-  for that decider, so it fills only at 0.5 or above: **all three abstain** and the reading goes to expert review.
+  for that decider, so it fills only at 0.5 or above: **all three abstain** and the gaps stay open for an expert.
 - **We could not identify this stone in a published edition**, so the hero shows no error rate and no translation, and
   says so. Two Opus reads of overlapping crops of the photo disagreed, which is itself evidence that the reading is
   unreliable.
@@ -99,7 +99,8 @@ A follow-up worth doing: an epigraphist identifies the inscription (SII volume 2
 edition and a CER, or swap to a photo of a DHARMA train inscription with a published reading.
 
 Media: `design/brand/banners/hero-stone.webm` (desktop, light), `hero-stone-dark.webm`, `hero-stone-phone.webm`
-(375 px, Tamil), `hero-stone.gif`, and `hero-stone-poster.png` (the reduced-motion frame).
+(375 px, Tamil), and `hero-stone-poster.jpg` (the reduced-motion frame). There is no GIF: a 1.6 MB GIF was dropped for
+weight, so the README shows the poster and links it to the video.
 
 ## Proposed README copy (for the lead; README.md is owned by PR #31)
 
@@ -112,9 +113,9 @@ Replace the bold one-liner and the Tamil line under the badges with:
 
 Under it, the hero media:
 
-> <p align="center"><a href="design/brand/banners/hero-stone.webm"><img src="design/brand/banners/hero-stone.gif" alt="A real Chola-period inscription from Thanjavur: letters light up, fly through Reader, Restorer and Strands Decider, and land as Ezhuthu's reading, with low confidence, three abstained gaps and a note that it goes to expert review" width="88%"></a></p>
+> <p align="center"><a href="design/brand/banners/hero-stone.webm"><img src="design/brand/banners/hero-stone-poster.jpg" alt="A real Chola-period inscription from Thanjavur: letters light up, fly through Reader, Restorer and Strands Decider, and land as Ezhuthu's reading, with low confidence, three abstained gaps and a note that a reading this unsure needs an expert" width="88%"></a></p>
 > <p align="center"><sub>A real photo (Richard Mortel, CC BY 2.0), read by Ezhuthu: confidence 0.20, three gaps left
-> open, sent to expert review. No published edition of this stone was found, so no error rate is shown.</sub></p>
+> open for an expert. No published edition of this stone was found, so no error rate is shown.</sub></p>
 
 "Why it matters", first two bullets:
 

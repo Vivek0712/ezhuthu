@@ -34,7 +34,7 @@
    },
    "1568": {
     "avif": 117649,
-    "webp": 283750,
+    "webp": 240708,
     "jpg": 268477
    }
   }
@@ -325,7 +325,7 @@
    ]
   ]
  ],
- "boxes_method": "Hand-annotated on 2x zooms with a pixel grid, guided by a groove-detection pass (local-darkness threshold + connected components). One box per carved letter group (a consonant with its attached vowel signs). Verified by rendering design/hero/boxes-overlay.png.",
+ "boxes_method": "Hand-annotated on 2x zooms with a pixel grid, guided by a groove-detection pass (local-darkness threshold + connected components). One box per carved letter group (a consonant with its attached vowel signs). Verified by rendering design/hero/boxes-overlay.jpg.",
  "boxes_note": "Boxes mark carved letter groups. The Reader returns text line by line, not letter positions, so a box is not matched to a particular output letter; rows are matched to reading lines.",
  "reading": {
   "endpoint": "POST /api/read",

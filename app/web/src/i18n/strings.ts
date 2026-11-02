@@ -79,7 +79,10 @@ export const en = {
   'stoneHero.lineConfidence': 'line confidence',
   'stoneHero.gap': 'gap',
   'stoneHero.abstained': 'gaps left open: every guess was under 0.5',
-  'stoneHero.toReview': 'Under 0.5, so this reading goes to expert review.',
+  'stoneHero.toReview': 'Too unsure to trust alone. In the app, you fill the gaps yourself and an expert reviews each one.',
+  'stoneHero.bestGuess': 'Best guess',
+  'stoneHero.bestGuesses': 'Best guesses',
+  'stoneHero.underCut': 'under 0.5, so left open',
   'stoneHero.noEdition':
     'We could not find a published edition of this stone, so there is no error rate and no translation.',
   'stoneHero.credit': 'Photo: Richard Mortel',
@@ -412,7 +415,11 @@ export const ta: Record<MessageKey, string> = {
   'stoneHero.lineConfidence': 'வரி நம்பகம்',
   'stoneHero.gap': 'இடைவெளி',
   'stoneHero.abstained': 'இடைவெளிகள் நிரப்பப்படவில்லை: எல்லா ஊகங்களும் 0.5-க்குக் கீழ்',
-  'stoneHero.toReview': '0.5-க்குக் கீழ்; அதனால் இந்த வாசிப்பு வல்லுநர் மதிப்பாய்வுக்குச் செல்கிறது.',
+  // stoneHero.toReview / bestGuess / bestGuesses / underCut: PENDING a native-speaker check.
+  'stoneHero.toReview': 'தனியாக நம்பும் அளவுக்கு உறுதியில்லை. செயலியில் இடைவெளிகளை நீங்களே நிரப்பலாம்; ஒவ்வொன்றையும் வல்லுநர் மதிப்பாய்வு செய்வார்.',
+  'stoneHero.bestGuess': 'சிறந்த ஊகம்',
+  'stoneHero.bestGuesses': 'சிறந்த ஊகங்கள்',
+  'stoneHero.underCut': '0.5-க்குக் கீழ்; அதனால் நிரப்பப்படவில்லை',
   'stoneHero.noEdition':
     'இந்தக் கல்லின் வெளியிடப்பட்ட பதிப்பு கிடைக்கவில்லை; அதனால் பிழை விகிதமோ மொழிபெயர்ப்போ இல்லை.',
   'stoneHero.credit': 'ஒளிப்படம்: Richard Mortel',
