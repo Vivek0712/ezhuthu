@@ -543,25 +543,29 @@
       "gap": {
        "index": 0,
        "decision": "abstain",
+       "abstain_below": 0.4887,
+       "strategy": "prerank",
+       "calibration": "prerank-ngram|prerank|kall|llm-opus",
        "best": {
         "ta": "குப்",
         "iso": "ku-p",
-        "confidence": 0.3708,
-        "confidence_source": "decider-noul",
-        "decider_model": "strands-decider-2b-hobson-v19"
+        "confidence": 0.0823,
+        "raw_confidence": 0.3048,
+        "confidence_source": "prerank-ngram",
+        "decider_model": "prerank-ngram"
        },
        "candidates": [
         {
          "ta": "குப்",
-         "confidence": 0.3708
+         "confidence": 0.0823
         },
         {
-         "ta": "து",
-         "confidence": 0.3598
+         "ta": "ணம்",
+         "confidence": 0.0809
         },
         {
-         "ta": "ம",
-         "confidence": 0.3223
+         "ta": "ரம்",
+         "confidence": 0.0774
         }
        ]
       }
@@ -725,10 +729,8 @@
  "restore": {
   "endpoint": "POST /api/restore",
   "input": "kilamaḻararakuṭikakuḷam\nṇaṭunīpiceyanumalapalati\npa[?2]piravaḷanilaikoṭuma\neṇaṭuparkutikolvaṭu",
-  "abstain_below": 0.5,
   "models": [
-   "us.anthropic.claude-opus-4-6-v1",
-   "strands-decider-2b-hobson-v19"
+   "us.anthropic.claude-opus-4-6-v1"
   ],
   "decisions": [
    "abstain"
@@ -739,34 +741,39 @@
     "box": 1,
     "index": 0,
     "decision": "abstain",
+    "abstain_below": 0.4887,
+    "strategy": "prerank",
+    "calibration": "prerank-ngram|prerank|kall|llm-opus",
     "best": {
      "ta": "குப்",
      "iso": "ku-p",
-     "confidence": 0.3708,
-     "confidence_source": "decider-noul",
-     "decider_model": "strands-decider-2b-hobson-v19"
+     "confidence": 0.0823,
+     "raw_confidence": 0.3048,
+     "confidence_source": "prerank-ngram",
+     "decider_model": "prerank-ngram"
     },
     "candidates": [
      {
       "ta": "குப்",
-      "confidence": 0.3708
+      "confidence": 0.0823
      },
      {
-      "ta": "து",
-      "confidence": 0.3598
+      "ta": "ணம்",
+      "confidence": 0.0809
      },
      {
-      "ta": "ம",
-      "confidence": 0.3223
+      "ta": "ரம்",
+      "confidence": 0.0774
      }
     ]
    }
   ],
-  "note": "Candidate fills from the LLM were ranked by the hosted Strands Decider (restorer.strategy_llm: noul-topk, top 3). Without a calibration for that decider the Restorer fills only at confidence >= 0.5; the best fill scored under that, so the gap is left open."
+  "config": "deployed (config/models.yaml after PR #40): restorer.strategy_llm prerank, ngram_prerank true, VAL-fitted Platt calibration (src/ezhuthu/agent/calibration.json); no Strands Decider call for restoration",
+  "note": "EzhuthuService.restore with the deployed configuration: the LLM's candidate fills, DHARMA parallels and the character 5-gram are pre-ranked (noisy-OR), then the top score is mapped to a calibrated confidence fitted on VAL. The gap is filled only if that confidence reaches the calibration's own threshold (abstain_below per gap); here the best fill scored under it, so the gap is left open. Re-run 2026-11-02 after PR #40; it replaces an earlier run whose fills were ranked by the hosted Strands Decider v19 (restorer.strategy_llm noul-topk) against a flat 0.5."
  },
  "line_reading": {
   "endpoint": "POST /api/read",
-  "note": "The app's own line-by-line reading of the same crop (Sonnet 4.6, then Opus 4.6 on 'read again'), and the Restorer on its gaps. Kept for the record; the hero shows the letter-by-letter reading.",
+  "note": "The app's own line-by-line reading of the same crop (Sonnet 4.6, then Opus 4.6 on 'read again'), and the Restorer on its gaps (with the superseded noul-topk config). Kept for the record; the hero shows the letter-by-letter reading.",
   "first_pass": {
    "models": [
     "sonnet"
@@ -1247,10 +1254,10 @@
  "live_calls": {
   "reader": 4,
   "glyphs": 4,
-  "restorer": 7,
+  "restorer": 8,
   "interpreter": 4,
   "photo_search": 3,
-  "note": "Bedrock calls. Reader: includes a Sonnet+Opus read of a 6-line crop of the same photo that was not used. Glyphs: one Opus call per row. Restorer: 6 on the line reading (two runs) and 1 on the letter-by-letter reading. Interpreter: Sonnet then Opus (Sonnet was under 0.6), twice; the first pair used a prompt without a length limit on the meaning and was superseded. Photo search: Reader calls on two candidate photos that were not used. Strands Decider calls go to the hosted decider API, not Bedrock."
+  "note": "Bedrock calls. Reader: includes a Sonnet+Opus read of a 6-line crop of the same photo that was not used. Glyphs: one Opus call per row. Restorer: 6 on the line reading (two runs), 1 on the letter-by-letter reading with the old noul-topk config, and 1 (Opus, pre-escalated) re-running it with the deployed prerank config. Interpreter: Sonnet then Opus (Sonnet was under 0.6), twice; the first pair used a prompt without a length limit on the meaning and was superseded. Photo search: Reader calls on two candidate photos that were not used. The superseded restorer run also called the hosted Strands Decider API (not Bedrock); the deployed config makes no decider call."
  },
  "run_date": "2026-11-02"
 }

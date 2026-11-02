@@ -5,7 +5,8 @@ Inputs (all committed):
   design/hero/boxes.json           hand-annotated carved-letter boxes in that image's pixel coordinates
   app/web/src/hero/runs/read.json           POST /api/read response (scripts/hero_read.py read --reread)
   app/web/src/hero/runs/glyphs.json         letter-by-letter reading of the boxes (scripts/hero_read.py glyphs)
-  app/web/src/hero/runs/restore.json        POST /api/restore on that reading (hero_read.py restore --from-glyphs)
+  app/web/src/hero/runs/restore.json        POST /api/restore on that reading with the deployed restorer config
+                                            (hero_read.py restore --from-glyphs)
   app/web/src/hero/runs/restore-lines.json  POST /api/restore on the line reading (kept for the record)
   app/web/src/hero/runs/interpret.json      words, modern Tamil phrase and meaning (hero_read.py interpret)
 
@@ -39,7 +40,8 @@ WIDTHS = (480, 800, 1568)
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from hero_read import GAP_BELOW, glyph_is_gap, glyph_text, hero_letters
 
-ABSTAIN_BELOW = 0.5  # config/models.yaml routing.abstain_if_confidence_below (no calibration for the self-report path)
+# The Restorer's fill/abstain threshold is not set here: each gap carries the one the deployed Restorer applied
+# (its VAL-fitted calibrated threshold, ``abstain_below`` in restore.json).
 
 PHOTO = {
     "title": "Brihadishwara Temple, Dedicated to Shiva, built by Rajaraja I, completed in 1010, Thanjavur (38)",
@@ -97,8 +99,8 @@ def _fill_ta(c: dict) -> str:
 
 def build_glyph_rows(boxes: dict, glyphs: dict, restore: dict) -> tuple[list[dict], list[dict]]:
     """Per box: the Reader's modern letter and probability; letters under GAP_BELOW (or unnamed) are the gaps the
-    Restorer was run on (scripts/hero_read.py restore --from-glyphs), each with the Restorer's best fill and the
-    Decider's decision."""
+    Restorer was run on (scripts/hero_read.py restore --from-glyphs), each with the Restorer's best fill (calibrated
+    confidence), the threshold it was held to and the fill/abstain decision."""
     gaps_resp = restore["response"]["gaps"]
     assert restore["input"] == glyph_text(glyphs), "restore.json must be the run on the letter-by-letter reading"
     rows, gaps, gi = [], [], 0
@@ -111,8 +113,10 @@ def build_glyph_rows(boxes: dict, glyphs: dict, restore: dict) -> tuple[list[dic
             if glyph_is_gap(g):
                 resp = gaps_resp[gi]
                 best = resp["candidates"][0] if resp["candidates"] else None
-                e["gap"] = {"index": gi, "decision": resp["decision"],
+                e["gap"] = {"index": gi, "decision": resp["decision"], "abstain_below": resp["abstain_below"],
+                            "strategy": resp.get("strategy"), "calibration": resp.get("calibration"),
                             "best": {"ta": _fill_ta(best), "iso": best["text"], "confidence": best["confidence"],
+                                     "raw_confidence": best.get("features", {}).get("raw_confidence"),
                                      "confidence_source": best.get("confidence_source"),
                                      "decider_model": best.get("decider_model")} if best else None,
                             "candidates": [{"ta": _fill_ta(c), "confidence": c["confidence"]}
@@ -161,18 +165,24 @@ def build_json(boxes: dict, sizes: dict) -> dict:
         "restore": {
             "endpoint": "POST /api/restore",
             "input": restore["input"],
-            "abstain_below": ABSTAIN_BELOW,
             "models": restore["response"].get("models_used"),
             "decisions": [g["decision"] for g in restore["response"]["gaps"]],
             "gaps": gaps,
-            "note": "Candidate fills from the LLM were ranked by the hosted Strands Decider (restorer.strategy_llm: "
-                    "noul-topk, top 3). Without a calibration for that decider the Restorer fills only at "
-                    "confidence >= 0.5; the best fill scored under that, so the gap is left open.",
+            "config": "deployed (config/models.yaml after PR #40): restorer.strategy_llm prerank, ngram_prerank "
+                      "true, VAL-fitted Platt calibration (src/ezhuthu/agent/calibration.json); no Strands Decider "
+                      "call for restoration",
+            "note": "EzhuthuService.restore with the deployed configuration: the LLM's candidate fills, DHARMA "
+                    "parallels and the character 5-gram are pre-ranked (noisy-OR), then the top score is mapped to a "
+                    "calibrated confidence fitted on VAL. The gap is filled only if that confidence reaches the "
+                    "calibration's own threshold (abstain_below per gap); here the best fill scored under it, so the "
+                    "gap is left open. Re-run 2026-11-02 after PR #40; it replaces an earlier run whose fills were "
+                    "ranked by the hosted Strands Decider v19 (restorer.strategy_llm noul-topk) against a flat 0.5.",
         },
         "line_reading": {
             "endpoint": "POST /api/read",
             "note": "The app's own line-by-line reading of the same crop (Sonnet 4.6, then Opus 4.6 on 'read again'), "
-                    "and the Restorer on its gaps. Kept for the record; the hero shows the letter-by-letter reading.",
+                    "and the Restorer on its gaps (with the superseded noul-topk config). Kept for the record; the hero "
+                    "shows the letter-by-letter reading.",
             "first_pass": {"models": first.get("models_used"), "confidence": first.get("confidence"),
                            "text": first.get("text")},
             "final": {"models": read["models_used"], "confidence": read["confidence"],
@@ -212,14 +222,15 @@ def build_json(boxes: dict, sizes: dict) -> dict:
                         "train split (2026-11-02, twice) found none whose text could be matched to an edition: the "
                         "two closest candidates (Airavatesvara temple, Darasuram) were read by the Reader as "
                         "Vatteluttu / illegible and could not be tied to DHARMA_INSTamilNadu00619, 00602 or 00603.",
-        "live_calls": {"reader": 4, "glyphs": 4, "restorer": 7, "interpreter": 4, "photo_search": 3,
+        "live_calls": {"reader": 4, "glyphs": 4, "restorer": 8, "interpreter": 4, "photo_search": 3,
                        "note": "Bedrock calls. Reader: includes a Sonnet+Opus read of a 6-line crop of the same photo "
                                "that was not used. Glyphs: one Opus call per row. Restorer: 6 on the line reading "
-                               "(two runs) and 1 on the letter-by-letter reading. Interpreter: Sonnet then Opus "
+                               "(two runs), 1 on the letter-by-letter reading with the old noul-topk config, and 1 (Opus, pre-escalated) "
+                               "re-running it with the deployed prerank config. Interpreter: Sonnet then Opus "
                                "(Sonnet was under 0.6), twice; the first pair used a prompt without a length limit "
                                "on the meaning and was superseded. Photo search: Reader calls on two candidate "
-                               "photos that were not used. Strands Decider calls go to the hosted decider API, not "
-                               "Bedrock."},
+                               "photos that were not used. The superseded restorer run also called the hosted "
+                               "Strands Decider API (not Bedrock); the deployed config makes no decider call."},
         "run_date": "2026-11-02",
     }
 
@@ -238,7 +249,7 @@ def build_view(data: dict) -> dict:
             v = {"ta": x["ta"] or "", "c": x["confidence"]}
             if "gap" in x:
                 best = x["gap"]["best"]
-                v["gap"] = {"decision": x["gap"]["decision"],
+                v["gap"] = {"decision": x["gap"]["decision"], "below": x["gap"]["abstain_below"],
                             "best": {"ta": best["ta"], "c": best["confidence"]} if best else None}
             gl.append(v)
         rows.append({"c": row["mean_confidence"], "glyphs": gl})
@@ -253,7 +264,7 @@ def build_view(data: dict) -> dict:
         "featured": FEATURED,
         "letters": g["letters"],
         "mean": g["mean_confidence"],
-        "abstain_below": data["restore"]["abstain_below"],
+        "letter_cut": g["gap_below"],
         "words": [{"ta": w["tamil"], "en": w["en"], "c": w["confidence"], "at": w["letters"]}
                   for w in it["words"]],
         "phrase": {"ta": it["phrase_tamil"], "iso": it["phrase_iso"]},

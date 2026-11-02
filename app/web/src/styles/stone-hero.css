@@ -73,6 +73,8 @@
   pointer-events: none;
 }
 .sh-place { margin: var(--ez-space-2) 0 0; font-size: var(--ez-text-xs); color: var(--sh-muted); letter-spacing: 0.02em; }
+/* What the stage does not claim: the boxes were marked by hand (the Reader only names the letter in each). */
+.sh-boxes { opacity: 0.85; }
 
 /* Badges: the matched modern letter and its confidence, straddling the bottom edge of each box. Sized in units of
    the photo's width (cqw), so they keep their place on every screen. */
@@ -185,6 +187,7 @@
 .sh-legend { display: inline-flex; gap: var(--ez-space-3); font-size: 0.72rem; font-variant-numeric: tabular-nums; }
 .sh-legend i { font-style: normal; display: inline-flex; align-items: center; gap: 5px; }
 .sh-legend i::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.sh-legend-note { flex-basis: 100%; font-size: 0.7rem; opacity: 0.85; }
 /* The two panes share one cell: the letter rows, then (crossfading in) the phrase and meaning. */
 .sh-panes { display: grid; flex: 1; }
 .sh-panes > * { grid-area: 1 / 1; min-width: 0; }
@@ -198,7 +201,9 @@
   border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
 }
 .sh-line:first-child { padding-top: 2px; }
-.sh-ta { margin: 0; font-family: var(--ez-font-body-ta); font-size: clamp(1.05rem, 1.32vw, 1.24rem); line-height: 1.45; white-space: nowrap; max-width: none !important; }
+/* --sh-fit (set by StoneHero's fitReading) shrinks the type so the widest line, words spaced apart, fits its column
+   at every width; letters are measured for their flight after it is set. */
+.sh-ta { position: relative; margin: 0; font-family: var(--ez-font-body-ta); font-size: calc(clamp(1.05rem, 1.32vw, 1.24rem) * var(--sh-fit, 1)); line-height: 1.45; white-space: nowrap; max-width: none !important; }
 /* A word: its letters, then an underline in the word's confidence tint (drawn at the WORDS beat). */
 .sh-word { position: relative; display: inline-block; }
 .sh-word + .sh-word { margin-left: 0.42em; }
@@ -230,7 +235,8 @@ html[lang='ta'] .sh-k { text-transform: none; letter-spacing: 0.02em; font-size:
 .sh-mc { padding: 0 7px; border: 1px solid currentColor; border-radius: var(--ez-radius-pill); font-size: 0.7rem; letter-spacing: 0; text-transform: none; font-variant-numeric: tabular-nums; }
 .sh-mean-en { margin-top: var(--ez-space-2) !important; text-wrap: pretty; font-size: 0.95rem; line-height: 1.55; color: var(--ez-stone-100); }
 .sh-mean-ta { margin-top: var(--ez-space-2) !important; text-wrap: pretty; font-family: var(--ez-font-body-ta); font-size: 0.95rem; line-height: 1.6; color: var(--ez-stone-200, var(--ez-stone-100)); }
-.sh-sum { min-width: 0; padding-top: var(--ez-space-3); border-top: 1px solid rgba(255, 255, 255, 0.14); }
+/* The verdict closes the reading column (no band of its own under the stage, which sat empty for most of the cycle). */
+.sh-sum { min-width: 0; margin-top: var(--ez-space-4); padding-top: var(--ez-space-3); border-top: 1px solid rgba(255, 255, 255, 0.14); }
 .sh-verdict { display: flex; flex-wrap: wrap; gap: var(--ez-space-1) var(--ez-space-4); margin: 0; font-size: 0.86rem; color: var(--ez-stone-100); max-width: none !important; }
 .sh-verdict b { color: var(--ez-lamp-200); font-variant-numeric: tabular-nums; }
 .sh-flagged { margin: var(--ez-space-1) 0 0; font-size: 0.76rem; color: var(--sh-muted); max-width: none !important; }
@@ -258,8 +264,8 @@ html[lang='ta'] .sh-k { text-transform: none; letter-spacing: 0.02em; font-size:
 @media (min-width: 980px) {
   .sh-stage {
     grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
-    grid-template-areas: 'photo out' 'pipe out' 'sum sum';
-    grid-template-rows: auto 1fr auto;
+    grid-template-areas: 'photo out' 'pipe out';
+    grid-template-rows: auto 1fr;
     column-gap: var(--ez-space-8);
     row-gap: var(--ez-space-5);
     padding: var(--ez-space-6);
@@ -268,8 +274,13 @@ html[lang='ta'] .sh-k { text-transform: none; letter-spacing: 0.02em; font-size:
   .sh-photo { grid-area: photo; }
   .sh-pipe { grid-area: pipe; }
   .sh-out { grid-area: out; align-self: stretch; padding-left: var(--ez-space-6); border-left: 1px solid rgba(255, 255, 255, 0.1); }
-  .sh-sum { grid-area: sum; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--ez-space-1) var(--ez-space-6); }
-  .sh-flagged { margin: 0; }
+  .sh-sum { margin-top: auto; }
+  .sh-verdict { gap: 2px var(--ez-space-3); font-size: 0.8rem; }
+  /* Kept short so the reading column is no taller than the stone and pipeline beside it: the legend above already
+     marks the letters under the cut-off, and the phrase is one size down from phones. */
+  .stone-hero[data-motion='animated'] .sh-flagged { display: none; }
+  .stone-hero[data-motion='animated'] .sh-phrase { font-size: clamp(1.15rem, 1.45vw, 1.4rem); }
+  .stone-hero[data-motion='animated'] .sh-mean-head { margin-top: var(--ez-space-3) !important; }
   .sh-node-text small { white-space: nowrap; }
   html[lang='ta'] .sh-node-text small { white-space: normal; }
 }
@@ -283,6 +294,9 @@ html[lang='ta'] .sh-k { text-transform: none; letter-spacing: 0.02em; font-size:
   .stone-hero[data-motion='static'] :is(.sh-out-head, .sh-read) { padding-left: var(--ez-space-6); border-left: 1px solid rgba(255, 255, 255, 0.1); }
   .stone-hero[data-motion='static'] .sh-out-head { grid-area: head; margin: 0; padding-bottom: var(--ez-space-3); }
   .stone-hero[data-motion='static'] .sh-read { grid-area: read; align-self: stretch; }
+  .stone-hero[data-motion='static'] .sh-sum { grid-area: sum; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--ez-space-1) var(--ez-space-6); margin-top: 0; }
+  .stone-hero[data-motion='static'] .sh-verdict { font-size: 0.86rem; gap: var(--ez-space-1) var(--ez-space-4); }
+  .stone-hero[data-motion='static'] .sh-flagged { margin: 0; }
   .stone-hero[data-motion='static'] .sh-mean {
     grid-area: mean;
     display: grid;
@@ -306,7 +320,7 @@ html[lang='ta'] .sh-k { text-transform: none; letter-spacing: 0.02em; font-size:
   .stone-hero { margin-top: var(--ez-space-1); }
   .sh-stage { border-radius: var(--ez-radius-lg); gap: var(--ez-space-3); padding: var(--ez-space-2) var(--ez-space-2) var(--ez-space-4); }
   .sh-frame { border-radius: var(--ez-radius-sm, 8px); }
-  .sh-place, .sh-out, .sh-sum { padding-inline: var(--ez-space-1); }
+  .sh-place, .sh-out { padding-inline: var(--ez-space-1); }
   .sh-pipe { gap: var(--ez-space-1); }
   .sh-badge small { display: none; }
   .sh-node-dot { width: 36px; height: 36px; font-size: 0.9rem; }
@@ -326,8 +340,30 @@ html[lang='ta'] .sh-k { text-transform: none; letter-spacing: 0.02em; font-size:
   .sh-mean-ta { margin-top: var(--ez-space-1) !important; }
   .sh-mean-head { margin-top: var(--ez-space-3) !important; padding-top: var(--ez-space-2); }
   .sh-out-head { margin-bottom: var(--ez-space-2); }
-  .sh-sum { padding-top: var(--ez-space-2); }
+  .sh-sum { margin-top: var(--ez-space-3); padding-top: var(--ez-space-2); }
   .sh-gapnote, .sh-flagged { font-size: 0.74rem; }
   .sh-verdict { font-size: 0.8rem; }
   .sh-bar { padding: 0 var(--ez-space-1); }
+}
+
+/* ---- Home hero header (HomePage.tsx, .hh): one column above the stone. Centred on wider screens, so it sits
+   balanced over the full-width stage; left-aligned on phones. One short headline, a two-sentence subline, one primary
+   and one secondary call to action, and "How it works" as a quiet text link. ---- */
+.hh { display: grid; justify-items: center; text-align: center; gap: 0; padding: var(--ez-space-6) 0 var(--ez-space-5); }
+.hh > * { max-width: 46rem; margin-inline: auto; }
+.hh .hh-kicker { margin: 0 0 var(--ez-space-2); }
+.hh .hh-title { margin: 0; font-size: clamp(var(--ez-text-2xl), 3.4vw, var(--ez-text-3xl)); line-height: 1.12; text-wrap: balance; }
+html[lang='ta'] .hh .hh-title { font-size: clamp(1.4rem, 2.4vw, 1.9rem); line-height: 1.4; }
+.hh .hh-sub { margin: var(--ez-space-3) auto 0; max-width: 40rem; font-size: var(--ez-text-md); line-height: 1.55; text-wrap: pretty; }
+html[lang='ta'] .hh .hh-sub { font-size: 0.95rem; line-height: 1.7; }
+.hh .hh-actions { justify-content: center; margin-top: var(--ez-space-5); }
+.hh .hh-how { font-weight: var(--ez-weight-medium, 500); font-size: var(--ez-text-sm); color: var(--ez-text-muted); text-decoration-color: currentColor; }
+.hh .hh-how:hover { color: var(--ez-accent-text); }
+@media (max-width: 559px) {
+  .hh { justify-items: start; text-align: left; padding: var(--ez-space-4) 0 var(--ez-space-4); }
+  .hh > * { margin-inline: 0; }
+  .hh .hh-sub { margin-inline: 0; font-size: 0.95rem; }
+  html[lang='ta'] .hh .hh-title { font-size: 1.3rem; }
+  html[lang='ta'] .hh .hh-sub { font-size: 0.88rem; line-height: 1.6; }
+  .hh .hh-actions { justify-content: flex-start; margin-top: var(--ez-space-4); }
 }

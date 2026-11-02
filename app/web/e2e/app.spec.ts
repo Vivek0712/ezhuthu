@@ -7,7 +7,7 @@ test.describe('home and language', () => {
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await page.getByTestId('lang-toggle').click();
     await expect(page.locator('html')).toHaveAttribute('lang', 'ta');
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('கல்வெட்டைப் படிக்கக் கற்றுக்கொள்ளுங்கள்');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('படிக்கக் கற்றுக்கொள்ளுங்கள்');
     await expect(page.getByTestId('stone-hero')).toBeVisible();
     await expect(page.getByTestId('mini-drill')).toBeAttached();
     await expect(page.getByTestId('mock-banner')).toBeVisible();
@@ -26,7 +26,7 @@ test.describe('home and language', () => {
 
   test('switches to Tamil and back, and remembers the choice', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Learn to read the stone. Help read the backlog.');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Learn to read old Tamil inscriptions.');
     await page.getByTestId('lang-toggle').click();
     await expect(page.locator('html')).toHaveAttribute('lang', 'ta');
     await page.reload();

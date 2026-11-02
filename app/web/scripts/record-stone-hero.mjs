@@ -15,14 +15,14 @@ import { fileURLToPath } from 'node:url';
 
 const WEB = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = resolve(WEB, '../../design/brand/banners');
-const URL = 'http://localhost:4173/';
+const URL = process.env.HERO_URL ?? 'http://localhost:4173/'; // HERO_URL: another port (parallel worktrees)
 mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch();
 
 // Poster: the static composed frame, English, light.
 {
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce', deviceScaleFactor: 1 });
-  await ctx.addInitScript(() => window.localStorage.setItem('ezhuthu.lang', 'en'));
+  await ctx.addInitScript(() => window.localStorage.setItem('ezhuthu.lang.v2', 'en'));
   const p = await ctx.newPage();
   await p.goto(URL);
   await p.getByTestId('stone-hero').waitFor();
@@ -38,7 +38,7 @@ const browser = await chromium.launch();
 async function record({ name, theme = 'light', lang = 'en', viewport = { width: 1440, height: 900 }, fullScreen = false }) {
   const tmp = mkdtempSync(join(tmpdir(), 'ez-stone-'));
   const ctx = await browser.newContext({ viewport, colorScheme: theme, recordVideo: { dir: tmp, size: viewport } });
-  await ctx.addInitScript((l) => window.localStorage.setItem('ezhuthu.lang', l), lang);
+  await ctx.addInitScript((l) => window.localStorage.setItem('ezhuthu.lang.v2', l), lang);
   const page = await ctx.newPage();
   const t0 = Date.now();
   await page.goto(URL);

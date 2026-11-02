@@ -1,4 +1,4 @@
-// Typed view of hero-view.json: the real output of Ezhuthu's Reader (letter by letter), Restorer, Strands Decider and
+// Typed view of hero-view.json: the real output of Ezhuthu's Reader (letter by letter), Restorer (deployed config: calibrated pre-rank, no decider) and
 // Interpreter (words, modern Tamil phrase, meaning) on one real photograph (scripts/hero_read.py, scripts/hero_build.py). Nothing here is invented for the animation.
 // hero-view.json is the trimmed subset the page needs; the full record (models, notes, candidates, the line-level
 // reading) is hero-reading.json, kept out of the bundle and checked against this view in StoneHero.test.tsx and
@@ -10,10 +10,12 @@ export type Box = [number, number, number, number]; // x0, y0, x1, y1 in photo p
 export interface HeroGlyph {
   /** The modern Tamil letter the Reader matched to the carved letter in this box ('' if it named none). */
   ta: string;
-  /** The Reader's probability that the letter is right. */
+  /** The Reader's own (self-reported, uncalibrated) probability that the letter is right. */
   c: number | null;
   /** Present when the letter was under the cut-off and went to the Restorer. */
-  gap?: { decision: string; best: { ta: string; c: number } | null };
+  /** Present when the letter was under the cut-off and went to the Restorer: its decision, the calibrated threshold
+   * the best fill was held to (`below`), and the best fill with its calibrated confidence. */
+  gap?: { decision: string; below: number; best: { ta: string; c: number } | null };
 }
 
 export interface HeroRow {
@@ -41,7 +43,7 @@ interface Raw {
   featured: number;
   letters: number;
   mean: number;
-  abstain_below: number;
+  letter_cut: number;
   words: HeroWord[];
   phrase: { ta: string; iso: string };
   meaning: { en: string; ta: string };
@@ -64,10 +66,11 @@ export const HERO = {
   featured: data.featured,
   letters: data.letters,
   mean: data.mean,
-  abstainBelow: data.abstain_below,
+  /** Letters the Reader named under this (its own confidence) went to the Restorer; also the legend's low band. */
+  letterCut: data.letter_cut,
   /** Letters that went to the Restorer, in reading order. */
   gaps,
-  /** How many of them the Decider filled. */
+  /** How many of them the Restorer filled (its calibrated confidence reached the calibrated threshold). */
   fills: gaps.filter((x) => x.g.gap!.decision !== 'abstain').length,
   words: data.words,
   wordOf,
@@ -98,7 +101,7 @@ export function heroSrcSet(ext: 'avif' | 'webp' | 'jpg'): string {
 export function confClass(c: number | null | undefined): 'sh-c-high' | 'sh-c-mid' | 'sh-c-low' {
   if (c == null) return 'sh-c-low';
   if (c >= 0.7) return 'sh-c-high';
-  if (c >= HERO.abstainBelow) return 'sh-c-mid';
+  if (c >= HERO.letterCut) return 'sh-c-mid';
   return 'sh-c-low';
 }
 

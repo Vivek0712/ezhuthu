@@ -420,9 +420,10 @@
      "c": 0.45,
      "gap": {
       "decision": "abstain",
+      "below": 0.4887,
       "best": {
        "ta": "குப்",
-       "c": 0.3708
+       "c": 0.0823
       }
      }
     },
@@ -517,7 +518,7 @@
  "featured": 4,
  "letters": 46,
  "mean": 0.65,
- "abstain_below": 0.5,
+ "letter_cut": 0.5,
  "words": [
   {
    "ta": "கிலமழர்",

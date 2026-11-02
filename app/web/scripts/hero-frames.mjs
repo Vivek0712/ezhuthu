@@ -18,7 +18,7 @@ mkdirSync(OUT, { recursive: true });
 const viewport = phone ? { width: 375, height: 740 } : { width: 1440, height: 900 };
 const browser = await chromium.launch();
 const ctx = await browser.newContext({ viewport, colorScheme: flag('--dark') ? 'dark' : 'light', deviceScaleFactor: 1 });
-await ctx.addInitScript((l) => window.localStorage.setItem('ezhuthu.lang', l), lang);
+await ctx.addInitScript((l) => window.localStorage.setItem('ezhuthu.lang.v2', l), lang);
 const page = await ctx.newPage();
 await page.goto(URL);
 await page.getByTestId('stone-hero').waitFor();

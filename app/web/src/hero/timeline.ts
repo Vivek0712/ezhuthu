@@ -1,7 +1,7 @@
 // The stone hero's clock (StoneHero.tsx), derived from the reading so the story always plays in order:
 // the stone and the scan -> letters light up row by row -> MATCH: the first few letters one at a time in a full card
 // (carved glyph -> modern Tamil letter, confidence ring), then a fast cascade of small badges over the rest -> the gap
-// stage (Restorer proposes, Strands Decider fills or abstains) -> the letters fly through the pipeline and assemble
+// stage (Restorer proposes, the confidence check fills or leaves it open) -> the letters fly through the pipeline and assemble
 // into the reading, row by row -> WORDS: the run-on letters slide apart into words -> PHRASE: the words, arranged in
 // today's Tamil, replace the letter rows -> MEANING (English, then Tamil) -> the verdict -> hold -> everything but the
 // photo and the meaning fades; the meaning crossfades out as the next cycle's scan begins.
@@ -27,7 +27,7 @@ export const CARD_EXIT_MS = 200;
 export const CASCADE_STAGGER = 36;
 /** One badge pops in this long. */
 export const BADGE_MS = 300;
-/** The gap stage: Restorer proposes, Decider decides, the gap's badge turns to "?" (or to the fill). */
+/** The gap stage: Restorer proposes, the confidence check decides, the gap's badge turns to "?" (or to the fill). */
 export const GAP_STAGE_MS = 2000;
 export const NO_GAP_STAGE_MS = 900;
 /** One letter's flight from its box, past the pipeline, into its place in the reading. */

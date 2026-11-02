@@ -6,6 +6,7 @@ import { Bi } from '../components/practice/Bi';
 import { MiniDrill } from '../components/practice/MiniDrill';
 import { StoneHero } from '../components/StoneHero';
 import { useI18n } from '../i18n/I18nProvider';
+import { useHeroT } from '../i18n/strings-hero';
 import type { MessageKey } from '../i18n/strings';
 import { newSeed } from '../practice/engine';
 
@@ -71,35 +72,34 @@ const FEATURES: Feature[] = [
  */
 export function HomePage() {
   const { t } = useI18n();
+  const ht = useHeroT();
   const ctaRef = useRef<HTMLDivElement>(null);
   const [seed] = useState(newSeed);
   const k = (f: Feature, s: 'T' | 'D' | 'Ex' | 'Cta') => t(`home3.${f.key}${s}` as MessageKey);
   return (
     <>
       <div className="home-hero">
-        <section className="hero hero-c">
-          <div className="hero-copy">
-            <p className="kicker">{t('home.kicker')}</p>
-            <h1>{t('home.title')}</h1>
-          </div>
-          <div className="hero-copy">
-            <p className="lede">{t('home.lede')}</p>
-            <div className="hero-actions" ref={ctaRef} data-testid="hero-actions">
-              {/* One primary call to action: answer a real question on this page. */}
-              <a className="btn btn-primary" href="#try" data-testid="cta-practice" onClick={jumpTo('try')}>
-                {t('home2.ctaPractice')}
-              </a>
-              <Link className="btn btn-ghost" to="/restore" data-testid="cta-upload">
-                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 8h3l2-3h6l2 3h3v11H4z" />
-                  <circle cx="12" cy="13" r="3.5" />
-                </svg>
-                {t('home.ctaUpload')}
-              </Link>
-              <a className="hero-link" href="#how" data-testid="cta-how" onClick={jumpTo('how')}>
-                {t('home2.ctaHow')} ↓
-              </a>
-            </div>
+        {/* One column: what this is (headline), what you can do (one or two plain sentences), then one primary and one
+            secondary call to action, with "How it works" as a quiet link. Styles in stone-hero.css (.hh). */}
+        <section className="hh hero-copy" data-testid="hero-head">
+          <p className="kicker hh-kicker">{ht('hero.kicker')}</p>
+          <h1 className="hh-title">{ht('hero.title')}</h1>
+          <p className="lede hh-sub">{ht('hero.sub')}</p>
+          <div className="hero-actions hh-actions" ref={ctaRef} data-testid="hero-actions">
+            {/* One primary call to action: answer a real question on this page. */}
+            <a className="btn btn-primary" href="#try" data-testid="cta-practice" onClick={jumpTo('try')}>
+              {t('home2.ctaPractice')}
+            </a>
+            <Link className="btn btn-ghost" to="/restore" data-testid="cta-upload">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 8h3l2-3h6l2 3h3v11H4z" />
+                <circle cx="12" cy="13" r="3.5" />
+              </svg>
+              {t('home.ctaUpload')}
+            </Link>
+            <a className="hero-link hh-how" href="#how" data-testid="cta-how" onClick={jumpTo('how')}>
+              {t('home2.ctaHow')} ↓
+            </a>
           </div>
         </section>
         <StoneHero ctaRef={ctaRef} />
