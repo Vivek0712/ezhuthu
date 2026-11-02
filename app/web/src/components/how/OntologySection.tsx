@@ -1,4 +1,4 @@
-import { useState, type KeyboardEvent } from 'react';
+import { useState, type CSSProperties, type KeyboardEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useI18n } from '../../i18n/I18nProvider';
 import type { MessageKey } from '../../i18n/strings';
@@ -6,6 +6,7 @@ import { fmt, pctText } from '../../practice/engine';
 import { Bi } from '../practice/Bi';
 import { wrap, useNarrow } from './Diagram';
 import { NUMS, SLICE, UTAIYAR, VARI, grouped, type SliceEdge, type SliceNode } from './how-data';
+import { useInView } from './useInView';
 
 const GROUP: Record<string, 'royal' | 'place' | 'value' | 'other'> = {
   ruler: 'royal',
@@ -87,6 +88,7 @@ function place(i: number, n: number): [number, number] {
 function SliceView() {
   const { t, lang } = useI18n();
   const narrow = useNarrow();
+  const [ref, inView] = useInView<HTMLDivElement>(true);
   const [sel, setSel] = useState(SLICE.center);
   const pos = new Map<string, [number, number]>(around.map((n, i) => [n.id, place(i, around.length)]));
   pos.set(SLICE.center, [CX, CY]);
@@ -100,7 +102,7 @@ function SliceView() {
   const selected = byId.get(sel)!;
 
   return (
-    <div className="onto-slice" data-testid="onto-slice">
+    <div ref={ref} className={`onto-slice ${inView ? 'is-in' : ''}`} data-testid="onto-slice">
       {narrow ? (
         <ul className="onto-list" aria-label={t('hw.ontoPick')}>
           {[center, ...around].map((n) => (
@@ -124,9 +126,19 @@ function SliceView() {
             const b = pos.get(e.to);
             if (!a || !b) return null;
             const on = e.from === sel || e.to === sel;
-            return <line key={i} x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} className={`onto-edge ${e.rel === 'sameStone' ? 'onto-co' : 'onto-direct'} ${on ? 'is-on' : ''}`} />;
+            return (
+              <line
+                key={i}
+                x1={a[0]}
+                y1={a[1]}
+                x2={b[0]}
+                y2={b[1]}
+                style={{ '--i': i } as CSSProperties}
+                className={`onto-edge ${e.rel === 'sameStone' ? 'onto-co' : 'onto-direct'} ${on ? 'is-on' : ''}`}
+              />
+            );
           })}
-          {[center, ...around].map((n) => {
+          {[center, ...around].map((n, idx) => {
             const [x, y] = pos.get(n.id)!;
             const isCenter = n.id === SLICE.center;
             const right = x > CX + 20;
@@ -147,6 +159,7 @@ function SliceView() {
                 onClick={() => setSel(n.id)}
                 onKeyDown={onKey(n.id)}
                 data-testid={`onto-node-${n.id}`}
+                style={{ '--i': idx, transformOrigin: `${x}px ${y}px` } as CSSProperties}
               >
                 <circle cx={x} cy={y} r={isCenter ? 22 : 10} />
                 {lines.map((l, i) => (
@@ -164,45 +177,56 @@ function SliceView() {
   );
 }
 
-/** "The ontology": what it is, a real slice, counts by kind, storage and serving, hints in a restoration, measured effect. */
+/** "The ontology": a real slice (nodes appear around the king), counts as bars, storage as status pills, two hints in
+ * real restorations, and the measured (null) effect. Details under "More". */
 export function OntologySection() {
-  const { t, lang } = useI18n();
-  const kinds = Object.entries(SLICE.counts);
+  const { t } = useI18n();
+  const kinds = Object.entries(SLICE.counts).sort((a, b) => b[1] - a[1]);
+  const max = Math.max(...kinds.map(([, n]) => n));
+  const [ref, inView] = useInView<HTMLDivElement>(true);
   return (
     <div className="onto" data-testid="onto">
       <p className="lede">{t('hw.ontoWhat')}</p>
-
-      <h3>{fmt(t('hw.ontoSliceTitle'), { name: lang === 'ta' && center.label_ta ? center.label_ta : center.label_iso })}</h3>
-      <p className="hint-text">{t('hw.ontoSliceLede')}</p>
       <SliceView />
 
-      <div className="grid grid-2 onto-grid">
+      <div ref={ref} className={`grid grid-2 onto-grid ${inView ? 'is-in' : ''}`}>
         <section className="leaf" data-testid="onto-counts">
           <h3>{t('hw.ontoCountsTitle')}</h3>
           {/* ontology/coverage.json (entities_per_kind, wikidata, corpus), copied into the slice by the generator. */}
-          <p className="hint-text">{fmt(t('hw.ontoCountsLede'), { n: grouped(SLICE.corpus.inscriptions), lines: grouped(SLICE.corpus.lines), c: SLICE.corpus.collections })}</p>
-          <table className="onto-counts">
-            <tbody>
-              {kinds.map(([k, n]) => (
-                <tr key={k} data-testid={`onto-count-${k}`}>
-                  <th scope="row">{t(`hw.k.${k}` as MessageKey)}</th>
-                  <td className="num">{grouped(n)}</td>
-                  <td className="hint-text">{SLICE.wikidata[k] ? fmt(t('hw.ontoQid'), { n: SLICE.wikidata[k]!.with_qid }) : ''}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <p className="hint-text">{fmt(t('hw.ontoCountsLede'), { n: grouped(SLICE.corpus.inscriptions), c: SLICE.corpus.collections })}</p>
+          <ul className="onto-bars">
+            {kinds.map(([k, n], i) => (
+              <li key={k} data-testid={`onto-count-${k}`} style={{ '--w': n / max, '--i': i } as CSSProperties} title={SLICE.wikidata[k] ? fmt(t('hw.ontoQid'), { n: SLICE.wikidata[k]!.with_qid }) : undefined}>
+                <span className="onto-bar-k">{t(`hw.k.${k}` as MessageKey)}</span>
+                <span className="onto-bar">
+                  <span />
+                </span>
+                <span className="num">{grouped(n)}</span>
+              </li>
+            ))}
+          </ul>
         </section>
         <section className="leaf" data-testid="onto-store">
           <h3>{t('hw.ontoStoreTitle')}</h3>
-          {/* Counts computed from ontology/ezhuthu.ttl by scripts/build_how_ontology_slice.py (ontology/README.md: 27 classes, 21 object properties, 1,958 named individuals). */}
-          <p>{fmt(t('hw.ontoStore1'), { classes: SLICE.owl.classes, props: SLICE.owl.object_properties, ind: grouped(SLICE.owl.named_individuals) })}</p>
-          {/* ontology/COA.md section 3; src/ezhuthu/agent/ontology_mcp.py; infra/lib/agent-stack.ts EZHUTHU_ONTOLOGY=mcp. */}
-          <p>{t('hw.ontoStore2')}</p>
-          {/* ontology/COA.md: "COA was not run"; bucket ezhuthu-coa-vectors + FalkorDB patch prepared only. */}
-          <p>{t('hw.ontoStore3')}</p>
+          <ul className="onto-pills">
+            {/* Counts computed from ontology/ezhuthu.ttl by scripts/build_how_ontology_slice.py (ontology/README.md: 27 classes, 21 object properties, 1,958 named individuals). */}
+            <li className="is-ok">
+              <strong>{t('hw.ontoOwlK')}</strong>
+              <span>{fmt(t('hw.ontoOwl'), { classes: SLICE.owl.classes, props: SLICE.owl.object_properties, ind: grouped(SLICE.owl.named_individuals) })}</span>
+            </li>
+            {/* ontology/COA.md section 3; src/ezhuthu/agent/ontology_mcp.py; infra/lib/agent-stack.ts EZHUTHU_ONTOLOGY=mcp. */}
+            <li className="is-ok">
+              <strong>{t('hw.ontoMcpK')}</strong>
+              <span>{t('hw.ontoMcp')}</span>
+            </li>
+            {/* ontology/COA.md: "COA was not run"; bucket ezhuthu-coa-vectors + FalkorDB patch prepared only. */}
+            <li className="is-off" data-testid="onto-coa">
+              <strong>{t('hw.ontoCoaK')}</strong>
+              <span>{t('hw.ontoCoa')}</span>
+            </li>
+          </ul>
           {/* ontology/README.md "Train split only": 862 of 1,193 editions. */}
-          <p>{fmt(t('hw.ontoTrain'), { used: grouped(NUMS.editionsUsed), total: grouped(NUMS.editionsTotal) })}</p>
+          <p className="hint-text">{fmt(t('hw.ontoTrain'), { used: grouped(NUMS.editionsUsed), total: grouped(NUMS.editionsTotal) })}</p>
         </section>
       </div>
 
@@ -244,17 +268,20 @@ export function OntologySection() {
         <h3>{t('hw.ontoEffectTitle')}</h3>
         {/* eval/reports/2026-11-02-test-eval.md "Ontology ablation": 88 of 413 hinted; 3 vs 3 discordant, p = 1.0. */}
         <p>{t('hw.ontoEffect1')}</p>
-        {/* ontology/hint_eval.json held_out: test 16/253, val 16/345 (hit@5). */}
-        <p>
-          {fmt(t('hw.ontoEffect2'), {
-            test: `${((100 * NUMS.hintTestHits) / NUMS.hintTestN).toFixed(1)}%`,
-            th: NUMS.hintTestHits,
-            tn: NUMS.hintTestN,
-            val: `${((100 * NUMS.hintValHits) / NUMS.hintValN).toFixed(1)}%`,
-            vh: NUMS.hintValHits,
-            vn: NUMS.hintValN,
-          })}
-        </p>
+        <details className="how-more">
+          <summary>{t('hw.more')}</summary>
+          {/* ontology/hint_eval.json held_out: test 16/253, val 16/345 (hit@5). */}
+          <p>
+            {fmt(t('hw.ontoEffect2'), {
+              test: `${((100 * NUMS.hintTestHits) / NUMS.hintTestN).toFixed(1)}%`,
+              th: NUMS.hintTestHits,
+              tn: NUMS.hintTestN,
+              val: `${((100 * NUMS.hintValHits) / NUMS.hintValN).toFixed(1)}%`,
+              vh: NUMS.hintValHits,
+              vn: NUMS.hintValN,
+            })}
+          </p>
+        </details>
       </section>
       <p className="credit" data-testid="onto-credit">
         {t('hw.ontoCredit')}{' '}

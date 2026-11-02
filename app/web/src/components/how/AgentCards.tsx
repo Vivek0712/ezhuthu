@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { useI18n } from '../../i18n/I18nProvider';
 import type { MessageKey } from '../../i18n/strings';
 import { isoToTamil } from '../../lib/script';
@@ -6,6 +6,7 @@ import { fmt, pctText } from '../../practice/engine';
 import { EXAMPLE, exampleSnippet } from '../Pipeline';
 import { Bi } from '../practice/Bi';
 import { DECIDER_EX, INTERP_EX, NUMS, READER_EX, VARI, VARI_PARALLEL, grouped } from './how-data';
+import { useInView } from './useInView';
 
 /** The agents and tools, in the order a request meets them. `anchor` is the #id the home chips link to. */
 export const AGENTS = [
@@ -29,10 +30,11 @@ export function useAgentName(): (k: AgentKey) => string {
   return (k) => (k === 'decider' ? 'Strands Decider' : t(`hw.${k}.name` as MessageKey));
 }
 
-/** "The agents": one card per agent or tool, with what it does, inputs, outputs, technique and a real example. */
+/** "The agents": one card per agent or tool: what it does in one line and a real example; inputs, outputs and technique under "More". */
 export function AgentCards() {
   const { t, lang } = useI18n();
   const name = useAgentName();
+  const [ref, inView] = useInView<HTMLOListElement>(true);
   const snippet = exampleSnippet(EXAMPLE, 1);
   const top = EXAMPLE.candidates[0]!;
   const par = VARI_PARALLEL;
@@ -82,44 +84,38 @@ export function AgentCards() {
   };
 
   return (
-    <ol className="agents" data-testid="agent-cards">
-      {AGENTS.map((a) => {
+    <ol ref={ref} className={`agents ${inView ? 'is-in' : ''}`} data-testid="agent-cards">
+      {AGENTS.map((a, i) => {
         const ex = examples[a.key];
         return (
-          <li key={a.key} id={a.anchor} className="agent-card" data-testid={`agent-${a.key}`} tabIndex={-1}>
+          <li key={a.key} id={a.anchor} className="agent-card" data-testid={`agent-${a.key}`} tabIndex={-1} style={{ '--i': i } as CSSProperties}>
             <header className="agent-head">
               <h3>{name(a.key)}</h3>
               <span className="badge">{t(a.kind)}</span>
             </header>
             <p className="agent-do">{t(`hw.${a.key}.do` as MessageKey)}</p>
-            <dl className="agent-io">
-              <div>
-                <dt>{t('hw.takes')}</dt>
-                <dd>{t(`hw.${a.key}.in` as MessageKey)}</dd>
-              </div>
-              <div>
-                <dt>{t('hw.gives')}</dt>
-                <dd>{t(`hw.${a.key}.out` as MessageKey)}</dd>
-              </div>
-            </dl>
-            <p className="agent-how">
-              <span className="agent-k">{t('hw.howItDoes')}</span> {fmt(t(`hw.${a.key}.how` as MessageKey), howVars[a.key] ?? {})}
-            </p>
             <div className="agent-ex" data-testid={`agent-ex-${a.key}`}>
-              <span className="agent-k">{t('hw.example')}</span>
-              {a.key === 'retrieval' ? (
-                <>
-                  <p>{ex.text}</p>
-                  {ex.bi}
-                </>
-              ) : (
-                <>
-                  {ex.bi}
-                  <p>{ex.text}</p>
-                </>
-              )}
+              {ex.bi}
+              <p>{ex.text}</p>
             </div>
-            {a.key === 'reader' && <p className="hint-text">{t('hw.reader.note')}</p>}
+            <details className="how-more agent-more">
+              <summary>{t('hw.more')}</summary>
+              <dl className="agent-io">
+                <div>
+                  <dt>{t('hw.takes')}</dt>
+                  <dd>{t(`hw.${a.key}.in` as MessageKey)}</dd>
+                </div>
+                <div>
+                  <dt>{t('hw.gives')}</dt>
+                  <dd>{t(`hw.${a.key}.out` as MessageKey)}</dd>
+                </div>
+                <div>
+                  <dt>{t('hw.howItDoes')}</dt>
+                  <dd>{fmt(t(`hw.${a.key}.how` as MessageKey), howVars[a.key] ?? {})}</dd>
+                </div>
+              </dl>
+              {a.key === 'reader' && <p className="hint-text">{t('hw.reader.note')}</p>}
+            </details>
           </li>
         );
       })}

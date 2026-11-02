@@ -4,6 +4,7 @@ import type { MessageKey } from '../../i18n/strings';
 import { usePrefersReducedMotion } from '../../lib/motion';
 import { fmt } from '../../practice/engine';
 import { Diagram, useNarrow, type DEdge, type DLayout, type DNode } from './Diagram';
+import { useInView } from './useInView';
 
 // One request through the agents (src/ezhuthu/agent/README.md, config/models.yaml): the photo path (Reader, Opus
 // re-read when unsure), the text path, the Restorer's evidence (parallels, ontology over MCP, 5-gram, Sonnet ->
@@ -103,11 +104,14 @@ const NARROW: DLayout = {
   },
 };
 
-/** Animated, step-through diagram of one request flowing through the agents, with a "Play the flow" control. */
-export function FlowDiagram({ intervalMs = 2600 }: { intervalMs?: number }) {
+/** Animated, step-through diagram of one request flowing through the agents. It starts playing by itself the first
+ * time it scrolls into view (not with reduced motion); "Play the flow" and the arrows step it by hand. */
+export function FlowDiagram({ intervalMs = 2600, autoPlay = true }: { intervalMs?: number; autoPlay?: boolean }) {
   const { t } = useI18n();
   const narrow = useNarrow();
   const reduced = usePrefersReducedMotion();
+  const [ref, inView] = useInView<HTMLElement>(true);
+  const autoStarted = useRef(false);
   const [step, setStep] = useState(-1); // -1: not started (everything shown, nothing highlighted)
   const [playing, setPlaying] = useState(false);
   const timer = useRef<number | null>(null);
@@ -155,12 +159,21 @@ export function FlowDiagram({ intervalMs = 2600 }: { intervalMs?: number }) {
     if (playing && step >= total - 1) stop();
   }, [playing, step, total, stop]);
 
+  useEffect(() => {
+    if (!autoPlay || reduced || !inView || autoStarted.current) return;
+    autoStarted.current = true;
+    setStep(0);
+    setPlaying(true);
+  }, [autoPlay, reduced, inView]);
+
   const play = () => {
+    autoStarted.current = true;
     if (playing) return stop();
     setStep((s) => (s < 0 || s >= total - 1 ? 0 : s + 1));
     setPlaying(true);
   };
   const go = (d: number) => {
+    autoStarted.current = true;
     stop();
     setStep((s) => Math.min(total - 1, Math.max(0, (s < 0 ? -1 : s) + d)));
   };
@@ -169,7 +182,7 @@ export function FlowDiagram({ intervalMs = 2600 }: { intervalMs?: number }) {
   const done = useMemo(() => new Set(FLOW_STEPS.slice(0, Math.max(0, step)).flatMap((s) => s.ids)), [step]);
 
   return (
-    <figure className={`flow ${reduced ? 'flow-still' : ''}`} data-testid="flow" data-step={step + 1}>
+    <figure ref={ref} className={`flow ${reduced ? 'flow-still' : ''}`} data-testid="flow" data-step={step + 1}>
       <div className="flow-controls">
         <button type="button" className="btn btn-primary" onClick={play} data-testid="flow-play" aria-pressed={playing}>
           {playing ? t('hw.flowPause') : t('hw.flowPlay')}
