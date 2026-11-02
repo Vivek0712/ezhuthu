@@ -16,12 +16,13 @@
 It teaches Tamil learners to read their own temple inscriptions, in Tamil, from today's letters back to Tamil-Brahmi.<br>
 <span lang="ta">உங்கள் ஊர்க் கோயில் கல்வெட்டை நீங்களே படியுங்கள்.</span></p>
 
-<p align="center"><b><a href="https://d3jz2k92ne5puo.cloudfront.net">Open the live app</a></b> ·
-<a href="https://d3jz2k92ne5puo.cloudfront.net/">Home</a> ·
-<a href="https://d3jz2k92ne5puo.cloudfront.net/practice">Practice</a> ·
-<a href="https://d3jz2k92ne5puo.cloudfront.net/restore">Restore</a> ·
-<a href="https://d3jz2k92ne5puo.cloudfront.net/how-it-works">How it works</a> ·
-<a href="https://d3jz2k92ne5puo.cloudfront.net/benchmark">Benchmark</a></p>
+<p align="center"><b><a href="https://ezhuthu.sparrowdecider.com">Open the live app</a></b> ·
+<a href="https://ezhuthu.sparrowdecider.com/">Home</a> ·
+<a href="https://ezhuthu.sparrowdecider.com/practice">Practice</a> ·
+<a href="https://ezhuthu.sparrowdecider.com/restore">Restore</a> ·
+<a href="https://ezhuthu.sparrowdecider.com/how-it-works">How it works</a> ·
+<a href="https://ezhuthu.sparrowdecider.com/benchmark">Benchmark</a><br>
+<sub>Also served at <a href="https://d3jz2k92ne5puo.cloudfront.net">d3jz2k92ne5puo.cloudfront.net</a>.</sub></p>
 
 <p align="center"><img src="design/brand/banners/hero-stone.gif" alt="A Chola-period inscription at the Brihadisvara temple, Thanjavur: the Reader names each carved letter in modern Tamil with its confidence, the Restorer proposes a lost letter and leaves it open for an expert because its confidence is too low, and the Interpreter gives the phrase and its meaning in Tamil and English" width="100%"></p>
 

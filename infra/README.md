@@ -87,6 +87,33 @@ npx cdk deploy EzhuthuAuth EzhuthuApi --profile <profile> -c ezhuthu:webUrl=$WEB
 Keep passing `-c ezhuthu:webUrl=$WEB` on later deploys (or set it in `cdk.json`). Set
 `-c ezhuthu:cognitoDomainPrefix=<name>` if the default `ezhuthu-<account>` prefix is taken.
 
+### Custom domain
+
+The live app is served at **https://ezhuthu.sparrowdecider.com**; the CloudFront URL
+https://d3jz2k92ne5puo.cloudfront.net keeps working. `cdk.json` sets:
+
+| Context | Value | Effect |
+| --- | --- | --- |
+| `ezhuthu:webUrl` | `https://d3jz2k92ne5puo.cloudfront.net` | CloudFront URL, still allowed by Cognito and CORS |
+| `ezhuthu:domainName` | `ezhuthu.sparrowdecider.com` | CloudFront alias; `https://<domainName>` is added to Cognito and CORS |
+| `ezhuthu:hostedZoneId` | `Z02568233IVWQFY5MJ13V` | existing Route 53 zone (imported, never created) |
+| `ezhuthu:hostedZoneName` | `sparrowdecider.com` | its name |
+
+With all three domain values set, `EzhuthuWeb` creates a DNS-validated ACM certificate (us-east-1, as CloudFront
+requires; the stack already deploys there), adds the domain and certificate to the distribution, and creates the A and
+AAAA alias records for that one name. No other record in the zone is touched. The `WebUrl` output becomes the custom
+domain; `CloudFrontUrl` keeps the `*.cloudfront.net` URL. Set none of them to keep the CloudFront-only setup; a
+partial set fails the synth. Extra origins can be added with `-c ezhuthu:webUrls=https://a,https://b`; every origin
+from `webUrl`, `webUrls` and `domainName` is allowed as a Cognito callback (`/auth/callback`), logout URL (`/`) and
+API CORS origin.
+
+```bash
+npx cdk deploy EzhuthuAuth EzhuthuApi EzhuthuWeb --profile heisenberg \
+  -c ezhuthu:budgetEmail=<address> --require-approval broadening
+```
+
+The certificate waits for its DNS validation record, so the first deploy with the domain takes a few minutes.
+
 The `EzhuthuData` stack creates a USD 50 monthly budget for resources tagged `Project=ezhuthu`. To get an email at
 80% of it, pass `-c ezhuthu:budgetEmail=<address>` (or set `EZHUTHU_BUDGET_EMAIL`) on every deploy; without one the
 budget has no email notification.

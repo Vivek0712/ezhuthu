@@ -9,6 +9,9 @@
   },
   "context": {
     "ezhuthu:webUrl": "https://d3jz2k92ne5puo.cloudfront.net",
+    "ezhuthu:domainName": "ezhuthu.sparrowdecider.com",
+    "ezhuthu:hostedZoneId": "Z02568233IVWQFY5MJ13V",
+    "ezhuthu:hostedZoneName": "sparrowdecider.com",
     "ezhuthu:cognitoDomainPrefix": "",
     "@aws-cdk/core:checkSecretUsage": true,
     "@aws-cdk/core:defaultCrossStackReferences": "strong",

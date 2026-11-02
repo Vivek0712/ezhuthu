@@ -3,6 +3,7 @@ import * as cdk from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { buildApp } from '../lib/app';
+import { webOrigins } from '../lib/web-origins';
 import { bedrockResourceArns, loadModelsConfig } from '../lib/config';
 
 let t: Record<'data' | 'auth' | 'agent' | 'api' | 'web', Template>;
@@ -150,5 +151,92 @@ describe('external runtime', () => {
     Template.fromStack(s.api).hasResourceProperties('AWS::Lambda::Function', {
       Environment: { Variables: Match.objectLike({ AGENT_RUNTIME_ARN: arn }) },
     });
+  });
+});
+
+describe('custom domain', () => {
+  const CF = 'https://d123.cloudfront.net';
+  const DOMAIN = 'ezhuthu.example.org';
+  let c: Record<'auth' | 'api' | 'web', Template>;
+  beforeAll(() => {
+    const app = new cdk.App({
+      context: {
+        'ezhuthu:webUrl': CF,
+        'ezhuthu:domainName': DOMAIN,
+        'ezhuthu:hostedZoneId': 'Z0000000000EXAMPLE',
+        'ezhuthu:hostedZoneName': 'example.org',
+        '@aws-cdk/core:defaultCrossStackReferences': 'strong',
+      },
+    });
+    const s = buildApp(app, { agentCodeDir: path.join(__dirname, 'fixtures', 'agent-code'), webDist: path.join(__dirname, 'fixtures', 'no-dist') });
+    c = { auth: Template.fromStack(s.auth), api: Template.fromStack(s.api), web: Template.fromStack(s.web) };
+  });
+
+  it('issues a DNS-validated ACM certificate in the existing hosted zone', () => {
+    c.web.resourceCountIs('AWS::CertificateManager::Certificate', 1);
+    c.web.hasResourceProperties('AWS::CertificateManager::Certificate', {
+      DomainName: DOMAIN,
+      ValidationMethod: 'DNS',
+      DomainValidationOptions: [{ DomainName: DOMAIN, HostedZoneId: 'Z0000000000EXAMPLE' }],
+    });
+    c.web.resourceCountIs('AWS::Route53::HostedZone', 0); // imported, never created
+  });
+  it('adds the domain as a CloudFront alias with the certificate', () => {
+    c.web.hasResourceProperties('AWS::CloudFront::Distribution', {
+      DistributionConfig: Match.objectLike({
+        Aliases: [DOMAIN],
+        ViewerCertificate: Match.objectLike({ AcmCertificateArn: Match.anyValue(), SslSupportMethod: 'sni-only' }),
+      }),
+    });
+  });
+  it('creates A and AAAA alias records to the distribution, and nothing else in the zone', () => {
+    for (const type of ['A', 'AAAA']) {
+      c.web.hasResourceProperties('AWS::Route53::RecordSet', {
+        Name: `${DOMAIN}.`,
+        Type: type,
+        HostedZoneId: 'Z0000000000EXAMPLE',
+        AliasTarget: Match.objectLike({ HostedZoneId: Match.anyValue(), DNSName: Match.anyValue() }),
+      });
+    }
+    c.web.resourceCountIs('AWS::Route53::RecordSet', 2);
+  });
+  it('outputs the custom domain as WebUrl and keeps the CloudFront URL as CloudFrontUrl', () => {
+    c.web.hasOutput('WebUrl', { Value: `https://${DOMAIN}` });
+    c.web.hasOutput('CloudFrontUrl', Match.objectLike({ Value: Match.anyValue() }));
+  });
+  it('allows both URLs as Cognito callback and logout URLs', () => {
+    c.auth.hasResourceProperties('AWS::Cognito::UserPoolClient', {
+      CallbackURLs: ['http://localhost:5173/auth/callback', `${CF}/auth/callback`, `https://${DOMAIN}/auth/callback`],
+      LogoutURLs: ['http://localhost:5173/', `${CF}/`, `https://${DOMAIN}/`],
+    });
+  });
+  it('allows both URLs as API CORS origins', () => {
+    c.api.hasResourceProperties('AWS::ApiGatewayV2::Api', {
+      CorsConfiguration: Match.objectLike({ AllowOrigins: ['http://localhost:5173', CF, `https://${DOMAIN}`] }),
+    });
+  });
+  it('rejects a partial domain context', () => {
+    const app = new cdk.App({ context: { 'ezhuthu:domainName': DOMAIN } });
+    expect(() => buildApp(app, { agentCodeDir: path.join(__dirname, 'fixtures', 'agent-code') })).toThrow(/must be set together/);
+  });
+});
+
+describe('without custom domain context', () => {
+  it('keeps the CloudFront-only setup: no certificate, aliases or records; WebUrl is the CloudFront URL', () => {
+    t.web.resourceCountIs('AWS::CertificateManager::Certificate', 0);
+    t.web.resourceCountIs('AWS::Route53::RecordSet', 0);
+    const dist = Object.values(t.web.findResources('AWS::CloudFront::Distribution'))[0] as { Properties: { DistributionConfig: Record<string, unknown> } };
+    expect(dist.Properties.DistributionConfig.Aliases).toBeUndefined();
+    expect(JSON.stringify(t.web.findOutputs('WebUrl'))).toContain('DomainName');
+    t.auth.hasResourceProperties('AWS::Cognito::UserPoolClient', {
+      LogoutURLs: ['http://localhost:5173/', 'https://d123.cloudfront.net/'],
+    });
+    t.api.hasResourceProperties('AWS::ApiGatewayV2::Api', {
+      CorsConfiguration: Match.objectLike({ AllowOrigins: ['http://localhost:5173', 'https://d123.cloudfront.net'] }),
+    });
+  });
+  it('merges ezhuthu:webUrls with webUrl, trimming slashes and duplicates', () => {
+    expect(webOrigins('https://a.net/', ['https://a.net', ' https://b.org/ ', ''])).toEqual(['https://a.net', 'https://b.org']);
+    expect(webOrigins()).toEqual([]);
   });
 });

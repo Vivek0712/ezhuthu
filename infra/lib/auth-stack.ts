@@ -1,10 +1,13 @@
 import * as cdk from 'aws-cdk-lib';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import { Construct } from 'constructs';
+import { webOrigins } from './web-origins';
 
 export interface EzhuthuAuthStackProps extends cdk.StackProps {
   /** Public web origin (https://dxxxx.cloudfront.net). Empty on the first deploy; see infra/README.md. */
   webUrl?: string;
+  /** Further public origins (e.g. the custom domain and the CloudFront URL); merged with `webUrl`. */
+  webUrls?: string[];
   /** Globally unique Cognito domain prefix. */
   domainPrefix: string;
 }
@@ -39,7 +42,7 @@ export class EzhuthuAuthStack extends cdk.Stack {
       description: 'Epigraphy reviewers: may read and act on the review queue',
     });
 
-    const origins = ['http://localhost:5173', ...(props.webUrl ? [props.webUrl.replace(/\/$/, '')] : [])];
+    const origins = ['http://localhost:5173', ...webOrigins(props.webUrl, props.webUrls)];
     this.client = this.userPool.addClient('WebClient', {
       userPoolClientName: 'ezhuthu-web',
       generateSecret: false,

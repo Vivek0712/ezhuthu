@@ -11,6 +11,7 @@ import { NodejsFunction, OutputFormat } from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
 import { ROUTES } from '../lambda/proxy/routes';
+import { webOrigins } from './web-origins';
 
 export interface EzhuthuApiStackProps extends cdk.StackProps {
   table: dynamodb.ITableV2;
@@ -18,6 +19,8 @@ export interface EzhuthuApiStackProps extends cdk.StackProps {
   userPool: cognito.IUserPool;
   userPoolClient: cognito.IUserPoolClient;
   webUrl?: string;
+  /** Further public origins (e.g. the custom domain and the CloudFront URL); merged with `webUrl`. */
+  webUrls?: string[];
 }
 
 /** Throttling (requests/second, burst) for the public, unauthenticated routes. */
@@ -66,7 +69,7 @@ export class EzhuthuApiStack extends cdk.Stack {
       }),
     );
 
-    const origins = ['http://localhost:5173', ...(props.webUrl ? [props.webUrl.replace(/\/$/, '')] : [])];
+    const origins = ['http://localhost:5173', ...webOrigins(props.webUrl, props.webUrls)];
     this.api = new apigw.HttpApi(this, 'HttpApi', {
       apiName: 'ezhuthu-api',
       description: 'Ezhuthu tutor and restoration API (contracts/restore-api.md)',
