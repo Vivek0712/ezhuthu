@@ -316,7 +316,7 @@ def p1_09_tamil_nadu_stones() -> None:
 <div style="background:#FBF8F1;border:1px solid #DACDB4;border-radius:18px;padding:22px">
  <div style="font:700 14px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:#76674F">Madurai in the stones</div>
  <div style="display:flex;align-items:baseline;gap:16px;margin-top:12px"><div style="font:800 64px/1 var(--serif);color:#9B3D22">25</div>
- <div style="font:400 18px/1.4 var(--sans);color:#564A3A">editions contain <b lang="ta" style="font-family:'Noto Serif Tamil',serif">&#2990;&#2980;&#3007;&#2992;&#3016;</b> (matirai), Madurai in the inscriptions' own spelling</div></div>
+ <div style="font:400 18px/1.4 var(--sans);color:#564A3A">editions name <b lang="ta" style="font-family:'Noto Serif Tamil',serif">&#2990;&#2980;&#3009;&#2992;&#3016;</b> (Madurai), carved as &#2990;&#2980;&#3007;&#2992;&#3016; (matirai), the inscriptions' own spelling</div></div>
  <div style="font:400 18px/1.4 var(--sans);color:#564A3A;margin-top:10px"><b>23</b> of them inside the royal title <b lang="ta" style="font-family:'Noto Serif Tamil',serif">&#2990;&#2980;&#3007;&#2992;&#3016; &#2965;&#3018;&#2979;&#3021;&#2975;</b> (matirai konta), "who took Madurai", of the Chola king Parantaka I</div></div>
 <div style="display:flex;gap:18px">
  <div style="flex:1;background:#FBF8F1;border:1px solid #DACDB4;border-radius:18px;padding:22px"><div style="font:800 52px/1 var(--serif);color:#1D1611">534</div><div style="font:400 17px/1.4 var(--sans);color:#564A3A;margin-top:8px">of 1,320 editions name a temple in their title</div></div>
