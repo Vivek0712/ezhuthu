@@ -26,6 +26,7 @@ No Lambda Function URLs are used (they are blocked on this account); the proxy i
 | Route | Access | Throttle (rps / burst) |
 | --- | --- | --- |
 | `POST /api/restore` | public | 5 / 10 |
+| `POST /api/read` (photo or file to text; body up to 4.5 MB) | public | 2 / 5 |
 | `POST /api/lesson`, `POST /api/answer`, `POST /api/assessment`, `GET /api/progress/{session_id}` | public | stage default 20 / 40 |
 | `POST /api/corrections` | public (name is stored as "unverified" unless signed in) | 2 / 5 |
 | `POST /api/evaluate` | any signed-in user | 1 / 2 |

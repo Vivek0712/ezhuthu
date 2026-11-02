@@ -1,0 +1,20 @@
+{
+  "set": "real",
+  "router": "opus",
+  "n": 2,
+  "errors": 0,
+  "usage": {
+    "calls": 2,
+    "cached_calls": 0,
+    "input_tokens": {
+      "opus": 2794
+    },
+    "output_tokens": {
+      "opus": 729
+    },
+    "estimated_cost_usd": 0.0322,
+    "price_basis": "USD/MTok list prices in ezhuthu.agent.llm.PRICE_PER_MTOK"
+  },
+  "budget": 2,
+  "budget_refusals": 0
+}

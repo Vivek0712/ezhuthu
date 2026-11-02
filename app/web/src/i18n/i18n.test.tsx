@@ -20,7 +20,7 @@ describe('strings', () => {
   it('actually translates UI text (Tamil strings contain Tamil script)', () => {
     const tamil = /[஀-௿]/;
     const untranslated = (Object.keys(en) as (keyof typeof en)[]).filter(
-      (k) => !tamil.test(ta[k]) && !['about.builtWith', 'lang.toggle', 'test.cer', 'test.ece', 'restore.script.iso', 'learn.of'].includes(k),
+      (k) => !tamil.test(ta[k]) && !['about.builtWith', 'lang.toggle', 'test.cer', 'test.ece', 'restore.script.iso', 'learn.of', 'read.experimentalOther' /* the English half of the bilingual label */].includes(k),
     );
     expect(untranslated).toEqual([]);
   });

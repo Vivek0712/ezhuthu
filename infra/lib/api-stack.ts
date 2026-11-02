@@ -24,6 +24,8 @@ export interface EzhuthuApiStackProps extends cdk.StackProps {
 export const THROTTLE = {
   default: { rate: 20, burst: 40 },
   'POST /api/restore': { rate: 5, burst: 10 },
+  // one or two Bedrock vision calls per request
+  'POST /api/read': { rate: 2, burst: 5 },
   'POST /api/corrections': { rate: 2, burst: 5 },
   'POST /api/evaluate': { rate: 1, burst: 2 },
 } as const;

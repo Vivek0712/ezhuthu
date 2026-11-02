@@ -26,6 +26,25 @@ paths:
             application/json:
               schema: { $ref: '#/components/schemas/RestoreResponse' }
         default: { $ref: '#/components/responses/Error' }
+  /api/read:
+    post:
+      operationId: read
+      description: Photo (base64) or text/EpiDoc file to transcription lines in the restorer's gap notation. Photo reading is experimental.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ReadRequest' }
+      responses:
+        '200':
+          description: Transcription lines
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ReadResponse' }
+        '413': { $ref: '#/components/responses/Error' }
+        '415': { $ref: '#/components/responses/Error' }
+        '503': { $ref: '#/components/responses/Error' }
+        default: { $ref: '#/components/responses/Error' }
   /api/evaluate:
     post:
       operationId: evaluate
@@ -191,6 +210,74 @@ components:
         script: { type: string, enum: [iso15919, tamil], default: iso15919 }
         max_candidates: { type: integer, minimum: 1, maximum: 20, default: 5 }
         allow_escalation: { type: boolean, default: true }
+    ReadRequest:
+      type: object
+      description: Exactly one of image_base64 or text.
+      additionalProperties: false
+      properties:
+        image_base64: { type: string, description: 'JPEG, PNG, WebP (HEIC only if the server has pillow-heif); at most 5 MB decoded' }
+        media_type: { type: string }
+        text: { type: string, description: '.txt (Tamil or ISO-15919) or DHARMA EpiDoc/TEI XML contents' }
+        filename: { type: string, maxLength: 200 }
+        format: { type: string, enum: [auto, txt, epidoc], default: auto }
+        router: { type: string, enum: [routed, sonnet, opus], default: routed }
+        hint: { type: string, maxLength: 200 }
+    ReadLine:
+      type: object
+      required: [n, text, text_tamil, confidence, gaps]
+      properties:
+        n: { type: string }
+        text: { type: string, description: 'ISO-15919 with [?N]/[?] gaps' }
+        text_tamil: { type: string }
+        confidence: { type: [number, 'null'], minimum: 0, maximum: 1 }
+        gaps: { type: integer }
+    ScriptGuess:
+      type: object
+      required: [script, label_en, label_ta, era, confidence, level]
+      properties:
+        script: { type: string, enum: [tamil-brahmi, vatteluttu, grantha, pallava-tamil, chola-tamil, modern-tamil, unknown] }
+        label_en: { type: string }
+        label_ta: { type: string }
+        era: { type: [string, 'null'] }
+        confidence: { type: [number, 'null'] }
+        level: { oneOf: [{ $ref: '#/components/schemas/Level' }, { type: 'null' }] }
+    ReadImageInfo:
+      type: object
+      required: [width, height, bytes, format, source_format, source_bytes, resized, metadata_removed]
+      properties:
+        width: { type: integer }
+        height: { type: integer }
+        bytes: { type: integer }
+        format: { type: string }
+        source_format: { type: string }
+        source_bytes: { type: integer }
+        resized: { type: boolean }
+        metadata_removed: { type: array, items: { type: string } }
+    ReadResponse:
+      type: object
+      required: [source, experimental, lines, text, text_tamil, gaps, script_guess, confidence, models_used, escalated, warnings, trace_id, latency_ms]
+      properties:
+        source: { type: string, enum: [image, text, epidoc] }
+        experimental: { type: boolean }
+        lines: { type: array, items: { $ref: '#/components/schemas/ReadLine' } }
+        text: { type: string }
+        text_tamil: { type: string }
+        gaps: { type: integer }
+        script_guess: { oneOf: [{ $ref: '#/components/schemas/ScriptGuess' }, { type: 'null' }] }
+        confidence: { type: [number, 'null'] }
+        kind: { type: [string, 'null'] }
+        note: { type: [string, 'null'] }
+        models_used: { type: array, items: { type: string } }
+        model: { type: string }
+        escalated: { type: boolean }
+        escalation_skipped: { type: string, enum: [time_budget, budget] }
+        image: { $ref: '#/components/schemas/ReadImageInfo' }
+        title: { type: [string, 'null'] }
+        licence: { type: [string, 'null'] }
+        masked_supplied: { type: integer }
+        warnings: { type: array, items: { type: string } }
+        trace_id: { type: string }
+        latency_ms: { type: number }
     Parallel:
       type: object
       required: [inscription_id, line_n, snippet, url]

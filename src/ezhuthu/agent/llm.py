@@ -167,6 +167,18 @@ class LLMClient(Protocol):
     def complete(self, role: str, system: str, prompt: str, *, max_tokens: int = 1024) -> LLMResponse: ...
 
 
+Images = list[tuple[bytes, str]]  # (bytes, Bedrock image format: jpeg|png|webp|gif)
+
+
+def images_digest(images: Images) -> str:
+    """Cache-key part for image prompts: a hash of the bytes (never the bytes or any metadata)."""
+    h = hashlib.sha256()
+    for data, fmt in images:
+        h.update(fmt.encode())
+        h.update(hashlib.sha256(data).digest())
+    return "images:" + h.hexdigest()
+
+
 def short_name(model_id: str) -> str:
     for s in ("sonnet", "opus", "haiku"):
         if s in model_id:
@@ -258,13 +270,39 @@ class BedrockLLM:
         self.ledger.add(short_name(model_id), r)
         return r
 
+    def complete_image(self, role: str, system: str, prompt: str, images: Images, *,
+                       max_tokens: int = 1024) -> LLMResponse:
+        """Vision call (Bedrock Converse image blocks). Cached by model, prompt and a hash of the image bytes."""
+        model_id = self.config.model_id(role)
+        key = self.cache.key(model_id, system, prompt + "\n" + images_digest(images), max_tokens)
+        hit = self.cache.get(key)
+        if hit:
+            self.ledger.add(short_name(model_id), hit)
+            return hit
+        if not live_enabled():
+            raise LiveCallsDisabled(f"Bedrock call to {model_id} needs EZHUTHU_LIVE=1")
+        attempts = {"n": 0}
+        content = [{"text": prompt}, *({"image": {"format": fmt, "source": {"bytes": data}}} for data, fmt in images)]
+
+        def once() -> LLMResponse:
+            attempts["n"] += 1
+            self.limiter.acquire()
+            return self._invoke(model_id, system, content, max_tokens)  # type: ignore[arg-type]
+
+        r = call_with_retries(once, attempts=self.retry_attempts, base=self.retry_base, cap=self.retry_cap,
+                              sleep=self._sleep)
+        r.attempts = attempts["n"]
+        self.cache.put(key, r)
+        self.ledger.add(short_name(model_id), r)
+        return r
+
     def _model(self, model_id: str, max_tokens: int):
         from strands.models import BedrockModel
 
         return BedrockModel(model_id=model_id, boto_session=self._boto_session(),
                             temperature=self.temperature, max_tokens=max_tokens)
 
-    def _invoke(self, model_id: str, system: str, prompt: str, max_tokens: int) -> LLMResponse:
+    def _invoke(self, model_id: str, system: str, prompt: str | list, max_tokens: int) -> LLMResponse:
         from strands import Agent
         from strands.types.exceptions import MaxTokensReachedException
 
@@ -298,6 +336,7 @@ class FakeLLM:
         self.ledger = UsageLedger()
         self.calls: list[tuple[str, str]] = []
         self.max_tokens: list[int] = []
+        self.images: list[Images] = []
 
     def complete(self, role: str, system: str, prompt: str, *, max_tokens: int = 1024) -> LLMResponse:
         self.calls.append((role, prompt))
@@ -309,6 +348,12 @@ class FakeLLM:
         r = LLMResponse(text, model_id, len(prompt) // 4, 50, truncated=truncated)
         self.ledger.add(short_name(model_id), r)
         return r
+
+    def complete_image(self, role: str, system: str, prompt: str, images: Images, *,
+                       max_tokens: int = 1024) -> LLMResponse:
+        """Same responder; the images are recorded in ``self.images`` (tests check metadata never arrives)."""
+        self.images.append(list(images))
+        return self.complete(role, system, prompt, max_tokens=max_tokens)
 
 
 class BudgetedLLM:
@@ -326,6 +371,15 @@ class BudgetedLLM:
             self.exhausted += 1
             raise LiveCallsDisabled(f"live-call budget of {self.max_live} reached")
         return self.inner.complete(role, system, prompt, max_tokens=max_tokens)
+
+    def complete_image(self, role: str, system: str, prompt: str, images: Images, *,
+                       max_tokens: int = 1024) -> LLMResponse:
+        mid = self.inner.config.model_id(role)
+        key = self.inner.cache.key(mid, system, prompt + "\n" + images_digest(images), max_tokens)
+        if self.inner.cache.get(key) is None and self.inner.ledger.calls >= self.max_live:
+            self.exhausted += 1
+            raise LiveCallsDisabled(f"live-call budget of {self.max_live} reached")
+        return self.inner.complete_image(role, system, prompt, images, max_tokens=max_tokens)
 
 
 def default_llm() -> LLMClient | None:

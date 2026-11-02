@@ -1,5 +1,5 @@
 import { useRef, useState, type FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { api, type AnswerResponse, type LessonResponse, type Level } from '../api/client';
 import { Busy, CC_BY_SA, ErrorNote } from '../components/Feedback';
 import { GlyphTile } from '../components/GlyphTile';
@@ -13,7 +13,10 @@ import { setSessionId } from '../lib/session';
 export function LearnPage() {
   const { t, lang, pick } = useI18n();
   const [level, setLevel] = useState<Level>('L2');
-  const [ownText, setOwnText] = useState('');
+  // Restore -> Learn hand-off: a reading from a photo or file arrives as navigation state.
+  const location = useLocation();
+  const handed = (location.state as { text?: unknown } | null)?.text;
+  const [ownText, setOwnText] = useState(typeof handed === 'string' ? handed.slice(0, 2000) : '');
   const [lesson, setLesson] = useState<LessonResponse | null>(null);
   const [idx, setIdx] = useState(0);
   const [answer, setAnswer] = useState('');

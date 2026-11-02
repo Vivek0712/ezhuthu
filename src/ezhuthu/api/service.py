@@ -12,6 +12,7 @@ from ..agent.config import live_enabled, load_models_config
 from ..agent.data import BenchmarkItem, load_items, parse_benchmark_name
 from ..agent.decider import Decider, default_decider
 from ..agent.llm import LLMClient, default_llm
+from ..agent.reader import Reader, ReadError, ReaderUnavailable
 from ..agent.restorer import Restorer
 from ..agent.tutor.service import BadRequest, NotFound, TutorService
 from ..eval.run import LLM_ROUTERS, ROUTERS, evaluate_items
@@ -22,7 +23,7 @@ from .storage import Store, _iso, store_from_env
 
 QUEUE_ACTIONS = {"approve": "approved", "edit": "edited", "reject": "rejected"}
 
-__all__ = ["BadRequest", "Conflict", "EzhuthuService", "Forbidden", "NotFound"]
+__all__ = ["BadRequest", "Conflict", "EzhuthuService", "Forbidden", "NotFound", "ReadError", "ReaderUnavailable"]
 
 
 class Conflict(Exception):
@@ -63,6 +64,10 @@ class EzhuthuService:
                                   model_factory=default_model_factory if model_factory == "default" else model_factory,
                                   clock=clock)
         self.clock = clock
+
+    @cached_property
+    def reader(self) -> Reader:
+        return Reader(llm=self._llm, config=self.restorer.config)
 
     @cached_property
     def config(self):
@@ -111,6 +116,21 @@ class EzhuthuService:
         out = evaluate_items(items, router=effective, restorer=self.restorer, llm=self._llm)
         out["router_requested"], out["router_effective"] = router, effective
         return out
+
+    # ---- read (upload + OCR) -------------------------------------------------------
+    def read(self, *, image_base64: str | None = None, text: str | None = None, filename: str | None = None,
+             format: str = "auto", router: str = "routed", hint: str | None = None) -> dict[str, Any]:
+        """``POST /api/read``: photo (base64) or text/EpiDoc file to transcription lines. Raises ReadError
+        (413/415/422) or ReaderUnavailable (503, no live model for images)."""
+        for name, v in (("filename", filename), ("hint", hint)):
+            if v is not None and (not isinstance(v, str) or len(v) > 200):
+                raise ReadError("bad_request", f"{name} must be a string of at most 200 characters")
+        if image_base64 is not None and not isinstance(image_base64, str):
+            raise ReadError("bad_request", "image_base64 must be a string")
+        if text is not None and not isinstance(text, str):
+            raise ReadError("bad_request", "text must be a string")
+        return self.reader.read(image_base64=image_base64, text=text, filename=filename, format=format,
+                                router=router, hint=hint)
 
     # ---- corrections and review queue --------------------------------------------
     def add_correction(self, gap_ref: str, *, accepted_candidate: str | None = None,
@@ -200,5 +220,5 @@ class EzhuthuService:
         h = self.decider.health() if hasattr(self.decider, "health") else None
         return {"status": "ok", "live_llm": self._llm is not None, "decider": (h or {}).get("model"),
                 "decider_source": (h or {}).get("source", "local") if h else "fallback",
-                "ontology": self.restorer.ontology.name, "corpus_lines": len(self.restorer.corpus),
+                "ontology": self.restorer.ontology.name, "reader": "vision" if self._llm is not None else "text-only", "corpus_lines": len(self.restorer.corpus),
                 "models": self.config.llm}

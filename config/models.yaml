@@ -38,3 +38,16 @@ decider:
     secret_name: ezhuthu/decider-api-key
     rpm: 10
     max_input_chars: 8000   # free-tier limit; the client drops tail candidates (keeps 'none') to fit
+# Reader: photo / text-file upload to transcription (POST /api/read, src/ezhuthu/agent/reader.py, issue: Upload + OCR).
+# Vision uses llm.default (Sonnet 4.6) and escalates to llm.escalate (Opus 4.6) under
+# routing.escalate_if_confidence_below, only if the first read finished within escalate_if_elapsed_below_s
+# (the cloud proxy gives AgentCore 27 s per request; see contracts/restore-api.md "POST /api/read").
+reader:
+  max_upload_bytes: 5242880      # decoded image bytes after the app's client-side resize (5 MB)
+  max_pixels: 40000000           # refuse larger images before decoding (decompression bombs)
+  max_long_side: 1568            # server-side downscale before the model (Claude vision's useful maximum)
+  jpeg_quality: 88               # re-encoded without EXIF/GPS/XMP/ICC
+  max_tokens: 3000
+  max_lines: 60
+  max_text_bytes: 524288         # .txt / EpiDoc .xml uploads (512 KB)
+  escalate_if_elapsed_below_s: 10

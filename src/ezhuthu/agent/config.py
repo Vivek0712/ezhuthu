@@ -110,6 +110,7 @@ class ModelsConfig:
     routing: Routing
     decider: dict[str, Any] = field(default_factory=dict)  # str model ids, plus the `cloud` block
     restorer: RestorerSettings = field(default_factory=RestorerSettings)
+    reader: dict[str, Any] = field(default_factory=dict)  # ezhuthu.agent.reader.ReaderSettings fields
 
     def model_id(self, role: str) -> str:
         if role not in self.llm:
@@ -137,6 +138,7 @@ def parse_models_config(data: dict[str, Any]) -> ModelsConfig:
         decider=dict(data.get("decider", {}) or {}),
         restorer=RestorerSettings(**{k: v for k, v in (data.get("restorer") or {}).items()
                                      if k in RestorerSettings.__dataclass_fields__}),
+        reader=dict(data.get("reader") or {}),
     )
 
 

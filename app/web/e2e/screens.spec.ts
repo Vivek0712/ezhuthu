@@ -28,6 +28,7 @@ test('@screens capture every page', async ({ page }, info) => {
   await shot(page, '03-learn-brahmi-hint-ta', p);
 
   await page.goto('/restore');
+  await page.getByTestId('read-tab-type').click();
   await page.getByTestId('use-sample').click();
   await page.getByTestId('restore-submit').click();
   await expect(page.getByTestId('restore-result')).toBeVisible();
@@ -95,6 +96,7 @@ test('@screens capture every page', async ({ page }, info) => {
   await expect(page.getByTestId('evolution-hero')).toBeVisible();
   await shot(page, '13-home-dark-en', p);
   await page.goto('/restore');
+  await page.getByTestId('read-tab-type').click();
   await page.getByTestId('use-sample').click();
   await page.getByTestId('restore-submit').click();
   await expect(page.getByTestId('restore-result')).toBeVisible();

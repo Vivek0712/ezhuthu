@@ -18,6 +18,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/read": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Photo (base64) or text/EpiDoc file to transcription lines in the restorer's gap notation. Photo reading is experimental. */
+        post: operations["read"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/evaluate": {
         parameters: {
             query?: never;
@@ -174,6 +191,78 @@ export interface components {
             max_candidates?: number;
             /** @default true */
             allow_escalation?: boolean;
+        };
+        /** @description Exactly one of image_base64 or text. */
+        ReadRequest: {
+            /** @description JPEG, PNG, WebP (HEIC only if the server has pillow-heif); at most 5 MB decoded */
+            image_base64?: string;
+            media_type?: string;
+            /** @description .txt (Tamil or ISO-15919) or DHARMA EpiDoc/TEI XML contents */
+            text?: string;
+            filename?: string;
+            /**
+             * @default auto
+             * @enum {string}
+             */
+            format?: "auto" | "txt" | "epidoc";
+            /**
+             * @default routed
+             * @enum {string}
+             */
+            router?: "routed" | "sonnet" | "opus";
+            hint?: string;
+        };
+        ReadLine: {
+            n: string;
+            /** @description ISO-15919 with [?N]/[?] gaps */
+            text: string;
+            text_tamil: string;
+            confidence: number | null;
+            gaps: number;
+        };
+        ScriptGuess: {
+            /** @enum {string} */
+            script: "tamil-brahmi" | "vatteluttu" | "grantha" | "pallava-tamil" | "chola-tamil" | "modern-tamil" | "unknown";
+            label_en: string;
+            label_ta: string;
+            era: string | null;
+            confidence: number | null;
+            level: components["schemas"]["Level"] | null;
+        };
+        ReadImageInfo: {
+            width: number;
+            height: number;
+            bytes: number;
+            format: string;
+            source_format: string;
+            source_bytes: number;
+            resized: boolean;
+            metadata_removed: string[];
+        };
+        ReadResponse: {
+            /** @enum {string} */
+            source: "image" | "text" | "epidoc";
+            experimental: boolean;
+            lines: components["schemas"]["ReadLine"][];
+            text: string;
+            text_tamil: string;
+            gaps: number;
+            script_guess: components["schemas"]["ScriptGuess"] | null;
+            confidence: number | null;
+            kind?: string | null;
+            note?: string | null;
+            models_used: string[];
+            model?: string;
+            escalated: boolean;
+            /** @enum {string} */
+            escalation_skipped?: "time_budget" | "budget";
+            image?: components["schemas"]["ReadImageInfo"];
+            title?: string | null;
+            licence?: string | null;
+            masked_supplied?: number;
+            warnings: string[];
+            trace_id: string;
+            latency_ms: number;
         };
         Parallel: {
             inscription_id: string;
@@ -459,6 +548,34 @@ export interface operations {
                     "application/json": components["schemas"]["RestoreResponse"];
                 };
             };
+            default: components["responses"]["Error"];
+        };
+    };
+    read: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReadRequest"];
+            };
+        };
+        responses: {
+            /** @description Transcription lines */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReadResponse"];
+                };
+            };
+            413: components["responses"]["Error"];
+            415: components["responses"]["Error"];
+            503: components["responses"]["Error"];
             default: components["responses"]["Error"];
         };
     };
