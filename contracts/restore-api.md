@@ -41,7 +41,13 @@ Levels: `L1` modern Tamil, `L2` Chola Tamil, `L3` Pallava Tamil, `L4` Vatteluttu
     "items": [{"item_id", "type": "letter"|"word"|"line", "prompt_ta", "prompt_en", "glyph_svg"|"glyph_text", "script_level", "answer_hidden": true}],
     "context": {"ruler"?, "temple"?, "grant"?, "explain_ta", "explain_en"}}`
 - `POST /api/answer` `{"session_id", "item_id", "answer"}` returns
-  `{"correct": bool, "feedback_ta", "feedback_en", "next_action": "advance"|"repeat"|"hint", "decider_confidence": 0.0, "hint_ta"?}`
+  `{"correct": bool, "feedback_ta", "feedback_en", "next_action": "advance"|"repeat"|"hint", "decider_confidence": 0.0 | null, "decider_source"?, "hint_ta"?, "context_update"?}`
+  - `decider_confidence` is `null` when the rules decided (`decider_source: "rules"`, or `"assessment"` for pre/post
+    items); the app then says "decided by rules", never "confidence 0%".
+  - `context_update` `{"explain_ta", "explain_en", "explained_by", "explanation_status": "done"}` appears at most once,
+    when the lesson's `context.explanation_status` was `"pending"` and the tutor team's explanation has since finished
+    (best effort: it may never arrive). The app replaces the lesson's `explain_ta`/`explain_en` with it.
+- `/api/lesson` `context` also carries `explained_by` and `explanation_status`: `"pending"` | `"done"` | `"template"`.
 - `POST /api/assessment` `{"session_id", "phase": "pre"|"post"}` returns 10 era-letter items; grading uses `/api/answer`.
 - `GET /api/progress/{session_id}` returns `{"pre_score", "post_score", "gain", "letters_correct_by_level", "median_seconds_per_letter"}`
 
