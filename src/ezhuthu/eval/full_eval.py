@@ -732,9 +732,8 @@ def render_test_md(res: dict[str, Any], *, title: str, preface: list[str]) -> st
         "", "## Provenance", "",
         f"- Data: `benchmark/` at data commit `{pv['data_commit']}` (DHARMA-derived, CC BY-SA 4.0).",
         (f"- Code: code_dirty={str(bool(pv['code_dirty_any'])).lower()} for every configuration; commits "
-         f"{', '.join('`' + c[:7] + '`' for c in pv['code_commits'] if c)} (main pass, repair and the two prerank rows; "
-         "they differ only in the eval driver `src/ezhuthu/eval/full_eval.py`, never in the restorer, config or "
-         "calibration). Each rows file names its own commit."),
+         f"{', '.join('`' + c[:7] + '`' for c in pv['code_commits'] if c)}. Each rows file names its own commit; "
+         "the run history (first pass, repairs, re-scores) is under \"How this run went\"."),
         f"- Models (config/models.yaml): default `{res['models']['default']}`, escalate `{res['models']['escalate']}`.",
         (f"- Local decider: `{res['decider']}` (strands-decider 0.2.0, `strands-decider serve`, mps). The hosted "
          "v19 decider (decider-cloud) was not part of this evaluation."),

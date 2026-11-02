@@ -128,7 +128,8 @@ def _pct(x: float) -> float:
 
 
 def _eval_claims() -> dict[str, list[tuple[str, list[float]]]]:
-    """Every restoration number quoted in README.md and docs/CHARTER.md, with its value in the test-eval JSON."""
+    """Every restoration number quoted in README.md and docs/CHARTER.md, with its value in the test-eval JSON.
+    ``test_restoration_paragraphs_quote_no_unpinned_number`` checks that the results paragraphs hold no other."""
     r = json.loads(EVAL_PATH.read_text(encoding="utf-8"))
     c = {n: v["by_subset"]["full"] for n, v in r["configs"].items()}
     p = r["paired"]
@@ -165,7 +166,8 @@ def _eval_claims() -> dict[str, list[tuple[str, list[float]]]]:
          [sd["only_a"], sd["only_b"], rd["only_a"], rd["only_b"]]),
         (rf"\({F}% vs {F}%, p = {F}\)", [_pct(c[ret_dec]["top1"]), _pct(c["prerank"]["top1"]),
                                           round(p[f"{ret_dec}_vs_prerank"]["full"]["p_mcnemar"], 3)]),
-        (rf"On test, {N} of {N} gaps reach Opus", [r["configs"]["routed"]["cost"]["opus_items"], routed["n"]]),
+        (rf"On test, {N} of {N} gaps reach Opus, {N} of them by the last two rules",
+         [r["configs"]["routed"]["cost"]["opus_items"], routed["n"], r["configs"]["routed"]["pre_escalated"]]),
     ]
     assert long_max <= 1 / 3 + 1e-9  # "no system matches the expert on more than 1 in 3" (gaps of 4+ letters)
     return {"README.md": readme, "docs/CHARTER.md": charter}
@@ -180,6 +182,60 @@ def test_doc_restoration_numbers_match_the_test_eval(doc):
         assert m, f"{doc}: claim not found (reworded? update tests/test_doc_numbers.py): {pattern}"
         got = [float(g.replace(",", "")) for g in m.groups()]
         assert got == [float(w) for w in want], f"{doc}: {m.group(0)!r} says {got}, the test-eval JSON says {want}"
+
+
+# The paragraphs that quote TEST results (by their first words), and the numbers in them that are not TEST results:
+# model versions, rule settings, the 60-gap benchmark size, "1 in 3".
+RESULT_PARAGRAPHS = {
+    "README.md": ["| Fills that match the expert restoration", "| Calibration (ECE) and coverage",
+                  "**What the test evaluation says**"],
+    "docs/CHARTER.md": ["**Measured (test, scored once", "1. **Restoration ranking and abstention:**",
+                        "2. **Model routing:**"],
+}
+NOT_RESULTS = {"4.6", "2", "1", "3", "4", "0.6", "12", "60", "19", "3.5", "2610", "26", "2026", "11", "02", "0.5"}
+
+
+@pytest.mark.skipif(not EVAL_PATH.exists(), reason="test evaluation not run")
+@pytest.mark.parametrize("doc", sorted(RESULT_PARAGRAPHS))
+def test_restoration_paragraphs_quote_no_unpinned_number(doc):
+    """A TEST figure added to a results paragraph without a pin in ``_eval_claims`` fails here."""
+    lines = (ROOT / doc).read_text(encoding="utf-8").splitlines()
+    claims = _eval_claims()[doc]
+    text = " ".join(" ".join(ln.split()) for ln in lines)
+    pinned: set[str] = set()
+    for pattern, _ in claims:
+        m = re.search(pattern, text)
+        assert m, pattern
+        pinned.update(g for g in m.groups())
+    for start in RESULT_PARAGRAPHS[doc]:
+        para = next(ln for ln in lines if ln.startswith(start))
+        # links, code, "5-gram", "top-1": not quoted figures
+        para = re.sub(r"\([^)]*\.md\)|`[^`]*`|\[[^\]]*\]\([^)]*\)|\d+-gram|top-\d+", " ", para)
+        for num in re.findall(r"(?<![\w.])\d+(?:,\d{3})*(?:\.\d+)?", para):
+            assert num in pinned or num in NOT_RESULTS, f"{doc}: {num!r} in {start!r} is not pinned to the test eval"
+
+
+# Sentences that must stay next to the numbers: what was measured, and what was not (QA on PR #31).
+MEASURED_SCOPE = {
+    "README.md": [
+        "Fills that match the expert restoration (top-1, test, measured with the local 2B decider)",
+        ("**These numbers were measured with the local strands-decider-2B and its VAL calibration; the deployed cloud "
+         "runtime (hosted v19 decider, or the self-report fallback without a decider) is not measured.**"),
+    ],
+    "docs/CHARTER.md": [
+        ("with the local 2B decider and its validation calibration (the cloud runtime's hosted v19 decider and its "
+         "self-report fallback are not measured), the engine's top fill matches"),
+    ],
+}
+
+
+@pytest.mark.parametrize("doc", sorted(MEASURED_SCOPE))
+def test_doc_says_which_configuration_was_measured(doc):
+    text = " ".join((ROOT / doc).read_text(encoding="utf-8").split())
+    for sentence in MEASURED_SCOPE[doc]:
+        assert sentence in text, f"{doc} lost the measured-scope sentence: {sentence!r}"
+    for word in ("shipped pipeline", "shipped engine"):
+        assert word not in text, f"{doc}: the measured configuration is not what the cloud runtime ships"
 
 
 def test_readme_has_no_tbd_restoration_numbers():

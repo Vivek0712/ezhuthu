@@ -6,13 +6,13 @@
     "config": "copy",
     "router": "baseline-copy",
     "calibration": null,
-    "seconds": 31.3,
+    "seconds": 64.6,
     "budget_refusals": 0,
     "data_commit": "e83886327ff525f385c6865bd01b8e213fa597a8",
-    "code_commit": "c9997cbfaaf1f14091c02e14532c0596b39ba6f8",
+    "code_commit": "85038c13c7acd4cf2453569a2d17bc8c6c552c86",
     "code_dirty": false,
     "decider": "strands-decider-2B-qwen3.5-v1-2610",
-    "date": "2026-11-02T01:51:33+00:00"
+    "date": "2026-11-02T05:07:26+00:00"
    },
    "by_subset": {
     "full": {
@@ -116,11 +116,12 @@
     "opus_items": 0
    },
    "latency": {
-    "p50_ms": 72.3,
-    "p90_ms": 91.6,
-    "mean_ms": 75.8
+    "p50_ms": 80.6,
+    "p90_ms": 410.9,
+    "mean_ms": 156.4
    },
    "escalated": 0,
+   "pre_escalated": 0,
    "abstain_threshold": 0.6012,
    "calibration_keys": []
   },
@@ -130,95 +131,95 @@
     "config": "ngram",
     "router": "baseline-ngram",
     "calibration": null,
-    "seconds": 6.6,
+    "seconds": 7.1,
     "budget_refusals": 0,
     "data_commit": "e83886327ff525f385c6865bd01b8e213fa597a8",
-    "code_commit": "c9997cbfaaf1f14091c02e14532c0596b39ba6f8",
+    "code_commit": "85038c13c7acd4cf2453569a2d17bc8c6c552c86",
     "code_dirty": false,
     "decider": "strands-decider-2B-qwen3.5-v1-2610",
-    "date": "2026-11-02T01:51:40+00:00"
+    "date": "2026-11-02T05:07:33+00:00"
    },
    "by_subset": {
     "full": {
      "n": 413,
-     "top1": 0.5714,
+     "top1": 0.5666,
      "top1_ci": [
-      0.5206,
-      0.6199
+      0.5182,
+      0.615
      ],
-     "top20": 0.7506,
+     "top20": 0.7458,
      "top20_ci": [
-      0.707,
-      0.7918
+      0.7022,
+      0.7869
      ],
-     "cer": 0.398,
-     "cer_clipped": 0.3562,
+     "cer": 0.4053,
+     "cer_clipped": 0.361,
      "cer_clipped_ci": [
-      0.3138,
-      0.3992
+      0.319,
+      0.4039
      ],
      "cer_median": 0.0,
-     "ece": 0.1574,
+     "ece": 0.1611,
      "coverage": 0.3705,
      "coverage_ci": [
-      0.3245,
+      0.322,
       0.4165
      ],
-     "selective_accuracy": 0.9085,
+     "selective_accuracy": 0.902,
      "filled": 153,
-     "filled_matching": 139,
+     "filled_matching": 138,
      "errors": 0
     },
     "hard": {
      "n": 317,
-     "top1": 0.5331,
+     "top1": 0.5268,
      "top1_ci": [
-      0.4795,
-      0.5899
+      0.4732,
+      0.5836
      ],
-     "top20": 0.7192,
+     "top20": 0.7129,
      "top20_ci": [
-      0.6688,
-      0.7697
+      0.6625,
+      0.7666
      ],
-     "cer": 0.4444,
-     "cer_clipped": 0.3906,
+     "cer": 0.4539,
+     "cer_clipped": 0.3969,
      "cer_clipped_ci": [
-      0.34,
-      0.4411
+      0.3463,
+      0.4469
      ],
      "cer_median": 0.0,
-     "ece": 0.1734,
+     "ece": 0.177,
      "coverage": 0.3312,
      "coverage_ci": [
       0.2808,
       0.3817
      ],
-     "selective_accuracy": 0.8952,
+     "selective_accuracy": 0.8857,
      "filled": 105,
-     "filled_matching": 94,
+     "filled_matching": 93,
      "errors": 0
     },
     "age": {
      "n": 51,
-     "top1": 0.5686,
+     "top1": 0.549,
      "top1_ci": [
-      0.4314,
-      0.7059
+      0.4118,
+      0.6863
      ],
-     "top20": 0.6667,
+     "top20": 0.6471,
      "top20_ci": [
       0.5294,
-      0.7843
+      0.7647
      ],
-     "cer": 0.3856,
-     "cer_clipped": 0.3386,
+     "cer": 0.4052,
+     "cer_clipped": 0.3582,
      "cer_clipped_ci": [
-      0.2218,
-      0.4543
+      0.2411,
+      0.4782
      ],
      "cer_median": 0.0,
-     "ece": 0.133,
+     "ece": 0.12,
      "coverage": 0.2157,
      "coverage_ci": [
       0.1176,
@@ -234,23 +235,23 @@
     "full": {
      "n": 413,
      "only_a": 84,
-     "only_b": 43,
-     "both": 152,
-     "p_mcnemar": 0.000347
+     "only_b": 45,
+     "both": 150,
+     "p_mcnemar": 0.000756
     },
     "hard": {
      "n": 317,
      "only_a": 74,
-     "only_b": 26,
-     "both": 95,
-     "p_mcnemar": 2e-06
+     "only_b": 28,
+     "both": 93,
+     "p_mcnemar": 6e-06
     },
     "age": {
      "n": 51,
      "only_a": 15,
-     "only_b": 4,
-     "both": 14,
-     "p_mcnemar": 0.019211
+     "only_b": 5,
+     "both": 13,
+     "p_mcnemar": 0.041389
     }
    },
    "cost": {
@@ -262,12 +263,13 @@
     "opus_items": 0
    },
    "latency": {
-    "p50_ms": 8.9,
-    "p90_ms": 27.1,
-    "mean_ms": 16.1
+    "p50_ms": 9.6,
+    "p90_ms": 29.8,
+    "mean_ms": 17.2
    },
    "escalated": 0,
-   "abstain_threshold": 0.9104,
+   "pre_escalated": 0,
+   "abstain_threshold": 0.9103,
    "calibration_keys": []
   },
   "prerank": {
@@ -277,13 +279,13 @@
     "router": "none",
     "strategy": "prerank",
     "calibration": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/w3b-eval/src/ezhuthu/agent/calibration.json",
-    "seconds": 31.2,
+    "seconds": 42.7,
     "budget_refusals": 0,
     "data_commit": "e83886327ff525f385c6865bd01b8e213fa597a8",
-    "code_commit": "c9997cbfaaf1f14091c02e14532c0596b39ba6f8",
+    "code_commit": "85038c13c7acd4cf2453569a2d17bc8c6c552c86",
     "code_dirty": false,
     "decider": "strands-decider-2B-qwen3.5-v1-2610",
-    "date": "2026-11-02T01:52:11+00:00"
+    "date": "2026-11-02T05:08:16+00:00"
    },
    "by_subset": {
     "full": {
@@ -293,10 +295,10 @@
       0.4383,
       0.5351
      ],
-     "top20": 0.7797,
+     "top20": 0.7772,
      "top20_ci": [
-      0.7385,
-      0.8184
+      0.7361,
+      0.816
      ],
      "cer": 0.5708,
      "cer_clipped": 0.4295,
@@ -323,10 +325,10 @@
       0.347,
       0.4543
      ],
-     "top20": 0.7256,
+     "top20": 0.7224,
      "top20_ci": [
-      0.6782,
-      0.776
+      0.6719,
+      0.7697
      ],
      "cer": 0.6873,
      "cer_clipped": 0.5083,
@@ -409,11 +411,12 @@
     "opus_items": 0
    },
    "latency": {
-    "p50_ms": 67.2,
-    "p90_ms": 96.1,
-    "mean_ms": 75.5
+    "p50_ms": 95.2,
+    "p90_ms": 139.9,
+    "mean_ms": 103.4
    },
    "escalated": 0,
+   "pre_escalated": 0,
    "abstain_threshold": [
     0.4116
    ],
@@ -422,18 +425,18 @@
    ]
   },
   "retrieval-default": {
-   "label": "Retrieval only, shipped strategy",
+   "label": "Retrieval only, VAL-chosen strategy",
    "meta": {
     "config": "retrieval-default",
     "router": "none",
     "calibration": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/w3b-eval/src/ezhuthu/agent/calibration.json",
-    "seconds": 29.2,
+    "seconds": 41.6,
     "budget_refusals": 0,
     "data_commit": "e83886327ff525f385c6865bd01b8e213fa597a8",
-    "code_commit": "c9997cbfaaf1f14091c02e14532c0596b39ba6f8",
+    "code_commit": "85038c13c7acd4cf2453569a2d17bc8c6c552c86",
     "code_dirty": false,
     "decider": "strands-decider-2B-qwen3.5-v1-2610",
-    "date": "2026-11-02T01:52:40+00:00"
+    "date": "2026-11-02T05:08:58+00:00"
    },
    "by_subset": {
     "full": {
@@ -443,10 +446,10 @@
       0.4407,
       0.5375
      ],
-     "top20": 0.7797,
+     "top20": 0.7772,
      "top20_ci": [
-      0.7385,
-      0.8184
+      0.7361,
+      0.816
      ],
      "cer": 0.611,
      "cer_clipped": 0.4349,
@@ -473,10 +476,10 @@
       0.3407,
       0.4479
      ],
-     "top20": 0.7256,
+     "top20": 0.7224,
      "top20_ci": [
-      0.6782,
-      0.776
+      0.6719,
+      0.7697
      ],
      "cer": 0.7272,
      "cer_clipped": 0.5225,
@@ -559,11 +562,12 @@
     "opus_items": 0
    },
    "latency": {
-    "p50_ms": 64.1,
-    "p90_ms": 88.1,
-    "mean_ms": 70.6
+    "p50_ms": 92.4,
+    "p90_ms": 133.7,
+    "mean_ms": 100.8
    },
    "escalated": 0,
+   "pre_escalated": 0,
    "abstain_threshold": [
     0.5804
    ],
@@ -578,35 +582,35 @@
     "router": "none",
     "strategy": "choice-all",
     "calibration": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/w3b-eval/src/ezhuthu/agent/calibration.json",
-    "seconds": 551.1,
+    "seconds": 1431.6,
     "budget_refusals": 0,
     "data_commit": "e83886327ff525f385c6865bd01b8e213fa597a8",
-    "code_commit": "c9997cbfaaf1f14091c02e14532c0596b39ba6f8",
+    "code_commit": "85038c13c7acd4cf2453569a2d17bc8c6c552c86",
     "code_dirty": false,
     "decider": "strands-decider-2B-qwen3.5-v1-2610",
-    "date": "2026-11-02T02:01:52+00:00"
+    "date": "2026-11-02T05:32:49+00:00"
    },
    "by_subset": {
     "full": {
      "n": 413,
-     "top1": 0.4237,
+     "top1": 0.4262,
      "top1_ci": [
-      0.3777,
-      0.4697
+      0.3801,
+      0.4722
      ],
-     "top20": 0.7797,
+     "top20": 0.7772,
      "top20_ci": [
-      0.7385,
-      0.8184
+      0.7361,
+      0.816
      ],
-     "cer": 0.7481,
-     "cer_clipped": 0.4682,
+     "cer": 0.7433,
+     "cer_clipped": 0.4658,
      "cer_clipped_ci": [
-      0.4274,
-      0.5109
+      0.4239,
+      0.5084
      ],
      "cer_median": 0.5,
-     "ece": 0.1656,
+     "ece": 0.1671,
      "coverage": 0.0412,
      "coverage_ci": [
       0.0242,
@@ -619,24 +623,24 @@
     },
     "hard": {
      "n": 317,
-     "top1": 0.3659,
+     "top1": 0.3691,
      "top1_ci": [
       0.3155,
-      0.4196
+      0.4227
      ],
-     "top20": 0.7256,
+     "top20": 0.7224,
      "top20_ci": [
-      0.6782,
-      0.776
+      0.6719,
+      0.7697
      ],
-     "cer": 0.8187,
-     "cer_clipped": 0.5303,
+     "cer": 0.8124,
+     "cer_clipped": 0.5271,
      "cer_clipped_ci": [
-      0.4806,
-      0.5766
+      0.4774,
+      0.5739
      ],
      "cer_median": 0.6,
-     "ece": 0.1207,
+     "ece": 0.1237,
      "coverage": 0.0252,
      "coverage_ci": [
       0.0095,
@@ -666,7 +670,7 @@
       0.6077
      ],
      "cer_median": 0.5,
-     "ece": 0.0958,
+     "ece": 0.0909,
      "coverage": 0.1569,
      "coverage_ci": [
       0.0588,
@@ -682,16 +686,16 @@
     "full": {
      "n": 413,
      "only_a": 48,
-     "only_b": 68,
-     "both": 127,
-     "p_mcnemar": 0.077262
+     "only_b": 67,
+     "both": 128,
+     "p_mcnemar": 0.092816
     },
     "hard": {
      "n": 317,
      "only_a": 37,
-     "only_b": 42,
-     "both": 79,
-     "p_mcnemar": 0.652964
+     "only_b": 41,
+     "both": 80,
+     "p_mcnemar": 0.734342
     },
     "age": {
      "n": 51,
@@ -710,46 +714,32 @@
     "opus_items": 0
    },
    "latency": {
-    "p50_ms": 1275.9,
-    "p90_ms": 1924.7,
-    "mean_ms": 1334.4
+    "p50_ms": 3578.3,
+    "p90_ms": 5529.9,
+    "mean_ms": 3466.3
    },
    "escalated": 0,
+   "pre_escalated": 0,
    "abstain_threshold": [
-    0.4143
+    0.4121
    ],
    "calibration_keys": [
     "strands-decider-2B-qwen3.5-v1-2610|choice-all|kall|retrieval"
    ]
   },
   "sonnet": {
-   "label": "Sonnet 4.6 (shipped pipeline, ontology on)",
+   "label": "Sonnet 4.6 (VAL-chosen config, local 2B decider, ontology on)",
    "meta": {
     "config": "sonnet",
     "router": "sonnet",
     "calibration": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/w3b-eval/src/ezhuthu/agent/calibration.json",
-    "seconds": 787.4,
+    "seconds": 1254.1,
     "budget_refusals": 0,
     "data_commit": "e83886327ff525f385c6865bd01b8e213fa597a8",
-    "code_commit": "3ec2cdac8958956c6021ace9bf4344f70fed99ef",
+    "code_commit": "85038c13c7acd4cf2453569a2d17bc8c6c552c86",
     "code_dirty": false,
     "decider": "strands-decider-2B-qwen3.5-v1-2610",
-    "date": "2026-11-02T03:26:09+00:00",
-    "first_pass": {
-     "error_ids": [
-      "DHARMA_INSTamilNadu00042:2:2",
-      "DHARMA_INSTamilNadu00123:28:0",
-      "DHARMA_INSTamilNadu00134:9:0",
-      "DHARMA_INSTamilNadu00413:1:0",
-      "DHARMA_INStfaSIIv03p0i0010:2:2",
-      "DHARMA_INStfaSIIv03p0i0015:1:0",
-      "DHARMA_INStfaSIIv03p0i0015:2:0"
-     ],
-     "code_commit": "c9997cbfaaf1f14091c02e14532c0596b39ba6f8",
-     "date": "2026-11-02T02:31:23+00:00",
-     "seconds": 2421.4,
-     "non_error_rows_changed": 0
-    }
+    "date": "2026-11-02T05:27:16+00:00"
    },
    "by_subset": {
     "full": {
@@ -759,9 +749,9 @@
       0.3705,
       0.4649
      ],
-     "top20": 0.799,
+     "top20": 0.7966,
      "top20_ci": [
-      0.7603,
+      0.7579,
       0.8354
      ],
      "cer": 0.6247,
@@ -789,10 +779,10 @@
       0.2776,
       0.3785
      ],
-     "top20": 0.7413,
+     "top20": 0.7382,
      "top20_ci": [
-      0.694,
-      0.7886
+      0.6909,
+      0.7855
      ],
      "cer": 0.7476,
      "cer_clipped": 0.5771,
@@ -881,11 +871,12 @@
     "opus_items": 0
    },
    "latency": {
-    "p50_ms": 7342.0,
-    "p90_ms": 12743.7,
-    "mean_ms": 8091.9
+    "p50_ms": 15602.3,
+    "p90_ms": 22990.1,
+    "mean_ms": 16381.3
    },
    "escalated": 0,
+   "pre_escalated": 0,
    "abstain_threshold": [
     0.4001
    ],
@@ -900,23 +891,13 @@
     "router": "sonnet",
     "use_ontology": false,
     "calibration": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/w3b-eval/src/ezhuthu/agent/calibration.json",
-    "seconds": 159.2,
+    "seconds": 229.6,
     "budget_refusals": 0,
     "data_commit": "e83886327ff525f385c6865bd01b8e213fa597a8",
-    "code_commit": "3ec2cdac8958956c6021ace9bf4344f70fed99ef",
+    "code_commit": "85038c13c7acd4cf2453569a2d17bc8c6c552c86",
     "code_dirty": false,
     "decider": "strands-decider-2B-qwen3.5-v1-2610",
-    "date": "2026-11-02T03:13:02+00:00",
-    "first_pass": {
-     "error_ids": [
-      "DHARMA_INSTamilNadu00033:9:0",
-      "DHARMA_INSTamilNadu00417:11:2"
-     ],
-     "code_commit": "c9997cbfaaf1f14091c02e14532c0596b39ba6f8",
-     "date": "2026-11-02T02:39:11+00:00",
-     "seconds": 467.5,
-     "non_error_rows_changed": 1
-    }
+    "date": "2026-11-02T05:31:05+00:00"
    },
    "by_subset": {
     "full": {
@@ -1048,11 +1029,12 @@
     "opus_items": 0
    },
    "latency": {
-    "p50_ms": 7640.6,
-    "p90_ms": 12663.1,
-    "mean_ms": 8276.7
+    "p50_ms": 14901.2,
+    "p90_ms": 19201.6,
+    "mean_ms": 15043.5
    },
    "escalated": 0,
+   "pre_escalated": 0,
    "abstain_threshold": [
     0.4001
    ],
@@ -1067,13 +1049,13 @@
     "router": "sonnet",
     "strategy": "prerank",
     "calibration": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/w3b-eval/src/ezhuthu/agent/calibration.json",
-    "seconds": 30.6,
+    "seconds": 40.7,
     "budget_refusals": 0,
     "data_commit": "e83886327ff525f385c6865bd01b8e213fa597a8",
-    "code_commit": "d5ef558e672a3a7c469b9c394b40e6d64a0ca324",
+    "code_commit": "85038c13c7acd4cf2453569a2d17bc8c6c552c86",
     "code_dirty": false,
     "decider": "strands-decider-2B-qwen3.5-v1-2610",
-    "date": "2026-11-02T03:27:46+00:00"
+    "date": "2026-11-02T05:47:22+00:00"
    },
    "by_subset": {
     "full": {
@@ -1083,9 +1065,9 @@
       0.3705,
       0.4649
      ],
-     "top20": 0.799,
+     "top20": 0.7966,
      "top20_ci": [
-      0.7603,
+      0.7579,
       0.8354
      ],
      "cer": 0.6949,
@@ -1113,10 +1095,10 @@
       0.2744,
       0.3754
      ],
-     "top20": 0.7413,
+     "top20": 0.7382,
      "top20_ci": [
-      0.694,
-      0.7886
+      0.6909,
+      0.7855
      ],
      "cer": 0.8358,
      "cer_clipped": 0.5815,
@@ -1205,11 +1187,12 @@
     "opus_items": 0
    },
    "latency": {
-    "p50_ms": 3282.4,
-    "p90_ms": 9029.7,
-    "mean_ms": 4497.7
+    "p50_ms": 3364.7,
+    "p90_ms": 9129.4,
+    "mean_ms": 4567.7
    },
    "escalated": 0,
+   "pre_escalated": 0,
    "abstain_threshold": [
     0.5779
    ],
@@ -1218,18 +1201,18 @@
    ]
   },
   "routed": {
-   "label": "Routed Sonnet 4.6 -> Opus 4.6 (shipped)",
+   "label": "Routed Sonnet 4.6 -> Opus 4.6 (VAL-chosen config, local 2B decider)",
    "meta": {
     "config": "routed",
     "router": "routed",
     "calibration": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/w3b-eval/src/ezhuthu/agent/calibration.json",
-    "seconds": 756.2,
+    "seconds": 818.6,
     "budget_refusals": 0,
     "data_commit": "e83886327ff525f385c6865bd01b8e213fa597a8",
-    "code_commit": "c9997cbfaaf1f14091c02e14532c0596b39ba6f8",
+    "code_commit": "85038c13c7acd4cf2453569a2d17bc8c6c552c86",
     "code_dirty": false,
     "decider": "strands-decider-2B-qwen3.5-v1-2610",
-    "date": "2026-11-02T03:10:01+00:00"
+    "date": "2026-11-02T05:46:28+00:00"
    },
    "by_subset": {
     "full": {
@@ -1360,17 +1343,18 @@
      }
     },
     "calls": 422,
-    "live_calls_this_run": 6,
+    "live_calls_this_run": 0,
     "usd": 2.5035,
     "usd_per_item": 0.00606,
     "opus_items": 299
    },
    "latency": {
-    "p50_ms": 8211.3,
-    "p90_ms": 12204.5,
-    "mean_ms": 8949.9
+    "p50_ms": 10440.9,
+    "p90_ms": 15513.3,
+    "mean_ms": 11433.7
    },
    "escalated": 299,
+   "pre_escalated": 291,
    "abstain_threshold": [
     0.3772,
     0.4001
@@ -1387,13 +1371,13 @@
     "router": "routed",
     "strategy": "prerank",
     "calibration": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/w3b-eval/src/ezhuthu/agent/calibration.json",
-    "seconds": 87.2,
+    "seconds": 33.8,
     "budget_refusals": 0,
     "data_commit": "e83886327ff525f385c6865bd01b8e213fa597a8",
-    "code_commit": "d5ef558e672a3a7c469b9c394b40e6d64a0ca324",
+    "code_commit": "85038c13c7acd4cf2453569a2d17bc8c6c552c86",
     "code_dirty": false,
     "decider": "strands-decider-2B-qwen3.5-v1-2610",
-    "date": "2026-11-02T03:29:13+00:00"
+    "date": "2026-11-02T05:47:56+00:00"
    },
    "by_subset": {
     "full": {
@@ -1524,17 +1508,18 @@
      }
     },
     "calls": 431,
-    "live_calls_this_run": 8,
+    "live_calls_this_run": 0,
     "usd": 2.5763,
     "usd_per_item": 0.00624,
     "opus_items": 308
    },
    "latency": {
-    "p50_ms": 3003.5,
-    "p90_ms": 5651.4,
-    "mean_ms": 3715.5
+    "p50_ms": 3141.3,
+    "p90_ms": 5694.3,
+    "mean_ms": 3848.7
    },
    "escalated": 308,
+   "pre_escalated": 291,
    "abstain_threshold": [
     0.5,
     0.5779
@@ -1550,13 +1535,13 @@
     "config": "opus-sample100",
     "router": "opus",
     "calibration": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/w3b-eval/src/ezhuthu/agent/calibration.json",
-    "seconds": 162.4,
+    "seconds": 384.2,
     "budget_refusals": 0,
     "data_commit": "e83886327ff525f385c6865bd01b8e213fa597a8",
-    "code_commit": "c9997cbfaaf1f14091c02e14532c0596b39ba6f8",
+    "code_commit": "85038c13c7acd4cf2453569a2d17bc8c6c552c86",
     "code_dirty": false,
     "decider": "strands-decider-2B-qwen3.5-v1-2610",
-    "date": "2026-11-02T02:57:24+00:00"
+    "date": "2026-11-02T05:13:24+00:00"
    },
    "by_subset": {
     "full": {
@@ -1688,11 +1673,12 @@
     "opus_items": 100
    },
    "latency": {
-    "p50_ms": 7641.8,
-    "p90_ms": 9176.8,
-    "mean_ms": 7680.8
+    "p50_ms": 19326.4,
+    "p90_ms": 22697.8,
+    "mean_ms": 18143.7
    },
    "escalated": 0,
+   "pre_escalated": 100,
    "abstain_threshold": [
     0.3772
    ],
@@ -1751,14 +1737,14 @@
     0.4632
    ],
    "cer_median": 0.0,
-   "ece": 0.1617,
-   "coverage": 0.34,
+   "ece": 0.1628,
+   "coverage": 0.35,
    "coverage_ci": [
-    0.25,
+    0.26,
     0.44
    ],
-   "selective_accuracy": 0.9412,
-   "filled": 34,
+   "selective_accuracy": 0.9143,
+   "filled": 35,
    "filled_matching": 32,
    "errors": 0
   },
@@ -1841,7 +1827,7 @@
     0.5157
    ],
    "cer_median": 0.2083,
-   "ece": 0.2206,
+   "ece": 0.2207,
    "coverage": 0.03,
    "coverage_ci": [
     0.0,
@@ -2294,16 +2280,16 @@
    "full": {
     "n": 413,
     "only_a": 46,
-    "only_b": 72,
-    "both": 129,
-    "p_mcnemar": 0.02097
+    "only_b": 71,
+    "both": 130,
+    "p_mcnemar": 0.026076
    },
    "hard": {
     "n": 317,
     "only_a": 35,
-    "only_b": 46,
-    "both": 81,
-    "p_mcnemar": 0.266412
+    "only_b": 45,
+    "both": 82,
+    "p_mcnemar": 0.314307
    },
    "age": {
     "n": 51,
@@ -2339,24 +2325,24 @@
   "routed_vs_ngram": {
    "full": {
     "n": 413,
-    "only_a": 46,
+    "only_a": 48,
     "only_b": 77,
-    "both": 159,
-    "p_mcnemar": 0.006591
+    "both": 157,
+    "p_mcnemar": 0.011959
    },
    "hard": {
     "n": 317,
-    "only_a": 31,
+    "only_a": 33,
     "only_b": 68,
-    "both": 101,
-    "p_mcnemar": 0.000255
+    "both": 99,
+    "p_mcnemar": 0.000641
    },
    "age": {
     "n": 51,
-    "only_a": 5,
+    "only_a": 6,
     "only_b": 12,
-    "both": 17,
-    "p_mcnemar": 0.143463
+    "both": 16,
+    "p_mcnemar": 0.237885
    }
   },
   "routed_vs_prerank": {
@@ -2548,32 +2534,32 @@
   "ngram": {
    "1 letter": {
     "n": 281,
-    "top1": 0.6868,
+    "top1": 0.6797,
     "top1_ci": [
-     0.6299,
-     0.7402
+     0.6228,
+     0.7331
     ],
-    "top20": 0.9039,
+    "top20": 0.8968,
     "top20_ci": [
-     0.8683,
-     0.9359
+     0.8612,
+     0.9288
     ],
-    "cer": 0.3102,
-    "cer_clipped": 0.2675,
+    "cer": 0.3209,
+    "cer_clipped": 0.2746,
     "cer_clipped_ci": [
-     0.2206,
-     0.3161
+     0.2266,
+     0.3244
     ],
     "cer_median": 0.0,
-    "ece": 0.1038,
+    "ece": 0.1079,
     "coverage": 1.0,
     "coverage_ci": [
      1.0,
      1.0
     ],
-    "selective_accuracy": 0.6868,
+    "selective_accuracy": 0.6797,
     "filled": 281,
-    "filled_matching": 193,
+    "filled_matching": 191,
     "errors": 0
    },
    "2-3 letters": {
@@ -2595,7 +2581,7 @@
      0.5607
     ],
     "cer_median": 0.5,
-    "ece": 0.1984,
+    "ece": 0.1992,
     "coverage": 1.0,
     "coverage_ci": [
      1.0,
@@ -2625,7 +2611,7 @@
      0.7695
     ],
     "cer_median": 0.8333,
-    "ece": 0.3961,
+    "ece": 0.4024,
     "coverage": 1.0,
     "coverage_ci": [
      1.0,
@@ -2645,9 +2631,9 @@
      0.4982,
      0.6157
     ],
-    "top20": 0.8861,
+    "top20": 0.8826,
     "top20_ci": [
-     0.8505,
+     0.847,
      0.9181
     ],
     "cer": 0.5718,
@@ -2737,9 +2723,9 @@
      0.5018,
      0.6228
     ],
-    "top20": 0.8861,
+    "top20": 0.8826,
     "top20_ci": [
-     0.8505,
+     0.847,
      0.9181
     ],
     "cer": 0.6216,
@@ -2824,24 +2810,24 @@
   "retrieval-decider-choice-all": {
    "1 letter": {
     "n": 281,
-    "top1": 0.5196,
+    "top1": 0.5231,
     "top1_ci": [
-     0.4555,
+     0.4626,
      0.5801
     ],
-    "top20": 0.8861,
+    "top20": 0.8826,
     "top20_ci": [
-     0.8505,
+     0.847,
      0.9181
     ],
-    "cer": 0.7983,
-    "cer_clipped": 0.4235,
+    "cer": 0.7912,
+    "cer_clipped": 0.4199,
     "cer_clipped_ci": [
-     0.3707,
-     0.4792
+     0.3648,
+     0.4745
     ],
     "cer_median": 0.0,
-    "ece": 0.2552,
+    "ece": 0.2573,
     "coverage": 0.0534,
     "coverage_ci": [
      0.0285,
@@ -2871,7 +2857,7 @@
      0.6175
     ],
     "cer_median": 0.6,
-    "ece": 0.0735,
+    "ece": 0.0731,
     "coverage": 0.0123,
     "coverage_ci": [
      0.0,
@@ -2901,7 +2887,7 @@
      0.7143
     ],
     "cer_median": 0.76,
-    "ece": 0.1488,
+    "ece": 0.1489,
     "coverage": 0.0196,
     "coverage_ci": [
      0.0,
@@ -2921,10 +2907,10 @@
      0.4199,
      0.548
     ],
-    "top20": 0.9039,
+    "top20": 0.9004,
     "top20_ci": [
      0.8683,
-     0.9359
+     0.9324
     ],
     "cer": 0.6323,
     "cer_clipped": 0.4614,
@@ -3105,10 +3091,10 @@
      0.4306,
      0.5516
     ],
-    "top20": 0.9039,
+    "top20": 0.9004,
     "top20_ci": [
      0.8683,
-     0.9359
+     0.9324
     ],
     "cer": 0.7361,
     "cer_clipped": 0.4549,
@@ -3301,7 +3287,7 @@
      0.4413
     ],
     "cer_median": 0.0,
-    "ece": 0.1337,
+    "ece": 0.1336,
     "coverage": 0.7153,
     "coverage_ci": [
      0.6655,
@@ -3470,7 +3456,8 @@
   "n": 120,
   "seed": 26,
   "notes": [
-   "VAL picked noul-topk:3 for LLM gaps: the escalation grid and the LLM calibration below use its rows (val-sonnet-noul-topkk3, val-routed-always-noul-topkk3, val-opus-noul-topkk3; replayed from the cache, 0 Bedrock calls). Its raw top-1 is the decider's probability."
+   "VAL picked noul-topk:3 for LLM gaps: the escalation grid and the LLM calibration below use its rows (val-sonnet-noul-topkk3, val-routed-always-noul-topkk3, val-opus-noul-topkk3; replayed from the cache, 0 Bedrock calls). Its raw top-1 is the decider's probability.",
+   "Re-scored after the 5-gram determinism fix (QA on PR #31; `CharNgram.fill` had depended on PYTHONHASHSEED), from the reply cache with 0 Bedrock calls (`usage-rescore.json`): the full-VAL retrieval report and every VAL row were re-run, and every choice above is unchanged. Every VAL row has the same top-1 and fill/abstain as before; the Sonnet pools gained one target in the candidates (top-20 0.4917 -> 0.5); the 5-gram baseline's full-VAL top-1 is 0.298 (threshold 0.9103; one earlier process gave 0.3002 / 0.9104); the four decider retrieval calibration entries moved slightly (e.g. choice-all threshold 0.4143 -> 0.4121), the prerank, self-report and LLM entries did not."
   ],
   "llm_strategy": {
    "table": {
@@ -3480,7 +3467,7 @@
       0.0667,
       0.175
      ],
-     "top20": 0.4917,
+     "top20": 0.5,
      "ece": 0.4182
     },
     "prerank": {
@@ -3489,7 +3476,7 @@
       0.0917,
       0.2083
      ],
-     "top20": 0.4917,
+     "top20": 0.5,
      "ece": 0.4082
     },
     "choice-topk:3": {
@@ -3498,7 +3485,7 @@
       0.1,
       0.2333
      ],
-     "top20": 0.4917,
+     "top20": 0.5,
      "ece": 0.1593
     },
     "choice-topk:5": {
@@ -3507,7 +3494,7 @@
       0.0917,
       0.225
      ],
-     "top20": 0.4917,
+     "top20": 0.5,
      "ece": 0.131
     },
     "noul-topk:3": {
@@ -3516,7 +3503,7 @@
       0.125,
       0.2583
      ],
-     "top20": 0.4917,
+     "top20": 0.5,
      "ece": 0.3861
     }
    },
@@ -3717,7 +3704,7 @@
     "n": 120,
     "positives": 18,
     "split": "val",
-    "fitted_at": "2026-11-02T01:45:15+00:00",
+    "fitted_at": "2026-11-02T05:04:53+00:00",
     "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26",
     "provisional": false
    },
@@ -3728,7 +3715,7 @@
     "n": 120,
     "positives": 20,
     "split": "val",
-    "fitted_at": "2026-11-02T01:45:15+00:00",
+    "fitted_at": "2026-11-02T05:04:53+00:00",
     "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26",
     "provisional": false
    },
@@ -3739,7 +3726,7 @@
     "n": 120,
     "positives": 19,
     "split": "val",
-    "fitted_at": "2026-11-02T01:45:15+00:00",
+    "fitted_at": "2026-11-02T05:04:53+00:00",
     "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26",
     "provisional": false
    },
@@ -3750,7 +3737,7 @@
     "n": 100,
     "positives": 28,
     "split": "val",
-    "fitted_at": "2026-11-02T01:45:15+00:00",
+    "fitted_at": "2026-11-02T05:04:53+00:00",
     "note": "VAL seeded sample (seed 26), ontology on, n=100; issue #26",
     "provisional": false
    },
@@ -3761,7 +3748,7 @@
     "n": 120,
     "positives": 23,
     "split": "val",
-    "fitted_at": "2026-11-02T01:45:15+00:00",
+    "fitted_at": "2026-11-02T05:04:53+00:00",
     "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26",
     "provisional": false
    }
@@ -3875,21 +3862,19 @@
     "n": 443
    },
    "baseline-ngram": {
-    "threshold": 0.9104,
-    "val_top1": 0.3002,
+    "threshold": 0.9103,
+    "val_top1": 0.298,
     "n": 443
    }
   }
  },
  "provenance": {
   "data_commit": "e83886327ff525f385c6865bd01b8e213fa597a8",
-  "code_commit": "c9997cbfaaf1f14091c02e14532c0596b39ba6f8",
+  "code_commit": "85038c13c7acd4cf2453569a2d17bc8c6c552c86",
   "code_dirty": false,
   "code_dirty_any": false,
   "code_commits": [
-   "3ec2cdac8958956c6021ace9bf4344f70fed99ef",
-   "c9997cbfaaf1f14091c02e14532c0596b39ba6f8",
-   "d5ef558e672a3a7c469b9c394b40e6d64a0ca324"
+   "85038c13c7acd4cf2453569a2d17bc8c6c552c86"
   ]
  },
  "models": {
@@ -3919,5 +3904,120 @@
   "max_live_calls": 940,
   "code_commit": "c9997cbfaaf1f14091c02e14532c0596b39ba6f8",
   "code_dirty": false
+ },
+ "live_call_ledgers": {
+  "note": "Every live (billed) Bedrock call made for issue #26 (VAL selection and the TEST evaluation), by the process that made it. A cached reply is free and is not counted.",
+  "entries": [
+   {
+    "phase": "VAL first pass (stopped after its Sonnet run)",
+    "split": "val",
+    "how": "full_eval val (first attempt)",
+    "source": "none kept: cache files 06:02-06:13",
+    "sonnet": 116,
+    "opus": 0
+   },
+   {
+    "phase": "VAL Opus warm-up",
+    "split": "val",
+    "how": "uncommitted .cache/runs/warm_val_opus.py",
+    "source": "none kept (log has no ledger): cache files 06:08-06:17",
+    "sonnet": 0,
+    "opus": 45
+   },
+   {
+    "phase": "VAL selection runs",
+    "split": "val",
+    "how": "full_eval val",
+    "source": "2026-11-02-val-selection/usage.json",
+    "sonnet": 4,
+    "opus": 75
+   },
+   {
+    "phase": "TEST first attempt (stopped)",
+    "split": "test",
+    "how": "full_eval test (first attempt)",
+    "source": "none kept: cache files 07:16-07:20",
+    "sonnet": 31,
+    "opus": 1
+   },
+   {
+    "phase": "TEST Sonnet warm-up",
+    "split": "test",
+    "how": "uncommitted .cache/runs/warm_test_sonnet.py",
+    "source": "2026-11-02-test-eval/usage-warm-test-sonnet.json",
+    "sonnet": 187,
+    "opus": 0
+   },
+   {
+    "phase": "TEST scored run (3 lanes + routed)",
+    "split": "test",
+    "how": "full_eval test",
+    "source": "2026-11-02-test-eval/usage.json",
+    "sonnet": 288,
+    "opus": 325
+   },
+   {
+    "phase": "TEST repair of throttled rows",
+    "split": "test",
+    "how": "full_eval repair",
+    "source": "2026-11-02-test-eval/usage-repair.json",
+    "sonnet": 0,
+    "opus": 0
+   },
+   {
+    "phase": "TEST prerank rows",
+    "split": "test",
+    "how": "full_eval extra",
+    "source": "none kept (printed only): cache files 08:5x",
+    "sonnet": 0,
+    "opus": 8
+   },
+   {
+    "phase": "Re-score after the 5-gram fix: full-VAL retrieval report",
+    "split": "val",
+    "how": "calibrate --router none",
+    "source": "no LLM (retrieval only)",
+    "sonnet": 0,
+    "opus": 0
+   },
+   {
+    "phase": "Re-score after the 5-gram fix: VAL runs + decide",
+    "split": "val",
+    "how": "full_eval val --max-live-calls 0; decide",
+    "source": "2026-11-02-val-selection/usage-rescore.json",
+    "sonnet": 0,
+    "opus": 0
+   },
+   {
+    "phase": "Re-score after the 5-gram fix: TEST",
+    "split": "test",
+    "how": "full_eval test --max-live-calls 30",
+    "source": "2026-11-02-test-eval/usage-rescore.json",
+    "sonnet": 0,
+    "opus": 0
+   },
+   {
+    "phase": "Re-score after the 5-gram fix: TEST prerank rows",
+    "split": "test",
+    "how": "full_eval extra --max-live-calls 20",
+    "source": "printed: 0 calls, 844 cached, 0 refusals",
+    "sonnet": 0,
+    "opus": 0
+   }
+  ],
+  "totals": {
+   "sonnet": 626,
+   "opus": 454
+  },
+  "distinct_cached": {
+   "sonnet": 621,
+   "opus": 454
+  },
+  "checks": [
+   "Distinct cached replies in `.cache/llm`: 1075 (621 Sonnet, 454 Opus). Live calls: 1080. The 5 extra are Sonnet prompts asked live twice: the warm-up and the scored run's Sonnet lane ran in separate processes and both missed the cache on the same prompt (187 + 288 = 475 live Sonnet calls after 07:20:39, 470 distinct replies).",
+   "The scored TEST run's ledger does not split calls by model (added after the run); its Opus count is the number of Opus replies cached during the run, whose input tokens sum to exactly the ledger's 288,151 Opus input tokens. Phases with no ledger kept are counted from cache-file times and so cannot show duplicates.",
+   "Pacing: within one process each model waited for its own limiter at the account quota (Sonnet 10/min, Opus 5/min; --rpm 40 was capped at the quota). Two processes ran Sonnet at once during TEST (the warm-up and the scored lane, each at 10/min): about 15 Sonnet calls a minute were cached from 07:20 to 08:10, above the 10/min quota, which is where most of the 324 throttling retries in the warm-up log and the 9 throttled-out rows came from. `full_eval warm --quota-share` now splits the quota between processes.",
+   "Budget: 1,200 live calls for issue #26; 1,080 used. The determinism re-score (QA on PR #31) replayed every VAL and TEST row from the reply cache and made 0 live calls."
+  ]
  }
 }
