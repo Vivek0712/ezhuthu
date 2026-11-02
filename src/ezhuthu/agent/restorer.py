@@ -26,6 +26,7 @@ from .prompts import RESTORER_SYSTEM, parse_candidates, propose_max_tokens, prop
 from .retrieval import Parallel, ParallelIndex
 from .text import (
     DEFAULT_UNKNOWN_GAP,
+    akshara_len,
     fill_gaps,
     find_gaps,
     iso_to_tamil,
@@ -117,6 +118,11 @@ class GapResult:
     abstain_below: float = 0.5
     llm_truncated: int = 0  # LLM replies cut at max_tokens (after the parse of what arrived)
     llm_retries: int = 0  # stricter re-asks after a truncation
+    # One record per LLM call made for this gap (eval cost/latency accounting; not part of the API):
+    # {"model": sonnet|opus, "input_tokens", "output_tokens", "latency_ms" (of the original call, also when the
+    # reply came from the cache), "cached"}. ``llm_wall_ms``: wall time spent waiting on those calls here.
+    llm_calls: list[dict[str, Any]] = field(default_factory=list)
+    llm_wall_ms: float = 0.0
 
     @property
     def best(self) -> Candidate | None:
@@ -132,7 +138,15 @@ class GapResult:
 
 
 def length_tolerance(gap_chars: int) -> int:
+    """Allowed difference, in Tamil letters, between a fill and the gap's ``gap_chars`` (also letters)."""
     return max(2, round(gap_chars * 0.34))
+
+
+def length_ok(text: str, gap_chars: int) -> bool:
+    """``text`` (ISO) is within :func:`length_tolerance` of the gap, both counted in Tamil letters
+    (:func:`ezhuthu.agent.text.akshara_len`). Comparing ISO characters with a letter count wrongly failed
+    130/443 VAL expert targets (issue #26)."""
+    return abs(akshara_len(text) - gap_chars) <= length_tolerance(gap_chars)
 
 
 def prerank_score(c: Candidate, n_parallel_fills: int) -> float:
@@ -212,7 +226,7 @@ class Restorer:
         for h in self.ontology.hints_for_gap(left, right):
             if h.fill:  # the real API computes the gap text itself (anchored on both contexts)
                 rest = normalize_iso(h.fill).strip()
-                if rest and abs(len(rest) - gap_chars) <= length_tolerance(gap_chars):
+                if rest and length_ok(rest, gap_chars):
                     out.append((rest, h))
                 continue
             rec = self.ontology.entity(h.id) or {}
@@ -221,14 +235,14 @@ class Restorer:
                 for k in range(min(len(s) - 1, len(lt)), 2, -1):
                     if lt.endswith(s[:k]):
                         rest = s[k:].strip()
-                        if rest and abs(len(rest) - gap_chars) <= length_tolerance(gap_chars):
+                        if rest and length_ok(rest, gap_chars):
                             out.append((rest, h))
                         break
         return out
 
     def propose_fills(self, role: str, left: str, right: str, gap_chars: int | None,
                       parallels: list[Parallel], hints: list[Hint], k: int,
-                      info: dict[str, int] | None = None) -> list[tuple[str, float | None]]:
+                      info: dict[str, Any] | None = None) -> list[tuple[str, float | None]]:
         """LLM fills (compact JSON). A reply cut at ``max_tokens`` keeps every complete fill that arrived and,
         if ``restorer.retry_on_truncation``, is re-asked once with a stricter, shorter prompt."""
         if self.llm is None:
@@ -237,17 +251,29 @@ class Restorer:
                 for p in parallels]
         hs = [h.to_api() for h in hints]
         budget = propose_max_tokens(k, gap_chars, ceiling=self.settings.llm_max_tokens)
-        r = self.llm.complete(role, RESTORER_SYSTEM, propose_prompt(left, right, gap_chars, pars, hs, k),
-                              max_tokens=budget)
+
+        def complete(prompt: str, max_tokens: int):
+            t0 = time.perf_counter()
+            resp = self.llm.complete(role, RESTORER_SYSTEM, prompt, max_tokens=max_tokens)
+            if info is not None:
+                info["wall_ms"] = info.get("wall_ms", 0.0) + (time.perf_counter() - t0) * 1000
+                info.setdefault("calls", []).append({
+                    "model": "opus" if role == "escalate" else "sonnet",
+                    "input_tokens": int(getattr(resp, "input_tokens", 0) or 0),
+                    "output_tokens": int(getattr(resp, "output_tokens", 0) or 0),
+                    "latency_ms": float(getattr(resp, "latency_ms", 0.0) or 0.0),
+                    "cached": bool(getattr(resp, "cached", False))})
+            return resp
+
+        r = complete(propose_prompt(left, right, gap_chars, pars, hs, k), budget)
         got = parse_candidates(r.text)
         if getattr(r, "truncated", False):
             if info is not None:
                 info["truncated"] = info.get("truncated", 0) + 1
             if self.settings.retry_on_truncation:
                 k2 = max(1, min(k, 4))
-                r2 = self.llm.complete(role, RESTORER_SYSTEM,
-                                       propose_prompt(left, right, gap_chars, pars, hs, k2, strict=True),
-                                       max_tokens=self.settings.llm_max_tokens)
+                r2 = complete(propose_prompt(left, right, gap_chars, pars, hs, k2, strict=True),
+                              self.settings.llm_max_tokens)
                 if info is not None:
                     info["retries"] = info.get("retries", 0) + 1
                     if getattr(r2, "truncated", False):
@@ -264,10 +290,9 @@ class Restorer:
 
     def check_constraints(self, cands: list[Candidate], gap_chars: int, *, explicit_length: bool,
                           dynasty: str | None = None) -> list[Candidate]:
-        tol = length_tolerance(gap_chars)
         kept = []
         for c in cands:
-            c.length_ok = (not explicit_length) or abs(len(c.text) - gap_chars) <= tol
+            c.length_ok = (not explicit_length) or length_ok(c.text, gap_chars)
             c.letters_ok = not non_iso_chars(c.text) and letters_ok_for_dynasty(c.text, dynasty)
             if c.letters_ok:
                 kept.append(c)
@@ -285,7 +310,8 @@ class Restorer:
         k = top_k or self.settings.top_k
         lt, rt = left.split("\n")[-1][-60:], right.split("\n")[0][:60]
         state = {
-            "text_before_gap": left[-120:], "text_after_gap": right[:120], "gap_length_chars": gap_chars,
+            "text_before_gap": left[-120:], "text_after_gap": right[:120],
+            "gap_length_tamil_letters": gap_chars,  # aksharas, like gap_chars (not ISO characters)
             "parallel_passages": [f"{p.inscription_id}: {p.snippet}" for p in parallels[:3]],
             "known_entities_nearby": [h.label for h in hints[:5]],
         }
@@ -371,7 +397,7 @@ class Restorer:
     def _estimate_len(self, gap_chars: int | None, parallels: list[Parallel]) -> int:
         if gap_chars:
             return gap_chars
-        fills = [len(p.fill) for p in parallels if p.fill]
+        fills = [akshara_len(p.fill) for p in parallels if p.fill]
         return int(statistics.median(fills)) if fills else DEFAULT_UNKNOWN_GAP
 
     def restore_gap(self, left: str, right: str, gap_chars: int | None, *, index: int = 0, router: str = "routed",
@@ -408,8 +434,7 @@ class Restorer:
                 add(p.fill, "parallel", par=p)
         # Copy floor (the copy baseline's top-1): the best-scoring parallel fill within the length tolerance,
         # searched over the full retrieval depth, so the pipeline can always fall back to it.
-        tol = length_tolerance(gap_chars) if gap_chars else None
-        floor = next((p for p in found if p.fill and (tol is None or abs(len(p.fill) - gap_chars) <= tol)), None)
+        floor = next((p for p in found if p.fill and (not gap_chars or length_ok(p.fill, gap_chars))), None)
         if floor is not None:
             fc = add(floor.fill, "parallel", par=floor)
             if fc is not None:
@@ -433,7 +458,7 @@ class Restorer:
             escalated = pre_escalate
         else:
             first_role = {"sonnet": "default", "opus": "escalate"}.get(router, "default")
-        info: dict[str, int] = {}
+        info: dict[str, Any] = {}
         llm_answered: dict[str, str | None] = {"any": None}  # strongest LLM that answered: "sonnet" / "opus"
         used = {"strategy": st.strategy}
 
@@ -492,7 +517,8 @@ class Restorer:
                          candidates=ranked[:max(1, max_candidates)], decider_model=decider_model,
                          models_used=models_used, escalated=escalated, parallels=parallels,
                          strategy=used["strategy"], calibration=cal_key, abstain_below=threshold,
-                         llm_truncated=info.get("truncated", 0), llm_retries=info.get("retries", 0))
+                         llm_truncated=info.get("truncated", 0), llm_retries=info.get("retries", 0),
+                         llm_calls=list(info.get("calls", [])), llm_wall_ms=round(info.get("wall_ms", 0.0), 1))
 
     def restore(self, text: str, *, script: str = "iso15919", max_candidates: int = 5,
                 allow_escalation: bool = True, router: str = "routed") -> dict[str, Any]:

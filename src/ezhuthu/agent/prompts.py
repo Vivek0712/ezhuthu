@@ -32,7 +32,8 @@ def propose_prompt(left: str, right: str, gap_chars: int | None, parallels: list
         for p in parallels
     ) or "- none found"
     hint = "\n".join(f"- {h['kind']}: {h['label']}" for h in hints) or "- none"
-    size = f"about {gap_chars} characters" if gap_chars else "unknown length"
+    size = (f"about {gap_chars} Tamil letters (uyir, mey and uyirmey: ka, kā, kai and the pulli consonant k are one "
+            "letter each; spaces and hyphens do not count)") if gap_chars else "unknown length"
     ask = (f"Give up to {k} distinct restorations of the gap only (never the surrounding text), best first, each "
            "with your probability (0 to 1) that it matches what an expert editor would supply.")
     if strict:
@@ -41,20 +42,24 @@ def propose_prompt(left: str, right: str, gap_chars: int | None, parallels: list
     return (
         f"Line before the gap: «{left[-160:]}»\n"
         f"Line after the gap: «{right[:160]}»\n"
-        f"Gap: {size} (ISO-15919 characters, spaces count).\n\n"
+        f"Gap: {size}.\n\n"
         f"Parallel passages from other inscriptions:\n{par}\n\n"
         f"Ontology hints (entities that may continue across the gap):\n{hint}\n\n"
         f"{ask}\n{PROPOSE_FORMAT}"
     )
 
 
-def propose_max_tokens(k: int, gap_chars: int | None, *, floor: int = 400, ceiling: int = 2048) -> int:
-    """Output budget for ``k`` fills of about ``gap_chars`` characters.
+# ISO-15919 characters per Tamil letter in expert fills: train targets 11,190 characters / 6,229 letters = 1.80.
+CHARS_PER_LETTER = 1.8
 
-    ISO-15919 diacritics tokenise poorly (about 1 token per 1-2 characters), so a fill costs about
-    ``gap_chars`` tokens plus ~10 for JSON and the probability; the floor covers a short preamble.
+
+def propose_max_tokens(k: int, gap_chars: int | None, *, floor: int = 400, ceiling: int = 2048) -> int:
+    """Output budget for ``k`` fills of about ``gap_chars`` Tamil letters.
+
+    A letter is about 1.8 ISO-15919 characters (``CHARS_PER_LETTER``) and ISO diacritics tokenise poorly (about 1 token per 1-2 characters), so a fill costs
+    about ``gap_chars`` x 2 tokens plus ~10 for JSON and the probability; the floor covers a short preamble.
     """
-    per = max(12, int((gap_chars or 24) * 1.2)) + 10
+    per = max(12, int((gap_chars or 12) * CHARS_PER_LETTER * 1.2)) + 10
     return max(floor, min(ceiling, 60 + k * per))
 
 

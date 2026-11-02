@@ -32,9 +32,11 @@ Built with [Strands Agents](https://strandsagents.com) and Strands Decider. It r
 | --- | --- | --- |
 | Expert restorations in the benchmark | **3,289** (test **413**, test-hard **317**) | [benchmark/DATA_CARD.md](benchmark/DATA_CARD.md) |
 | Restorations in inscriptions over 1,100 years old (Pallava collection only) | **410** (age set with Uttiramerur: **419**) | [benchmark/DATA_CARD.md](benchmark/DATA_CARD.md) |
-| Fills that match the expert restoration (top-1, test) | **TBD** | [eval/reports/](eval/reports/) |
-| Calibration (ECE) and coverage at the abstain threshold | **TBD** | [eval/reports/](eval/reports/) |
+| Fills that match the expert restoration (top-1, test, measured with the local 2B decider) | **49.6%** (205 of 413; copy-from-parallel baseline 47.2%, character 5-gram baseline **56.7%**) | [test eval](eval/reports/2026-11-02-test-eval.md) |
+| Calibration (ECE) and coverage at the abstain threshold (local 2B decider, VAL calibration) | ECE **0.113**; fills **46.5%** of test gaps, and **63.5%** of those fills match the expert | [test eval](eval/reports/2026-11-02-test-eval.md) |
 | Learner gain, pre-test to post-test | **TBD** | [eval/reports/](eval/reports/) |
+
+**What the test evaluation says** (413 test gaps, scored once with settings chosen on the validation split; [report](eval/reports/2026-11-02-test-eval.md)). **These numbers were measured with the local strands-decider-2B and its VAL calibration; the deployed cloud runtime (hosted v19 decider, or the self-report fallback without a decider) is not measured.** The cloud runtime has no calibration entry for either, so it fills or abstains at the raw 0.5 threshold, and its 0.6 escalation threshold was chosen on the 2B decider's scale. The measured pipeline (Sonnet 4.6, escalating to Opus 4.6) is not significantly better than copying the best parallel passage (p = 0.27), and a character 5-gram model beats both (p = 0.012 against the pipeline). Most test gaps are a single letter (68%); on gaps of 4 or more letters every system matches the expert on at most 1 in 3. Escalating to Opus matters (Sonnet alone: 41.6%). The 2B Strands Decider ranks candidates no better than the decider-free pre-rank on these gaps, and the ontology hints made no measurable difference. These are the honest starting numbers for the restoration engine, not a claim that it reads inscriptions like an epigraphist.
 
 ## How it works
 
@@ -43,7 +45,7 @@ Built with [Strands Agents](https://strandsagents.com) and Strands Decider. It r
 flowchart LR
   A["Damaged inscription line<br/>(DHARMA, ISO-15919)"] --> R
   subgraph G["Strands Graph · one lesson"]
-    R["Restorer<br/>parallels + candidate fills"] --> D{"Strands Decider<br/>fill or abstain?"}
+    R["Restorer<br/>parallels + candidate fills"] --> D{"Calibrated confidence<br/>fill or abstain?"}
     D -- fill --> L["Lesson Builder<br/>letters → words → line,<br/>at level L1–L5"]
     D -- abstain --> U["'Experts are unsure'<br/>(a teaching moment)"] --> L
     L --> S
@@ -104,7 +106,7 @@ AWS: profile `heisenberg`, region `us-east-1`. Model IDs come only from [`config
 | Corpus + benchmark | DHARMA TEI/EpiDoc parsing, script conversion (Aksharamukha), restoration benchmark | `src/ezhuthu/corpus/`, `benchmark/` |
 | Ontology | Rulers, titles, places, grants, measures, formulae | `src/ezhuthu/ontology/`, `ontology/` |
 | Agents | Strands **Graph** (fixed lesson flow) with a **Swarm** inside tutoring: Restorer, Lesson Builder, Tutor, Assessor | `src/ezhuthu/agent/` |
-| Decisions | Strands Decider: fill or abstain, Sonnet → Opus routing, and advance / repeat / hint | `src/ezhuthu/agent/` |
+| Decisions | Strands Decider: ranks LLM candidates (`noul`, top 3) and gives the confidence for Sonnet → Opus routing; advance / repeat / hint in the tutor. Fill or abstain is a threshold fitted on the validation split | `src/ezhuthu/agent/` |
 | API | FastAPI, following [`contracts/restore-api.md`](contracts/restore-api.md) | `src/ezhuthu/api/` |
 | Runtime | Amazon Bedrock AgentCore Runtime (`/invocations`), with infrastructure in CDK | `infra/` |
 | App | React + Vite, Tamil-first and bilingual, mobile-first | `app/web/` |
