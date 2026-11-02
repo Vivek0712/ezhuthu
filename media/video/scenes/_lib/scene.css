@@ -1,0 +1,95 @@
+/* Shared stage for every Ezhuthu launch-video scene: 1920x1080, brand tokens, fonts.
+   Served by media/video/render.mjs: "/" = repo root, "/__fonts/" = ezhuthu-video/fonts (or ~/.cache/ezhuthu-design-fonts),
+   "/__footage/" = ezhuthu-video/footage. Colours mirror design/tokens/tokens.css. */
+
+@font-face { font-family: 'Fraunces'; src: url('/__fonts/Fraunces.ttf') format('truetype'); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: 'Fraunces'; src: url('/__fonts/Fraunces-Italic.ttf') format('truetype'); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: 'Instrument Sans'; src: url('/__fonts/InstrumentSans.ttf') format('truetype'); font-weight: 400 700; }
+@font-face { font-family: 'Noto Serif Tamil'; src: url('/__fonts/NotoSerifTamil.ttf') format('truetype'); font-weight: 100 900; }
+@font-face { font-family: 'Noto Sans Tamil'; src: url('/__fonts/NotoSansTamil.ttf') format('truetype'); font-weight: 100 900; }
+@font-face { font-family: 'Noto Sans Brahmi'; src: url('/__fonts/NotoSansBrahmi-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'Noto Sans Grantha'; src: url('/__fonts/NotoSansGrantha-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'JetBrains Mono'; src: url('/__fonts/JetBrainsMono-latin.woff2') format('woff2'); font-weight: 400 600; }
+
+:root {
+  --g950: #13100D; --g900: #1B1713; --g850: #231E18; --g800: #2D261F; --g700: #40362B; --g600: #5A4D3E;
+  --s50: #FBF8F1; --s100: #F4EEE2; --s200: #EAE1CE; --s300: #DACDB4; --s400: #BFAE8F; --s500: #9A896C; --s600: #76674F;
+  --lat300: #EBA07F; --lat400: #D9764F; --lat500: #B5502F; --lat600: #9B3D22;
+  --lamp200: #FBDFA6; --lamp300: #F5C468; --lamp400: #EAA43A; --lamp500: #D2891C;
+  --neem300: #93D09C; --neem700: #2C6534; --neelam300: #AEB8EC; --neelam700: #3B4787; --neelam900: #1E2448;
+  --kum300: #F3A096; --kum700: #A0241F;
+  --f-display: 'Fraunces', 'Noto Serif Tamil', Georgia, serif;
+  --f-ta-display: 'Noto Serif Tamil', serif;
+  --f-ta: 'Instrument Sans', 'Noto Sans Tamil', sans-serif;
+  --f-ui: 'Instrument Sans', 'Noto Sans Tamil', system-ui, sans-serif;
+  --f-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--g950); }
+body { color: var(--s50); font-family: var(--f-ui); -webkit-font-smoothing: antialiased; font-synthesis: none; text-rendering: geometricPrecision; }
+#stage { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--g950); }
+.abs { position: absolute; }
+.center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.num { font-family: var(--f-display); font-weight: 600; font-variant-numeric: tabular-nums lining-nums; font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 0; }
+.display { font-family: var(--f-display); font-variation-settings: 'opsz' 144, 'SOFT' 0; }
+.ta { font-family: var(--f-ta-display); }
+.mono { font-family: var(--f-mono); }
+.eyebrow { font-family: var(--f-ui); font-weight: 600; font-size: 22px; letter-spacing: .18em; text-transform: uppercase; color: var(--lat300); }
+.credit { position: absolute; left: 64px; bottom: 40px; font: 500 20px/1.3 var(--f-ui); color: var(--s400); letter-spacing: .01em; text-shadow: 0 1px 8px rgba(0,0,0,.8); z-index: 50; }
+.credit-r { left: auto; right: 64px; text-align: right; }
+.chip { display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px; border-radius: 999px; font: 600 22px/1 var(--f-ui);
+  background: rgba(45, 38, 31, .85); border: 1.5px solid var(--g600); color: var(--s100); white-space: nowrap; }
+.glass { background: linear-gradient(180deg, rgba(45,38,31,.82), rgba(27,23,19,.86)); border: 1.5px solid rgba(218,205,180,.14);
+  border-radius: 28px; box-shadow: 0 30px 80px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.05); }
+.grain::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .07; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, rgba(19,16,13,0) 45%, rgba(19,16,13,.85) 100%); z-index: 40; }
+.dotgrid { position: absolute; inset: 0; background-image: radial-gradient(rgba(218,205,180,.10) 1.5px, transparent 1.6px); background-size: 40px 40px; }
+/* browser chrome frame for product footage */
+.browser { position: absolute; border-radius: 24px; overflow: hidden; background: var(--g900);
+  box-shadow: 0 40px 120px rgba(0,0,0,.65), 0 0 0 1.5px rgba(234,164,58,.18), 0 0 90px rgba(234,164,58,.16); }
+.browser .bar { height: 48px; display: flex; align-items: center; gap: 10px; padding: 0 20px; background: #221C16; border-bottom: 1px solid #3A3127; }
+.browser .bar i { width: 13px; height: 13px; border-radius: 50%; background: #4A3F33; display: block; }
+.browser .bar .url { margin-left: 18px; flex: 1; height: 30px; border-radius: 8px; background: #16120E; color: var(--s400);
+  font: 500 17px/30px var(--f-mono); padding: 0 16px; letter-spacing: .01em; }
+.browser video, .browser img.shot { display: block; width: 100%; height: calc(100% - 48px); object-fit: cover; object-position: top center; }
+
+/* ---- v2 kit (kit.js): photo plates with a warm grade, film grain, captions ---- */
+.ph { position: absolute; inset: 0; overflow: hidden; }
+.ph img { position: absolute; left: 0; top: 0; transform-origin: 0 0; max-width: none;
+  filter: sepia(.14) saturate(1.06) contrast(1.06) brightness(.96); }
+/* warm grade: amber soft-light wash + lifted blacks */
+.ph-warm { position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(234,164,58,.16), rgba(181,80,47,.14)); mix-blend-mode: soft-light; }
+.ph-warm::after { content: ''; position: absolute; inset: 0; background: #2A1F15; mix-blend-mode: lighten; opacity: .55; }
+.grain-c { position: absolute; inset: 0; width: 1920px; height: 1080px; pointer-events: none; mix-blend-mode: overlay; z-index: 60; image-rendering: auto; }
+.blackout { position: absolute; inset: 0; background: #0B0907; pointer-events: none; z-index: 70; }
+.tag { position: absolute; left: 72px; bottom: 76px; z-index: 55; font: 600 30px/1.2 var(--f-ui); color: var(--s100); letter-spacing: .02em;
+  text-shadow: 0 2px 18px rgba(0,0,0,.85), 0 1px 3px rgba(0,0,0,.9); display: flex; align-items: center; gap: 14px; }
+.tag::before { content: ''; width: 34px; height: 3px; background: var(--lamp400); box-shadow: 0 0 12px var(--lamp400); }
+.lt { position: absolute; left: 72px; bottom: 120px; z-index: 55; max-width: 1500px; }
+.lt .l1 { font: 600 64px/1.08 var(--f-display); font-variation-settings: 'opsz' 72, 'SOFT' 0; color: var(--s50); text-shadow: 0 4px 40px rgba(0,0,0,.85); }
+.lt .l2 { margin-top: 14px; font: 500 30px/1.3 var(--f-ui); color: var(--s200); text-shadow: 0 2px 20px rgba(0,0,0,.9); }
+.scrim-b { position: absolute; left: 0; right: 0; bottom: 0; height: 520px; z-index: 50; pointer-events: none;
+  background: linear-gradient(180deg, rgba(19,16,13,0), rgba(19,16,13,.55) 45%, rgba(19,16,13,.9)); }
+.src { position: absolute; left: 72px; bottom: 30px; z-index: 56; font: 500 19px/1.3 var(--f-ui); color: var(--s400); text-shadow: 0 1px 8px rgba(0,0,0,.9); }
+.src-r { left: auto; right: 72px; text-align: right; }
+.vclip { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; object-fit: cover; transform-origin: 0 0; }
+.badge { display: inline-flex; align-items: center; gap: 10px; padding: 10px 22px; border-radius: 999px; font: 600 24px/1 var(--f-ui);
+  background: rgba(30,36,72,.85); border: 1.5px solid var(--neelam300); color: var(--neelam300); white-space: nowrap; }
+
+/* ---- agent pipeline language (a3-*) ---- */
+.node { position: absolute; display: flex; flex-direction: column; justify-content: center; padding: 18px 24px; border-radius: 22px;
+  background: linear-gradient(180deg, #2D261F, #231E18); border: 2px solid rgba(234,164,58,.75);
+  box-shadow: 0 18px 50px rgba(0,0,0,.55), 0 0 30px rgba(234,164,58,.18), inset 0 1px 0 rgba(255,255,255,.05); }
+.node .nt { font: 600 30px/1.1 var(--f-ui); color: var(--s50); white-space: nowrap; }
+.node .ns { font: 500 20px/1.25 var(--f-ui); color: var(--s300); margin-top: 6px; }
+.node.hot { border-color: var(--lamp300); box-shadow: 0 18px 50px rgba(0,0,0,.55), 0 0 60px rgba(245,196,104,.55); }
+.node.dim { border-color: rgba(218,205,180,.25); }
+.tool { font: 500 20px/1 var(--f-mono); color: var(--lamp200); white-space: nowrap; }
+.edge { fill: none; stroke: rgba(234,164,58,.7); stroke-width: 3; }
+.edge-d { fill: none; stroke: rgba(174,184,236,.6); stroke-width: 2.5; stroke-dasharray: 8 9; }
+.pkt { fill: #FBDFA6; filter: drop-shadow(0 0 8px #F5C468) drop-shadow(0 0 18px rgba(234,164,58,.8)); }
+.h1 { position: absolute; font: 600 64px/1.08 var(--f-display); font-variation-settings: 'opsz' 144, 'SOFT' 0; color: var(--s50); }
+.h2 { position: absolute; font: 500 30px/1.3 var(--f-ui); color: var(--s200); }
+.stage-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 90% 80% at 50% 45%, #241D17, #13100D 70%); }

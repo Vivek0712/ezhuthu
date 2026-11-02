@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>a3-12-under-the-hood</title>
+<link rel="stylesheet" href="/media/video/scenes/_lib/scene.css">
+<script src="/media/video/scenes/_lib/timeline.js"></script>
+<script src="/media/video/scenes/_lib/kit.js"></script>
+<style>
+  #P { position: absolute; inset: 0; opacity: .15; }
+  #P .ph img { filter: blur(12px) sepia(.3) brightness(.9); }
+  #eb { position: absolute; left: 96px; top: 70px; }
+  #t1 { left: 96px; top: 108px; }
+  #t1 b { color: var(--lamp300); font-weight: 600; }
+  #spine { position: absolute; inset: 0; }
+  #team { position: absolute; left: 1468px; top: 330px; width: 380px; height: 400px; border-radius: 28px; border: 2px dashed rgba(234,164,58,.6);
+          background: rgba(35,30,24,.55); }
+  #team .lab { position: absolute; left: 22px; top: -16px; padding: 2px 12px; background: #1B1713; font: 600 20px/1.2 var(--f-ui); letter-spacing: .14em; text-transform: uppercase; color: var(--lat300); }
+  #swarm { position: absolute; left: 14px; top: 150px; width: 352px; height: 222px; border-radius: 20px; border: 2px dashed rgba(174,184,236,.6); }
+  #swarm .lab { color: var(--neelam300); left: auto; right: 18px; }
+  #gate { position: absolute; width: 150px; height: 150px; }
+  #gate .d { position: absolute; inset: 22px; transform: rotate(45deg); border-radius: 18px; border: 2px solid rgba(234,164,58,.75); background: linear-gradient(180deg,#2D261F,#231E18);
+             box-shadow: 0 0 30px rgba(234,164,58,.2); }
+  #gate .l { position: absolute; left: -40px; right: -40px; top: 158px; text-align: center; font: 600 24px/1.15 var(--f-ui); color: var(--s100); }
+  #gate .l small { display: block; font: 500 19px/1.2 var(--f-ui); color: var(--s400); }
+  #glyph { position: absolute; width: 80px; height: 80px; margin: -40px 0 0 -40px; text-align: center; font: 700 56px/80px var(--f-ta-display); color: var(--lamp200);
+           text-shadow: 0 0 18px #F5C468, 0 0 40px rgba(234,164,58,.8); }
+  #q { position: absolute; left: 960px; top: 540px; font: 700 240px/1 var(--f-display); color: var(--neelam300); transform: translate(-50%, -50%);
+       text-shadow: 0 0 40px rgba(174,184,236,.9); }
+  #six { position: absolute; left: 96px; top: 880px; font: 500 30px/1.3 var(--f-ui); color: var(--s200); }
+  #six b { color: var(--s50); font-weight: 600; }
+  #pip { position: absolute; left: 1468px; top: 790px; width: 380px; height: 214px; border-radius: 16px; overflow: hidden; border: 1.5px solid rgba(234,164,58,.4);
+         box-shadow: 0 20px 60px rgba(0,0,0,.6); }
+  #pip video { width: 380px; height: 214px; object-fit: cover; }
+  #pip .tg { position: absolute; left: 10px; top: 10px; padding: 5px 12px; border-radius: 999px; background: rgba(19,16,13,.9); font: 600 17px/1 var(--f-ui); color: var(--s100); }
+</style></head>
+<body><div id="stage">
+  <div class="stage-bg"></div>
+  <div id="P"></div>
+  <div id="eb" class="eyebrow">Under the hood</div>
+  <div id="t1" class="h1">Six agents, <b>built with Strands Agents</b></div>
+  <svg id="spine" viewBox="0 0 1920 1080"><path id="sp" class="edge" d="M 360 530 L 450 530 M 750 530 L 873 530 M 1027 530 L 1110 530 M 1370 530 L 1468 530"/>
+    <path id="route" d="M 230 530 L 600 530 L 950 530 L 1240 530 L 1658 530" fill="none" stroke="none"/></svg>
+  <div class="node" id="n0" style="left:100px;top:470px;width:260px;height:120px"><div class="nt">Reader</div><div class="ns">photo → letters</div></div>
+  <div class="node" id="n1" style="left:450px;top:470px;width:300px;height:120px"><div class="nt">Restorer</div><div class="ns">proposes lost letters</div></div>
+  <div id="gate" style="left:875px;top:455px"><div class="d"></div><div class="l">Confidence check<small>fill or leave open</small></div></div>
+  <div class="node" id="n2" style="left:1110px;top:470px;width:260px;height:120px"><div class="nt">Interpreter</div><div class="ns">words → meaning</div></div>
+  <div id="team"><div class="lab">Lesson graph</div>
+    <div class="node" id="n3" style="left:30px;top:40px;width:320px;height:96px"><div class="nt">Lesson Builder</div></div>
+    <div id="swarm"><div class="lab">Swarm</div></div>
+    <div class="node" id="n4" style="left:30px;top:164px;width:320px;height:86px"><div class="nt">Tutor</div></div>
+    <div class="node" id="n5" style="left:30px;top:270px;width:320px;height:86px"><div class="nt">Assessor</div></div>
+  </div>
+  <div id="glyph">க</div>
+  <div id="q">?</div>
+  <div id="six"><b>Reader · Restorer · Interpreter · Lesson Builder · Tutor · Assessor</b><br>passing the stone along</div>
+  <div id="pip"><div class="tg">live site · How it works</div></div>
+  <div class="src">Photo (background): Brihadisvara temple, Vengolis, CC BY-SA 4.0</div>
+</div>
+<script>
+const { p, E, $, css, clamp, lerp } = EZ;
+const P = KIT.photo($('#P'), 'p15');
+const pv = KIT.clip($('#pip'), 'how');
+$('#pip').insertBefore(pv, $('#pip .tg'));
+const g = KIT.grain(null, 0.06);
+const sp = $('#sp'), route = $('#route');
+let L = 0, RL = 0;
+const items = ['#n0', '#n1', '#gate', '#n2', '#team', '#n3', '#swarm', '#n4', '#n5'];
+const FLASH = KIT.flash('p10', [0.10, 0.12, 0.8, 0.8], [0.2, 0.2, 0.62, 0.62], 'Inscribed wall, Brihadisvara temple, Thanjavur', 'Photo: Nandhinikandhasamy, CC BY-SA 4.0');
+window.SCENE = {
+  duration: 6.0,
+  prepare() { L = sp.getTotalLength(); sp.style.strokeDasharray = `${L} ${L}`; RL = route.getTotalLength(); },
+  async render(t) {
+    FLASH(t, 5.05, 6.0);
+    g(t);
+    KIT.kb(P, [0.1, 0.1, 0.8, 0.8], [0.15, 0.12, 0.72, 0.72], t / 6);
+    // the '?' from a2-11 shrinks into the Restorer node
+    const qk = p(t, 0.0, 0.8, E.standard);
+    css($('#q'), { left: lerp(960, 600, qk) + 'px', top: lerp(540, 530, qk) + 'px', fontSize: lerp(240, 40, qk) + 'px', opacity: 1 - p(t, 0.75, 0.25) });
+    items.forEach((id, i) => { const k = p(t, 0.05 + i * 0.07, 0.45, E.outBack); css($(id), { opacity: clamp(k), transform: `translateY(${(1 - clamp(k)) * 30}px) scale(${0.9 + 0.1 * k})` }); });
+    sp.style.strokeDashoffset = L * (1 - p(t, 0.5, 0.9, E.standard));
+    css($('#eb'), { opacity: p(t, 0.0, 0.3) });
+    const h = p(t, 0.0, 0.45); css($('#t1'), { opacity: h, transform: `translateY(${(1 - h) * 16}px)` });
+    css($('#six'), { opacity: p(t, 1.2, 0.5) });
+    // a carved letter travels the spine once, lighting each stage as it passes
+    const k = p(t, 2.2, 3.0, E.inOut);
+    const pt = route.getPointAtLength(RL * k);
+    css($('#glyph'), { left: pt.x + 'px', top: (pt.y - 98) + 'px', opacity: k > 0 && k < 1 ? 1 : (k >= 1 ? 1 - p(t, 5.2, 0.4) : 0) });
+    const xs = [230, 600, 950, 1240, 1658];
+    ['#n0', '#n1', '#gate .d', '#n2', '#n4'].forEach((id, i) => $(id).classList.toggle('hot', Math.abs(pt.x - xs[i]) < 90 && k > 0 && k < 1));
+    const hot = ['#gate .d'].map((id) => $(id));
+    hot[0].style.borderColor = Math.abs(pt.x - 950) < 90 && k > 0 && k < 1 ? '#F5C468' : '';
+    const pk = p(t, 0.8, 0.5); css($('#pip'), { opacity: pk, transform: `translateY(${(1 - pk) * 20}px)` });
+    await KIT.seek(pv, 0.5 + t);
+  },
+};
+</script></body></html>

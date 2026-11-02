@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>a1-04-damage</title>
+<link rel="stylesheet" href="/media/video/scenes/_lib/scene.css">
+<script src="/media/video/scenes/_lib/timeline.js"></script>
+<script src="/media/video/scenes/_lib/kit.js"></script>
+<style>
+  #shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(19,16,13,.15) 0%, rgba(19,16,13,.35) 45%, rgba(19,16,13,.9) 68%, rgba(19,16,13,.94)); }
+  #cracks { position: absolute; inset: 0; }
+  #cracks path { fill: none; stroke: #A0241F; stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 6px rgba(243,160,150,.7)); }
+  #gapbox { position: absolute; border: 4px dashed var(--neelam300); border-radius: 14px; display: flex; align-items: center; justify-content: center; gap: 30px;
+            font: 700 110px/1 var(--f-display); color: var(--neelam300); text-shadow: 0 0 24px rgba(174,184,236,.8); background: rgba(30,36,72,.35); }
+  #panel { position: absolute; left: 1210px; top: 110px; width: 620px; }
+  #ed .v { font-size: 120px; line-height: 1; color: var(--s50); }
+  #ed .k { font: 500 30px/1.25 var(--f-ui); color: var(--s300); margin-top: 6px; }
+  #ringw { position: relative; width: 480px; height: 480px; margin-top: 40px; }
+  #ringtxt { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  #ringtxt .v { font-size: 150px; line-height: 1; color: var(--kum300); }
+  #ringtxt .k { font: 600 30px/1.2 var(--f-ui); color: var(--s200); margin-top: 8px; }
+  #rcap { margin-top: 26px; font: 500 30px/1.3 var(--f-ui); color: var(--s100); max-width: 560px; }
+  #rcap b { color: var(--kum300); }
+  #lt .l1 { font-size: 58px; }
+  #lt .l1 b { color: var(--lamp300); font-weight: 600; }
+</style></head>
+<body><div id="stage">
+  <div id="A"></div>
+  <svg id="cracks" viewBox="0 0 1920 1080">
+    <path d="M-10 250 L150 300 L240 270 L380 360 L430 345 L590 440 L640 425 L780 530 L840 515"/>
+    <path d="M1100 -10 L1040 120 L1080 190 L990 300 L1010 360 L930 450"/>
+    <path d="M200 1090 L260 950 L220 890 L330 810 L310 740 L410 690"/>
+    <path d="M240 270 L280 190 L262 120"/>
+  </svg>
+  <div id="gapbox"><span>?</span><span>?</span></div>
+  <div id="shade"></div>
+  <div id="panel">
+    <div id="ed"><div class="v num">0</div><div class="k">inscriptions studied (DHARMA editions)</div></div>
+    <div id="ringw">
+      <svg viewBox="0 0 480 480" width="480" height="480">
+        <circle cx="240" cy="240" r="200" fill="none" stroke="#2D261F" stroke-width="40"/>
+        <circle id="arc" cx="240" cy="240" r="200" fill="none" stroke="#F3A096" stroke-width="40" transform="rotate(-90 240 240)" style="filter:drop-shadow(0 0 16px rgba(243,160,150,.6))"/>
+      </svg>
+      <div id="ringtxt"><div class="v num" id="pct">0%</div><div class="k"><span id="nn">0</span> inscriptions</div></div>
+    </div>
+    <div id="rcap">carry a <b>gap</b> or an <b>editor's restoration</b></div>
+  </div>
+  <div id="B"></div>
+  <div class="scrim-b" id="scrim"></div>
+  <div class="lt" id="lt"><div class="l1" id="L1"><b>3,289</b> expert restorations in Tamil lines</div><div class="l2" id="L2" style="font-size:36px;color:var(--s100)"><b style="color:var(--lamp300)">410</b> in Pallava inscriptions over 1,100 years old</div></div>
+  <div class="vignette" style="opacity:.7"></div>
+  <div class="src" id="c0">Texts: DHARMA, CC BY-SA 4.0</div>
+  <div class="src src-r" id="c1">Photo: Neechalkaran, CC BY-SA 4.0</div>
+  <div class="src src-r" id="c2">Photo: Shore Temple, Mamallapuram (Pallava), Vyacheslav Argenberg, CC BY 4.0</div>
+</div>
+<script>
+const { p, E, $, css, count, clamp } = EZ;
+const A = KIT.photo($('#A'), 'p17');
+const B = KIT.photo($('#B'), 'p20b');
+const g = KIT.grain();
+const paths = [...document.querySelectorAll('#cracks path')];
+let lens = [];
+const C = 2 * Math.PI * 200;
+// shift the macro left so the stone sits in the left 60% beside the panel
+const RA = [0.30, 0.40, 0.30, 0.17], RB = [0.34, 0.42, 0.24, 0.135];
+window.SCENE = {
+  duration: 9.0,
+  prepare() { lens = paths.map((q) => q.getTotalLength()); paths.forEach((q, i) => { q.style.strokeDasharray = lens[i]; }); },
+  render(t) {
+    g(t);
+    KIT.kb(A, RA, RB, E.standard(clamp(t / 5.6)));
+    paths.forEach((q, i) => { const k = p(t, 0.2 + i * 0.2, 0.8, E.chisel); q.style.strokeDashoffset = lens[i] * (1 - k); q.style.opacity = k > 0 ? 0.9 : 0; });
+    // [ ? ? ] over two worn letters on the third line
+    const [x0, y0] = A.pt(0.418, 0.438), [x1, y1] = A.pt(0.47, 0.478);
+    const gb = p(t, 0.7, 0.5, E.outBack), pulse = 0.65 + 0.35 * Math.cos((t - 1.2) * Math.PI * 2 / 1.0);
+    css($('#gapbox'), { left: x0 + 'px', top: y0 + 'px', width: (x1 - x0) + 'px', height: (y1 - y0) + 'px', opacity: Math.min(gb, 1),
+      transform: `scale(${0.85 + 0.15 * gb})`, boxShadow: `0 0 ${34 * pulse}px rgba(174,184,236,${0.7 * pulse}), inset 0 0 24px rgba(174,184,236,.3)` });
+    // panel: 1,320 types in at 1.2 s; ring sweeps to 65% (858)
+    const a = p(t, 1.0, 0.4);
+    css($('#ed'), { opacity: a, transform: `translateY(${(1 - a) * 16}px)` });
+    $('#ed .v').textContent = count(t, 0.95, 0.4, 1320, 0, 0, E.outExpo);
+    css($('#ringw'), { opacity: p(t, 1.8, 0.3) });
+    const r = p(t, 1.75, 0.45, E.outExpo);
+    $('#arc').style.strokeDasharray = `${C * 0.65 * r} ${C}`;
+    $('#pct').textContent = count(t, 1.75, 0.45, 65, 0, 0, E.outExpo) + '%';
+    $('#nn').textContent = count(t, 1.75, 0.45, 858, 0, 0, E.outExpo);
+    css($('#rcap'), { opacity: p(t, 3.2, 0.5) });
+    css($('#shade'), { opacity: p(t, 0.8, 0.8) });
+    // 5.0 s dissolve to the Pallava Shore Temple; the 1,100-year line only over this image
+    const d = p(t, 5.0, 0.6, E.linear);
+    css($('#B'), { opacity: d, display: t < 4.95 ? 'none' : '' });
+    KIT.kb(B, [0.00, 0.08, 1.00, 0.84], [0.22, 0.06, 0.62, 0.62], clamp((t - 5) / 4));
+    css($('#panel'), { opacity: 1 - d });
+    css($('#scrim'), { opacity: d });
+    const l1 = p(t, 6.0, 0.5), l2 = p(t, 7.2, 0.5);
+    css($('#L1'), { opacity: l1, transform: `translateY(${(1 - l1) * 20}px)` });
+    css($('#L2'), { opacity: l2, transform: `translateY(${(1 - l2) * 16}px)` });
+    $('#c1').style.display = t < 5.3 ? '' : 'none';
+    $('#c2').style.display = t >= 5.3 ? '' : 'none';
+  },
+};
+</script></body></html>

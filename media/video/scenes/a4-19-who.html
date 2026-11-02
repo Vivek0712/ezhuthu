@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>a4-19-who</title>
+<link rel="stylesheet" href="/media/video/scenes/_lib/scene.css">
+<script src="/media/video/scenes/_lib/timeline.js"></script>
+<script src="/media/video/scenes/_lib/kit.js"></script>
+<style>
+  .beat { position: absolute; inset: 0; }
+  #cap { position: absolute; left: 72px; bottom: 150px; z-index: 55; }
+  #cap .eyebrow { display: block; margin-bottom: 12px; }
+  #cap .t { font: 600 70px/1.05 var(--f-display); font-variation-settings: 'opsz' 144; color: var(--s50); text-shadow: 0 4px 40px rgba(0,0,0,.85); }
+  #next { position: absolute; left: 72px; bottom: 76px; z-index: 56; display: flex; align-items: center; gap: 12px; font: 600 26px/1 var(--f-ui); color: var(--s100); text-shadow: 0 2px 12px rgba(0,0,0,.9); }
+  #next b { color: var(--lamp300); }
+  #phone { position: absolute; right: 120px; top: 150px; width: 330px; height: 700px; border-radius: 48px; background: #2D261F; padding: 12px; z-index: 30;
+           box-shadow: 0 40px 120px rgba(0,0,0,.7), 0 0 0 2px #40362B, 0 0 80px rgba(234,164,58,.2); }
+  #phone .scr { position: relative; width: 306px; height: 676px; border-radius: 38px; overflow: hidden; background: #13100D; }
+  #phone video { position: absolute; left: 0; top: 0; width: 306px; height: 662px; object-fit: cover; object-position: top; }
+  /* visitor phone graphic */
+  #scan { position: absolute; z-index: 30; left: 1330px; top: 170px; width: 420px; height: 760px; border-radius: 52px; border: 5px solid rgba(251,248,241,.9);
+          box-shadow: 0 0 0 2000px rgba(19,16,13,.35), 0 0 60px rgba(245,196,104,.35); }
+  #scan .line { position: absolute; left: 14px; right: 14px; height: 4px; background: var(--lamp300); box-shadow: 0 0 20px 4px rgba(245,196,104,.8); }
+  #scan .bx { position: absolute; border: 3px solid var(--lamp300); border-radius: 8px; background: rgba(245,196,104,.12); box-shadow: 0 0 14px rgba(245,196,104,.6); }
+  #scan .rd { position: absolute; left: 24px; right: 24px; bottom: 24px; padding: 16px 18px; border-radius: 20px; background: rgba(19,16,13,.92); font: 600 27px/1.25 var(--f-ui); color: var(--s50); }
+  #scan .rd small { display: block; font: 500 18px/1.2 var(--f-ui); color: var(--s400); margin-top: 6px; }
+  #illu { position: absolute; left: 1290px; top: 950px; width: 500px; text-align: center; z-index: 31; }
+  #illu span { display: inline-block; padding: 10px 20px; border-radius: 999px; background: rgba(19,16,13,.9); border: 1px solid rgba(218,205,180,.3); font: 600 22px/1 var(--f-ui); color: rgba(251,248,241,.85); }
+  /* review queue */
+  #queue { position: absolute; right: 100px; top: 150px; width: 640px; z-index: 30; padding: 28px 30px; border-radius: 28px; background: rgba(19,16,13,.94);
+           border: 2px solid rgba(174,184,236,.55); box-shadow: 0 30px 90px rgba(0,0,0,.7), 0 0 50px rgba(174,184,236,.15); }
+  #queue .k { font: 600 22px/1 var(--f-ui); letter-spacing: .14em; text-transform: uppercase; color: var(--neelam300); }
+  #queue .h { font: 600 40px/1.15 var(--f-display); color: var(--s50); margin-top: 12px; }
+  .qi { display: flex; align-items: center; gap: 18px; margin-top: 16px; padding: 16px 18px; border-radius: 16px; background: #231E18; border: 1.5px solid #40362B; }
+  .qi .q { flex: none; width: 52px; height: 52px; border-radius: 14px; border: 2.5px dashed var(--neelam300); display: flex; align-items: center; justify-content: center;
+           font: 700 28px/1 var(--f-display); color: var(--neelam300); box-shadow: 0 0 16px rgba(174,184,236,.45); }
+  .qi .tx { font: 600 25px/1.2 var(--f-ui); color: var(--s50); }
+  .qi .tx small { display: block; font: 500 19px/1.3 var(--f-ui); color: var(--s400); margin-top: 4px; }
+  #queue .ft { margin-top: 16px; font: 500 18px/1.3 var(--f-ui); color: var(--s400); }
+</style></head>
+<body><div id="stage">
+  <div class="beat" id="b1"></div>
+  <div class="beat" id="b2"></div>
+  <div class="beat" id="b3"></div>
+  <div class="scrim-b"></div>
+  <div class="vignette" style="opacity:.55"></div>
+  <div id="phone"><div class="scr"></div></div>
+  <div id="scan"><div class="line"></div><div class="bx" style="left:70px;top:210px;width:70px;height:80px"></div><div class="bx" style="left:160px;top:200px;width:80px;height:90px"></div><div class="bx" style="left:260px;top:215px;width:74px;height:76px"></div>
+    <div class="rd">letters · words · a meaning<small>to check against the edition</small></div></div>
+  <div id="illu"><span>Illustration: point a phone at Tamil text</span></div>
+  <div id="queue"><div class="k">Expert review queue</div><div class="h">4 gaps waiting for an expert</div>
+    <div class="qi"><div class="q">?</div><div class="tx">A pasture for calves at Māmallapuram<small>1 gap · options proposed, left open</small></div></div>
+    <div class="qi"><div class="q">?</div><div class="tx">Hero stone of Naiya Vaṭukaṉ<small>2 gaps · options proposed, left open</small></div></div>
+    <div class="qi"><div class="q">?</div><div class="tx">Kṛṣṇadevarāya's campaigns<small>1 gap · options proposed, left open</small></div></div>
+    <div class="ft">The unsolved samples in the live gallery: even the editors left these blank.</div></div>
+  <div id="cap"><span class="eyebrow">Who it helps</span><div class="t" id="ct">Students and heritage guides</div></div>
+  <div id="next">Next: <b>learner pilot with AWS UG Madurai student volunteers</b></div>
+  <div class="src src-r" id="c1">Photo: Tamil Nadu school kids, McKay Savage, CC BY 2.0</div>
+  <div class="src src-r" id="c2">Photo: Brihadisvara temple, Thanjavur, Nandhinikandhasamy, CC BY-SA 4.0</div>
+  <div class="src src-r" id="c3">Photo: Mythic Society Inscriptions 3D Scanning Project, CC BY-SA 4.0</div>
+</div>
+<script>
+const { p, E, $, $$, css, clamp } = EZ;
+const P1 = KIT.photo($('#b1'), 'p35'), P2 = KIT.photo($('#b2'), 'p10'), P3 = KIT.photo($('#b3'), 'p32');
+const vm = KIT.clip($('#phone .scr'), 'practice-mobile');
+const g = KIT.grain();
+const CAPS = ['Students and heritage guides', 'Temple visitors and heritage volunteers', 'Epigraphists\' review queue'];
+window.SCENE = {
+  duration: 11.0,
+  async render(t) {
+    g(t);
+    // beats cut on the narration lines ("Temple visitors" at 2.58 s, "review queue" at 5.65 s)
+    const beat = t < 2.5 ? 0 : t < 5.6 ? 1 : 2;
+    // crossfades between beats (0.4 s)
+    const x2 = p(t, 2.3, 0.35, E.linear), x3 = p(t, 5.4, 0.35, E.linear);
+    css($('#b1'), { opacity: 1 }); css($('#b2'), { opacity: x2, display: t < 2.25 ? 'none' : '' }); css($('#b3'), { opacity: x3, display: t < 5.35 ? 'none' : '' });
+    KIT.kb(P1, [0.05, 0.10, 0.90, 0.83], [0.12, 0.12, 0.80, 0.74], t / 2.8);
+    KIT.kb(P2, [0.05, 0.10, 0.90, 0.83], [0.25, 0.20, 0.65, 0.60], E.standard(clamp((t - 2.3) / 3.4)));
+    KIT.kb(P3, [0.15, 0.20, 0.70, 0.65], [0.16, 0.21, 0.67, 0.62], clamp((t - 5.4) / 5.6));
+    // beat 1: the practice app on a phone
+    const ph = Math.min(p(t, 0.2, 0.45, E.outBack), 1 - p(t, 2.2, 0.25));
+    css($('#phone'), { opacity: clamp(ph), transform: `translateY(${(1 - clamp(ph)) * 60}px) rotate(${-3 + 3 * clamp(ph)}deg)` });
+    if (t < 2.5) await KIT.seek(vm, 2.5 + t * 2.0);
+    // beat 2: a phone frame reads letters off the wall (graphic)
+    const sc = Math.min(p(t, 2.45, 0.4), 1 - p(t, 5.3, 0.3));
+    css($('#scan'), { opacity: sc }); css($('#illu'), { opacity: sc });
+    const ly = 40 + ((t - 2.7) * 260) % 640;
+    css($('#scan .line'), { top: ly + 'px', opacity: t > 2.7 && t < 4.4 ? 1 : 0 });
+    $$('#scan .bx').forEach((b, i) => { b.style.opacity = p(t, 3.1 + i * 0.22, 0.3); });
+    css($('#scan .rd'), { opacity: p(t, 4.0, 0.4) });
+    // beat 3: the review queue slides in
+    const q = Math.min(p(t, 5.55, 0.5, E.standard), 1);
+    css($('#queue'), { opacity: q, transform: `translateX(${(1 - q) * 80}px)` });
+    $$('.qi').forEach((e, i) => { e.style.opacity = p(t, 5.9 + i * 0.2, 0.3); });
+    // caption swaps per beat
+    $('#ct').textContent = CAPS[beat];
+    const cs = beat === 0 ? Math.min(p(t, 0.2, 0.4), 1 - p(t, 2.25, 0.25)) : beat === 1 ? Math.min(p(t, 2.5, 0.35), 1 - p(t, 5.35, 0.25)) : p(t, 5.6, 0.35);
+    css($('#cap'), { opacity: cs, transform: `translateY(${(1 - cs) * 14}px)` });
+    css($('#next'), { opacity: p(t, 0.8, 0.5) });
+    $('#c1').style.display = beat === 0 ? '' : 'none'; $('#c2').style.display = beat === 1 ? '' : 'none'; $('#c3').style.display = beat === 2 ? '' : 'none';
+  },
+};
+</script></body></html>

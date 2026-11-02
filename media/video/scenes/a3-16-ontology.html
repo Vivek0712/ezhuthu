@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>a3-16-ontology</title>
+<link rel="stylesheet" href="/media/video/scenes/_lib/scene.css">
+<script src="/media/video/scenes/_lib/timeline.js"></script>
+<script src="/media/video/scenes/_lib/kit.js"></script>
+<style>
+  #hdr { position: absolute; left: 96px; top: 60px; z-index: 5; }
+  #hdr .eyebrow { display: block; margin-bottom: 10px; }
+  #hdr .h1 { position: static; font-size: 58px; }
+  #P { position: absolute; inset: 0; opacity: .5; }
+  #P .ph img { filter: blur(3px) saturate(.8) brightness(.75); }
+  #Pd { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 80% at 32% 55%, rgba(19,16,13,.55), rgba(19,16,13,.85) 75%); }
+  #kg { position: absolute; inset: 0; }
+  .lbl { position: absolute; transform: translate(-50%, 0); white-space: nowrap; text-align: center; font: 600 22px/1.15 var(--f-ui); color: var(--s50); text-shadow: 0 2px 10px rgba(0,0,0,.9); }
+  .lbl small { display: block; font: 500 15px/1.2 var(--f-ui); letter-spacing: .12em; text-transform: uppercase; }
+  #side { position: absolute; left: 1300px; top: 210px; width: 560px; }
+  #n { font-size: 150px; line-height: 1; color: var(--s50); }
+  #nl { font: 600 34px/1.2 var(--f-display); color: var(--s100); margin-top: 6px; }
+  #st { margin-top: 18px; font: 500 26px/1.5 var(--f-ui); color: var(--s200); }
+  #st b { color: var(--s50); font-weight: 600; }
+  #legend { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; font: 500 25px/1.2 var(--f-ui); color: var(--s200); }
+  #legend span i { display: inline-block; width: 14px; height: 14px; border-radius: 50%; margin-right: 10px; vertical-align: middle; }
+  #legend b { color: var(--s50); font-family: var(--f-display); font-weight: 600; }
+  #mcp { position: absolute; left: 1300px; top: 700px; width: 560px; }
+  #mcpbox { display: inline-flex; padding: 14px 26px; border-radius: 16px; background: #2D261F; border: 2px solid var(--neelam300); font: 700 30px/1 var(--f-mono); color: var(--neelam300);
+            box-shadow: 0 0 34px rgba(174,184,236,.4); }
+  #mcpl { font: 500 24px/1.3 var(--f-ui); color: var(--s200); margin-top: 12px; }
+  #tools { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 10px; }
+  #tools .tool { padding: 8px 14px; border-radius: 10px; background: rgba(30,36,72,.6); border: 1px solid rgba(174,184,236,.5); color: var(--neelam300); }
+  #agents { position: absolute; left: 1450px; top: 696px; display: flex; gap: 14px; }
+  #agents .node { position: static; padding: 10px 20px; }
+  #agents .nt { font-size: 24px; }
+  #train { position: absolute; left: 96px; top: 980px; font: 500 22px/1 var(--f-ui); color: var(--s400); }
+</style></head>
+<body><div id="stage">
+  <div class="stage-bg"></div>
+  <div id="P"></div><div id="Pd"></div><div class="dotgrid" style="opacity:.22;position:absolute;inset:0"></div>
+  <div id="hdr"><span class="eyebrow">Knowledge</span><div class="h1">A custom Tamil-inscription ontology</div></div>
+  <svg id="kg" viewBox="0 0 1920 1080"><g id="eds"></g><g id="nds"></g></svg>
+  <svg id="cab" viewBox="0 0 1920 1080" style="position:absolute;inset:0"><path id="cable" d="M 1060 600 C 1160 600, 1180 735, 1300 728" fill="none" stroke="#AEB8EC" stroke-width="4" style="filter:drop-shadow(0 0 8px rgba(174,184,236,.8))"/>
+    <circle id="pk1" r="7" class="pkt" style="fill:#AEB8EC"/><circle id="pk2" r="7" class="pkt" style="fill:#AEB8EC"/></svg>
+  <div id="labels"></div>
+  <div id="side">
+    <div class="num" id="n">0</div><div id="nl">named entities</div>
+    <div id="st"><b>27</b> classes · <b>23,029</b> triples</div>
+    <div id="legend"><span><i style="background:#D9764F"></i>rulers <b>42</b></span><span><i style="background:#F5C468"></i>places <b>357</b></span>
+      <span><i style="background:#93D09C"></i>temples <b>139</b></span><span><i style="background:#AEB8EC"></i>formulas <b>14</b></span></div>
+  </div>
+  <div id="mcp"><div id="mcpbox">MCP</div><div id="mcpl">served to the agents: 5 tools</div>
+    <div id="tools"><span class="tool">find_entities</span><span class="tool">valid_letters</span><span class="tool">formulas_for</span><span class="tool">entity</span><span class="tool">hints_for_gap</span></div></div>
+  <div id="agents"><div class="node"><div class="nt">Restorer</div></div><div class="node"><div class="nt">Tutor</div></div></div>
+  <div id="train">built from the train split only · rulers linked to Wikidata where known</div>
+  <div class="src" style="left:auto;right:72px;text-align:right">Entities from DHARMA editions, CC BY-SA 4.0 · Wikidata, CC0 · photo (background): Brihadeeswarar temple, Cafeskool, CC BY-SA 4.0</div>
+</div>
+<script>
+const { p, E, $, $$, css, clamp, rng, count } = EZ;
+const g = KIT.grain(null, 0.05);
+const COL = { ruler: '#D9764F', dynasty: '#EBA07F', place: '#F5C468', temple: '#93D09C', formula: '#AEB8EC', title: '#DACDB4', admin: '#F5C468', measure: '#BFAE8F', tax: '#BFAE8F', coin: '#BFAE8F' };
+// labelled nodes: app/web/src/components/how/ontology-slice.json (Rājarāja I neighbourhood) + the matirai koṇṭa formula (ontology/lookups/formula.json)
+const CX = 600, CY = 600;
+const LAB = [
+  ['Rājarāja I Cōḻa', 'ruler', 0, 0, 'ruler'],
+  ['Cōḻa', 'dynasty', -250, -150, 'dynasty'],
+  ['Uttiramērūr', 'place', 260, -170, 'place'],
+  ['Sundaravaradaperumāḷ', 'temple', 300, 120, 'temple'],
+  ['tirumakaḷ pōla', 'formula', -290, 130, 'formula'],
+  ['matirai koṇṭa', 'formula', -120, 290, 'formula · “who took Madurai”'],
+  ['uṭaiyār', 'title', 120, -300, 'title · lord'],
+  ['iṟai', 'tax', 170, 290, 'tax'],
+  ['kaḷañcu', 'measure', -400, -20, 'gold weight'],
+];
+const R = rng(21);
+const eds = $('#eds'), nds = $('#nds');
+const NS = 'http://www.w3.org/2000/svg';
+const nodes = [];
+// small background entities bloom out in rings
+for (let i = 0; i < 150; i++) {
+  const a = R() * Math.PI * 2, r = 120 + Math.pow(R(), 0.7) * 360;
+  const kinds = ['place', 'place', 'place', 'temple', 'temple', 'ruler', 'formula', 'admin', 'measure'];
+  const k = kinds[Math.floor(R() * kinds.length)];
+  nodes.push({ x: CX + Math.cos(a) * r * 1.15, y: CY + Math.sin(a) * r * 0.82, k, s: 3 + R() * 4, d: r / 480, lab: null });
+}
+LAB.forEach(([l, k, dx, dy, sub]) => nodes.push({ x: CX + dx, y: CY + dy, k, s: k === 'ruler' ? 16 : 11, d: Math.hypot(dx, dy) / 480, lab: l, sub }));
+// edges: each node to its nearest labelled node or the centre
+const lab = nodes.filter((n) => n.lab);
+const edges = [];
+nodes.forEach((n) => { if (n.lab === 'Rājarāja I Cōḻa') return; let best = lab[0], bd = 1e9; lab.forEach((m) => { if (m === n) return; const d = Math.hypot(m.x - n.x, m.y - n.y); if (d < bd) { bd = d; best = m; } }); edges.push([n, n.lab ? lab[0] : best]); });
+const eEls = edges.map(([a, b]) => { const l = document.createElementNS(NS, 'line'); l.setAttribute('x1', a.x); l.setAttribute('y1', a.y); l.setAttribute('x2', b.x); l.setAttribute('y2', b.y);
+  l.setAttribute('stroke', a.lab ? 'rgba(234,164,58,.6)' : 'rgba(218,205,180,.14)'); l.setAttribute('stroke-width', a.lab ? 2.5 : 1.2); eds.appendChild(l); return l; });
+const nEls = nodes.map((n) => { const c = document.createElementNS(NS, 'circle'); c.setAttribute('cx', n.x); c.setAttribute('cy', n.y); c.setAttribute('r', n.s); c.setAttribute('fill', COL[n.k]);
+  if (n.lab) c.style.filter = `drop-shadow(0 0 10px ${COL[n.k]})`; nds.appendChild(c); return c; });
+const lEls = lab.map((n) => { const d = document.createElement('div'); d.className = 'lbl'; d.innerHTML = `${n.lab}<small style="color:${COL[n.k]}">${n.sub}</small>`;
+  d.style.left = n.x + 'px'; d.style.top = (n.y + n.s + 8) + 'px'; $('#labels').appendChild(d); return d; });
+const cable = $('#cable'); let CL = 0;
+const PL = KIT.photo($('#P'), 'p14');
+window.SCENE = {
+  duration: 7.0,
+  prepare() { CL = cable.getTotalLength(); cable.style.strokeDasharray = CL; },
+  render(t) {
+    g(t);
+    KIT.kb(PL, [0.0, 0.05, 1, 0.9], [0.12, 0.12, 0.76, 0.76], t / 7);
+    const h = p(t, 0, 0.4); css($('#hdr'), { opacity: h });
+    // bloom from the centre outwards, 0.2 -> 2.4 s
+    nodes.forEach((n, i) => { const k = p(t, 0.0 + n.d * 1.0, 0.4, E.outBack); nEls[i].setAttribute('r', Math.max(0, n.s * k)); nEls[i].style.opacity = clamp(k); });
+    edges.forEach(([a], i) => { eEls[i].style.opacity = p(t, 0.15 + a.d * 1.0, 0.4) * (a.lab ? 1 : 0.9); });
+    lEls.forEach((d, i) => { const k = p(t, 0.9 + i * 0.1, 0.4); css(d, { opacity: k, transform: `translate(-50%, ${(1 - k) * 8}px)` }); });
+    // gentle drift so the graph breathes
+    css($('#kg'), { transform: `rotate(${t * 0.25}deg)`, transformOrigin: `${CX}px ${CY}px` });
+    css($('#labels'), { transform: `rotate(${t * 0.25}deg)`, transformOrigin: `${CX}px ${CY}px` });
+    css($('#side'), { opacity: p(t, 0.4, 0.4) });
+    $('#n').textContent = count(t, 0.35, 0.45, 1958, 0, 0, E.outExpo);
+    css($('#legend'), { opacity: p(t, 1.8, 0.5) }); css($('#st'), { opacity: p(t, 1.5, 0.5) });
+    // MCP cable plugs into Restorer and Tutor (3.2 s); packets run along it
+    cable.style.strokeDashoffset = CL * (1 - p(t, 3.0, 0.6, E.standard));
+    css($('#mcp'), { opacity: p(t, 3.2, 0.4) });
+    $$('#tools .tool').forEach((e, i) => { e.style.opacity = p(t, 3.6 + i * 0.15, 0.3); });
+    css($('#agents'), { opacity: p(t, 3.5, 0.4) });
+    [['#pk1', 0], ['#pk2', 0.5]].forEach(([id, off]) => { const k = ((t - 3.6) / 1.1 + off) % 1; const on = t > 3.6; const pt = cable.getPointAtLength(CL * (on ? k : 0)); const c = $(id); c.setAttribute('cx', pt.x); c.setAttribute('cy', pt.y); c.style.opacity = on ? 1 : 0; });
+    css($('#train'), { opacity: p(t, 4.5, 0.5) });
+  },
+};
+</script></body></html>
