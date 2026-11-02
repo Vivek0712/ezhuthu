@@ -8,7 +8,7 @@
    "n": 443,
    "positives": 116,
    "split": "val",
-   "fitted_at": "2026-11-02T00:43:31+00:00",
+   "fitted_at": "2026-11-02T04:00:27+00:00",
    "note": "none router, ontology on, n=443"
   },
   "prerank|prerank|kall|llm-sonnet": {
@@ -18,7 +18,7 @@
    "n": 120,
    "positives": 18,
    "split": "val",
-   "fitted_at": "2026-11-02T01:45:15+00:00",
+   "fitted_at": "2026-11-02T05:04:53+00:00",
    "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26"
   },
   "prerank|prerank|kall|retrieval": {
@@ -28,17 +28,17 @@
    "n": 443,
    "positives": 113,
    "split": "val",
-   "fitted_at": "2026-11-02T00:42:58+00:00",
+   "fitted_at": "2026-11-02T03:59:48+00:00",
    "note": "none router, ontology on, n=443"
   },
   "strands-decider-2B-qwen3.5-v1-2610|choice-all|kall|retrieval": {
-   "a": 0.975895,
-   "b": -0.167239,
-   "threshold": 0.4143,
+   "a": 0.964425,
+   "b": -0.17865,
+   "threshold": 0.4121,
    "n": 443,
    "positives": 111,
    "split": "val",
-   "fitted_at": "2026-11-02T01:26:18+00:00",
+   "fitted_at": "2026-11-02T04:41:11+00:00",
    "note": "none router, ontology on, n=443"
   },
   "strands-decider-2B-qwen3.5-v1-2610|choice-topk|k3|llm-sonnet": {
@@ -48,17 +48,17 @@
    "n": 120,
    "positives": 20,
    "split": "val",
-   "fitted_at": "2026-11-02T01:45:15+00:00",
+   "fitted_at": "2026-11-02T05:04:53+00:00",
    "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26"
   },
   "strands-decider-2B-qwen3.5-v1-2610|choice-topk|k3|retrieval": {
-   "a": 0.743281,
-   "b": -0.573114,
-   "threshold": 0.439,
+   "a": 0.733502,
+   "b": -0.58126,
+   "threshold": 0.4359,
    "n": 443,
    "positives": 106,
    "split": "val",
-   "fitted_at": "2026-11-02T00:49:45+00:00",
+   "fitted_at": "2026-11-02T04:07:30+00:00",
    "note": "none router, ontology on, n=443"
   },
   "strands-decider-2B-qwen3.5-v1-2610|choice-topk|k5|llm-sonnet": {
@@ -68,17 +68,17 @@
    "n": 120,
    "positives": 19,
    "split": "val",
-   "fitted_at": "2026-11-02T01:45:15+00:00",
+   "fitted_at": "2026-11-02T05:04:53+00:00",
    "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26"
   },
   "strands-decider-2B-qwen3.5-v1-2610|choice-topk|k5|retrieval": {
-   "a": 0.91299,
-   "b": -0.325266,
-   "threshold": 0.3792,
+   "a": 0.905586,
+   "b": -0.332581,
+   "threshold": 0.3778,
    "n": 443,
    "positives": 107,
    "split": "val",
-   "fitted_at": "2026-11-02T00:57:37+00:00",
+   "fitted_at": "2026-11-02T04:16:34+00:00",
    "note": "none router, ontology on, n=443"
   },
   "strands-decider-2B-qwen3.5-v1-2610|noul-topk|k3|llm-opus": {
@@ -88,7 +88,7 @@
    "n": 100,
    "positives": 28,
    "split": "val",
-   "fitted_at": "2026-11-02T01:45:15+00:00",
+   "fitted_at": "2026-11-02T05:04:53+00:00",
    "note": "VAL seeded sample (seed 26), ontology on, n=100; issue #26"
   },
   "strands-decider-2B-qwen3.5-v1-2610|noul-topk|k3|llm-sonnet": {
@@ -98,17 +98,17 @@
    "n": 120,
    "positives": 23,
    "split": "val",
-   "fitted_at": "2026-11-02T01:45:15+00:00",
+   "fitted_at": "2026-11-02T05:04:53+00:00",
    "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26"
   },
   "strands-decider-2B-qwen3.5-v1-2610|noul-topk|k3|retrieval": {
-   "a": 2.338538,
-   "b": -2.145987,
-   "threshold": 0.4704,
+   "a": 2.337841,
+   "b": -2.146869,
+   "threshold": 0.47,
    "n": 443,
    "positives": 110,
    "split": "val",
-   "fitted_at": "2026-11-02T01:17:38+00:00",
+   "fitted_at": "2026-11-02T04:31:06+00:00",
    "note": "none router, ontology on, n=443"
   }
  }

@@ -3,7 +3,7 @@
 > **VAL split only (development data).** Everything the TEST run uses was chosen here, by the rules stated below, before TEST was scored. These numbers are not restoration quality and must not be cited as such; in-sample calibration numbers are optimistic.
 
 - LLM runs: seeded VAL sample of 120 items (seed 26), ontology on (train-only build), gap lengths in Tamil letters. Per-item rows: `2026-11-02-val-selection/rows/*.jsonl`.
-- Data commit `e83886327ff525f385c6865bd01b8e213fa597a8`; code commits `1343798`, `fd16403`; code_dirty=false.
+- Data commit `e83886327ff525f385c6865bd01b8e213fa597a8`; code commits `12cf9d7`; code_dirty=false.
 - Decider: `strands-decider-2B-qwen3.5-v1-2610` (local, strands-decider 0.2.0).
 
 ## 1. Retrieval-only gaps (no LLM): strategy
@@ -29,11 +29,11 @@ Sonnet 4.6 candidate pools on the VAL sample (the Sonnet replies are cached, so 
 
 | strategy | top-1 [95% CI] | top-20 | ECE (raw) | vs self-report (only / only, p) |
 |---|---|---|---|---|
-| self-report | 0.1167 [0.0667, 0.175] | 0.4917 | 0.4182 | - |
-| prerank | 0.15 [0.0917, 0.2083] | 0.4917 | 0.4082 | 4 / 0, p=0.1250 |
-| choice-topk:3 | 0.1667 [0.1, 0.2333] | 0.4917 | 0.1593 | 10 / 4, p=0.1796 |
-| choice-topk:5 | 0.1583 [0.0917, 0.225] | 0.4917 | 0.131 | 11 / 6, p=0.3323 |
-| noul-topk:3 | 0.1917 [0.125, 0.2583] | 0.4917 | 0.3861 | 11 / 2, p=0.0225 |
+| self-report | 0.1167 [0.0667, 0.175] | 0.5 | 0.4182 | - |
+| prerank | 0.15 [0.0917, 0.2083] | 0.5 | 0.4082 | 4 / 0, p=0.1250 |
+| choice-topk:3 | 0.1667 [0.1, 0.2333] | 0.5 | 0.1593 | 10 / 4, p=0.1796 |
+| choice-topk:5 | 0.1583 [0.0917, 0.225] | 0.5 | 0.131 | 11 / 6, p=0.3323 |
+| noul-topk:3 | 0.1917 [0.125, 0.2583] | 0.5 | 0.3861 | 11 / 2, p=0.0225 |
 
 Chosen: **noul-topk:3**. Best decider variant on LLM pools: **noul-topk:3**.
 
@@ -67,8 +67,9 @@ Chosen: **0.6** (config/models.yaml `routing.escalate_if_confidence_below`; was 
 | `strands-decider-2B-qwen3.5-v1-2610|noul-topk|k3|llm-opus` | 100 | 28 | 2.431386 | -1.430561 | 0.3772 | yes |
 | `strands-decider-2B-qwen3.5-v1-2610|noul-topk|k3|llm-sonnet` | 120 | 23 | 1.648963 | -1.976991 | 0.4001 | yes |
 
-Baseline abstain thresholds (raw confidence, fitted on full VAL, used for coverage on TEST): baseline-copy 0.6012 (VAL top-1 0.2415, n=443); baseline-ngram 0.9104 (VAL top-1 0.3002, n=443).
+Baseline abstain thresholds (raw confidence, fitted on full VAL, used for coverage on TEST): baseline-copy 0.6012 (VAL top-1 0.2415, n=443); baseline-ngram 0.9103 (VAL top-1 0.298, n=443).
 
 ## Notes
 
 - VAL picked noul-topk:3 for LLM gaps: the escalation grid and the LLM calibration below use its rows (val-sonnet-noul-topkk3, val-routed-always-noul-topkk3, val-opus-noul-topkk3; replayed from the cache, 0 Bedrock calls). Its raw top-1 is the decider's probability.
+- Re-scored after the 5-gram determinism fix (QA on PR #31; `CharNgram.fill` had depended on PYTHONHASHSEED), from the reply cache with 0 Bedrock calls (`usage-rescore.json`): the full-VAL retrieval report and every VAL row were re-run, and every choice above is unchanged. Every VAL row has the same top-1 and fill/abstain as before; the Sonnet pools gained one target in the candidates (top-20 0.4917 -> 0.5); the 5-gram baseline's full-VAL top-1 is 0.298 (threshold 0.9103; one earlier process gave 0.3002 / 0.9104); the four decider retrieval calibration entries moved slightly (e.g. choice-all threshold 0.4143 -> 0.4121), the prerank, self-report and LLM entries did not.

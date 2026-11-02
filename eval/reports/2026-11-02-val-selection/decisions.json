@@ -2,7 +2,8 @@
  "n": 120,
  "seed": 26,
  "notes": [
-  "VAL picked noul-topk:3 for LLM gaps: the escalation grid and the LLM calibration below use its rows (val-sonnet-noul-topkk3, val-routed-always-noul-topkk3, val-opus-noul-topkk3; replayed from the cache, 0 Bedrock calls). Its raw top-1 is the decider's probability."
+  "VAL picked noul-topk:3 for LLM gaps: the escalation grid and the LLM calibration below use its rows (val-sonnet-noul-topkk3, val-routed-always-noul-topkk3, val-opus-noul-topkk3; replayed from the cache, 0 Bedrock calls). Its raw top-1 is the decider's probability.",
+  "Re-scored after the 5-gram determinism fix (QA on PR #31; `CharNgram.fill` had depended on PYTHONHASHSEED), from the reply cache with 0 Bedrock calls (`usage-rescore.json`): the full-VAL retrieval report and every VAL row were re-run, and every choice above is unchanged. Every VAL row has the same top-1 and fill/abstain as before; the Sonnet pools gained one target in the candidates (top-20 0.4917 -> 0.5); the 5-gram baseline's full-VAL top-1 is 0.298 (threshold 0.9103; one earlier process gave 0.3002 / 0.9104); the four decider retrieval calibration entries moved slightly (e.g. choice-all threshold 0.4143 -> 0.4121), the prerank, self-report and LLM entries did not."
  ],
  "llm_strategy": {
   "table": {
@@ -12,7 +13,7 @@
      0.0667,
      0.175
     ],
-    "top20": 0.4917,
+    "top20": 0.5,
     "ece": 0.4182
    },
    "prerank": {
@@ -21,7 +22,7 @@
      0.0917,
      0.2083
     ],
-    "top20": 0.4917,
+    "top20": 0.5,
     "ece": 0.4082
    },
    "choice-topk:3": {
@@ -30,7 +31,7 @@
      0.1,
      0.2333
     ],
-    "top20": 0.4917,
+    "top20": 0.5,
     "ece": 0.1593
    },
    "choice-topk:5": {
@@ -39,7 +40,7 @@
      0.0917,
      0.225
     ],
-    "top20": 0.4917,
+    "top20": 0.5,
     "ece": 0.131
    },
    "noul-topk:3": {
@@ -48,7 +49,7 @@
      0.125,
      0.2583
     ],
-    "top20": 0.4917,
+    "top20": 0.5,
     "ece": 0.3861
    }
   },
@@ -249,7 +250,7 @@
    "n": 120,
    "positives": 18,
    "split": "val",
-   "fitted_at": "2026-11-02T01:45:15+00:00",
+   "fitted_at": "2026-11-02T05:04:53+00:00",
    "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26",
    "provisional": false
   },
@@ -260,7 +261,7 @@
    "n": 120,
    "positives": 20,
    "split": "val",
-   "fitted_at": "2026-11-02T01:45:15+00:00",
+   "fitted_at": "2026-11-02T05:04:53+00:00",
    "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26",
    "provisional": false
   },
@@ -271,7 +272,7 @@
    "n": 120,
    "positives": 19,
    "split": "val",
-   "fitted_at": "2026-11-02T01:45:15+00:00",
+   "fitted_at": "2026-11-02T05:04:53+00:00",
    "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26",
    "provisional": false
   },
@@ -282,7 +283,7 @@
    "n": 100,
    "positives": 28,
    "split": "val",
-   "fitted_at": "2026-11-02T01:45:15+00:00",
+   "fitted_at": "2026-11-02T05:04:53+00:00",
    "note": "VAL seeded sample (seed 26), ontology on, n=100; issue #26",
    "provisional": false
   },
@@ -293,7 +294,7 @@
    "n": 120,
    "positives": 23,
    "split": "val",
-   "fitted_at": "2026-11-02T01:45:15+00:00",
+   "fitted_at": "2026-11-02T05:04:53+00:00",
    "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26",
    "provisional": false
   }
@@ -407,8 +408,8 @@
    "n": 443
   },
   "baseline-ngram": {
-   "threshold": 0.9104,
-   "val_top1": 0.3002,
+   "threshold": 0.9103,
+   "val_top1": 0.298,
    "n": 443
   }
  }
