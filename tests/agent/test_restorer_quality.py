@@ -319,7 +319,7 @@ def test_prerank_strategy_needs_no_decider():
 def test_settings_from_yaml_and_validation():
     c = parse_models_config({"llm": {"default": "x"}, "restorer": {"strategy": "noul-topk", "top_k": 3}})
     assert c.restorer.strategy == "noul-topk" and c.restorer.top_k == 3
-    assert CFG.restorer.strategy in ("choice-all", "choice-topk", "noul-topk", "prerank")
+    assert CFG.restorer.strategy in ("choice-all", "choice-topk", "noul-topk", "prerank", "self-report")
     with pytest.raises(ValueError):
         CFG.restorer.with_(strategy="vote")
 

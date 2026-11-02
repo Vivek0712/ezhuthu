@@ -1,5 +1,7 @@
 # Eval: restorer-val-routed-sanity
 
+> **SUPERSEDED (issue #26, 2026-11-02).** Measured before gap lengths were counted in Tamil letters: the length check, copy floor, copy baseline, n-gram fill length and LLM prompt counted ISO characters against a letter count (130/443 VAL targets failed the length check). n = 6. Kept unchanged below as history; do not cite these numbers. Current numbers: [`2026-11-02-val-selection.md`](2026-11-02-val-selection.md) and [`2026-11-02-restorer-val-retrieval-aksharas.md`](2026-11-02-restorer-val-retrieval-aksharas.md).
+
 - Date: 2026-11-01T22:35:51+00:00
 - Router: `routed`
 - Split/subset: val/full, n = 6

@@ -1,5 +1,7 @@
 # Decider benchmark: hosted vs local Strands Decider vs LLM self-confidence
 
+> **Measured before issue #26** (gap lengths counted in Tamil letters): the decider saw `length_matches_gap` and `gap_length_chars` computed on ISO characters, and the candidate set is from before the truncation fix. Not re-run in issue #26. Kept as is; the full TEST evaluation with the letter-count fix is [`2026-11-02-test-eval.md`](2026-11-02-test-eval.md) (local 2B decider only; the hosted v19 decider was not part of it).
+
 - Date: 2026-11-02T04:45:16+00:00
 - Task: restoration `rank_and_decide` on 60 items (test/hard, first 60), one fixed candidate set for every decider (`2026-11-02-decider-benchmark-candidates.jsonl`, sha256 `ab00901f055d`).
 - Candidates: us.anthropic.claude-sonnet-4-6 (router `sonnet`, no escalation) + retrieval parallels + character n-gram; ontology off; 60 items have candidates, mean 19.97 candidates per item.

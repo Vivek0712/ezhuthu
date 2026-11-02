@@ -1,5 +1,7 @@
 # Quick live eval summary (2026-11-02, fast-track)
 
+> **SUPERSEDED (issue #26, 2026-11-02).** Measured before gap lengths were counted in Tamil letters: the length check, copy floor, copy baseline, n-gram fill length and LLM prompt counted ISO characters against a letter count (130/443 VAL targets failed the length check). Also before the truncation fix (#22). Kept unchanged below as history; do not cite these numbers. Current numbers: [`2026-11-02-test-eval.md`](2026-11-02-test-eval.md) (TEST scored once with VAL-chosen settings).
+
 > **Caveat: N is small and the LLM runs are contaminated by harness failures.** LLM routers ran on only the first
 > 30 items of the test-hard split (planned 60; cut for Bedrock throttling and the time box). Many items failed with
 > `MaxTokensReachedException` (restorer `max_tokens=800`) and are scored as wrong + abstained. These numbers measure

@@ -1,5 +1,7 @@
 # Dev-set note: restorer decider variants and calibration (val split)
 
+> **SUPERSEDED (issue #26, 2026-11-02).** Measured before gap lengths were counted in Tamil letters: the length check, copy floor, copy baseline, n-gram fill length and LLM prompt counted ISO characters against a letter count (130/443 VAL targets failed the length check). n = 20, ontology off. Kept unchanged below as history; do not cite these numbers. Current numbers: [`2026-11-02-val-selection.md`](2026-11-02-val-selection.md) and [`2026-11-02-restorer-val-retrieval-aksharas.md`](2026-11-02-restorer-val-retrieval-aksharas.md).
+
 > **VAL split only (development data).** Calibration is fitted on these items; the in-sample columns are optimistic, the cv5 columns are 5-fold cross-validated within VAL. Not a test-set result; do not cite as restoration quality.
 
 - Date: 2026-11-01T23:11:12+00:00
