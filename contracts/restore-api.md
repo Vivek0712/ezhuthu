@@ -1,7 +1,14 @@
 # Restore and evaluate API (shared by agent, app, eval)
 
 Text uses **ISO-15919** internally; Tamil script is derived (Aksharamukha). Gap markers in input text:
-`[?]` gap of unknown length, `[?N]` gap of about N characters.
+`[?]` gap of unknown length, `[?N]` gap of about N **Tamil letters** (aksharas: one uyir, mey or uyirmey letter
+each, so `[?3]` covers `kōvi` / கோவி; not ISO-15919 or Unicode characters). `gap_chars` in responses and records
+is that same letter count (the field keeps its name).
+
+> **Contract change (2026-11-02, issue #26 / deployed-config PR):** `[?N]` and `gap_chars` were documented as
+> characters; the restorer, the benchmark (`gap_chars` from DHARMA's `<gap quantity unit="character">`, which counts
+> letters) and the length checks have counted Tamil letters since issue #26. Clients that convert a damaged span to
+> `[?N]` must count letters, not ISO characters (ISO spells most letters with 2-3 characters).
 
 ## POST /api/restore
 Request: `{"text": "...[?6]...", "script": "iso15919" | "tamil", "max_candidates": 5, "allow_escalation": true}`
