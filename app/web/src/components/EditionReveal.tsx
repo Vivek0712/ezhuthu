@@ -9,7 +9,7 @@ import { compareWithEdition, normForMatch, type Sample } from '../samples';
  * Wording: "matches the editors' restoration", never "correct".
  */
 export function EditionReveal({ sample, data }: { sample: Sample; data: RestoreResponse }) {
-  const { t, lang } = useI18n();
+  const { t } = useI18n();
   const credit = (
     <p className="reveal-credit" data-testid="reveal-credit">
       {t('samples.edition')}: <span lang="en">{sample.edition_title}</span> ·{' '}
@@ -39,10 +39,15 @@ export function EditionReveal({ sample, data }: { sample: Sample; data: RestoreR
   const top = gap.candidates[0];
   const topMatches = !chosen && !!top && normForMatch(top.text) === ed.norm;
   const anyMatches = !chosen && !topMatches && gap.candidates.some((c) => normForMatch(c.text) === ed.norm);
-  const ta = lang === 'ta';
+  // Tamil script first, then the same letters in English letters (ISO-15919), in both UI languages.
   const reading = (iso: string, tamil: string) => (
     <>
-      <span lang="ta">{ta ? tamil : iso}</span> <span className="iso">{ta ? iso : tamil}</span>
+      <span lang="ta" className="reveal-ta">
+        {tamil}
+      </span>{' '}
+      <span className="reveal-iso">
+        ({t('samples.inEnglish')}: <span lang="ta-Latn">{iso}</span>)
+      </span>
     </>
   );
   return (

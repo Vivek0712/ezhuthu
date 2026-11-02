@@ -512,3 +512,46 @@ mark.lacuna { background: var(--ez-lamp-soft); color: var(--ez-lamp-text); borde
   .hero-copy > *, .sample-card, .sample-card-skeleton, .page, .tile-glyph, .tile-svg, .tile img, .meter .seg.on { animation: none; }
   .sample-card:hover, .sample-card:focus-within, .level:hover { transform: none; }
 }
+
+/* Edition reveal under a try-it sample's Restore result (EditionReveal.tsx). */
+.edition-reveal { display: grid; gap: 10px; border-left: 4px solid var(--ez-accent); }
+.edition-reveal[data-state='unsolved'] { border-left-color: var(--ez-unsure); }
+.edition-reveal h3 { margin: 0; }
+.edition-reveal p { margin: 0; }
+.reveal-pair { display: grid; gap: 10px 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); margin: 0; }
+.reveal-pair dt { font-size: var(--ez-text-xs); font-weight: 700; color: var(--ez-text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.reveal-pair dd { margin: 2px 0 0; font-size: var(--ez-text-lg); overflow-wrap: anywhere; }
+.reveal-pair .iso { margin-left: 6px; font-size: var(--ez-text-sm); color: var(--ez-text-muted); }
+.reveal-state { font-weight: 600; padding: 8px 12px; border-radius: var(--ez-radius-md, 10px); background: var(--ez-surface-sunk); }
+.reveal-state.reveal-match { background: var(--ez-ok-soft); color: var(--ez-ok); }
+.reveal-state.reveal-open { background: var(--ez-unsure-soft); color: var(--ez-text); }
+.reveal-credit { font-size: var(--ez-text-xs); color: var(--ez-text-muted); }
+.sample-group { margin-top: 24px; }
+.sample-group h3 { margin: 0 0 4px; }
+.sample-group > p { margin: 0 0 8px; }
+.sample-badge { font-size: var(--ez-text-xs); color: var(--ez-text-muted); }
+
+/* Plain-language Restore (user feedback 2026-11-02): Tamil script first, English letters under it. */
+.biscript { display: grid; gap: 6px; }
+.biscript-ta { font-family: var(--ez-font-chola); }
+.biscript-iso, .input-preview p, .restored-iso p { margin: 0; font-size: var(--ez-text-sm); color: var(--ez-text-muted); overflow-wrap: anywhere; }
+.biscript-label { display: block; font-size: var(--ez-text-xs); font-weight: var(--ez-weight-bold); color: var(--ez-text-muted); letter-spacing: 0.02em; }
+.biscript-iso .biscript-label { display: inline; }
+.input-preview { display: grid; gap: 2px; padding: 8px 12px; border-radius: var(--ez-radius-md); background: var(--ez-surface-sunk); }
+.input-preview p:lang(ta) { font-family: var(--ez-font-chola); font-size: var(--ez-text-md); color: var(--ez-text); }
+.how { margin-bottom: 20px; padding: 14px 18px; }
+.how summary, .advanced summary, .tech summary { cursor: pointer; font-weight: var(--ez-weight-semibold); min-height: var(--ez-space-tap); display: flex; align-items: center; }
+.how-steps { margin: 6px 0 10px; padding-left: 22px; display: grid; gap: 6px; }
+.advanced { border-top: 1px solid var(--ez-border); padding-top: 4px; }
+.restore-summary { margin: 0; font-size: var(--ez-text-lg); font-weight: var(--ez-weight-semibold); line-height: var(--ez-lh-lg-ta); padding: 12px 16px; border-left: 4px solid var(--ez-accent); background: var(--ez-surface-raised); border-radius: 0 var(--ez-radius-md) var(--ez-radius-md) 0; }
+.restored-box { display: grid; gap: 8px; }
+.restored-box .restored { margin: 0; }
+.restored-ta { font-family: var(--ez-font-chola); }
+.restored-iso { display: grid; gap: 2px; padding: 0 4px; }
+.restored-legend { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.restored-legend .fill { padding: 0 6px; }
+mark.unsure { padding: 0 6px; }
+.gap-fill { display: grid; gap: 4px; }
+.cand-hints { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.reveal-ta { font-family: var(--ez-font-chola); font-weight: 700; }
+.reveal-iso { display: block; font-size: var(--ez-text-sm); color: var(--ez-text-muted); }
