@@ -847,6 +847,45 @@ def cmd_val_report(args) -> int:
     return 0
 
 
+def cmd_repair(args) -> int:
+    """Re-run, from the LLM cache, every TEST configuration whose first pass lost items to Bedrock throttling (an
+    ``error`` row, scored as wrong + abstained). Nothing is re-chosen: same configuration, same calibration, same
+    items; answered items replay their cached replies, so only the lost calls are made live. The rows file keeps the
+    first pass's error ids in its meta."""
+    if not live_enabled():
+        print("set EZHUTHU_LIVE=1 (the lost calls are live)", file=sys.stderr)
+        return 2
+    prov = code_provenance()
+    if prov["code_dirty"]:
+        print("refusing to repair from uncommitted code", file=sys.stderr)
+        return 2
+    out = Path(args.out) / TEST_DIR
+    cfg = load_models_config()
+    cal = CalibrationTable.load(cfg.restorer.calibration, min_n=cfg.restorer.calibration_min_n,
+                               min_positives=cfg.restorer.calibration_min_positives)
+    R = Runner(live=True, max_live_calls=args.max_live_calls, rpm=40)
+    by_id = {it.id: it for it in load_items("test")}
+    for p in sorted((out / "rows").glob("*.jsonl")):
+        meta, rows = load_rows(p)
+        bad = [r["id"] for r in rows if r.get("error")]
+        if not bad:
+            continue
+        kw = {k: meta[k] for k in ("strategy", "use_ontology", "escalate_below") if meta.get(k) is not None}
+        items = [by_id[r["id"]] for r in rows]
+        log.info("repair %s: %d error rows of %d", p.stem, len(bad), len(rows))
+        new = R.run(p.stem, items, router=meta["router"], out=out, workers=args.workers, calibration=cal, **kw)
+        nmeta, nrows = load_rows(p)
+        nmeta["first_pass"] = {"error_ids": bad, "code_commit": meta.get("code_commit"),
+                               "date": meta.get("date"), "seconds": meta.get("seconds")}
+        changed = sum(1 for a, b in zip(rows, new, strict=True) if a["id"] not in bad and a["top1"] != b["top1"])
+        nmeta["first_pass"]["non_error_rows_changed"] = changed
+        save_rows(p, nrows, nmeta)
+    usage = R.llm.inner.ledger.to_dict()
+    (out / "usage-repair.json").write_text(json.dumps({"usage": usage, **prov}, indent=1), encoding="utf-8")
+    print(json.dumps(usage))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -866,6 +905,10 @@ def main(argv: list[str] | None = None) -> int:
         p.add_argument("--workers", type=int, default=4)
     for p in (v, d, t):
         p.add_argument("--out", default=str((repo_root() or Path.cwd()) / "eval" / "reports"))
+    rp = sub.add_parser("repair")
+    rp.add_argument("--max-live-calls", type=int, default=60)
+    rp.add_argument("--workers", type=int, default=2)
+    rp.add_argument("--out", default=str((repo_root() or Path.cwd()) / "eval" / "reports"))
     vr = sub.add_parser("val-report")
     vr.add_argument("--out", default=str((repo_root() or Path.cwd()) / "eval" / "reports"))
     r = sub.add_parser("report")
@@ -876,7 +919,7 @@ def main(argv: list[str] | None = None) -> int:
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     logging.getLogger("strands").setLevel(logging.WARNING)
     return {"val": cmd_val, "decide": cmd_decide, "test": cmd_test, "report": cmd_report,
-            "val-report": cmd_val_report}[args.cmd](args)
+            "val-report": cmd_val_report, "repair": cmd_repair}[args.cmd](args)
 
 
 if __name__ == "__main__":
