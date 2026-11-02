@@ -543,8 +543,12 @@ def export(out_dir: Path, *, bench_cands: Path | None = None) -> dict[str, Any]:
 
 # ---------------------------------------------------------------- build ----------------------------------------
 def _git_head(path: Path) -> str | None:
+    """HEAD of the checkout at ``path``, only when ``path`` is that checkout's root (has its own ``.git``): an
+    exported tree that happens to sit inside another repository must not report that repository's commit."""
     import subprocess
 
+    if not (path / ".git").exists():
+        return None
     try:
         return subprocess.run(["git", "-C", str(path), "rev-parse", "HEAD"], capture_output=True, text=True,
                               check=True).stdout.strip() or None
@@ -660,8 +664,9 @@ def build(args: argparse.Namespace) -> int:
         **meta, "llm_planned": len(planned), "seed": args.seed, "llm_model": load_models_config().model_id("default"),
         "router": "sonnet (no escalation)", "use_ontology": False, "strategy_recorded": f"choice-topk:{CHOICE_K}, "
         f"noul-topk:{CHOICE_K}", "letter_counting_restorer": restorer_counts_letters(),
-        "restorer_file": restorer_module.__file__, "code_head": _git_head(root), "data_dir": str(src.path),
-        "data_commit": _git_head(src.path), "benchmark_sha256": {
+        "restorer_file": restorer_module.__file__, "code_head": _git_head(root), "code_note": args.code_note,
+        "data_dir": str(src.path),
+        "data_commit": _git_head(src.path.parent), "benchmark_sha256": {
             f: sha256_file(src.path / f) for f in (f"items.{args.split}.jsonl", "corpus_lines.jsonl")},
     }
     bm.write_text(json.dumps(allmeta, indent=1))
@@ -686,6 +691,7 @@ def main(argv: list[str] | None = None) -> int:
     b.add_argument("--limit", type=int, default=None)
     b.add_argument("--allow-char-lengths", action="store_true")
     b.add_argument("--allow-fixtures", action="store_true")
+    b.add_argument("--code-note", default=None, help="provenance of the code tree when it is not a git checkout")
     e = sub.add_parser("export", help="rows in every format, sha256s and stats (no model calls)")
     e.add_argument("--out-dir", required=True)
     e.add_argument("--bench-cands", default=None)
