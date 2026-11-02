@@ -14,6 +14,11 @@ EOS = "\x03"
 MAX_CHARS_PER_LETTER = 3  # longest ISO spelling of one Tamil letter (kai, r̥̄ in NFC), for the beam's step cap
 
 
+def _rank_key(x: tuple[float, str]) -> tuple[float, str]:
+    """Best log-prob first; equal log-probs in string order (deterministic across processes)."""
+    return -x[0], x[1]
+
+
 class CharNgram:
     def __init__(self, order: int = 5, backoff: float = 0.4):
         self.order = order
@@ -67,7 +72,9 @@ class CharNgram:
         left_ctx = BOS * (self.order - 1) + normalize_iso(left) + (" " if left.endswith(" ") else "")
         right_n = normalize_iso(right)
         right_n = (" " + right_n) if right.startswith(" ") and right_n else right_n
-        alphabet = [c for c in self.vocab if c not in (BOS, EOS)]
+        # Sorted, and every ranking below breaks score ties on the string: iterating the vocab set directly made
+        # the beam (and so the fills) depend on PYTHONHASHSEED, i.e. differ from one process to the next.
+        alphabet = sorted(c for c in self.vocab if c not in (BOS, EOS))
         letters: dict[str, int] = {}
 
         def n_letters(s: str) -> int:
@@ -84,7 +91,7 @@ class CharNgram:
                 for ch in alphabet:
                     nxt.append((lp + self.logprob(ctx, ch), s + ch))
             # 2x the beam before the overshoot filter, so dropping too-long strings does not starve the beam
-            beams = [(lp, s) for lp, s in heapq.nlargest(2 * beam, nxt, key=lambda x: x[0])
+            beams = [(lp, s) for lp, s in heapq.nsmallest(2 * beam, nxt, key=_rank_key)
                      if n_letters(s) <= length][:beam]
             for lp, s in beams:
                 if n_letters(s) == length and s.strip():
@@ -93,7 +100,7 @@ class CharNgram:
                 break
         tail = right_n[: self.order] if right_n else EOS
         scored = [(s, lp + self.score(left_ctx + s, tail)) for s, lp in done.items()]
-        scored.sort(key=lambda x: x[1], reverse=True)
+        scored.sort(key=lambda x: (-x[1], x[0]))
         out, seen = [], set()
         for s, lp in scored:
             t = s.strip()
