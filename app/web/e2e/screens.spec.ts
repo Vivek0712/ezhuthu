@@ -32,6 +32,7 @@ test('@screens capture every page', async ({ page }, info) => {
   await shot(page, '03-learn-brahmi-hint-ta', p);
 
   await page.goto('/restore');
+  await page.getByTestId('read-tab-type').click();
   await page.getByTestId('use-sample').click();
   await page.getByTestId('restore-submit').click();
   await expect(page.getByTestId('restore-result')).toBeVisible();
@@ -99,6 +100,7 @@ test('@screens capture every page', async ({ page }, info) => {
   await expect(page.getByTestId('evolution-hero')).toBeVisible();
   await shot(page, '13-home-dark-en', p, { fullPage: false });
   await page.goto('/restore');
+  await page.getByTestId('read-tab-type').click();
   await page.getByTestId('use-sample').click();
   await page.getByTestId('restore-submit').click();
   await expect(page.getByTestId('restore-result')).toBeVisible();
@@ -127,4 +129,13 @@ test('@screens capture every page', async ({ page }, info) => {
   await ta.getByTestId('restore-submit').click();
   await expect(ta.getByTestId('restore-result')).toBeVisible();
   await shot(ta, '16-restore-from-sample-ta', p, { jpeg: true });
+
+  // Upload + OCR: the photo tab with sample plates, and a reading with its localised warning and "read again".
+  await ta.goto('/restore');
+  await expect(ta.getByTestId('sample-stone-tamil')).toBeVisible();
+  await shot(ta, '17-read-upload-ta', p, { jpeg: true });
+  await ta.getByTestId('sample-stone-brahmi').click();
+  await expect(ta.locator('[data-code="low_reliability_script"]')).toBeVisible();
+  await expect(ta.getByTestId('read-again')).toBeVisible();
+  await shot(ta, '18-read-warning-ta', p, { jpeg: true });
 });

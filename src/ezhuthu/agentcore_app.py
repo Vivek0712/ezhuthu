@@ -1,6 +1,6 @@
 """Amazon Bedrock AgentCore Runtime entrypoint.
 
-Payload: ``{"action": "restore|lesson|answer|assessment|progress|evaluate|corrections|queue|review|health", ...}``
+Payload: ``{"action": "restore|read|lesson|answer|assessment|progress|evaluate|corrections|queue|review|health", ...}``
 with the same fields as the matching endpoint in contracts/restore-api.md (``review`` = POST /api/queue/{id}:
 ``{"action": "review", "id": ..., "review_action": "approve|edit|reject", "text"?}``). The response is the endpoint's JSON
 body, or ``{"error": {"status": 403|404|422|500, "detail": "..."}}``. ``review`` and LLM-router ``evaluate`` need
@@ -15,7 +15,15 @@ import logging
 from collections.abc import Callable
 from typing import Any
 
-from .api.service import BadRequest, Conflict, EzhuthuService, Forbidden, NotFound
+from .api.service import (
+    BadRequest,
+    Conflict,
+    EzhuthuService,
+    Forbidden,
+    NotFound,
+    ReadError,
+    ReaderUnavailable,
+)
 
 log = logging.getLogger(__name__)
 _service: EzhuthuService | None = None
@@ -38,6 +46,12 @@ def _restore(s: EzhuthuService, p: dict[str, Any]) -> Any:
     _require(p, "text")
     return s.restore(p["text"], p.get("script", "iso15919"), int(p.get("max_candidates", 5)),
                      bool(p.get("allow_escalation", True)))
+
+
+def _read(s: EzhuthuService, p: dict[str, Any]) -> Any:
+    return s.read(image_base64=p.get("image_base64"), text=p.get("text"), filename=p.get("filename"),
+                  format=p.get("format", "auto"), router=p.get("router", "routed"), hint=p.get("hint"),
+                  reread_token=p.get("reread_token"))
 
 
 def _lesson(s: EzhuthuService, p: dict[str, Any]) -> Any:
@@ -80,7 +94,7 @@ def _review(s: EzhuthuService, p: dict[str, Any]) -> Any:
 
 
 ACTIONS: dict[str, Callable[[EzhuthuService, dict[str, Any]], Any]] = {
-    "restore": _restore, "lesson": _lesson, "answer": _answer, "assessment": _assessment, "progress": _progress,
+    "restore": _restore, "read": _read, "lesson": _lesson, "answer": _answer, "assessment": _assessment, "progress": _progress,
     "evaluate": _evaluate, "corrections": _corrections, "queue": lambda s, p: s.queue(), "review": _review,
     "health": lambda s, p: s.health(),
 }
@@ -98,6 +112,10 @@ def handle(payload: dict[str, Any], svc: EzhuthuService | None = None) -> dict[s
         return fn(svc or service(), payload)
     except NotFound as exc:
         return {"error": {"status": 404, "detail": str(exc)}}
+    except ReadError as exc:
+        return {"error": {"status": exc.status, "detail": str(exc), "code": exc.code}}
+    except ReaderUnavailable as exc:
+        return {"error": {"status": 503, "detail": str(exc), "code": "reader_unavailable"}}
     except Forbidden as exc:
         return {"error": {"status": 403, "detail": str(exc)}}
     except Conflict as exc:
@@ -110,7 +128,7 @@ def handle(payload: dict[str, Any], svc: EzhuthuService | None = None) -> dict[s
 
 
 _ROUTE_ACTIONS = {
-    "/api/restore": "restore", "/api/lesson": "lesson", "/api/answer": "answer", "/api/assessment": "assessment",
+    "/api/restore": "restore", "/api/read": "read", "/api/lesson": "lesson", "/api/answer": "answer", "/api/assessment": "assessment",
     "/api/progress/{session_id}": "progress", "/api/evaluate": "evaluate", "/api/corrections": "corrections",
     "/api/queue": "queue", "/api/queue/{id}": "review", "/health": "health",
 }
@@ -138,7 +156,9 @@ def handle_proxy(payload: dict[str, Any], svc: EzhuthuService | None = None) -> 
     err = out.get("error") if isinstance(out, dict) else None
     if isinstance(err, dict) and "status" in err and "detail" in err and len(out) == 1:
         status = int(err["status"])
-        code = {403: "forbidden", 404: "not_found", 422: "bad_request"}.get(status, "internal")
+        code = err.get("code") or {403: "forbidden", 404: "not_found", 409: "conflict", 413: "too_large",
+                                   415: "unsupported_format", 422: "bad_request",
+                                   503: "unavailable"}.get(status, "internal")
         return {"status": status, "body": {"error": {"code": code, "message": str(err["detail"])}}}
     return {"status": 200, "body": out}
 

@@ -58,13 +58,17 @@ test.describe('try-it samples', () => {
   test('the primary CTA says what it does and lands on a form the reader can use', async ({ page }) => {
     await setEnglish(page);
     await page.goto('/');
-    const cta = page.getByTestId('cta-restore');
-    await expect(cta).toHaveText('Try restoring a line');
-    // No upload promise until the upload/OCR flow is on main (then: "Upload a photo" and a file input on /restore).
-    await expect(page.getByTestId('cta-upload')).toHaveCount(0);
+    const cta = page.getByTestId('cta-upload');
+    await expect(cta).toHaveText('Upload a photo');
     await cta.click();
     await expect(page).toHaveURL(/\/restore$/);
-    await expect(page.getByTestId('restore-input')).toBeVisible();
+    // The promise is kept: the photo tab with a file input, a camera input and sample plates.
+    await expect(page.getByTestId('read-tab-photo')).toHaveAttribute('aria-selected', 'true');
+    await expect(page.getByTestId('choose-photo')).toBeVisible();
+    await expect(page.getByTestId('photo-input')).toHaveAttribute('type', 'file');
+    await expect(page.getByTestId('sample-stone-tamil')).toBeVisible();
+    // Typing is still one tab away.
+    await page.getByTestId('read-tab-type').click();
     await expect(page.getByTestId('restore-input')).toBeEditable();
   });
 });

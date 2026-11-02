@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { api, type Gap, type RestoreResponse } from '../api/client';
 import { ConfidenceMeter } from '../components/ConfidenceMeter';
 import { Busy, DharmaCredit, ErrorNote } from '../components/Feedback';
+import { ExperimentalNote, ReadPanel, type Accepted, type Tab } from '../components/ReadPanel';
 import { useI18n } from '../i18n/I18nProvider';
 import { gapContext, parseGaps } from '../lib/gaps';
 import { plural, safeHref } from '../lib/format';
@@ -94,33 +96,40 @@ function Candidates({ abstain, label, count, children }: { abstain: boolean; lab
 
 export function RestorePage() {
   const { t, lang } = useI18n();
+  const navigate = useNavigate();
   // /restore?sample=<id> (the home gallery) starts the form with that DHARMA passage.
   // The samples load on demand, so the passage arrives a moment after the first render: fill the form once per sample.
   const fromSample = useRestoreSample(lang);
+  // Upload is the primary input (user feedback: people rarely have the text to paste); typing is the third tab,
+  // except when a gallery sample brings its own text.
+  const [tab, setTab] = useState<Tab>(fromSample ? 'type' : 'photo');
   const [script, setScript] = useState<Script>(fromSample?.script ?? (lang === 'ta' ? 'tamil' : 'iso15919'));
   const [text, setText] = useState(fromSample?.text ?? '');
+  const [fromReader, setFromReader] = useState<Accepted['source'] | null>(null);
   const filledFrom = useRef<string | null>(fromSample?.sample.id ?? null);
   useEffect(() => {
     if (!fromSample || filledFrom.current === fromSample.sample.id) return;
     filledFrom.current = fromSample.sample.id;
     setScript(fromSample.script);
     setText(fromSample.text);
+    setFromReader(null);
+    setTab('type');
   }, [fromSample]);
   const [max, setMax] = useState(5);
   const [escalate, setEscalate] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<unknown>(null);
   const [res, setRes] = useState<{ text: string; script: Script; data: RestoreResponse } | null>(null);
+  const resultRef = useRef<HTMLElement>(null);
   const gapCount = useMemo(() => parseGaps(text).filter((s) => s.kind === 'gap').length, [text]);
 
-  async function submit(e: FormEvent) {
-    e.preventDefault();
-    if (!gapCount) return;
+  async function run(body: string, sc: Script) {
     setBusy(true);
     setError(null);
     try {
-      const data = await api.restore({ text, script, max_candidates: max, allow_escalation: escalate });
-      setRes({ text, script, data });
+      const data = await api.restore({ text: body, script: sc, max_candidates: max, allow_escalation: escalate });
+      setRes({ text: body, script: sc, data });
+      requestAnimationFrame(() => resultRef.current?.scrollIntoView?.({ behavior: 'smooth', block: 'start' }));
     } catch (err) {
       setError(err);
     } finally {
@@ -128,7 +137,96 @@ export function RestorePage() {
     }
   }
 
+  async function submit(e: FormEvent) {
+    e.preventDefault();
+    if (!gapCount) return;
+    await run(text, script);
+  }
+
+  function accept(a: Accepted) {
+    setText(a.text);
+    setScript(a.script);
+    setFromReader(a.source);
+    setTab('type');
+    void run(a.text, a.script);
+  }
+
   const display = (c: { text: string; text_tamil: string }) => (res?.script === 'tamil' || lang === 'ta' ? c.text_tamil : c.text);
+
+  const typePanel = (
+    <form className="grid" onSubmit={submit}>
+      {fromReader === 'image' && <ExperimentalNote />}
+      {fromSample && text === fromSample.text && (
+        <p className="sample-from" data-testid="restore-sample-source">
+          {t('samples.from')}: <strong>{lang === 'ta' ? fromSample.sample.title_ta : fromSample.sample.title_en}</strong> ·{' '}
+          <a href={fromSample.sample.dharma_url} target="_blank" rel="noreferrer">
+            {t('credit.edition')} ↗
+          </a>{' '}
+          ·{' '}
+          <a href={fromSample.sample.licence_url} target="_blank" rel="noreferrer license">
+            {fromSample.sample.licence}
+          </a>
+        </p>
+      )}
+      <label className="field">
+        {t('restore.input')}
+        <textarea
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          lang={script === 'tamil' ? 'ta' : 'en'}
+          rows={Math.min(8, Math.max(3, text.split('\n').length + 1))}
+          data-testid="restore-input"
+        />
+      </label>
+      <div className="row" style={{ justifyContent: 'space-between' }}>
+        <span className={gapCount ? 'badge accent' : 'badge'} data-testid="gap-count">
+          {gapCount} {t(plural(gapCount, 'restore.gapFound', 'restore.gapsFound'))}
+        </span>
+        <button
+          className="btn btn-ghost btn-small"
+          type="button"
+          onClick={() => {
+            setText(script === 'tamil' ? SAMPLE_RESTORE_TAMIL : SAMPLE_RESTORE_ISO);
+            setFromReader(null);
+          }}
+          data-testid="use-sample"
+        >
+          {t('restore.sample')}
+        </button>
+      </div>
+      <div className="grid grid-3">
+        <label className="field">
+          {t('restore.script')}
+          <select value={script} onChange={(e) => setScript(e.target.value as Script)}>
+            <option value="tamil">{t('restore.script.tamil')}</option>
+            <option value="iso15919">{t('restore.script.iso')}</option>
+          </select>
+        </label>
+        <label className="field">
+          {t('restore.maxCandidates')}
+          <select value={max} onChange={(e) => setMax(Number(e.target.value))}>
+            {[1, 3, 5, 10].map((n) => (
+              <option key={n} value={n}>
+                {n}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="row" style={{ fontWeight: 600, alignSelf: 'end', minHeight: 44 }}>
+          <input type="checkbox" checked={escalate} onChange={(e) => setEscalate(e.target.checked)} style={{ width: 20, height: 20 }} />
+          {t('restore.escalation')}
+        </label>
+      </div>
+      {text && !gapCount && <p className="note">{t('restore.noGaps')}</p>}
+      <div className="row">
+        <button className="btn btn-primary" type="submit" disabled={busy || !gapCount} data-testid="restore-submit">
+          {t('restore.submit')}
+        </button>
+        {busy && <Busy />}
+      </div>
+      {error != null && <ErrorNote error={error} />}
+    </form>
+  );
 
   return (
     <>
@@ -136,71 +234,16 @@ export function RestorePage() {
         <h1>{t('restore.title')}</h1>
         <p className="lede">{t('restore.lede')}</p>
       </header>
-      <form className="leaf grid" onSubmit={submit}>
-        {fromSample && text === fromSample.text && (
-          <p className="sample-from" data-testid="restore-sample-source">
-            {t('samples.from')}: <strong>{lang === 'ta' ? fromSample.sample.title_ta : fromSample.sample.title_en}</strong> ·{' '}
-            <a href={fromSample.sample.dharma_url} target="_blank" rel="noreferrer">
-              {t('credit.edition')} ↗
-            </a>{' '}
-            ·{' '}
-            <a href={fromSample.sample.licence_url} target="_blank" rel="noreferrer license">
-              {fromSample.sample.licence}
-            </a>
-          </p>
-        )}
-        <label className="field">
-          {t('restore.input')}
-          <textarea value={text} onChange={(e) => setText(e.target.value)} lang={script === 'tamil' ? 'ta' : 'en'} data-testid="restore-input" />
-        </label>
-        <div className="row" style={{ justifyContent: 'space-between' }}>
-          <span className={gapCount ? 'badge accent' : 'badge'} data-testid="gap-count">
-            {gapCount} {t(plural(gapCount, 'restore.gapFound', 'restore.gapsFound'))}
-          </span>
-          <button
-            className="btn btn-ghost btn-small"
-            type="button"
-            onClick={() => setText(script === 'tamil' ? SAMPLE_RESTORE_TAMIL : SAMPLE_RESTORE_ISO)}
-            data-testid="use-sample"
-          >
-            {t('restore.sample')}
-          </button>
-        </div>
-        <div className="grid grid-3">
-          <label className="field">
-            {t('restore.script')}
-            <select value={script} onChange={(e) => setScript(e.target.value as Script)}>
-              <option value="tamil">{t('restore.script.tamil')}</option>
-              <option value="iso15919">{t('restore.script.iso')}</option>
-            </select>
-          </label>
-          <label className="field">
-            {t('restore.maxCandidates')}
-            <select value={max} onChange={(e) => setMax(Number(e.target.value))}>
-              {[1, 3, 5, 10].map((n) => (
-                <option key={n} value={n}>
-                  {n}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="row" style={{ fontWeight: 600, alignSelf: 'end', minHeight: 44 }}>
-            <input type="checkbox" checked={escalate} onChange={(e) => setEscalate(e.target.checked)} style={{ width: 20, height: 20 }} />
-            {t('restore.escalation')}
-          </label>
-        </div>
-        {text && !gapCount && <p className="note">{t('restore.noGaps')}</p>}
-        <div className="row">
-          <button className="btn btn-primary" type="submit" disabled={busy || !gapCount} data-testid="restore-submit">
-            {t('restore.submit')}
-          </button>
-          {busy && <Busy />}
-        </div>
-        {error != null && <ErrorNote error={error} />}
-      </form>
+      <ReadPanel
+        tab={tab}
+        setTab={setTab}
+        onAccept={accept}
+        onLearn={(body) => navigate('/learn', { state: { text: body } })}
+        typePanel={typePanel}
+      />
 
       {res && (
-        <section style={{ marginTop: 28 }} className="grid" aria-live="polite" data-testid="restore-result">
+        <section ref={resultRef} style={{ marginTop: 28 }} className="grid" aria-live="polite" data-testid="restore-result">
           <h2>{t('restore.result')}</h2>
           <p className="restored" lang={res.script === 'tamil' ? 'ta' : undefined}>
             {parseGaps(res.text).map((s, i) => {

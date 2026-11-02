@@ -148,6 +148,46 @@ def test_call_with_retries_retries_throttling_only():
     assert is_retryable(ClientErr()) and not is_retryable(KeyError("x"))
 
 
+def test_call_with_retries_never_sleeps_past_the_deadline():
+    t = {"now": 0.0}
+    slept: list[float] = []
+
+    def sleep(s):
+        slept.append(s)
+        t["now"] += s
+
+    def always_throttled():
+        t["now"] += 4.0  # each attempt takes 4 s
+        raise Throttled("Too many requests")
+
+    with pytest.raises(Throttled):
+        call_with_retries(always_throttled, attempts=5, base=2.0, cap=30.0, sleep=sleep, rng=random.Random(3),
+                          deadline=12.0, clock=lambda: t["now"], min_attempt_s=3.0)
+    assert t["now"] <= 12.0, "a retry that cannot finish before the deadline is not started"
+    # without a deadline the same failure retries 4 times
+    t["now"], slept[:] = 0.0, []
+    with pytest.raises(Throttled):
+        call_with_retries(always_throttled, attempts=5, sleep=sleep, rng=random.Random(3), clock=lambda: t["now"])
+    assert len(slept) == 4
+
+
+def test_bedrock_complete_image_passes_the_remaining_budget_as_read_timeout(monkeypatch, tmp_path):
+    monkeypatch.setenv("EZHUTHU_LIVE", "1")
+    llm = BedrockLLM(cache_dir=tmp_path, rpm=None, sleep=lambda s: None, retry_base=0.01)
+    seen = {}
+    from ezhuthu.agent.llm import LLMResponse
+
+    def invoke(mid, system, prompt, mt, read_timeout=None):
+        seen["read_timeout"] = read_timeout
+        return LLMResponse("{}", mid)
+
+    monkeypatch.setattr(llm, "_invoke", invoke)
+    llm.complete_image("default", "s", "p", [(b"jpeg", "jpeg")], timeout_s=12.0)
+    assert 0 < seen["read_timeout"] <= 12.0
+    m = llm._model("m", 100, read_timeout=9.0)
+    assert m.client.meta.config.read_timeout == 9.0
+
+
 def test_rate_limiter_spaces_calls():
     t = {"now": 0.0}
     waits: list[float] = []

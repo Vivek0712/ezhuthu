@@ -204,6 +204,7 @@ describe('error and loading states', () => {
     );
     const user = userEvent.setup();
     renderApp(<AppRoutes />, { route: '/restore' });
+    await user.click(screen.getByTestId('read-tab-type'));
     await user.click(screen.getByTestId('use-sample'));
     await user.click(screen.getByTestId('restore-submit'));
     const alert = await screen.findByRole('alert');
@@ -292,6 +293,7 @@ describe('layout', () => {
     const footer = screen.getByTestId('footer-credit');
     expect(footer).toHaveTextContent('Inscription texts: DHARMA, CC BY-SA 4.0');
     expect(within(footer).getByRole('link', { name: 'CC BY-SA 4.0' })).toHaveAttribute('href', 'https://creativecommons.org/licenses/by-sa/4.0/');
+    await user.click(screen.getByTestId('read-tab-type'));
     await user.click(screen.getByTestId('use-sample'));
     await user.click(screen.getByTestId('restore-submit'));
     expect(await screen.findByTestId('restore-credit')).toHaveTextContent('DHARMA, CC BY-SA 4.0');

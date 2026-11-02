@@ -67,12 +67,12 @@ describe('SampleGallery', () => {
 });
 
 describe('HomePage hero', () => {
-  it('primary CTA promises only what /restore does today (no upload claim before the OCR flow lands)', async () => {
+  it('primary CTA is the upload flow that /restore now opens on (photo tab, samples, typing one tab away)', async () => {
     renderApp(<HomePage />, { lang: 'en' });
-    const cta = screen.getByTestId('cta-restore');
+    const cta = screen.getByTestId('cta-upload');
     expect(cta).toHaveAttribute('href', '/restore');
-    expect(cta).toHaveTextContent('Try restoring a line');
-    expect(screen.queryByText('Upload a photo')).toBeNull();
+    expect(cta).toHaveTextContent('Upload a photo');
+    expect(screen.queryByTestId('cta-restore')).toBeNull();
     expect(screen.getByTestId('cta-samples')).toHaveAttribute('href', '#samples');
     await screen.findAllByRole('article');
   });

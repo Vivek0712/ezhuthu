@@ -1,0 +1,304 @@
+{
+  "synthetic": {
+    "all_tamil_vs_edition": {
+      "n": 72,
+      "cer": 0.097,
+      "wer": 0.361,
+      "ref_letters": 5415
+    },
+    "all_tamil_vs_visible": {
+      "n": 72,
+      "cer": 0.089,
+      "wer": 0.354,
+      "ref_letters": 5400
+    },
+    "by_level": {
+      "clean": {
+        "n": 24,
+        "cer": 0.047,
+        "wer": 0.259,
+        "ref_letters": 1805
+      },
+      "photo": {
+        "n": 24,
+        "cer": 0.052,
+        "wer": 0.264,
+        "ref_letters": 1805
+      },
+      "weathered": {
+        "n": 24,
+        "cer": 0.192,
+        "wer": 0.561,
+        "ref_letters": 1805
+      }
+    },
+    "by_level_visible": {
+      "clean": {
+        "n": 24,
+        "cer": 0.037,
+        "wer": 0.247,
+        "ref_letters": 1800
+      },
+      "photo": {
+        "n": 24,
+        "cer": 0.043,
+        "wer": 0.255,
+        "ref_letters": 1800
+      },
+      "weathered": {
+        "n": 24,
+        "cer": 0.186,
+        "wer": 0.561,
+        "ref_letters": 1800
+      }
+    },
+    "by_script_photo_level": {
+      "tamil": {
+        "n": 6,
+        "cer": 0.04,
+        "wer": 0.243,
+        "ref_letters": 470
+      },
+      "tamil-brahmi": {
+        "n": 6,
+        "cer": 0.804,
+        "wer": 1.143,
+        "ref_letters": 470
+      },
+      "grantha": {
+        "n": 5,
+        "cer": 0.558,
+        "wer": 1.017,
+        "ref_letters": 391
+      }
+    },
+    "by_dynasty": {
+      "Cōḻa": {
+        "n": 18,
+        "cer": 0.107,
+        "wer": 0.438,
+        "ref_letters": 1092
+      },
+      "Pallava": {
+        "n": 21,
+        "cer": 0.097,
+        "wer": 0.369,
+        "ref_letters": 1245
+      },
+      "Pāṇḍya": {
+        "n": 12,
+        "cer": 0.133,
+        "wer": 0.434,
+        "ref_letters": 1026
+      },
+      "undated": {
+        "n": 21,
+        "cer": 0.073,
+        "wer": 0.277,
+        "ref_letters": 2052
+      }
+    },
+    "gaps_by_level": {
+      "clean": {
+        "truth_gaps": 9,
+        "read_gaps": 0,
+        "recall": 0.0,
+        "precision": null
+      },
+      "photo": {
+        "truth_gaps": 9,
+        "read_gaps": 5,
+        "recall": 0.556,
+        "precision": 1.0
+      },
+      "weathered": {
+        "truth_gaps": 9,
+        "read_gaps": 46,
+        "recall": 0.889,
+        "precision": 0.174
+      }
+    },
+    "script_confusion": {
+      "tamil": {
+        "modern-tamil": 72
+      },
+      "tamil-brahmi": {
+        "vatteluttu": 3,
+        "modern-tamil": 3
+      },
+      "grantha": {
+        "modern-tamil": 5
+      }
+    },
+    "escalated": 5,
+    "escalation_skipped": 16,
+    "errors": 1,
+    "seconds_p50_p90": [
+      15.43,
+      35.46
+    ],
+    "cer_by_confidence": {
+      "below_0.6": {
+        "n": 9,
+        "cer": 0.295,
+        "wer": 0.781,
+        "ref_letters": 573
+      },
+      "at_or_above_0.6": {
+        "n": 63,
+        "cer": 0.073,
+        "wer": 0.314,
+        "ref_letters": 4842
+      }
+    }
+  },
+  "real": {
+    "images": [
+      {
+        "id": "jambai-photo",
+        "script": "tamil-brahmi",
+        "kind": "inscription",
+        "licence": "CC BY-SA 4.0",
+        "cer": 0.829,
+        "ref_letters": 35,
+        "model": "opus",
+        "escalated": true,
+        "confidence": 0.15,
+        "script_guess": "tamil-brahmi",
+        "error": null,
+        "reading": "nā ka pu li ka na ku ḷi ce ḻi ya ṟ ā ṉ a ḷi ka ṉ a",
+        "reference": "satiyaputoatiyaṉneṭumāṉañciīttapāḻi",
+        "seconds": 19.26
+      },
+      {
+        "id": "jambai-tnexplore",
+        "script": "tamil-brahmi",
+        "kind": "inscription",
+        "licence": "CC BY-SA 3.0",
+        "cer": 0.829,
+        "ref_letters": 35,
+        "model": "sonnet",
+        "escalated": false,
+        "confidence": 0.15,
+        "script_guess": "tamil-brahmi",
+        "error": null,
+        "reading": "[?1] ṟ uḷ c ṟ ā ṟ u ḷ [?1] ṭa ka ṭa [?1] ṟ ā ṟ a ṭa [?1] [?1] ka [?1] ṟ a ka ṟ a\nē [?2]",
+        "reference": "satiyaputoatiyaṉneṭumāṉañciīttapāḻi",
+        "seconds": 11.62
+      },
+      {
+        "id": "satiyaputra-eyecopy",
+        "script": "tamil-brahmi",
+        "kind": "inscription",
+        "licence": "CC BY-SA 4.0",
+        "cer": 0.914,
+        "ref_letters": 35,
+        "model": "sonnet",
+        "escalated": false,
+        "confidence": 0.2,
+        "script_guess": "tamil-brahmi",
+        "error": null,
+        "reading": "o ka ṭa ya ta ya ka ṭa ṭa i ca ca pa ṭa ya ca ś o · ya ya ta ya ka",
+        "reference": "satiyaputoatiyaṉneṭumāṉañciīttapāḻi",
+        "seconds": 13.31
+      },
+      {
+        "id": "ws-ecchil-iravu-92",
+        "script": "modern-tamil",
+        "kind": "printed",
+        "licence": "Public domain",
+        "cer": 0.098,
+        "ref_letters": 989,
+        "model": "sonnet",
+        "escalated": false,
+        "confidence": 0.86,
+        "script_guess": "modern-tamil",
+        "error": null,
+        "reading": "82\nappaṭiyeṉṟūl mēti imbattēṭṭu rūpāyai\niṉi eppōtu koṭuppārām eṉṟu kēṭṭāḷ\navaḷ.\niṉimēl avaṉ eṅkē atai koṭukka\npōkiṟāṉ. oṭṭak kūttar iyaṟṟiya 'eḻumpēḻupattu'\neṉṉ",
+        "reference": "appaṭiyeṉṟālmītiaimpatteṭṭurūpāyaiiṉieppōtukoṭuppārāmeṉṟukēṭṭāḷavaḷiṉimēlavaṉeṅkēataikkoṭukkappōkiṟāṉoṭṭakkūttariyaṟṟiyaeḻuppeḻupatueṉṉumnūliluḷḷaeḻupatupāṭalka",
+        "seconds": 24.59
+      },
+      {
+        "id": "ws-karai-manalum-107",
+        "script": "modern-tamil",
+        "kind": "printed",
+        "licence": "CC0",
+        "cer": 0.105,
+        "ref_letters": 936,
+        "model": "sonnet",
+        "escalated": false,
+        "confidence": 0.78,
+        "script_guess": "modern-tamil",
+        "error": null,
+        "reading": "'peṇkaḷ aṟamaṭā\ncu varkkkaṭikarattiṉ kīmiṣu muḷḷum viṇuṭi muḷḷum\nkaṇṇukkut tōṉṟu vakaiyil tam kaṭamaiyaic ceytu\nkoṇṭiruktaṉa kaṭavuḷ kaṇṇukkut tōṉṟuvitillē\nyall",
+        "reference": "varkkaṭikārattiṉnimiṣamuḷḷumviṉāṭimuḷḷumkaṇṇukkuttōṉṟāvakaiyiltamkaṭamaiyaicceytukoṇṭiruntaṉakaṭavuḷkaṇṇukkuttōṉṟuvatillaiyallavāappaṭimatiyauṇavukoṇṭatumuṇṭaka",
+        "seconds": 26.34
+      },
+      {
+        "id": "ws-vinnanak-kalai-25",
+        "script": "modern-tamil",
+        "kind": "printed",
+        "licence": "Public domain",
+        "cer": 0.075,
+        "ref_letters": 984,
+        "model": "sonnet",
+        "escalated": false,
+        "confidence": 0.89,
+        "script_guess": "modern-tamil",
+        "error": null,
+        "reading": "20 viññāṉak kalēyum maṉita vāḻkkaiyum\nvāy·kāḷa peṭṭa vēṇṭiyavarāyiṉar. āṟṟiṉ\nnīr maṭṭam tāḻntirukkka, nilamaṭṭam uyarntirukkka,\ntāḻnta iṭattiliruntu uyarviṭatti",
+        "reference": "vāykaḷaiveṭṭavēṇṭiyavarāyiṉarāṟṟiṉnīrmaṭṭamtāḻntirukkanilamaṭṭamuyarntirukkatāḻntaiṭattiliruntuuyarviṭattiṟkunīraikkoṇṭuvarapputiyaorumuṟaiyaiavarkaḷkaiyāṇṭaṉar",
+        "seconds": 19.79
+      }
+    ],
+    "micro_cer": 0.119,
+    "inscriptions_mean_cer": 0.857,
+    "printed_mean_cer": 0.093
+  },
+  "usage": {
+    "2026-11-02-ocr-eval-synth.jsonl": {
+      "set": "synth",
+      "router": "routed",
+      "n": 84,
+      "errors": 1,
+      "usage": {
+        "calls": 86,
+        "cached_calls": 2,
+        "input_tokens": {
+          "sonnet": 110079,
+          "opus": 6795
+        },
+        "output_tokens": {
+          "sonnet": 20974,
+          "opus": 962
+        },
+        "estimated_cost_usd": 0.7029,
+        "price_basis": "USD/MTok list prices in ezhuthu.agent.llm.PRICE_PER_MTOK"
+      },
+      "budget": 118,
+      "budget_refusals": 0
+    },
+    "2026-11-02-ocr-eval-real.jsonl": {
+      "set": "real",
+      "router": "routed",
+      "n": 6,
+      "errors": 0,
+      "usage": {
+        "calls": 7,
+        "cached_calls": 0,
+        "input_tokens": {
+          "sonnet": 7236,
+          "opus": 1457
+        },
+        "output_tokens": {
+          "sonnet": 4445,
+          "opus": 186
+        },
+        "estimated_cost_usd": 0.1003,
+        "price_basis": "USD/MTok list prices in ezhuthu.agent.llm.PRICE_PER_MTOK"
+      },
+      "budget": 20,
+      "budget_refusals": 0
+    }
+  }
+}

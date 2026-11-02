@@ -8,6 +8,7 @@ describe('Restore page', () => {
   it('counts gaps, restores the sample and shows fill plus the experts-unsure state', async () => {
     const user = userEvent.setup();
     renderApp(<AppRoutes />, { route: '/restore' });
+    await user.click(screen.getByTestId('read-tab-type'));
     await user.click(screen.getByTestId('use-sample'));
     expect(screen.getByTestId('gap-count')).toHaveTextContent('2');
     await user.click(screen.getByTestId('restore-submit'));
@@ -19,6 +20,7 @@ describe('Restore page', () => {
   it('sends a correction to the review queue', async () => {
     const user = userEvent.setup();
     renderApp(<AppRoutes />, { route: '/restore' });
+    await user.click(screen.getByTestId('read-tab-type'));
     await user.click(screen.getByTestId('use-sample'));
     await user.click(screen.getByTestId('restore-submit'));
     await screen.findByTestId('restore-result');

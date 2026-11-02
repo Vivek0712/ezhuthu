@@ -15,6 +15,9 @@ export type EvaluateBuiltinRequest = Schemas['EvaluateBuiltinRequest'];
 export type QueueItem = Schemas['QueueItem'];
 export type CorrectionRequest = Schemas['CorrectionRequest'];
 export type Level = Schemas['Level'];
+export type ReadRequest = Schemas['ReadRequest'];
+export type ReadResponse = Schemas['ReadResponse'];
+export type ReadLine = Schemas['ReadLine'];
 
 export class ApiError extends Error {
   constructor(
@@ -52,8 +55,11 @@ export const client = createClient<paths>({ baseUrl: apiBase(), fetch: (req) => 
 client.use(authMiddleware);
 
 async function toApiError(response: Response, error: unknown): Promise<ApiError> {
-  const e = (error as { error?: { code?: string; message?: string } } | undefined)?.error;
-  return new ApiError(response.status, e?.code ?? `http_${response.status}`, e?.message ?? response.statusText ?? 'request failed');
+  // The cloud proxy wraps errors as {error: {code, message}}; the FastAPI app (local dev) answers {detail, code?}.
+  const raw = error as { error?: { code?: string; message?: string }; detail?: unknown; code?: string } | undefined;
+  const e = raw?.error;
+  const detail = typeof raw?.detail === 'string' ? raw.detail : undefined;
+  return new ApiError(response.status, e?.code ?? raw?.code ?? `http_${response.status}`, e?.message ?? detail ?? (response.statusText || 'request failed'));
 }
 
 async function unwrap<T>(p: Promise<{ data?: T; error?: unknown; response: Response }>): Promise<T> {
@@ -64,6 +70,7 @@ async function unwrap<T>(p: Promise<{ data?: T; error?: unknown; response: Respo
 
 export const api = {
   restore: (body: RestoreRequest) => unwrap(client.POST('/api/restore', { body })),
+  read: (body: ReadRequest) => unwrap(client.POST('/api/read', { body })),
   lesson: (body: Schemas['LessonRequest']) => unwrap(client.POST('/api/lesson', { body })),
   answer: (body: Schemas['AnswerRequest']) => unwrap(client.POST('/api/answer', { body })),
   assessment: (body: Schemas['AssessmentRequest']) => unwrap(client.POST('/api/assessment', { body })),

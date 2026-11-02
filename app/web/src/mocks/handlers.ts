@@ -5,6 +5,7 @@ import { isLevel } from '../lib/levels';
 import { expectedCalibrationError } from '../lib/reliability';
 import { sampleByInscription } from '../samples';
 import { SAMPLES } from '../samples/data';
+import { readHandlers } from './read';
 import { ASSESSMENT, LESSONS, REVIEWED_ELSEWHERE, SEED_QUEUE, templateContext, type MockItem } from './fixtures';
 
 /** In-memory backend state for the mock API. `resetMockState()` gives tests a clean slate. */
@@ -290,6 +291,7 @@ function newSession(level: Schemas['Level']): string {
 }
 
 export const handlers = [
+  ...readHandlers,
   http.post('/api/restore', async ({ request }) => {
     await latency();
     const body = (await request.json()) as Schemas['RestoreRequest'];

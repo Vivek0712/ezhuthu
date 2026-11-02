@@ -69,6 +69,35 @@ behind a process-wide rate limiter (`EZHUTHU_LLM_RPM`, or `--rpm` on the eval CL
 `tools.py` exposes the same steps as Strands `@tool`s and `build_restorer_agent()` builds an agentic Restorer.
 Baselines (`baselines.py`): copy-from-best-parallel, character n-gram, zero-shot LLM.
 
+## Reader: upload + OCR (`reader.py`, `POST /api/read`)
+
+Learners rarely have inscription text to paste, so the app's primary input is a photo or a file. `Reader.read`
+turns either into lines in the restorer's notation (ISO-15919 with `[?N]` / `[?]` gaps) plus Tamil script:
+
+- **Photo** (base64 JPEG/PNG/WebP; HEIC with the optional `heic` extra): Pillow sniffs the bytes, refuses more than
+  5 MB or 40 MP, applies the EXIF orientation, downscales to 1568 px and re-encodes JPEG **without any metadata**
+  (EXIF, GPS, XMP, ICC), so nothing identifying reaches Bedrock, `.cache/` or logs. Then one vision call through a
+  Strands `Agent` (`llm.complete_image`, Bedrock Converse image block) on `llm.default` (Sonnet 4.6) asks for compact
+  JSON: script (`tamil-brahmi|vatteluttu|grantha|pallava-tamil|chola-tamil|modern-tamil|unknown`), era, per-line
+  text and probability, and `[?N]` for illegible letters ("never guess hidden letters"). A reply cut at
+  `max_tokens` keeps its complete lines. Router: `routed` re-reads with `llm.escalate` (Opus 4.6) when the
+  confidence is under `routing.escalate_if_confidence_below` **and** at least `reader.escalate_min_remaining_s`
+  (15 s) of the request budget `reader.request_budget_s` (25 s; the cloud proxy allows 27 s) is left; every call and
+  retry back-off is bounded by what is left. The more confident reading is kept; a failed escalation keeps the
+  first (`escalation_skipped: "error"`). Without time left it reports `escalation_skipped: "time_budget"` with a
+  one-time `reread_token`, and the app offers `router: "opus"` with that token as a second request; `router:
+  "opus"` without a valid token is refused (403), so anonymous callers cannot pick the expensive model. Warnings
+  come with `warning_codes` so the app can show them in Tamil.
+- **Text file**: Tamil script or ISO-15919, one line per line; line numbers, `...` and `[...]` (lost text) are
+  normalised; characters the restore API would refuse are dropped and reported in `warnings`.
+- **DHARMA EpiDoc XML**: parsed with `corpus/epidoc.parse_edition` behind a parser that resolves no entities and
+  no network; `<supplied>` restorations are masked as `[?N]` so the learner can try restoring them.
+
+Warnings flag Tamil-Brahmi, Vatteluttu and Grantha readings and any reading under confidence 0.5. Measured accuracy
+(CER 0.10 synthetic Tamil script, 0.09 real printed Tamil, 0.86 real Tamil-Brahmi): `eval/reports/2026-11-02-ocr-eval.md`,
+reproducible with `python -m ezhuthu.eval.ocr` (synthetic plates are rendered by `src/ezhuthu/eval/ocr_render.mjs` with the
+app's Noto fonts; the real-image list with licences is `eval/ocr/real_images.json`).
+
 ## Ontology (`ontology_port.py`, `ontology_mcp.py`)
 
 `get_ontology()` starts `python -m ezhuthu.ontology.mcp_server` as a stdio subprocess of the same interpreter and

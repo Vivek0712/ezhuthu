@@ -12,10 +12,20 @@ export interface RouteDef {
   sessionFrom?: 'body' | 'path';
   /** POST /api/lesson starts a session: the proxy mints its id. */
   startsSession?: boolean;
+  /** Request body cap for this route (default 2 MB). */
+  maxBodyBytes?: number;
 }
+
+/**
+ * POST /api/read carries a photo as base64 JSON (contracts/restore-api.md). Lambda's synchronous invoke payload
+ * limit is 6 MB for the whole API Gateway event, so the body is capped at 4.5 MB (a ~3.3 MB image after base64);
+ * the app resizes photos to at most 2048 px / ~1.5 MB before upload, so real requests stay far below this.
+ */
+export const READ_MAX_BODY_BYTES = 4_500_000;
 
 export const ROUTES: readonly RouteDef[] = [
   { method: 'POST', path: '/api/restore', handler: 'agent', access: 'public' },
+  { method: 'POST', path: '/api/read', handler: 'agent', access: 'public', maxBodyBytes: READ_MAX_BODY_BYTES },
   { method: 'POST', path: '/api/lesson', handler: 'agent', access: 'public', startsSession: true },
   { method: 'POST', path: '/api/answer', handler: 'agent', access: 'public', sessionFrom: 'body' },
   { method: 'POST', path: '/api/assessment', handler: 'agent', access: 'public', sessionFrom: 'body' },

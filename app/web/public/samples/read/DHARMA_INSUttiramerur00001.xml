@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://raw.githubusercontent.com/erc-dharma/project-documentation/master/schema/latest/DHARMA_Schema.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://raw.githubusercontent.com/erc-dharma/project-documentation/master/schema/latest/DHARMA_Schema.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="https://raw.githubusercontent.com/erc-dharma/project-documentation/master/schema/latest/DHARMA_SQF.sch" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="https://epidoc.stoa.org/schema/latest/tei-epidoc.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://epidoc.stoa.org/schema/latest/tei-epidoc.rng" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="eng">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Uttiramērūr, Vaikuṇṭha-Perumāḷ, time of Parakesarivarman, year 12</title>
+                <respStmt>
+                    <resp key="creator">author of digital edition</resp>
+                    <persName ref="part:emfr">
+                        <forename>Emmanuel</forename>
+                        <surname>Francis</surname>
+                    </persName>
+                </respStmt>
+            <funder>European Research Council (ERC), grant agreement no 809994</funder></titleStmt>
+            <publicationStmt>
+                <authority><ref target="https://dharmalekha.info">DHARMA</ref></authority>
+                <pubPlace>Paris, CEIAS</pubPlace>
+                <idno type="filename">DHARMA_INSUttiramerur00001.xml</idno>
+                <availability><licence target="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</licence></availability>
+                <date from="2019" to="2026">2019-2026</date>
+            </publicationStmt>
+            <sourceDesc>
+                <msDesc>
+                    <msIdentifier><repository>as per external metadata</repository></msIdentifier>
+                    <msContents>
+                        <summary>Procedure of election to the village committees.</summary>
+                    </msContents>
+                    <physDesc>
+                        <handDesc>
+                            <p/>
+                        </handDesc>
+                    </physDesc>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+         <p>Encoded in TEI/EpiDoc according to the <ref target="https://hal.science/halshs-02888186">DHARMA Encoding Guide for Documentary Editions, version 2</ref></p>
+      </encodingDesc>
+        <revisionDesc>
+            <change who="part:emfr" when="2023-10-21" status="draft">Creation of the file</change>
+        </revisionDesc>
+    </teiHeader>
+    <text xml:space="preserve">
+        <body>
+            
+            <div type="edition" xml:lang="tam-Latn" rendition="class:tamil maturity:83215">
+                
+                <ab>
+                    <lb n="1"/><hi rend="grantha">svasti śrī</hi>
+                </ab>     
+                
+                <p>
+                    mat<choice><orig>i</orig><reg>u</reg></choice>rai koṇṭa <supplied reason="lost">kō-p-para</supplied>kēca<supplied reason="lost">r</supplied>i-va<hi rend="grantha"><unclear>r</unclear>mma</hi>rkku yāṇṭu pa<choice><orig>ṉ</orig><reg>ṉṉ</reg></choice>ira<supplied reason="omitted">ṇ</supplied>ṭu Āvatu
+                </p>
+                
+                <p>
+                    Uttiramēru-c<unclear>·</unclear>-catu<hi rend="grantha"><supplied reason="omitted">r</supplied>vvedi<choice><orig>mm</orig><reg>m</reg></choice>a</hi>ṅ<unclear>·</unclear>kalattu <hi rend="grantha">sabhai</hi>yōm
+                    Ivv-āṇṭu mutal
+                    Eṅkaḷ ūr <hi rend="grantha">śrī-mu<choice><orig>ka</orig><reg>kha</reg></choice></hi>-p paṭi
+                    <hi rend="grantha">Āñai</hi>
+                    <lb n="2" break="no"/>yi<unclear reason="eccentric_ductus">ṉ</unclear>āl tattanū<unclear>r m</unclear><choice><orig>u</orig><reg>ū</reg></choice>vē<unclear>nta</unclear>vēḷāṉ Iruntu
+                    vāriyam-āka Āṭṭ’ oru-k-kālum <hi rend="grantha">sa<choice><sic>mma</sic><corr>m</corr></choice></hi>v<choice><sic>ā</sic><corr>a</corr></choice><hi rend="grantha">t<unclear>·</unclear>sara</hi>-vāriyamun tōṭṭa-vāriyamum Ēri<surplus>ṭu</surplus>-vāriyamum Iṭuvata<unclear>ṟ</unclear>ku <hi rend="grantha">vya</hi>va<hi rend="grantha">sthai</hi> cey
+                    <lb n="3" break="no"/>ta paric' āvatu
+                </p>
+                
+                <p>...</p>
+                
+            </div>
+            
+            <div type="apparatus">
+                
+                <listApp>
+                    
+                    <!--<app loc="0">
+                        <lem>...</lem>
+                        <rdg source="bib:Venkayya1908_01">...</rdg>
+                        </app>-->
+                    
+                    <app loc="2">
+                        <lem>Iṭuvata<unclear>ṟ</unclear>ku</lem>
+                        <rdg source="bib:Venkayya1908_01">Iṭuvataṟku</rdg>
+                        <note>The letter <foreign>ṟ</foreign> seems to have been corrected from <foreign>k</foreign>.</note>
+                    </app>
+                    
+                </listApp>
+                
+            </div>
+            
+            
+            <div type="translation" resp="part:emfr">
+                
+                <p n="1">
+                    Prosperity! Fortune!
+                </p>
+                
+                <p n="1">
+                    12th year of the king Parakesarivarman who took Maturai.
+                </p>
+                
+                <p n="1-3">
+                    This is the manner <supplied reason="explanation"><foreign>pāric' āvatu</foreign></supplied>,
+                    in which, We, the members of the assembly of Uttirameruccaturvvedimaṅgala,
+                    made a deliberation / settlement <supplied reason="explanation"><foreign><hi rend="grantha">vya</hi>va<hi rend="grantha">sthai</hi></foreign></supplied>,
+                    according to a royal order <supplied reason="explanation"><foreign><hi rend="grantha">śrī-mukha</hi>-p paṭi</foreign></supplied><note>Alternatively: "according to a royal order <supplied reason="subaudible">sent to / of / concerning</supplied> our village".</note>,
+                    Tattanūr Mūvēntavēḷāṉ sitting <supplied reason="subaudible">with us</supplied>, as per order <supplied reason="explanation"><foreign><hi rend="grantha">āñai</hi>-y-iṉ-āl</foreign></supplied>, 
+                    so as to establish <supplied reason="explanation"><foreign>iṭuvataṟku</foreign><note>Literally: "to put".</note></supplied>,
+                    from this year onwards, <supplied reason="subaudible">in</supplied> our village, as committees <supplied reason="explanation"><foreign>vāriyam-āka</foreign></supplied>, one time <supplied reason="explanation"><foreign>oru-k-kālum</foreign></supplied> per year <supplied reason="explanation"><foreign>āṭṭu</foreign></supplied>, the annual committee <supplied reason="explanation"><foreign><hi rend="grantha">samvatsara</hi>-vāriyam</foreign></supplied>, the garden committee <supplied reason="explanation"><foreign>tōṭṭa-vāriyam</foreign></supplied>, and the tank committee <supplied reason="explanation"><foreign>ēri-vāriyam</foreign></supplied>.
+                </p>	
+            </div>
+            
+            
+            <div type="translation" source="bib:Venkayya1908_01">
+                
+                <p>...</p>
+                
+            </div>
+            
+            
+            <div type="commentary">
+                
+                <p>
+                    Parāntaka I Cōḻa according to <bibl><ptr target="bib:Venkayya1908_01"/></bibl> (918/919 CE)and <bibl><ptr target="bib:Mahalingam1989_01"/></bibl> (919 CE).
+                </p>
+                
+                
+            </div>
+            
+            
+            <div type="bibliography">
+                
+                <p>
+                    Reported in <bibl><ptr target="bib:ARIE1897-1898"/></bibl> (ARIE/1897-1898/B/1898/1).
+                </p>
+                
+                <p>
+                    Edited and translated in <bibl><ptr target="bib:Venkayya1908_01"/></bibl> (ARASI 1904-1905). Edited and translated in <bibl><ptr target="bib:NilakantaSastri1932_01"/></bibl>.
+                </p>
+                
+                <p>
+                    Re-edited here by Emmanuel Francis (2023), based on autopsy and on photographs (2019), with input from participants to the DHARMA workshop held in Pondicherry in August 2023.
+                </p>
+                
+                <listBibl type="primary">
+                    
+                    <bibl n="V">
+                        <ptr target="bib:Venkayya1908_01"/>
+                        <citedRange unit="page">136-139</citedRange>
+                        <citedRange unit="item">A</citedRange>
+                    </bibl>
+                    
+                    <bibl n="S">
+                        <ptr target="bib:NilakantaSastri1932_01"/>
+                        <citedRange unit="page">163-164, 169-170</citedRange>
+                        <citedRange unit="item">A</citedRange>
+                    </bibl>		
+                    
+                </listBibl>
+                
+                <listBibl type="secondary">
+                    
+                    <bibl>
+                        <ptr target="bib:ARIE1897-1898"/>
+                        <citedRange unit="page">16</citedRange>
+                        <citedRange unit="appendix">B</citedRange>
+                        <citedRange unit="item">1</citedRange>
+                    </bibl>
+                    
+                    <bibl>
+                        <ptr target="bib:Mahalingam1989_01"/>
+                        <citedRange unit="page">266-267</citedRange>
+                        <citedRange unit="item">Cg. 1074</citedRange>			
+                    </bibl>
+                    
+                    
+                </listBibl>
+                
+            </div>
+            
+        </body>
+    </text>
+</TEI>

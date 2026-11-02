@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { api, type AnswerResponse, type LessonResponse, type Level } from '../api/client';
 import { Busy, CC_BY_SA, ErrorNote } from '../components/Feedback';
 import { GlyphTile } from '../components/GlyphTile';
@@ -9,6 +9,7 @@ import type { MessageKey } from '../i18n/strings';
 import { isLevel, levelInfo } from '../lib/levels';
 import { sampleById, sampleByInscription, useSamples } from '../samples';
 import { isDharmaUrl, safeHref } from '../lib/format';
+import { LEARN_TEXT_LIMIT } from '../lib/learn';
 import { setSessionId } from '../lib/session';
 
 export function LearnPage() {
@@ -23,7 +24,11 @@ export function LearnPage() {
     const l = params.get('level');
     return isLevel(l) ? l : 'L2';
   });
-  const [ownText, setOwnText] = useState('');
+  // Restore -> Learn hand-off: a reading from a photo or file arrives as navigation state.
+  const location = useLocation();
+  const handed = (location.state as { text?: unknown } | null)?.text;
+  const [ownText, setOwnText] = useState(typeof handed === 'string' ? handed.slice(0, LEARN_TEXT_LIMIT) : '');
+  const handedCut = typeof handed === 'string' && handed.length > LEARN_TEXT_LIMIT;
   const [lesson, setLesson] = useState<LessonResponse | null>(null);
   const [idx, setIdx] = useState(0);
   const [answer, setAnswer] = useState('');
@@ -134,8 +139,13 @@ export function LearnPage() {
           <label className="field" style={{ margin: '18px 0' }}>
             {t('learn.ownText')}
             <span className="hint-text">{t('learn.ownTextHint')}</span>
-            <textarea value={ownText} onChange={(e) => setOwnText(e.target.value)} rows={2} style={{ minHeight: 70 }} />
+            <textarea value={ownText} onChange={(e) => setOwnText(e.target.value)} rows={2} style={{ minHeight: 70 }} maxLength={LEARN_TEXT_LIMIT} />
           </label>
+          {handedCut && (
+            <p className="note" role="status" data-testid="learn-text-cut">
+              {t('learn.textCut')}
+            </p>
+          )}
           <div className="row">
             <button className="btn btn-primary" type="submit" disabled={busy} data-testid="start-lesson">
               {t('learn.start')}

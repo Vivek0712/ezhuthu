@@ -1,0 +1,55 @@
+/* Upload + OCR (RestorePage ReadPanel). Tokens only, from design/tokens. Kept out of app.css to keep merges small. */
+.read-card { padding: 0; overflow: hidden; }
+.read-tabs { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--ez-border); background: color-mix(in srgb, var(--ez-surface-sunk) 60%, transparent); }
+.read-tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 64px; padding: 10px 6px; border: 0; background: transparent; color: var(--ez-text-muted); font: inherit; font-weight: var(--ez-weight-semibold); font-size: var(--ez-text-sm); cursor: pointer; position: relative; text-align: center; }
+.read-tab svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.read-tab::after { content: ''; position: absolute; left: 18%; right: 18%; bottom: -1px; height: 3px; border-radius: 3px 3px 0 0; background: var(--ez-accent); transform: scaleX(0); transition: transform var(--ez-dur-base) var(--ez-ease-standard); }
+.read-tab.active { color: var(--ez-accent-text); background: var(--ez-surface); }
+.read-tab.active::after { transform: scaleX(1); }
+.read-tab:focus-visible { outline: 3px solid var(--ez-focus); outline-offset: -3px; }
+@media (min-width: 640px) { .read-tab { flex-direction: row; gap: 8px; } }
+.read-panel { padding: 18px; }
+.read-panel > form { padding: 0; }
+.read-card > .alert, .read-review { margin: 0 18px 18px; }
+
+.dropzone { display: grid; justify-items: center; gap: 10px; text-align: center; padding: 28px 16px; border: 2px dashed var(--ez-leaf-edge); border-radius: var(--ez-radius-lg); background: color-mix(in srgb, var(--ez-leaf) 40%, var(--ez-surface)); transition: background var(--ez-dur-fast), border-color var(--ez-dur-fast), transform var(--ez-dur-fast); }
+.dropzone.drag { border-color: var(--ez-accent); background: var(--ez-accent-soft); transform: scale(1.01); }
+.dropzone p { margin: 0; max-width: 52ch; }
+.dropzone-icon { width: 56px; height: 56px; fill: none; stroke: var(--ez-accent-text); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+/* While reading: the shrunk photo with a lamp-coloured scan line sweeping over it. */
+.scan-preview { position: relative; max-width: min(100%, 420px); border-radius: var(--ez-radius-md); overflow: hidden; box-shadow: var(--ez-shadow-2); }
+.scan-preview img { display: block; width: 100%; height: auto; }
+.scan-line { position: absolute; left: 0; right: 0; top: 0; height: 18%; background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--ez-lamp) 55%, transparent), transparent); animation: scan 1.8s var(--ez-ease-chisel) infinite alternate; }
+@keyframes scan { from { transform: translateY(-20%); } to { transform: translateY(470%); } }
+
+.read-samples { display: grid; gap: 8px; }
+.read-sample-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+.read-sample { display: grid; gap: 6px; padding: 8px; border-radius: var(--ez-radius-md); border: 1px solid var(--ez-border); background: var(--ez-surface-raised); color: var(--ez-text); font: inherit; font-size: var(--ez-text-sm); font-weight: var(--ez-weight-semibold); text-align: left; cursor: pointer; min-height: var(--ez-space-tap); transition: transform var(--ez-dur-fast), border-color var(--ez-dur-fast); }
+.read-sample:hover:not(:disabled) { transform: translateY(-2px); border-color: var(--ez-accent); }
+.read-sample:disabled { opacity: .55; cursor: progress; }
+.read-sample img { width: 100%; aspect-ratio: 2 / 1; object-fit: contain; background: #3b3632; border-radius: var(--ez-radius-sm); }
+.read-sample-doc { display: grid; place-items: center; aspect-ratio: 2 / 1; border-radius: var(--ez-radius-sm); background: var(--ez-surface-sunk); color: var(--ez-accent-text); font-weight: 800; letter-spacing: .12em; }
+
+.read-experimental { display: flex; gap: 10px; align-items: flex-start; margin: 0; padding: 10px 12px; border-radius: var(--ez-radius-md); background: var(--ez-unsure-soft); border: 1.5px dashed var(--ez-unsure); }
+.read-experimental .sub { display: block; color: var(--ez-text-muted); font-size: var(--ez-text-sm); }
+.read-split { display: grid; gap: 18px; }
+@media (min-width: 900px) { .read-split { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: start; } .read-figure { position: sticky; top: 84px; } }
+.read-figure { margin: 0; }
+.read-figure img { display: block; width: 100%; height: auto; border-radius: var(--ez-radius-md); box-shadow: var(--ez-shadow-1); }
+.segmented { display: inline-flex; border: 1px solid var(--ez-border-strong); border-radius: var(--ez-radius-pill); overflow: hidden; }
+.segmented button { border: 0; background: transparent; color: var(--ez-text); font: inherit; font-size: var(--ez-text-sm); font-weight: var(--ez-weight-semibold); padding: 6px 14px; min-height: 40px; cursor: pointer; }
+.segmented button.on { background: var(--ez-accent); color: var(--ez-on-accent); }
+.read-lines { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.read-line { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 6px 8px; border-radius: var(--ez-radius-md); background: var(--ez-surface-raised); border: 1px solid var(--ez-border); opacity: 0; animation: pop var(--ez-dur-slow) var(--ez-ease-enter) forwards; }
+.read-line.off { background: transparent; }
+.read-line.off .read-line-input { color: var(--ez-text-faint); text-decoration: line-through; }
+.read-line-check { display: flex; align-items: center; gap: 6px; min-height: var(--ez-space-tap); }
+.read-line-check input { width: 20px; height: 20px; }
+.read-line-n { font-size: var(--ez-text-xs); font-weight: 800; color: var(--ez-accent-text); min-width: 1.6em; }
+.read-line-input { width: 100%; min-width: 0; resize: vertical; field-sizing: content; min-height: 44px; line-height: 1.5; overflow-wrap: anywhere; font-size: 1.1rem; padding: 8px 10px; border-radius: var(--ez-radius-sm); border: 1px solid var(--ez-border); background: var(--ez-surface); color: var(--ez-text); font-family: 'Noto Sans Tamil', 'Instrument Sans', sans-serif; }
+@media (prefers-reduced-motion: reduce) {
+  .scan-line { animation: none; opacity: .5; }
+  .read-line { animation: none; opacity: 1; }
+  .dropzone.drag { transform: none; }
+}

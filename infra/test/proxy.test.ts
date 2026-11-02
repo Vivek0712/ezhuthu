@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { parseAgentResponse, runtimeSessionId, type AgentPayload } from '../lambda/proxy/agent';
 import { handle, type Deps } from '../lambda/proxy/index';
 import { QueueStore, type DocClient } from '../lambda/proxy/queue';
-import { matchRoute, ROUTES } from '../lambda/proxy/routes';
+import { matchRoute, READ_MAX_BODY_BYTES, ROUTES } from '../lambda/proxy/routes';
 import { readFileSync } from 'node:fs';
 import * as path from 'node:path';
 
@@ -130,6 +130,25 @@ describe('agent routes', () => {
     expect(res.statusCode).toBe(200);
     expect(calls[0]!.payload.body).toEqual({ jsonl: '{"id":"a"}\n{"id":"b"}\n' });
     expect(calls[0]!.payload.user).toEqual({ sub: 'u-2', name: 'arun', groups: [] });
+  });
+  it('forwards /api/read photos up to the route cap and refuses larger bodies before invoking the agent', async () => {
+    reply = JSON.stringify({ status: 200, body: { lines: [], source: 'image' } });
+    const b64 = 'A'.repeat(3_000_000);
+    const ok = await handle(event('POST', '/api/read', { image_base64: b64 }), deps);
+    expect(ok.statusCode).toBe(200);
+    expect(calls[0]!.payload).toMatchObject({ route: '/api/read', body: { image_base64: b64 } });
+    expect(calls[0]!.sid).toMatch(/^ezhuthu-req-/);
+    const big = await handle(event('POST', '/api/read', { image_base64: 'A'.repeat(READ_MAX_BODY_BYTES) }), deps);
+    expect(big.statusCode).toBe(413);
+    expect(calls).toHaveLength(1);
+    // other routes keep the 2 MB cap
+    expect((await handle(event('POST', '/api/restore', { text: 'A'.repeat(2_200_000) }), deps)).statusCode).toBe(413);
+  });
+  it('passes reader error codes through (413/415/503)', async () => {
+    reply = JSON.stringify({ status: 503, body: { error: { code: 'reader_unavailable', message: 'no live model' } } });
+    const res = await handle(event('POST', '/api/read', { image_base64: 'QQ==' }), deps);
+    expect(res.statusCode).toBe(503);
+    expect(JSON.parse(res.body!)).toEqual({ error: { code: 'reader_unavailable', message: 'no live model' } });
   });
   it('rejects evaluate without a token and bad JSON', async () => {
     expect((await handle(event('POST', '/api/evaluate', { benchmark: 'test-hard' }), deps)).statusCode).toBe(401);

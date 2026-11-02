@@ -30,7 +30,9 @@ export async function handle(event: APIGatewayProxyEventV2WithJWTAuthorizer, dep
     if (route.access !== 'public' && !caller) throw new HttpError(401, 'unauthorized', 'sign in required');
     if (route.access === 'expert' && !caller!.groups.includes('experts')) throw new HttpError(403, 'forbidden', 'experts group required');
 
-    if (event.body && Buffer.byteLength(event.body) > MAX_BODY_BYTES) throw new HttpError(413, 'too_large', 'request body is larger than 2 MB');
+    const maxBody = route.maxBodyBytes ?? MAX_BODY_BYTES;
+    if (event.body && Buffer.byteLength(event.body) > maxBody)
+      throw new HttpError(413, 'too_large', `request body is larger than ${(maxBody / 1024 / 1024).toFixed(1)} MB`);
     const headers = Object.fromEntries(Object.entries(event.headers ?? {}).map(([k, v]) => [k.toLowerCase(), v ?? '']));
     const body = method === 'GET' ? {} : parseBody(event.body, event.isBase64Encoded, headers['content-type'] ?? 'application/json');
 

@@ -14,14 +14,14 @@ export function HomePage() {
           <h1>{t('home.title')}</h1>
           <p className="lede">{t('home.lede')}</p>
           <div className="hero-actions">
-            {/* Points at the restore form, which exists today. When the upload/OCR flow (PR #34) is on main, this becomes
-                "Upload a photo" (home.ctaUpload) and e2e/samples.spec.ts asserts the file input. */}
-            <Link className="btn btn-primary" to="/restore" data-testid="cta-restore">
+            {/* Upload is the primary input (user feedback: people rarely have the text at hand): /restore opens on the
+                photo tab, with sample plates for anyone without a photo. e2e/samples.spec.ts asserts the file input. */}
+            <Link className="btn btn-primary" to="/restore" data-testid="cta-upload">
               <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 20h4L19 9l-4-4L4 16z" />
-                <path d="M13.5 6.5l4 4" />
+                <path d="M4 8h3l2-3h6l2 3h3v11H4z" />
+                <circle cx="12" cy="13" r="3.5" />
               </svg>
-              {t('home.ctaRestore')}
+              {t('home.ctaUpload')}
             </Link>
             <a
               className="btn btn-ghost"

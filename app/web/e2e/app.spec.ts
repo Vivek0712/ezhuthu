@@ -66,6 +66,7 @@ test.describe('learn', () => {
 test('restore: fill with confidence, and "experts are unsure" on abstain', async ({ page }) => {
   await setEnglish(page);
   await page.goto('/restore');
+  await page.getByTestId('read-tab-type').click();
   await page.getByTestId('use-sample').click();
   await expect(page.getByTestId('gap-count')).toContainText('2');
   await page.getByTestId('restore-submit').click();
@@ -218,6 +219,7 @@ test.describe('design system and states', () => {
     await setEnglish(page);
     await page.goto('/restore');
     await expect(page.getByTestId('footer-credit')).toHaveText('Inscription texts: DHARMA, CC BY-SA 4.0');
+    await page.getByTestId('read-tab-type').click();
     await page.getByTestId('use-sample').click();
     await page.getByTestId('restore-submit').click();
     await expect(page.getByTestId('restore-credit')).toContainText('CC BY-SA 4.0');
