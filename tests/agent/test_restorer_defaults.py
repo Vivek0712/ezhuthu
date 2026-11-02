@@ -44,8 +44,10 @@ def test_shipped_defaults_fill_a_confident_correct_reply_without_escalating(ship
     cur = {}
     llm = FakeLLM(lambda role, s, prompt: json.dumps({"fills": [[cur["target"], p]]}, ensure_ascii=False))
     r = Restorer(llm=llm)  # no settings / calibration / decider passed: config/models.yaml + calibration.json
-    assert r.settings.strategy == CFG.restorer.strategy == "prerank"
-    assert r.settings.strategy_llm == "self-report"
+    # VAL-chosen (issue #26): retrieval-only gaps self-report, LLM gaps the decider's noul on the top-3; with no
+    # decider reachable (NoDecider here, the cloud runtime without one) LLM gaps fall back to self-report
+    assert r.settings.strategy == CFG.restorer.strategy == "self-report"
+    assert r.settings.strategy_llm == "noul-topk" and r.settings.top_k == 3
     assert r.calibration.entries, "the shipped calibration.json must load"
     items = [it for it in load_items("test") if it.gap_chars][:10]
     assert len(items) >= 5
@@ -63,9 +65,10 @@ def test_shipped_defaults_fill_a_confident_correct_reply_without_escalating(ship
             assert not g.escalated
         needless += g.escalated and not _pre_escalates(r, it)
         filled += g.decision == "fill" and g.best.text == normalize_iso(it.target)
-        # the |llm-* entries in calibration.json are provisional (n=20): raw confidences, raw threshold
-        assert g.calibration is None and g.abstain_below == CFG.routing.abstain_if_confidence_below
-        assert g.strategy == "self-report" and g.best.raw_confidence == p
+        # no decider here: noul-topk falls back to the LLM's own probability, which has no VAL calibration
+        # entry, so raw confidences and the raw abstain threshold apply
+        assert g.decider_model == "fallback:llm-self-report" and g.calibration is None
+        assert g.abstain_below == CFG.routing.abstain_if_confidence_below and g.best.raw_confidence == p
     assert needless == 0 and filled == len(items)
 
 
@@ -94,19 +97,61 @@ def test_a_correct_llm_fill_longer_in_iso_than_the_letter_count_still_fills(ship
 def test_strategy_override_applies_to_llm_gaps_too():
     assert CFG.restorer.with_(strategy="choice-topk").strategy_for(True) == "choice-topk"
     assert CFG.restorer.with_(strategy="choice-topk", strategy_llm="prerank").strategy_for(True) == "prerank"
-    assert CFG.restorer.strategy_for(False) == "prerank" and CFG.restorer.strategy_for(True) == "self-report"
+    assert CFG.restorer.strategy_for(False) == "self-report" and CFG.restorer.strategy_for(True) == "noul-topk"
     with pytest.raises(ValueError):
         CFG.restorer.with_(strategy_llm="vote")
 
 
-def test_shipped_llm_entries_are_provisional_and_retrieval_entries_are_used(shipped):
+DEC = "strands-decider-2B-qwen3.5-v1-2610"
+
+
+def test_shipped_calibration_entries_are_fitted_on_enough_val_items(shipped):
+    """Issue #26: the |llm-sonnet and |llm-opus entries of the shipped strategy are fitted on >= 100 VAL items (the
+    n=20 entries are gone), and retrieval-only gaps use the full-VAL (n=443) entry of the shipped strategy."""
     r = Restorer()
     llm_keys = [k for k in r.calibration.entries if "|llm" in k]
-    assert llm_keys and all(r.calibration.get(k) is None for k in llm_keys)
     assert all(k.endswith(("|llm-sonnet", "|llm-opus")) for k in llm_keys)  # router-aware keys
-    assert r.calibration.get("prerank|prerank|kall|retrieval") is not None  # n=443, 104 positives
+    for key in (f"{DEC}|noul-topk|k3|llm-sonnet", f"{DEC}|noul-topk|k3|llm-opus"):
+        c = r.calibration.get(key)
+        assert c is not None and c.n >= 100 and c.positives >= 10 and c.split == "val"
+    assert all(e.n >= 100 for e in r.calibration.entries.values())
     g = r.restore_gap(LEFT, RIGHT, GAP, router="none")
-    assert g.calibration == "prerank|prerank|kall|retrieval"
+    assert g.calibration == "fallback:retrieval-heuristic|fallback|kall|retrieval"
+    assert r.calibration.get(g.calibration).n == 443
+
+
+class _NoulDecider:
+    """Says yes (p=0.9) to the candidate equal to ``target``, no (0.05) to anything else."""
+
+    model = DEC
+
+    def __init__(self):
+        self.target = ""
+
+    def available(self) -> bool:
+        return True
+
+    def choice(self, *a, **k):  # pragma: no cover - not used by noul-topk
+        raise AssertionError("noul-topk must not call choice")
+
+    def noul(self, state, instructions, *, name="q"):
+        from ezhuthu.agent.decider import Noul
+
+        p = 0.9 if state["candidate"]["fill"] == self.target else 0.05
+        return Noul(p, DEC, source="fake")
+
+
+def test_shipped_decider_path_fills_a_confident_correct_llm_fill_with_sonnet_only(shipped):
+    dec = _NoulDecider()
+    llm = FakeLLM(lambda role, s, prompt: json.dumps({"fills": [[dec.target, 0.85]]}, ensure_ascii=False))
+    pars = [Parallel("I1", "1", "s", None, 60.0, "kōyil")]  # a good parallel: no pre-escalation
+    r = Restorer(llm=llm, decider=dec, use_ontology=False)
+    r.retrieve_parallels = lambda *a, **k: list(pars)  # type: ignore[method-assign]
+    dec.target = "paṉmaṟku"
+    g = r.restore_gap(LEFT, RIGHT, GAP, router="routed")
+    assert [role for role, _ in llm.calls] == ["default"] and not g.escalated  # P(yes) 0.9 >= 0.6
+    assert g.calibration == f"{DEC}|noul-topk|k3|llm-sonnet" and g.decision == "fill" and g.best.text == "paṉmaṟku"
+    assert g.best.confidence_source == "decider-noul"
 
 
 def test_escalation_uses_raw_confidence_not_the_calibrated_score():

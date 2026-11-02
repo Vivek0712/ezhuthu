@@ -351,9 +351,22 @@ def cmd_decide(args) -> int:
                                    "strategy listed first (self-report, then prerank)"}
     deciders = [s for s in LLM_STRATEGIES if s.split(":")[0] in DECIDER_STRATEGIES]
     dec["llm_decider_variant"] = max(deciders, key=lambda s: (table[s]["top1"], -LLM_STRATEGIES.index(s)))
+    opus_rows = rows["val-opus"]
     if best != "self-report":
-        dec["notes"].append(f"VAL picked {best} for LLM gaps; the escalation simulation below uses self-report "
-                            "rows (re-run val-routed-always with that strategy before relying on it)")
+        # Replay the routed (always-escalate) and Opus runs with the chosen strategy: every LLM reply is cached, so
+        # this makes 0 Bedrock calls (the budget is 0: a cache miss would be refused, not billed).
+        R = Runner(live=True, max_live_calls=0, rpm=0)
+        items = seeded_sample(load_items("val"), n)
+        slug = best.replace(":", "k")
+        always = R.run(f"val-routed-always-{slug}", items, router="routed", out=out, strategy=best,
+                       escalate_below=1.01)
+        opus_rows = R.run(f"val-opus-{slug}", items, router="opus", out=out, strategy=best)
+        sonnet = strat_rows[best]
+        if R.llm.exhausted:
+            raise RuntimeError(f"{R.llm.exhausted} LLM replies were not cached; the replay is not exact")
+        dec["notes"].append(f"VAL picked {best} for LLM gaps: the escalation grid and the LLM calibration below use "
+                            f"its rows (val-sonnet-{slug}, val-routed-always-{slug}, val-opus-{slug}; replayed from "
+                            "the cache, 0 Bedrock calls). Its raw top-1 is the decider's probability.")
 
     # 2. escalation threshold on the raw top-1 (self-report: Sonnet's own probability)
     copy = {r["id"]: r for r in rows["val-copy"]}
@@ -374,7 +387,7 @@ def cmd_decide(args) -> int:
     dec["escalation"] = {"grid": grid, "chosen": chosen_t, "current": cfg.routing.escalate_if_confidence_below,
                          "rule": "fewest Opus calls among thresholds whose VAL top-1 is within 1 percentage point of "
                                  "the best threshold's",
-                         "opus_only_top1": round(sum(r["top1_correct"] for r in rows["val-opus"]) / n, 4),
+                         "opus_only_top1": round(sum(r["top1_correct"] for r in opus_rows) / n, 4),
                          "sonnet_only_top1": round(sum(r["top1_correct"] for r in sonnet) / n, 4)}
     cur = next(g for g in grid if g["threshold"] == cfg.routing.escalate_if_confidence_below)
     dec["escalation"]["at_current"] = cur
@@ -385,12 +398,15 @@ def cmd_decide(args) -> int:
     entries: dict[str, Any] = {}
     now = dt.datetime.now(dt.UTC).isoformat(timespec="seconds")
     groups: dict[str, list[dict]] = {}
+    best_k = parse_strategy(best)[1] or cfg.restorer.top_k
     for src, rs in (("sonnet", sonnet), ("routed", routed)):
         for r in rs:
-            key = row_key(r, cfg, cfg.restorer.top_k)
+            key = row_key(r, cfg, best_k)
             if key and (key.endswith("|llm-sonnet") and src == "sonnet" or key.endswith("|llm-opus") and src == "routed"):
                 groups.setdefault(key, []).append(r)
     for s in LLM_STRATEGIES[1:]:  # decider/prerank variants on the Sonnet pools (for the decider-variant test run)
+        if s == best:  # already in its group above
+            continue
         _strat, k = parse_strategy(s)
         for r in strat_rows[s]:
             key = row_key(r, cfg, k or cfg.restorer.top_k)
@@ -464,6 +480,15 @@ def cmd_test(args) -> int:
     if cfg.routing.escalate_if_confidence_below != dec["escalation"]["chosen"]:
         print("config/models.yaml routing threshold differs from the VAL decision; update it first", file=sys.stderr)
         return 2
+    want_llm = dec["llm_strategy"]["chosen"]
+    want_ret = {"fallback": "self-report"}.get(dec["retrieval_strategy"]["chosen"],
+                                               dec["retrieval_strategy"]["chosen"])
+    got_llm = f"{cfg.restorer.strategy_llm}:{cfg.restorer.top_k}" if cfg.restorer.strategy_llm in (
+        "choice-topk", "noul-topk") else cfg.restorer.strategy_llm
+    if got_llm != want_llm or cfg.restorer.strategy != want_ret.split(":")[0]:
+        print(f"config/models.yaml restorer strategies ({cfg.restorer.strategy} / {got_llm}) differ from the VAL "
+              f"decisions ({want_ret} / {want_llm}); update it first", file=sys.stderr)
+        return 2
     out = Path(args.out) / TEST_DIR
     R = Runner(live=True, max_live_calls=args.max_live_calls, rpm=args.rpm)
     cal = CalibrationTable.load(cfg.restorer.calibration, min_n=cfg.restorer.calibration_min_n,
@@ -503,8 +528,9 @@ def cmd_test(args) -> int:
         for f in [ex.submit(lane_a), ex.submit(lane_b), ex.submit(lane_c)]:
             f.result()
     R.run("routed", items, router="routed", out=out, workers=w, calibration=cal)
-    R.run(f"sonnet-decider-{llm_dec.replace(':', 'k')}", items, router="sonnet", out=out,
-          strategy=llm_dec, calibration=cal)
+    if llm_dec != dec["llm_strategy"]["chosen"]:  # else the shipped "sonnet" row already is the decider row
+        R.run(f"sonnet-decider-{llm_dec.replace(':', 'k')}", items, router="sonnet", out=out,
+              strategy=llm_dec, calibration=cal)
     usage = R.llm.inner.ledger.to_dict()
     (out / "usage.json").write_text(json.dumps({"usage": usage, "budget_refusals": R.llm.exhausted,
                                                 "max_live_calls": args.max_live_calls, **prov}, indent=1),
@@ -727,6 +753,9 @@ def render_val_md(dec: dict[str, Any], metas: dict[str, dict]) -> str:
             vtxt = "chosen" if vb is None else f"{vb['only_a']} / {vb['only_b']}, p={_p(vb['p_mcnemar'])}"
             L.append(f"| {v} | {t['top1']} | {t['oracle']} | {t['vs_copy']['only_variant']} / {t['vs_copy']['only_copy']} "
                      f"| {vtxt} |")
+        L += ["", ("`fallback` is restorer strategy `self-report` with no LLM fill: each retrieval candidate scores "
+                   "best parallel match x share of parallels agreeing (halved when the length is off); no decider "
+                   "call.")]
         L += ["", (f"Chosen: **{rs['chosen']}**. Best decider variant (scored on TEST as the decider row): "
               f"**{rs['decider_variant']}**."), ""]
     ls = dec["llm_strategy"]
