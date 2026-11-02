@@ -95,3 +95,40 @@ def test_pre_escalates_matches_restore_gap():
         llm.calls.clear()
         r.restore_gap(it.left, it.right, it.gap_chars, router="routed", exclude_inscription=it.inscription_id)
         assert (llm.calls[0][0] == "escalate") == fe.pre_escalates(r, it), it.id
+
+
+def test_strategy_slug_round_trip():
+    for s in ("choice-topk:3", "noul-topk:3", "choice-all", "prerank", "self-report"):
+        assert fe.strategy_from_slug(s.replace(":", "k")) == s
+
+
+def test_paced_llm_paces_live_calls_only(tmp_path, monkeypatch):
+    from ezhuthu.agent.llm import LLMResponse
+
+    monkeypatch.setenv("EZHUTHU_LIVE", "1")
+    llm = fe.PacedBedrockLLM(rpm=40, cache_dir=tmp_path)
+    waits: list[str] = []
+    for m, lim in llm.limiters.items():
+        lim.acquire = lambda m=m: waits.append(m) or 0.0  # type: ignore[method-assign]
+    llm._invoke = lambda model_id, system, prompt, max_tokens: LLMResponse("x", model_id, 1, 1)  # type: ignore
+    llm.complete("default", "s", "p")
+    llm.complete("default", "s", "p")  # cached: not paced
+    llm.complete("escalate", "s", "p")
+    assert waits == ["sonnet", "opus"]
+    assert fe.MODEL_RPM == {"sonnet": 10.0, "opus": 5.0}
+
+
+def test_report_renders_from_rows(tmp_path):
+    out = tmp_path / fe.TEST_DIR
+    rows = [_row(i, i % 3 == 0, calls=[SON], hard=i % 2 == 0, age=i % 5 == 0) for i in range(12)]
+    for r in rows:
+        r.update({"abstain_below": 0.5, "calibration": None})
+    for name in ("copy", "ngram", "prerank", "retrieval-decider-choice-topkk3", "sonnet", "sonnet-noonto", "routed",
+                 "opus-sample100", "sonnet-decider-noul-topkk3"):
+        fe.save_rows(out / "rows" / f"{name}.jsonl", rows[:6] if name == "opus-sample100" else rows,
+                     {"config": name, "data_commit": "d", "code_commit": "c" * 40, "code_dirty": False})
+    dec = {"baseline_thresholds": {"baseline-copy": {"threshold": 0.4}, "baseline-ngram": {"threshold": 0.9}}}
+    res = fe.build_report(out, dec)
+    md = fe.render_test_md(res, title="t", preface=["p"])
+    assert "2B decider `choice-topk:3`" in md and "code_dirty=false" in md and "Seeded 100-item sample" in md
+    assert res["configs"]["copy"]["vs_copy"] is None and res["configs"]["sonnet"]["vs_copy"]["full"]["n"] == 12

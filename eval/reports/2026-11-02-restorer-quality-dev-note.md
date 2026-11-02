@@ -1,5 +1,7 @@
 # Dev-set note: restorer quality fixes (issue #22)
 
+> **SUPERSEDED (issue #26, 2026-11-02).** Sections 3-4 (decider variants, copy floor) and the QA follow-up numbers were measured before gap lengths were counted in Tamil letters (130/443 VAL targets failed the ISO-character length check); sections 1, 2 and 5-7 are about the harness and the app and are not affected. Kept unchanged below as history; do not cite these numbers. Current numbers: [`2026-11-02-val-selection.md`](2026-11-02-val-selection.md) and [`2026-11-02-restorer-val-retrieval-aksharas.md`](2026-11-02-restorer-val-retrieval-aksharas.md); TEST: [`2026-11-02-test-eval.md`](2026-11-02-test-eval.md) (TEST scored once with VAL-chosen settings).
+
 > **Development measurements on the VAL split and local profiling only.** Nothing here is a test-set result, and
 > none of it may be cited as restoration quality. N is small for the live (LLM) runs, and their items are
 > correlated (the first VAL items come from two inscriptions).

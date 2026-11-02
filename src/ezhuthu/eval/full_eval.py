@@ -22,6 +22,7 @@ import json
 import logging
 import os
 import random
+import re
 import statistics
 import sys
 import time
@@ -522,11 +523,17 @@ CONFIG_LABELS = {
 }
 
 
+def strategy_from_slug(slug: str) -> str:
+    """``choice-topkk3`` (file-name form, ':' -> 'k') -> ``choice-topk:3``."""
+    m = re.match(r"^(.*-topk)k(\d+)$", slug)
+    return f"{m.group(1)}:{m.group(2)}" if m else slug
+
+
 def _label(name: str) -> str:
     if name.startswith("retrieval-decider-"):
-        return f"Retrieval only, 2B decider `{name.removeprefix('retrieval-decider-').replace('k', ':', 1)}`"
+        return f"Retrieval only, 2B decider `{strategy_from_slug(name.removeprefix('retrieval-decider-'))}`"
     if name.startswith("sonnet-decider-"):
-        return f"Sonnet 4.6 candidates, 2B decider `{name.removeprefix('sonnet-decider-').replace('k', ':', 1)}`"
+        return f"Sonnet 4.6 candidates, 2B decider `{strategy_from_slug(name.removeprefix('sonnet-decider-'))}`"
     return CONFIG_LABELS.get(name, name)
 
 
@@ -695,6 +702,83 @@ def cmd_report(args) -> int:
     return 0
 
 
+def render_val_md(dec: dict[str, Any], metas: dict[str, dict]) -> str:
+    """VAL selection report: every choice the TEST run uses, with the VAL evidence behind it."""
+    m = next(iter(metas.values()), {})
+    L = ["# VAL selection for the full test evaluation (2026-11-02, issue #26)", "",
+         ("> **VAL split only (development data).** Everything the TEST run uses was chosen here, by the rules "
+         "stated below, before TEST was scored. These numbers are not restoration quality and must not be cited "
+         "as such; in-sample calibration numbers are optimistic."), "",
+         (f"- LLM runs: seeded VAL sample of {dec['n']} items (seed {dec['seed']}), ontology on (train-only build), "
+         "gap lengths in Tamil letters. Per-item rows: `2026-11-02-val-selection/rows/*.jsonl`."),
+         (f"- Data commit `{m.get('data_commit')}`; code commits "
+         f"{', '.join(sorted({'`' + (x.get('code_commit') or '?')[:7] + '`' for x in metas.values()}))}; "
+         f"code_dirty={str(any(x.get('code_dirty') for x in metas.values())).lower()}."),
+         f"- Decider: `{m.get('decider')}` (local, strands-decider 0.2.0).", ""]
+    rs = dec.get("retrieval_strategy")
+    if rs:
+        L += ["## 1. Retrieval-only gaps (no LLM): strategy", "",
+              (f"Full VAL, n = {rs['n']}, retrieval + copy floor + 5-gram + ontology candidates. Copy baseline top-1 "
+              f"{rs['copy_top1']}. Rule: {rs['rule']}."), "",
+              "| variant | top-1 | target in candidates | vs copy (only variant / only copy) | vs chosen (only / only, p) |",
+              "|---|---|---|---|---|"]
+        for v, t in rs["table"].items():
+            vb = rs["vs_best"].get(v)
+            vtxt = "chosen" if vb is None else f"{vb['only_a']} / {vb['only_b']}, p={_p(vb['p_mcnemar'])}"
+            L.append(f"| {v} | {t['top1']} | {t['oracle']} | {t['vs_copy']['only_variant']} / {t['vs_copy']['only_copy']} "
+                     f"| {vtxt} |")
+        L += ["", (f"Chosen: **{rs['chosen']}**. Best decider variant (scored on TEST as the decider row): "
+              f"**{rs['decider_variant']}**."), ""]
+    ls = dec["llm_strategy"]
+    L += ["## 2. Gaps where an LLM answered: strategy", "",
+          (f"Sonnet 4.6 candidate pools on the VAL sample (the Sonnet replies are cached, so every variant ranks the "
+          f"same pools). Rule: {ls['rule']}."), "",
+          "| strategy | top-1 [95% CI] | top-20 | ECE (raw) | vs self-report (only / only, p) |", "|---|---|---|---|---|"]
+    for k, t in ls["table"].items():
+        v = ls["vs_self_report"].get(k)
+        vtxt = "-" if v is None else f"{v['only_a']} / {v['only_b']}, p={_p(v['p_mcnemar'])}"
+        L.append(f"| {k} | {_ci(t, 'top1')} | {t['top20']} | {t['ece']} | {vtxt} |")
+    L += ["", f"Chosen: **{ls['chosen']}**. Best decider variant on LLM pools: **{dec['llm_decider_variant']}**.", ""]
+    es = dec["escalation"]
+    L += ["## 3. Escalation threshold (Sonnet 4.6 -> Opus 4.6)", "",
+          ("Simulated exactly from two runs on the same items: Sonnet only, and routed with escalation after every "
+          "Sonnet answer (threshold 1.01); a gap that pre-escalates (no parallel scoring >= 50, or a gap over 12 "
+          f"letters) goes to Opus first whatever the threshold. Rule: {es['rule']}."), "",
+          f"Sonnet only: top-1 {es['sonnet_only_top1']}; Opus only: {es['opus_only_top1']}.", "",
+          "| raw threshold | top-1 | gaps that use Opus | pre-escalated | est. USD per gap | vs copy (only / only, p) |",
+          "|---|---|---|---|---|---|"]
+    for g in es["grid"]:
+        mark = " (chosen)" if g["threshold"] == es["chosen"] else (" (was)" if g["threshold"] == es["current"] else "")
+        v = g["vs_copy"]
+        L.append(f"| {g['threshold']}{mark} | {g['top1']} ({g['top1_matching']}/{dec['n']}) | {g['opus_items']} "
+                 f"({g['opus_share']}) | {g['pre_escalated']} | {g['usd_per_item']} | {v['only_a']} / {v['only_b']}, "
+                 f"p={_p(v['p_mcnemar'])} |")
+    L += ["", (f"Chosen: **{es['chosen']}** (config/models.yaml `routing.escalate_if_confidence_below`; was "
+          f"{es['current']}). At {es['current']}, {es['at_current']['opus_items']} of {dec['n']} VAL gaps "
+          f"({es['at_current']['opus_share']}) use Opus, {es['at_current']['pre_escalated']} of them by pre-escalation."),
+          "", "## 4. Calibration entries written to `src/ezhuthu/agent/calibration.json`", "",
+          "| key | n | positives | a | b | abstain threshold | used by the restorer |", "|---|---|---|---|---|---|---|"]
+    for k, c in dec["calibration"].items():
+        L.append(f"| `{k}` | {c['n']} | {c['positives']} | {c['a']} | {c['b']} | {c['threshold']} | "
+                 f"{'no (provisional)' if c['provisional'] else 'yes'} |")
+    bt = dec.get("baseline_thresholds", {})
+    if bt:
+        L += ["", "Baseline abstain thresholds (raw confidence, fitted on full VAL, used for coverage on TEST): "
+              + "; ".join(f"{k} {v['threshold']} (VAL top-1 {v['val_top1']}, n={v['n']})" for k, v in bt.items()) + "."]
+    if dec.get("notes"):
+        L += ["", "## Notes", ""] + [f"- {x}" for x in dec["notes"]]
+    return "\n".join(L) + "\n"
+
+
+def cmd_val_report(args) -> int:
+    root = Path(args.out)
+    dec = json.loads((root / VAL_DIR / "decisions.json").read_text(encoding="utf-8"))
+    metas = {p.stem: load_rows(p)[0] for p in sorted((root / VAL_DIR / "rows").glob("*.jsonl"))}
+    (root / f"{VAL_DIR}.md").write_text(render_val_md(dec, metas), encoding="utf-8")
+    print(root / f"{VAL_DIR}.md")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -714,6 +798,8 @@ def main(argv: list[str] | None = None) -> int:
         p.add_argument("--workers", type=int, default=4)
     for p in (v, d, t):
         p.add_argument("--out", default=str((repo_root() or Path.cwd()) / "eval" / "reports"))
+    vr = sub.add_parser("val-report")
+    vr.add_argument("--out", default=str((repo_root() or Path.cwd()) / "eval" / "reports"))
     r = sub.add_parser("report")
     r.add_argument("--preface", default=None, help="markdown lines to put under the title (headline, caveats)")
     r.add_argument("--appendix", default=None, help="markdown appended at the end")
@@ -721,7 +807,8 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     logging.getLogger("strands").setLevel(logging.WARNING)
-    return {"val": cmd_val, "decide": cmd_decide, "test": cmd_test, "report": cmd_report}[args.cmd](args)
+    return {"val": cmd_val, "decide": cmd_decide, "test": cmd_test, "report": cmd_report,
+            "val-report": cmd_val_report}[args.cmd](args)
 
 
 if __name__ == "__main__":
