@@ -84,8 +84,10 @@ The home page opens on a **real photograph** of a Chola-period inscription on th
 carved letters on hand-annotated boxes, then **matches them letter by letter**: the first few one at a time in a card
 (the carved glyph, zoomed -> the modern Tamil letter -> a ring filling to the Reader's confidence), then a fast
 cascade of badges over the other boxes. The letter the Reader was least sure of goes to the Restorer and the Strands
-Decider; then the letters fly past the pipeline and assemble into the reading. Everything it shows is the **actual
-output** of our system on that photo (`app/web/src/hero/hero-reading.json`, built by `scripts/hero_read.py` and
+Decider; then the letters fly past the pipeline and assemble into the reading, run together as carved. The
+Interpreter then **slides them apart into words**, **arranges the words as a phrase in today's Tamil**, and gives
+**the meaning in English and in Tamil**; the finished frame (stone | phrase and meaning) is held for 3 s and the meaning
+crossfades into the next cycle. Everything it shows is the **actual output** of our system on that photo (`app/web/src/hero/hero-reading.json`, built by `scripts/hero_read.py` and
 `scripts/hero_build.py`; models from `config/models.yaml`):
 
 - **Letter by letter** (`Reader.read_glyphs`, Opus 4.6, one call per row of boxes, 4 calls): 46 boxes, each named as a
@@ -95,10 +97,17 @@ output** of our system on that photo (`app/web/src/hero/hero-reading.json`, buil
   (`POST /api/restore` code path, 1 Bedrock call). Opus proposed fills; the hosted Strands Decider
   (`strands-decider-2b-hobson-v19`, `noul` on the top 3) scored the best, குப், at 0.37. That is under 0.5, so the
   Decider **abstains** and the hero shows "?".
-- **No published edition of this stone was found** (it is not in the DHARMA split, and a Commons search for an openly
-  licensed photo of a DHARMA inscription found none that could be matched), so the hero shows no match rate and no
-  translation. It does not call itself experimental and it makes no claim that the letters are right: it shows the
-  numbers.
+- **Words, phrase and meaning** (`Interpreter.interpret`, `src/ezhuthu/agent/interpreter.py`; Sonnet 4.6, then Opus
+  4.6 because Sonnet's own probability was under 0.6; Sonnet's answer was the more confident and was kept; 2 calls):
+  11 words, each naming the letters it is made of; 3 at 0.5 or more (ர்குடிக்கு 0.55, குளம் 0.75, கொடும் 0.65), 2 of
+  them attested in the DHARMA train split. Phrase: "…ர்குடிக்கு குளம் … கொடும் …". Meaning (the model's probability
+  0.30): a fragment of a donative record, a tank given for a settlement; the rest too fragmentary to read. The prompt
+  was grounded with words from published editions found in the letter stream (குடிக்கு, குளம், கொடும்) and the
+  ontology.
+- **No published edition of this stone was found** (it is not in the DHARMA split, and two Commons searches for an
+  openly licensed photo of a DHARMA inscription found none that could be matched), so the hero shows no match rate and
+  credits the meaning as "Meaning by Ezhuthu". It does not call itself experimental and it makes no claim that the
+  letters or the meaning are right: it shows the numbers.
 - The app's own line-by-line reading of the same crop (Sonnet 4.6, then Opus 4.6; confidence 0.20) and the Restorer
   on its gaps are kept in the record (`line_reading`) but are not shown.
 
@@ -118,9 +127,9 @@ Replace the bold one-liner and the Tamil line under the badges with:
 
 Under it, the hero media:
 
-> <p align="center"><a href="design/brand/banners/hero-stone.webm"><img src="design/brand/banners/hero-stone-poster.png" alt="A real Chola-period inscription from Thanjavur: each carved letter is matched to a modern Tamil letter with a confidence, the least certain one goes to the Restorer and the Strands Decider, which leaves it open, and the letters assemble into Ezhuthu's reading" width="88%"></a></p>
+> <p align="center"><a href="design/brand/banners/hero-stone.webm"><img src="design/brand/banners/hero-stone-poster.png" alt="A real Chola-period inscription from Thanjavur: each carved letter is matched to a modern Tamil letter with a confidence, the least certain one goes to the Restorer and the Strands Decider, which leaves it open; the letters assemble into words, a phrase in today's Tamil and its meaning" width="88%"></a></p>
 > <p align="center"><sub>A real photo (Richard Mortel, CC BY 2.0), read letter by letter by Ezhuthu: 46 letters, mean
-> confidence 0.65, one left open by the Strands Decider.</sub></p>
+> confidence 0.65, one left open by the Strands Decider; then words, a phrase in today's Tamil and its meaning.</sub></p>
 
 "Why it matters", first two bullets:
 

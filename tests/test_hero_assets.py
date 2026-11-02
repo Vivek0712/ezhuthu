@@ -58,7 +58,33 @@ def test_reading_is_the_recorded_run():
     assert n_gaps == len(restore["response"]["gaps"]) == len(hero["restore"]["gaps"])
     assert hero["restore"]["decisions"] == [g["decision"] for g in restore["response"]["gaps"]]
     calls = hero["live_calls"]
-    assert calls["reader"] + calls["glyphs"] + calls["restorer"] <= 60
+    assert sum(v for v in calls.values() if isinstance(v, int)) <= 60
+
+
+def test_words_phrase_and_meaning_are_the_recorded_interpreter_run():
+    hero = _hero()
+    interp = json.loads((RUNS / "interpret.json").read_text(encoding="utf-8"))
+    glyphs = json.loads((RUNS / "glyphs.json").read_text(encoding="utf-8"))
+    restore = json.loads((RUNS / "restore.json").read_text(encoding="utf-8"))
+    import sys
+
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from hero_read import hero_letters
+
+    # The Interpreter was run on exactly the letters the hero shows (the open gap as an unread letter).
+    assert interp["input"] == [[x.ta or "?" for x in line] for line in hero_letters(glyphs, restore)]
+    r = interp["response"]
+    it = hero["interpret"]
+    assert it["words"] == r["words"] and it["phrase_tamil"] == r["phrase_tamil"] and it["meaning_en"] == r["meaning_en"]
+    assert set(r["models_used"]) <= {"sonnet", "opus"} and r["model"] in r["models_used"]
+    # Each word names its letters; a letter is in at most one word; words keep reading order.
+    order = [(li, i) for li, line in enumerate(interp["input"]) for i in range(len(line))]
+    seen = [order.index(tuple(x)) for w in r["words"] for x in w["letters"]]
+    assert seen == sorted(seen) and len(seen) == len(set(seen))
+    assert r["phrase_tamil"] and r["meaning_en"] and r["meaning_ta"]
+    view = json.loads((WEB / "src" / "hero" / "hero-view.json").read_text(encoding="utf-8"))
+    assert [w["at"] for w in view["words"]] == [w["letters"] for w in r["words"]]
+    assert view["phrase"] == {"ta": r["phrase_tamil"], "iso": r["phrase_iso"]}
 
 
 def test_view_is_a_trimmed_subset():
@@ -75,6 +101,9 @@ def test_no_edition_means_no_match_rate_and_no_claims():
     hero = _hero()
     assert hero["edition"] is None and hero["match_rate"] is None
     assert "not identified" in hero["edition_note"]
+    # With no edition, the meaning is credited to Ezhuthu in the app.
+    strings = (WEB / "src" / "i18n" / "strings.ts").read_text(encoding="utf-8")
+    assert "'stoneHero.meaningBy': 'Meaning by Ezhuthu'" in strings
     text = json.dumps(hero, ensure_ascii=False).lower()
     for banned in ("deciphered", "is correct", "are correct", "strands ai", "aws ai", "goes to expert review"):
         assert banned not in text

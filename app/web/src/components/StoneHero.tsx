@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type RefObject } from 'react';
-import { confClass, HERO, heroSrcSet, pctLabel, type Box, type HeroGlyph } from '../hero/heroData';
+import { confClass, HERO, heroSrcSet, pctLabel, wordRuns, type Box, type HeroGlyph } from '../hero/heroData';
 import {
   BADGE_MS,
   BEATS,
   buildTimeline,
+  CARRY_OUT,
   CHIP_MS,
   FADE_MS,
   FLY_MS,
@@ -11,11 +12,16 @@ import {
   KB_END,
   kbAt,
   kbTransform,
+  MEANING_MS,
+  PANE_MS,
   readingIndex,
   SHOWN,
+  TOKEN_MS,
   trackKeyframes,
   VERDICT_MS,
   VERDICT_STAGGER,
+  WORD_LINE_MS,
+  type Props,
   type Stop,
 } from '../hero/timeline';
 import { useI18n } from '../i18n/I18nProvider';
@@ -25,7 +31,8 @@ import '../styles/stone-hero.css';
 /**
  * The home hero: a real photograph of a Chola-period inscription (Brihadisvara temple, Thanjavur; Richard Mortel,
  * CC BY 2.0), read letter by letter by Ezhuthu's Reader, with the Restorer and the Strands Decider on the letter it
- * could not name with confidence. Every letter, percentage and decision shown comes from src/hero/hero-view.json
+ * could not name with confidence, and the Interpreter turning the letters into words, a phrase in today's Tamil and
+ * its meaning. Every letter, word, percentage and decision shown comes from src/hero/hero-view.json
  * (scripts/hero_read.py + scripts/hero_build.py): nothing is invented for the animation.
  *
  * Storyboard (src/hero/timeline.ts derives every beat from the reading): (a) the stone (fades in on the first cycle
@@ -34,23 +41,26 @@ import '../styles/stone-hero.css';
  * zoomed -> the modern Tamil letter, a ring filling to the Reader's confidence), speeding up into a cascade of small
  * badges (letter + %) over every box; (d) the letter under the cut-off: the Restorer proposes, the Strands Decider
  * fills or abstains, and its badge turns to "?"; (e) the letters fly from the stone past the pipeline and assemble
- * into the reading, row by row, each row's mean confidence in the right-hand column; (f) the verdict, a hold, a fade.
+ * into the reading, row by row, run together as on the stone; (f) WORDS: they slide apart into the Interpreter's
+ * words, each underlined in its confidence tint; (g) PHRASE: the letter rows give way to the words arranged in today's
+ * Tamil; (h) MEANING in English, then in Tamil; the verdict; a hold. Then everything but the photo and the meaning
+ * fades, and the meaning crossfades into the next cycle's empty reading as its scan begins.
  *
  * Motion is the Web Animations API, one animation per element over the whole cycle (so nothing composites over a
  * stale fill and the loop seam is explicit), on transform and opacity (plus the ring's stroke). Positions are
  * measured once per cycle, before any animation starts. The cycle runs while the hero is on screen, pauses off screen
  * or in a hidden tab, and has Pause and Replay buttons. Under prefers-reduced-motion, or without element.animate, it
- * renders a composed static frame: the photo with every letter marked and badged, two match cards, and the reading.
- * The artwork is aria-hidden; the reading is real, selectable text with lang="ta".
+ * renders a composed static frame: the photo with every letter marked and badged, two match cards, the reading in
+ * words, the phrase and the meaning. The artwork is aria-hidden; the reading is real, selectable text.
  */
 
 const LETTERS = HERO.rows.map((r) => r.glyphs.length);
-const TL = buildTimeline(LETTERS, HERO.featured, HERO.gaps.length);
+const TL = buildTimeline(LETTERS, HERO.featured, HERO.gaps.length, 2, HERO.words.length, HERO.phraseTokens.length);
 /** Boxes rest at this opacity once their letter has left; the fade-out starts from it. */
 const BOX_REST = 0.55;
-/** The photo's rendered width: the stone column at >= 980 px (~61% of the stage, capped by the page), else the
+/** The photo's rendered width: the stone column at >= 980 px (~63% of the stage, capped by the page), else the
  * stage width. Checked against the laid-out width in e2e/stone-hero.spec.ts. */
-const PHOTO_SIZES = '(min-width: 1180px) 650px, (min-width: 980px) calc(61vw - 70px), calc(100vw - 40px)';
+const PHOTO_SIZES = '(min-width: 1180px) 660px, (min-width: 980px) calc(64vw - 72px), calc(100vw - 40px)';
 const EASE = 'cubic-bezier(.2,0,0,1)';
 
 type Phase = 'idle' | 'running' | 'paused';
@@ -67,6 +77,8 @@ const FLAT = HERO.rows.flatMap((row, r) => row.glyphs.map((g, i) => ({ r, i, g, 
 const GAP0 = HERO.gaps[0];
 /** Static frame: the first featured card, and the card of the first gap (or the second featured letter). */
 const STATIC_CARDS = new Set([0, GAP0 ? readingIndex(LETTERS, GAP0.r, GAP0.i) : 1]);
+/** Words the Interpreter is at least as sure of as the letter cut-off. */
+const WORDS_SURE = HERO.words.filter((w) => (w.c ?? 0) >= HERO.abstainBelow).length;
 
 function Photo({ cls }: { cls?: string }) {
   return (
@@ -172,6 +184,44 @@ function Badge({ idx, g, box }: { idx: number; g: HeroGlyph; box: Box }) {
   );
 }
 
+/** One row of the reading: letters grouped into the Interpreter's words. Before the WORDS beat the words are closed
+ * up (each letter slot is shifted left by the word gaps before it), so the row reads run-on, as carved. */
+function ReadingRow({ r, gapLabel }: { r: number; gapLabel: string }) {
+  const row = HERO.rows[r]!;
+  return (
+    <p className="sh-ta" lang="ta">
+      {wordRuns(r).map(([w, a, b]) => {
+        const word = w >= 0 ? HERO.words[w] : undefined;
+        return (
+          <span key={a} className="sh-word" data-w={w} data-row={r}>
+            {row.glyphs.slice(a, b + 1).map((g, k) => {
+              const i = a + k;
+              const openGap = g.gap && g.gap.decision === 'abstain';
+              const text = g.gap ? (openGap ? null : g.gap.best?.ta) : g.ta;
+              return (
+                <span key={i} className="sh-slot">
+                  <span className={`sh-dot ${confClass(g.c)}`} data-idx={readingIndex(LETTERS, r, i)} aria-hidden="true" />
+                  <span className={`sh-l ${openGap ? 'sh-gap' : confClass(g.gap ? g.gap.best?.c : g.c)}`} data-anim="land" data-k={i}>
+                    {openGap ? (
+                      <>
+                        <span aria-hidden="true">?</span>
+                        <span className="visually-hidden">{gapLabel}</span>
+                      </>
+                    ) : (
+                      text
+                    )}
+                  </span>
+                </span>
+              );
+            })}
+            {word && <span className={`sh-wline ${confClass(word.c)}`} data-w={w} aria-hidden="true" />}
+          </span>
+        );
+      })}
+    </p>
+  );
+}
+
 export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }) {
   const { lang, t } = useI18n();
   const reduced = usePrefersReducedMotion();
@@ -179,6 +229,7 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
   const rootRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const anims = useRef<Animation[]>([]);
+  const clockRef = useRef<Animation | null>(null);
   const [phase, setPhase] = useState<Phase>('idle');
   const [userPaused, setUserPaused] = useState(false);
   const visible = useRef(false);
@@ -193,6 +244,7 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
   const clear = useCallback(() => {
     for (const a of anims.current) a.cancel();
     anims.current = [];
+    clockRef.current = null;
   }, []);
 
   /** Build and start one full cycle. All measuring happens here, before the first animation is created. */
@@ -201,6 +253,9 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
       const root = rootRef.current;
       const stage = stageRef.current;
       if (!root || !stage) return;
+      // The meaning is on screen if the last cycle got as far as the phrase: then this cycle crossfades it out.
+      const prevT = Number(clockRef.current?.currentTime ?? 0);
+      const carry = next || prevT >= TL.phrase.paneIn;
       clear();
       cycleN.current = next ? cycleN.current + 1 : 0;
       const zoomOut = cycleN.current % 2 === 0;
@@ -226,6 +281,17 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
         [at + ms, SHOWN],
         ...fadeStops(),
       ];
+      /** Inside the meaning pane, which is carried into the next cycle: shown from `at` to the end of the cycle; in a
+       * carried cycle also shown at the start, until the pane has faded out. */
+      const kept = (at: number, ms: number, dy = 6): Stop[] => {
+        const off: Props = { opacity: 0, transform: `translateY(${dy}px)` };
+        return [
+          // Carried: on screen at the start; dropped the moment the pane has faded out, so it can rise again.
+          ...(carry ? ([[0, SHOWN], [CARRY_OUT[1], SHOWN], [CARRY_OUT[1] + 1, off]] as Stop[]) : []),
+          [at, off, EASE],
+          [at + ms, SHOWN],
+        ];
+      };
 
       // ---- measure (one batch of reads) ----
       const sr = stage.getBoundingClientRect();
@@ -237,6 +303,15 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
       const nodeRects = q<HTMLElement>('.sh-node-dot').map((n) => rel(n.getBoundingClientRect()));
       const lands = q<HTMLElement>('[data-anim="land"]');
       const landRects = lands.map((n) => rel(n.getBoundingClientRect()));
+      // The gap before each word of a row: letters are drawn closed up by the sum of the gaps before their word.
+      const shiftOf = new Map<Element, number>();
+      q<HTMLElement>('.sh-ta').forEach((rowEl) => {
+        let acc = 0;
+        Array.from(rowEl.querySelectorAll<HTMLElement>('.sh-word')).forEach((w, k) => {
+          if (k > 0) acc += parseFloat(getComputedStyle(w).marginLeft) || 0;
+          shiftOf.set(w, acc);
+        });
+      });
 
       // ---- (a) the stone: drift, raking light ----
       if (kb) {
@@ -335,7 +410,7 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
         }
       });
 
-      // ---- (d) the pipeline: Reader glows through the match; Restorer and Decider on the gap ----
+      // ---- (d) the pipeline: Reader through the match; Restorer and Decider on the gap; Interpreter on the words ----
       const glow = (key: string, from: number, to: number) =>
         track(one(`[data-node="${key}"] .sh-node-glow`), [
           [from, { opacity: 0, transform: 'scale(.8)' }, 'ease-out'],
@@ -346,16 +421,18 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
       glow('reader', TL.match - 200, TL.cascadeEnd + 200);
       glow('restorer', TL.gap.restorer, TL.gap.decider + 100);
       glow('decider', TL.gap.decider, TL.rows[TL.rows.length - 1]!.landed - FLY_MS / 2);
+      glow('interpreter', TL.words.start - 250, TL.meaning.end);
       track(one('[data-node="reader"] .sh-node-out'), rise(TL.cascadeEnd - 150, 380, 4));
       track(one('[data-node="restorer"] .sh-node-out'), rise(TL.gap.restorerOut, 380, 4));
       track(one('[data-node="decider"] .sh-node-out'), rise(TL.gap.deciderOut, 380, 4));
+      track(one('[data-node="interpreter"] .sh-node-out'), rise(TL.phrase.start, 380, 4));
       q<HTMLElement>('.sh-spark').forEach((el) => {
         const seg = Number(el.dataset.seg);
         const a = nodeRects[seg];
         const z = nodeRects[seg + 1];
         if (!a || !z) return;
         const k = Number(el.dataset.k);
-        const at = (seg === 0 ? TL.gap.restorer - 350 : TL.gap.decider - 330) + k * 110;
+        const at = (seg === 0 ? TL.gap.restorer - 350 : seg === 1 ? TL.gap.decider - 330 : TL.words.start - 520) + k * 110;
         track(el, [
           [at, { opacity: 0, transform: 'translate(0px, 0px) scale(.6)' }, 'cubic-bezier(.45,0,.25,1)'],
           [at + 130, { opacity: 1, transform: `translate(${(z.x - a.x) * 0.2}px, ${(z.y - a.y) * 0.2}px) scale(.8)` }],
@@ -364,7 +441,7 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
         ]);
       });
 
-      // ---- (e) the letters fly from the stone, past the Decider, into the reading ----
+      // ---- (e) the letters fly from the stone, past the Decider, into the reading (closed up, as carved) ----
       const dec = nodeRects[2];
       lands.forEach((el, n) => {
         const lr = landRects[n]!;
@@ -373,6 +450,8 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
         const at = TL.flyAt(r, i);
         const idx = readingIndex(LETTERS, r, i);
         const b0 = badgeRects[idx];
+        // Its slot is drawn closed up by `shift` px while the letter flies: aim for the closed-up place.
+        const shift = shiftOf.get(el.closest('.sh-word')!) ?? 0;
         const stops: Stop[] = [];
         if (b0 && kbRect && dec) {
           // Where the badge is at take-off: the photo is still drifting (scale about its centre, then translate).
@@ -381,7 +460,7 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
           const cy = kbRect.y + kbRect.h / 2;
           const bx = cx + s * (b0.x + b0.w / 2 - cx + tx * kbRect.w);
           const by = cy + s * (b0.y + b0.h / 2 - cy + ty * kbRect.h);
-          const ex = lr.x + lr.w / 2;
+          const ex = lr.x + lr.w / 2 - shift;
           const ey = lr.y + lr.h / 2;
           // Quadratic Bezier start -> end with its control point at the Decider, so every letter passes it.
           const kx = dec.x + dec.w / 2 + (i % 3 - 1) * 10;
@@ -417,13 +496,49 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
         const at = TL.rows[r]!.landed;
         track(el, [[at, { opacity: 0, transform: 'scale(.7)' }, 'cubic-bezier(.2,.9,.3,1.3)'], [at + CHIP_MS, SHOWN], ...fadeStops()]);
       });
-      q<HTMLElement>('[data-anim="iso"]').forEach((el) => {
-        const r = Number(el.closest<HTMLElement>('[data-line]')?.dataset.line ?? 0);
-        track(el, rise(TL.rows[r]!.landed + 120, 420, 4));
+      q<HTMLElement>('[data-anim="gapnote"]').forEach((el) => track(el, rise(GAP0 ? TL.rows[GAP0.r]!.landed + 200 : TL.words.start, 480)));
+
+      // ---- (f) WORDS: the closed-up letters slide apart into words; each word is underlined in its tint ----
+      q<HTMLElement>('.sh-word').forEach((w) => {
+        const shift = shiftOf.get(w) ?? 0;
+        const closed = { transform: `translateX(${(-shift).toFixed(1)}px)` };
+        track(w, [
+          [TL.words.start, closed, 'cubic-bezier(.5,0,.2,1)'],
+          [TL.words.slid, { transform: 'none' }],
+        ], true);
       });
-      q<HTMLElement>('[data-anim="gapnote"]').forEach((el) => track(el, rise(GAP0 ? TL.rows[GAP0.r]!.landed + 200 : TL.verdict, 480)));
-      // ---- (f) verdict, call to action ----
+      q<HTMLElement>('.sh-wline').forEach((el) => {
+        const at = TL.wordAt(Number(el.dataset.w));
+        track(el, [
+          [at, { opacity: 0, transform: 'scaleX(0)' }, EASE],
+          [at + WORD_LINE_MS, { opacity: 1, transform: 'none' }],
+          ...fadeStops(),
+        ]);
+      });
+
+      // ---- (g) PHRASE: the letter rows give way to the words arranged in today's Tamil ----
+      const read = one('.sh-read');
+      track(read, [
+        ...(carry ? ([[CARRY_OUT[0], { opacity: 0, transform: 'none' }, 'ease-out'], [CARRY_OUT[1], SHOWN]] as Stop[]) : [[0, SHOWN]] as Stop[]),
+        [TL.phrase.start, SHOWN, 'cubic-bezier(.4,0,1,1)'],
+        [TL.phrase.paneIn, { opacity: 0, transform: 'translateY(-10px)' }],
+      ]);
+      const mean = one('.sh-mean');
+      track(mean, [
+        ...(carry ? ([[0, SHOWN], [CARRY_OUT[0], SHOWN, 'ease-in'], [CARRY_OUT[1], { opacity: 0, transform: 'translateY(-6px)' }]] as Stop[]) : []),
+        [TL.phrase.start + PANE_MS * 0.4, { opacity: 0, transform: 'translateY(10px)' }, EASE],
+        [TL.phrase.start + PANE_MS * 0.4 + PANE_MS, SHOWN],
+      ]);
+      q<HTMLElement>('.sh-tok').forEach((el, k) => track(el, kept(TL.tokenAt(k), TOKEN_MS, 10)));
+      track(one('.sh-phrase-iso'), kept(TL.phrase.end - 200, 420, 4));
+      track(one('.sh-mean-k'), kept(TL.phrase.start + PANE_MS * 0.4, 400, 4));
+      // ---- (h) MEANING: English, then Tamil ----
+      track(one('[data-anim="mean-en"]'), kept(TL.meaning.en, MEANING_MS, 8));
+      track(one('[data-anim="mean-ta"]'), kept(TL.meaning.ta, MEANING_MS, 8));
+      track(one('[data-anim="mean-head"]'), kept(TL.meaning.en - 150, 400, 4));
+      // ---- verdict, call to action ----
       q<HTMLElement>('[data-anim="verdict"]').forEach((el, k) => track(el, rise(TL.verdict + k * VERDICT_STAGGER, VERDICT_MS, 8)));
+      track(one('[data-anim="verdict-words"]'), rise(TL.words.end, 420, 4));
       const cta = ctaRef?.current;
       if (cta) {
         cta.querySelectorAll('.btn').forEach((b, k) =>
@@ -438,6 +553,7 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
       };
       list.push(clock);
       anims.current = list;
+      clockRef.current = clock;
       setPhase('running');
     },
     [clear, ctaRef],
@@ -617,8 +733,9 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
               ['reader', 'stoneHero.reader', 'stoneHero.readerSub', `${HERO.letters} ${t('stoneHero.letters')} · ${pctLabel(HERO.mean)}`],
               ['restorer', 'stoneHero.restorer', 'stoneHero.restorerSub', best0 ? `${best0.ta} ${pctLabel(best0.c)}` : `0 ${t('stoneHero.gaps')}`],
               ['decider', 'stoneHero.decider', 'stoneHero.deciderSub', open ? `? · ${t('stoneHero.abstain')}` : `${HERO.fills} ✓`],
+              ['interpreter', 'stoneHero.interpreter', 'stoneHero.interpreterSub', `${HERO.words.length} ${t('stoneHero.words')}`],
             ] as const
-          ).map(([key, label, sub, out], i) => (
+          ).map(([key, label, sub, out], i, all) => (
             <li key={key} className="sh-node" data-node={key}>
               <span className="sh-node-dot">
                 <span className="sh-node-glow" />
@@ -631,7 +748,7 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
                   {out}
                 </span>
               </span>
-              {i < 2 && (
+              {i < all.length - 1 && (
                 <span className="sh-wire">
                   {[0, 1, 2].map((s) => (
                     <span key={s} className="sh-spark" data-seg={i} data-k={s} />
@@ -651,56 +768,63 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
               <i className="sh-c-low">&lt; 50%</i>
             </span>
           </p>
-          <div className="sh-lines">
-            {rows.map((row, r) => (
-              <div key={r} className="sh-line" data-line={r}>
-                <p className="sh-ta" lang="ta">
-                  {row.glyphs.map((g, i) => {
-                    const openGap = g.gap && g.gap.decision === 'abstain';
-                    const text = g.gap ? (openGap ? null : g.gap.best?.ta) : g.ta;
-                    return (
-                      <span key={i} className="sh-slot">
-                        <span className={`sh-dot ${confClass(g.c)}`} data-idx={readingIndex(LETTERS, r, i)} aria-hidden="true" />
-                        <span className={`sh-l ${openGap ? 'sh-gap' : confClass(g.gap ? g.gap.best?.c : g.c)}`} data-anim="land" data-k={i}>
-                          {openGap ? (
-                            <>
-                              <span aria-hidden="true">?</span>
-                              <span className="visually-hidden">{t('stoneHero.gap')}</span>
-                            </>
-                          ) : (
-                            text
-                          )}
-                        </span>
-                      </span>
-                    );
-                  })}
-                </p>
-                <span className={`sh-lc ${confClass(row.c)}`} data-anim="chip" title={t('stoneHero.rowConfidence')}>
-                  {pctLabel(row.c)}
-                </span>
-                <p className="sh-iso" lang="ta-Latn" data-anim="iso">
-                  {row.iso}
-                </p>
+          <div className="sh-panes">
+            <div className="sh-read">
+              <div className="sh-lines">
+                {rows.map((row, r) => (
+                  <div key={r} className="sh-line" data-line={r}>
+                    <ReadingRow r={r} gapLabel={t('stoneHero.gap')} />
+                    <span className={`sh-lc ${confClass(row.c)}`} data-anim="chip" title={t('stoneHero.rowConfidence')}>
+                      {pctLabel(row.c)}
+                    </span>
+                  </div>
+                ))}
               </div>
-            ))}
+              {HERO.gaps.map(({ r, g }, k) => (
+                <p key={k} className="sh-gapnote" data-anim="gapnote">
+                  <span className="sh-gap-mark" aria-hidden="true">
+                    ?
+                  </span>
+                  <span>
+                    {fill(t(g.gap!.decision === 'abstain' ? 'stoneHero.gapOpen' : 'stoneHero.gapFilled'), {
+                      r: r + 1,
+                      ta: g.ta,
+                      c: pctLabel(g.c),
+                      cut,
+                      fill: g.gap!.best?.ta ?? '–',
+                      fc: pctLabel(g.gap!.best?.c),
+                    })}
+                  </span>
+                </p>
+              ))}
+            </div>
+            <div className="sh-mean" data-testid="hero-meaning">
+              <p className="sh-k sh-mean-k">{t('stoneHero.phrase')}</p>
+              <p className="sh-phrase" lang="ta">
+                {HERO.phraseTokens.map((tok, k) => (
+                  <span key={k}>
+                    {k > 0 && ' '}
+                    <span className="sh-tok">{tok}</span>
+                  </span>
+                ))}
+              </p>
+              <p className="sh-phrase-iso" lang="ta-Latn">
+                {HERO.phrase.iso}
+              </p>
+              <p className="sh-k sh-mean-head" data-anim="mean-head">
+                <span>{t('stoneHero.meaning')}</span>
+                <span className={`sh-mc ${confClass(HERO.meaningC)}`} title={t('stoneHero.meaningConfidence')}>
+                  {pctLabel(HERO.meaningC)}
+                </span>
+              </p>
+              <p className="sh-mean-en" lang="en" data-anim="mean-en">
+                {HERO.meaning.en}
+              </p>
+              <p className="sh-mean-ta" lang="ta" data-anim="mean-ta">
+                {HERO.meaning.ta}
+              </p>
+            </div>
           </div>
-          {HERO.gaps.map(({ r, g }, k) => (
-            <p key={k} className="sh-gapnote" data-anim="gapnote">
-              <span className="sh-gap-mark" aria-hidden="true">
-                ?
-              </span>
-              <span>
-                {fill(t(g.gap!.decision === 'abstain' ? 'stoneHero.gapOpen' : 'stoneHero.gapFilled'), {
-                  r: r + 1,
-                  ta: g.ta,
-                  c: pctLabel(g.c),
-                  cut,
-                  fill: g.gap!.best?.ta ?? '–',
-                  fc: pctLabel(g.gap!.best?.c),
-                })}
-              </span>
-            </p>
-          ))}
         </div>
         <div className="sh-sum">
           <p className="sh-verdict" data-anim="verdict">
@@ -710,6 +834,7 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
               <b>{pctLabel(HERO.mean)}</b>
             </span>
             {open > 0 && <span>{fill(t('stoneHero.verdictOpen'), { n: open })}</span>}
+            <span data-anim="verdict-words">{fill(t('stoneHero.verdictWords'), { n: HERO.words.length, k: WORDS_SURE, cut })}</span>
           </p>
           <p className="sh-flagged" data-anim="verdict">
             {fill(t('stoneHero.flagged'), { cut })}
@@ -732,6 +857,10 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
             {' · '}
           </span>
           <span className="sh-credit-by">{t('stoneHero.readingBy')}</span>
+          <span className="sh-credit-sep" aria-hidden="true">
+            {' · '}
+          </span>
+          <span className="sh-credit-by">{t('stoneHero.meaningBy')}</span>
         </p>
         {animated && (
           <span className="sh-controls">

@@ -2,7 +2,9 @@
 // the stone and the scan -> letters light up row by row -> MATCH: the first few letters one at a time in a full card
 // (carved glyph -> modern Tamil letter, confidence ring), then a fast cascade of small badges over the rest -> the gap
 // stage (Restorer proposes, Strands Decider fills or abstains) -> the letters fly through the pipeline and assemble
-// into the reading, row by row -> each row's confidence -> the verdict -> hold -> fade -> the next cycle.
+// into the reading, row by row -> WORDS: the run-on letters slide apart into words -> PHRASE: the words, arranged in
+// today's Tamil, replace the letter rows -> MEANING (English, then Tamil) -> the verdict -> hold -> everything but the
+// photo and the meaning fades; the meaning crossfades out as the next cycle's scan begins.
 // Pure data, so the order and the loop can be unit-tested without a browser (timeline.test.ts).
 
 /** Fixed beats, in ms from the start of a cycle. */
@@ -32,8 +34,21 @@ export const ROW_STEP = 300;
 export const CHIP_MS = 420;
 export const VERDICT_STAGGER = 320;
 export const VERDICT_MS = 560;
-/** How long the finished reading is held before it fades. */
-export const HOLD_MS = 2800;
+/** WORDS: the letters slide apart into word groups, then each word's underline (and gloss) draws in. */
+export const WORDS_MS = 800;
+export const WORD_STAGGER = 70;
+export const WORD_LINE_MS = 320;
+/** PHRASE: the letter rows give way to the phrase, whose words rise one by one. */
+export const PANE_MS = 520;
+export const TOKEN_STAGGER = 170;
+export const TOKEN_MS = 420;
+/** MEANING: English, then Tamil. */
+export const MEANING_MS = 600;
+export const MEANING_STAGGER = 400;
+/** How long the finished frame (stone | phrase and meaning) is held before it fades. */
+export const HOLD_MS = 3000;
+/** Next cycle: the meaning carried over from the last cycle fades out during the scan. */
+export const CARRY_OUT = [700, 1500] as const;
 export const FADE_MS = 700;
 /** Pause between the fade and the next cycle (the photo stays). */
 export const REST_MS = 300;
@@ -71,6 +86,14 @@ export interface Timeline {
   rows: RowTimes[];
   /** Take-off time of letter i of row r (letters are indexed within their own row). */
   flyAt: (r: number, i: number) => number;
+  /** Letters slide into words; word w's underline draws at wordAt(w). */
+  words: { start: number; slid: number; end: number };
+  wordAt: (w: number) => number;
+  /** The letter rows give way to the phrase pane; phrase token k rises at tokenAt(k). */
+  phrase: { start: number; paneIn: number; end: number };
+  tokenAt: (k: number) => number;
+  /** English meaning, then Tamil. The finished frame is held HOLD_MS from meaning.end. */
+  meaning: { en: number; ta: number; end: number };
   verdict: number;
   verdictItems: number;
   cta: number;
@@ -82,7 +105,7 @@ export interface Timeline {
  * Build the clock for rows with `letters[r]` letters each, `featured` of them shown in full cards first.
  * `gaps` is how many letters go to the Restorer (0 skips most of the gap stage).
  */
-export function buildTimeline(letters: number[], featured = 4, gaps = 1, verdictItems = 2): Timeline {
+export function buildTimeline(letters: number[], featured = 4, gaps = 1, verdictItems = 2, nWords = 0, nTokens = 0): Timeline {
   const total = letters.reduce((a, b) => a + b, 0);
   const boxOn = (r: number, i: number) => BEATS.beam + 220 + r * ROW_BOX + i * LETTER_BOX;
   const lastBox = letters.length ? boxOn(letters.length - 1, Math.max(0, letters[letters.length - 1]! - 1)) : BEATS.beam;
@@ -113,9 +136,20 @@ export function buildTimeline(letters: number[], featured = 4, gaps = 1, verdict
     s = last + ROW_STEP;
   }
   const finalLanding = rows.length ? Math.max(...rows.map((r) => r.landed)) : gap.end;
+  const ws = finalLanding + CHIP_MS - 150;
+  const slid = ws + WORDS_MS;
+  const wordAt = (w: number) => slid - 200 + w * WORD_STAGGER;
+  const words = { start: ws, slid, end: nWords ? wordAt(nWords - 1) + WORD_LINE_MS + 300 : slid };
+  const ps = words.end + 150;
+  const tokenAt = (k: number) => ps + PANE_MS * 0.6 + k * TOKEN_STAGGER;
+  const phrase = { start: ps, paneIn: ps + PANE_MS, end: nTokens ? tokenAt(nTokens - 1) + TOKEN_MS : ps + PANE_MS };
+  const en = phrase.end + 200;
+  const meaning = { en, ta: en + MEANING_STAGGER, end: en + MEANING_STAGGER + MEANING_MS };
+  // The verdict on the letters comes as soon as they have all landed (the bottom strip is never empty for long); the
+  // hold starts once the meaning is in.
   const verdict = finalLanding + CHIP_MS + 120;
   const verdictEnd = verdict + (verdictItems - 1) * VERDICT_STAGGER + VERDICT_MS;
-  const fadeOut = verdictEnd + HOLD_MS;
+  const fadeOut = Math.max(verdictEnd, meaning.end) + HOLD_MS;
   return {
     boxOn,
     match,
@@ -125,6 +159,11 @@ export function buildTimeline(letters: number[], featured = 4, gaps = 1, verdict
     gap,
     rows,
     flyAt: (r, i) => (rows[r]?.start ?? gap.end) + i * LETTER_FLY,
+    words,
+    wordAt,
+    phrase,
+    tokenAt,
+    meaning,
     verdict,
     verdictItems,
     cta: verdict + 500,

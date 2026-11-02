@@ -6,7 +6,7 @@ const letters = HERO.rows.map((r) => r.glyphs.length);
 const total = letters.reduce((a, b) => a + b, 0);
 
 describe('stone hero timeline: the story plays in order', () => {
-  const tl = buildTimeline(letters, HERO.featured, HERO.gaps.length);
+  const tl = buildTimeline(letters, HERO.featured, HERO.gaps.length, 2, HERO.words.length, HERO.phraseTokens.length);
 
   it('lights every box before the Reader starts matching', () => {
     letters.forEach((n, r) => {
@@ -64,13 +64,33 @@ describe('stone hero timeline: the story plays in order', () => {
     });
   });
 
-  it('brings the verdict after the last letter, holds, fades and rests within one cycle', () => {
+  it('then opens the words, brings the phrase word by word, then the meaning (English, then Tamil)', () => {
+    const last = Math.max(...tl.rows.map((r) => r.landed));
+    expect(tl.words.start).toBeGreaterThan(last - 400);
+    expect(tl.words.slid).toBeGreaterThan(tl.words.start);
+    for (let w = 0; w < HERO.words.length; w++) {
+      expect(tl.wordAt(w)).toBeGreaterThanOrEqual(tl.words.start);
+      if (w) expect(tl.wordAt(w)).toBeGreaterThan(tl.wordAt(w - 1));
+      expect(tl.wordAt(w)).toBeLessThan(tl.words.end);
+    }
+    expect(tl.phrase.start).toBeGreaterThanOrEqual(tl.words.end);
+    for (let k = 0; k < HERO.phraseTokens.length; k++) {
+      expect(tl.tokenAt(k)).toBeGreaterThan(tl.phrase.start);
+      expect(tl.tokenAt(k)).toBeLessThan(tl.phrase.end);
+    }
+    expect(tl.meaning.en).toBeGreaterThan(tl.phrase.end);
+    expect(tl.meaning.ta).toBeGreaterThan(tl.meaning.en);
+  });
+
+  it('brings the verdict once the letters have landed, holds the meaning 3 s, fades and rests within one cycle', () => {
     const last = Math.max(...tl.rows.map((r) => r.landed));
     expect(tl.verdict).toBeGreaterThan(last);
+    expect(tl.verdict).toBeLessThan(tl.phrase.start);
     expect(tl.cta).toBeGreaterThan(tl.verdict);
-    expect(tl.fadeOut - tl.verdict).toBeGreaterThanOrEqual(HOLD_MS);
+    expect(tl.fadeOut - tl.meaning.end).toBeGreaterThanOrEqual(HOLD_MS);
     expect(tl.cycle).toBeGreaterThan(tl.fadeOut);
-    expect(tl.cycle).toBeLessThan(24_000);
+    expect(tl.cycle).toBeGreaterThanOrEqual(22_000);
+    expect(tl.cycle).toBeLessThanOrEqual(26_000);
   });
 
   it('maps (row, letter) to reading order', () => {

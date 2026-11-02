@@ -145,13 +145,13 @@
 .sh-card[data-gap] .sh-card-foot > span:last-child { color: var(--sh-ink); }
 
 /* ---- (c, d) the pipeline ---- */
-.sh-pipe { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--ez-space-2); margin: 0; padding: 0; list-style: none; }
+.sh-pipe { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--ez-space-2); margin: 0; padding: 0; list-style: none; }
 .sh-pipe::before {
   content: '';
   position: absolute;
   top: 21px;
-  left: 16.6%;
-  right: 16.6%;
+  left: 12.5%;
+  right: 12.5%;
   height: 2px;
   background: repeating-linear-gradient(90deg, rgba(245, 196, 104, 0.55) 0 6px, transparent 6px 11px);
 }
@@ -179,78 +179,126 @@
 .sh-wire { position: absolute; left: 50%; top: 22px; width: 0; height: 0; }
 .sh-spark { position: absolute; left: -4px; top: -4px; width: 8px; height: 8px; border-radius: 50%; background: var(--ez-lamp-200); box-shadow: 0 0 10px 3px var(--sh-glow); opacity: 0; }
 
-/* ---- (e, f) the reading ---- */
+/* ---- (e-h) the reading: letters -> words, then the phrase and its meaning ---- */
 .sh-out { min-width: 0; display: flex; flex-direction: column; }
-.sh-out-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--ez-space-1) var(--ez-space-3); margin: 0 0 var(--ez-space-2); font-size: var(--ez-text-sm); color: var(--sh-muted); max-width: none !important; }
-.sh-legend { display: inline-flex; gap: var(--ez-space-2); font-size: 0.72rem; font-variant-numeric: tabular-nums; }
-.sh-legend i { font-style: normal; display: inline-flex; align-items: center; gap: 4px; }
-.sh-legend i::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.sh-out-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--ez-space-1) var(--ez-space-3); margin: 0 0 var(--ez-space-3); font-size: var(--ez-text-xs); letter-spacing: 0.02em; color: var(--sh-muted); max-width: none !important; }
+.sh-legend { display: inline-flex; gap: var(--ez-space-3); font-size: 0.72rem; font-variant-numeric: tabular-nums; }
+.sh-legend i { font-style: normal; display: inline-flex; align-items: center; gap: 5px; }
+.sh-legend i::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+/* The two panes share one cell: the letter rows, then (crossfading in) the phrase and meaning. */
+.sh-panes { display: grid; flex: 1; }
+.sh-panes > * { grid-area: 1 / 1; min-width: 0; }
 .sh-lines { display: grid; }
 .sh-line {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 3.6rem;
+  grid-template-columns: minmax(0, 1fr) auto;
   column-gap: var(--ez-space-3);
   align-items: center;
-  padding: var(--ez-space-2) 0;
+  padding: var(--ez-space-2) 0 calc(var(--ez-space-2) + 3px);
   border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
 }
-.sh-line:first-child { padding-top: 0; }
-.sh-ta { grid-column: 1; margin: 0; font-family: var(--ez-font-body-ta); font-size: clamp(1.12rem, 1.55vw, 1.38rem); line-height: 1.5; white-space: nowrap; max-width: none !important; }
+.sh-line:first-child { padding-top: 2px; }
+.sh-ta { margin: 0; font-family: var(--ez-font-body-ta); font-size: clamp(1.05rem, 1.32vw, 1.24rem); line-height: 1.45; white-space: nowrap; max-width: none !important; }
+/* A word: its letters, then an underline in the word's confidence tint (drawn at the WORDS beat). */
+.sh-word { position: relative; display: inline-block; }
+.sh-word + .sh-word { margin-left: 0.42em; }
+.sh-wline { position: absolute; left: 0.04em; right: 0.04em; bottom: -2px; height: 2px; border-radius: 2px; background: currentColor; opacity: 0.85; transform-origin: 0 50%; }
 .sh-slot { position: relative; display: inline-block; }
 .sh-dot { position: absolute; left: 50%; top: 50%; width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%; background: currentColor; box-shadow: 0 0 8px currentColor; opacity: 0; pointer-events: none; }
 .sh-l { display: inline-block; }
 .sh-gap { padding: 0 0.22em; margin: 0 0.06em; border: 1.5px dashed var(--sh-low); border-radius: 6px; color: var(--sh-low); line-height: 1.2; }
-.sh-iso { grid-column: 1; margin: 2px 0 0; font-family: var(--ez-font-body); font-style: normal; font-size: 0.78rem; letter-spacing: 0.03em; color: var(--sh-muted); overflow-wrap: anywhere; max-width: none !important; }
 .sh-lc {
-  grid-column: 2;
-  grid-row: 1 / span 2;
-  justify-self: end;
-  min-width: 3.2rem;
-  padding: 2px 8px;
+  min-width: 3rem;
+  padding: 1px 8px;
   border: 1px solid currentColor;
   border-radius: var(--ez-radius-pill);
-  font-size: 0.76rem;
+  font-size: 0.72rem;
   font-variant-numeric: tabular-nums;
   text-align: center;
 }
-.sh-gapnote { display: flex; gap: var(--ez-space-2); align-items: flex-start; margin: var(--ez-space-3) 0 0; font-size: 0.8rem; line-height: 1.5; color: var(--sh-muted); max-width: none !important; }
+.sh-gapnote { display: flex; gap: var(--ez-space-2); align-items: flex-start; margin: var(--ez-space-3) 0 0; font-size: 0.78rem; line-height: 1.5; color: var(--sh-muted); max-width: none !important; }
 .sh-gap-mark { display: inline-grid; flex: none; place-items: center; width: 1.4em; height: 1.4em; margin-top: 0.05em; border: 1px dashed var(--sh-low); border-radius: 4px; color: var(--sh-low); line-height: 1; }
+/* The phrase in today's Tamil, then the meaning. */
+.sh-mean { display: flex; flex-direction: column; }
+.sh-mean > p { margin: 0; max-width: none !important; }
+.sh-k { display: flex; align-items: center; justify-content: space-between; gap: var(--ez-space-2); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ez-lamp-200); }
+html[lang='ta'] .sh-k { text-transform: none; letter-spacing: 0.02em; font-size: 0.78rem; }
+.sh-phrase { margin-top: var(--ez-space-2) !important; font-family: var(--ez-font-body-ta); font-weight: var(--ez-weight-semibold); font-size: clamp(1.3rem, 1.75vw, 1.62rem); line-height: 1.4; color: var(--sh-ink); }
+.sh-tok { display: inline-block; }
+.sh-phrase-iso { margin-top: var(--ez-space-1) !important; font-size: 0.8rem; letter-spacing: 0.02em; color: var(--sh-muted); }
+.sh-mean-head { margin-top: var(--ez-space-5) !important; padding-top: var(--ez-space-3); border-top: 1px solid rgba(255, 255, 255, 0.12); }
+.sh-mc { padding: 0 7px; border: 1px solid currentColor; border-radius: var(--ez-radius-pill); font-size: 0.7rem; letter-spacing: 0; text-transform: none; font-variant-numeric: tabular-nums; }
+.sh-mean-en { margin-top: var(--ez-space-2) !important; font-size: 0.95rem; line-height: 1.55; color: var(--ez-stone-100); }
+.sh-mean-ta { margin-top: var(--ez-space-2) !important; font-family: var(--ez-font-body-ta); font-size: 0.95rem; line-height: 1.6; color: var(--ez-stone-200, var(--ez-stone-100)); }
 .sh-sum { min-width: 0; padding-top: var(--ez-space-3); border-top: 1px solid rgba(255, 255, 255, 0.14); }
-.sh-verdict { display: flex; flex-wrap: wrap; gap: var(--ez-space-1) var(--ez-space-4); margin: 0; font-size: var(--ez-text-sm); color: var(--ez-stone-100); max-width: none !important; }
+.sh-verdict { display: flex; flex-wrap: wrap; gap: var(--ez-space-1) var(--ez-space-4); margin: 0; font-size: 0.86rem; color: var(--ez-stone-100); max-width: none !important; }
 .sh-verdict b { color: var(--ez-lamp-200); font-variant-numeric: tabular-nums; }
-.sh-flagged { margin: var(--ez-space-1) 0 0; font-size: 0.8rem; color: var(--sh-muted); max-width: none !important; }
+.sh-flagged { margin: var(--ez-space-1) 0 0; font-size: 0.76rem; color: var(--sh-muted); max-width: none !important; }
 
 /* ---- credit and controls ---- */
 .sh-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--ez-space-2) var(--ez-space-4); margin-top: var(--ez-space-3); }
 .sh-credit { margin: 0; font-size: var(--ez-text-xs); color: var(--ez-text-muted); max-width: none !important; }
 .sh-controls { display: inline-flex; gap: var(--ez-space-2); }
 
-/* Static frame (reduced motion, no WAAPI): every letter badged, two match cards, the gap shown as "?". */
+/* Static frame (reduced motion, no WAAPI): every letter badged, two match cards, the gap shown as "?", the reading in
+   words, then the phrase and the meaning below it (the panes stack instead of crossfading). */
 .stone-hero[data-motion='static'] :is(.sh-rake, .sh-beam, .sh-node-glow, .sh-spark, .sh-dot, .sh-card:not([data-static])) { display: none; }
 .stone-hero[data-motion='static'] .sh-badge-gap .sh-badge-a { opacity: 0; }
 .stone-hero[data-motion='static'] .sh-badge-gap .sh-badge-b { opacity: 1; }
 .stone-hero[data-motion='static'] .sh-card[data-gap] .sh-card-foot > span:first-child { visibility: hidden; }
+.stone-hero[data-motion='static'] .sh-panes > * { grid-area: auto; }
+.stone-hero[data-motion='static'] .sh-mean { margin-top: var(--ez-space-5); }
 /* Animated mode: before the first cycle starts, hide what the cycle will reveal (no flash of the final frame). */
 .stone-hero[data-motion='animated'] .sh-card { opacity: 0; }
-.stone-hero[data-phase='idle'] :is(.sh-kb, .sh-box, .sh-badge, .sh-l, .sh-lc, .sh-iso, .sh-node-out, .sh-gapnote, [data-anim='verdict']) { opacity: 0; }
+.stone-hero[data-phase='idle'] :is(.sh-kb, .sh-box, .sh-badge, .sh-l, .sh-lc, .sh-wline, .sh-node-out, .sh-gapnote, .sh-mean, [data-anim='verdict']) { opacity: 0; }
 
-/* Wide screens: the stone large on the left (about 60% of the stage) with the pipeline under it; the reading on the
-   right. Letters fly from the stone, past the Decider, into the reading. */
+/* Wide screens: the stone large on the left (about 64% of the stage) with the pipeline right under it; on the right
+   the reading (letters, then words), which gives way to the phrase and its meaning; the verdict runs along the bottom.
+   Letters fly from the stone, past the Decider, into the reading. */
 @media (min-width: 980px) {
   .sh-stage {
-    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
-    grid-template-areas: 'photo out' 'pipe out' 'sum out';
-    grid-template-rows: auto auto 1fr;
+    grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+    grid-template-areas: 'photo out' 'pipe out' 'sum sum';
+    grid-template-rows: auto 1fr auto;
     column-gap: var(--ez-space-8);
-    row-gap: var(--ez-space-4);
+    row-gap: var(--ez-space-5);
+    padding: var(--ez-space-6);
     align-items: start;
   }
   .sh-photo { grid-area: photo; }
   .sh-pipe { grid-area: pipe; }
-  .sh-sum { grid-area: sum; align-self: end; }
   .sh-out { grid-area: out; align-self: stretch; padding-left: var(--ez-space-6); border-left: 1px solid rgba(255, 255, 255, 0.1); }
+  .sh-sum { grid-area: sum; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--ez-space-1) var(--ez-space-6); }
+  .sh-flagged { margin: 0; }
   .sh-node-text small { white-space: nowrap; }
   html[lang='ta'] .sh-node-text small { white-space: normal; }
+}
+/* Wide static frame: stone | reading in words on top, then the phrase | the meaning as one band across the stage. */
+@media (min-width: 980px) {
+  .stone-hero[data-motion='static'] .sh-stage {
+    grid-template-areas: 'photo head' 'photo read' 'pipe read' 'mean mean' 'sum sum';
+    grid-template-rows: auto auto 1fr auto auto;
+  }
+  .stone-hero[data-motion='static'] :is(.sh-out, .sh-panes) { display: contents; }
+  .stone-hero[data-motion='static'] :is(.sh-out-head, .sh-read) { padding-left: var(--ez-space-6); border-left: 1px solid rgba(255, 255, 255, 0.1); }
+  .stone-hero[data-motion='static'] .sh-out-head { grid-area: head; margin: 0; padding-bottom: var(--ez-space-3); }
+  .stone-hero[data-motion='static'] .sh-read { grid-area: read; align-self: stretch; }
+  .stone-hero[data-motion='static'] .sh-mean {
+    grid-area: mean;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+    grid-template-rows: auto auto 1fr;
+    column-gap: var(--ez-space-8);
+    margin-top: 0;
+    padding-top: var(--ez-space-4);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .stone-hero[data-motion='static'] .sh-mean-k { grid-area: 1 / 1; }
+  .stone-hero[data-motion='static'] .sh-phrase { grid-area: 2 / 1; }
+  .stone-hero[data-motion='static'] .sh-phrase-iso { grid-area: 3 / 1; }
+  .stone-hero[data-motion='static'] .sh-mean-head { grid-area: 1 / 2; margin-top: 0 !important; padding-top: 0; border-top: 0; }
+  .stone-hero[data-motion='static'] .sh-mean-en { grid-area: 2 / 2; }
+  .stone-hero[data-motion='static'] .sh-mean-ta { grid-area: 3 / 2; }
 }
 /* Phones: the headline, lede and calls to action come first (they share the first screen); the stone follows, full
    width, then the pipeline and the reading. */
@@ -259,17 +307,20 @@
   .sh-stage { border-radius: var(--ez-radius-lg); gap: var(--ez-space-3); padding: var(--ez-space-2) var(--ez-space-2) var(--ez-space-4); }
   .sh-frame { border-radius: var(--ez-radius-sm, 8px); }
   .sh-place, .sh-out, .sh-sum { padding-inline: var(--ez-space-1); }
+  .sh-pipe { gap: var(--ez-space-1); }
   .sh-badge small { display: none; }
   .sh-node-dot { width: 36px; height: 36px; font-size: 0.9rem; }
   .sh-pipe::before, .sh-wire { top: 18px; }
   .sh-node-text small { display: none; }
-  .sh-node-text b { font-size: 0.72rem; line-height: 1.25; white-space: nowrap; }
+  .sh-node-text b { font-size: 0.66rem; line-height: 1.2; white-space: normal; }
+  html[lang='ta'] .sh-node-text b { font-size: 0.6rem; letter-spacing: -0.01em; }
   .sh-node-out { font-size: 0.68rem; }
   .sh-place { margin-top: var(--ez-space-1); font-size: 0.7rem; }
-  .sh-line { grid-template-columns: minmax(0, 1fr) 3rem; column-gap: var(--ez-space-2); padding: 6px 0; }
-  .sh-ta { font-size: 1.12rem; }
-  .sh-iso { font-size: 0.72rem; }
-  .sh-lc { min-width: 2.8rem; padding: 1px 6px; font-size: 0.7rem; }
+  .sh-line { column-gap: var(--ez-space-2); padding: 6px 0 9px; }
+  .sh-ta { font-size: 1.08rem; }
+  .sh-lc { min-width: 2.6rem; padding: 1px 6px; font-size: 0.68rem; }
+  .sh-phrase { font-size: 1.3rem; }
+  .sh-mean-en, .sh-mean-ta { font-size: 0.88rem; }
   .sh-gapnote, .sh-flagged { font-size: 0.74rem; }
   .sh-verdict { font-size: 0.8rem; }
   .sh-bar { padding: 0 var(--ez-space-1); }

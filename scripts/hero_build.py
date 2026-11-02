@@ -7,6 +7,7 @@ Inputs (all committed):
   app/web/src/hero/runs/glyphs.json         letter-by-letter reading of the boxes (scripts/hero_read.py glyphs)
   app/web/src/hero/runs/restore.json        POST /api/restore on that reading (hero_read.py restore --from-glyphs)
   app/web/src/hero/runs/restore-lines.json  POST /api/restore on the line reading (kept for the record)
+  app/web/src/hero/runs/interpret.json      words, modern Tamil phrase and meaning (hero_read.py interpret)
 
 Outputs:
   app/web/public/hero/thanjavur-{480,800,1568}.{avif,webp,jpg}   responsive variants
@@ -36,7 +37,7 @@ OUT_VIEW = ROOT / "app" / "web" / "src" / "hero" / "hero-view.json"
 PUBLIC = ROOT / "app" / "web" / "public" / "hero"
 WIDTHS = (480, 800, 1568)
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from hero_read import GAP_BELOW, glyph_is_gap, glyph_text
+from hero_read import GAP_BELOW, glyph_is_gap, glyph_text, hero_letters
 
 ABSTAIN_BELOW = 0.5  # config/models.yaml routing.abstain_if_confidence_below (no calibration for the self-report path)
 
@@ -130,7 +131,11 @@ def build_json(boxes: dict, sizes: dict) -> dict:
     glyphs = json.loads((RUNS / "glyphs.json").read_text(encoding="utf-8"))
     restore = json.loads((RUNS / "restore.json").read_text(encoding="utf-8"))
     restore_lines = json.loads((RUNS / "restore-lines.json").read_text(encoding="utf-8"))
+    interp = json.loads((RUNS / "interpret.json").read_text(encoding="utf-8"))
     rows, gaps = build_glyph_rows(boxes, glyphs, restore)
+    assert interp["input"] == [[x.ta or "?" for x in line] for line in hero_letters(glyphs, restore)], \
+        "interpret.json must be the run on this letter-by-letter reading"
+    ir = interp["response"]
     letters = [g for row in rows for g in row["glyphs"]]
     first = read.get("reread_of") or {}
     return {
@@ -177,17 +182,44 @@ def build_json(boxes: dict, sizes: dict) -> dict:
                         "best": [[_fill_ta(g["candidates"][0]), g["candidates"][0]["confidence"]]
                                  for g in restore_lines["response"]["gaps"] if g["candidates"]]},
         },
+        "interpret": {
+            "method": interp["method"],
+            "context": interp["context"],
+            "input": interp["input"],
+            "models": ir["models_used"],
+            "model": ir["model"],
+            "words": ir["words"],
+            "phrase_tamil": ir["phrase_tamil"],
+            "phrase_iso": ir["phrase_iso"],
+            "meaning_en": ir["meaning_en"],
+            "meaning_ta": ir["meaning_ta"],
+            "notes": ir["notes"],
+            "confidence": ir["confidence"],
+            "words_attested": ir["words_attested"],
+            "lexicon_hints": ir["lexicon_hints"],
+            "ontology_hints": ir["ontology_hints"],
+            "note": "Words, phrase and meaning by Ezhuthu's Interpreter (src/ezhuthu/agent/interpreter.py): the "
+                    "model divided the letters into words (naming each word's letters), spelled them in today's "
+                    "Tamil and said what they mean, grounded with words attested in the DHARMA train split and the "
+                    "ontology. Probabilities are the model's own (not calibrated). No edition exists to check it "
+                    "against (see edition_note), so the hero credits the meaning to Ezhuthu.",
+        },
         "edition": None,
         "match_rate": None,
         "edition_note": "This stone is not identified in DHARMA or another published edition we could find, so the "
-                        "hero shows no edition text, no match rate and no translation. A search of Wikimedia Commons "
-                        "for an openly licensed photo of an inscription in the DHARMA split found none whose text "
-                        "could be matched to an edition (2026-11-02).",
-        "live_calls": {"reader": 4, "glyphs": 4, "restorer": 7,
+                        "hero shows no edition text and no match rate, and the meaning is credited to Ezhuthu. "
+                        "Searches of Wikimedia Commons for an openly licensed photo of an inscription in the DHARMA "
+                        "train split (2026-11-02, twice) found none whose text could be matched to an edition: the "
+                        "two closest candidates (Airavatesvara temple, Darasuram) were read by the Reader as "
+                        "Vatteluttu / illegible and could not be tied to DHARMA_INSTamilNadu00619, 00602 or 00603.",
+        "live_calls": {"reader": 4, "glyphs": 4, "restorer": 7, "interpreter": 4, "photo_search": 3,
                        "note": "Bedrock calls. Reader: includes a Sonnet+Opus read of a 6-line crop of the same photo "
                                "that was not used. Glyphs: one Opus call per row. Restorer: 6 on the line reading "
-                               "(two runs) and 1 on the letter-by-letter reading. Strands Decider calls go to the "
-                               "hosted decider API, not Bedrock."},
+                               "(two runs) and 1 on the letter-by-letter reading. Interpreter: Sonnet then Opus "
+                               "(Sonnet was under 0.6), twice; the first pair used a prompt without a length limit "
+                               "on the meaning and was superseded. Photo search: Reader calls on two candidate "
+                               "photos that were not used. Strands Decider calls go to the hosted decider API, not "
+                               "Bedrock."},
         "run_date": "2026-11-02",
     }
 
@@ -209,11 +241,9 @@ def build_view(data: dict) -> dict:
                 v["gap"] = {"decision": x["gap"]["decision"],
                             "best": {"ta": best["ta"], "c": best["confidence"]} if best else None}
             gl.append(v)
-        iso = "".join("[?]" if ("gap" in x and x["gap"]["decision"] == "abstain") else (x["iso"] or "[?]")
-                      for x in row["glyphs"])
-        rows.append({"iso": iso, "c": row["mean_confidence"],
-                     "glyphs": gl})
+        rows.append({"c": row["mean_confidence"], "glyphs": gl})
     script = g["script"]
+    it = data["interpret"]
     return {
         "$comment": "Generated by scripts/hero_build.py from hero-reading.json (the full record). Do not edit by hand.",
         "photo": {k: photo[k] for k in ("width", "height", "widths", "commons_url", "licence_url")},
@@ -224,6 +254,11 @@ def build_view(data: dict) -> dict:
         "letters": g["letters"],
         "mean": g["mean_confidence"],
         "abstain_below": data["restore"]["abstain_below"],
+        "words": [{"ta": w["tamil"], "en": w["en"], "c": w["confidence"], "at": w["letters"]}
+                  for w in it["words"]],
+        "phrase": {"ta": it["phrase_tamil"], "iso": it["phrase_iso"]},
+        "meaning": {"en": it["meaning_en"], "ta": it["meaning_ta"]},
+        "meaning_c": it["confidence"],
     }
 
 

@@ -9,6 +9,9 @@ that output real instead of invented:
   glyphs   letter by letter (``Reader.read_glyphs``, llm.escalate): for each row of design/hero/boxes.json, the
            line's crop and the same crop with the boxes numbered go to the model, which names the modern Tamil
            letter in each box with a probability; writes app/web/src/hero/runs/glyphs.json
+  interpret  ``Interpreter.interpret`` (src/ezhuthu/agent/interpreter.py, Sonnet 4.6, Opus 4.6 if Sonnet is unsure) on
+           the letter-by-letter reading with the Restorer's decisions (an open gap is an unread letter): words with
+           the ids of their letters, a modern Tamil phrase and its meaning; writes app/web/src/hero/runs/interpret.json
   restore  POST /api/restore code path (``EzhuthuService.restore``) on the reading's gapped lines, if any (or, with
            --from-glyphs, on the letter-by-letter reading, worn letters as gaps); writes
            app/web/src/hero/runs/restore.json
@@ -164,6 +167,53 @@ def cmd_restore(args: argparse.Namespace) -> None:
     print(json.dumps({"gaps": out.get("gaps"), "ledger": llm.ledger.to_dict()}, ensure_ascii=False, indent=2)[:4000])
 
 
+HERO_CONTEXT = ("A crop of four lines from a longer Chola-period inscription on the wall of the Brihadisvara temple, "
+                "Thanjavur; the text runs on beyond the left and right edges of the crop, so the first and last "
+                "words of a line may be cut.")
+
+
+def hero_letters(glyphs: dict, restore: dict) -> list:
+    """The letter stream the hero shows: the Reader's letter per box; a letter under GAP_BELOW is what the Restorer
+    and the Decider made of it (their fill, or unread if the gap was left open)."""
+    from ezhuthu.agent.interpreter import Letter
+
+    gaps = iter(restore["response"]["gaps"])
+    lines = []
+    for r, row in enumerate(glyphs["rows"]):
+        line = []
+        for i, g in enumerate(row["glyphs"]):
+            if glyph_is_gap(g):
+                gap = next(gaps)
+                best = gap["candidates"][0] if gap["candidates"] else None
+                filled = gap["decision"] != "abstain" and best is not None
+                line.append(Letter(r, i, best["text_tamil"].replace("-", "") if filled else None,
+                                   best["confidence"] if filled else None))
+            else:
+                line.append(Letter(r, i, g["ta"], g["confidence"]))
+        lines.append(line)
+    return lines
+
+
+def cmd_interpret(args: argparse.Namespace) -> None:
+    from ezhuthu.agent.interpreter import Interpreter
+
+    _, llm = _service(args.max_live_calls)
+    glyphs = json.loads((RUNS / "glyphs.json").read_text(encoding="utf-8"))
+    restore = json.loads((RUNS / "restore.json").read_text(encoding="utf-8"))
+    lines = hero_letters(glyphs, restore)
+    out = Interpreter(llm).interpret(lines, context=HERO_CONTEXT)
+    payload = {"method": "Interpreter.interpret (src/ezhuthu/agent/interpreter.py) on the letter-by-letter reading "
+                         "(runs/glyphs.json) with the Restorer's decisions (runs/restore.json)",
+               "context": HERO_CONTEXT,
+               "input": [[x.ta or "?" for x in line] for line in lines],
+               "response": out}
+    (RUNS / "interpret.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps({k: out[k] for k in ("phrase_tamil", "phrase_iso", "meaning_en", "meaning_ta", "notes",
+                                          "confidence", "models_used")}, ensure_ascii=False, indent=2))
+    print(" | ".join(f"{w['tamil']}:{w['confidence']}" for w in out["words"]))
+    print(json.dumps({"ledger": llm.ledger.to_dict()}, indent=2))
+
+
 def main(argv: list[str] | None = None) -> None:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -184,6 +234,9 @@ def main(argv: list[str] | None = None) -> None:
     s.add_argument("--from-glyphs", action="store_true", help="restore the letter-by-letter reading (runs/glyphs.json)")
     s.add_argument("--max-live-calls", type=int, default=4)
     s.set_defaults(fn=cmd_restore)
+    it = sub.add_parser("interpret")
+    it.add_argument("--max-live-calls", type=int, default=2)
+    it.set_defaults(fn=cmd_interpret)
     args = p.parse_args(argv)
     args.fn(args)
 

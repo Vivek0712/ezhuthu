@@ -1,7 +1,8 @@
 import { expect, test, type Page } from '@playwright/test';
 import { expectNoHorizontalScroll, setEnglish } from './helpers';
 
-// The home hero (StoneHero.tsx): a real photo, read letter by letter by Ezhuthu, animated with WAAPI (~19 s cycle).
+// The home hero (StoneHero.tsx): a real photo, read letter by letter by Ezhuthu, then put into words, a phrase in
+// today's Tamil and its meaning; animated with WAAPI (~23 s cycle).
 
 const pageSettled = async (page: Page) => {
   await page.getByTestId('stone-hero').waitFor(); // the app renders after the mock worker starts
@@ -21,7 +22,7 @@ const letterOpacities = (page: Page) => page.locator('.sh-l').evaluateAll((els) 
 const shown = (page: Page, sel: string) => page.locator(sel).evaluateAll((els) => els.filter((e) => Number(getComputedStyle(e).opacity) > 0.5).length);
 
 test.describe('stone hero', () => {
-  test('plays the whole story: scan, match cards, cascade, gap, assembly, verdict', async ({ page }) => {
+  test('plays the whole story: scan, match cards, cascade, gap, assembly, words, phrase, meaning, verdict', async ({ page }) => {
     await setEnglish(page);
     await page.goto('/');
     await expect(page.getByTestId('stone-hero')).toHaveAttribute('data-motion', 'animated');
@@ -41,10 +42,22 @@ test.describe('stone hero', () => {
     await expect.poll(async () => Math.min(...(await letterOpacities(page))), { timeout: 12_000 }).toBeGreaterThan(0.99);
     await expect.poll(() => shown(page, '.sh-verdict'), { timeout: 4000 }).toBe(1);
     await expect(hero.locator('.sh-verdict')).toContainText('46 letters matched to modern Tamil');
+    // (f) the letters open up into words, each underlined
+    const lines = await hero.locator('.sh-wline').count();
+    expect(lines).toBeGreaterThan(4);
+    await expect.poll(() => shown(page, '.sh-wline'), { timeout: 4000 }).toBe(lines);
+    // (g, h) the phrase in today's Tamil, then the meaning in English and in Tamil; the reading pane gives way
+    await expect.poll(() => shown(page, '.sh-mean'), { timeout: 6000 }).toBe(1);
+    await expect.poll(() => shown(page, '.sh-mean-ta'), { timeout: 6000 }).toBe(1);
+    expect(await shown(page, '.sh-read')).toBe(0);
+    await expect(hero.locator('.sh-phrase')).toContainText('குளம்');
+    await expect(hero.locator('.sh-mean-en')).toContainText('tank');
+    await expect(hero.locator('.sh-verdict')).toContainText('11 words');
     await expect(hero.locator('.sh-ta[lang="ta"]')).toHaveCount(4);
     await expect(hero).not.toContainText(/experimental|not checked against/i);
     await expect(page.getByTestId('hero-credit')).toContainText('Richard Mortel');
     await expect(hero).toContainText('Reading by Ezhuthu, built with Strands Agents');
+    await expect(hero).toContainText('Meaning by Ezhuthu');
     await expectNoHorizontalScroll(page);
   });
 
@@ -75,6 +88,36 @@ test.describe('stone hero', () => {
     await expect(hero).toHaveAttribute('data-phase', 'running');
   });
 
+  test('carries the meaning over the loop seam and crossfades it into the next scan', async ({ page }) => {
+    await page.goto('/');
+    await pageSettled(page);
+    await showHero(page);
+    const seen = await page.evaluate(async () => {
+      const stage = document.querySelector('.sh-stage')!;
+      const clock = stage.getAnimations()[0]!;
+      const C = Number(clock.effect!.getTiming().duration);
+      for (const a of document.getAnimations()) if (a.effect?.getTiming().duration === C) a.currentTime = C - 150;
+      const mean = document.querySelector('.sh-mean')!;
+      const read = document.querySelector('.sh-read')!;
+      const out: { t: number; mean: number; read: number }[] = [];
+      const t0 = performance.now();
+      await new Promise<void>((res) => {
+        const tick = () => {
+          out.push({ t: performance.now() - t0, mean: Number(getComputedStyle(mean).opacity), read: Number(getComputedStyle(read).opacity) });
+          if (performance.now() - t0 < 2200) requestAnimationFrame(tick);
+          else res();
+        };
+        requestAnimationFrame(tick);
+      });
+      return out;
+    });
+    // On screen through the seam and the first moments of the next cycle; gone, with the reading back, by ~1.5 s.
+    expect(Math.min(...seen.filter((s) => s.t < 600).map((s) => s.mean))).toBeGreaterThan(0.99);
+    const late = seen.filter((s) => s.t > 1900);
+    expect(Math.max(...late.map((s) => s.mean))).toBeLessThan(0.01);
+    expect(Math.min(...late.map((s) => s.read))).toBeGreaterThan(0.99);
+  });
+
   test('desktop composition: the photo is the hero, the reading sits beside it', async ({ page }, info) => {
     test.skip(info.project.name !== 'desktop', 'desktop layout');
     await page.setViewportSize({ width: 1440, height: 900 });
@@ -84,8 +127,15 @@ test.describe('stone hero', () => {
     const stage = (await hero.locator('.sh-stage').boundingBox())!;
     const photo = (await hero.locator('.sh-frame').boundingBox())!;
     const out = (await hero.locator('.sh-out').boundingBox())!;
-    expect(photo.width / stage.width).toBeGreaterThan(0.55);
+    expect(photo.width / stage.width).toBeGreaterThan(0.58);
     expect(out.x).toBeGreaterThan(photo.x + photo.width);
+    // No empty band: the pipeline sits right under the photo's caption, and the stage ends soon after it.
+    const pipe = (await hero.locator('.sh-pipe').boundingBox())!;
+    const sum = (await hero.locator('.sh-sum').boundingBox())!;
+    expect(pipe.y - (photo.y + photo.height)).toBeLessThan(70);
+    expect(stage.y + stage.height - (pipe.y + pipe.height)).toBeLessThan(sum.height + 90);
+    // The reading and meaning column is no taller than the stone and the pipeline beside it.
+    expect(out.height).toBeLessThan(pipe.y + pipe.height - photo.y + 40);
     // The browser picks a photo at least as wide as it is drawn (srcset sizes match the layout).
     const { natural, drawn, dpr } = await hero.locator('.sh-kb > picture img').evaluate((img: HTMLImageElement) => ({ natural: img.naturalWidth, drawn: img.getBoundingClientRect().width, dpr: window.devicePixelRatio }));
     expect(natural).toBeGreaterThanOrEqual(Math.min(1568, drawn * dpr * 0.98));
@@ -185,6 +235,9 @@ test.describe('stone hero', () => {
     expect(Math.min(...(await letterOpacities(page)))).toBe(1);
     expect(await hero.locator('.sh-box').evaluateAll((els) => els.every((e) => Number(getComputedStyle(e).opacity) > 0.5))).toBe(true);
     await expect(hero.locator('.sh-card:visible')).toHaveCount(2);
+    // The static frame shows the words, the phrase and the meaning together.
+    await expect(hero.locator('.sh-mean')).toBeVisible();
+    expect(await shown(page, '.sh-mean-en')).toBe(1);
     expect(await shown(page, '.sh-badge')).toBe(await hero.locator('.sh-box').count());
     const running = await page.evaluate(() => document.getAnimations().filter((a) => a.playState === 'running').length);
     expect(running).toBe(0);

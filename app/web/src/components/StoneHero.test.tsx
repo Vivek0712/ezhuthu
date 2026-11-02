@@ -5,6 +5,7 @@ import { AppRoutes } from '../App';
 import heroRaw from '../hero/hero-reading.json';
 import heroView from '../hero/hero-view.json';
 import glyphs from '../hero/runs/glyphs.json';
+import interp from '../hero/runs/interpret.json';
 import restore from '../hero/runs/restore.json';
 import { HERO } from '../hero/heroData';
 import { buildTimeline } from '../hero/timeline';
@@ -47,6 +48,22 @@ describe('stone hero (home)', () => {
     expect(hero).toHaveTextContent('mean confidence 65%');
     expect(hero).toHaveTextContent('1 left open');
     expect(hero).toHaveTextContent('Letters under 50% are flagged as uncertain.');
+    // WORDS: the letters of each row are grouped into the Interpreter's words, each underlined in its tint.
+    const words = interp.response.words;
+    expect(hero.querySelectorAll('.sh-wline')).toHaveLength(words.reduce((n, w) => n + new Set(w.letters.map(([r]) => r)).size, 0));
+    words.forEach((w, k) => {
+      const letters = Array.from(hero.querySelectorAll(`.sh-word[data-w="${k}"] [data-anim="land"]`));
+      expect(letters.map((l) => [Number(l.closest<HTMLElement>('[data-line]')!.dataset.line), Number((l as HTMLElement).dataset.k)])).toEqual(w.letters);
+    });
+    expect(hero).toHaveTextContent(`${words.length} words, ${words.filter((w) => (w.confidence ?? 0) >= 0.5).length} at 50% or more`);
+    // PHRASE and MEANING, in today's Tamil and in English, as the Interpreter gave them.
+    const meaning = screen.getByTestId('hero-meaning');
+    expect(cleanText(meaning.querySelector('.sh-phrase')!)).toBe(interp.response.phrase_tamil);
+    expect(meaning.querySelector('.sh-phrase-iso')).toHaveTextContent(interp.response.phrase_iso);
+    expect(meaning.querySelector('.sh-mean-en')).toHaveTextContent(interp.response.meaning_en);
+    expect(meaning.querySelector('.sh-mean-ta')).toHaveTextContent(interp.response.meaning_ta);
+    expect(meaning.querySelector('.sh-mc')).toHaveTextContent(`${Math.round(interp.response.confidence * 100)}%`);
+    expect(hero.querySelector('[data-node="interpreter"]')).toHaveTextContent(`Interpreter`);
     // No hedging labels, no claims of correctness or of anything being queued.
     expect(hero.textContent).not.toMatch(/experimental|not checked|edition|goes to expert review|\bcorrect\b|deciph/i);
     // Credits: photo author, licence, source, and the reading's maker.
@@ -54,6 +71,7 @@ describe('stone hero (home)', () => {
     expect(within(hero).getByRole('link', { name: 'CC BY 2.0' })).toHaveAttribute('href', 'https://creativecommons.org/licenses/by/2.0/');
     expect(hero).toHaveTextContent('Richard Mortel');
     expect(hero).toHaveTextContent('Reading by Ezhuthu, built with Strands Agents');
+    expect(hero).toHaveTextContent('Meaning by Ezhuthu');
     // The artwork is hidden from assistive tech; the reading is not.
     expect(hero.querySelector('.sh-photo')).toHaveAttribute('aria-hidden', 'true');
     expect(hero.querySelector('.sh-pipe')).toHaveAttribute('aria-hidden', 'true');
@@ -81,11 +99,13 @@ describe('stone hero (home)', () => {
     expect(hero).toHaveTextContent('வாசிப்பாளர்');
     expect(hero).toHaveTextContent('சோழர் காலத் தமிழ்');
     expect(hero).toHaveTextContent('Strands Agents');
+    expect(hero).toHaveTextContent('விளக்குநர்');
+    expect(hero).toHaveTextContent('பொருள்: எழுத்து');
   });
 });
 
 describe('stone hero animation: one track per element, and the loop has no seam', () => {
-  type Rec = { el: Element; kf: Keyframe[]; opts: KeyframeAnimationOptions };
+  type Rec = { el: Element; kf: Keyframe[]; opts: KeyframeAnimationOptions; anim: Animation };
   let recs: Rec[] = [];
   const proto = Element.prototype as unknown as { animate?: unknown };
   const original = proto.animate;
@@ -94,8 +114,9 @@ describe('stone hero animation: one track per element, and the loop has no seam'
   beforeEach(() => {
     recs = [];
     proto.animate = function (this: Element, kf: Keyframe[], opts: KeyframeAnimationOptions) {
-      recs.push({ el: this, kf, opts });
-      return { cancel() {}, pause() {}, play() {}, playState: 'running', onfinish: null } as unknown as Animation;
+      const anim = { cancel() {}, pause() {}, play() {}, playState: 'running', onfinish: null, currentTime: 0 } as unknown as Animation;
+      recs.push({ el: this, kf, opts, anim });
+      return anim;
     };
     window.matchMedia = ((q: string) => ({ matches: false, media: q, addEventListener() {}, removeEventListener() {} })) as unknown as typeof window.matchMedia;
   });
@@ -113,9 +134,14 @@ describe('stone hero animation: one track per element, and the loop has no seam'
     return hero;
   }
 
+  const timeline = () => buildTimeline(HERO.rows.map((r) => r.glyphs.length), HERO.featured, HERO.gaps.length, 2, HERO.words.length, HERO.phraseTokens.length);
+  /** The reading pane and the meaning pane (with what is in it) carry over the seam: the meaning stays on screen and
+   * crossfades out as the next cycle's scan begins. */
+  const carried = (el: Element) => el.classList.contains('sh-read') || !!el.closest('.sh-mean');
+
   it('animates every hero element over exactly one cycle, ending where the next cycle begins', async () => {
     const hero = await startCycle();
-    const tl = buildTimeline(HERO.rows.map((r) => r.glyphs.length), HERO.featured, HERO.gaps.length);
+    const tl = timeline();
     const inHero = recs.filter((r) => hero.contains(r.el) && r.kf.length > 0);
     expect(inHero.length).toBeGreaterThan(150);
     const perEl = new Map<Element, number>();
@@ -125,7 +151,7 @@ describe('stone hero animation: one track per element, and the loop has no seam'
       expect(r.kf[0]!.offset).toBe(0);
       expect(r.kf[r.kf.length - 1]!.offset).toBe(1);
       perEl.set(r.el, (perEl.get(r.el) ?? 0) + 1);
-      if (r.el.classList.contains('sh-kb')) continue;
+      if (r.el.classList.contains('sh-kb') || carried(r.el)) continue;
       // Everything except the photo starts hidden and is hidden again at the end: nothing blinks at the seam.
       const first = r.kf[0]!;
       const last = r.kf[r.kf.length - 1]!;
@@ -145,11 +171,50 @@ describe('stone hero animation: one track per element, and the loop has no seam'
     const kb = inHero.find((r) => r.el.classList.contains('sh-kb'))!;
     expect(kb.kf[0]!.opacity).toBe(0);
     expect(kb.kf[kb.kf.length - 1]!.opacity).toBe(1);
+    // The finished frame is the stone with the phrase and meaning: the meaning pane is on screen at the end.
+    const mean = inHero.find((r) => r.el.classList.contains('sh-mean'))!;
+    expect(mean.kf[0]!.opacity).toBe(0);
+    expect(mean.kf[mean.kf.length - 1]!.opacity).toBe(1);
+    // The beats come in the order the story is told, and the loop is 22 to 26 s with a 3 s hold.
+    expect(tl.words.start).toBeGreaterThan(Math.max(...tl.rows.map((r) => r.landed)) - 400);
+    expect(tl.phrase.start).toBeGreaterThan(tl.words.end - 1);
+    expect(tl.meaning.en).toBeGreaterThan(tl.phrase.end);
+    expect(tl.cycle).toBeGreaterThanOrEqual(22_000);
+    expect(tl.cycle).toBeLessThanOrEqual(26_000);
+  });
+
+  it('crossfades the meaning into the next cycle instead of emptying the reading', async () => {
+    const hero = await startCycle();
+    const first = recs.filter((r) => hero.contains(r.el) && r.kf.length > 0);
+    const clock = recs.find((r) => r.el.classList.contains('sh-stage') && r.kf.length === 0)!;
+    recs = [];
+    (clock.anim as unknown as { currentTime: number }).currentTime = clock.opts.duration as number;
+    (clock.anim.onfinish as unknown as () => void)();
+    const second = recs.filter((r) => hero.contains(r.el) && r.kf.length > 0);
+    expect(second.length).toBe(first.length);
+    const end = new Map(first.map((r) => [r.el, r.kf[r.kf.length - 1]!]));
+    for (const r of second) {
+      const prev = end.get(r.el)!;
+      // Every element starts the next cycle exactly as it ended this one (the photo keeps its place too).
+      if ('opacity' in r.kf[0]!) expect(r.kf[0]!.opacity, r.el.className).toBe(prev.opacity);
+    }
+    // The meaning is on screen when the next cycle starts and gone, with the reading pane back, during the scan.
+    const at = (el: Element, t: number) => {
+      const kf = second.find((r) => r.el === el)!.kf;
+      const off = t / (clock.opts.duration as number);
+      return kf.filter((k) => (k.offset as number) <= off).pop()!.opacity;
+    };
+    const mean = hero.querySelector('.sh-mean')!;
+    const read = hero.querySelector('.sh-read')!;
+    expect(at(mean, 0)).toBe(1);
+    expect(at(mean, 1600)).toBe(0);
+    expect(at(read, 0)).toBe(0);
+    expect(at(read, 1600)).toBe(1);
   });
 
   it('reads letters out in order: every letter of row r lands before row r+1 starts landing', async () => {
     const hero = await startCycle();
-    const tl = buildTimeline(HERO.rows.map((r) => r.glyphs.length), HERO.featured, HERO.gaps.length);
+    const tl = timeline();
     const landed = (el: Element) => {
       const kf = recs.find((r) => r.el === el)!.kf;
       // The first keyframe where the letter is at rest in place.
@@ -161,6 +226,13 @@ describe('stone hero animation: one track per element, and the loop has no seam'
       if (r > 0) expect(row[row.length - 1]).toBeGreaterThan(rows[r - 1]![rows[r - 1]!.length - 1]!);
       expect(row[0]! * tl.cycle).toBeGreaterThan(tl.gap.end);
     });
+    // Then the words open up: letters are closed up (shifted left) until the WORDS beat, then sit in their word.
+    const words = Array.from(hero.querySelectorAll('.sh-word'));
+    for (const w of words) {
+      const kf = recs.find((r) => r.el === w)!.kf;
+      const opened = kf.find((k) => k.transform === 'none')!.offset as number;
+      expect(opened * tl.cycle).toBeCloseTo(tl.words.slid, 0);
+    }
   });
 });
 
@@ -200,6 +272,16 @@ describe('hero data (src/hero/hero-view.json) is the real run, not hand-written'
     expect(under).toHaveLength(restore.response.gaps.length);
     expect(HERO.mean).toBe(heroRaw.glyphs.mean_confidence);
   });
+  it('shows the Interpreter run it was built from: words with their letters, phrase, meaning', () => {
+    expect(HERO.words.map((w) => [w.ta, w.c, w.at])).toEqual(interp.response.words.map((w) => [w.tamil, w.confidence, w.letters]));
+    expect(HERO.phrase).toEqual({ ta: interp.response.phrase_tamil, iso: interp.response.phrase_iso });
+    expect(HERO.meaning).toEqual({ en: interp.response.meaning_en, ta: interp.response.meaning_ta });
+    expect(interp.input).toEqual(glyphs.rows.map((r) => r.glyphs.map((g) => (g.confidence !== null && g.confidence >= 0.5 && g.ta ? g.ta : '?'))));
+    // Every letter belongs to at most one word, and words keep reading order.
+    const seen = HERO.words.flatMap((w) => w.at.map(([r, i]) => readingIndexOf(r, i)));
+    expect(seen).toEqual([...seen].sort((a, b) => a - b));
+    expect(new Set(seen).size).toBe(seen.length);
+  });
   it('ships a trimmed view that agrees with the full record', () => {
     expect(heroView.boxes).toEqual(heroRaw.boxes);
     expect(heroView.rows.map((r) => r.c)).toEqual(heroRaw.glyphs.rows.map((r) => r.mean_confidence));
@@ -219,14 +301,19 @@ describe('hero data (src/hero/hero-view.json) is the real run, not hand-written'
       }
   });
   it('records the photo licence, and no edition or match rate (none could be found)', () => {
+    expect(heroRaw.interpret.model).toBe(interp.response.model);
     expect(heroRaw.photo.licence).toBe('CC BY 2.0');
     expect(heroRaw.photo.author).toBe('Richard Mortel');
     expect(heroRaw.edition).toBeNull();
     expect(heroRaw.match_rate).toBeNull();
     const calls = heroRaw.live_calls;
-    expect(calls.reader + calls.glyphs + calls.restorer).toBeLessThanOrEqual(60);
+    expect(calls.reader + calls.glyphs + calls.restorer + calls.interpreter + calls.photo_search).toBeLessThanOrEqual(60);
   });
 });
+
+function readingIndexOf(r: number, i: number): number {
+  return HERO.rows.slice(0, r).reduce((n, row) => n + row.glyphs.length, 0) + i;
+}
 
 function Where() {
   const loc = useLocation();
