@@ -1,9 +1,11 @@
 import { expect, test } from '@playwright/test';
-import { expectFontsLoaded, expectNoHorizontalScroll, glyphWidth, gotoNav, setEnglish } from './helpers';
+import { expectFontsLoaded, expectNoHorizontalScroll, glyphWidth, gotoNav, setEnglish, setTamil } from './helpers';
 
 test.describe('home and language', () => {
-  test('defaults to Tamil and renders Tamil, Brahmi and Grantha with the shipped web fonts', async ({ page }) => {
+  test('defaults to English; in Tamil renders Tamil, Brahmi and Grantha with the shipped web fonts', async ({ page }) => {
     await page.goto('/');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await page.getByTestId('lang-toggle').click();
     await expect(page.locator('html')).toHaveAttribute('lang', 'ta');
     await expect(page.getByRole('heading', { level: 1 })).toContainText('கல்வெட்டைப் படிக்கக் கற்றுக்கொள்ளுங்கள்');
     await expect(page.getByTestId('stone-hero')).toBeVisible();
@@ -22,11 +24,15 @@ test.describe('home and language', () => {
     await expectNoHorizontalScroll(page);
   });
 
-  test('switches to English and remembers it', async ({ page }) => {
+  test('switches to Tamil and back, and remembers the choice', async ({ page }) => {
     await page.goto('/');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Learn to read the stone. Help read the backlog.');
+    await page.getByTestId('lang-toggle').click();
+    await expect(page.locator('html')).toHaveAttribute('lang', 'ta');
+    await page.reload();
+    await expect(page.locator('html')).toHaveAttribute('lang', 'ta');
     await page.getByTestId('lang-toggle').click();
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Learn to read the stone. Help read the backlog.');
     await page.reload();
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   });
@@ -34,6 +40,7 @@ test.describe('home and language', () => {
 
 test.describe('practice (was learn)', () => {
   test('Tamil-Brahmi lesson: hint in Tamil, then advance', async ({ page }) => {
+    await setTamil(page);
     await page.goto('/');
     await gotoNav(page, 'பயிற்சி');
     await page.getByTestId('level-L5').click();
@@ -139,6 +146,7 @@ test('about credits DHARMA and is reachable from navigation', async ({ page }) =
 });
 
 test('unknown routes show the bilingual 404 (SPA fallback works)', async ({ page }) => {
+  await setTamil(page);
   await page.goto('/no/such/page');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('பக்கம் கிடைக்கவில்லை');
 });

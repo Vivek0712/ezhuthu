@@ -67,10 +67,15 @@ flowchart LR
 ## Try it without your own text
 
 No inscription to hand? The home page opens with the letter ka carved through the eras, then a gallery of
-13 real passages from DHARMA editions (Pallava, Pāṇḍya, Chola, Rāṣṭrakūṭa and Vijayanagara), each with its
-real gaps: letters lost on the stone that the editors left unrestored. One click sends a passage to Restore,
-another starts a lesson on it. The passages come from the benchmark's train split only, never val or test
-(`scripts/build_samples.py`, checked by `tests/test_samples.py`). There is no Tamil-Brahmi passage because the
+13 real passages from DHARMA editions in two groups. Ten hide a span that the editors did restore: run one, and
+after the result the app shows what the published edition reads and whether the system's fill matches the
+editors' restoration, differs, or was left open for an expert. They are validation-split benchmark items drawn by
+a rule fixed before any live run, never test (and never train, which the restorer's 5-gram and retrieval read);
+the live recording filled 4 of 10, all 4 matching the editors, and left 6 open
+([`eval/reports/2026-11-02-samples.md`](eval/reports/2026-11-02-samples.md)). Three are unsolved: letters lost on
+the stone that no edition restores, where the system proposes options and asks an expert. One click sends a
+passage to Restore, another starts a lesson on it (`scripts/build_samples.py`, checked by `tests/test_samples.py`;
+in mock mode the app replays the recorded live answers). There is no Tamil-Brahmi passage because the
 DHARMA Tamil collections used here have no Tamil-Brahmi editions.
 
 <p align="center"><a href="docs/media/hero-evolution.webm"><img src="docs/media/hero-evolution-poster.jpg" alt="The home hero: the letter ka in Tamil-Brahmi, Vatteluttu, Pallava (Grantha form), Chola and modern Tamil, side by side" width="360"></a></p>

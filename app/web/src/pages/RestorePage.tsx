@@ -2,13 +2,14 @@ import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } 
 import { useNavigate } from 'react-router-dom';
 import { api, type Gap, type RestoreResponse } from '../api/client';
 import { ConfidenceMeter } from '../components/ConfidenceMeter';
+import { EditionReveal } from '../components/EditionReveal';
 import { Busy, DharmaCredit, ErrorNote } from '../components/Feedback';
 import { ExperimentalNote, ReadPanel, type Accepted, type Tab } from '../components/ReadPanel';
 import { useI18n } from '../i18n/I18nProvider';
 import { gapContext, parseGaps } from '../lib/gaps';
 import { plural, safeHref } from '../lib/format';
 import { SAMPLE_RESTORE_ISO, SAMPLE_RESTORE_TAMIL } from '../lib/samples';
-import { useRestoreSample } from '../samples';
+import { useRestoreSample, type Sample } from '../samples';
 
 type Script = 'iso15919' | 'tamil';
 
@@ -119,7 +120,7 @@ export function RestorePage() {
   const [escalate, setEscalate] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<unknown>(null);
-  const [res, setRes] = useState<{ text: string; script: Script; data: RestoreResponse } | null>(null);
+  const [res, setRes] = useState<{ text: string; script: Script; data: RestoreResponse; sample?: Sample } | null>(null);
   const resultRef = useRef<HTMLElement>(null);
   const gapCount = useMemo(() => parseGaps(text).filter((s) => s.kind === 'gap').length, [text]);
 
@@ -128,7 +129,10 @@ export function RestorePage() {
     setError(null);
     try {
       const data = await api.restore({ text: body, script: sc, max_candidates: max, allow_escalation: escalate });
-      setRes({ text: body, script: sc, data });
+      // The edition reveal applies only to a gallery sample's own, unedited passage.
+      const s = fromSample?.sample;
+      const sample = s && (body === s.text_iso || body === s.text_tamil) ? s : undefined;
+      setRes({ text: body, script: sc, data, sample });
       requestAnimationFrame(() => resultRef.current?.scrollIntoView?.({ behavior: 'smooth', block: 'start' }));
     } catch (err) {
       setError(err);
@@ -273,15 +277,22 @@ export function RestorePage() {
                 </h3>
                 <span className={g.decision === 'fill' ? 'badge ok' : 'badge'}>{g.decision}</span>
               </header>
-              {g.decision === 'abstain' && (
-                <div className="abstain" data-testid="abstain">
-                  <h3 lang="ta">வல்லுநர்களுக்கும் உறுதியில்லை</h3>
-                  <p className="abstain-sub" lang="en">
-                    Experts are unsure
-                  </p>
-                  <p style={{ margin: 0 }}>{t('restore.abstainBody')}</p>
-                </div>
-              )}
+              {g.decision === 'abstain' &&
+                (res.sample?.group === 'masked' ? (
+                  // The editors did restore this gap, so "experts are unsure" would be untrue here.
+                  <div className="abstain" data-testid="abstain">
+                    <h3>{t('restore.abstainAskTitle')}</h3>
+                    <p style={{ margin: 0 }}>{t('restore.abstainAskBody')}</p>
+                  </div>
+                ) : (
+                  <div className="abstain" data-testid="abstain">
+                    <h3 lang="ta">வல்லுநர்களுக்கும் உறுதியில்லை</h3>
+                    <p className="abstain-sub" lang="en">
+                      Experts are unsure
+                    </p>
+                    <p style={{ margin: 0 }}>{t('restore.abstainBody')}</p>
+                  </div>
+                ))}
               <Candidates abstain={g.decision === 'abstain'} label={t('restore.showCandidates')} count={g.candidates.length}>
               {g.candidates.map((c, ci) => (
                 <div key={ci} className={`cand ${g.chosen === ci && g.decision === 'fill' ? 'chosen' : ''}`}>
@@ -334,6 +345,7 @@ export function RestorePage() {
               <CorrectionForm text={res.text} res={res.data} gap={g} />
             </article>
           ))}
+          {res.sample && <EditionReveal sample={res.sample} data={res.data} />}
           <p className="note">{t('restore.matchesNote')}</p>
           <DharmaCredit testId="restore-credit" />
         </section>

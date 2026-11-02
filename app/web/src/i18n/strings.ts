@@ -105,7 +105,19 @@ export const en = {
   'samples.kicker': 'No text to hand?',
   'samples.title': 'Try a real inscription',
   'samples.lede':
-    'Pick a passage from a DHARMA edition and restore it, or practise reading it. The gaps are real: letters lost on the stone that the editors left unrestored.',
+    'Pick a passage from a DHARMA edition and restore it, or practise reading it. Most hide letters the editors did restore, so you can compare; a few are gaps nobody has filled.',
+  'samples.maskedTitle': 'Hidden on purpose: compare with the editors',
+  'samples.maskedLede':
+    'Each passage hides letters that the DHARMA editors restored. Run it, then see what the published edition reads. The passages were drawn by a fixed rule from the validation split, not picked for good results.',
+  'samples.recordedOn': 'Recorded live on',
+  'samples.statFilled': 'filled',
+  'samples.statMatch': 'fills match the editors’ restoration',
+  'samples.statOpen': 'left open for an expert',
+  'samples.unsolvedTitle': 'Unsolved: even the editors left this blank',
+  'samples.unsolvedLede':
+    'Letters lost on the stone that no edition restores. The system proposes options and asks an expert: with nothing to go on, that is the honest answer.',
+  'samples.badgeMasked': 'Edition reading known',
+  'samples.badgeUnsolved': 'Unsolved',
   'samples.filter': 'Filter by period',
   'samples.all': 'All',
   'samples.restore': 'Restore this',
@@ -113,11 +125,12 @@ export const en = {
   'samples.gap': 'gap',
   'samples.gaps': 'gaps',
   'samples.lines': 'lines',
+  'samples.line': 'line',
   'samples.edition': 'Edition',
   'samples.noBrahmi':
     'No Tamil-Brahmi sample: the DHARMA Tamil collections used here have no Tamil-Brahmi editions. Practice level L5 still teaches its letters, from transliterated text.',
   'samples.normalised':
-    'Edition line breaks are joined and a few editorial marks are dropped; the gap markers are exactly as in the edition.',
+    'Edition line breaks are joined and a few editorial marks are dropped. In the unsolved passages the gap markers are as in the edition; in the others, [?N] hides N letters the editors restored.',
   'samples.from': 'Sample',
   'samples.showing': 'samples shown',
   'sampleImage.title': 'Or try a sample photo',
@@ -196,6 +209,8 @@ export const en = {
   'restore.abstainTitle': 'Experts are unsure',
   'restore.abstainBody':
     'No candidate is confident enough. This is an honest gap in what we know: experts would also leave it open.',
+  'restore.abstainAskTitle': 'Needs an expert',
+  'restore.abstainAskBody': 'No candidate is confident enough, so the system leaves the gap open and asks an expert instead of guessing.',
   'restore.showCandidates': 'Show candidates anyway',
   'restore.parallels': 'Parallel passages',
   'restore.hints': 'Ontology hints',
@@ -208,6 +223,20 @@ export const en = {
   'restore.send': 'Send to reviewers',
   'restore.sent': 'Thank you. An expert will review it.',
   'restore.matchesNote': 'A fill "matches expert restorations" when it agrees with a published edition; it is never called correct.',
+  // Edition reveal after a try-it sample (eval/reports/2026-11-02-samples.md). Tamil pending a native-speaker check.
+  'reveal.title': 'What the published edition reads',
+  'reveal.hidden': 'This gap was hidden on purpose: the editors restored it, and the sample hid their reading so you can compare.',
+  'reveal.reads': 'The published edition reads',
+  'reveal.system': 'The system’s fill',
+  'reveal.match': 'The system’s fill matches the editors’ restoration.',
+  'reveal.differs':
+    'The system’s fill differs from the editors’ restoration. A different reading is not proven wrong; an expert can weigh the two.',
+  'reveal.open': 'The system left this gap open and asked for an expert.',
+  'reveal.openTop': 'Its first proposal matches the editors’ restoration, but its confidence was below the level at which it fills.',
+  'reveal.openAny': 'The editors’ restoration is among its proposals.',
+  'reveal.unsolvedTitle': 'Unsolved: even the editors left this blank',
+  'reveal.unsolvedBody':
+    'No published edition restores these letters, so there is no reading to compare with. Proposing options and asking an expert is what the system should do here.',
   'read.tabPhoto': 'Photo',
   'read.tabFile': 'Text or XML file',
   'read.tabType': 'Type or paste',
@@ -455,8 +484,21 @@ export const ta: Record<MessageKey, string> = {
   'stoneHero.meaningBy': 'பொருள்: எழுத்து',
   'samples.kicker': 'உரை கையில் இல்லையா?',
   'samples.title': 'உண்மையான கல்வெட்டை முயலுங்கள்',
+  // The samples.* and reveal.* strings below added for the masked samples are pending a native-speaker check.
   'samples.lede':
-    'DHARMA பதிப்பிலிருந்து ஒரு பகுதியைத் தேர்ந்தெடுத்து மீட்டமையுங்கள், அல்லது அதைப் படிக்கப் பயிற்சி செய்யுங்கள். இடைவெளிகள் உண்மையானவை: கல்லில் அழிந்து, பதிப்பாசிரியர்கள் நிரப்பாமல் விட்ட எழுத்துகள்.',
+    'DHARMA பதிப்பிலிருந்து ஒரு பகுதியைத் தேர்ந்தெடுத்து மீட்டமையுங்கள், அல்லது அதைப் படிக்கப் பயிற்சி செய்யுங்கள். பெரும்பாலானவற்றில் பதிப்பாசிரியர்கள் மீட்டமைத்த எழுத்துகள் மறைக்கப்பட்டுள்ளன, ஒப்பிட்டுப் பார்க்கலாம்; சிலவற்றை யாரும் நிரப்பவில்லை.',
+  'samples.maskedTitle': 'வேண்டுமென்றே மறைக்கப்பட்டவை: பதிப்பாசிரியர்களுடன் ஒப்பிடுங்கள்',
+  'samples.maskedLede':
+    'ஒவ்வொரு பகுதியிலும் DHARMA பதிப்பாசிரியர்கள் மீட்டமைத்த எழுத்துகள் மறைக்கப்பட்டுள்ளன. மீட்டமைத்துப் பார்த்து, வெளியிடப்பட்ட பதிப்பில் உள்ளதைக் காணுங்கள். இப்பகுதிகள் நல்ல முடிவுகளுக்காகத் தேர்ந்தெடுக்கப்படவில்லை; சரிபார்ப்புப் பிரிவிலிருந்து ஒரு நிலையான விதியால் எடுக்கப்பட்டவை.',
+  'samples.recordedOn': 'நேரடியாகப் பதிவுசெய்தது',
+  'samples.statFilled': 'நிரப்பப்பட்டன',
+  'samples.statMatch': 'நிரப்புகள் பதிப்பாசிரியர்களின் மீட்டமைப்புடன் பொருந்துகின்றன',
+  'samples.statOpen': 'வல்லுநருக்காகத் திறந்து விடப்பட்டன',
+  'samples.unsolvedTitle': 'தீர்க்கப்படாதவை: பதிப்பாசிரியர்களும் வெறுமையாக விட்டவை',
+  'samples.unsolvedLede':
+    'கல்லில் அழிந்து, எந்தப் பதிப்பும் மீட்டமைக்காத எழுத்துகள். அமைப்பு சில விருப்பங்களை முன்வைத்து வல்லுநரைக் கேட்கிறது: ஆதாரம் இல்லாதபோது அதுவே நேர்மையான விடை.',
+  'samples.badgeMasked': 'பதிப்பின் வாசிப்பு தெரியும்',
+  'samples.badgeUnsolved': 'தீர்க்கப்படாதது',
   'samples.filter': 'காலத்தால் வடிகட்டு',
   'samples.all': 'அனைத்தும்',
   'samples.restore': 'இதை மீட்டமை',
@@ -464,11 +506,12 @@ export const ta: Record<MessageKey, string> = {
   'samples.gap': 'இடைவெளி',
   'samples.gaps': 'இடைவெளிகள்',
   'samples.lines': 'வரிகள்',
+  'samples.line': 'வரி',
   'samples.edition': 'பதிப்பு',
   'samples.noBrahmi':
     'தமிழ்-பிராமி மாதிரி இல்லை: இங்கு பயன்படும் DHARMA தமிழ்த் தொகுப்புகளில் தமிழ்-பிராமிப் பதிப்புகள் இல்லை. பயிற்சி நிலை L5 அதன் எழுத்துகளை ஒலிபெயர்ப்பு உரையிலிருந்து கற்பிக்கிறது.',
   'samples.normalised':
-    'பதிப்பின் வரி முறிவுகள் இணைக்கப்பட்டு, சில பதிப்புக் குறிகள் நீக்கப்பட்டுள்ளன; இடைவெளிக் குறிகள் பதிப்பில் உள்ளபடியே.',
+    'பதிப்பின் வரி முறிவுகள் இணைக்கப்பட்டு, சில பதிப்புக் குறிகள் நீக்கப்பட்டுள்ளன. தீர்க்கப்படாத பகுதிகளில் இடைவெளிக் குறிகள் பதிப்பில் உள்ளபடியே; மற்றவற்றில் [?N] பதிப்பாசிரியர்கள் மீட்டமைத்த N எழுத்துகளை மறைக்கிறது.',
   'samples.from': 'மாதிரி',
   'samples.showing': 'மாதிரிகள் காட்டப்படுகின்றன',
   'sampleImage.title': 'அல்லது ஒரு மாதிரிப் படத்தை முயலுங்கள்',
@@ -547,6 +590,9 @@ export const ta: Record<MessageKey, string> = {
   'restore.abstainTitle': 'வல்லுநர்களுக்கும் உறுதியில்லை',
   'restore.abstainBody':
     'எந்த வேட்பாளரும் போதிய நம்பகத்தன்மையுடன் இல்லை. இது நம் அறிவில் உள்ள நேர்மையான இடைவெளி: வல்லுநர்களும் இதைத் திறந்தே விடுவார்கள்.',
+  // restore.abstainAsk*: pending a native-speaker check.
+  'restore.abstainAskTitle': 'வல்லுநரின் கருத்து தேவை',
+  'restore.abstainAskBody': 'எந்தப் பரிந்துரைக்கும் போதிய நம்பிக்கை இல்லை; ஆகவே அமைப்பு ஊகிக்காமல் இடைவெளியைத் திறந்து விட்டு வல்லுநரைக் கேட்கிறது.',
   'restore.showCandidates': 'வேட்பாளர்களைக் காட்டு',
   'restore.parallels': 'இணைப் பகுதிகள்',
   'restore.hints': 'அறிவுக்கட்டமைப்புக் குறிப்புகள்',
@@ -559,6 +605,20 @@ export const ta: Record<MessageKey, string> = {
   'restore.send': 'மதிப்பாய்வாளர்களுக்கு அனுப்பு',
   'restore.sent': 'நன்றி. ஒரு வல்லுநர் இதை மதிப்பாய்வு செய்வார்.',
   'restore.matchesNote': 'ஒரு நிரப்பு வெளியிடப்பட்ட பதிப்போடு ஒத்துப்போனால் அது “வல்லுநர் மீட்டமைப்புடன் பொருந்துகிறது”; அதை ஒருபோதும் “சரி” என்று சொல்வதில்லை.',
+  // reveal.*: pending a native-speaker check.
+  'reveal.title': 'வெளியிடப்பட்ட பதிப்பில் உள்ளது',
+  'reveal.hidden': 'இந்த இடைவெளி வேண்டுமென்றே மறைக்கப்பட்டது: பதிப்பாசிரியர்கள் இதை மீட்டமைத்துள்ளனர்; ஒப்பிடுவதற்காக அவர்களின் வாசிப்பு மறைக்கப்பட்டது.',
+  'reveal.reads': 'வெளியிடப்பட்ட பதிப்பின் வாசிப்பு',
+  'reveal.system': 'அமைப்பின் நிரப்பு',
+  'reveal.match': 'அமைப்பின் நிரப்பு பதிப்பாசிரியர்களின் மீட்டமைப்புடன் பொருந்துகிறது.',
+  'reveal.differs':
+    'அமைப்பின் நிரப்பு பதிப்பாசிரியர்களின் மீட்டமைப்பிலிருந்து வேறுபடுகிறது. வேறுபட்ட வாசிப்பு தவறு என்று நிறுவப்படவில்லை; ஒரு வல்லுநர் இரண்டையும் ஒப்பிடலாம்.',
+  'reveal.open': 'அமைப்பு இந்த இடைவெளியை நிரப்பாமல் வல்லுநரின் கருத்தைக் கேட்டது.',
+  'reveal.openTop': 'அதன் முதல் பரிந்துரை பதிப்பாசிரியர்களின் மீட்டமைப்புடன் பொருந்துகிறது; ஆனால் நிரப்பும் அளவுக்கு அதன் நம்பிக்கை இல்லை.',
+  'reveal.openAny': 'பதிப்பாசிரியர்களின் மீட்டமைப்பு அதன் பரிந்துரைகளில் ஒன்றாக உள்ளது.',
+  'reveal.unsolvedTitle': 'தீர்க்கப்படாதது: பதிப்பாசிரியர்களும் இதை வெறுமையாக விட்டனர்',
+  'reveal.unsolvedBody':
+    'எந்த வெளியிடப்பட்ட பதிப்பும் இந்த எழுத்துகளை மீட்டமைக்கவில்லை; ஒப்பிட வாசிப்பு இல்லை. விருப்பங்களை முன்வைத்து வல்லுநரைக் கேட்பதே இங்கு அமைப்பு செய்ய வேண்டியது.',
   'read.tabPhoto': 'படம்',
   'read.tabFile': 'உரை / XML கோப்பு',
   'read.tabType': 'தட்டச்சு / ஒட்டு',

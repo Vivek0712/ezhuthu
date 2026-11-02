@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import samples from '../src/samples/samples.json' with { type: 'json' };
-import { expectNoHorizontalScroll, setEnglish } from './helpers';
+import { expectNoHorizontalScroll, setEnglish, setTamil } from './helpers';
 
 // Try-it samples and the animated hero, against the mock build (MSW answers /api/*).
 const pallava = samples.find((s) => s.learn_level === 'L3')!;
@@ -27,6 +27,13 @@ test.describe('try-it samples', () => {
     await expect(page.getByTestId('restore-result')).toBeVisible();
     await expect(page.locator('[data-testid^="gap-"]').filter({ has: page.locator('h3') })).toHaveCount(chola.gaps);
     await expect(page.getByTestId('restore-credit')).toContainText('CC BY-SA 4.0');
+    // A masked sample: after the result, what the published edition reads and how the replayed live answer compares.
+    expect(chola.group).toBe('masked');
+    const reveal = page.getByTestId('edition-reveal');
+    await expect(reveal).toBeVisible();
+    await expect(reveal).toHaveAttribute('data-state', chola.recorded!.gaps[0]!.outcome);
+    await expect(reveal.getByTestId('reveal-edition')).toContainText(chola.edition_reading!.text_iso);
+    await expect(reveal.getByRole('link', { name: /DHARMA/ })).toHaveAttribute('href', chola.dharma_url);
 
     // Back to the gallery, then "Practise with this" starts a lesson on that inscription at its level.
     await page.goto('/#samples');
@@ -43,7 +50,21 @@ test.describe('try-it samples', () => {
     await expect(page.getByTestId('feedback')).toBeVisible();
   });
 
+  test('unsolved passages are a separate group whose result explains why there is nothing to compare', async ({ page }) => {
+    await setEnglish(page);
+    await page.goto('/');
+    const group = page.getByTestId('sample-group-unsolved');
+    await group.scrollIntoViewIfNeeded();
+    await expect(group.getByRole('heading', { name: 'Unsolved: even the editors left this blank' })).toBeVisible();
+    const s = samples.find((x) => x.group === 'unsolved')!;
+    await group.getByTestId(`restore-${s.id}`).click();
+    await page.getByTestId('restore-submit').click();
+    await expect(page.getByTestId('edition-reveal')).toHaveAttribute('data-state', 'unsolved');
+    await expect(page.getByTestId('abstain').first()).toBeVisible();
+  });
+
   test('Tamil readers get the Tamil text; filters work on a phone too', async ({ page }) => {
+    await setTamil(page);
     await page.goto('/');
     await page.getByTestId('cta-samples').click();
     await expect(page.getByRole('heading', { level: 2, name: 'உண்மையான கல்வெட்டை முயலுங்கள்' })).toBeFocused();

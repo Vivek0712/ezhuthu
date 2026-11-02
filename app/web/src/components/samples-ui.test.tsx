@@ -93,10 +93,32 @@ describe('SampleGallery counts', () => {
 
   it('shows placeholders, marked busy, until the samples arrive', async () => {
     renderApp(<SampleGallery />, { lang: 'en' });
-    const grid = screen.getByTestId('sample-grid');
+    const grid = screen.getAllByTestId('sample-grid')[0]!;
     if (grid.getAttribute('aria-busy') === 'true') expect(grid.querySelectorAll('.sample-card-skeleton')).toHaveLength(3);
     await screen.findAllByRole('article');
-    expect(grid).toHaveAttribute('aria-busy', 'false');
+    expect(screen.getAllByTestId('sample-grid').every((g) => g.getAttribute('aria-busy') !== 'true')).toBe(true);
+    expect(document.querySelectorAll('.sample-card-skeleton')).toHaveLength(0);
+  });
+
+  it('splits the gallery into masked passages (with their live counts) and unsolved ones', async () => {
+    renderApp(<SampleGallery />, { lang: 'en' });
+    await screen.findAllByRole('article');
+    const masked = SAMPLES.filter((s) => s.group === 'masked');
+    const unsolved = SAMPLES.filter((s) => s.group === 'unsolved');
+    const mg = screen.getByTestId('sample-group-masked');
+    const ug = screen.getByTestId('sample-group-unsolved');
+    expect(within(mg).getAllByRole('article')).toHaveLength(masked.length);
+    expect(within(ug).getAllByRole('article')).toHaveLength(unsolved.length);
+    expect(within(mg).getByRole('heading', { name: 'Hidden on purpose: compare with the editors' })).toBeInTheDocument();
+    expect(within(ug).getByRole('heading', { name: 'Unsolved: even the editors left this blank' })).toBeInTheDocument();
+    const gaps = masked.flatMap((s) => s.recorded!.gaps);
+    const filled = gaps.filter((g) => g.decision === 'fill').length;
+    const matched = gaps.filter((g) => g.outcome === 'match').length;
+    expect(screen.getByTestId('masked-stats')).toHaveTextContent(
+      `${filled}/${gaps.length} filled · ${matched}/${filled} fills match the editors’ restoration · ${gaps.length - filled} left open for an expert`,
+    );
+    expect(within(mg).getAllByText('Edition reading known')).toHaveLength(masked.length);
+    expect(within(ug).getAllByText('Unsolved')).toHaveLength(unsolved.length);
   });
 });
 
@@ -203,6 +225,55 @@ describe('sample links', () => {
     expect(input).toHaveValue('ka [?2] ma');
     expect(screen.getByTestId('gap-count')).toHaveTextContent('1 gap found');
     expect(screen.queryByTestId('restore-sample-source')).toBeNull();
+  });
+
+  it('a masked sample shows the edition reading after the result, with the recorded match state', async () => {
+    for (const outcome of ['match', 'open'] as const) {
+      const s = SAMPLES.find((x) => x.group === 'masked' && x.recorded!.gaps[0]!.outcome === outcome)!;
+      const { unmount } = renderApp(<RestorePage />, { lang: 'en', route: restoreHref(s) });
+      await waitFor(() => expect(screen.getByTestId('restore-input')).toHaveValue(s.text_iso));
+      await userEvent.click(screen.getByTestId('restore-submit'));
+      const reveal = await screen.findByTestId('edition-reveal');
+      expect(reveal).toHaveAttribute('data-state', outcome);
+      expect(within(reveal).getByTestId('reveal-edition')).toHaveTextContent(s.edition_reading!.text_iso);
+      expect(within(reveal).getByTestId('reveal-edition')).toHaveTextContent(s.edition_reading!.text_tamil);
+      expect(within(reveal).getByTestId('reveal-state')).toHaveTextContent(
+        outcome === 'match' ? 'The system’s fill matches the editors’ restoration.' : 'The system left this gap open and asked for an expert.',
+      );
+      expect(within(reveal).getByRole('link', { name: /DHARMA/ })).toHaveAttribute('href', s.dharma_url);
+      expect(within(reveal).getByRole('link', { name: 'CC BY-SA 4.0' })).toHaveAttribute('href', s.licence_url);
+      expect(reveal.textContent).not.toMatch(/\bcorrect\b|experimental/i);
+      // The editors did restore a masked gap, so an abstain asks an expert rather than claiming "experts are unsure".
+      if (outcome === 'open') {
+        expect(screen.getByTestId('abstain')).toHaveTextContent('Needs an expert');
+        expect(screen.getByTestId('abstain')).not.toHaveTextContent('Experts are unsure');
+      }
+      unmount();
+    }
+  });
+
+  it('a masked sample in Tamil shows the reveal in Tamil', async () => {
+    const s = SAMPLES.find((x) => x.group === 'masked' && x.recorded!.gaps[0]!.outcome === 'match')!;
+    renderApp(<RestorePage />, { lang: 'ta', route: restoreHref(s) });
+    await waitFor(() => expect(screen.getByTestId('restore-input')).toHaveValue(s.text_tamil));
+    await userEvent.click(screen.getByTestId('restore-submit'));
+    const reveal = await screen.findByTestId('edition-reveal');
+    expect(reveal).toHaveAttribute('data-state', 'match');
+    expect(within(reveal).getByTestId('reveal-state')).toHaveTextContent('அமைப்பின் நிரப்பு பதிப்பாசிரியர்களின் மீட்டமைப்புடன் பொருந்துகிறது.');
+  });
+
+  it('an unsolved sample says there is no edition reading to compare with; an edited passage gets no reveal', async () => {
+    const s = SAMPLES.find((x) => x.group === 'unsolved')!;
+    renderApp(<RestorePage />, { lang: 'en', route: restoreHref(s) });
+    const input = screen.getByTestId('restore-input');
+    await waitFor(() => expect(input).toHaveValue(s.text_iso));
+    await userEvent.click(screen.getByTestId('restore-submit'));
+    const reveal = await screen.findByTestId('edition-reveal');
+    expect(reveal).toHaveAttribute('data-state', 'unsolved');
+    expect(reveal).toHaveTextContent('Unsolved: even the editors left this blank');
+    await userEvent.type(input, ' ka');
+    await userEvent.click(screen.getByTestId('restore-submit'));
+    await waitFor(() => expect(screen.queryByTestId('edition-reveal')).toBeNull());
   });
 
   it('"Practise with this" starts a lesson on that inscription at the suggested level', async () => {

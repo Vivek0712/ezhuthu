@@ -123,11 +123,13 @@ test('@screens capture every page', async ({ page }, info) => {
   const ta = await page.context().newPage();
   await ta.goto('/');
   await ta.evaluate(() => window.localStorage.setItem('ezhuthu.lang.v2', 'ta'));
-  await ta.goto('/restore?sample=nagapattinam-srivijaya-gift');
+  // A masked sample: the mock replays the live restorer's recorded answer, then the edition's reading is shown.
+  await ta.goto('/restore?sample=tirunallaru-temple-office');
   await expect(ta.getByTestId('restore-sample-source')).toBeVisible();
-  await expect(ta.getByTestId('restore-input')).toHaveValue(/ஸ்வஸ்தி/);
+  await expect(ta.getByTestId('restore-input')).toHaveValue(/சுந்தரப்பெருமானுக்கு/);
   await ta.getByTestId('restore-submit').click();
   await expect(ta.getByTestId('restore-result')).toBeVisible();
+  await expect(ta.getByTestId('edition-reveal')).toHaveAttribute('data-state', 'match');
   await shot(ta, '16-restore-from-sample-ta', p, { jpeg: true });
 
   // Upload + OCR: the photo tab with sample plates, and a reading with its localised warning and "read again".

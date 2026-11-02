@@ -1,12 +1,20 @@
-"""Build the app's try-it samples from the benchmark: real DHARMA passages with their real gaps.
+"""Build the app's try-it samples from the benchmark: real DHARMA passages in two groups.
 
 Writes app/web/src/samples/samples.json (the gallery) and app/web/src/samples/sample-images.json (the spec that
 app/web/scripts/render-sample-images.mjs turns into the synthetic photos under app/web/public/samples/).
 
-Leakage rule (benchmark/DATA_CARD.md, "Leakage"): samples come from TRAIN inscriptions only, and every gap in a
-sample is a `blank` (letters lost on the stone that the editor did not restore), never a val/test item. The
-restorer may read train text, so a train sample shows the restorer nothing it is not already allowed to see.
-tests/test_samples.py enforces this and that the committed JSON matches this script.
+Groups (eval/reports/2026-11-02-samples.md):
+- "masked" (the primary set): a span the DHARMA editor restored, hidden as [?N] in a passage of a VAL benchmark
+  item. The edition's reading is shipped with the sample so the app can show it after the restorer's answer. VAL
+  only: TEST is never shown, and TRAIN would be leaky (the 5-gram and retrieval read train text). The items are
+  drawn by the pre-declared rule in `select_masked()`, not picked by hand.
+- "unsolved": TRAIN passages whose gaps are all `blank`s (letters lost on the stone that the editor did not
+  restore). Nobody knows the answer; the expected outcome is that the system proposes options and asks an expert.
+
+Each sample carries `recorded`: what EzhuthuService.restore returned for it in the live recording
+(app/web/src/samples/recorded-restores.json, made by scripts/record_sample_restores.py), which the mock API replays.
+
+tests/test_samples.py enforces the split rules and that the committed JSON matches this script.
 
 Editorial normalisation (stated in the gallery): DHARMA's line-break hyphens are joined into running text,
 '‡' (an edition-specific mark, dropped as in the corpus's Tamil display text) is removed, editorial dashes '—' become '·',
@@ -28,6 +36,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 BENCH = REPO / "benchmark"
 OUT_DIR = REPO / "app" / "web" / "src" / "samples"
+RECORDED = OUT_DIR / "recorded-restores.json"
 GAP_RE = re.compile(r"\[\?(\d{1,3})?\]")
 TAMIL_DIGITS = {"௦": "0", "௧": "1", "௨": "2", "௩": "3", "௪": "4", "௫": "5", "௬": "6", "௭": "7", "௮": "8",
                 "௯": "9", "௰": "10", "௱": "100", "௲": "1000"}
@@ -331,7 +340,7 @@ def select_masked() -> list[dict]:
     """Rules 1 to 3 above: the VAL items behind the masked samples, in draw order."""
     import random
 
-    from ezhuthu.api.limits import check_text
+    from ezhuthu.api.limits import BadRequest, check_text
 
     rows = {r["id"]: r for r in load_jsonl("inscriptions.jsonl")}
     pool: list[dict] = []
@@ -347,7 +356,7 @@ def select_masked() -> list[dict]:
         try:
             check_text(text, script="iso15919")
             check_text(to_tamil(text), script="tamil")
-        except Exception:
+        except BadRequest:  # rule 2: the API must accept the passage
             continue
         pool.append(it)
     pool.sort(key=lambda x: x["id"])
@@ -367,51 +376,235 @@ def select_masked() -> list[dict]:
     return picked
 
 
-def build() -> tuple[list[dict], list[dict]]:
+# The old gallery's lacunae kept in the gallery as the "unsolved" group (chosen before the live run for few gaps and
+# period spread; eval/reports/2026-11-02-samples.md). The other PICKS stay as sources for the sample images only.
+UNSOLVED_IN_GALLERY = ("hero-stone-naiya-vatukan", "mamallapuram-calf-pasture", "tiruvannamalai-krishnadevaraya")
+
+# Words for the masked samples, keyed by benchmark item id. Written after the draw (they describe the passage, not
+# the result); facts come from the edition's title, summary and text. The Tamil is pending a native-speaker check.
+MASKED: dict[str, dict] = {
+    "DHARMA_INSPallava00219:23:0": {
+        "id": "tiruvorriyur-paddy-for-worship", "title_ta": "திருவொற்றியூரில் வழிபாட்டுக்கு நெல்",
+        "title_en": "Paddy for worship at Tiruvoṟṟiyūr", "place_ta": "திருவொற்றியூர்", "place_en": "Tiruvoṟṟiyūr",
+        "why_en": "In the Pallava king Kampavarman's reign the villagers' assembly (ūrār) takes gold for the temple and "
+                  "pays its interest in paddy, measured in kāṭi, to keep the worship going.",
+        "why_ta": "பல்லவ மன்னன் கம்பவர்மனின் ஆட்சியில் ஊரார் கோயிலுக்கான பொன்னைப் பெற்று, அதன் வட்டியாக நெல்லைக் "
+                  "காடி அளவில் அளந்து வழிபாட்டுக்குத் தருகின்றனர்.",
+    },
+    "DHARMA_INSTamilNadu00140:5:0": {
+        "id": "tirunallaru-temple-office", "title_ta": "திருநள்ளாற்றில் ஒரு கோயில் பணி",
+        "title_en": "A temple office at Tirunaḷḷāṟu", "place_ta": "திருநள்ளாறு, தர்ப்பாரண்யேசுவரர் கோயில்",
+        "place_en": "Tirunaḷḷāṟu, Tarppāraṇyēcuvarar temple",
+        "why_en": "Dated by Caṭaiyavarman Sundara Pāṇḍya: a man is given an office (niyōkam) in the service of the "
+                  "lord of Tirunaḷḷāṟu. One letter is lost at the start of a word.",
+        "why_ta": "சடையவர்மன் சுந்தர பாண்டியனின் ஆட்சியாண்டு: திருநள்ளாற்று இறைவனின் பணியில் ஒருவருக்கு நியோகம் "
+                  "(பதவி) அளிக்கப்படுகிறது. ஒரு சொல்லின் முதல் எழுத்து மறைந்துள்ளது.",
+    },
+    "DHARMA_INStfaSIIv04p0i0139:9:0": {
+        "id": "vellore-rajadhiraja-praise", "title_ta": "இராசாதிராசனின் மெய்க்கீர்த்தி",
+        "title_en": "Rājādhirāja's praise of his own reign", "place_ta": "வேலூர்", "place_en": "Vēlūr (Vellore)",
+        "why_en": "Part of the meykkīrtti, the poetic list of victories that opens Chola royal orders, of "
+                  "Rājādhirāja I. The slab is in the ASI museum at Vellore.",
+        "why_ta": "சோழ அரசாணைகளைத் தொடங்கும் வெற்றிப் பட்டியலான முதலாம் இராசாதிராசனின் மெய்க்கீர்த்தியின் ஒரு "
+                  "பகுதி. இக்கல் வேலூர் தொல்லியல் அருங்காட்சியகத்தில் உள்ளது.",
+    },
+    "DHARMA_INSPandya00160:85:0": {
+        "id": "tiruvalisvaram-district-name", "title_ta": "திருவாலீசுவரத்தில் ஒரு நாட்டுப் பெயர்",
+        "title_en": "A district's name at Tiruvālīśvaram", "place_ta": "திருவாலீசுவரம், வாலீசுவரர் கோயில்",
+        "place_en": "Tiruvālīśvaram, Vālīśvara temple",
+        "why_en": "A long record of Sundara Cōḻapāṇḍya's 16th year. The gap sits inside the name of a district "
+                  "(kūṟṟam), where a single joining letter is missing.",
+        "why_ta": "சுந்தர சோழபாண்டியனின் 16ஆம் ஆண்டின் நீண்ட கல்வெட்டு. ஒரு கூற்றத்தின் (நாட்டுப் பிரிவு) பெயருக்குள் "
+                  "இணைக்கும் ஓர் எழுத்து மறைந்துள்ளது.",
+    },
+    "DHARMA_INSTiruvavatuturai10142:23:0": {
+        "id": "tiruvavaduturai-taxes-paid-in-gold", "title_ta": "பொன்னால் வரி நீக்கம்",
+        "title_en": "Taxes paid off with gold", "place_ta": "திருவாவடுதுறை, கோமுக்தீசுவரர் கோயில்",
+        "place_en": "Tiruvāvaṭutuṟai, Gomuktīśvara temple",
+        "why_en": "In Parakesarivarman's 38th year a village assembly takes gold from Tirukkaṟṟaḷi Piccar and in "
+                  "return pays the land's taxes for ever, so the god's land is tax-free. The stone lists the dues.",
+        "why_ta": "பரகேசரிவர்மனின் 38ஆம் ஆண்டில் ஊர்ச் சபை திருக்கற்றளிப் பிச்சரிடம் பொன் பெற்று, இறைவனின் "
+                  "நிலத்துக்கான வரிகளை என்றும் தானே செலுத்த ஒப்புகிறது; கல் அந்த வரிகளைப் பட்டியலிடுகிறது.",
+    },
+    "DHARMA_INSKotumpalur00038:20:0": {
+        "id": "kodumbalur-four-boundaries", "title_ta": "கொடும்பாளூரில் நான்கெல்லை",
+        "title_en": "Four boundaries at Koṭumpāḷūr", "place_ta": "கொடும்பாளூர், மூவர்கோயில்",
+        "place_en": "Koṭumpāḷūr, Mūvarkōyil",
+        "why_en": "From the Mūvarkōyil, dated by Vīra Pāṇḍya's 17th year: land is marked out by its four boundaries "
+                  "with everything inside them, wet and dry fields, tank and house sites.",
+        "why_ta": "வீரபாண்டியனின் 17ஆம் ஆண்டு, மூவர்கோயில் கல்வெட்டு: நன்செய், புன்செய், குளம், நத்தம் என உள்ளடங்கிய "
+                  "அனைத்துடன் நிலம் அதன் நான்கெல்லைகளால் வரையறுக்கப்படுகிறது.",
+    },
+    "DHARMA_INSTamilOutsideTN00003:3:0": {
+        "id": "kolar-rajendra-praise", "title_ta": "கோலாரில் இராசேந்திரனின் மெய்க்கீர்த்தி",
+        "title_en": "Rājendra Cōḻa's praise, at Kōlār", "place_ta": "கோலார், கோலாரம்மா கோயில்",
+        "place_en": "Kōlār, Kōlārammā temple",
+        "why_en": "A Tamil inscription outside Tamil Nadu, in Karnataka, from Rājendra Cōḻa's 20th year. The king "
+                  "is likened to Viṣṇu as the boar, lifting the earth unharmed.",
+        "why_ta": "தமிழ்நாட்டுக்கு வெளியே, கர்நாடகத்தில் உள்ள தமிழ்க் கல்வெட்டு (இராசேந்திர சோழனின் 20ஆம் ஆண்டு). "
+                  "மன்னன் நிலமகளைச் சலியாமல் எடுத்த வராகத் திருமாலுக்கு ஒப்பிடப்படுகிறான்.",
+    },
+    "DHARMA_INSCirkali00008:6:0": {
+        "id": "sirkazhi-traitors-lands", "title_ta": "சீர்காழியில் துரோகிகளின் நிலம்",
+        "title_en": "The traitors' lands at Cīrkāḻi", "place_ta": "சீர்காழி, பிரமபுரீசுவரர் கோயில்",
+        "place_en": "Cīrkāḻi, Brahmapurīśvara temple",
+        "why_en": "From Rājarāja I's reign: the lands of men who committed treason (turōkam) are taken and sold. "
+                  "The gap is in the name of a division (vaḷanāṭu) called after a king.",
+        "why_ta": "முதலாம் இராசராசனின் ஆட்சி: துரோகம் செய்தவர்களின் நிலங்கள் பறிக்கப்பட்டு விற்கப்படுகின்றன. ஓர் "
+                  "அரசனின் பெயரால் அமைந்த வளநாட்டின் பெயரில் இடைவெளி உள்ளது.",
+    },
+    "DHARMA_INSCirkali00034:2:2": {
+        "id": "sirkazhi-feeding-house", "title_ta": "சீர்காழியில் ஒரு சத்திரம்",
+        "title_en": "A feeding house at Cīrkāḻi", "place_ta": "சீர்காழி, பிரமபுரீசுவரர் கோயில்",
+        "place_en": "Cīrkāḻi, Brahmapurīśvara temple",
+        "why_en": "In Kulottuṅga Cōḻa's 27th year a group of brothers receive money for a feeding house (catiram); "
+                  "the stone names each of them in turn.",
+        "why_ta": "குலோத்துங்க சோழனின் 27ஆம் ஆண்டில் உடன்பிறந்தோர் சிலர் ஒரு சத்திரத்துக்காகக் காசு பெறுகின்றனர்; "
+                  "கல் அவர்களை ஒவ்வொருவராகப் பெயரிடுகிறது.",
+    },
+    "DHARMA_INSMelKil00011:3:0": {
+        "id": "melappaluvur-rajendra-conquests", "title_ta": "இராசேந்திரனின் வெற்றிகள், கோயில் அடித்தளத்தில்",
+        "title_en": "Rājendra I's conquests, on a temple base", "place_ta": "மேலப்பழுவூர், அகத்தீசுவரர் கோயில்",
+        "place_en": "Mēlappaḻuvūr, Agastyeśvara temple",
+        "why_en": "Carved round the base of a shrine in Rājendra I's 15th year (about 1027 CE): the list of lands "
+                  "he took, from the Western Ghats to Sri Lanka.",
+        "why_ta": "முதலாம் இராசேந்திரனின் 15ஆம் ஆண்டில் (சுமார் கி.பி. 1027) கருவறை அடித்தளத்தைச் சுற்றிச் "
+                  "செதுக்கப்பட்டது: அவன் வென்ற நாடுகளின் பட்டியல்.",
+    },
+}
+
+
+def passage_lines(masked_iso: str, passage: str) -> list[int]:
+    """1-based first and last line (of the edition's text lines) that the passage's letters come from."""
+    starts, full = [], ""
+    for ln in masked_iso.split("\n"):
+        starts.append(len(full))
+        full += _letters(ln)
+    key = _letters(passage)
+    at = full.find(key)
+    if at < 0 or full.find(key, at + 1) >= 0:
+        raise SystemExit(f"passage not found exactly once in its edition: {passage[:60]}")
+    def line_of(off: int) -> int:
+        return max(i for i, s0 in enumerate(starts) if s0 <= off)
+
+    return [line_of(at) + 1, line_of(at + len(key) - 1) + 1]
+
+
+def load_recorded() -> dict:
+    return json.loads(RECORDED.read_text("utf-8")) if RECORDED.exists() else {"samples": {}}
+
+
+def recorded_summary(sample: dict, rec: dict) -> dict | None:
+    """What the live recording returned for this sample, and (masked) how it compares with the edition."""
+    from ezhuthu.corpus.script import normalise_for_scoring
+
+    got = rec["samples"].get(sample["id"])
+    if got is None:
+        return None
+    if got["text_iso"] != sample["text_iso"]:
+        raise SystemExit(f"{sample['id']}: recorded text differs from the sample; re-run record_sample_restores.py")
+    resp, gaps = got["response"], []
+    for g in resp["gaps"]:
+        best = g["candidates"][g["chosen"]] if g["decision"] == "fill" and g["chosen"] is not None else None
+        top = g["candidates"][0] if g["candidates"] else None
+        row = {"decision": g["decision"],
+               "proposal_iso": (best or top or {}).get("text"), "proposal_tamil": (best or top or {}).get("text_tamil"),
+               "confidence": (best or top or {}).get("confidence")}
+        if sample["group"] == "masked":
+            want = sample["edition_reading"]["norm"]
+            row["top_matches"] = bool(top) and normalise_for_scoring(top["text"]) == want
+            row["any_matches"] = any(normalise_for_scoring(c["text"]) == want for c in g["candidates"])
+            row["outcome"] = ("open" if best is None else
+                              "match" if normalise_for_scoring(best["text"]) == want else "differs")
+        else:
+            row["outcome"] = "filled" if best else "open"
+        gaps.append(row)
+    return {"date": rec["meta"]["date"], "models_used": resp["models_used"], "gaps": gaps}
+
+
+def unsolved_passage(p: dict, rows: dict, blanks: dict, held: set[str]) -> dict:
     from ezhuthu.api.limits import check_text  # the API's own input check
 
+    r = rows[p["inscription_id"]]
+    if r["split"] != "train" or r["id"] in held:
+        raise SystemExit(f"{r['id']} is not a train inscription")
+    if r["licence"] != "CC BY-SA 4.0":  # the edition file itself must declare the licence we credit
+        raise SystemExit(f"{r['id']}: edition licence is {r['licence']!r}, not CC BY-SA 4.0")
+    a, b = p["lines"]
+    text_iso = join_lines([norm_line(x) for x in r["text_iso"].split("\n")[a:b]])
+    text_tamil = to_tamil(text_iso)
+    n_iso, n_ta = len(GAP_RE.findall(text_iso)), len(GAP_RE.findall(text_tamil))
+    if not 1 <= n_iso == n_ta:
+        raise SystemExit(f"{p['id']}: gap counts ISO {n_iso} / Tamil {n_ta}")
+    try:
+        check_text(text_iso, script="iso15919")
+        check_text(text_tamil, script="tamil")
+    except Exception as e:
+        raise SystemExit(f"{p['id']}: the API would reject this text: {e}") from e
+    # Every gap is a benchmark blank (lost, unrestored) of this train inscription, matched by its context.
+    ids = match_blanks(text_iso, blanks.get(r["id"], []))
+    if len(ids) != n_iso:
+        raise SystemExit(f"{p['id']}: {n_iso} gaps but {len(ids)} matched train blanks ({ids})")
+    eta, een, level = ERAS[p["era"]]
+    return {
+        "id": p["id"], "group": "unsolved", "inscription_id": r["id"], "split": r["split"], "blank_ids": ids,
+        "item_id": None, "hard": None,
+        "era": p["era"], "era_ta": eta, "era_en": een, "learn_level": level,
+        "title_ta": p["title_ta"], "title_en": p["title_en"], "place_ta": p["place_ta"], "place_en": p["place_en"],
+        "edition_title": r["title"], "ruler": r["ruler"], "regnal_year": r["regnal_year"],
+        "dynasty": r["dynasty"], "why_ta": p["why_ta"], "why_en": p["why_en"],
+        "lines": [a + 1, b], "gaps": n_iso, "text_iso": text_iso, "text_tamil": text_tamil,
+        "edition_reading": None,
+        "dharma_url": r["dharmalekha_url"], "source_url": r["source_url"],
+        "licence": r["licence"], "licence_url": r["licence_url"], "ta_review": "done",
+    }
+
+
+def masked_passage(it: dict, rows: dict) -> dict:
+    from ezhuthu.corpus.script import normalise_for_scoring
+
+    r = rows[it["inscription_id"]]
+    if it["split"] != "val" or r["split"] != "val":
+        raise SystemExit(f"{it['id']} is not a VAL item")
+    note = MASKED.get(it["id"])
+    if note is None:
+        raise SystemExit(f"{it['id']}: drawn by select_masked() but has no MASKED entry")
+    text_iso = masked_text(it)
+    assert text_iso is not None
+    era = VAL_ERAS[it["dynasty"]]
+    eta, een, level = ERAS[era]
+    return {
+        "id": note["id"], "group": "masked", "inscription_id": r["id"], "split": "val", "blank_ids": [],
+        "item_id": it["id"], "hard": it["hard"],
+        "era": era, "era_ta": eta, "era_en": een, "learn_level": level,
+        "title_ta": note["title_ta"], "title_en": note["title_en"],
+        "place_ta": note["place_ta"], "place_en": note["place_en"],
+        "edition_title": r["title"], "ruler": r["ruler"], "regnal_year": r["regnal_year"],
+        "dynasty": r["dynasty"], "why_ta": note["why_ta"], "why_en": note["why_en"],
+        "lines": passage_lines(r["text_iso_masked"], text_iso), "gaps": 1,
+        "text_iso": text_iso, "text_tamil": to_tamil(text_iso),
+        "edition_reading": {"text_iso": it["target"], "text_tamil": to_tamil(it["target"]),
+                            "norm": normalise_for_scoring(it["target"])},
+        "dharma_url": r["dharmalekha_url"], "source_url": r["source_url"],
+        "licence": r["licence"], "licence_url": r["licence_url"], "ta_review": "pending",
+    }
+
+
+def build(recorded: dict | None = None) -> tuple[list[dict], list[dict]]:
     rows = {r["id"]: r for r in load_jsonl("inscriptions.jsonl")}
     blanks: dict[str, list[dict]] = {}
     for b in load_jsonl("blank.jsonl"):
         blanks.setdefault(b["inscription_id"], []).append(b)
     held = held_out_ids()
-    samples = []
-    for p in PICKS:
-        r = rows[p["inscription_id"]]
-        if r["split"] != "train" or r["id"] in held:
-            raise SystemExit(f"{r['id']} is not a train inscription")
-        if r["licence"] != "CC BY-SA 4.0":  # the edition file itself must declare the licence we credit
-            raise SystemExit(f"{r['id']}: edition licence is {r['licence']!r}, not CC BY-SA 4.0")
-        a, b = p["lines"]
-        text_iso = join_lines([norm_line(x) for x in r["text_iso"].split("\n")[a:b]])
-        text_tamil = to_tamil(text_iso)
-        n_iso, n_ta = len(GAP_RE.findall(text_iso)), len(GAP_RE.findall(text_tamil))
-        if not 1 <= n_iso == n_ta:
-            raise SystemExit(f"{p['id']}: gap counts ISO {n_iso} / Tamil {n_ta}")
-        try:
-            check_text(text_iso, script="iso15919")
-            check_text(text_tamil, script="tamil")
-        except Exception as e:
-            raise SystemExit(f"{p['id']}: the API would reject this text: {e}") from e
-        # Every gap is a benchmark blank (lost, unrestored) of this train inscription, matched by its context.
-        ids = match_blanks(text_iso, blanks.get(r["id"], []))
-        if len(ids) != n_iso:
-            raise SystemExit(f"{p['id']}: {n_iso} gaps but {len(ids)} matched train blanks ({ids})")
-        eta, een, level = ERAS[p["era"]]
-        samples.append({
-            "id": p["id"], "inscription_id": r["id"], "split": r["split"], "blank_ids": ids,
-            "era": p["era"], "era_ta": eta, "era_en": een, "learn_level": level,
-            "title_ta": p["title_ta"], "title_en": p["title_en"], "place_ta": p["place_ta"], "place_en": p["place_en"],
-            "edition_title": r["title"], "ruler": r["ruler"], "regnal_year": r["regnal_year"],
-            "dynasty": r["dynasty"], "why_ta": p["why_ta"], "why_en": p["why_en"],
-            "lines": [a + 1, b], "gaps": n_iso, "text_iso": text_iso, "text_tamil": text_tamil,
-            "dharma_url": r["dharmalekha_url"], "source_url": r["source_url"],
-            "licence": r["licence"], "licence_url": r["licence_url"],
-        })
-    by_id = {s["id"]: s for s in samples}
+    sources = {p["id"]: unsolved_passage(p, rows, blanks, held) for p in PICKS}
+    samples = [masked_passage(it, rows) for it in select_masked()]
+    samples += [sources[i] for i in UNSOLVED_IN_GALLERY]
+    rec = recorded if recorded is not None else load_recorded()
+    for s in samples:
+        s["recorded"] = recorded_summary(s, rec)
     images = []
     for im in IMAGES:
-        s = by_id[im["sample"]]
+        s = sources[im["sample"]]
         r = rows[s["inscription_id"]]
         a0 = s["lines"][0] - 1
         a, b = im["lines"]
