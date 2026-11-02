@@ -3,7 +3,7 @@ import type { Schemas } from '../api/client';
 import { parseGaps, gapContext } from '../lib/gaps';
 import { isLevel } from '../lib/levels';
 import { expectedCalibrationError } from '../lib/reliability';
-import { ASSESSMENT, LESSONS, SEED_QUEUE, type MockItem } from './fixtures';
+import { ASSESSMENT, LESSONS, REVIEWED_ELSEWHERE, SEED_QUEUE, templateContext, type MockItem } from './fixtures';
 
 /** In-memory backend state for the mock API. `resetMockState()` gives tests a clean slate. */
 interface SessionState {
@@ -14,6 +14,8 @@ interface SessionState {
   correctByLevel: Record<string, number>;
   phases: Partial<Record<'pre' | 'post', { items: string[]; correct: Set<string> }>>;
   activePhase: 'pre' | 'post' | null;
+  /** The tutor team's explanation, delivered once as context_update on the next /api/answer. */
+  pendingExplanation?: { explain_ta: string; explain_en: string } | null;
 }
 const state = {
   sessions: new Map<string, SessionState>(),
@@ -237,6 +239,7 @@ function grade(sessionId: string, itemId: string, answer: string): Schemas['Answ
       feedback_en: tries === 1 ? 'You read it right!' : 'Right this time. Well done for persisting.',
       next_action: 'advance',
       decider_confidence: tries === 1 ? 0.91 : 0.74,
+      decider_source: 'mock',
     };
   }
   if (tries === 1)
@@ -246,6 +249,7 @@ function grade(sessionId: string, itemId: string, answer: string): Schemas['Answ
       feedback_en: 'Not yet. Here is a hint.',
       next_action: 'hint',
       decider_confidence: 0.68,
+      decider_source: 'mock',
       hint_ta: item.hint_ta,
     };
   if (tries === 2)
@@ -255,14 +259,18 @@ function grade(sessionId: string, itemId: string, answer: string): Schemas['Answ
       feedback_en: 'Look closely and try once more.',
       next_action: 'repeat',
       decider_confidence: 0.61,
+      decider_source: 'mock',
       hint_ta: item.hint_ta,
     };
+  // Third miss: the attempt-limit guardrail decides, not the decider, so there is no confidence (the agent's
+  // tutor/policy.py rule override; decider_source "rules").
   return {
     correct,
     feedback_ta: `இதன் வாசிப்பு “${item.answers[0]}”. அடுத்ததுக்குச் செல்வோம்.`,
     feedback_en: `This reads “${item.answers[0]}”. Let us move on.`,
     next_action: 'advance',
-    decider_confidence: 0.83,
+    decider_confidence: null,
+    decider_source: 'rules',
   };
 }
 
@@ -296,13 +304,16 @@ export const handlers = [
     if (!isLevel(body?.level)) return err(400, 'bad_request', 'level must be L1..L5');
     const lesson = LESSONS[body.level];
     const session_id = newSession(body.level);
+    const own = body.text?.trim();
+    // Like EZHUTHU_LESSON_EXPLAIN=async: the template explanation now, the tutor team's on the next answer.
+    state.sessions.get(session_id)!.pendingExplanation = { explain_ta: lesson.context.explain_ta, explain_en: lesson.context.explain_en };
     const res: Schemas['LessonResponse'] = {
       session_id,
-      inscription: body.text?.trim()
-        ? { ...lesson.inscription, id: 'mock:user-text', title: 'Your text', restored_text: body.text.trim(), restored_text_tamil: body.text.trim() }
+      inscription: own
+        ? { ...lesson.inscription, id: 'mock:user-text', title: 'Your text', source_url: null, licence: null, restored_text: own, restored_text_tamil: own }
         : lesson.inscription,
       items: lesson.items.map(publicItem),
-      context: lesson.context,
+      context: templateContext(lesson),
     };
     persist();
     return HttpResponse.json(res);
@@ -312,6 +323,11 @@ export const handlers = [
     await latency();
     const body = (await request.json()) as Schemas['AnswerRequest'];
     const res = grade(body.session_id, body.item_id, body.answer ?? '');
+    const s = state.sessions.get(body.session_id);
+    if (res && s?.pendingExplanation) {
+      res.context_update = { ...s.pendingExplanation, explained_by: 'tutor_team', explanation_status: 'done' };
+      s.pendingExplanation = null; // delivered once
+    }
     persist();
     return res ? HttpResponse.json(res) : err(404, 'not_found', 'unknown session or item');
   }),
@@ -396,7 +412,11 @@ export const handlers = [
     const body = (await request.json()) as Schemas['QueueAction'];
     const item = state.queue.find((q) => q.id === params.id);
     if (!item) return err(404, 'not_found', 'unknown queue item');
-    if (item.status !== 'pending') return err(409, 'conflict', 'already reviewed');
+    if (REVIEWED_ELSEWHERE.has(item.id) && item.status === 'pending') {
+      Object.assign(item, { status: 'approved', reviewed_by: 'another-expert', reviewed_at: new Date().toISOString(), final_text: item.accepted_candidate ?? '' });
+      persist();
+    }
+    if (item.status !== 'pending') return err(409, 'conflict', 'item does not exist or was already reviewed');
     if (body.action === 'edit' && !body.text?.trim()) return err(400, 'bad_request', 'text is required for edit');
     item.status = body.action === 'approve' ? 'approved' : body.action === 'edit' ? 'edited' : 'rejected';
     item.reviewed_by = 'demo-expert';

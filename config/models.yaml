@@ -42,3 +42,4 @@ decider:
     secret_name: ezhuthu/decider-api-key
     rpm: 10
     max_input_chars: 8000   # free-tier limit; the client drops tail candidates (keeps 'none') to fit
+    max_options: 24         # decider-cloud rejects a choice with more options (422 invalid_request)

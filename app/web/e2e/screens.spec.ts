@@ -72,4 +72,31 @@ test('@screens capture every page', async ({ page }, info) => {
 
   await page.goto('/about');
   await shot(page, '10-about-en', p);
+
+  // Wave 3 states: rules-decided answer with the tutor team's explanation, a 409 on review, dark mode.
+  await page.goto('/learn');
+  await page.getByTestId('level-L5').click();
+  await page.getByTestId('start-lesson').click();
+  for (let i = 0; i < 3; i++) {
+    await page.getByTestId('answer-input').fill('ம');
+    await Promise.all([page.waitForResponse('**/api/answer'), page.getByTestId('check-answer').click()]);
+    await expect(page.getByTestId('busy')).toHaveCount(0);
+  }
+  await expect(page.getByTestId('decided-by-rules')).toBeVisible();
+  await shot(page, '11-learn-rules-en', p);
+
+  await page.goto('/review');
+  await page.getByTestId('approve-q-0004').click();
+  await expect(page.getByTestId('review-notice')).toBeVisible();
+  await shot(page, '12-review-409-en', p);
+
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await page.goto('/');
+  await expect(page.getByTestId('evolution-hero')).toBeVisible();
+  await shot(page, '13-home-dark-en', p);
+  await page.goto('/restore');
+  await page.getByTestId('use-sample').click();
+  await page.getByTestId('restore-submit').click();
+  await expect(page.getByTestId('restore-result')).toBeVisible();
+  await shot(page, '14-restore-dark-en', p);
 });

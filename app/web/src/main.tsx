@@ -13,6 +13,9 @@ import '@fontsource/instrument-sans/400.css';
 import '@fontsource/instrument-sans/400-italic.css';
 import '@fontsource/instrument-sans/600.css';
 import '@fontsource/instrument-sans/700.css';
+// Design system first (design/README.md, "For the app team"): tokens, then the bridge onto the app's names.
+import '../../../design/tokens/tokens.css';
+import '../../../design/tokens/app-compat.css';
 import './styles/app.css';
 import { AppRoutes } from './App';
 import { AuthProvider } from './auth/AuthProvider';

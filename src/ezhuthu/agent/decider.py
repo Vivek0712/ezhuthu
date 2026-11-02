@@ -83,14 +83,19 @@ def request_chars(payload: dict[str, Any]) -> int:
 
 
 def fit_choice(state: Any, instructions: str, options: dict[str, Any], name: str, max_chars: int | None,
-               keep: tuple[str, ...] = ("none",)) -> dict[str, Any]:
-    """Drop options from the end (never those in ``keep``) until the request fits ``max_chars``.
+               keep: tuple[str, ...] = ("none",), max_options: int | None = None) -> dict[str, Any]:
+    """Drop options from the end (never those in ``keep``) until there are at most ``max_options`` and the
+    request fits ``max_chars`` (decider-cloud rejects a choice over 24 options with 422 invalid_request).
 
     Callers order options best-first (the restorer puts LLM-ranked candidates first), so the tail goes.
     Dropped options get no probability (callers read them as 0). Raises ``DeciderUnavailable`` if even two
     options do not fit.
     """
     opts = dict(options)
+    if max_options and len(opts) > max_options:
+        droppable = [k for k in opts if k not in keep]
+        for k in droppable[len(droppable) - (len(opts) - max_options):]:
+            opts.pop(k)
     payload = choice_payload(state, instructions, opts, name)
     if not max_chars:
         return payload
@@ -225,10 +230,11 @@ class HostedDecider:
     def __init__(self, url: str, model: str, *, api_key: str | None = None, secret_name: str | None = None,
                  region: str = "us-east-1", profile: str | None = None, timeout: float = 30.0,
                  rpm: float | None = 10.0, max_retry_wait: float = 20.0, max_input_chars: int | None = None,
-                 sleep=time.sleep):
+                 max_options: int | None = 24, sleep=time.sleep):
         self.base_url = url.rstrip("/")
         self.model = model
         self.max_input_chars = max_input_chars  # tier limit (free 8000); None sends the request unchanged
+        self.max_options = max_options  # decider-cloud: a choice allows at most 24 options
         self.last_trimmed = 0
         self.timeout = timeout
         self.min_interval = 60.0 / rpm if rpm else 0.0
@@ -326,11 +332,12 @@ class HostedDecider:
         return self.health() is not None
 
     def choice(self, state: Any, instructions: str, options: dict[str, Any], *, name: str = "q") -> Choice:
-        payload = fit_choice(state, instructions, options, name, self.max_input_chars)
+        payload = fit_choice(state, instructions, options, name, self.max_input_chars,
+                             max_options=self.max_options)
         self.last_trimmed = len(options) - len(payload["questions"][name]["criteria"])
         if self.last_trimmed:
-            log.info("hosted decider: dropped %d tail options to fit %s characters", self.last_trimmed,
-                     self.max_input_chars)
+            log.info("hosted decider: dropped %d tail options to fit %s options / %s characters",
+                     self.last_trimmed, self.max_options, self.max_input_chars)
         return parse_choice(self._request("POST", "/v1/decide", {**payload, "model": self.model}), name, "hosted",
                             self.model)
 
@@ -400,7 +407,8 @@ def hosted_decider(config: Any = None, **kw: Any) -> HostedDecider:
     url = os.environ.get("EZHUTHU_DECIDER_CLOUD_URL") or cloud["url"]
     return HostedDecider(url, cloud["model"], secret_name=cloud.get("secret_name"), region=config.region,
                          profile=config.aws_profile, rpm=cloud.get("rpm", 10),
-                         max_input_chars=cloud.get("max_input_chars"), **kw)
+                         max_input_chars=cloud.get("max_input_chars"),
+                         max_options=cloud.get("max_options", 24), **kw)
 
 
 def default_decider(backend: str | None = None) -> Decider:

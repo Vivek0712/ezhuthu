@@ -15,7 +15,7 @@ Cognito user pool (managed login, PKCE) ── group "experts"
 | --- | --- |
 | `EzhuthuData` | DynamoDB table (on demand, TTL, PITR) with `gsi1` for the review queue |
 | `EzhuthuAuth` | Cognito user pool, `experts` group, public SPA client (code + PKCE), hosted domain |
-| `EzhuthuAgent` | AgentCore Runtime `ezhuthu_tutor` from an S3 code asset, execution role scoped to the model IDs in `config/models.yaml` |
+| `EzhuthuAgent` | AgentCore Runtime `ezhuthu_tutor` from an S3 code asset (with the ontology MCP server), execution role scoped to the model IDs in `config/models.yaml`, the agent's own table keys and, only when it exists, the decider key secret; 14-day runtime log retention |
 | `EzhuthuApi` | HTTP API, one route per contract endpoint, JWT authorizer, stage and route throttling, Lambda proxy (Node 22, arm64) |
 | `EzhuthuWeb` | Private S3 bucket, CloudFront (SPA rewrite function, security headers, `/api/*` to the HTTP API), `config.json` |
 
@@ -46,12 +46,30 @@ The JWT authorizer enforces sign-in; the proxy enforces the `experts` group (and
 cd infra
 npm ci
 npm run check            # typecheck + unit tests (proxy logic, stack assertions)
-npm run package:agent    # linux/arm64 Python 3.12 bundle -> agentcore/build (~215 MB unpacked, ~67 MB zipped)
+npm run package:agent    # linux/arm64 Python 3.12 bundle -> agentcore/build (~237 MB unpacked, ~67 MB zipped)
+npm run smoke:agent      # runs the bundle in linux/arm64 python:3.12-slim (Docker, --network none): MCP ontology, Dynamo store, decider
 npx cdk synth --quiet --profile heisenberg
+npx cdk diff --profile heisenberg   # read-only change sets against the live stacks
 (cd ../app/web && npm ci && npm run build)   # optional before deploy; the Web stack ships dist/ if present
 ```
 
-`cdk synth` fails with a clear message if `agentcore/build` is missing.
+`cdk synth` fails with a clear message if `agentcore/build` is missing, or if it lacks what the ontology MCP server
+needs (`lib/bundle.ts`: the `mcp` SDK, Strands' MCP client, `ezhuthu/ontology/mcp_server.py`, `ontology/letters_by_era.json`
+and `ontology/lookups/*.json`).
+
+### Hosted decider switch
+
+`bin/ezhuthu.ts` runs a read-only `aws secretsmanager describe-secret --secret-id ezhuthu/decider-api-key` with the
+profile from `config/models.yaml` on every synth. Only a definite answer picks a backend: the secret's ARN (hosted), or
+`ResourceNotFoundException` / a secret scheduled for deletion (fallback). Any other failure (no AWS CLI, the 20 s
+timeout, throttling, a missing profile or credentials) stops the synth with a hint to pass the context override below,
+so a deploy cannot quietly drop the hosted decider once the secret exists. If the secret exists, the runtime gets
+`EZHUTHU_DECIDER_BACKEND=hosted` and `secretsmanager:GetSecretValue` on that one secret ARN. If it does not (today),
+the runtime gets `EZHUTHU_DECIDER_BACKEND=fallback` and no Secrets Manager permission: restoration confidences carry
+`decider_source: fallback` and tutor decisions `decider_source: rules` with `decider_confidence: null`, which the app
+shows as "decided by rules". The `DeciderBackend` stack output says which one was synthesised. Override with
+`-c ezhuthu:deciderSecretArn=<arn>` or force the fallback with `-c ezhuthu:deciderSecretArn=none`. Nothing here
+creates the secret.
 
 ## Deploy (two passes, because Cognito needs the CloudFront URL)
 
@@ -146,8 +164,18 @@ For every tutor, restore and evaluate route the proxy calls `InvokeAgentRuntime`
   `gsi1pk=STATUS#<status>`). To queue an abstention for experts, the agent can write the same item shape with
   `status=pending`, `gsi1pk=STATUS#pending`, `gsi1sk=<ISO time>`.
 
-Runtime environment variables: `EZHUTHU_TABLE`, `EZHUTHU_MODELS_FILE=config/models.yaml` (bundled),
-`EZHUTHU_MODEL_DEFAULT`, `EZHUTHU_MODEL_ESCALATE`, `EZHUTHU_MODEL_CHEAP` (all from `config/models.yaml`).
+Runtime environment variables: `EZHUTHU_TABLE`, `EZHUTHU_STORE=dynamodb` (tutor sessions `SESSION#<id>/STATE`,
+corrections `CORRECTION#<id>/ITEM`, queue `QUEUE#<id>/ITEM` in that table), `EZHUTHU_ONTOLOGY=mcp` (the bundled stdio
+MCP server; `/health` reports `mcp:ezhuthu-ontology (stdio)` or a flagged `fallback:direct (...)`),
+`EZHUTHU_DECIDER_BACKEND=hosted|fallback` (see "Hosted decider switch"), `EZHUTHU_MODELS_FILE=config/models.yaml`
+(bundled), `EZHUTHU_MODEL_DEFAULT`, `EZHUTHU_MODEL_ESCALATE`, `EZHUTHU_MODEL_CHEAP` (all from `config/models.yaml`).
+
+The execution role's table access is `dynamodb:GetItem`/`PutItem` on the table, limited by `dynamodb:LeadingKeys` to
+`SESSION#*`, `CORRECTION#*` and `QUEUE#*`, plus `dynamodb:Query` on `index/gsi1` (the queue listing). IAM cannot
+condition on the sort key, so the role can also write the proxy-owned `SESSION#<id>/META` item; the agent code only
+writes `sk=STATE` there and relies on that, not IAM, to leave `META` alone. No API path makes any other call.
+`DynamoStore.list("session")` and `list("correction")` (admin/debug only, never called by the API) use a `Scan`, which
+the role is not granted, so they fail with `AccessDenied` inside the runtime; run them with your own credentials.
 
 ## Monthly cost estimate (not measured; check current AWS pricing pages before relying on it)
 

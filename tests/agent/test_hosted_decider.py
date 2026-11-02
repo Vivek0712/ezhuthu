@@ -269,6 +269,16 @@ def test_hosted_trims_tail_options_to_tier_limit(cloud):
     assert res.probabilities.get("c7") is None  # dropped options carry no probability
 
 
+def test_hosted_caps_option_count_at_24_keeping_none(cloud):
+    """decider-cloud answers 422 'choice allows at most 24 options'; 43/60 benchmark items hit it."""
+    opts = {f"c{i}": {"fill": "a"} for i in range(30)} | {"none": "none fits"}
+    d, _ = make(cloud, rpm=None)
+    d.choice({"s": 1}, "i", opts, name="restoration")
+    sent = cloud.requests[-1]["body"]["questions"]["restoration"]["criteria"]
+    assert len(sent) == 24 and "none" in sent and "c0" in sent and "c22" in sent and "c23" not in sent
+    assert d.last_trimmed == 7
+
+
 # ---- malformed replies must become DeciderUnavailable (QA on PR #19) -------------------------------------
 
 def test_retry_after_http_date_and_garbage_are_parsed_defensively(cloud):

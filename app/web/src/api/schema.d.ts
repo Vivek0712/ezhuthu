@@ -327,9 +327,16 @@ export interface components {
             title: string;
             dynasty: string | null;
             approx_date: string | null;
-            source_url: string;
+            /** @description The DHARMA edition (TEI on GitHub); null for a learner's own text */
+            source_url: string | null;
             restored_text: string;
             restored_text_tamil: string;
+            ruler?: string | null;
+            regnal_year?: number | null;
+            /** @description Reader view of the same edition on dharmalekha.info */
+            dharmalekha_url?: string | null;
+            /** @description Licence of the edition text, e.g. "CC BY-SA 4.0" for DHARMA */
+            licence?: string | null;
         };
         PracticeItem: {
             item_id: string;
@@ -342,12 +349,27 @@ export interface components {
             script_level: components["schemas"]["Level"];
             answer_hidden: boolean;
         };
+        /**
+         * @description pending - the template explanation is shown now and the tutor team's explanation is being written; it arrives once as AnswerResponse.context_update (best effort). done - this is the tutor team's explanation. template - the template explanation is final.
+         * @enum {string}
+         */
+        ExplanationStatus: "pending" | "done" | "template";
         LessonContext: {
             ruler?: string;
             temple?: string;
             grant?: string;
             explain_ta: string;
             explain_en: string;
+            /** @description tutor_team | tutor_team-cached | template | template-fallback */
+            explained_by?: string;
+            explanation_status?: components["schemas"]["ExplanationStatus"];
+        };
+        /** @description The finished tutor-team explanation for the session's latest lesson; replaces LessonContext.explain_*. */
+        ContextUpdate: {
+            explain_ta: string;
+            explain_en: string;
+            explained_by?: string;
+            explanation_status?: components["schemas"]["ExplanationStatus"];
         };
         LessonResponse: {
             session_id: string;
@@ -366,8 +388,13 @@ export interface components {
             feedback_en: string;
             /** @enum {string} */
             next_action: "advance" | "repeat" | "hint";
-            decider_confidence: number;
+            /** @description The decider's probability for next_action; null when the rules decided (decider_source rules or assessment). */
+            decider_confidence: number | null;
+            /** @description hosted | local | fallback | rules | assessment */
+            decider_source?: string;
+            decider_backend?: string;
             hint_ta?: string;
+            context_update?: components["schemas"]["ContextUpdate"];
         };
         AssessmentRequest: {
             session_id: string;
@@ -529,6 +556,15 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["QueueItem"];
+                };
+            };
+            /** @description The item is not pending (already reviewed); an item is reviewed once. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
                 };
             };
             default: components["responses"]["Error"];

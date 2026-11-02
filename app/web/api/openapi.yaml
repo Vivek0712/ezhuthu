@@ -91,6 +91,11 @@ paths:
           content:
             application/json:
               schema: { $ref: '#/components/schemas/QueueItem' }
+        '409':
+          description: The item is not pending (already reviewed); an item is reviewed once.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
         default: { $ref: '#/components/responses/Error' }
   /api/lesson:
     post:
@@ -359,9 +364,13 @@ components:
         title: { type: string }
         dynasty: { type: [string, 'null'] }
         approx_date: { type: [string, 'null'] }
-        source_url: { type: string }
+        source_url: { type: [string, 'null'], description: 'The DHARMA edition (TEI on GitHub); null for a learner''s own text' }
         restored_text: { type: string }
         restored_text_tamil: { type: string }
+        ruler: { type: [string, 'null'] }
+        regnal_year: { type: [integer, 'null'] }
+        dharmalekha_url: { type: [string, 'null'], description: 'Reader view of the same edition on dharmalekha.info' }
+        licence: { type: [string, 'null'], description: 'Licence of the edition text, e.g. "CC BY-SA 4.0" for DHARMA' }
     PracticeItem:
       type: object
       required: [item_id, type, prompt_ta, prompt_en, script_level, answer_hidden]
@@ -374,6 +383,13 @@ components:
         glyph_text: { type: string }
         script_level: { $ref: '#/components/schemas/Level' }
         answer_hidden: { type: boolean }
+    ExplanationStatus:
+      type: string
+      description: >
+        pending - the template explanation is shown now and the tutor team's explanation is being written; it
+        arrives once as AnswerResponse.context_update (best effort). done - this is the tutor team's explanation.
+        template - the template explanation is final.
+      enum: [pending, done, template]
     LessonContext:
       type: object
       required: [explain_ta, explain_en]
@@ -383,6 +399,17 @@ components:
         grant: { type: string }
         explain_ta: { type: string }
         explain_en: { type: string }
+        explained_by: { type: string, description: 'tutor_team | tutor_team-cached | template | template-fallback' }
+        explanation_status: { $ref: '#/components/schemas/ExplanationStatus' }
+    ContextUpdate:
+      type: object
+      description: The finished tutor-team explanation for the session's latest lesson; replaces LessonContext.explain_*.
+      required: [explain_ta, explain_en]
+      properties:
+        explain_ta: { type: string }
+        explain_en: { type: string }
+        explained_by: { type: string }
+        explanation_status: { $ref: '#/components/schemas/ExplanationStatus' }
     LessonResponse:
       type: object
       required: [session_id, inscription, items, context]
@@ -406,8 +433,15 @@ components:
         feedback_ta: { type: string }
         feedback_en: { type: string }
         next_action: { type: string, enum: [advance, repeat, hint] }
-        decider_confidence: { type: number }
+        decider_confidence:
+          type: [number, 'null']
+          minimum: 0
+          maximum: 1
+          description: The decider's probability for next_action; null when the rules decided (decider_source rules or assessment).
+        decider_source: { type: string, description: 'hosted | local | fallback | rules | assessment' }
+        decider_backend: { type: string }
         hint_ta: { type: string }
+        context_update: { $ref: '#/components/schemas/ContextUpdate' }
     AssessmentRequest:
       type: object
       required: [session_id, phase]
