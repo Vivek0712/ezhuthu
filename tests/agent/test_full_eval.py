@@ -221,3 +221,16 @@ def test_report_counts_pre_escalation_and_flags_uncalibrated_rows(tmp_path):
     md = fe.render_test_md(res, title="t", preface=[])
     assert "Not comparable: " in md and "Routed, prerank instead of the decider" in md.split("Not comparable: ")[1]
     assert "## Live Bedrock calls by ledger" in md and "| **all** | | | | 2 | 1 | 3 |" in md
+
+
+def test_val_runs_pin_their_strategies_whatever_the_config(tmp_path, monkeypatch):
+    """A VAL re-run after the config took VAL's choices must still score the baselines (QA on #31 re-score)."""
+    monkeypatch.setenv("EZHUTHU_LIVE", "1")
+    monkeypatch.setattr(fe, "Runner", _FakeRunner)
+    test_items = fe.load_items("test")  # the fixtures have no VAL split
+    monkeypatch.setattr(fe, "load_items", lambda split, **kw: test_items)
+    assert fe.main(["val", "--n", "5", "--max-live-calls", "0", "--out", str(tmp_path)]) == 0
+    got = {name: kw.get("strategy") for name, _ids, kw in _FakeRunner.last.runs}
+    assert got["val-prerank"] == "prerank"
+    assert got["val-sonnet"] == got["val-routed-always"] == got["val-opus"] == "self-report"
+    assert got["val-sonnet-noul-topkk3"] == "noul-topk:3" and got["val-copy"] is None

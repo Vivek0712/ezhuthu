@@ -56,6 +56,9 @@ TEST_DIR = "2026-11-02-test-eval"
 ESCALATION_GRID = (0.0, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.01)
 LLM_STRATEGIES = ("self-report", "prerank", "choice-topk:3", "choice-topk:5", "noul-topk:3")
 DECIDER_STRATEGIES = ("choice-all", "choice-topk", "noul-topk")
+# The strategies the VAL runs compare against (the config before issue #26's choices): retrieval-only gaps ranked by
+# prerank, LLM gaps by the LLM's own probability. Every other VAL variant is named explicitly.
+VAL_BASELINE = {"retrieval": "prerank", "llm": "self-report"}
 
 
 # ---------------------------------------------------------------------------------------------- running -------
@@ -317,14 +320,18 @@ def cmd_val(args) -> int:
         print("the VAL LLM runs call Bedrock: set EZHUTHU_LIVE=1", file=sys.stderr)
         return 2
     out = Path(args.out) / VAL_DIR
+    out.mkdir(parents=True, exist_ok=True)
     R = Runner(live=True, max_live_calls=args.max_live_calls, rpm=args.rpm, quota_share=args.quota_share)
     items = seeded_sample(load_items("val"), args.n)
     log.info("VAL sample: %d items (seed %d)", len(items), SEED)
+    # Strategies are pinned (VAL_BASELINE), not read from config/models.yaml: the config holds the strategies these
+    # runs choose, so a re-run after the choice would otherwise score the chosen strategy as the baseline.
     R.run("val-copy", items, router="baseline-copy", out=out)
-    R.run("val-prerank", items, router="none", out=out)
-    R.run("val-sonnet", items, router="sonnet", out=out, workers=args.workers)
-    R.run("val-routed-always", items, router="routed", out=out, workers=args.workers, escalate_below=1.01)
-    R.run("val-opus", items, router="opus", out=out, workers=args.workers)
+    R.run("val-prerank", items, router="none", out=out, strategy=VAL_BASELINE["retrieval"])
+    R.run("val-sonnet", items, router="sonnet", out=out, workers=args.workers, strategy=VAL_BASELINE["llm"])
+    R.run("val-routed-always", items, router="routed", out=out, workers=args.workers, escalate_below=1.01,
+          strategy=VAL_BASELINE["llm"])
+    R.run("val-opus", items, router="opus", out=out, workers=args.workers, strategy=VAL_BASELINE["llm"])
     for strat in LLM_STRATEGIES[1:]:
         R.run(f"val-sonnet-{strat.replace(':', 'k')}", items, router="sonnet", out=out, strategy=strat)
     usage = R.llm.inner.ledger.to_dict()
