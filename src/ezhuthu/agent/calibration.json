@@ -1,6 +1,26 @@
 {
  "note": "Platt (a, b) and abstain threshold per decider variant; VAL split only (issue #26: Tamil-letter length unit, ontology on). Entries under restorer.calibration_min_n (100) items or calibration_min_positives (10) are provisional and ignored.",
  "variants": {
+  "ezhuthu-strands-2b-ft|choice-topk|k3|llm-opus": {
+   "a": 1.252895,
+   "b": 0.112528,
+   "threshold": 0.4975,
+   "n": 244,
+   "positives": 79,
+   "split": "val",
+   "fitted_at": "2026-11-02T12:55:42+00:00",
+   "note": "finetuned-decider issue: VAL selection set (280), ft2b-choice3, routed run, ontology on, n=244"
+  },
+  "ezhuthu-strands-2b-ft|choice-topk|k3|llm-sonnet": {
+   "a": 1.218461,
+   "b": -0.044221,
+   "threshold": 0.5228,
+   "n": 443,
+   "positives": 173,
+   "split": "val",
+   "fitted_at": "2026-11-02T12:55:29+00:00",
+   "note": "sonnet router, ontology on, n=443"
+  },
   "fallback:retrieval-heuristic|fallback|kall|retrieval": {
    "a": 1.156394,
    "b": 0.865914,

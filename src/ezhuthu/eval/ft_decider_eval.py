@@ -320,6 +320,8 @@ def cmd_calibrate(args) -> int:
         path = Path(args.calibration_file)
         t = CalibrationTable.load(path)
         for k, e in entries.items():
+            if args.keys and not any(k.endswith("|" + x) for x in args.keys.split(",")):
+                continue
             t.entries[k] = Calibration(**{f: v for f, v in e.items() if f in fields})
         raw = json.loads(path.read_text(encoding="utf-8"))
         path.write_text(t.to_json(raw.get("note", "")), encoding="utf-8")
@@ -407,6 +409,7 @@ def main(argv: list[str] | None = None) -> int:
     c = sub.add_parser("choose")
     cal = sub.add_parser("calibrate")
     cal.add_argument("--write-calibration", action="store_true")
+    cal.add_argument("--keys", default=None, help="write only these key suffixes, e.g. llm-opus")
     cal.add_argument("--calibration-file", default=str(Path(__file__).resolve().parents[1] / "agent" /
                                                            "calibration.json"))
     t = sub.add_parser("test")

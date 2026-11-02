@@ -1,0 +1,30 @@
+{
+ "usage": {
+  "calls": 28,
+  "calls_by_model": {
+   "opus": 28
+  },
+  "cached_calls": 2443,
+  "input_tokens": {
+   "opus": 26837
+  },
+  "output_tokens": {
+   "opus": 2198
+  },
+  "estimated_cost_usd": 0.1891,
+  "price_basis": "USD/MTok list prices in ezhuthu.agent.llm.PRICE_PER_MTOK"
+ },
+ "budget_refusals": 0,
+ "max_live_calls": 150,
+ "n": 280,
+ "variants": [
+  "ft2b-choice3",
+  "ft2b-noul3",
+  "ft2b-choice3-slot",
+  "ft2b-choice3-plain",
+  "sparrow-tiny-ft-choice3",
+  "sparrow-nano-ft-choice3",
+  "base2b-choice3",
+  "base2b-noul3"
+ ]
+}

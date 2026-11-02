@@ -54,6 +54,27 @@ decider:
     rpm: 10
     max_input_chars: 8000   # free-tier limit; the client drops tail candidates (keeps 'none') to fit
     max_options: 24         # decider-cloud rejects a choice with more options (422 invalid_request)
+  # Fine-tuned restoration deciders (issue #37, eval/reports/2026-11-02-finetuned-decider.md). DISABLED: not used by
+  # the restorer or the cloud runtime (no decider call is made for restoration; see restorer: above). Trained on
+  # TRAIN only; chosen and calibrated on VAL; TEST scored once. Weights live outside git
+  # (/Users/vivekrajaps/tamil-script/ezhuthu-ft/), never published. To try one locally:
+  #   strands-decider serve <checkpoint> --device mps --port 8791 --model-name ezhuthu-strands-2b-ft
+  #   EZHUTHU_DECIDER_BACKEND=local EZHUTHU_DECIDER_URL=http://127.0.0.1:8791 and restorer.strategy_llm: choice-topk
+  finetuned:
+    enabled: false
+    strands_2b:
+      model_name: ezhuthu-strands-2b-ft   # the name it is served under (calibration keys use it)
+      base: StrandsAgents/strands-decider-2B-qwen3.5-v1-2610   # rev 216d1ccb (StrandsAgents); Qwen/Qwen3.5-2B-Base (Apache-2.0)
+      checkpoint: ezhuthu-ft/strands-2b-ft   # LoRA r48 adapter + pointer head, continue-from; 224 MB
+      serve: strands-decider serve (strands-decider[mps]==0.2.0), one request at a time
+      strategy: choice-topk
+      top_k: 3
+    sparrow_tiny:
+      model_name: sparrow-tiny-ezhuthu-c3base-v0   # Ettin-32M (JHU, MIT) + pointer head; 12.8 MB
+      checkpoint: ezhuthu-ft/sparrow-ft/sparrow-tiny-ezhuthu-c3base-v0.sparrow
+      serve: sparrow-decider==0.2.0 --model <file> serve (numpy only)
+      strategy: choice-topk
+      top_k: 3
 # Reader: photo / text-file upload to transcription (POST /api/read, src/ezhuthu/agent/reader.py, issue: Upload + OCR).
 # Vision uses llm.default (Sonnet 4.6) and escalates to llm.escalate (Opus 4.6) under
 # routing.escalate_if_confidence_below, only while escalate_min_remaining_s of request_budget_s is left (the cloud
