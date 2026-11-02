@@ -1,5 +1,6 @@
 import { useRef, useState, type MouseEvent, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
+import { AgentChips } from '../components/how/AgentChips';
 import { exampleSnippet, Pipeline } from '../components/Pipeline';
 import { Bi } from '../components/practice/Bi';
 import { MiniDrill } from '../components/practice/MiniDrill';
@@ -166,6 +167,7 @@ export function HomePage() {
           </h2>
           <p className="lede">{t('home2.howLede')}</p>
         </header>
+        <AgentChips />
         <Pipeline />
         <Link className="btn btn-ghost" to="/how-it-works" data-testid="how-more">
           {t('home2.howMore')} →

@@ -22,12 +22,14 @@ export function exampleSnippet(ex: WorkedExample = EXAMPLE, words = 1): { ta: st
 const STEPS: { key: string; name: MessageKey; does: MessageKey; icon: ReactNode }[] = [
   { key: 'reader', name: 'pipe.reader', does: 'pipe.readerDo', icon: <path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z M12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z" /> },
   { key: 'restorer', name: 'pipe.restorer', does: 'pipe.restorerDo', icon: <path d="M5 19 15 9M13 7l4 4M15 5l4 4-2 2-4-4zM4 20l2-1" /> },
-  { key: 'decider', name: 'pipe.decider', does: 'pipe.deciderDo', icon: <path d="M12 3v6M12 9l-6 6M12 9l6 6M4 17h4v4H4zM16 17h4v4h-4z" /> },
+  // The decision step: a calibrated confidence check (restoration makes no Strands Decider call in the deployed
+  // configuration, eval/reports/2026-11-02-deployed-config.md). The key stays 'decider' for the test ids.
+  { key: 'decider', name: 'hw.pipeDecide', does: 'hw.pipeDecideDo', icon: <path d="M12 3v6M12 9l-6 6M12 9l6 6M4 17h4v4H4zM16 17h4v4h-4z" /> },
   { key: 'interpreter', name: 'pipe.interpreter', does: 'pipe.interpreterDo', icon: <path d="M4 6h16M4 11h10M4 16h13M4 21h7" /> },
   { key: 'expert', name: 'pipe.expert', does: 'pipe.expertDo', icon: <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c1-4 4.5-6 8-6s7 2 8 6M16 11l2 2 4-4" /> },
 ];
 
-/** Reader -> Restorer -> Strands Decider -> Interpreter -> expert review, each with one line and a real example. */
+/** Reader -> Restorer -> confidence check -> Interpreter -> expert review, each with one line and a real example. */
 export function Pipeline({ ex = EXAMPLE }: { ex?: WorkedExample }) {
   const { t, lang } = useI18n();
   const top = ex.candidates.slice(0, 2);

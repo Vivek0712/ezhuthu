@@ -1,4 +1,5 @@
 import { enBench, taBench } from './strings-bench';
+import { enHow, taHow } from './strings-how';
 import { enUx, taUx } from './strings-ux';
 
 // Every English key must have a Tamil string (enforced by the type below and by i18n.test.ts).
@@ -415,6 +416,8 @@ export const en = {
   ...enUx,
   // Public results page (/benchmark, strings-bench.ts).
   ...enBench,
+  // Full How it works: agents, flow, ontology, models, cloud, people (strings-how.ts).
+  ...enHow,
 } as const;
 
 export type MessageKey = keyof typeof en;
@@ -839,4 +842,6 @@ export const ta: Record<MessageKey, string> = {
   ...taUx,
   // Results page (strings-bench.ts): PENDING a native-speaker check.
   ...taBench,
+  // strings-how.ts: every Tamil string there is PENDING a native-speaker check.
+  ...taHow,
 };
