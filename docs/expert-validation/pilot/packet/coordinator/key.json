@@ -1,0 +1,2134 @@
+{
+ "meta": {
+  "kit_version": "2",
+  "seed": 2026,
+  "options_per_item": 3,
+  "reading_suggestions": 3,
+  "scale": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "length_tolerance_aksharas": 1,
+  "option_order": "per rater (label_maps)",
+  "n_rating": 24,
+  "n_rating_masked": 12,
+  "n_rating_blank": 12,
+  "n_reading": 12,
+  "router": "sonnet",
+  "llm": "us.anthropic.claude-sonnet-4-6",
+  "ranking": "decider refused on purpose: fallback (LLM self-report, else retrieval heuristic)",
+  "use_ontology": false,
+  "sample_seed": 2026,
+  "blank_sha12": "d60d2f74c91f",
+  "test_sha12": "04cee11d4d10",
+  "short": {}
+ },
+ "rating": [
+  {
+   "id": "DHARMA_INSTamilNadu00414:2:0",
+   "inscription_id": "DHARMA_INSTamilNadu00414",
+   "collection": "tfa-tamilnadu-epigraphy",
+   "split": "test",
+   "line_n": "2",
+   "left": "svasti śrī . ti [?3] ti kōṉēriṉmai-koṇṭāṉ Āryyāvart=tattu śrī-goḷaki-vamsattu śrīmal-lakṣādyāyi-santāṉattu śrī-deśikēndra-pra ",
+   "right": " varāvaḷaṟku tām puṟa-malai-nāṭṭu-t tiru-k-koṭuṅ-kuṉṟattu Uṭaiyār tiru-k-koṭuṅ-kuṉṟam-uṭaiyār",
+   "gap_chars": 3,
+   "hard": false,
+   "age_set": false,
+   "dynasty": "Pāṇḍya",
+   "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00414.xml",
+   "kind": "blank",
+   "target": null,
+   "options": [
+    {
+     "text": "vāra",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.12,
+     "ai_rank": 3,
+     "aksharas": 2,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "vār",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.3,
+     "ai_rank": 1,
+     "aksharas": 2,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
+     "text": "tāp",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.22,
+     "ai_rank": 2,
+     "aksharas": 2,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P01"
+  },
+  {
+   "id": "DHARMA_INSTamilNadu00414:6:0",
+   "inscription_id": "DHARMA_INSTamilNadu00414",
+   "collection": "tfa-tamilnadu-epigraphy",
+   "split": "test",
+   "line_n": "6",
+   "left": "muṅ kuḷa-p-parip [?3] til paḻan tēva-tāṉam paḷḷi-c-cantam nīkki nīkki Uḷḷa nilam muṉṉ-uṭaiyārum Uḻavu mutalun tavirttu-k kārāṇ ",
+   "right": " ntarāyamum viṉiyōhamum taruvatāṉa Accum kāriya-v-ārāycciyum veṭṭi [?3] pāṭṭam pañcupili sandhi-vi",
+   "gap_chars": 3,
+   "hard": false,
+   "age_set": false,
+   "dynasty": "Pāṇḍya",
+   "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00414.xml",
+   "kind": "blank",
+   "target": null,
+   "options": [
+    {
+     "text": "maiya",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.08,
+     "ai_rank": 4,
+     "aksharas": 2,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "maiyum a",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.1,
+     "ai_rank": 3,
+     "aksharas": 4,
+     "length_diff": 1,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
+     "text": "mai a",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.15,
+     "ai_rank": 2,
+     "aksharas": 2,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P02"
+  },
+  {
+   "id": "DHARMA_INSTamilNadu00413:1:0",
+   "inscription_id": "DHARMA_INSTamilNadu00413",
+   "collection": "tfa-tamilnadu-epigraphy",
+   "split": "test",
+   "line_n": "1",
+   "left": "pūmalaṟ ṟiruv",
+   "right": "ntaiyum eṉṉum śrīmaṟkītti Eḻuti śrī-kō-māṟa-paṉmar-āṉa tri-bhuvaṉa-c-cakra-vart=tikaḷ śrī-sundara-pāṇḍya-devaṟku",
+   "gap_chars": 8,
+   "hard": true,
+   "age_set": false,
+   "dynasty": "Pāṇḍya",
+   "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00413.xml",
+   "kind": "masked",
+   "target": "um porucaya maṭa",
+   "options": [
+    {
+     "text": "maṭa",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.45,
+     "ai_rank": 1,
+     "aksharas": 2,
+     "length_diff": -6,
+     "length_match": false,
+     "oid": "o1"
+    },
+    {
+     "text": "um porucaya maṭa",
+     "origin": "expert",
+     "sources": [
+      "edition"
+     ],
+     "confidence": null,
+     "also_proposed_by_ai": false,
+     "aksharas": 8,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
+     "text": "um maṭa",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.12,
+     "ai_rank": 2,
+     "aksharas": 4,
+     "length_diff": -4,
+     "length_match": false,
+     "oid": "o3"
+    }
+   ],
+   "code": "P03"
+  },
+  {
+   "id": "DHARMA_INStfaSIIv04p0i0163:3:0",
+   "inscription_id": "DHARMA_INStfaSIIv04p0i0163",
+   "collection": "tfa-sii-epigraphy",
+   "split": "val",
+   "line_n": "3",
+   "left": "mutal cantirātitta-varaiyum Aṉupavippat_āka It-tāṉa-pramāṇam paṇṇi ",
+   "right": " paṇṇi tantōm Ip-paṭikku kallilu [?7] veṭṭik-koṇ [?10] yamācciya-teṇṭa-nāyakkaṉ-ēṉ Eḻuttu srī-gopīnātha Itu Oppam It-taṉmam rakṣittavaṉ śrī-pādam· Iraṇṭum eṉ talai mēlē svasti śrī Iṟṟaināḷilē Ic-cēla-nāṭ-uṭaiya-p poṉ parappi [?8]",
+   "gap_chars": 8,
+   "hard": false,
+   "age_set": false,
+   "dynasty": null,
+   "source_url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv04p0i0163.xml",
+   "kind": "blank",
+   "target": null,
+   "options": [
+    {
+     "text": "kuṭuttup paṇṇi",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.06,
+     "ai_rank": 6,
+     "aksharas": 8,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "kuṭutt' iṭṭōm",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.25,
+     "ai_rank": 2,
+     "aksharas": 8,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
+     "text": "eḻuti kuṭuttōm",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.08,
+     "ai_rank": 5,
+     "aksharas": 8,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P04"
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0140:37:0",
+   "inscription_id": "DHARMA_INStfaSIIv38p0i0140",
+   "collection": "tfa-sii-epigraphy",
+   "split": "test",
+   "line_n": "37",
+   "left": "tu Uḷḷiṭṭa palakaṟiyamutu pattukku kalam miḷaku v-uḻakkukkum kaṭuku Uri",
+   "right": "m [?3]kkum puḷiṅkaṟi Amutu patināḻikku kam veṟuṅkāy Aimpatukkum veṟṟilai Irunūṟṟukku nellu",
+   "gap_chars": 2,
+   "hard": true,
+   "age_set": false,
+   "dynasty": "Cōḻa",
+   "source_url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv38p0i0140.xml",
+   "kind": "masked",
+   "target": "kku",
+   "options": [
+    {
+     "text": "yum",
+     "origin": "ai",
+     "sources": [
+      "parallel",
+      "sonnet"
+     ],
+     "confidence": 0.05,
+     "ai_rank": 2,
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "kku",
+     "origin": "expert",
+     "sources": [
+      "edition"
+     ],
+     "confidence": null,
+     "also_proposed_by_ai": true,
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
+     "text": "yu",
+     "origin": "ai",
+     "sources": [
+      "ngram",
+      "sonnet"
+     ],
+     "confidence": 0.82,
+     "ai_rank": 1,
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P05"
+  },
+  {
+   "id": "DHARMA_INSPallava00224:42:1",
+   "inscription_id": "DHARMA_INSPallava00224",
+   "collection": "tfa-pallava-epigraphy",
+   "split": "val",
+   "line_n": "42",
+   "left": "koṇṭu kaiyiṟ kuṭuttu viṟṟu-k koṇṭēṉ maṇali sabhaiyōmumēṟpaṭi Iṟaiyili [?2] [?4]ka vilaikku ",
+   "right": "ṟ koṇṭu viṟṟu-k kuṭuttōm ivv-āvaṇaṅ kuṟiyilirun",
+   "gap_chars": 8,
+   "hard": false,
+   "age_set": true,
+   "dynasty": "Pallava",
+   "source_url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00224.xml",
+   "kind": "blank",
+   "target": null,
+   "options": [
+    {
+     "text": "koṇṭu iṟaiyilikka",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.12,
+     "ai_rank": 4,
+     "aksharas": 9,
+     "length_diff": 1,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "koṇṭu viṟ",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.3,
+     "ai_rank": 1,
+     "aksharas": 5,
+     "length_diff": -3,
+     "length_match": false,
+     "oid": "o2"
+    },
+    {
+     "text": "koṇṭu viṟṟuka",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.1,
+     "ai_rank": 5,
+     "aksharas": 7,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P06"
+  },
+  {
+   "id": "DHARMA_INStfaSIIv02p0i0023:A.A2:0",
+   "inscription_id": "DHARMA_INStfaSIIv02p0i0023",
+   "collection": "tfa-sii-epigraphy",
+   "split": "test",
+   "line_n": "A.A2",
+   "left": "dāna-pālanayor mmaddhye dānāc chreyo nupālanaM [?1] dānāT svargam avāpnoti pālanād acyutaM padaM [?1] śubham astu śrī [?1] śakābdaM Ā",
+   "right": " muṉṉūṟṟu Eḻupattu Eḻiṉ mēṟ cellā niṉṟa bhāva-varuṣattukku-c cellum",
+   "gap_chars": 4,
+   "hard": true,
+   "age_set": false,
+   "dynasty": null,
+   "source_url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv02p0i0023.xml",
+   "kind": "masked",
+   "target": "yirattu",
+   "options": [
+    {
+     "text": "yirattu",
+     "origin": "expert",
+     "sources": [
+      "edition"
+     ],
+     "confidence": null,
+     "also_proposed_by_ai": false,
+     "aksharas": 4,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "yirat",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.06,
+     "ai_rank": 4,
+     "aksharas": 3,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
+     "text": "yirt",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.05,
+     "ai_rank": 6,
+     "aksharas": 3,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P07"
+  },
+  {
+   "id": "DHARMA_INSTamilNadu00446:14:0",
+   "inscription_id": "DHARMA_INSTamilNadu00446",
+   "collection": "tfa-tamilnadu-epigraphy",
+   "split": "test",
+   "line_n": "14",
+   "left": "kam [?4] k koṭutta pūlāṅ kuḷam-āṉa tipparaca-purattukku Ellai pūvaṉ ciṟumpi [?3]kuḷattu ",
+   "right": " laikku mēṟku teṉ-pāṟk' ellai tiru-c-cūla-kallukku vaṭakku mēl-pāṟ",
+   "gap_chars": 6,
+   "hard": false,
+   "age_set": false,
+   "dynasty": null,
+   "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00446.xml",
+   "kind": "blank",
+   "target": null,
+   "options": [
+    {
+     "text": "ellaikku",
+     "origin": "ai",
+     "sources": [
+      "parallel"
+     ],
+     "confidence": 0.0714,
+     "ai_rank": 8,
+     "aksharas": 5,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "nīr koḷ el",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.08,
+     "ai_rank": 6,
+     "aksharas": 6,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
+     "text": "nīrkōvel",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.35,
+     "ai_rank": 1,
+     "aksharas": 5,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P08"
+  },
+  {
+   "id": "DHARMA_INSTamilNadu00483:1:0",
+   "inscription_id": "DHARMA_INSTamilNadu00483",
+   "collection": "tfa-tamilnadu-epigraphy",
+   "split": "test",
+   "line_n": "1",
+   "left": "",
+   "right": "ti śr[?1] tri-bhuvaṉa-c cakkara-varttikaḷ śrī- [?]",
+   "gap_chars": 3,
+   "hard": false,
+   "age_set": false,
+   "dynasty": null,
+   "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00483.xml",
+   "kind": "masked",
+   "target": "svas",
+   "options": [
+    {
+     "text": "svas",
+     "origin": "expert",
+     "sources": [
+      "edition"
+     ],
+     "confidence": null,
+     "also_proposed_by_ai": false,
+     "aksharas": 3,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "vas",
+     "origin": "ai",
+     "sources": [
+      "parallel",
+      "sonnet"
+     ],
+     "confidence": 0.92,
+     "ai_rank": 1,
+     "aksharas": 2,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
+     "text": "sva",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.04,
+     "ai_rank": 2,
+     "aksharas": 2,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P09"
+  },
+  {
+   "id": "DHARMA_INSTamilNadu00412:3:0",
+   "inscription_id": "DHARMA_INSTamilNadu00412",
+   "collection": "tfa-tamilnadu-epigraphy",
+   "split": "test",
+   "line_n": "3",
+   "left": "taḻaippa v-imaiyavar vimākkoṭi y-iṭantoṟu meṭuppak karuṅkali kaṉalkeṭak kaṭavuḷ vēti ",
+   "right": " [?42] vaḻavic ceṅkō l vaḷaṟpa-c curutiyun tamiḻun tolvaḷaṅ kulavap porutiṟa lāḻi pūtalañ cūḻa v-orukai y-ru-cevi[?3] ṭṭ' airāvata muta",
+   "gap_chars": 2,
+   "hard": false,
+   "age_set": false,
+   "dynasty": "Pāṇḍya",
+   "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00412.xml",
+   "kind": "blank",
+   "target": null,
+   "options": [
+    {
+     "text": "ya",
+     "origin": "ai",
+     "sources": [
+      "parallel",
+      "sonnet"
+     ],
+     "confidence": 0.3,
+     "ai_rank": 1,
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "r",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.25,
+     "ai_rank": 2,
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
+     "text": "ṭi",
+     "origin": "ai",
+     "sources": [
+      "parallel",
+      "sonnet"
+     ],
+     "confidence": 0.12,
+     "ai_rank": 3,
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P10"
+  },
+  {
+   "id": "DHARMA_INSPallava00129:7:0",
+   "inscription_id": "DHARMA_INSPallava00129",
+   "collection": "tfa-pallava-epigraphy",
+   "split": "test",
+   "line_n": "7",
+   "left": "Iravum pakalu[?14]taṟku teṉṉavaṉ iḷa",
+   "right": " maṟavam pūti vaitta [?2] viṭēl",
+   "gap_chars": 7,
+   "hard": true,
+   "age_set": true,
+   "dynasty": "Pallava",
+   "source_url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00129.xml",
+   "kind": "masked",
+   "target": "ṅkō-vēḷār-āyiṉa",
+   "options": [
+    {
+     "text": "maṟavoṉ",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.18,
+     "ai_rank": 2,
+     "aksharas": 4,
+     "length_diff": -3,
+     "length_match": false,
+     "oid": "o1"
+    },
+    {
+     "text": "ñar aṟa",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.28,
+     "ai_rank": 1,
+     "aksharas": 4,
+     "length_diff": -3,
+     "length_match": false,
+     "oid": "o2"
+    },
+    {
+     "text": "ṅkōvēḷārāyiṉa",
+     "origin": "expert",
+     "sources": [
+      "edition"
+     ],
+     "confidence": null,
+     "also_proposed_by_ai": false,
+     "aksharas": 7,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P11"
+  },
+  {
+   "id": "DHARMA_INSTamilNadu00413:8:1",
+   "inscription_id": "DHARMA_INSTamilNadu00413",
+   "collection": "tfa-tamilnadu-epigraphy",
+   "split": "test",
+   "line_n": "8",
+   "left": "ṉk' ellai[?4] ru-c-cūla-k-kallukk' uṭ [?4] muka-p paṭi yālē maṭa-p-puṟa-v-iṟai-y-ili-y-āka pramāṇam paṇṇi-k kuṭuttōm ke [?4] cakara mū-v-arayaṉum pa ",
+   "right": " ḷāmum Āryyā-vat=tattu goḷaka-vaṁśattu śrī-mal-lakṣāddhyāya-sa",
+   "gap_chars": 5,
+   "hard": false,
+   "age_set": false,
+   "dynasty": "Pāṇḍya",
+   "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00413.xml",
+   "kind": "blank",
+   "target": null,
+   "options": [
+    {
+     "text": "ṭṭār pa",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.08,
+     "ai_rank": 4,
+     "aksharas": 4,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "ṇṭappa",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.04,
+     "ai_rank": 8,
+     "aksharas": 4,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
+     "text": "ṭṭa",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.35,
+     "ai_rank": 1,
+     "aksharas": 2,
+     "length_diff": -3,
+     "length_match": false,
+     "oid": "o3"
+    }
+   ],
+   "code": "P12"
+  },
+  {
+   "id": "DHARMA_INSTamilNadu00175:7:0",
+   "inscription_id": "DHARMA_INSTamilNadu00175",
+   "collection": "tfa-tamilnadu-epigraphy",
+   "split": "test",
+   "line_n": "7",
+   "left": "ṟku kārāṇmaiyum vaṭa-peruṅ-kōyil-uṭaiyāṉukkum cūṭi-k kuṭutt-aruḷiya nācciyāṟkum periyāḻvāṟkum kaṭamai y-antarāyam poṉ vari viṉiyōkam veṭṭipāṭṭam pañcumili sandhi-vigraha-p peṟu vācal ",
+   "right": " lāñcaṇai-p peṟu taṟi-y-iṟai cekk-iṟai taṭṭoli-p-pāṭṭam Iṭaiyar vari y-iṉa-vari maṟṟum eppeṟpaṭṭaṉavaiyum iṟukkavum Ip-paṭikk’ ivv-ōlai piṭipāṭ-āka-k koṇṭu kōyilukku-p poruntum iṭaṅkaḷiḷē tiruvāḻikkalkaḷ nāṭṭi candrādityavaT celvat’ āka Ip-paṭ’ ivai-k kalliluñ cempilum veṭṭi-k koḷḷa coṉṉōm Ip-paṭikk’ ivv-ōlaiyai kalliluñ cempilum veṭṭi-k koḷka .",
+   "gap_chars": 2,
+   "hard": true,
+   "age_set": false,
+   "dynasty": null,
+   "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00175.xml",
+   "kind": "masked",
+   "target": "vari",
+   "options": [
+    {
+     "text": "um",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.55,
+     "ai_rank": 1,
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "vari",
+     "origin": "expert",
+     "sources": [
+      "edition"
+     ],
+     "confidence": null,
+     "also_proposed_by_ai": false,
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
+     "text": "peṟu",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.15,
+     "ai_rank": 2,
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P13"
+  },
+  {
+   "id": "DHARMA_INSTamilNadu00417:10:0",
+   "inscription_id": "DHARMA_INSTamilNadu00417",
+   "collection": "tfa-tamilnadu-epigraphy",
+   "split": "test",
+   "line_n": "10",
+   "left": "[?36]lāl ",
+   "right": " Oṉṟukku [?2]ḻi Ariciyum kaṟi-y-amut' uḷḷiṭṭa viñcaṉamum [?1]ṇṭā=rattē ce",
+   "gap_chars": 2,
+   "hard": true,
+   "age_set": false,
+   "dynasty": "Pāṇḍya",
+   "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00417.xml",
+   "kind": "masked",
+   "target": "nāḷ",
+   "options": [
+    {
+     "text": "nāḷ",
+     "origin": "expert",
+     "sources": [
+      "edition"
+     ],
+     "confidence": null,
+     "also_proposed_by_ai": true,
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "nā",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.15,
+     "ai_rank": 3,
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
+     "text": "ai",
+     "origin": "ai",
+     "sources": [
+      "parallel"
+     ],
+     "confidence": 0.2547,
+     "ai_rank": 2,
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P14"
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0018:20:0",
+   "inscription_id": "DHARMA_INStfaSIIv03p0i0018",
+   "collection": "tfa-sii-epigraphy",
+   "split": "test",
+   "line_n": "20",
+   "left": "tiru-nan=tā-viḷakku Onṟinukku Erikka ney aṭṭuvatāka ",
+   "right": "v-ūr iruk=kum iṭ[?1][?1]ṉ Ēṟaṉ cātta[?1]k=ku Ivv-ūr irukkum Iṭaiyan kalli kuṭṭēṟaṉum pu",
+   "gap_chars": 2,
+   "hard": true,
+   "age_set": false,
+   "dynasty": "Cōḻa",
+   "source_url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv03p0i0018.xml",
+   "kind": "masked",
+   "target": "Iv",
+   "options": [
+    {
+     "text": "ku",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.08,
+     "ai_rank": 3,
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "i",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.1,
+     "ai_rank": 2,
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
+     "text": "iv",
+     "origin": "expert",
+     "sources": [
+      "edition"
+     ],
+     "confidence": null,
+     "also_proposed_by_ai": true,
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P15"
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0140:41:0",
+   "inscription_id": "DHARMA_INStfaSIIv38p0i0140",
+   "collection": "tfa-sii-epigraphy",
+   "split": "test",
+   "line_n": "41",
+   "left": "rai Aḷakka kaṭava nāṟpatiṉ kalam Ip-paṭi Āṭṭāṇṭu tōṟum mārkaḻi tiruvātiraikku vaibhattu ",
+   "right": " meṟpaṭiyāṉ Uṭaiyār Ucciyam poḻutu Amutu ceytaruḷuvatiṉ muṉpu vētam vallār muvar brā",
+   "gap_chars": 2,
+   "hard": false,
+   "age_set": false,
+   "dynasty": "Cōḻa",
+   "source_url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv38p0i0140.xml",
+   "kind": "blank",
+   "target": null,
+   "options": [
+    {
+     "text": "ip",
+     "origin": "ai",
+     "sources": [
+      "parallel",
+      "sonnet"
+     ],
+     "confidence": 0.2,
+     "ai_rank": 2,
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "āl",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.12,
+     "ai_rank": 3,
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
+     "text": "āka",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.35,
+     "ai_rank": 1,
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P16"
+  },
+  {
+   "id": "DHARMA_INSUttiramerur00014:1:0",
+   "inscription_id": "DHARMA_INSUttiramerur00014",
+   "collection": "tfa-uttiramerur-epigraphy",
+   "split": "test",
+   "line_n": "1",
+   "left": "svasti śrī vīra-pāṇṭiyaṉ talai koṇṭa kō-pārtthivendra-mahārājaṟku yāṇṭu Iraṇṭ-āvatu kāliyūr-k-kōṭṭattu taṉ-kūṟṟ' uttara-mēru-caturvve",
+   "right": " [?3]ra-mēru-vatiyiṉ mēṟku mutaṟ catukkattu Iraṇṭān taraṅ kuḻi Iru-nūṟṟu nāṟ-patum Iṅkē talai-t taraṅ kuḻi Aiñ-ñūṟṟu Aṟu-patum Iṅkē mun [?12]",
+   "gap_chars": 7,
+   "hard": true,
+   "age_set": true,
+   "dynasty": null,
+   "source_url": "https://github.com/erc-dharma/tfa-uttiramerur-epigraphy/blob/4b97baaffa2607003d7cf4dd02fd3cf861322ae3/DHARMA_INSUttiramerur00014.xml",
+   "kind": "masked",
+   "target": "di-maṅkalattu",
+   "options": [
+    {
+     "text": "timaṅk",
+     "origin": "ai",
+     "sources": [
+      "parallel",
+      "sonnet"
+     ],
+     "confidence": 0.3,
+     "ai_rank": 2,
+     "aksharas": 4,
+     "length_diff": -3,
+     "length_match": false,
+     "oid": "o1"
+    },
+    {
+     "text": "timaṅkal",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.35,
+     "ai_rank": 1,
+     "aksharas": 5,
+     "length_diff": -2,
+     "length_match": false,
+     "oid": "o2"
+    },
+    {
+     "text": "dimaṅkalattu",
+     "origin": "expert",
+     "sources": [
+      "edition"
+     ],
+     "confidence": null,
+     "also_proposed_by_ai": false,
+     "aksharas": 7,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P17"
+  },
+  {
+   "id": "DHARMA_INSPallava00083:11:0",
+   "inscription_id": "DHARMA_INSPallava00083",
+   "collection": "tfa-pallava-epigraphy",
+   "split": "val",
+   "line_n": "11",
+   "left": "taṉaiyum Āṭṭāṇṭu-tōṟum ēri tōṇṭuvippōm āy ",
+   "right": " ttiṉa-Il keṭai-y ēṟṟu-k-koṇṭēm Itaṟku vakri-p-pātāṉ candrātityar-uḷḷa taṉaiyum",
+   "gap_chars": 3,
+   "hard": false,
+   "age_set": true,
+   "dynasty": "Pallava",
+   "source_url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00083.xml",
+   "kind": "blank",
+   "target": null,
+   "options": [
+    {
+     "text": "kuṭu",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.35,
+     "ai_rank": 1,
+     "aksharas": 2,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "iṭṭa",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.15,
+     "ai_rank": 3,
+     "aksharas": 3,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
+     "text": "āṉōm i",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.25,
+     "ai_rank": 2,
+     "aksharas": 4,
+     "length_diff": 1,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P18"
+  },
+  {
+   "id": "DHARMA_INSPallava00219:2:0",
+   "inscription_id": "DHARMA_INSPallava00219",
+   "collection": "tfa-pallava-epigraphy",
+   "split": "val",
+   "line_n": "2",
+   "left": "svasti śrī kō-vicaiya-kampavarmmaṟku yāṇṭu pa",
+   "right": "ṟāvatu puḻaṟ-kōṭṭattu-p puḻaṉāṭṭu-t tiru-vo",
+   "gap_chars": 4,
+   "hard": false,
+   "age_set": true,
+   "dynasty": "Pallava",
+   "source_url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00219.xml",
+   "kind": "blank",
+   "target": null,
+   "options": [
+    {
+     "text": "tiṉā",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.15,
+     "ai_rank": 3,
+     "aksharas": 2,
+     "length_diff": -2,
+     "length_match": false,
+     "oid": "o1"
+    },
+    {
+     "text": "tiṉ",
+     "origin": "ai",
+     "sources": [
+      "parallel",
+      "sonnet"
+     ],
+     "confidence": 0.45,
+     "ai_rank": 1,
+     "aksharas": 2,
+     "length_diff": -2,
+     "length_match": false,
+     "oid": "o2"
+    },
+    {
+     "text": "ttāv",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.1,
+     "ai_rank": 4,
+     "aksharas": 3,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P19"
+  },
+  {
+   "id": "DHARMA_INSPallava00129:8:0",
+   "inscription_id": "DHARMA_INSPallava00129",
+   "collection": "tfa-pallava-epigraphy",
+   "split": "test",
+   "line_n": "8",
+   "left": "taṟku teṉṉavaṉ iḷa[?7] maṟavam pūti vaitta ",
+   "right": " viṭēl-viṭuku tī-p-pōkku-c cem-poṉ",
+   "gap_chars": 2,
+   "hard": true,
+   "age_set": true,
+   "dynasty": "Pallava",
+   "source_url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00129.xml",
+   "kind": "masked",
+   "target": "poṉ",
+   "options": [
+    {
+     "text": "poṉ",
+     "origin": "expert",
+     "sources": [
+      "edition"
+     ],
+     "confidence": null,
+     "also_proposed_by_ai": true,
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "aṟa",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.08,
+     "ai_rank": 3,
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
+     "text": "vi",
+     "origin": "ai",
+     "sources": [
+      "parallel",
+      "sonnet"
+     ],
+     "confidence": 0.15,
+     "ai_rank": 2,
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P20"
+  },
+  {
+   "id": "DHARMA_INSPallava00334:15:0",
+   "inscription_id": "DHARMA_INSPallava00334",
+   "collection": "tfa-pallava-epigraphy",
+   "split": "test",
+   "line_n": "15",
+   "left": "y-oppatu śrī-kaṇṭapura",
+   "right": " [?]",
+   "gap_chars": 2,
+   "hard": true,
+   "age_set": true,
+   "dynasty": "Pallava",
+   "source_url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00334.xml",
+   "kind": "masked",
+   "target": "ttu",
+   "options": [
+    {
+     "text": "m",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.45,
+     "ai_rank": 1,
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "ttu",
+     "origin": "expert",
+     "sources": [
+      "edition"
+     ],
+     "confidence": null,
+     "also_proposed_by_ai": false,
+     "aksharas": 2,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
+     "text": "p",
+     "origin": "ai",
+     "sources": [
+      "parallel",
+      "sonnet"
+     ],
+     "confidence": 0.25,
+     "ai_rank": 2,
+     "aksharas": 1,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P21"
+  },
+  {
+   "id": "DHARMA_INSTamilNadu00437:14:0",
+   "inscription_id": "DHARMA_INSTamilNadu00437",
+   "collection": "tfa-tamilnadu-epigraphy",
+   "split": "val",
+   "line_n": "14",
+   "left": "mutaliyār curapi-t-tiru-mēṉikku Ivai cakāyama pi[?3] ",
+   "right": " ṉ eḻuttu",
+   "gap_chars": 4,
+   "hard": false,
+   "age_set": false,
+   "dynasty": "Pāṇḍya",
+   "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00437.xml",
+   "kind": "blank",
+   "target": null,
+   "options": [
+    {
+     "text": "eḻuttu",
+     "origin": "ai",
+     "sources": [
+      "parallel"
+     ],
+     "confidence": 0.0832,
+     "ai_rank": 7,
+     "aksharas": 4,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "rāma",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.18,
+     "ai_rank": 1,
+     "aksharas": 2,
+     "length_diff": -2,
+     "length_match": false,
+     "oid": "o2"
+    },
+    {
+     "text": "ṅkaṉ",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.08,
+     "ai_rank": 8,
+     "aksharas": 3,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P22"
+  },
+  {
+   "id": "DHARMA_INStfaSIIv38p0i0139:1:1",
+   "inscription_id": "DHARMA_INStfaSIIv38p0i0139",
+   "collection": "tfa-sii-epigraphy",
+   "split": "test",
+   "line_n": "1",
+   "left": "[?6] tirumaṉṉvaḷara Irunila maṭan=taiyum pōrcceya-p pāvaiyum cīrttanic ce",
+   "right": " [?2] perun=tēviyar [?5]ṟa neṭitiyalūḻiyuḷ Iṭatuṟai nāṭum tuṭarvaṉa vēli paṭarvaṉa",
+   "gap_chars": 4,
+   "hard": true,
+   "age_set": false,
+   "dynasty": "Cōḻa",
+   "source_url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv38p0i0139.xml",
+   "kind": "masked",
+   "target": "lviyum",
+   "options": [
+    {
+     "text": "lviy",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.72,
+     "ai_rank": 1,
+     "aksharas": 3,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "lviyum",
+     "origin": "expert",
+     "sources": [
+      "edition"
+     ],
+     "confidence": null,
+     "also_proposed_by_ai": true,
+     "aksharas": 4,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
+     "text": "lviyuṃ",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.02,
+     "ai_rank": 6,
+     "aksharas": 3,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P23"
+  },
+  {
+   "id": "DHARMA_INSTamilNadu00412:21:0",
+   "inscription_id": "DHARMA_INSTamilNadu00412",
+   "collection": "tfa-tamilnadu-epigraphy",
+   "split": "test",
+   "line_n": "21",
+   "left": "-koṭuṅ-kuṉṟam-uṭaiyār tiru-k-kāma-k-kōṭṭa-p perun teruvil ceyvitta śrī-pārvati-maṭattu vattikkum tapa ",
+   "right": " ḷukku bhojaṉam uḷḷiṭṭu vēṇṭuvaṉavukku vikrama-rāma-vaḷanāṭṭu nāṭa-maṅkalam nāṉk' ellaikk' uṭ-aṭṭa nilaṉum karuñ cey[?4] m tōṭṭamum kuḷa",
+   "gap_chars": 3,
+   "hard": false,
+   "age_set": false,
+   "dynasty": "Pāṇḍya",
+   "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00412.xml",
+   "kind": "blank",
+   "target": null,
+   "options": [
+    {
+     "text": "sikaḷ",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.12,
+     "ai_rank": 3,
+     "aksharas": 3,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o1"
+    },
+    {
+     "text": "sika",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.2,
+     "ai_rank": 2,
+     "aksharas": 2,
+     "length_diff": -1,
+     "length_match": true,
+     "oid": "o2"
+    },
+    {
+     "text": "svika",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.35,
+     "ai_rank": 1,
+     "aksharas": 3,
+     "length_diff": 0,
+     "length_match": true,
+     "oid": "o3"
+    }
+   ],
+   "code": "P24"
+  }
+ ],
+ "reading": [
+  {
+   "id": "DHARMA_INSPallava00230:1:0",
+   "inscription_id": "DHARMA_INSPallava00230",
+   "collection": "tfa-pallava-epigraphy",
+   "split": "test",
+   "line_n": "1",
+   "left": "svasti śrī kō-vicaiya-kampa-vikkira",
+   "right": " yāṇṭu Irupattu aint-āvatu kāliyūr-k-kōṭṭattu-t taṉ-kū[?2] [?2] [?5]",
+   "gap_chars": 6,
+   "hard": false,
+   "age_set": true,
+   "dynasty": "Pallava",
+   "source_url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00230.xml",
+   "kind": "masked",
+   "target": "ma-parumaṟku",
+   "suggestions": [
+    {
+     "text": "mmaṟku",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.35,
+     "ai_rank": 1
+    },
+    {
+     "text": "mmāṟku",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.15,
+     "ai_rank": 2
+    },
+    {
+     "text": "maṟku",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.12,
+     "ai_rank": 3
+    }
+   ],
+   "code": "S01",
+   "half": "H1"
+  },
+  {
+   "id": "DHARMA_INSTamilNadu00032:7:0",
+   "inscription_id": "DHARMA_INSTamilNadu00032",
+   "collection": "tfa-tamilnadu-epigraphy",
+   "split": "test",
+   "line_n": "7",
+   "left": "llūr nalla-nāyaṉāṟku [?2] ",
+   "right": "-veṭṭi v-ip-paṭi In-nāyaṉār tēvatāṉam nallūr nila",
+   "gap_chars": 2,
+   "hard": true,
+   "age_set": false,
+   "dynasty": "Cōḻa",
+   "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00032.xml",
+   "kind": "masked",
+   "target": "kal",
+   "suggestions": [
+    {
+     "text": "ti",
+     "origin": "ai",
+     "sources": [
+      "parallel"
+     ],
+     "confidence": 0.204,
+     "ai_rank": 1
+    },
+    {
+     "text": "va",
+     "origin": "ai",
+     "sources": [
+      "parallel"
+     ],
+     "confidence": 0.0683,
+     "ai_rank": 2
+    },
+    {
+     "text": "i",
+     "origin": "ai",
+     "sources": [
+      "parallel"
+     ],
+     "confidence": 0.0657,
+     "ai_rank": 3
+    }
+   ],
+   "code": "S02",
+   "half": "H1"
+  },
+  {
+   "id": "DHARMA_INStfaSIIv04p0i0159:6:1",
+   "inscription_id": "DHARMA_INStfaSIIv04p0i0159",
+   "collection": "tfa-sii-epigraphy",
+   "split": "test",
+   "line_n": "6",
+   "left": "taraiyaṉ cellaṉ taṉ[?1]m cey",
+   "right": " tūṇ poviccurattā",
+   "gap_chars": 3,
+   "hard": true,
+   "age_set": false,
+   "dynasty": null,
+   "source_url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv04p0i0159.xml",
+   "kind": "masked",
+   "target": "vitta",
+   "suggestions": [
+    {
+     "text": "ta",
+     "origin": "ai",
+     "sources": [
+      "parallel"
+     ],
+     "confidence": 0.054,
+     "ai_rank": 1
+    },
+    {
+     "text": "tiru",
+     "origin": "ai",
+     "sources": [
+      "parallel"
+     ],
+     "confidence": 0.0433,
+     "ai_rank": 2
+    },
+    {
+     "text": "ut",
+     "origin": "ai",
+     "sources": [
+      "parallel"
+     ],
+     "confidence": 0.0433,
+     "ai_rank": 3
+    }
+   ],
+   "code": "S03",
+   "half": "H1"
+  },
+  {
+   "id": "DHARMA_INSTamilNadu00032:6:0",
+   "inscription_id": "DHARMA_INSTamilNadu00032",
+   "collection": "tfa-tamilnadu-epigraphy",
+   "split": "test",
+   "line_n": "6",
+   "left": "ḻa-mūvaraiyaṉ Amattai-y-ēṉ nallūr nalla-nāyaṉāṟku ",
+   "right": " [?2]-veṭṭi v-ip-paṭi In-nāya",
+   "gap_chars": 2,
+   "hard": true,
+   "age_set": false,
+   "dynasty": "Cōḻa",
+   "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00032.xml",
+   "kind": "masked",
+   "target": "nāṉ",
+   "suggestions": [
+    {
+     "text": "ka",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.35,
+     "ai_rank": 1
+    },
+    {
+     "text": "iṭ",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.15,
+     "ai_rank": 2
+    },
+    {
+     "text": "ik",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.12,
+     "ai_rank": 3
+    }
+   ],
+   "code": "S04",
+   "half": "H1"
+  },
+  {
+   "id": "DHARMA_INSTiruvavatuturai10102:A.6:0",
+   "inscription_id": "DHARMA_INSTiruvavatuturai10102",
+   "collection": "tfa-tiruvavatuturai-epigraphy",
+   "split": "test",
+   "line_n": "A.6",
+   "left": "kāṇi Aṅki-nārāyaṇāṉum kāyaṭṭi-nārāyaṇāṉ tattaṉum kayaṭṭi kaṇṇaṉ paṟpaṉāpaṉum kaviṇiyaṉ Aṅki cēn=taṉum māṭalaṉ nārāyaṇa-kūttaṉum kavicikaṉ geṁgādharan kr̥ṣṇaṉum kāmakkāṇi nakkaṉ vāsudevaṉum kaviṇiyaṉ śrī-dharaṉ nākaṉum pāratāyaṉ kuṣṇaṉ pa",
+   "right": "āpaṉum kavicikaṉ putaṉ eḻuvayoṉum kāyaṭṭi [?4] kaṉum kaviciyaṉ tiru-c-citrakūṭaṉ nārāyaṇaṉum kaviciyaṉ Iḷaiyāṉ tattaṉ cōmaṉum kaviṇiyaṉ Iḷaiya Aṅki-nārāyaṇaṉum kaviciyaṉ [?4] ruvvāhaṉ nārāyaṇaṉum kociyaṉ nārāyaṇaṉ Irāmaṉum kāyaṭṭi nārāyaṇaṉ svāmi nārāyaṇaṉum kaviciyaṉ kēcavaṉ nārāyaṇaṉum pāratāyaṉ nārāyaṇaṉ kaṇṇaṉum",
+   "gap_chars": 3,
+   "hard": true,
+   "age_set": false,
+   "dynasty": "Cōḻa",
+   "source_url": "https://github.com/erc-dharma/tfa-tiruvavatuturai-epigraphy/blob/53e5dee31e1804ea7a2c0ffdcfe4344b40507f98/DHARMA_INSTiruvavatuturai10102.xml",
+   "kind": "masked",
+   "target": "ṟpaṉ",
+   "suggestions": [
+    {
+     "text": "ṇṭa",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.35,
+     "ai_rank": 1
+    },
+    {
+     "text": "ṇṭā",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.25,
+     "ai_rank": 2
+    },
+    {
+     "text": "ṭṭā",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.1,
+     "ai_rank": 3
+    }
+   ],
+   "code": "S05",
+   "half": "H1"
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0010:10:0",
+   "inscription_id": "DHARMA_INStfaSIIv03p0i0010",
+   "collection": "tfa-sii-epigraphy",
+   "split": "test",
+   "line_n": "10",
+   "left": "ṭattukku koṇṭu vaitta Ētta nīkki Itaṉukku kiḻakku Añc' ēttamum viṟṟu ",
+   "right": "-y-āvaṇañ cey[?1] kuṭuttu Iṉ-nilattukku vilai-dravyamum Iṟai-dravyamum Aṟa-k ko",
+   "gap_chars": 2,
+   "hard": true,
+   "age_set": false,
+   "dynasty": "Cōḻa",
+   "source_url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv03p0i0010.xml",
+   "kind": "masked",
+   "target": "vilai",
+   "suggestions": [
+    {
+     "text": "ṇṭu",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.55,
+     "ai_rank": 1
+    },
+    {
+     "text": "ṭu",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.15,
+     "ai_rank": 2
+    },
+    {
+     "text": "ai",
+     "origin": "ai",
+     "sources": [
+      "ngram",
+      "parallel"
+     ],
+     "confidence": 0.1429,
+     "ai_rank": 3
+    }
+   ],
+   "code": "S06",
+   "half": "H1"
+  },
+  {
+   "id": "DHARMA_INStfaSIIv03p0i0010:9:1",
+   "inscription_id": "DHARMA_INStfaSIIv03p0i0010",
+   "collection": "tfa-sii-epigraphy",
+   "split": "test",
+   "line_n": "9",
+   "left": "kaḷ pūmikkum subrahmaṇya-vāykkālukku teṟkum mēṟku [?1]ṉṟu A",
+   "right": " patiṉ aṟu cāṇ kōlāl mū-v-āyiraṅ kuḻiyum mēlai Ēri Etir-vāyiṟ kaḻumpa[?2]aiyār muṉ Ō",
+   "gap_chars": 2,
+   "hard": true,
+   "age_set": false,
+   "dynasty": "Cōḻa",
+   "source_url": "https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv03p0i0010.xml",
+   "kind": "masked",
+   "target": "ṭaiya",
+   "suggestions": [
+    {
+     "text": "ḷa",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.35,
+     "ai_rank": 1
+    },
+    {
+     "text": "ka",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.2,
+     "ai_rank": 2
+    },
+    {
+     "text": "va",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.12,
+     "ai_rank": 3
+    }
+   ],
+   "code": "S07",
+   "half": "H2"
+  },
+  {
+   "id": "DHARMA_INSCirkali00053:9:0",
+   "inscription_id": "DHARMA_INSCirkali00053",
+   "collection": "tfa-cirkali-epigraphy",
+   "split": "test",
+   "line_n": "9",
+   "left": "koṇṭu v-iṭṭa Āṟāṅ kaṭṭaḷai Eṭut ",
+   "right": "ta-vatikku mēṟku niṉṟāṉ vāykālukellai ṉi [?4] ta 3/4 .",
+   "gap_chars": 2,
+   "hard": false,
+   "age_set": false,
+   "dynasty": null,
+   "source_url": "https://github.com/erc-dharma/tfa-cirkali-epigraphy/blob/9ff78b784d4d5b0c774f72aa78e462349b1c7d48/DHARMA_INSCirkali00053.xml",
+   "kind": "masked",
+   "target": "tapā",
+   "suggestions": [
+    {
+     "text": "pā",
+     "origin": "ai",
+     "sources": [
+      "parallel",
+      "sonnet"
+     ],
+     "confidence": 0.82,
+     "ai_rank": 1
+    },
+    {
+     "text": "pa",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.08,
+     "ai_rank": 2
+    },
+    {
+     "text": "ut",
+     "origin": "ai",
+     "sources": [
+      "parallel"
+     ],
+     "confidence": 0.0465,
+     "ai_rank": 3
+    }
+   ],
+   "code": "S08",
+   "half": "H2"
+  },
+  {
+   "id": "DHARMA_INSPallava00119:2:0",
+   "inscription_id": "DHARMA_INSPallava00119",
+   "collection": "tfa-pallava-epigraphy",
+   "split": "test",
+   "line_n": "2",
+   "left": "svasti śrī bhāradvā[?4]laka-brahma-kṣatra-kulodbhava-pallava-mahārāj",
+   "right": "rameśvaraṉ-ākiya śrī-dan=ti-nanti-varma[?2] y[?4]ṟāvatu tiruveḷḷaṟai pa",
+   "gap_chars": 5,
+   "hard": true,
+   "age_set": true,
+   "dynasty": "Pallava",
+   "source_url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00119.xml",
+   "kind": "masked",
+   "target": "ādhirāja-pa",
+   "suggestions": [
+    {
+     "text": "apa",
+     "origin": "ai",
+     "sources": [
+      "parallel",
+      "sonnet"
+     ],
+     "confidence": 0.72,
+     "ai_rank": 1
+    },
+    {
+     "text": "ā",
+     "origin": "ai",
+     "sources": [
+      "parallel"
+     ],
+     "confidence": 0.0673,
+     "ai_rank": 3
+    },
+    {
+     "text": "aparā",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.05,
+     "ai_rank": 4
+    }
+   ],
+   "code": "S09",
+   "half": "H2"
+  },
+  {
+   "id": "DHARMA_INSPallava00178:1:0",
+   "inscription_id": "DHARMA_INSPallava00178",
+   "collection": "tfa-pallava-epigraphy",
+   "split": "test",
+   "line_n": "1",
+   "left": "svasti śrī Ituvum oru paḻaṅ-kal paṭi yāṇṭu Irupatt' iraṇṭu nr̥patuṅka-mahārājar deviyār viramahādeviyār hiraṇyagarbhamum tulāpāra",
+   "right": " pukka poṉṉil tiru-k- koṭikāvil mahā[?9]tta poṉ Aimpatiṉ kaḻañcu Itaṉil Iru-patt’ aiṅ-kaḻañcu poṉṉiṉ palicaiyāl nicati Iru-nāḻi Ariciyum Oru piṭi neyyum taḷi Arccippār kai mahā[?9]",
+   "gap_chars": 2,
+   "hard": true,
+   "age_set": true,
+   "dynasty": "Pallava",
+   "source_url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00178.xml",
+   "kind": "masked",
+   "target": "mum",
+   "suggestions": [
+    {
+     "text": "m",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.55,
+     "ai_rank": 1
+    },
+    {
+     "text": "mu",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.2,
+     "ai_rank": 2
+    },
+    {
+     "text": "mum",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.1,
+     "ai_rank": 3
+    }
+   ],
+   "code": "S10",
+   "half": "H2"
+  },
+  {
+   "id": "DHARMA_INSPallava00205:4:1",
+   "inscription_id": "DHARMA_INSPallava00205",
+   "collection": "tfa-pallava-epigraphy",
+   "split": "test",
+   "line_n": "4",
+   "left": "Ivv-arccanā-bhogam arccittu-k koṇṭ’ uṇpān ā[?1] Emm-ūr vaikhā",
+   "right": " śrī-dhara-bhaṭṭan‧ makaṉ tāmōtara-bhaṭṭaṉukku putra-pautrikam‧ Upāsitt’ u",
+   "gap_chars": 3,
+   "hard": true,
+   "age_set": true,
+   "dynasty": "Pallava",
+   "source_url": "https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00205.xml",
+   "kind": "masked",
+   "target": "nasan‧",
+   "suggestions": [
+    {
+     "text": "nasaṉ",
+     "origin": "ai",
+     "sources": [
+      "parallel",
+      "sonnet"
+     ],
+     "confidence": 0.72,
+     "ai_rank": 1
+    },
+    {
+     "text": "raḥ",
+     "origin": "ai",
+     "sources": [
+      "parallel"
+     ],
+     "confidence": 0.1659,
+     "ai_rank": 2
+    },
+    {
+     "text": "nas",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.1,
+     "ai_rank": 3
+    }
+   ],
+   "code": "S11",
+   "half": "H2"
+  },
+  {
+   "id": "DHARMA_INSTamilNadu00020:39:0",
+   "inscription_id": "DHARMA_INSTamilNadu00020",
+   "collection": "tfa-tamilnadu-epigraphy",
+   "split": "test",
+   "line_n": "39",
+   "left": "tu can=trātitta-val nont",
+   "right": "ḷakku Oṉṟum Eri",
+   "gap_chars": 2,
+   "hard": true,
+   "age_set": false,
+   "dynasty": "Cōḻa",
+   "source_url": "https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00020.xml",
+   "kind": "masked",
+   "target": "ā-vi",
+   "suggestions": [
+    {
+     "text": "āvi",
+     "origin": "ai",
+     "sources": [
+      "parallel",
+      "sonnet"
+     ],
+     "confidence": 0.75,
+     "ai_rank": 1
+    },
+    {
+     "text": "vi",
+     "origin": "ai",
+     "sources": [
+      "parallel"
+     ],
+     "confidence": 0.0771,
+     "ai_rank": 3
+    },
+    {
+     "text": "āv",
+     "origin": "ai",
+     "sources": [
+      "sonnet"
+     ],
+     "confidence": 0.02,
+     "ai_rank": 5
+    }
+   ],
+   "code": "S12",
+   "half": "H2"
+  }
+ ],
+ "dropped": [],
+ "unused_spares": [
+  "DHARMA_INStfaSIIv34p0i0432:5:0",
+  "DHARMA_INSUttiramerur00037:2:1",
+  "DHARMA_INSTamilNadu00123:27:0",
+  "DHARMA_INSTamilNadu00033:6:1"
+ ],
+ "label_maps": {
+  "R1": {
+   "P01": {
+    "A": "o2",
+    "B": "o1",
+    "C": "o3"
+   },
+   "P02": {
+    "A": "o3",
+    "B": "o2",
+    "C": "o1"
+   },
+   "P03": {
+    "A": "o1",
+    "B": "o3",
+    "C": "o2"
+   },
+   "P04": {
+    "A": "o2",
+    "B": "o1",
+    "C": "o3"
+   },
+   "P05": {
+    "A": "o1",
+    "B": "o2",
+    "C": "o3"
+   },
+   "P06": {
+    "A": "o3",
+    "B": "o2",
+    "C": "o1"
+   },
+   "P07": {
+    "A": "o3",
+    "B": "o2",
+    "C": "o1"
+   },
+   "P08": {
+    "A": "o1",
+    "B": "o2",
+    "C": "o3"
+   },
+   "P09": {
+    "A": "o2",
+    "B": "o3",
+    "C": "o1"
+   },
+   "P10": {
+    "A": "o3",
+    "B": "o1",
+    "C": "o2"
+   },
+   "P11": {
+    "A": "o3",
+    "B": "o2",
+    "C": "o1"
+   },
+   "P12": {
+    "A": "o3",
+    "B": "o2",
+    "C": "o1"
+   },
+   "P13": {
+    "A": "o1",
+    "B": "o3",
+    "C": "o2"
+   },
+   "P14": {
+    "A": "o1",
+    "B": "o2",
+    "C": "o3"
+   },
+   "P15": {
+    "A": "o2",
+    "B": "o1",
+    "C": "o3"
+   },
+   "P16": {
+    "A": "o1",
+    "B": "o3",
+    "C": "o2"
+   },
+   "P17": {
+    "A": "o2",
+    "B": "o3",
+    "C": "o1"
+   },
+   "P18": {
+    "A": "o3",
+    "B": "o1",
+    "C": "o2"
+   },
+   "P19": {
+    "A": "o3",
+    "B": "o1",
+    "C": "o2"
+   },
+   "P20": {
+    "A": "o3",
+    "B": "o2",
+    "C": "o1"
+   },
+   "P21": {
+    "A": "o3",
+    "B": "o1",
+    "C": "o2"
+   },
+   "P22": {
+    "A": "o2",
+    "B": "o3",
+    "C": "o1"
+   },
+   "P23": {
+    "A": "o2",
+    "B": "o1",
+    "C": "o3"
+   },
+   "P24": {
+    "A": "o3",
+    "B": "o1",
+    "C": "o2"
+   }
+  }
+ }
+}

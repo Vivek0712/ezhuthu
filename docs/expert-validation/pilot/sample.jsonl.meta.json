@@ -1,0 +1,28 @@
+{
+ "seed": 2026,
+ "spec": {
+  "seed": 2026,
+  "n_blank": 12,
+  "n_masked": 12,
+  "n_reading": 12,
+  "min_gap": 2,
+  "max_gap": 12,
+  "min_context_letters": 15,
+  "max_context_gaps": 3,
+  "max_per_inscription": 2,
+  "blank_splits": [
+   "test",
+   "val"
+  ],
+  "age_share": 0.3,
+  "spares": 2
+ },
+ "benchmark_dir": "benchmark",
+ "blank_sha12": "d60d2f74c91f",
+ "test_sha12": "04cee11d4d10",
+ "counts": {
+  "rating-blank": 14,
+  "rating-masked": 14,
+  "reading": 12
+ }
+}

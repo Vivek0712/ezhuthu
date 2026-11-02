@@ -1,0 +1,51 @@
+{
+ "router": "sonnet",
+ "use_ontology": false,
+ "retrieval": "benchmark/corpus_lines.jsonl (train only)",
+ "ranking": "decider refused on purpose: fallback (LLM self-report, else retrieval heuristic)",
+ "propose_max_tokens": 2048,
+ "llm": "us.anthropic.claude-sonnet-4-6",
+ "runs": [
+  {
+   "date": "2026-11-02",
+   "passages": 40,
+   "note": "kit v1 sample; 5 of its reading passages were later replaced (inscription-disjoint roles) and their proposals dropped",
+   "usage": {
+    "calls": 40,
+    "cached_calls": 0,
+    "input_tokens": {
+     "sonnet": 33143
+    },
+    "output_tokens": {
+     "sonnet": 24064
+    },
+    "estimated_cost_usd": 0.4604,
+    "price_basis": "USD/MTok list prices in ezhuthu.agent.llm.PRICE_PER_MTOK"
+   },
+   "errors": 0
+  },
+  {
+   "date": "2026-11-02",
+   "passages": 5,
+   "note": "kit v2: the 5 replacement reading passages only",
+   "llm_call_attempts": 5,
+   "cap_reached": false,
+   "usage": {
+    "calls": 5,
+    "cached_calls": 0,
+    "input_tokens": {
+     "sonnet": 5668
+    },
+    "output_tokens": {
+     "sonnet": 3377
+    },
+    "estimated_cost_usd": 0.0677,
+    "price_basis": "USD/MTok list prices in ezhuthu.agent.llm.PRICE_PER_MTOK"
+   },
+   "errors": 0
+  }
+ ],
+ "total_llm_calls": 45,
+ "total_estimated_cost_usd": 0.5281,
+ "errors": 0
+}

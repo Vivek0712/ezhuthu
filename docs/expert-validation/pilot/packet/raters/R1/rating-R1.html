@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="ta"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Ezhuthu rating sheet R1</title><style>
+:root { --ink: #1d1a16; --muted: #5b544a; --line: #c9bfae; --mark: #f3e3b5; --bg: #ffffff; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 16px; background: var(--bg); color: var(--ink);
+  font: 15px/1.55 "Noto Sans Tamil", "Tamil Sangam MN", "Latha", "Nirmala UI", system-ui, sans-serif; }
+main { max-width: 860px; margin: 0 auto; }
+h1 { font-size: 1.35rem; margin: 0 0 .25rem; }
+h2 { font-size: 1.05rem; margin: 1.2rem 0 .4rem; }
+.en { color: var(--muted); }
+.iso { font-family: "Noto Sans", "Gentium Plus", "Charis SIL", Georgia, serif; overflow-wrap: anywhere; }
+.item { border: 1px solid var(--line); border-radius: 6px; padding: 12px; margin: 14px 0; break-inside: avoid; }
+.item header { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-weight: 600; }
+.ctx { font-size: 1.1rem; margin: .4rem 0 .2rem; overflow-wrap: anywhere; }
+.gap { background: var(--mark); padding: 0 .2em; border-radius: 3px; }
+table { width: 100%; border-collapse: collapse; margin-top: .4rem; }
+th, td { border-top: 1px solid var(--line); padding: 6px 4px; text-align: left; vertical-align: top; }
+td.box { width: 7.5rem; white-space: nowrap; }
+td.box span { display: inline-block; width: 1.4rem; height: 1.4rem; border: 1px solid var(--ink);
+  margin-right: 2px; text-align: center; font-size: .8rem; line-height: 1.35rem; }
+.answer { border-bottom: 1px solid var(--ink); min-height: 2rem; margin: .4rem 0; }
+.small { font-size: .85rem; }
+a { color: inherit; overflow-wrap: anywhere; }
+@media print { body { padding: 0; font-size: 12.5px; } .item { page-break-inside: avoid; } a { text-decoration: none; } }
+</style></head><body><main>
+<h1>எழுத்து: சிதைந்த கல்வெட்டுப் பகுதிகளுக்கான வாசிப்பு மதிப்பீடு
+<br><span class="en">Ezhuthu: rating proposed readings for damaged inscription passages</span></h1>
+<p class="small">மதிப்பீட்டாளர் / Rater: <b>R1</b> · 24 பகுதிகள் / passages · ஒவ்வொன்றிலும் 3 முன்மொழிவுகள் /
+3 proposals each</p>
+<h2>வழிமுறை <span class="en">/ Instructions</span></h2>
+<ol class="small">
+<li>ஒவ்வொரு பகுதியிலும் ⟦…⟧ என்பது இழந்த எழுத்துகள்; எண் என்பது பதிப்பில் குறிக்கப்பட்ட தோராயமான எழுத்து எண்ணிக்கை
+(உயிர், மெய், உயிர்மெய் ஒவ்வொன்றும் ஒரு எழுத்து).
+<span class="en">⟦…⟧ marks lost text; the number is the approximate count of aksharas given in the edition. An akshara
+is one Tamil letter: a vowel (uyir), a consonant with puḷḷi (mey), or a consonant with its vowel (uyirmey),
+so <i>kā</i> is 1 and <i>nāḷ</i> is 2.</span></li>
+<li>முன்மொழிவுகள் வெவ்வேறு மூலங்களிலிருந்து (மனிதர்களும் மென்பொருளும்) கலந்து, சீரற்ற வரிசையில் தரப்பட்டுள்ளன. எந்த மூலம் என்று ஊகிக்க வேண்டாம்;
+ஒவ்வொன்றையும் தனித்தனியாக மதிப்பிடுங்கள். <span class="en">Proposals come from several sources (people and software),
+mixed and in random order. Do not guess the source; rate each one on its own.</span></li>
+<li>ஒவ்வொரு முன்மொழிவுக்கும் 1 முதல் 4 வரை ஒரு மதிப்பெண் தாருங்கள் (கீழே). பல முன்மொழிவுகளுக்கு ஒரே மதிப்பெண் தரலாம்.
+<span class="en">Give each proposal one score from 1 to 4 (below). Several proposals may get the same score.</span></li>
+<li>மூல இணைப்பை (DHARMA பதிப்பு) மதிப்பிட்ட <b>பிறகே</b> திறக்கவும். முன்பே திறந்தால் அல்லது இந்தக் கல்வெட்டை முன்பே அறிந்திருந்தால் y எனக் குறிக்கவும்.
+<span class="en">Open the source link (the DHARMA edition) only <b>after</b> rating. If you opened it before, or already
+know this inscription, mark y; those ratings are analysed separately, not discarded.</span></li>
+<li>மின்னணு வழியில் நிரப்ப CSV கோப்பைப் பயன்படுத்துங்கள்; அச்சுப் படிவத்தில் கட்டங்களை வட்டமிடுங்கள்.
+<span class="en">Fill in the CSV file, or circle the boxes on this printed form.</span></li>
+</ol>
+<h2>மதிப்பெண் அளவுகோல் <span class="en">/ Scale</span></h2>
+<table class='small'><tr><td><b>4</b></td><td>மிகவும் பொருந்தும்: பதிப்பில் ஏற்கத்தக்க வாசிப்பு<br><span class='en'>Highly plausible: I would accept this reading in an edition</span></td></tr><tr><td><b>3</b></td><td>பொருந்தும்: சூழலுக்கு ஒத்துவருகிறது; வேறு வாசிப்புகளும் சம அளவில் சாத்தியம்<br><span class='en'>Plausible: fits the context; other readings are about as likely</span></td></tr><tr><td><b>2</b></td><td>சாத்தியம் குறைவு: மொழி, நீளம் அல்லது வழக்கமான சொற்றொடரில் சிக்கல் உண்டு<br><span class='en'>Unlikely: possible only with problems of language, length or formula</span></td></tr><tr><td><b>1</b></td><td>பொருந்தாது: எழுத்து, மொழி, நீளம் அல்லது சூழல் இதை விலக்குகிறது<br><span class='en'>Implausible: ruled out by script, language, length or context</span></td></tr><tr><td><b>?</b></td><td>மதிப்பிட முடியவில்லை (cannot_judge_y = y)<br><span class='en'>Cannot judge (write y in cannot_judge_y)</span></td></tr></table>
+
+<section class="item" id="P11">
+<header><span>P11</span><span class="small">⟦…⟧ ≈ 7 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">இரவும் பகலு[?14]தற்கு தென்னவன் இள <span class="gap">⟦… 7 …⟧</span> மறவம் பூதி வைத்த [?2] விடேல்</p>
+<p class="iso small">Iravum pakalu[?14]taṟku teṉṉavaṉ iḷa <span class="gap">⟦… 7 …⟧</span> maṟavam pūti vaitta [?2] viṭēl</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>ங்கோவேளாராயின<br><span class='iso'>ṅkōvēḷārāyiṉa</span><br><span class='small en'>இரவும் பகலு[?14]தற்கு தென்னவன் இள <span class="gap">⟦ங்கோவேளாராயின⟧</span> மறவம் பூதி வைத்த [?2] விடேல்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>ஞர் அற<br><span class='iso'>ñar aṟa</span><br><span class='small en'>இரவும் பகலு[?14]தற்கு தென்னவன் இள <span class="gap">⟦ஞர் அற⟧</span> மறவம் பூதி வைத்த [?2] விடேல்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>மறவொன்<br><span class='iso'>maṟavoṉ</span><br><span class='small en'>இரவும் பகலு[?14]தற்கு தென்னவன் இள <span class="gap">⟦மறவொன்⟧</span> மறவம் பூதி வைத்த [?2] விடேல்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00129.xml">https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00129.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P03">
+<header><span>P03</span><span class="small">⟦…⟧ ≈ 8 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">பூமலற் றிருவ் <span class="gap">⟦… 8 …⟧</span> ந்தையும் என்னும் ஶ்ரீமற்கீத்தி எழுதி ஶ்ரீகோமாறபன்மரான த்ரிபுவனச்சக்ரவர்த்திகள் ஶ்ரீஸுந்தரபாண்ட்யதெவற்கு</p>
+<p class="iso small">pūmalaṟ ṟiruv <span class="gap">⟦… 8 …⟧</span> ntaiyum eṉṉum śrīmaṟkītti Eḻuti śrī-kō-māṟa-paṉmar-āṉa tri-bhuvaṉa-c-cakra-vart=tikaḷ śrī-sundara-pāṇḍya-devaṟku</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>மட<br><span class='iso'>maṭa</span><br><span class='small en'>பூமலற் றிருவ் <span class="gap">⟦மட⟧</span> ந்தையும் என்னும் ஶ்ரீமற்கீத்தி எழுதி ஶ்ரீகோமாறபன்மரான த்ரிபுவனச்சக்ரவர்த்திகள் ஶ்ரீஸுந்தரபாண்ட்யதெவற்கு</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>உம் மட<br><span class='iso'>um maṭa</span><br><span class='small en'>பூமலற் றிருவ் <span class="gap">⟦உம் மட⟧</span> ந்தையும் என்னும் ஶ்ரீமற்கீத்தி எழுதி ஶ்ரீகோமாறபன்மரான த்ரிபுவனச்சக்ரவர்த்திகள் ஶ்ரீஸுந்தரபாண்ட்யதெவற்கு</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>உம் பொருசய மட<br><span class='iso'>um porucaya maṭa</span><br><span class='small en'>பூமலற் றிருவ் <span class="gap">⟦உம் பொருசய மட⟧</span> ந்தையும் என்னும் ஶ்ரீமற்கீத்தி எழுதி ஶ்ரீகோமாறபன்மரான த்ரிபுவனச்சக்ரவர்த்திகள் ஶ்ரீஸுந்தரபாண்ட்யதெவற்கு</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00413.xml">https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00413.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P19">
+<header><span>P19</span><span class="small">⟦…⟧ ≈ 4 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">ஸ்வஸ்தி ஶ்ரீ கோவிசையகம்பவர்ம்மற்கு யாண்டு ப <span class="gap">⟦… 4 …⟧</span> றாவது புழற்கோட்டத்துப் புழனாட்டுத் திருவொ</p>
+<p class="iso small">svasti śrī kō-vicaiya-kampavarmmaṟku yāṇṭu pa <span class="gap">⟦… 4 …⟧</span> ṟāvatu puḻaṟ-kōṭṭattu-p puḻaṉāṭṭu-t tiru-vo</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>த்தாவ்<br><span class='iso'>ttāv</span><br><span class='small en'>ஸ்வஸ்தி ஶ்ரீ கோவிசையகம்பவர்ம்மற்கு யாண்டு ப <span class="gap">⟦த்தாவ்⟧</span> றாவது புழற்கோட்டத்துப் புழனாட்டுத் திருவொ</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>தினா<br><span class='iso'>tiṉā</span><br><span class='small en'>ஸ்வஸ்தி ஶ்ரீ கோவிசையகம்பவர்ம்மற்கு யாண்டு ப <span class="gap">⟦தினா⟧</span> றாவது புழற்கோட்டத்துப் புழனாட்டுத் திருவொ</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>தின்<br><span class='iso'>tiṉ</span><br><span class='small en'>ஸ்வஸ்தி ஶ்ரீ கோவிசையகம்பவர்ம்மற்கு யாண்டு ப <span class="gap">⟦தின்⟧</span> றாவது புழற்கோட்டத்துப் புழனாட்டுத் திருவொ</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00219.xml">https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00219.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P13">
+<header><span>P13</span><span class="small">⟦…⟧ ≈ 2 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">ற்கு காராண்மையும் வடபெருங்கோயிலுடையானுக்கும் சூடிக் குடுத்தருளிய நாச்சியாற்கும் பெரியாழ்வாற்கும் கடமை யந்தராயம் பொன் வரி வினியோகம் வெட்டிபாட்டம் பஞ்சுமிலி ஸந்திவிக்ரஹப் பெறு வாசல் <span class="gap">⟦… 2 …⟧</span> லாஞ்சணைப் பெறு தறியிறை செக்கிறை தட்டொலிப்பாட்டம் இடையர் வரி யினவரி மற்றும் எப்பெற்பட்டனவையும் இறுக்கவும் இப்படிக்க் இவ்வோலை பிடிபாடாகக் கொண்டு கோயிலுக்குப் பொருந்தும் இடங்களிளே திருவாழிக்கல்கள் நாட்டி சந்த்ராதித்யவத் செல்வத் ஆக இப்பட் இவைக் கல்லிலுஞ் செம்பிலும் வெட்டிக் கொள்ள சொன்னோம் இப்படிக்க் இவ்வோலையை கல்லிலுஞ் செம்பிலும் வெட்டிக் கொள்க .</p>
+<p class="iso small">ṟku kārāṇmaiyum vaṭa-peruṅ-kōyil-uṭaiyāṉukkum cūṭi-k kuṭutt-aruḷiya nācciyāṟkum periyāḻvāṟkum kaṭamai y-antarāyam poṉ vari viṉiyōkam veṭṭipāṭṭam pañcumili sandhi-vigraha-p peṟu vācal <span class="gap">⟦… 2 …⟧</span> lāñcaṇai-p peṟu taṟi-y-iṟai cekk-iṟai taṭṭoli-p-pāṭṭam Iṭaiyar vari y-iṉa-vari maṟṟum eppeṟpaṭṭaṉavaiyum iṟukkavum Ip-paṭikk’ ivv-ōlai piṭipāṭ-āka-k koṇṭu kōyilukku-p poruntum iṭaṅkaḷiḷē tiruvāḻikkalkaḷ nāṭṭi candrādityavaT celvat’ āka Ip-paṭ’ ivai-k kalliluñ cempilum veṭṭi-k koḷḷa coṉṉōm Ip-paṭikk’ ivv-ōlaiyai kalliluñ cempilum veṭṭi-k koḷka .</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>உம்<br><span class='iso'>um</span><br><span class='small en'>ற்கு காராண்மையும் வடபெருங்கோயிலுடையானுக்கும் சூடிக் குடுத்தருளிய நாச்சியாற்கும் பெரியாழ்வாற்கும் கடமை யந்தராயம் பொன் வரி வினியோகம் வெட்டிபாட்டம் பஞ்சுமிலி ஸந்திவிக்ரஹப் பெறு வாசல் <span class="gap">⟦உம்⟧</span> லாஞ்சணைப் பெறு தறியிறை செக்கிறை தட்டொலிப்பாட்டம் இடையர் வரி யினவரி மற்றும் எப்பெற்பட்டனவையும் இறுக்கவும் இப்படிக்க் இவ்வோலை பிடிபாடாகக் கொண்டு கோயிலுக்குப் பொருந்தும் இடங்களிளே திருவாழிக்கல்கள் நாட்டி சந்த்ராதித்யவத் செல்வத் ஆக இப்பட் இவைக் கல்லிலுஞ் செம்பிலும் வெட்டிக் கொள்ள சொன்னோம் இப்படிக்க் இவ்வோலையை கல்லிலுஞ் செம்பிலும் வெட்டிக் கொள்க .</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>பெறு<br><span class='iso'>peṟu</span><br><span class='small en'>ற்கு காராண்மையும் வடபெருங்கோயிலுடையானுக்கும் சூடிக் குடுத்தருளிய நாச்சியாற்கும் பெரியாழ்வாற்கும் கடமை யந்தராயம் பொன் வரி வினியோகம் வெட்டிபாட்டம் பஞ்சுமிலி ஸந்திவிக்ரஹப் பெறு வாசல் <span class="gap">⟦பெறு⟧</span> லாஞ்சணைப் பெறு தறியிறை செக்கிறை தட்டொலிப்பாட்டம் இடையர் வரி யினவரி மற்றும் எப்பெற்பட்டனவையும் இறுக்கவும் இப்படிக்க் இவ்வோலை பிடிபாடாகக் கொண்டு கோயிலுக்குப் பொருந்தும் இடங்களிளே திருவாழிக்கல்கள் நாட்டி சந்த்ராதித்யவத் செல்வத் ஆக இப்பட் இவைக் கல்லிலுஞ் செம்பிலும் வெட்டிக் கொள்ள சொன்னோம் இப்படிக்க் இவ்வோலையை கல்லிலுஞ் செம்பிலும் வெட்டிக் கொள்க .</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>வரி<br><span class='iso'>vari</span><br><span class='small en'>ற்கு காராண்மையும் வடபெருங்கோயிலுடையானுக்கும் சூடிக் குடுத்தருளிய நாச்சியாற்கும் பெரியாழ்வாற்கும் கடமை யந்தராயம் பொன் வரி வினியோகம் வெட்டிபாட்டம் பஞ்சுமிலி ஸந்திவிக்ரஹப் பெறு வாசல் <span class="gap">⟦வரி⟧</span> லாஞ்சணைப் பெறு தறியிறை செக்கிறை தட்டொலிப்பாட்டம் இடையர் வரி யினவரி மற்றும் எப்பெற்பட்டனவையும் இறுக்கவும் இப்படிக்க் இவ்வோலை பிடிபாடாகக் கொண்டு கோயிலுக்குப் பொருந்தும் இடங்களிளே திருவாழிக்கல்கள் நாட்டி சந்த்ராதித்யவத் செல்வத் ஆக இப்பட் இவைக் கல்லிலுஞ் செம்பிலும் வெட்டிக் கொள்ள சொன்னோம் இப்படிக்க் இவ்வோலையை கல்லிலுஞ் செம்பிலும் வெட்டிக் கொள்க .</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00175.xml">https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00175.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P12">
+<header><span>P12</span><span class="small">⟦…⟧ ≈ 5 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">ன்க் எல்லை[?4] ருச்சூலக்கல்லுக்க் உட் [?4] முகப் படி யாலே மடப்புறவிறையிலியாக ப்ரமாணம் பண்ணிக் குடுத்தோம் கெ [?4] சகர மூவரயனும் ப <span class="gap">⟦… 5 …⟧</span> ளாமும் ஆர்ய்யாவத்தத்து கொளகவம்ஶத்து ஶ்ரீமல்லக்ஷாத்த்யாயஸ</p>
+<p class="iso small">ṉk&#x27; ellai[?4] ru-c-cūla-k-kallukk&#x27; uṭ [?4] muka-p paṭi yālē maṭa-p-puṟa-v-iṟai-y-ili-y-āka pramāṇam paṇṇi-k kuṭuttōm ke [?4] cakara mū-v-arayaṉum pa <span class="gap">⟦… 5 …⟧</span> ḷāmum Āryyā-vat=tattu goḷaka-vaṁśattu śrī-mal-lakṣāddhyāya-sa</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>ட்ட<br><span class='iso'>ṭṭa</span><br><span class='small en'>ன்க் எல்லை[?4] ருச்சூலக்கல்லுக்க் உட் [?4] முகப் படி யாலே மடப்புறவிறையிலியாக ப்ரமாணம் பண்ணிக் குடுத்தோம் கெ [?4] சகர மூவரயனும் ப <span class="gap">⟦ட்ட⟧</span> ளாமும் ஆர்ய்யாவத்தத்து கொளகவம்ஶத்து ஶ்ரீமல்லக்ஷாத்த்யாயஸ</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>ண்டப்ப<br><span class='iso'>ṇṭappa</span><br><span class='small en'>ன்க் எல்லை[?4] ருச்சூலக்கல்லுக்க் உட் [?4] முகப் படி யாலே மடப்புறவிறையிலியாக ப்ரமாணம் பண்ணிக் குடுத்தோம் கெ [?4] சகர மூவரயனும் ப <span class="gap">⟦ண்டப்ப⟧</span> ளாமும் ஆர்ய்யாவத்தத்து கொளகவம்ஶத்து ஶ்ரீமல்லக்ஷாத்த்யாயஸ</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>ட்டார் ப<br><span class='iso'>ṭṭār pa</span><br><span class='small en'>ன்க் எல்லை[?4] ருச்சூலக்கல்லுக்க் உட் [?4] முகப் படி யாலே மடப்புறவிறையிலியாக ப்ரமாணம் பண்ணிக் குடுத்தோம் கெ [?4] சகர மூவரயனும் ப <span class="gap">⟦ட்டார் ப⟧</span> ளாமும் ஆர்ய்யாவத்தத்து கொளகவம்ஶத்து ஶ்ரீமல்லக்ஷாத்த்யாயஸ</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00413.xml">https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00413.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P24">
+<header><span>P24</span><span class="small">⟦…⟧ ≈ 3 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">கொடுங்குன்றமுடையார் திருக்காமக்கோட்டப் பெருந் தெருவில் செய்வித்த ஶ்ரீபார்வதிமடத்து வத்திக்கும் தப <span class="gap">⟦… 3 …⟧</span> ளுக்கு பொஜனம் உள்ளிட்டு வேண்டுவனவுக்கு விக்ரமராமவளநாட்டு நாடமங்கலம் நான்க் எல்லைக்க் உடட்ட நிலனும் கருஞ் செய்[?4] ம் தோட்டமும் குள</p>
+<p class="iso small">-koṭuṅ-kuṉṟam-uṭaiyār tiru-k-kāma-k-kōṭṭa-p perun teruvil ceyvitta śrī-pārvati-maṭattu vattikkum tapa <span class="gap">⟦… 3 …⟧</span> ḷukku bhojaṉam uḷḷiṭṭu vēṇṭuvaṉavukku vikrama-rāma-vaḷanāṭṭu nāṭa-maṅkalam nāṉk&#x27; ellaikk&#x27; uṭ-aṭṭa nilaṉum karuñ cey[?4] m tōṭṭamum kuḷa</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>ஸ்விக<br><span class='iso'>svika</span><br><span class='small en'>கொடுங்குன்றமுடையார் திருக்காமக்கோட்டப் பெருந் தெருவில் செய்வித்த ஶ்ரீபார்வதிமடத்து வத்திக்கும் தப <span class="gap">⟦ஸ்விக⟧</span> ளுக்கு பொஜனம் உள்ளிட்டு வேண்டுவனவுக்கு விக்ரமராமவளநாட்டு நாடமங்கலம் நான்க் எல்லைக்க் உடட்ட நிலனும் கருஞ் செய்[?4] ம் தோட்டமும் குள</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>ஸிகள்<br><span class='iso'>sikaḷ</span><br><span class='small en'>கொடுங்குன்றமுடையார் திருக்காமக்கோட்டப் பெருந் தெருவில் செய்வித்த ஶ்ரீபார்வதிமடத்து வத்திக்கும் தப <span class="gap">⟦ஸிகள்⟧</span> ளுக்கு பொஜனம் உள்ளிட்டு வேண்டுவனவுக்கு விக்ரமராமவளநாட்டு நாடமங்கலம் நான்க் எல்லைக்க் உடட்ட நிலனும் கருஞ் செய்[?4] ம் தோட்டமும் குள</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>ஸிக<br><span class='iso'>sika</span><br><span class='small en'>கொடுங்குன்றமுடையார் திருக்காமக்கோட்டப் பெருந் தெருவில் செய்வித்த ஶ்ரீபார்வதிமடத்து வத்திக்கும் தப <span class="gap">⟦ஸிக⟧</span> ளுக்கு பொஜனம் உள்ளிட்டு வேண்டுவனவுக்கு விக்ரமராமவளநாட்டு நாடமங்கலம் நான்க் எல்லைக்க் உடட்ட நிலனும் கருஞ் செய்[?4] ம் தோட்டமும் குள</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00412.xml">https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00412.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P08">
+<header><span>P08</span><span class="small">⟦…⟧ ≈ 6 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">கம் [?4] க் கொடுத்த பூலாங் குளமான திப்பரசபுரத்துக்கு எல்லை பூவன் சிறும்பி [?3]குளத்து <span class="gap">⟦… 6 …⟧</span> லைக்கு மேற்கு தென்பாற்க் எல்லை திருச்சூலகல்லுக்கு வடக்கு மேல்பாற்</p>
+<p class="iso small">kam [?4] k koṭutta pūlāṅ kuḷam-āṉa tipparaca-purattukku Ellai pūvaṉ ciṟumpi [?3]kuḷattu <span class="gap">⟦… 6 …⟧</span> laikku mēṟku teṉ-pāṟk&#x27; ellai tiru-c-cūla-kallukku vaṭakku mēl-pāṟ</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>எல்லைக்கு<br><span class='iso'>ellaikku</span><br><span class='small en'>கம் [?4] க் கொடுத்த பூலாங் குளமான திப்பரசபுரத்துக்கு எல்லை பூவன் சிறும்பி [?3]குளத்து <span class="gap">⟦எல்லைக்கு⟧</span> லைக்கு மேற்கு தென்பாற்க் எல்லை திருச்சூலகல்லுக்கு வடக்கு மேல்பாற்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>நீர் கொள் எல்<br><span class='iso'>nīr koḷ el</span><br><span class='small en'>கம் [?4] க் கொடுத்த பூலாங் குளமான திப்பரசபுரத்துக்கு எல்லை பூவன் சிறும்பி [?3]குளத்து <span class="gap">⟦நீர் கொள் எல்⟧</span> லைக்கு மேற்கு தென்பாற்க் எல்லை திருச்சூலகல்லுக்கு வடக்கு மேல்பாற்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>நீர்கோவெல்<br><span class='iso'>nīrkōvel</span><br><span class='small en'>கம் [?4] க் கொடுத்த பூலாங் குளமான திப்பரசபுரத்துக்கு எல்லை பூவன் சிறும்பி [?3]குளத்து <span class="gap">⟦நீர்கோவெல்⟧</span> லைக்கு மேற்கு தென்பாற்க் எல்லை திருச்சூலகல்லுக்கு வடக்கு மேல்பாற்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00446.xml">https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00446.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P09">
+<header><span>P09</span><span class="small">⟦…⟧ ≈ 3 எழுத்துகள் / aksharas</span></header>
+<p class="ctx"><span class="gap">⟦… 3 …⟧</span> தி ஶ்ர்[?1] த்ரிபுவனச் சக்கரவர்த்திகள் ஶ்ரீ [?]</p>
+<p class="iso small"><span class="gap">⟦… 3 …⟧</span> ti śr[?1] tri-bhuvaṉa-c cakkara-varttikaḷ śrī- [?]</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>வஸ்<br><span class='iso'>vas</span><br><span class='small en'><span class="gap">⟦வஸ்⟧</span> தி ஶ்ர்[?1] த்ரிபுவனச் சக்கரவர்த்திகள் ஶ்ரீ [?]</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>ஸ்வ<br><span class='iso'>sva</span><br><span class='small en'><span class="gap">⟦ஸ்வ⟧</span> தி ஶ்ர்[?1] த்ரிபுவனச் சக்கரவர்த்திகள் ஶ்ரீ [?]</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>ஸ்வஸ்<br><span class='iso'>svas</span><br><span class='small en'><span class="gap">⟦ஸ்வஸ்⟧</span> தி ஶ்ர்[?1] த்ரிபுவனச் சக்கரவர்த்திகள் ஶ்ரீ [?]</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00483.xml">https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00483.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P15">
+<header><span>P15</span><span class="small">⟦…⟧ ≈ 2 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">திருநந்தாவிளக்கு ஒந்றிநுக்கு எரிக்க நெய் அட்டுவதாக <span class="gap">⟦… 2 …⟧</span> வூர் இருக்கும் இட்[?1][?1]ன் ஏறன் சாத்த[?1]க்கு இவ்வூர் இருக்கும் இடையந் கல்லி குட்டேறனும் பு</p>
+<p class="iso small">tiru-nan=tā-viḷakku Onṟinukku Erikka ney aṭṭuvatāka <span class="gap">⟦… 2 …⟧</span> v-ūr iruk=kum iṭ[?1][?1]ṉ Ēṟaṉ cātta[?1]k=ku Ivv-ūr irukkum Iṭaiyan kalli kuṭṭēṟaṉum pu</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>இ<br><span class='iso'>i</span><br><span class='small en'>திருநந்தாவிளக்கு ஒந்றிநுக்கு எரிக்க நெய் அட்டுவதாக <span class="gap">⟦இ⟧</span> வூர் இருக்கும் இட்[?1][?1]ன் ஏறன் சாத்த[?1]க்கு இவ்வூர் இருக்கும் இடையந் கல்லி குட்டேறனும் பு</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>கு<br><span class='iso'>ku</span><br><span class='small en'>திருநந்தாவிளக்கு ஒந்றிநுக்கு எரிக்க நெய் அட்டுவதாக <span class="gap">⟦கு⟧</span> வூர் இருக்கும் இட்[?1][?1]ன் ஏறன் சாத்த[?1]க்கு இவ்வூர் இருக்கும் இடையந் கல்லி குட்டேறனும் பு</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>இவ்<br><span class='iso'>iv</span><br><span class='small en'>திருநந்தாவிளக்கு ஒந்றிநுக்கு எரிக்க நெய் அட்டுவதாக <span class="gap">⟦இவ்⟧</span> வூர் இருக்கும் இட்[?1][?1]ன் ஏறன் சாத்த[?1]க்கு இவ்வூர் இருக்கும் இடையந் கல்லி குட்டேறனும் பு</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv03p0i0018.xml">https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv03p0i0018.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P01">
+<header><span>P01</span><span class="small">⟦…⟧ ≈ 3 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">ஸ்வஸ்தி ஶ்ரீ . தி [?3] தி கோனேரின்மைகொண்டான் ஆர்ய்யாவர்த்தத்து ஶ்ரீகொளகிவம்ஸத்து ஶ்ரீமல்லக்ஷாத்யாயிஸந்தானத்து ஶ்ரீதெஶிகேந்த்ரப்ர <span class="gap">⟦… 3 …⟧</span> வராவளற்கு தாம் புறமலைநாட்டுத் திருக்கொடுங்குன்றத்து உடையார் திருக்கொடுங்குன்றமுடையார்</p>
+<p class="iso small">svasti śrī . ti [?3] ti kōṉēriṉmai-koṇṭāṉ Āryyāvart=tattu śrī-goḷaki-vamsattu śrīmal-lakṣādyāyi-santāṉattu śrī-deśikēndra-pra <span class="gap">⟦… 3 …⟧</span> varāvaḷaṟku tām puṟa-malai-nāṭṭu-t tiru-k-koṭuṅ-kuṉṟattu Uṭaiyār tiru-k-koṭuṅ-kuṉṟam-uṭaiyār</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>வார்<br><span class='iso'>vār</span><br><span class='small en'>ஸ்வஸ்தி ஶ்ரீ . தி [?3] தி கோனேரின்மைகொண்டான் ஆர்ய்யாவர்த்தத்து ஶ்ரீகொளகிவம்ஸத்து ஶ்ரீமல்லக்ஷாத்யாயிஸந்தானத்து ஶ்ரீதெஶிகேந்த்ரப்ர <span class="gap">⟦வார்⟧</span> வராவளற்கு தாம் புறமலைநாட்டுத் திருக்கொடுங்குன்றத்து உடையார் திருக்கொடுங்குன்றமுடையார்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>வார<br><span class='iso'>vāra</span><br><span class='small en'>ஸ்வஸ்தி ஶ்ரீ . தி [?3] தி கோனேரின்மைகொண்டான் ஆர்ய்யாவர்த்தத்து ஶ்ரீகொளகிவம்ஸத்து ஶ்ரீமல்லக்ஷாத்யாயிஸந்தானத்து ஶ்ரீதெஶிகேந்த்ரப்ர <span class="gap">⟦வார⟧</span> வராவளற்கு தாம் புறமலைநாட்டுத் திருக்கொடுங்குன்றத்து உடையார் திருக்கொடுங்குன்றமுடையார்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>தாப்<br><span class='iso'>tāp</span><br><span class='small en'>ஸ்வஸ்தி ஶ்ரீ . தி [?3] தி கோனேரின்மைகொண்டான் ஆர்ய்யாவர்த்தத்து ஶ்ரீகொளகிவம்ஸத்து ஶ்ரீமல்லக்ஷாத்யாயிஸந்தானத்து ஶ்ரீதெஶிகேந்த்ரப்ர <span class="gap">⟦தாப்⟧</span> வராவளற்கு தாம் புறமலைநாட்டுத் திருக்கொடுங்குன்றத்து உடையார் திருக்கொடுங்குன்றமுடையார்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00414.xml">https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00414.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P21">
+<header><span>P21</span><span class="small">⟦…⟧ ≈ 2 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">யொப்பது ஶ்ரீகண்டபுர <span class="gap">⟦… 2 …⟧</span> [?]</p>
+<p class="iso small">y-oppatu śrī-kaṇṭapura <span class="gap">⟦… 2 …⟧</span> [?]</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>ப்<br><span class='iso'>p</span><br><span class='small en'>யொப்பது ஶ்ரீகண்டபுர <span class="gap">⟦ப்⟧</span> [?]</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>ம்<br><span class='iso'>m</span><br><span class='small en'>யொப்பது ஶ்ரீகண்டபுர <span class="gap">⟦ம்⟧</span> [?]</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>த்து<br><span class='iso'>ttu</span><br><span class='small en'>யொப்பது ஶ்ரீகண்டபுர <span class="gap">⟦த்து⟧</span> [?]</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00334.xml">https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00334.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P06">
+<header><span>P06</span><span class="small">⟦…⟧ ≈ 8 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">கொண்டு கையிற் குடுத்து விற்றுக் கொண்டேன் மணலி ஸபையோமுமேற்படி இறையிலி [?2] [?4]க விலைக்கு <span class="gap">⟦… 8 …⟧</span> ற் கொண்டு விற்றுக் குடுத்தோம் இவ்வாவணங் குறியிலிருந்</p>
+<p class="iso small">koṇṭu kaiyiṟ kuṭuttu viṟṟu-k koṇṭēṉ maṇali sabhaiyōmumēṟpaṭi Iṟaiyili [?2] [?4]ka vilaikku <span class="gap">⟦… 8 …⟧</span> ṟ koṇṭu viṟṟu-k kuṭuttōm ivv-āvaṇaṅ kuṟiyilirun</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>கொண்டு விற்றுக<br><span class='iso'>koṇṭu viṟṟuka</span><br><span class='small en'>கொண்டு கையிற் குடுத்து விற்றுக் கொண்டேன் மணலி ஸபையோமுமேற்படி இறையிலி [?2] [?4]க விலைக்கு <span class="gap">⟦கொண்டு விற்றுக⟧</span> ற் கொண்டு விற்றுக் குடுத்தோம் இவ்வாவணங் குறியிலிருந்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>கொண்டு விற்<br><span class='iso'>koṇṭu viṟ</span><br><span class='small en'>கொண்டு கையிற் குடுத்து விற்றுக் கொண்டேன் மணலி ஸபையோமுமேற்படி இறையிலி [?2] [?4]க விலைக்கு <span class="gap">⟦கொண்டு விற்⟧</span> ற் கொண்டு விற்றுக் குடுத்தோம் இவ்வாவணங் குறியிலிருந்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>கொண்டு இறையிலிக்க<br><span class='iso'>koṇṭu iṟaiyilikka</span><br><span class='small en'>கொண்டு கையிற் குடுத்து விற்றுக் கொண்டேன் மணலி ஸபையோமுமேற்படி இறையிலி [?2] [?4]க விலைக்கு <span class="gap">⟦கொண்டு இறையிலிக்க⟧</span> ற் கொண்டு விற்றுக் குடுத்தோம் இவ்வாவணங் குறியிலிருந்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00224.xml">https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00224.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P05">
+<header><span>P05</span><span class="small">⟦…⟧ ≈ 2 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">து உள்ளிட்ட பலகறியமுது பத்துக்கு கலம் மிளகு வுழக்குக்கும் கடுகு உரி <span class="gap">⟦… 2 …⟧</span> ம் [?3]க்கும் புளிங்கறி அமுது பதிநாழிக்கு கம் வெறுங்காய் ஐம்பதுக்கும் வெற்றிலை இருநூற்றுக்கு நெல்லு</p>
+<p class="iso small">tu Uḷḷiṭṭa palakaṟiyamutu pattukku kalam miḷaku v-uḻakkukkum kaṭuku Uri <span class="gap">⟦… 2 …⟧</span> m [?3]kkum puḷiṅkaṟi Amutu patināḻikku kam veṟuṅkāy Aimpatukkum veṟṟilai Irunūṟṟukku nellu</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>யும்<br><span class='iso'>yum</span><br><span class='small en'>து உள்ளிட்ட பலகறியமுது பத்துக்கு கலம் மிளகு வுழக்குக்கும் கடுகு உரி <span class="gap">⟦யும்⟧</span> ம் [?3]க்கும் புளிங்கறி அமுது பதிநாழிக்கு கம் வெறுங்காய் ஐம்பதுக்கும் வெற்றிலை இருநூற்றுக்கு நெல்லு</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>க்கு<br><span class='iso'>kku</span><br><span class='small en'>து உள்ளிட்ட பலகறியமுது பத்துக்கு கலம் மிளகு வுழக்குக்கும் கடுகு உரி <span class="gap">⟦க்கு⟧</span> ம் [?3]க்கும் புளிங்கறி அமுது பதிநாழிக்கு கம் வெறுங்காய் ஐம்பதுக்கும் வெற்றிலை இருநூற்றுக்கு நெல்லு</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>யு<br><span class='iso'>yu</span><br><span class='small en'>து உள்ளிட்ட பலகறியமுது பத்துக்கு கலம் மிளகு வுழக்குக்கும் கடுகு உரி <span class="gap">⟦யு⟧</span> ம் [?3]க்கும் புளிங்கறி அமுது பதிநாழிக்கு கம் வெறுங்காய் ஐம்பதுக்கும் வெற்றிலை இருநூற்றுக்கு நெல்லு</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv38p0i0140.xml">https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv38p0i0140.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P23">
+<header><span>P23</span><span class="small">⟦…⟧ ≈ 4 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">[?6] திருமன்ன்வளர இருநில மடந்தையும் போர்ச்செயப் பாவையும் சீர்த்தநிச் செ <span class="gap">⟦… 4 …⟧</span> [?2] பெருந்தேவியர் [?5]ற நெடிதியலூழியுள் இடதுறை நாடும் துடர்வன வேலி படர்வன</p>
+<p class="iso small">[?6] tirumaṉṉvaḷara Irunila maṭan=taiyum pōrcceya-p pāvaiyum cīrttanic ce <span class="gap">⟦… 4 …⟧</span> [?2] perun=tēviyar [?5]ṟa neṭitiyalūḻiyuḷ Iṭatuṟai nāṭum tuṭarvaṉa vēli paṭarvaṉa</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>ல்வியும்<br><span class='iso'>lviyum</span><br><span class='small en'>[?6] திருமன்ன்வளர இருநில மடந்தையும் போர்ச்செயப் பாவையும் சீர்த்தநிச் செ <span class="gap">⟦ல்வியும்⟧</span> [?2] பெருந்தேவியர் [?5]ற நெடிதியலூழியுள் இடதுறை நாடும் துடர்வன வேலி படர்வன</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>ல்விய்<br><span class='iso'>lviy</span><br><span class='small en'>[?6] திருமன்ன்வளர இருநில மடந்தையும் போர்ச்செயப் பாவையும் சீர்த்தநிச் செ <span class="gap">⟦ல்விய்⟧</span> [?2] பெருந்தேவியர் [?5]ற நெடிதியலூழியுள் இடதுறை நாடும் துடர்வன வேலி படர்வன</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>ல்வியும்<br><span class='iso'>lviyuṃ</span><br><span class='small en'>[?6] திருமன்ன்வளர இருநில மடந்தையும் போர்ச்செயப் பாவையும் சீர்த்தநிச் செ <span class="gap">⟦ல்வியும்⟧</span> [?2] பெருந்தேவியர் [?5]ற நெடிதியலூழியுள் இடதுறை நாடும் துடர்வன வேலி படர்வன</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv38p0i0139.xml">https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv38p0i0139.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P04">
+<header><span>P04</span><span class="small">⟦…⟧ ≈ 8 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">முதல் சந்திராதித்தவரையும் அனுபவிப்பதாக இத்தானப்ரமாணம் பண்ணி <span class="gap">⟦… 8 …⟧</span> பண்ணி தந்தோம் இப்படிக்கு கல்லிலு [?7] வெட்டிக்கொண் [?10] யமாச்சியதெண்டநாயக்கனேன் எழுத்து ஸ்ரீகொபீநாத இது ஒப்பம் இத்தன்மம் ரக்ஷித்தவன் ஶ்ரீபாதம் இரண்டும் என் தலை மேலே ஸ்வஸ்தி ஶ்ரீ இற்றைநாளிலே இச்சேலநாடுடையப் பொன் பரப்பி [?8]</p>
+<p class="iso small">mutal cantirātitta-varaiyum Aṉupavippat_āka It-tāṉa-pramāṇam paṇṇi <span class="gap">⟦… 8 …⟧</span> paṇṇi tantōm Ip-paṭikku kallilu [?7] veṭṭik-koṇ [?10] yamācciya-teṇṭa-nāyakkaṉ-ēṉ Eḻuttu srī-gopīnātha Itu Oppam It-taṉmam rakṣittavaṉ śrī-pādam· Iraṇṭum eṉ talai mēlē svasti śrī Iṟṟaināḷilē Ic-cēla-nāṭ-uṭaiya-p poṉ parappi [?8]</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>குடுத்த் இட்டோம்<br><span class='iso'>kuṭutt&#x27; iṭṭōm</span><br><span class='small en'>முதல் சந்திராதித்தவரையும் அனுபவிப்பதாக இத்தானப்ரமாணம் பண்ணி <span class="gap">⟦குடுத்த் இட்டோம்⟧</span> பண்ணி தந்தோம் இப்படிக்கு கல்லிலு [?7] வெட்டிக்கொண் [?10] யமாச்சியதெண்டநாயக்கனேன் எழுத்து ஸ்ரீகொபீநாத இது ஒப்பம் இத்தன்மம் ரக்ஷித்தவன் ஶ்ரீபாதம் இரண்டும் என் தலை மேலே ஸ்வஸ்தி ஶ்ரீ இற்றைநாளிலே இச்சேலநாடுடையப் பொன் பரப்பி [?8]</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>குடுத்துப் பண்ணி<br><span class='iso'>kuṭuttup paṇṇi</span><br><span class='small en'>முதல் சந்திராதித்தவரையும் அனுபவிப்பதாக இத்தானப்ரமாணம் பண்ணி <span class="gap">⟦குடுத்துப் பண்ணி⟧</span> பண்ணி தந்தோம் இப்படிக்கு கல்லிலு [?7] வெட்டிக்கொண் [?10] யமாச்சியதெண்டநாயக்கனேன் எழுத்து ஸ்ரீகொபீநாத இது ஒப்பம் இத்தன்மம் ரக்ஷித்தவன் ஶ்ரீபாதம் இரண்டும் என் தலை மேலே ஸ்வஸ்தி ஶ்ரீ இற்றைநாளிலே இச்சேலநாடுடையப் பொன் பரப்பி [?8]</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>எழுதி குடுத்தோம்<br><span class='iso'>eḻuti kuṭuttōm</span><br><span class='small en'>முதல் சந்திராதித்தவரையும் அனுபவிப்பதாக இத்தானப்ரமாணம் பண்ணி <span class="gap">⟦எழுதி குடுத்தோம்⟧</span> பண்ணி தந்தோம் இப்படிக்கு கல்லிலு [?7] வெட்டிக்கொண் [?10] யமாச்சியதெண்டநாயக்கனேன் எழுத்து ஸ்ரீகொபீநாத இது ஒப்பம் இத்தன்மம் ரக்ஷித்தவன் ஶ்ரீபாதம் இரண்டும் என் தலை மேலே ஸ்வஸ்தி ஶ்ரீ இற்றைநாளிலே இச்சேலநாடுடையப் பொன் பரப்பி [?8]</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv04p0i0163.xml">https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv04p0i0163.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P02">
+<header><span>P02</span><span class="small">⟦…⟧ ≈ 3 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">முங் குளப்பரிப் [?3] தில் பழந் தேவதானம் பள்ளிச்சந்தம் நீக்கி நீக்கி உள்ள நிலம் முன்னுடையாரும் உழவு முதலுந் தவிர்த்துக் காராண் <span class="gap">⟦… 3 …⟧</span> ந்தராயமும் வினியோஹமும் தருவதான அச்சும் காரியவாராய்ச்சியும் வெட்டி [?3] பாட்டம் பஞ்சுபிலி ஸந்திவி</p>
+<p class="iso small">muṅ kuḷa-p-parip [?3] til paḻan tēva-tāṉam paḷḷi-c-cantam nīkki nīkki Uḷḷa nilam muṉṉ-uṭaiyārum Uḻavu mutalun tavirttu-k kārāṇ <span class="gap">⟦… 3 …⟧</span> ntarāyamum viṉiyōhamum taruvatāṉa Accum kāriya-v-ārāycciyum veṭṭi [?3] pāṭṭam pañcupili sandhi-vi</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>மை அ<br><span class='iso'>mai a</span><br><span class='small en'>முங் குளப்பரிப் [?3] தில் பழந் தேவதானம் பள்ளிச்சந்தம் நீக்கி நீக்கி உள்ள நிலம் முன்னுடையாரும் உழவு முதலுந் தவிர்த்துக் காராண் <span class="gap">⟦மை அ⟧</span> ந்தராயமும் வினியோஹமும் தருவதான அச்சும் காரியவாராய்ச்சியும் வெட்டி [?3] பாட்டம் பஞ்சுபிலி ஸந்திவி</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>மையும் அ<br><span class='iso'>maiyum a</span><br><span class='small en'>முங் குளப்பரிப் [?3] தில் பழந் தேவதானம் பள்ளிச்சந்தம் நீக்கி நீக்கி உள்ள நிலம் முன்னுடையாரும் உழவு முதலுந் தவிர்த்துக் காராண் <span class="gap">⟦மையும் அ⟧</span> ந்தராயமும் வினியோஹமும் தருவதான அச்சும் காரியவாராய்ச்சியும் வெட்டி [?3] பாட்டம் பஞ்சுபிலி ஸந்திவி</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>மைய<br><span class='iso'>maiya</span><br><span class='small en'>முங் குளப்பரிப் [?3] தில் பழந் தேவதானம் பள்ளிச்சந்தம் நீக்கி நீக்கி உள்ள நிலம் முன்னுடையாரும் உழவு முதலுந் தவிர்த்துக் காராண் <span class="gap">⟦மைய⟧</span> ந்தராயமும் வினியோஹமும் தருவதான அச்சும் காரியவாராய்ச்சியும் வெட்டி [?3] பாட்டம் பஞ்சுபிலி ஸந்திவி</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00414.xml">https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00414.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P16">
+<header><span>P16</span><span class="small">⟦…⟧ ≈ 2 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">ரை அளக்க கடவ நாற்பதின் கலம் இப்படி ஆட்டாண்டு தோறும் மார்கழி திருவாதிரைக்கு வைபத்து <span class="gap">⟦… 2 …⟧</span> மெற்படியான் உடையார் உச்சியம் பொழுது அமுது செய்தருளுவதின் முன்பு வேதம் வல்லார் முவர் ப்ரா</p>
+<p class="iso small">rai Aḷakka kaṭava nāṟpatiṉ kalam Ip-paṭi Āṭṭāṇṭu tōṟum mārkaḻi tiruvātiraikku vaibhattu <span class="gap">⟦… 2 …⟧</span> meṟpaṭiyāṉ Uṭaiyār Ucciyam poḻutu Amutu ceytaruḷuvatiṉ muṉpu vētam vallār muvar brā</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>இப்<br><span class='iso'>ip</span><br><span class='small en'>ரை அளக்க கடவ நாற்பதின் கலம் இப்படி ஆட்டாண்டு தோறும் மார்கழி திருவாதிரைக்கு வைபத்து <span class="gap">⟦இப்⟧</span> மெற்படியான் உடையார் உச்சியம் பொழுது அமுது செய்தருளுவதின் முன்பு வேதம் வல்லார் முவர் ப்ரா</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>ஆக<br><span class='iso'>āka</span><br><span class='small en'>ரை அளக்க கடவ நாற்பதின் கலம் இப்படி ஆட்டாண்டு தோறும் மார்கழி திருவாதிரைக்கு வைபத்து <span class="gap">⟦ஆக⟧</span> மெற்படியான் உடையார் உச்சியம் பொழுது அமுது செய்தருளுவதின் முன்பு வேதம் வல்லார் முவர் ப்ரா</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>ஆல்<br><span class='iso'>āl</span><br><span class='small en'>ரை அளக்க கடவ நாற்பதின் கலம் இப்படி ஆட்டாண்டு தோறும் மார்கழி திருவாதிரைக்கு வைபத்து <span class="gap">⟦ஆல்⟧</span> மெற்படியான் உடையார் உச்சியம் பொழுது அமுது செய்தருளுவதின் முன்பு வேதம் வல்லார் முவர் ப்ரா</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv38p0i0140.xml">https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv38p0i0140.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P14">
+<header><span>P14</span><span class="small">⟦…⟧ ≈ 2 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">[?36]லால் <span class="gap">⟦… 2 …⟧</span> ஒன்றுக்கு [?2]ழி அரிசியும் கறியமுத் உள்ளிட்ட விஞ்சனமும் [?1]ண்டாரத்தே செ</p>
+<p class="iso small">[?36]lāl <span class="gap">⟦… 2 …⟧</span> Oṉṟukku [?2]ḻi Ariciyum kaṟi-y-amut&#x27; uḷḷiṭṭa viñcaṉamum [?1]ṇṭā=rattē ce</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>நாள்<br><span class='iso'>nāḷ</span><br><span class='small en'>[?36]லால் <span class="gap">⟦நாள்⟧</span> ஒன்றுக்கு [?2]ழி அரிசியும் கறியமுத் உள்ளிட்ட விஞ்சனமும் [?1]ண்டாரத்தே செ</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>நா<br><span class='iso'>nā</span><br><span class='small en'>[?36]லால் <span class="gap">⟦நா⟧</span> ஒன்றுக்கு [?2]ழி அரிசியும் கறியமுத் உள்ளிட்ட விஞ்சனமும் [?1]ண்டாரத்தே செ</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>ஐ<br><span class='iso'>ai</span><br><span class='small en'>[?36]லால் <span class="gap">⟦ஐ⟧</span> ஒன்றுக்கு [?2]ழி அரிசியும் கறியமுத் உள்ளிட்ட விஞ்சனமும் [?1]ண்டாரத்தே செ</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00417.xml">https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00417.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P17">
+<header><span>P17</span><span class="small">⟦…⟧ ≈ 7 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">ஸ்வஸ்தி ஶ்ரீ வீரபாண்டியன் தலை கொண்ட கோபார்த்திவெந்த்ரமஹாராஜற்கு யாண்டு இரண்டாவது காலியூர்க்கோட்டத்து தன்கூற்ற் உத்தரமேருசதுர்வ்வெ <span class="gap">⟦… 7 …⟧</span> [?3]ரமேருவதியின் மேற்கு முதற் சதுக்கத்து இரண்டாந் தரங் குழி இருநூற்று நாற்பதும் இங்கே தலைத் தரங் குழி ஐஞ்ஞூற்று அறுபதும் இங்கே முந் [?12]</p>
+<p class="iso small">svasti śrī vīra-pāṇṭiyaṉ talai koṇṭa kō-pārtthivendra-mahārājaṟku yāṇṭu Iraṇṭ-āvatu kāliyūr-k-kōṭṭattu taṉ-kūṟṟ&#x27; uttara-mēru-caturvve <span class="gap">⟦… 7 …⟧</span> [?3]ra-mēru-vatiyiṉ mēṟku mutaṟ catukkattu Iraṇṭān taraṅ kuḻi Iru-nūṟṟu nāṟ-patum Iṅkē talai-t taraṅ kuḻi Aiñ-ñūṟṟu Aṟu-patum Iṅkē mun [?12]</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>திமங்கல்<br><span class='iso'>timaṅkal</span><br><span class='small en'>ஸ்வஸ்தி ஶ்ரீ வீரபாண்டியன் தலை கொண்ட கோபார்த்திவெந்த்ரமஹாராஜற்கு யாண்டு இரண்டாவது காலியூர்க்கோட்டத்து தன்கூற்ற் உத்தரமேருசதுர்வ்வெ <span class="gap">⟦திமங்கல்⟧</span> [?3]ரமேருவதியின் மேற்கு முதற் சதுக்கத்து இரண்டாந் தரங் குழி இருநூற்று நாற்பதும் இங்கே தலைத் தரங் குழி ஐஞ்ஞூற்று அறுபதும் இங்கே முந் [?12]</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>திமங்கலத்து<br><span class='iso'>dimaṅkalattu</span><br><span class='small en'>ஸ்வஸ்தி ஶ்ரீ வீரபாண்டியன் தலை கொண்ட கோபார்த்திவெந்த்ரமஹாராஜற்கு யாண்டு இரண்டாவது காலியூர்க்கோட்டத்து தன்கூற்ற் உத்தரமேருசதுர்வ்வெ <span class="gap">⟦திமங்கலத்து⟧</span> [?3]ரமேருவதியின் மேற்கு முதற் சதுக்கத்து இரண்டாந் தரங் குழி இருநூற்று நாற்பதும் இங்கே தலைத் தரங் குழி ஐஞ்ஞூற்று அறுபதும் இங்கே முந் [?12]</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>திமங்க்<br><span class='iso'>timaṅk</span><br><span class='small en'>ஸ்வஸ்தி ஶ்ரீ வீரபாண்டியன் தலை கொண்ட கோபார்த்திவெந்த்ரமஹாராஜற்கு யாண்டு இரண்டாவது காலியூர்க்கோட்டத்து தன்கூற்ற் உத்தரமேருசதுர்வ்வெ <span class="gap">⟦திமங்க்⟧</span> [?3]ரமேருவதியின் மேற்கு முதற் சதுக்கத்து இரண்டாந் தரங் குழி இருநூற்று நாற்பதும் இங்கே தலைத் தரங் குழி ஐஞ்ஞூற்று அறுபதும் இங்கே முந் [?12]</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-uttiramerur-epigraphy/blob/4b97baaffa2607003d7cf4dd02fd3cf861322ae3/DHARMA_INSUttiramerur00014.xml">https://github.com/erc-dharma/tfa-uttiramerur-epigraphy/blob/4b97baaffa2607003d7cf4dd02fd3cf861322ae3/DHARMA_INSUttiramerur00014.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P22">
+<header><span>P22</span><span class="small">⟦…⟧ ≈ 4 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">முதலியார் சுரபித்திருமேனிக்கு இவை சகாயம பி[?3] <span class="gap">⟦… 4 …⟧</span> ன் எழுத்து</p>
+<p class="iso small">mutaliyār curapi-t-tiru-mēṉikku Ivai cakāyama pi[?3] <span class="gap">⟦… 4 …⟧</span> ṉ eḻuttu</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>ராம<br><span class='iso'>rāma</span><br><span class='small en'>முதலியார் சுரபித்திருமேனிக்கு இவை சகாயம பி[?3] <span class="gap">⟦ராம⟧</span> ன் எழுத்து</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>ங்கன்<br><span class='iso'>ṅkaṉ</span><br><span class='small en'>முதலியார் சுரபித்திருமேனிக்கு இவை சகாயம பி[?3] <span class="gap">⟦ங்கன்⟧</span> ன் எழுத்து</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>எழுத்து<br><span class='iso'>eḻuttu</span><br><span class='small en'>முதலியார் சுரபித்திருமேனிக்கு இவை சகாயம பி[?3] <span class="gap">⟦எழுத்து⟧</span> ன் எழுத்து</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00437.xml">https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00437.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P18">
+<header><span>P18</span><span class="small">⟦…⟧ ≈ 3 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">தனையும் ஆட்டாண்டுதோறும் ஏரி தோண்டுவிப்போம் ஆய் <span class="gap">⟦… 3 …⟧</span> த்தினஇல் கெடைய் ஏற்றுக்கொண்டேம் இதற்கு வக்ரிப்பாதான் சந்த்ராதித்யருள்ள தனையும்</p>
+<p class="iso small">taṉaiyum Āṭṭāṇṭu-tōṟum ēri tōṇṭuvippōm āy <span class="gap">⟦… 3 …⟧</span> ttiṉa-Il keṭai-y ēṟṟu-k-koṇṭēm Itaṟku vakri-p-pātāṉ candrātityar-uḷḷa taṉaiyum</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>ஆனோம் இ<br><span class='iso'>āṉōm i</span><br><span class='small en'>தனையும் ஆட்டாண்டுதோறும் ஏரி தோண்டுவிப்போம் ஆய் <span class="gap">⟦ஆனோம் இ⟧</span> த்தினஇல் கெடைய் ஏற்றுக்கொண்டேம் இதற்கு வக்ரிப்பாதான் சந்த்ராதித்யருள்ள தனையும்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>குடு<br><span class='iso'>kuṭu</span><br><span class='small en'>தனையும் ஆட்டாண்டுதோறும் ஏரி தோண்டுவிப்போம் ஆய் <span class="gap">⟦குடு⟧</span> த்தினஇல் கெடைய் ஏற்றுக்கொண்டேம் இதற்கு வக்ரிப்பாதான் சந்த்ராதித்யருள்ள தனையும்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>இட்ட<br><span class='iso'>iṭṭa</span><br><span class='small en'>தனையும் ஆட்டாண்டுதோறும் ஏரி தோண்டுவிப்போம் ஆய் <span class="gap">⟦இட்ட⟧</span> த்தினஇல் கெடைய் ஏற்றுக்கொண்டேம் இதற்கு வக்ரிப்பாதான் சந்த்ராதித்யருள்ள தனையும்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00083.xml">https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00083.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P20">
+<header><span>P20</span><span class="small">⟦…⟧ ≈ 2 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">தற்கு தென்னவன் இள[?7] மறவம் பூதி வைத்த <span class="gap">⟦… 2 …⟧</span> விடேல்விடுகு தீப்போக்குச் செம்பொன்</p>
+<p class="iso small">taṟku teṉṉavaṉ iḷa[?7] maṟavam pūti vaitta <span class="gap">⟦… 2 …⟧</span> viṭēl-viṭuku tī-p-pōkku-c cem-poṉ</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>வி<br><span class='iso'>vi</span><br><span class='small en'>தற்கு தென்னவன் இள[?7] மறவம் பூதி வைத்த <span class="gap">⟦வி⟧</span> விடேல்விடுகு தீப்போக்குச் செம்பொன்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>அற<br><span class='iso'>aṟa</span><br><span class='small en'>தற்கு தென்னவன் இள[?7] மறவம் பூதி வைத்த <span class="gap">⟦அற⟧</span> விடேல்விடுகு தீப்போக்குச் செம்பொன்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>பொன்<br><span class='iso'>poṉ</span><br><span class='small en'>தற்கு தென்னவன் இள[?7] மறவம் பூதி வைத்த <span class="gap">⟦பொன்⟧</span> விடேல்விடுகு தீப்போக்குச் செம்பொன்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00129.xml">https://github.com/erc-dharma/tfa-pallava-epigraphy/blob/1b1b17c4df4990aba2c28101372e669fc9182d10/DHARMA_INSPallava00129.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P07">
+<header><span>P07</span><span class="small">⟦…⟧ ≈ 4 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">தாநபாலநயொர் ம்மத்த்யெ தாநாச் ச்ரெயொ நுபாலநம் [?1] தாநாத் ஸ்வர்கம் அவாப்நொதி பாலநாத் அச்யுதம் பதம் [?1] ஶுபம் அஸ்து ஶ்ரீ [?1] ஶகாப்தம் ஆ <span class="gap">⟦… 4 …⟧</span> முன்னூற்று எழுபத்து எழின் மேற் செல்லா நின்ற பாவவருஷத்துக்குச் செல்லும்</p>
+<p class="iso small">dāna-pālanayor mmaddhye dānāc chreyo nupālanaM [?1] dānāT svargam avāpnoti pālanād acyutaM padaM [?1] śubham astu śrī [?1] śakābdaM Ā <span class="gap">⟦… 4 …⟧</span> muṉṉūṟṟu Eḻupattu Eḻiṉ mēṟ cellā niṉṟa bhāva-varuṣattukku-c cellum</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>யிர்த்<br><span class='iso'>yirt</span><br><span class='small en'>தாநபாலநயொர் ம்மத்த்யெ தாநாச் ச்ரெயொ நுபாலநம் [?1] தாநாத் ஸ்வர்கம் அவாப்நொதி பாலநாத் அச்யுதம் பதம் [?1] ஶுபம் அஸ்து ஶ்ரீ [?1] ஶகாப்தம் ஆ <span class="gap">⟦யிர்த்⟧</span> முன்னூற்று எழுபத்து எழின் மேற் செல்லா நின்ற பாவவருஷத்துக்குச் செல்லும்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>யிரத்<br><span class='iso'>yirat</span><br><span class='small en'>தாநபாலநயொர் ம்மத்த்யெ தாநாச் ச்ரெயொ நுபாலநம் [?1] தாநாத் ஸ்வர்கம் அவாப்நொதி பாலநாத் அச்யுதம் பதம் [?1] ஶுபம் அஸ்து ஶ்ரீ [?1] ஶகாப்தம் ஆ <span class="gap">⟦யிரத்⟧</span> முன்னூற்று எழுபத்து எழின் மேற் செல்லா நின்ற பாவவருஷத்துக்குச் செல்லும்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>யிரத்து<br><span class='iso'>yirattu</span><br><span class='small en'>தாநபாலநயொர் ம்மத்த்யெ தாநாச் ச்ரெயொ நுபாலநம் [?1] தாநாத் ஸ்வர்கம் அவாப்நொதி பாலநாத் அச்யுதம் பதம் [?1] ஶுபம் அஸ்து ஶ்ரீ [?1] ஶகாப்தம் ஆ <span class="gap">⟦யிரத்து⟧</span> முன்னூற்று எழுபத்து எழின் மேற் செல்லா நின்ற பாவவருஷத்துக்குச் செல்லும்</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv02p0i0023.xml">https://github.com/erc-dharma/tfa-sii-epigraphy/blob/65fc39d14a35f88771d4dd8d3dbb10269d0a0000/DHARMA_INStfaSIIv02p0i0023.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section>
+<section class="item" id="P10">
+<header><span>P10</span><span class="small">⟦…⟧ ≈ 2 எழுத்துகள் / aksharas</span></header>
+<p class="ctx">தழைப்ப விமையவர் விமாக்கொடி யிடந்தொறு மெடுப்பக் கருங்கலி கனல்கெடக் கடவுள் வேதி <span class="gap">⟦… 2 …⟧</span> [?42] வழவிச் செங்கோ ல் வளற்பச் சுருதியுந் தமிழுந் தொல்வளங் குலவப் பொருதிற லாழி பூதலஞ் சூழ வொருகை ய்ருசெவி[?3] ட்ட் ஐராவத முத</p>
+<p class="iso small">taḻaippa v-imaiyavar vimākkoṭi y-iṭantoṟu meṭuppak karuṅkali kaṉalkeṭak kaṭavuḷ vēti <span class="gap">⟦… 2 …⟧</span> [?42] vaḻavic ceṅkō l vaḷaṟpa-c curutiyun tamiḻun tolvaḷaṅ kulavap porutiṟa lāḻi pūtalañ cūḻa v-orukai y-ru-cevi[?3] ṭṭ&#x27; airāvata muta</p>
+<table><thead><tr><th></th><th>முன்மொழிவு <span class="en">/ proposal</span></th>
+<th>மதிப்பெண் <span class="en">/ score</span></th></tr></thead><tbody><tr><td><b>A</b></td><td>டி<br><span class='iso'>ṭi</span><br><span class='small en'>தழைப்ப விமையவர் விமாக்கொடி யிடந்தொறு மெடுப்பக் கருங்கலி கனல்கெடக் கடவுள் வேதி <span class="gap">⟦டி⟧</span> [?42] வழவிச் செங்கோ ல் வளற்பச் சுருதியுந் தமிழுந் தொல்வளங் குலவப் பொருதிற லாழி பூதலஞ் சூழ வொருகை ய்ருசெவி[?3] ட்ட் ஐராவத முத</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>B</b></td><td>ய<br><span class='iso'>ya</span><br><span class='small en'>தழைப்ப விமையவர் விமாக்கொடி யிடந்தொறு மெடுப்பக் கருங்கலி கனல்கெடக் கடவுள் வேதி <span class="gap">⟦ய⟧</span> [?42] வழவிச் செங்கோ ல் வளற்பச் சுருதியுந் தமிழுந் தொல்வளங் குலவப் பொருதிற லாழி பூதலஞ் சூழ வொருகை ய்ருசெவி[?3] ட்ட் ஐராவத முத</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr><tr><td><b>C</b></td><td>ர்<br><span class='iso'>r</span><br><span class='small en'>தழைப்ப விமையவர் விமாக்கொடி யிடந்தொறு மெடுப்பக் கருங்கலி கனல்கெடக் கடவுள் வேதி <span class="gap">⟦ர்⟧</span> [?42] வழவிச் செங்கோ ல் வளற்பச் சுருதியுந் தமிழுந் தொல்வளங் குலவப் பொருதிற லாழி பூதலஞ் சூழ வொருகை ய்ருசெவி[?3] ட்ட் ஐராவத முத</span></td><td class='box'><span>1</span><span>2</span><span>3</span><span>4</span><span>?</span></td></tr></tbody></table>
+<p class="small">☐ மதிப்பிடும் முன் பதிப்பைப் பார்த்தேன் / consulted the edition before rating
+&nbsp; ☐ இந்தக் கல்வெட்டை முன்பே அறிவேன் / I knew this text</p>
+<p class="small">மூலம் (மதிப்பிட்ட பின் மட்டும்) / Source (only after rating):
+<a href="https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00412.xml">https://github.com/erc-dharma/tfa-tamilnadu-epigraphy/blob/3c3ee14436bb70b2465ab99df7276bea7ebbd8f5/DHARMA_INSTamilNadu00412.xml</a></p>
+<p class="small">குறிப்பு / Comment:</p><div class="answer"></div>
+</section><p class='small en'>Text: DHARMA project editions, CC BY-SA 4.0 (see each source link). Tamil script rendered from the ISO-15919 edition text.</p></main></body></html>
