@@ -1,0 +1,24 @@
+{
+ "rule": "Chosen fine-tuned variant: among the candidates, the most top-1 matches on the 280-gap VAL selection set (routed Sonnet -> Opus, ontology on, escalation unchanged at 0.6 on the raw top-1); ties go to fewer decider calls, then the lower p50 latency per gap. Rows where the decider failed and the restorer fell back to self-report count as misses. Only the chosen variant is scored on TEST (once). The deployed default (hybrid-prerank, 100/280) would change only if the chosen variant had strictly more VAL matches AND could be served by the cloud runtime; the runtime cannot serve a local checkpoint, so this run adds the model to config/models.yaml disabled in either case and reports whether it was eligible.",
+ "ranking": [
+  "ft2b-choice3",
+  "ft2b-choice3-slot",
+  "ft2b-noul3",
+  "sparrow-tiny-ft-choice3",
+  "ft2b-choice3-plain",
+  "sparrow-nano-ft-choice3"
+ ],
+ "chosen": "ft2b-choice3",
+ "matches": {
+  "ft2b-choice3": 112,
+  "ft2b-choice3-slot": 110,
+  "ft2b-noul3": 109,
+  "sparrow-tiny-ft-choice3": 101,
+  "ft2b-choice3-plain": 99,
+  "sparrow-nano-ft-choice3": 92
+ },
+ "deployed_matching": 100,
+ "eligible_to_replace_deployed": true,
+ "deployed_default_changed": false,
+ "date": "2026-11-02T12:41:59+00:00"
+}

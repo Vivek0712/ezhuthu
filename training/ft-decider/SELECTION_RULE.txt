@@ -1,0 +1,4 @@
+Written 2026-11-02 ~09:50 UTC, after variant A's VAL scores and BEFORE any variant B VAL score was seen.
+Rule: pick the checkpoint with the highest VAL choice3 top-1 (forced fill pick, decider_bench semantics).
+Ties (within 0.005) -> lower cross-fitted VAL choice3 NLL (4-way), then lower cross-fitted VAL noul NLL.
+TEST is not touched by this run.

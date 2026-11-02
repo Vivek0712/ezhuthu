@@ -1,0 +1,19 @@
+{
+ "usage": {
+  "calls": 0,
+  "calls_by_model": {},
+  "cached_calls": 1652,
+  "input_tokens": {},
+  "output_tokens": {},
+  "estimated_cost_usd": 0.0,
+  "price_basis": "USD/MTok list prices in ezhuthu.agent.llm.PRICE_PER_MTOK"
+ },
+ "budget_refusals": 0,
+ "max_live_calls": 0,
+ "variants": [
+  "ft2b-choice3",
+  "base2b-choice3",
+  "selfreport",
+  "hybrid-prerank"
+ ]
+}

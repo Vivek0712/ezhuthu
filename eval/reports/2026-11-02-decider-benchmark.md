@@ -1,8 +1,8 @@
 # Decider benchmark: hosted vs local Strands Decider vs LLM self-confidence
 
-> **Measured before issue #26** (gap lengths counted in Tamil letters): the decider saw `length_matches_gap` and `gap_length_chars` computed on ISO characters, and the candidate set is from before the truncation fix. Not re-run in issue #26. Kept as is; the full TEST evaluation with the letter-count fix is [`2026-11-02-test-eval.md`](2026-11-02-test-eval.md) (local 2B decider only; the hosted v19 decider was not part of it).
+> **Measured before issue #26** (gap lengths counted in Tamil letters): the decider saw `length_matches_gap` and `gap_length_chars` computed on ISO characters, and the candidate set is from before the truncation fix. Not re-run in issue #26. Kept as is; the full TEST evaluation with the letter-count fix is [`2026-11-02-test-eval.md`](2026-11-02-test-eval.md) (local 2B decider only; the hosted v19 decider was not part of it). The `ft2b` rows were added in issue #37 on the same frozen requests ([`2026-11-02-finetuned-decider.md`](2026-11-02-finetuned-decider.md)); every other row is unchanged.
 
-- Date: 2026-11-02T04:45:16+00:00
+- Date: 2026-11-02T13:39:05+00:00
 - Task: restoration `rank_and_decide` on 60 items (test/hard, first 60), one fixed candidate set for every decider (`2026-11-02-decider-benchmark-candidates.jsonl`, sha256 `ab00901f055d`).
 - Candidates: us.anthropic.claude-sonnet-4-6 (router `sonnet`, no escalation) + retrieval parallels + character n-gram; ontology off; 60 items have candidates, mean 19.97 candidates per item.
 - Abstain threshold: confidence < 0.5 (`routing.abstain_if_confidence_below`).
@@ -19,6 +19,8 @@
 | 2b-fit8k | `StrandsAgents/strands-decider-2B-qwen3.5-v1-2610` | 60 | 0 | 0.217 | 0.371 | 0.061 | 1.000 | - (0) | 1798 / 2286 |
 | e4b | `StrandsAgents/strands-decider-E4B-gemma4-v1-2610` | 16 (partial) | 0 | 0.188 | 0.300 | 0.053 | 1.000 | - (0) | 69816 / 81876 |
 | fallback | `fallback:llm-self-report` | 60 | 0 | 0.400 | 0.686 | 0.186 | 0.450 | 0.667 (33) | - / - |
+| ft2b-top3 | `ezhuthu-strands-2b-ft` | 60 | 0 | 0.400 | 0.686 | 0.160 | 0.650 | 0.857 (21) | 471 / 731 |
+| ft2b | `ezhuthu-strands-2b-ft` | 60 | 1 | 0.350 | 0.600 | 0.083 | 0.717 | 0.824 (17) | 1745 / 2420 |
 | sparrow-nano | `sparrow-nano-general-v1.1` | 60 | 0 | 0.017 | 0.029 | 0.018 | 1.000 | - (0) | 4 / 6 |
 | sparrow-nano-top3 | `sparrow-nano-general-v1.1` | 60 | 0 | 0.150 | 0.257 | 0.066 | 1.000 | - (0) | 1.500 / 2 |
 | sparrow-micro | `sparrow-micro-general-v1.1` | 60 | 0 | 0.000 | 0.000 | 0.044 | 1.000 | - (0) | 5 / 7 |
@@ -40,6 +42,8 @@ Coverage / accuracy if the abstain threshold were moved (confidence >= t):
 | 2b-fit8k | 0.950 / 0.228 | 0.417 / 0.280 | 0.100 / 0.500 | 0.017 / 0.000 | 0.000 / - | 0.000 / - |
 | e4b | 0.625 / 0.200 | 0.250 / 0.250 | 0.000 / - | 0.000 / - | 0.000 / - | 0.000 / - |
 | fallback | 1.000 / 0.400 | 0.917 / 0.436 | 0.850 / 0.471 | 0.650 / 0.590 | 0.550 / 0.667 | 0.450 / 0.741 |
+| ft2b-top3 | 0.617 / 0.568 | 0.533 / 0.656 | 0.450 / 0.704 | 0.433 / 0.692 | 0.350 / 0.857 | 0.233 / 0.929 |
+| ft2b | 0.767 / 0.457 | 0.567 / 0.559 | 0.467 / 0.643 | 0.317 / 0.789 | 0.283 / 0.824 | 0.200 / 0.917 |
 | sparrow-nano | 0.033 / 0.000 | 0.000 / - | 0.000 / - | 0.000 / - | 0.000 / - | 0.000 / - |
 | sparrow-nano-top3 | 0.500 / 0.133 | 0.033 / 0.000 | 0.000 / - | 0.000 / - | 0.000 / - | 0.000 / - |
 | sparrow-micro | 0.033 / 0.000 | 0.000 / - | 0.000 / - | 0.000 / - | 0.000 / - | 0.000 / - |
@@ -58,6 +62,8 @@ Paired comparison on the items both scored (exact McNemar on the discordant item
 | hosted-v19-top3 vs 2b-fit8k | 60 | 11 | 16 | 2 | 0.001 | 42 |
 | hosted-v19-top3 vs e4b | 16 | 3 | 6 | 0 | 0.031 | 12 |
 | hosted-v19-top3 vs fallback | 60 | 24 | 3 | 0 | 0.250 | 6 |
+| hosted-v19-top3 vs ft2b-top3 | 60 | 23 | 4 | 1 | 0.375 | 22 |
+| hosted-v19-top3 vs ft2b | 60 | 18 | 9 | 3 | 0.146 | 38 |
 | hosted-v19-top3 vs sparrow-nano | 60 | 0 | 27 | 1 | 0.000 | 60 |
 | hosted-v19-top3 vs sparrow-nano-top3 | 60 | 8 | 19 | 1 | 0.000 | 46 |
 | hosted-v19-top3 vs sparrow-micro | 60 | 0 | 27 | 0 | 0.000 | 58 |
@@ -70,6 +76,8 @@ Paired comparison on the items both scored (exact McNemar on the discordant item
 | hosted-v19-cap24 vs 2b-fit8k | 60 | 7 | 1 | 6 | 0.125 | 48 |
 | hosted-v19-cap24 vs e4b | 16 | 0 | 2 | 3 | 1.000 | 16 |
 | hosted-v19-cap24 vs fallback | 60 | 6 | 2 | 18 | 0.000 | 48 |
+| hosted-v19-cap24 vs ft2b-top3 | 60 | 7 | 1 | 17 | 0.000 | 49 |
+| hosted-v19-cap24 vs ft2b | 60 | 8 | 0 | 13 | 0.000 | 48 |
 | hosted-v19-cap24 vs sparrow-nano | 60 | 0 | 8 | 1 | 0.039 | 60 |
 | hosted-v19-cap24 vs sparrow-nano-top3 | 60 | 3 | 5 | 6 | 1.000 | 55 |
 | hosted-v19-cap24 vs sparrow-micro | 60 | 0 | 8 | 0 | 0.008 | 59 |
@@ -81,6 +89,8 @@ Paired comparison on the items both scored (exact McNemar on the discordant item
 | 2b vs 2b-fit8k | 60 | 13 | 0 | 0 | 1.000 | 4 |
 | 2b vs e4b | 16 | 0 | 1 | 3 | 0.625 | 9 |
 | 2b vs fallback | 60 | 8 | 5 | 16 | 0.027 | 47 |
+| 2b vs ft2b-top3 | 60 | 10 | 3 | 14 | 0.013 | 40 |
+| 2b vs ft2b | 60 | 12 | 1 | 9 | 0.021 | 37 |
 | 2b vs sparrow-nano | 60 | 0 | 13 | 1 | 0.002 | 58 |
 | 2b vs sparrow-nano-top3 | 60 | 5 | 8 | 4 | 0.388 | 45 |
 | 2b vs sparrow-micro | 60 | 0 | 13 | 0 | 0.000 | 58 |
@@ -91,6 +101,8 @@ Paired comparison on the items both scored (exact McNemar on the discordant item
 | 2b vs sparrow-small-top3 | 60 | 2 | 11 | 1 | 0.006 | 48 |
 | 2b-fit8k vs e4b | 16 | 0 | 1 | 3 | 0.625 | 9 |
 | 2b-fit8k vs fallback | 60 | 8 | 5 | 16 | 0.027 | 47 |
+| 2b-fit8k vs ft2b-top3 | 60 | 10 | 3 | 14 | 0.013 | 41 |
+| 2b-fit8k vs ft2b | 60 | 12 | 1 | 9 | 0.021 | 38 |
 | 2b-fit8k vs sparrow-nano | 60 | 0 | 13 | 1 | 0.002 | 58 |
 | 2b-fit8k vs sparrow-nano-top3 | 60 | 5 | 8 | 4 | 0.388 | 46 |
 | 2b-fit8k vs sparrow-micro | 60 | 0 | 13 | 0 | 0.000 | 58 |
@@ -100,6 +112,8 @@ Paired comparison on the items both scored (exact McNemar on the discordant item
 | 2b-fit8k vs sparrow-small | 60 | 3 | 10 | 7 | 0.629 | 55 |
 | 2b-fit8k vs sparrow-small-top3 | 60 | 2 | 11 | 1 | 0.006 | 49 |
 | e4b vs fallback | 16 | 3 | 0 | 6 | 0.031 | 12 |
+| e4b vs ft2b-top3 | 16 | 3 | 0 | 6 | 0.031 | 10 |
+| e4b vs ft2b | 16 | 2 | 1 | 4 | 0.375 | 12 |
 | e4b vs sparrow-nano | 16 | 0 | 3 | 0 | 0.250 | 14 |
 | e4b vs sparrow-nano-top3 | 16 | 0 | 3 | 2 | 1.000 | 12 |
 | e4b vs sparrow-micro | 16 | 0 | 3 | 0 | 0.250 | 15 |
@@ -108,6 +122,8 @@ Paired comparison on the items both scored (exact McNemar on the discordant item
 | e4b vs sparrow-tiny-top3 | 16 | 1 | 2 | 0 | 0.500 | 11 |
 | e4b vs sparrow-small | 16 | 2 | 1 | 3 | 0.625 | 14 |
 | e4b vs sparrow-small-top3 | 16 | 0 | 3 | 0 | 0.250 | 12 |
+| fallback vs ft2b-top3 | 60 | 21 | 3 | 3 | 1.000 | 26 |
+| fallback vs ft2b | 60 | 16 | 8 | 5 | 0.581 | 41 |
 | fallback vs sparrow-nano | 60 | 0 | 24 | 1 | 0.000 | 60 |
 | fallback vs sparrow-nano-top3 | 60 | 7 | 17 | 2 | 0.001 | 48 |
 | fallback vs sparrow-micro | 60 | 0 | 24 | 0 | 0.000 | 58 |
@@ -116,6 +132,23 @@ Paired comparison on the items both scored (exact McNemar on the discordant item
 | fallback vs sparrow-tiny-top3 | 60 | 1 | 23 | 3 | 0.000 | 59 |
 | fallback vs sparrow-small | 60 | 10 | 14 | 0 | 0.000 | 39 |
 | fallback vs sparrow-small-top3 | 60 | 0 | 24 | 3 | 0.000 | 59 |
+| ft2b-top3 vs ft2b | 60 | 18 | 6 | 3 | 0.508 | 30 |
+| ft2b-top3 vs sparrow-nano | 60 | 0 | 24 | 1 | 0.000 | 60 |
+| ft2b-top3 vs sparrow-nano-top3 | 60 | 8 | 16 | 1 | 0.000 | 38 |
+| ft2b-top3 vs sparrow-micro | 60 | 0 | 24 | 0 | 0.000 | 60 |
+| ft2b-top3 vs sparrow-micro-top3 | 60 | 10 | 14 | 2 | 0.004 | 41 |
+| ft2b-top3 vs sparrow-tiny | 60 | 1 | 23 | 1 | 0.000 | 59 |
+| ft2b-top3 vs sparrow-tiny-top3 | 60 | 3 | 21 | 1 | 0.000 | 46 |
+| ft2b-top3 vs sparrow-small | 60 | 9 | 15 | 1 | 0.001 | 46 |
+| ft2b-top3 vs sparrow-small-top3 | 60 | 3 | 21 | 0 | 0.000 | 45 |
+| ft2b vs sparrow-nano | 60 | 1 | 20 | 0 | 0.000 | 55 |
+| ft2b vs sparrow-nano-top3 | 60 | 6 | 15 | 3 | 0.007 | 48 |
+| ft2b vs sparrow-micro | 60 | 0 | 21 | 0 | 0.000 | 59 |
+| ft2b vs sparrow-micro-top3 | 60 | 7 | 14 | 5 | 0.064 | 48 |
+| ft2b vs sparrow-tiny | 60 | 1 | 20 | 1 | 0.000 | 58 |
+| ft2b vs sparrow-tiny-top3 | 60 | 2 | 19 | 2 | 0.000 | 53 |
+| ft2b vs sparrow-small | 60 | 6 | 15 | 4 | 0.019 | 49 |
+| ft2b vs sparrow-small-top3 | 60 | 2 | 19 | 1 | 0.000 | 51 |
 | sparrow-nano vs sparrow-nano-top3 | 60 | 0 | 1 | 9 | 0.021 | 59 |
 | sparrow-nano vs sparrow-micro | 60 | 0 | 1 | 0 | 1.000 | 50 |
 | sparrow-nano vs sparrow-micro-top3 | 60 | 0 | 1 | 12 | 0.003 | 60 |
@@ -157,6 +190,8 @@ Reference = the rule policy (`tutor/policy.py rules`). *Raw* is the decider's ch
 | 2b-fit8k | not run | | | | | |
 | e4b | not run | | | | | |
 | fallback | `rules` | - | 1.000 | 0 | {} | - / - |
+| ft2b-top3 | not run | | | | | |
+| ft2b | `ezhuthu-strands-2b-ft` | 0.600 | 0.800 | 4 | {'advance': 6, 'hint': 14} | 168 / 173 |
 | sparrow-nano | `sparrow-nano-general-v1.1` | 0.350 | 0.800 | 9 | {'hint': 19, 'repeat': 1} | 0.900 / 1.100 |
 | sparrow-nano-top3 | not run | | | | | |
 | sparrow-micro | `sparrow-micro-general-v1.1` | 0.100 | 0.450 | 7 | {'hint': 9, 'advance': 3, 'repeat': 8} | 1.400 / 2 |
@@ -168,31 +203,32 @@ Reference = the rule policy (`tutor/policy.py rules`). *Raw* is the decider's ch
 
 Per state (rules reference / raw choice per decider):
 
-| # | correct | attempts | hint given | rules | 2b | fallback | sparrow-nano | sparrow-micro | sparrow-tiny | sparrow-small |
-|---|---|---|---|---|---|---|---|---|---|---|
-| 0 | True | 1 | False | advance | advance | (advance) | hint | hint | hint | advance |
-| 1 | True | 2 | True | advance | advance | (advance) | hint | hint | hint | advance |
-| 2 | True | 1 | False | advance | advance | (advance) | hint | hint | hint | advance |
-| 3 | True | 3 | True | advance | advance | (advance) | repeat | advance | hint | advance |
-| 4 | True | 1 | False | advance | advance | (advance) | hint | hint | hint | advance |
-| 5 | False | 1 | False | hint | hint | (hint) | hint | repeat | hint | advance |
-| 6 | False | 1 | False | hint | hint | (hint) | hint | repeat | hint | advance |
-| 7 | False | 1 | False | hint | hint | (hint) | hint | repeat | hint | repeat |
-| 8 | False | 1 | False | hint | hint | (hint) | hint | repeat | hint | repeat |
-| 9 | False | 1 | False | hint | hint | (hint) | hint | repeat | hint | repeat |
-| 10 | False | 2 | True | repeat | hint | (repeat) | hint | hint | hint | advance |
-| 11 | False | 2 | True | repeat | hint | (repeat) | hint | hint | hint | advance |
-| 12 | False | 2 | True | repeat | hint | (repeat) | hint | hint | hint | advance |
-| 13 | False | 2 | True | repeat | hint | (repeat) | hint | advance | hint | advance |
-| 14 | False | 2 | False | hint | hint | (hint) | hint | repeat | hint | repeat |
-| 15 | False | 3 | True | advance | hint | (advance) | hint | hint | hint | repeat |
-| 16 | False | 3 | True | advance | hint | (advance) | hint | hint | hint | advance |
-| 17 | False | 3 | False | advance | hint | (advance) | hint | repeat | hint | repeat |
-| 18 | False | 4 | True | advance | hint | (advance) | hint | advance | repeat | advance |
-| 19 | False | 1 | False | hint | hint | (hint) | hint | repeat | hint | repeat |
+| # | correct | attempts | hint given | rules | 2b | fallback | ft2b | sparrow-nano | sparrow-micro | sparrow-tiny | sparrow-small |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0 | True | 1 | False | advance | advance | (advance) | advance | hint | hint | hint | advance |
+| 1 | True | 2 | True | advance | advance | (advance) | advance | hint | hint | hint | advance |
+| 2 | True | 1 | False | advance | advance | (advance) | advance | hint | hint | hint | advance |
+| 3 | True | 3 | True | advance | advance | (advance) | advance | repeat | advance | hint | advance |
+| 4 | True | 1 | False | advance | advance | (advance) | advance | hint | hint | hint | advance |
+| 5 | False | 1 | False | hint | hint | (hint) | hint | hint | repeat | hint | advance |
+| 6 | False | 1 | False | hint | hint | (hint) | hint | hint | repeat | hint | advance |
+| 7 | False | 1 | False | hint | hint | (hint) | hint | hint | repeat | hint | repeat |
+| 8 | False | 1 | False | hint | hint | (hint) | hint | hint | repeat | hint | repeat |
+| 9 | False | 1 | False | hint | hint | (hint) | hint | hint | repeat | hint | repeat |
+| 10 | False | 2 | True | repeat | hint | (repeat) | hint | hint | hint | hint | advance |
+| 11 | False | 2 | True | repeat | hint | (repeat) | hint | hint | hint | hint | advance |
+| 12 | False | 2 | True | repeat | hint | (repeat) | advance | hint | hint | hint | advance |
+| 13 | False | 2 | True | repeat | hint | (repeat) | hint | hint | advance | hint | advance |
+| 14 | False | 2 | False | hint | hint | (hint) | hint | hint | repeat | hint | repeat |
+| 15 | False | 3 | True | advance | hint | (advance) | hint | hint | hint | hint | repeat |
+| 16 | False | 3 | True | advance | hint | (advance) | hint | hint | hint | hint | advance |
+| 17 | False | 3 | False | advance | hint | (advance) | hint | hint | repeat | hint | repeat |
+| 18 | False | 4 | True | advance | hint | (advance) | hint | hint | advance | repeat | advance |
+| 19 | False | 1 | False | hint | hint | (hint) | hint | hint | repeat | hint | repeat |
 
 ## Caveats
 
 - hosted-v19-top3 (added 2026-11-02 after the key was minted): the hosted Strands Decider API given only the first 3 candidates (best-first) plus 'none', as the restorer's choice-topk strategy sends them. With all ~20 candidates the hosted model's prompt is truncated through the option list (422 'option span has no tokens left') on 43/60 items; that run is kept as hosted-v19-cap24 for the record.
 - Caveat: these 60 items are the TEST hard subset frozen for this benchmark before any hosted run. Do not use this table to pick the deployed decider; the deployment choice must be confirmed on VAL.
 - Sparrow Decider 0.2.0 (sparrow-decider/sparrow-decider, numpy; same /v1/systemone contract) served locally: nano-general-v1.1 (static embeddings from potion-base-8M / Model2Vec, MinishLab, MIT), micro-general-v1.1, tiny-general-v1.0 (Ettin-32M, JHU, MIT), small-general-v1.0 (Ettin-68M). Reference points on these items: always pick candidate 1 = 0.400; target in the top 3 = 0.483; a uniform random pick among the top 3 = 0.161. Every Sparrow restoration run is at or near random-of-top-3 and abstains on every item: their English-trained vocabularies do not cover ISO-15919 Tamil. For the tutor policy, nano and tiny reach 0.80 agreement after guardrails (same as the local 2B) at ~1 ms (nano), but raw agreement is 0.35 vs 0.60, so the guardrails do most of the work; n=20 scripted states.
+- ft2b-top3 / ft2b (added 2026-11-02, issue #37, eval/reports/2026-11-02-finetuned-decider.md): ezhuthu-strands-2b-ft, a continue-from fine-tune of strands-decider-2B-qwen3.5-v1-2610 on TRAIN restorer decisions (top-3 + none), chosen on VAL, served locally (mps); scored once on these items. Its training rows send gap_length_tamil_letters; these frozen requests are the pre-#31 shape (gap_length_chars, ISO-character length flags), so this table is slightly off its training distribution. ft2b sends all ~20 candidates (it was trained on 3 + none only); ft2b-top3 is the restorer's choice-topk:3 request.
