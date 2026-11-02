@@ -25,6 +25,7 @@ import random
 import statistics
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any
 
@@ -33,7 +34,7 @@ from ..agent.calibration import CalibrationTable, fit, fit_threshold, variant_ke
 from ..agent.config import live_enabled, load_models_config, repo_root
 from ..agent.data import BenchmarkItem, data_source, load_items
 from ..agent.decider import HttpDecider, NoDecider
-from ..agent.llm import PRICE_PER_MTOK, BedrockLLM, BudgetedLLM
+from ..agent.llm import PRICE_PER_MTOK, BedrockLLM, BudgetedLLM, RateLimiter, short_name
 from ..agent.restorer import Restorer
 from .metrics import canon, ece
 from .run import code_provenance, evaluate_items, git_commit
@@ -64,14 +65,37 @@ def parse_strategy(spec: str | None) -> tuple[str | None, int | None]:
     return s, (int(k) if k else None)
 
 
+# Account quotas (heisenberg, us-east-1 cross-region inference, checked 2026-11-02): Sonnet 4.6 10 requests/min,
+# Opus 4.6 5 requests/min. Pacing each model at its quota keeps throttling (and retries) rare.
+MODEL_RPM = {"sonnet": 10.0, "opus": 5.0}
+
+
+class PacedBedrockLLM(BedrockLLM):
+    """BedrockLLM with one rate limiter per model (cache hits are never paced)."""
+
+    def __init__(self, *, rpm: float, **kw: Any):
+        super().__init__(rpm=None, **kw)
+        self.limiters = {m: RateLimiter(min(rpm, r) if rpm else r) for m, r in MODEL_RPM.items()}
+
+    def complete(self, role: str, system: str, prompt: str, *, max_tokens: int = 1024):
+        model_id = self.config.model_id(role)
+        if self.cache.get(self.cache.key(model_id, system, prompt, max_tokens)) is None:
+            lim = self.limiters.get(short_name(model_id))
+            if lim is not None:
+                lim.acquire()
+        return super().complete(role, system, prompt, max_tokens=max_tokens)
+
+
 class Runner:
     """Shares the retrieval index, n-gram model, LLM client (one ledger, one budget) and decider across runs."""
 
     def __init__(self, *, live: bool, max_live_calls: int, rpm: float, decider_url: str | None = None):
         os.environ.setdefault("EZHUTHU_ONTOLOGY", "direct")  # same lookup API as the MCP server, in process
         self.cfg = load_models_config()
-        self.llm = BudgetedLLM(BedrockLLM(rpm=rpm), max_live_calls) if live else None
+        # 8 attempts (full-jitter backoff, cap 30 s): other teams share the account's Bedrock quota
+        self.llm = BudgetedLLM(PacedBedrockLLM(rpm=rpm, retry_attempts=8), max_live_calls) if live else None
         self.http = HttpDecider(decider_url)
+        self.prov = code_provenance()  # at start: the code this process imported
         self.probe = Restorer(decider=NoDecider(), calibration=CalibrationTable())
         _ = self.probe.index, self.probe.ngram
 
@@ -106,7 +130,7 @@ class Runner:
                                 and kw["calibration"].path else None),
                 "seconds": round(time.perf_counter() - t0, 1),
                 "budget_refusals": (self.llm.exhausted - exhausted0) if self.llm else 0,
-                "data_commit": git_commit(data_source().path), **code_provenance(),
+                "data_commit": git_commit(data_source().path), **self.prov,
                 "decider": (self.http.health() or {}).get("model") if self.http.available() else None,
                 "date": dt.datetime.now(dt.UTC).isoformat(timespec="seconds")}
         for r in rows:
@@ -115,6 +139,17 @@ class Runner:
         log.info("%s: n=%d top1=%.4f (%.0fs)", name, len(rows), sum(r["top1_correct"] for r in rows) / max(1, len(rows)),
                  meta["seconds"])
         return rows
+
+
+def pre_escalates(r: Restorer, it: BenchmarkItem) -> bool:
+    """Whether ``restore_gap(router="routed")`` asks Opus first for this item (same rule, retrieval only)."""
+    rt, st = r.config.routing, r.settings
+    found = r.retrieve_parallels(it.left, it.right, it.gap_chars, k=max(st.parallels_k, st.prompt_parallels),
+                                 exclude_inscription=it.inscription_id)
+    pars = found[: st.prompt_parallels]
+    good = any(p.fill and p.score >= 50 for p in pars)
+    return r._estimate_len(it.gap_chars, pars) > rt.escalate_if_gap_chars_over or (rt.escalate_if_no_parallel
+                                                                                   and not good)
 
 
 def baseline_rows(probe: Restorer, items: list[BenchmarkItem], router: str) -> list[dict[str, Any]]:
@@ -437,17 +472,36 @@ def cmd_test(args) -> int:
     ret_dec = dec["retrieval_strategy"]["decider_variant"]
     llm_dec = dec["llm_decider_variant"]
     w = args.workers
-    R.run("copy", items, router="baseline-copy", out=out)
-    R.run("ngram", items, router="baseline-ngram", out=out)
-    R.run("prerank", items, router="none", out=out, strategy="prerank", calibration=cal)
-    if cfg.restorer.strategy != "prerank":  # the shipped retrieval-only strategy, when VAL chose another
-        R.run("retrieval-default", items, router="none", out=out, calibration=cal)
-    R.run(f"retrieval-decider-{ret_dec.replace(':', 'k')}", items, router="none", out=out, strategy=ret_dec,
-          calibration=cal)
-    R.run("sonnet", items, router="sonnet", out=out, workers=w, calibration=cal)
-    R.run("sonnet-noonto", items, router="sonnet", out=out, workers=w, calibration=cal, use_ontology=False)
+    # Sonnet and Opus have separate Bedrock quotas, so three lanes run at once. Lane C asks Opus only for gaps the
+    # routed run will send to Opus without asking Sonnet first (pre-escalation: no parallel scoring >= 50 or a gap
+    # over 12 letters, decided from retrieval alone) and for the Opus-only sample; the routed run then replays them
+    # from the cache and asks Opus live only for gaps escalated after Sonnet. No call is made twice.
+    pre = [it for it in items if pre_escalates(R.probe, it)]
+    log.info("test: %d of %d gaps pre-escalate to Opus", len(pre), len(items))
+
+    def lane_a() -> None:
+        R.run("copy", items, router="baseline-copy", out=out)
+        R.run("ngram", items, router="baseline-ngram", out=out)
+        R.run("prerank", items, router="none", out=out, strategy="prerank", calibration=cal)
+        if cfg.restorer.strategy != "prerank":  # the shipped retrieval-only strategy, when VAL chose another
+            R.run("retrieval-default", items, router="none", out=out, calibration=cal)
+        R.run(f"retrieval-decider-{ret_dec.replace(':', 'k')}", items, router="none", out=out, strategy=ret_dec,
+              calibration=cal)
+
+    def lane_b() -> None:
+        R.run("sonnet", items, router="sonnet", out=out, workers=w, calibration=cal)
+        R.run("sonnet-noonto", items, router="sonnet", out=out, workers=w, calibration=cal, use_ontology=False)
+
+    def lane_c() -> None:
+        R.run("opus-sample100", sample, router="opus", out=out, workers=w, calibration=cal)
+        ids = {it.id for it in sample}
+        R.run("_opus-warmup-preescalated", [it for it in pre if it.id not in ids], router="opus",
+              out=out / "_warmup", workers=w, calibration=cal)
+
+    with ThreadPoolExecutor(3) as ex:
+        for f in [ex.submit(lane_a), ex.submit(lane_b), ex.submit(lane_c)]:
+            f.result()
     R.run("routed", items, router="routed", out=out, workers=w, calibration=cal)
-    R.run("opus-sample100", sample, router="opus", out=out, workers=w, calibration=cal)
     R.run(f"sonnet-decider-{llm_dec.replace(':', 'k')}", items, router="sonnet", out=out,
           strategy=llm_dec, calibration=cal)
     usage = R.llm.inner.ledger.to_dict()
@@ -455,6 +509,189 @@ def cmd_test(args) -> int:
                                                 "max_live_calls": args.max_live_calls, **prov}, indent=1),
                                     encoding="utf-8")
     print(json.dumps(usage))
+    return 0
+
+
+# ---------------------------------------------------------------------------------------------- report --------
+CONFIG_LABELS = {
+    "copy": "Copy baseline (best length-ok parallel)", "ngram": "Character 5-gram baseline",
+    "prerank": "Retrieval only, prerank (no LLM, no decider)",
+    "retrieval-default": "Retrieval only, shipped strategy",
+    "sonnet": "Sonnet 4.6 (shipped pipeline, ontology on)", "sonnet-noonto": "Sonnet 4.6, ontology off (ablation)",
+    "routed": "Routed Sonnet 4.6 -> Opus 4.6 (shipped)", "opus-sample100": "Opus 4.6 only (seeded 100-item sample)",
+}
+
+
+def _label(name: str) -> str:
+    if name.startswith("retrieval-decider-"):
+        return f"Retrieval only, 2B decider `{name.removeprefix('retrieval-decider-').replace('k', ':', 1)}`"
+    if name.startswith("sonnet-decider-"):
+        return f"Sonnet 4.6 candidates, 2B decider `{name.removeprefix('sonnet-decider-').replace('k', ':', 1)}`"
+    return CONFIG_LABELS.get(name, name)
+
+
+def _ci(s: dict[str, Any], key: str) -> str:
+    ci = s.get(f"{key}_ci")
+    return f"{s[key]} [{ci[0]}, {ci[1]}]" if ci else str(s.get(key))
+
+
+def _p(x: float) -> str:
+    return "<0.0001" if x < 0.0001 else f"{x:.4f}"
+
+
+def build_report(out_dir: Path, dec: dict[str, Any]) -> dict[str, Any]:
+    cfg = load_models_config()
+    rows: dict[str, list[dict]] = {}
+    metas: dict[str, dict] = {}
+    order = ["copy", "ngram", "prerank", "retrieval-default"]
+    for p in sorted((out_dir / "rows").glob("*.jsonl")):
+        metas[p.stem], rows[p.stem] = load_rows(p)
+    names = [n for n in order if n in rows] + [n for n in rows if n.startswith("retrieval-decider-")] + \
+        [n for n in ("sonnet", "sonnet-noonto") if n in rows] + [n for n in rows if n.startswith("sonnet-decider-")] + \
+        [n for n in ("routed", "opus-sample100") if n in rows]
+    thr = dec.get("baseline_thresholds", {})
+    base_thr = {"copy": thr.get("baseline-copy", {}).get("threshold"),
+                "ngram": thr.get("baseline-ngram", {}).get("threshold")}
+    copy = rows["copy"]
+    res: dict[str, Any] = {"configs": {}}
+    for n in names:
+        rs = rows[n]
+        res["configs"][n] = {
+            "label": _label(n), "meta": metas[n], "by_subset": by_subset(rs, threshold=base_thr.get(n)),
+            "vs_copy": vs(rs, copy) if n != "copy" else None, "cost": cost(rs), "latency": latency(rs),
+            "escalated": sum(1 for r in rs if r.get("escalated")),
+            "abstain_threshold": (base_thr.get(n) if n in base_thr else
+                                  sorted({r.get("abstain_below") for r in rs if r.get("abstain_below") is not None})),
+            "calibration_keys": sorted({r.get("calibration") or "none (raw)" for r in rs if "calibration" in r}),
+        }
+    sample_ids = {r["id"] for r in rows.get("opus-sample100", [])}
+    if sample_ids:
+        res["sample100"] = {n: summarize([r for r in rows[n] if r["id"] in sample_ids]) for n in names}
+        res["sample100_vs_opus"] = {n: vs([r for r in rows[n] if r["id"] in sample_ids], rows["opus-sample100"])
+                                    for n in names if n != "opus-sample100"}
+    pairs = {}
+    if "sonnet" in rows and "sonnet-noonto" in rows:
+        pairs["ontology_on_vs_off"] = vs(rows["sonnet"], rows["sonnet-noonto"])
+        off = {r["id"]: r for r in rows["sonnet-noonto"]}
+        pairs["ontology_top1_changed"] = sum(1 for r in rows["sonnet"] if r["id"] in off
+                                             and r["top1"] != off[r["id"]]["top1"])
+    for n in names:
+        if n.startswith("retrieval-decider-"):
+            pairs[f"{n}_vs_prerank"] = vs(rows[n], rows["prerank"])
+        if n.startswith("sonnet-decider-"):
+            pairs[f"{n}_vs_sonnet"] = vs(rows[n], rows["sonnet"])
+    if "routed" in rows:
+        pairs["routed_vs_sonnet"] = vs(rows["routed"], rows["sonnet"])
+        pairs["sonnet_vs_prerank"] = vs(rows["sonnet"], rows["prerank"])
+    res["paired"] = pairs
+    res["decisions"] = dec
+    res["provenance"] = {k: metas[names[0]].get(k) for k in ("data_commit", "code_commit", "code_dirty")}
+    res["provenance"]["code_dirty_any"] = any(m.get("code_dirty") for m in metas.values())
+    res["provenance"]["code_commits"] = sorted({m.get("code_commit") for m in metas.values()})
+    res["models"] = cfg.llm
+    res["decider"] = next((m.get("decider") for m in metas.values() if m.get("decider")), None)
+    return res
+
+
+def render_test_md(res: dict[str, Any], *, title: str, preface: list[str]) -> str:
+    pv = res["provenance"]
+    L = [f"# {title}", ""] + preface + [
+        "", "## Provenance", "",
+        f"- Data: `benchmark/` at data commit `{pv['data_commit']}` (DHARMA-derived, CC BY-SA 4.0).",
+        (f"- Code: `{pv['code_commit']}`, code_dirty={str(bool(pv['code_dirty_any'])).lower()} (every configuration "
+        f"ran from {', '.join('`' + c[:7] + '`' for c in pv['code_commits'] if c)})."),
+        f"- Models (config/models.yaml): default `{res['models']['default']}`, escalate `{res['models']['escalate']}`.",
+        (f"- Local decider: `{res['decider']}` (strands-decider 0.2.0, `strands-decider serve`, mps). The hosted "
+        "v19 decider (decider-cloud) is **not measured** here."),
+        ("- Ontology: train-only build (`ontology/coverage.json` -> `splits.used = [train]`; all 862 source inscriptions "
+        "are train in the current benchmark), direct lookup API (same functions the MCP server serves)."),
+        ("- Every threshold, strategy and calibration below was chosen on VAL "
+        "(`2026-11-02-val-selection.md`); TEST was scored once with them. Per-item rows: "
+        "`2026-11-02-test-eval/rows/*.jsonl`."),
+        "", "## Results on TEST (413 items)", "",
+        ("Top-1 = the first candidate matches the expert restoration (normalised ISO, spaces ignored). Brackets: 95% "
+        "percentile bootstrap CI (2,000 resamples of items). Coverage / selective accuracy: share of gaps the "
+        "configuration fills at its VAL-fitted abstain threshold, and how often those fills match the expert. "
+        "McNemar: exact two-sided test on paired top-1 against the copy baseline (only this config right / only "
+        "copy right)."), ""]
+
+    def table(sub: str, names: list[str]) -> list[str]:
+        out = [("| configuration | n | top-1 [95% CI] | top-20 [95% CI] | CER mean / clipped | ECE | coverage | "
+               "selective acc. | vs copy (only / only, p) |"), "|---|---|---|---|---|---|---|---|---|"]
+        for n in names:
+            c = res["configs"][n]
+            s_ = c["by_subset"][sub]
+            if not s_.get("n"):
+                continue
+            v = c["vs_copy"][sub] if c["vs_copy"] else None
+            vtxt = f"{v['only_a']} / {v['only_b']}, p={_p(v['p_mcnemar'])}" if v else "-"
+            sel = "-" if s_["selective_accuracy"] is None else f"{s_['selective_accuracy']} ({s_['filled_matching']}/{s_['filled']})"
+            out.append(f"| {c['label']} | {s_['n']} | {_ci(s_, 'top1')} | {_ci(s_, 'top20')} | {s_['cer']} / "
+                       f"{s_['cer_clipped']} | {s_['ece']} | {s_['coverage']} | {sel} | {vtxt} |")
+        return out
+
+    names = list(res["configs"])
+    L += table("full", names)
+    L += ["", "### Hard subset (317: no close parallel in another train inscription)", ""] + table("hard", names)
+    L += ["", "### Age subset (51: Pallava + Uttiramerur collections)", ""] + table("age", names)
+    if res.get("sample100"):
+        L += ["", "### Seeded 100-item sample (seed 26), every configuration on the same items", "",
+              "| configuration | top-1 [95% CI] | top-20 | CER clipped | coverage | selective acc. | vs Opus-only (only / only, p) |",
+              "|---|---|---|---|---|---|---|"]
+        for n in names:
+            s_ = res["sample100"][n]
+            v = res["sample100_vs_opus"].get(n, {}).get("full")
+            vtxt = f"{v['only_a']} / {v['only_b']}, p={_p(v['p_mcnemar'])}" if v else "-"
+            L.append(f"| {res['configs'][n]['label']} | {_ci(s_, 'top1')} | {s_['top20']} | {s_['cer_clipped']} | "
+                     f"{s_['coverage']} | {s_['selective_accuracy']} | {vtxt} |")
+    L += ["", "## Paired comparisons (exact McNemar on top-1, full test)", "",
+          "| comparison | n | only first right | only second right | p |", "|---|---|---|---|---|"]
+    for k, v in res["paired"].items():
+        if isinstance(v, dict) and "full" in v:
+            f = v["full"]
+            L.append(f"| {k.replace('_', ' ')} | {f['n']} | {f['only_a']} | {f['only_b']} | {_p(f['p_mcnemar'])} |")
+    if "ontology_top1_changed" in res["paired"]:
+        L += ["", (f"The ontology changed Sonnet's top-1 fill on {res['paired']['ontology_top1_changed']} of 413 gaps "
+              "(88 test gaps get at least one ontology hint).")]
+    L += ["", "## Cost and latency", "",
+          ("Calls and tokens are every LLM call the configuration makes (replies served from `.cache/llm` are counted "
+          "with the tokens of the original call). USD: list prices in `ezhuthu.agent.llm.PRICE_PER_MTOK` (Sonnet "
+          "$3/$15, Opus $5/$25 per MTok in/out), an estimate, not the bill. Latency per gap = local wall time outside "
+          "LLM calls + the original latency of each LLM call (Apple M4 Pro; Bedrock us-east-1; throttling retries "
+          "not included)."), "",
+          "| configuration | LLM calls (Sonnet / Opus) | gaps that used Opus | input / output tokens | est. USD (per gap) | latency p50 / p90 (s) |",
+          "|---|---|---|---|---|---|"]
+    for n in names:
+        c = res["configs"][n]
+        bm = c["cost"]["by_model"]
+        tok_in = sum(int(x["input_tokens"]) for x in bm.values())
+        tok_out = sum(int(x["output_tokens"]) for x in bm.values())
+        lat = c["latency"]
+        L.append(f"| {c['label']} | {int(bm.get('sonnet', {}).get('calls', 0))} / {int(bm.get('opus', {}).get('calls', 0))} | "
+                 f"{c['cost']['opus_items']} | {tok_in:,} / {tok_out:,} | {c['cost']['usd']} ({c['cost']['usd_per_item']}) | "
+                 f"{round(lat.get('p50_ms', 0) / 1000, 2)} / {round(lat.get('p90_ms', 0) / 1000, 2)} |")
+    L += ["", "## Abstain thresholds and calibration used", "",
+          "| configuration | abstain threshold(s) | calibration entries applied |", "|---|---|---|"]
+    for n in names:
+        c = res["configs"][n]
+        L.append(f"| {c['label']} | {c['abstain_threshold']} | {', '.join('`' + k + '`' for k in c['calibration_keys']) or '-'} |")
+    return "\n".join(L) + "\n"
+
+
+def cmd_report(args) -> int:
+    root = Path(args.out)
+    dec = json.loads((root / VAL_DIR / "decisions.json").read_text(encoding="utf-8"))
+    res = build_report(root / TEST_DIR, dec)
+    usage_p = root / TEST_DIR / "usage.json"
+    if usage_p.exists():
+        res["usage_test_run"] = json.loads(usage_p.read_text(encoding="utf-8"))
+    pre = [line for line in Path(args.preface).read_text(encoding="utf-8").splitlines()] if args.preface else []
+    (root / f"{TEST_DIR}.json").write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
+    md = render_test_md(res, title="Full TEST evaluation (2026-11-02)", preface=pre)
+    if args.appendix:
+        md += "\n" + Path(args.appendix).read_text(encoding="utf-8")
+    (root / f"{TEST_DIR}.md").write_text(md, encoding="utf-8")
+    print(root / f"{TEST_DIR}.md")
     return 0
 
 
@@ -477,10 +714,14 @@ def main(argv: list[str] | None = None) -> int:
         p.add_argument("--workers", type=int, default=4)
     for p in (v, d, t):
         p.add_argument("--out", default=str((repo_root() or Path.cwd()) / "eval" / "reports"))
+    r = sub.add_parser("report")
+    r.add_argument("--preface", default=None, help="markdown lines to put under the title (headline, caveats)")
+    r.add_argument("--appendix", default=None, help="markdown appended at the end")
+    r.add_argument("--out", default=str((repo_root() or Path.cwd()) / "eval" / "reports"))
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     logging.getLogger("strands").setLevel(logging.WARNING)
-    return {"val": cmd_val, "decide": cmd_decide, "test": cmd_test}[args.cmd](args)
+    return {"val": cmd_val, "decide": cmd_decide, "test": cmd_test, "report": cmd_report}[args.cmd](args)
 
 
 if __name__ == "__main__":

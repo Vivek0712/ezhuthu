@@ -189,6 +189,7 @@ def main(argv: list[str] | None = None) -> int:
         print("router sonnet calls Bedrock: set EZHUTHU_LIVE=1", file=sys.stderr)
         return 2
 
+    prov = code_provenance()  # at start: the code this run imported (a long run must not pick up later edits)
     cfg = load_models_config()
     llm = BudgetedLLM(BedrockLLM(rpm=args.rpm), args.max_live_calls) if args.router == "sonnet" else None
     http = HttpDecider(args.decider_url)
@@ -234,7 +235,7 @@ def main(argv: list[str] | None = None) -> int:
         "date": dt.datetime.now(dt.UTC).isoformat(timespec="seconds"), "split": args.split, "subset": args.subset,
         "limit": args.limit, "n": len(items), "router": args.router, "use_ontology": not args.no_ontology,
         "decider": decider_model, "data_dir": str(src.path), "data_commit": git_commit(src.path),
-        **code_provenance(),
+        **prov,
         "copy_top1": round(sum(copy_ok.values()) / max(1, len(copy_ok)), 4),
         "usage": llm.ledger.to_dict() if llm else None, "max_live_calls": args.max_live_calls,
         "budget_exhausted": llm.exhausted if llm else 0, "notes": args.note,
