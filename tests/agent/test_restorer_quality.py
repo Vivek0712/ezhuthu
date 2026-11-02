@@ -311,7 +311,7 @@ def test_noul_without_support_falls_back():
 def test_prerank_strategy_needs_no_decider():
     dec = FakeDecider(lambda s, o: pytest.fail("decider must not be called"))
     r = Restorer(llm=llm_with([["paṉmaṟku", 0.8]]), decider=dec, use_ontology=False,
-                 settings=CFG.restorer.with_(strategy="prerank"), calibration=CalibrationTable())
+                 settings=CFG.restorer.with_(strategy="prerank", ngram_prerank=False), calibration=CalibrationTable())
     g = r.restore_gap(LEFT, RIGHT, GAP, router="sonnet")
     assert g.decider_model == "prerank" and g.best.confidence == g.best.prerank
 
@@ -319,7 +319,7 @@ def test_prerank_strategy_needs_no_decider():
 def test_settings_from_yaml_and_validation():
     c = parse_models_config({"llm": {"default": "x"}, "restorer": {"strategy": "noul-topk", "top_k": 3}})
     assert c.restorer.strategy == "noul-topk" and c.restorer.top_k == 3
-    assert CFG.restorer.strategy in ("choice-all", "choice-topk", "noul-topk", "prerank")
+    assert CFG.restorer.strategy in ("choice-all", "choice-topk", "noul-topk", "prerank", "self-report")
     with pytest.raises(ValueError):
         CFG.restorer.with_(strategy="vote")
 
@@ -399,10 +399,11 @@ def test_budgeted_llm_caps_live_calls_but_not_cache_hits(monkeypatch, tmp_path):
 
 
 def test_prerank_without_llm_puts_the_copy_baseline_first():
-    """Never worse than the copy baseline: with no LLM evidence the pre-rank top-1 is the copy fill."""
+    """Never worse than the copy baseline: with no LLM evidence the issue #26 pre-rank top-1 is the copy fill. (The
+    deployed pre-rank adds the 5-gram's share, which can outrank the copy fill: that is the point of it.)"""
     from ezhuthu.agent.data import load_items
 
-    r = Restorer(decider=NoDecider(), use_ontology=False, settings=CFG.restorer.with_(strategy="prerank"),
+    r = Restorer(decider=NoDecider(), use_ontology=False, settings=CFG.restorer.with_(strategy="prerank", ngram_prerank=False),
                  calibration=CalibrationTable())
     checked = 0
     for it in load_items("test"):

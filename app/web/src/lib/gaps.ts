@@ -1,4 +1,4 @@
-/** Parse gap markers from contracts/restore-api.md: `[?]` unknown length, `[?N]` about N characters. */
+/** Parse gap markers from contracts/restore-api.md: `[?]` unknown length, `[?N]` about N Tamil letters (not ISO characters). */
 export type Segment = { kind: 'text'; text: string } | { kind: 'gap'; index: number; chars: number | null; raw: string };
 
 const GAP_RE = /\[\?(\d{1,3})?\]/g;

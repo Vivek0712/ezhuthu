@@ -8,15 +8,30 @@ llm:
   future_default: us.anthropic.claude-sonnet-5-5 # AccessDenied until agreement accepted
   future_escalate: us.anthropic.claude-opus-5-5
 routing:
+  # Kept at 0.6 on VAL (issue #26, eval/reports/2026-11-02-val-selection.md): fewest Opus calls within 1 point of the
+  # best VAL top-1 (0.6: 36/120; 0.7+: 37/120 with Opus on every gap). The raw top-1 here is the noul-topk:3 decider's
+  # P(yes). 96/120 VAL gaps reach Opus by pre-escalation anyway (no parallel >= 50 or > 12 letters).
   escalate_if_confidence_below: 0.6
   escalate_if_gap_chars_over: 12
   escalate_if_no_parallel: true
   abstain_if_confidence_below: 0.5   # used only when no calibration exists for the active decider
 # Restorer pipeline knobs (issue #22); eval flags override them per run (python -m ezhuthu.eval.run --help).
 restorer:
-  strategy: prerank         # choice-all | choice-topk | noul-topk | prerank | self-report. prerank: best retrieval-only VAL top-1, never below copy (eval/reports/2026-11-02-restorer-quality-dev-note.md)
-  strategy_llm: self-report # once an LLM answered: the LLM's own probability (prerank halves length-mismatched LLM fills; QA on PR #25)
-  top_k: 5                  # decider sees the top-k after a cheap pre-rank (copy-baseline fill always included)
+  # Deployed configuration, chosen on VAL by a pre-registered rule (deployed-config issue,
+  # eval/reports/2026-11-02-deployed-config.md): routed Sonnet -> Opus, then the decider-free pre-rank with the
+  # character 5-gram's share as a noisy-OR term ("hybrid-prerank"). VAL selection set (280 gaps): 100 matches vs 85
+  # routed + self-report, 83 routed + prerank, 92 5-gram gate, 79 5-gram only; hosted v19 choice-topk:3 41 vs 39 on
+  # the 120-gap hosted set (p=0.69), so the hosted decider is not used for restoration. The same settings run with and
+  # without the decider key (Secrets Manager ezhuthu/decider-api-key): no decider call is made for restoration.
+  # Previous settings (issue #26, eval/reports/2026-11-02-val-selection.md; measured on TEST with the local 2B decider
+  # only, never deployable as measured): strategy_llm: noul-topk (2B decider noul on the top-3), ngram_prerank: false.
+  strategy: self-report     # choice-all | choice-topk | noul-topk | prerank | self-report. Retrieval-only gaps (an LLM call failed): the parallel-agreement heuristic (issue #26: full VAL 0.2619 vs prerank 0.2551, p=0.66)
+  strategy_llm: prerank     # once an LLM answered: pre-rank, no decider (was noul-topk)
+  ngram_prerank: true       # pre-rank = noisy-OR(LLM probability, parallel support, 5-gram softmax share); tagged prerank-ngram (was false)
+  ngram_beam: 20            # 5-gram beam size/width for the proposals and their shares (the 5-gram baseline's)
+  ngram_slot: false         # only for top-k decider strategies (show the 5-gram top fill to the decider)
+  ngram_gate: null          # 5-gram gate (fill without an LLM when its share >= this): 92 vs 100 on VAL, not used
+  top_k: 3                  # decider strategies only: the top-k after the pre-rank (copy-baseline fill always included)
   llm_candidates: 8         # fills asked of the LLM per call (compact JSON: fill + probability only)
   llm_max_tokens: 2048      # ceiling; the budget scales with llm_candidates x gap length
   retry_on_truncation: true # one stricter retry when a reply is cut at max_tokens

@@ -1,0 +1,416 @@
+{
+ "n": 120,
+ "seed": 26,
+ "notes": [
+  "VAL picked noul-topk:3 for LLM gaps: the escalation grid and the LLM calibration below use its rows (val-sonnet-noul-topkk3, val-routed-always-noul-topkk3, val-opus-noul-topkk3; replayed from the cache, 0 Bedrock calls). Its raw top-1 is the decider's probability.",
+  "Re-scored after the 5-gram determinism fix (QA on PR #31; `CharNgram.fill` had depended on PYTHONHASHSEED), from the reply cache with 0 Bedrock calls (`usage-rescore.json`): the full-VAL retrieval report and every VAL row were re-run, and every choice above is unchanged. Every VAL row has the same top-1 and fill/abstain as before; the Sonnet pools gained one target in the candidates (top-20 0.4917 -> 0.5); the 5-gram baseline's full-VAL top-1 is 0.298 (threshold 0.9103; one earlier process gave 0.3002 / 0.9104); the four decider retrieval calibration entries moved slightly (e.g. choice-all threshold 0.4143 -> 0.4121), the prerank, self-report and LLM entries did not."
+ ],
+ "llm_strategy": {
+  "table": {
+   "self-report": {
+    "top1": 0.1167,
+    "top1_ci": [
+     0.0667,
+     0.175
+    ],
+    "top20": 0.5,
+    "ece": 0.4182
+   },
+   "prerank": {
+    "top1": 0.15,
+    "top1_ci": [
+     0.0917,
+     0.2083
+    ],
+    "top20": 0.5,
+    "ece": 0.4082
+   },
+   "choice-topk:3": {
+    "top1": 0.1667,
+    "top1_ci": [
+     0.1,
+     0.2333
+    ],
+    "top20": 0.5,
+    "ece": 0.1593
+   },
+   "choice-topk:5": {
+    "top1": 0.1583,
+    "top1_ci": [
+     0.0917,
+     0.225
+    ],
+    "top20": 0.5,
+    "ece": 0.131
+   },
+   "noul-topk:3": {
+    "top1": 0.1917,
+    "top1_ci": [
+     0.125,
+     0.2583
+    ],
+    "top20": 0.5,
+    "ece": 0.3861
+   }
+  },
+  "vs_self_report": {
+   "prerank": {
+    "only_a": 4,
+    "only_b": 0,
+    "both": 14,
+    "p_mcnemar": 0.125
+   },
+   "choice-topk:3": {
+    "only_a": 10,
+    "only_b": 4,
+    "both": 10,
+    "p_mcnemar": 0.179565
+   },
+   "choice-topk:5": {
+    "only_a": 11,
+    "only_b": 6,
+    "both": 8,
+    "p_mcnemar": 0.332306
+   },
+   "noul-topk:3": {
+    "only_a": 11,
+    "only_b": 2,
+    "both": 12,
+    "p_mcnemar": 0.022461
+   }
+  },
+  "chosen": "noul-topk:3",
+  "rule": "highest VAL top-1 on the Sonnet candidate pools; ties go to the decider-free strategy listed first (self-report, then prerank)"
+ },
+ "llm_decider_variant": "noul-topk:3",
+ "escalation": {
+  "grid": [
+   {
+    "threshold": 0.0,
+    "top1": 0.2917,
+    "top1_matching": 35,
+    "opus_items": 96,
+    "opus_share": 0.8,
+    "usd_per_item": 0.00637,
+    "pre_escalated": 96,
+    "vs_copy": {
+     "only_a": 18,
+     "only_b": 4,
+     "both": 17,
+     "p_mcnemar": 0.004344
+    }
+   },
+   {
+    "threshold": 0.3,
+    "top1": 0.2917,
+    "top1_matching": 35,
+    "opus_items": 96,
+    "opus_share": 0.8,
+    "usd_per_item": 0.00637,
+    "pre_escalated": 96,
+    "vs_copy": {
+     "only_a": 18,
+     "only_b": 4,
+     "both": 17,
+     "p_mcnemar": 0.004344
+    }
+   },
+   {
+    "threshold": 0.4,
+    "top1": 0.2917,
+    "top1_matching": 35,
+    "opus_items": 96,
+    "opus_share": 0.8,
+    "usd_per_item": 0.00637,
+    "pre_escalated": 96,
+    "vs_copy": {
+     "only_a": 18,
+     "only_b": 4,
+     "both": 17,
+     "p_mcnemar": 0.004344
+    }
+   },
+   {
+    "threshold": 0.5,
+    "top1": 0.2917,
+    "top1_matching": 35,
+    "opus_items": 96,
+    "opus_share": 0.8,
+    "usd_per_item": 0.00637,
+    "pre_escalated": 96,
+    "vs_copy": {
+     "only_a": 18,
+     "only_b": 4,
+     "both": 17,
+     "p_mcnemar": 0.004344
+    }
+   },
+   {
+    "threshold": 0.6,
+    "top1": 0.3,
+    "top1_matching": 36,
+    "opus_items": 100,
+    "opus_share": 0.8333,
+    "usd_per_item": 0.00665,
+    "pre_escalated": 96,
+    "vs_copy": {
+     "only_a": 19,
+     "only_b": 4,
+     "both": 17,
+     "p_mcnemar": 0.002599
+    }
+   },
+   {
+    "threshold": 0.7,
+    "top1": 0.3083,
+    "top1_matching": 37,
+    "opus_items": 113,
+    "opus_share": 0.9417,
+    "usd_per_item": 0.00737,
+    "pre_escalated": 96,
+    "vs_copy": {
+     "only_a": 20,
+     "only_b": 4,
+     "both": 17,
+     "p_mcnemar": 0.001544
+    }
+   },
+   {
+    "threshold": 0.8,
+    "top1": 0.3083,
+    "top1_matching": 37,
+    "opus_items": 120,
+    "opus_share": 1.0,
+    "usd_per_item": 0.00774,
+    "pre_escalated": 96,
+    "vs_copy": {
+     "only_a": 20,
+     "only_b": 4,
+     "both": 17,
+     "p_mcnemar": 0.001544
+    }
+   },
+   {
+    "threshold": 0.9,
+    "top1": 0.3083,
+    "top1_matching": 37,
+    "opus_items": 120,
+    "opus_share": 1.0,
+    "usd_per_item": 0.00774,
+    "pre_escalated": 96,
+    "vs_copy": {
+     "only_a": 20,
+     "only_b": 4,
+     "both": 17,
+     "p_mcnemar": 0.001544
+    }
+   },
+   {
+    "threshold": 1.01,
+    "top1": 0.3083,
+    "top1_matching": 37,
+    "opus_items": 120,
+    "opus_share": 1.0,
+    "usd_per_item": 0.00774,
+    "pre_escalated": 96,
+    "vs_copy": {
+     "only_a": 20,
+     "only_b": 4,
+     "both": 17,
+     "p_mcnemar": 0.001544
+    }
+   }
+  ],
+  "chosen": 0.6,
+  "current": 0.6,
+  "rule": "fewest Opus calls among thresholds whose VAL top-1 is within 1 percentage point of the best threshold's",
+  "opus_only_top1": 0.3167,
+  "sonnet_only_top1": 0.1917,
+  "at_current": {
+   "threshold": 0.6,
+   "top1": 0.3,
+   "top1_matching": 36,
+   "opus_items": 100,
+   "opus_share": 0.8333,
+   "usd_per_item": 0.00665,
+   "pre_escalated": 96,
+   "vs_copy": {
+    "only_a": 19,
+    "only_b": 4,
+    "both": 17,
+    "p_mcnemar": 0.002599
+   }
+  }
+ },
+ "calibration": {
+  "prerank|prerank|kall|llm-sonnet": {
+   "a": 1.021665,
+   "b": -2.296331,
+   "threshold": 0.5779,
+   "n": 120,
+   "positives": 18,
+   "split": "val",
+   "fitted_at": "2026-11-02T05:04:53+00:00",
+   "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26",
+   "provisional": false
+  },
+  "strands-decider-2B-qwen3.5-v1-2610|choice-topk|k3|llm-sonnet": {
+   "a": 1.125323,
+   "b": -0.7731,
+   "threshold": 0.5663,
+   "n": 120,
+   "positives": 20,
+   "split": "val",
+   "fitted_at": "2026-11-02T05:04:53+00:00",
+   "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26",
+   "provisional": false
+  },
+  "strands-decider-2B-qwen3.5-v1-2610|choice-topk|k5|llm-sonnet": {
+   "a": 0.838629,
+   "b": -0.875664,
+   "threshold": 1.0,
+   "n": 120,
+   "positives": 19,
+   "split": "val",
+   "fitted_at": "2026-11-02T05:04:53+00:00",
+   "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26",
+   "provisional": false
+  },
+  "strands-decider-2B-qwen3.5-v1-2610|noul-topk|k3|llm-opus": {
+   "a": 2.431386,
+   "b": -1.430561,
+   "threshold": 0.3772,
+   "n": 100,
+   "positives": 28,
+   "split": "val",
+   "fitted_at": "2026-11-02T05:04:53+00:00",
+   "note": "VAL seeded sample (seed 26), ontology on, n=100; issue #26",
+   "provisional": false
+  },
+  "strands-decider-2B-qwen3.5-v1-2610|noul-topk|k3|llm-sonnet": {
+   "a": 1.648963,
+   "b": -1.976991,
+   "threshold": 0.4001,
+   "n": 120,
+   "positives": 23,
+   "split": "val",
+   "fitted_at": "2026-11-02T05:04:53+00:00",
+   "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26",
+   "provisional": false
+  }
+ },
+ "retrieval_strategy": {
+  "table": {
+   "prerank": {
+    "top1": 0.2551,
+    "oracle": 0.5079,
+    "key": "prerank|prerank|kall|retrieval",
+    "vs_copy": {
+     "both": 106,
+     "only_variant": 7,
+     "only_copy": 1
+    }
+   },
+   "fallback": {
+    "top1": 0.2619,
+    "oracle": 0.5079,
+    "key": "fallback:retrieval-heuristic|fallback|kall|retrieval",
+    "vs_copy": {
+     "both": 97,
+     "only_variant": 19,
+     "only_copy": 10
+    }
+   },
+   "choice-topk:3": {
+    "top1": 0.2393,
+    "oracle": 0.5079,
+    "key": "strands-decider-2B-qwen3.5-v1-2610|choice-topk|k3|retrieval",
+    "vs_copy": {
+     "both": 74,
+     "only_variant": 32,
+     "only_copy": 33
+    }
+   },
+   "choice-topk:5": {
+    "top1": 0.2415,
+    "oracle": 0.5079,
+    "key": "strands-decider-2B-qwen3.5-v1-2610|choice-topk|k5|retrieval",
+    "vs_copy": {
+     "both": 63,
+     "only_variant": 44,
+     "only_copy": 44
+    }
+   },
+   "noul-topk:3": {
+    "top1": 0.2483,
+    "oracle": 0.5079,
+    "key": "strands-decider-2B-qwen3.5-v1-2610|noul-topk|k3|retrieval",
+    "vs_copy": {
+     "both": 83,
+     "only_variant": 27,
+     "only_copy": 24
+    }
+   },
+   "choice-all": {
+    "top1": 0.2506,
+    "oracle": 0.5079,
+    "key": "strands-decider-2B-qwen3.5-v1-2610|choice-all|kall|retrieval",
+    "vs_copy": {
+     "both": 60,
+     "only_variant": 51,
+     "only_copy": 47
+    }
+   }
+  },
+  "vs_best": {
+   "prerank": {
+    "only_a": 9,
+    "only_b": 12,
+    "both": 104,
+    "p_mcnemar": 0.663624
+   },
+   "choice-topk:3": {
+    "only_a": 21,
+    "only_b": 31,
+    "both": 85,
+    "p_mcnemar": 0.211609
+   },
+   "choice-topk:5": {
+    "only_a": 33,
+    "only_b": 42,
+    "both": 74,
+    "p_mcnemar": 0.355699
+   },
+   "noul-topk:3": {
+    "only_a": 21,
+    "only_b": 27,
+    "both": 89,
+    "p_mcnemar": 0.470879
+   },
+   "choice-all": {
+    "only_a": 40,
+    "only_b": 45,
+    "both": 71,
+    "p_mcnemar": 0.664645
+   }
+  },
+  "chosen": "fallback",
+  "decider_variant": "choice-all",
+  "copy_top1": 0.2415,
+  "n": 443,
+  "report": "eval/reports/2026-11-02-restorer-val-retrieval-aksharas.json",
+  "rule": "highest full-VAL top-1 (n=443, retrieval candidates); ties go to the variant listed first"
+ },
+ "baseline_thresholds": {
+  "baseline-copy": {
+   "threshold": 0.6012,
+   "val_top1": 0.2415,
+   "n": 443
+  },
+  "baseline-ngram": {
+   "threshold": 0.9103,
+   "val_top1": 0.298,
+   "n": 443
+  }
+ }
+}

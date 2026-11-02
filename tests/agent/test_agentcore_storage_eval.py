@@ -102,8 +102,8 @@ def test_eval_runner_and_report(tmp_path, monkeypatch):
 
 
 def test_ontology_ablation_changes_candidates():
-    with_onto = Restorer(decider=NoDecider()).restore_gap("cantirātittavar ", " ivai", 9)
-    without = Restorer(decider=NoDecider(), use_ontology=False).restore_gap("cantirātittavar ", " ivai", 9)
+    with_onto = Restorer(decider=NoDecider()).restore_gap("cantirātittavar ", " ivai", 5)
+    without = Restorer(decider=NoDecider(), use_ontology=False).restore_gap("cantirātittavar ", " ivai", 5)
     assert any("ontology" in c.sources for c in with_onto.candidates)
     assert not any("ontology" in c.sources for c in without.candidates)
     assert all(not c.hints for c in without.candidates)

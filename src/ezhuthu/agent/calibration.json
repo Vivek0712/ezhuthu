@@ -1,125 +1,135 @@
 {
- "note": "Platt (a, b) and abstain threshold per decider variant; VAL split only. Entries under restorer.calibration_min_n (100) items or calibration_min_positives (10) are provisional and ignored.",
+ "note": "Platt (a, b) and abstain threshold per decider variant; VAL split only (issue #26: Tamil-letter length unit, ontology on). Entries under restorer.calibration_min_n (100) items or calibration_min_positives (10) are provisional and ignored.",
  "variants": {
-  "fallback:llm-self-report|fallback|kall|llm-sonnet": {
-   "a": 0.802801,
-   "b": -1.396845,
-   "threshold": 0.6373,
-   "n": 20,
-   "positives": 3,
-   "split": "val",
-   "fitted_at": "2026-11-01T23:11:12+00:00",
-   "note": "sonnet router, ontology off, n=20; provisional (n<100 / positives<10): kept for the record, ignored by the restorer"
-  },
   "fallback:retrieval-heuristic|fallback|kall|retrieval": {
-   "a": 1.234968,
-   "b": 0.543032,
-   "threshold": 0.675,
+   "a": 1.156394,
+   "b": 0.865914,
+   "threshold": 0.5804,
    "n": 443,
-   "positives": 96,
+   "positives": 116,
    "split": "val",
-   "fitted_at": "2026-11-01T23:46:36+00:00",
-   "note": "none router, ontology off, n=443"
+   "fitted_at": "2026-11-02T04:00:27+00:00",
+   "note": "none router, ontology on, n=443"
+  },
+  "prerank-ngram|prerank|kall|llm-opus": {
+   "a": 0.656823,
+   "b": -1.870518,
+   "threshold": 0.4887,
+   "n": 224,
+   "positives": 67,
+   "split": "val",
+   "fitted_at": "2026-11-02T06:46:11+00:00",
+   "note": "deployed-config issue: VAL routed run, selection set (280), ontology on, n=224"
+  },
+  "prerank-ngram|prerank|kall|llm-sonnet": {
+   "a": 0.685211,
+   "b": -2.132567,
+   "threshold": 0.4111,
+   "n": 278,
+   "positives": 85,
+   "split": "val",
+   "fitted_at": "2026-11-02T06:46:11+00:00",
+   "note": "deployed-config issue: VAL Sonnet-only run, selection set (280), ontology on, n=278"
   },
   "prerank|prerank|kall|llm-sonnet": {
-   "a": 0.828938,
-   "b": -1.796305,
-   "threshold": 0.6329,
-   "n": 20,
-   "positives": 2,
+   "a": 1.021665,
+   "b": -2.296331,
+   "threshold": 0.5779,
+   "n": 120,
+   "positives": 18,
    "split": "val",
-   "fitted_at": "2026-11-01T23:11:11+00:00",
-   "note": "sonnet router, ontology off, n=20; provisional (n<100 / positives<10): kept for the record, ignored by the restorer"
+   "fitted_at": "2026-11-02T05:04:53+00:00",
+   "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26"
   },
   "prerank|prerank|kall|retrieval": {
-   "a": 0.83603,
-   "b": -0.747474,
-   "threshold": 0.4025,
+   "a": 0.76634,
+   "b": -0.671803,
+   "threshold": 0.4116,
    "n": 443,
-   "positives": 104,
+   "positives": 113,
    "split": "val",
-   "fitted_at": "2026-11-01T23:46:11+00:00",
-   "note": "none router, ontology off, n=443"
-  },
-  "strands-decider-2B-qwen3.5-v1-2610|choice-all|kall|llm-sonnet": {
-   "a": 1.426776,
-   "b": -0.49769,
-   "threshold": 1.0,
-   "n": 20,
-   "positives": 1,
-   "split": "val",
-   "fitted_at": "2026-11-01T23:11:10+00:00",
-   "note": "sonnet router, ontology off, n=20; provisional (n<100 / positives<10): kept for the record, ignored by the restorer"
+   "fitted_at": "2026-11-02T03:59:48+00:00",
+   "note": "none router, ontology on, n=443"
   },
   "strands-decider-2B-qwen3.5-v1-2610|choice-all|kall|retrieval": {
-   "a": 1.178036,
-   "b": -0.444669,
-   "threshold": 1.0,
+   "a": 0.964425,
+   "b": -0.17865,
+   "threshold": 0.4121,
    "n": 443,
-   "positives": 73,
+   "positives": 111,
    "split": "val",
-   "fitted_at": "2026-11-01T23:19:30+00:00",
-   "note": "none router, ontology off, n=443"
+   "fitted_at": "2026-11-02T04:41:11+00:00",
+   "note": "none router, ontology on, n=443"
   },
   "strands-decider-2B-qwen3.5-v1-2610|choice-topk|k3|llm-sonnet": {
-   "a": 1.742495,
-   "b": -1.302177,
-   "threshold": 1.0,
-   "n": 20,
-   "positives": 0,
+   "a": 1.125323,
+   "b": -0.7731,
+   "threshold": 0.5663,
+   "n": 120,
+   "positives": 20,
    "split": "val",
-   "fitted_at": "2026-11-01T23:09:27+00:00",
-   "note": "sonnet router, ontology off, n=20; provisional (n<100 / positives<10): kept for the record, ignored by the restorer"
+   "fitted_at": "2026-11-02T05:04:53+00:00",
+   "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26"
   },
   "strands-decider-2B-qwen3.5-v1-2610|choice-topk|k3|retrieval": {
-   "a": 0.843488,
-   "b": -0.74249,
-   "threshold": 1.0,
+   "a": 0.733502,
+   "b": -0.58126,
+   "threshold": 0.4359,
    "n": 443,
-   "positives": 83,
+   "positives": 106,
    "split": "val",
-   "fitted_at": "2026-11-01T23:25:31+00:00",
-   "note": "none router, ontology off, n=443"
+   "fitted_at": "2026-11-02T04:07:30+00:00",
+   "note": "none router, ontology on, n=443"
   },
   "strands-decider-2B-qwen3.5-v1-2610|choice-topk|k5|llm-sonnet": {
-   "a": 1.480608,
-   "b": -1.044759,
+   "a": 0.838629,
+   "b": -0.875664,
    "threshold": 1.0,
-   "n": 20,
-   "positives": 1,
+   "n": 120,
+   "positives": 19,
    "split": "val",
-   "fitted_at": "2026-11-01T23:09:49+00:00",
-   "note": "sonnet router, ontology off, n=20; provisional (n<100 / positives<10): kept for the record, ignored by the restorer"
+   "fitted_at": "2026-11-02T05:04:53+00:00",
+   "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26"
   },
   "strands-decider-2B-qwen3.5-v1-2610|choice-topk|k5|retrieval": {
-   "a": 1.027207,
-   "b": -0.574342,
-   "threshold": 1.0,
+   "a": 0.905586,
+   "b": -0.332581,
+   "threshold": 0.3778,
    "n": 443,
-   "positives": 76,
+   "positives": 107,
    "split": "val",
-   "fitted_at": "2026-11-01T23:32:55+00:00",
-   "note": "none router, ontology off, n=443"
+   "fitted_at": "2026-11-02T04:16:34+00:00",
+   "note": "none router, ontology on, n=443"
+  },
+  "strands-decider-2B-qwen3.5-v1-2610|noul-topk|k3|llm-opus": {
+   "a": 2.431386,
+   "b": -1.430561,
+   "threshold": 0.3772,
+   "n": 100,
+   "positives": 28,
+   "split": "val",
+   "fitted_at": "2026-11-02T05:04:53+00:00",
+   "note": "VAL seeded sample (seed 26), ontology on, n=100; issue #26"
   },
   "strands-decider-2B-qwen3.5-v1-2610|noul-topk|k3|llm-sonnet": {
-   "a": 0.269836,
-   "b": -2.184105,
-   "threshold": 1.0,
-   "n": 20,
-   "positives": 0,
+   "a": 1.648963,
+   "b": -1.976991,
+   "threshold": 0.4001,
+   "n": 120,
+   "positives": 23,
    "split": "val",
-   "fitted_at": "2026-11-01T23:10:28+00:00",
-   "note": "sonnet router, ontology off, n=20; provisional (n<100 / positives<10): kept for the record, ignored by the restorer"
+   "fitted_at": "2026-11-02T05:04:53+00:00",
+   "note": "VAL seeded sample (seed 26), ontology on, n=120; issue #26"
   },
   "strands-decider-2B-qwen3.5-v1-2610|noul-topk|k3|retrieval": {
-   "a": 2.112848,
-   "b": -2.349079,
-   "threshold": 0.5609,
+   "a": 2.337841,
+   "b": -2.146869,
+   "threshold": 0.47,
    "n": 443,
-   "positives": 89,
+   "positives": 110,
    "split": "val",
-   "fitted_at": "2026-11-01T23:45:47+00:00",
-   "note": "none router, ontology off, n=443"
+   "fitted_at": "2026-11-02T04:31:06+00:00",
+   "note": "none router, ontology on, n=443"
   }
  }
 }

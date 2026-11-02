@@ -99,8 +99,8 @@ def test_allow_escalation_false_never_calls_opus():
 def test_constraints_drop_non_iso_and_flag_length():
     llm = llm_returning({"default": [{"text": "paṉmaṟku", "confidence": 0.9}, {"text": "bad#chars", "confidence": 0.9},
                                      {"text": "paṉmaṟkuvukkāka", "confidence": 0.8}], "escalate": []})
-    g = Restorer(llm=llm, decider=NoDecider()).restore_gap("svasti śrī kōvirājakēcari", " yāṇṭu", 8,
-                                                            router="sonnet", max_candidates=20)
+    g = Restorer(llm=llm, decider=NoDecider()).restore_gap("svasti śrī kōvirājakēcari", " yāṇṭu", 5,
+                                                            router="sonnet", max_candidates=20)  # 5 letters
     texts = {c.text: c for c in g.candidates}
     assert "bad#chars" not in texts
     assert texts["paṉmaṟkuvukkāka"].length_ok is False and texts["paṉmaṟku"].length_ok is True
@@ -142,8 +142,8 @@ def test_parse_candidates_tolerates_prose():
 
 def test_baselines():
     r = Restorer(decider=NoDecider())
-    assert copy_best_parallel(r, "mahādēvarkku nantā viḷakku ", " vaitta āṭu", 7)[0][0] == "oṉṟukku"
-    ng = ngram_fill(r, "cantirātittavar ", " ivai", 9, k=5)
+    assert copy_best_parallel(r, "mahādēvarkku nantā viḷakku ", " vaitta āṭu", 5)[0][0] == "oṉṟukku"
+    ng = ngram_fill(r, "cantirātittavar ", " ivai", 5, k=5)  # celvatāka: 5 letters
     assert ng[0][0] == "celvatāka" and abs(sum(c for _, c in ng) - 1) < 1e-3
     zs = zero_shot(llm_returning({"default": [{"text": "x", "confidence": 0.3}]}), "a ", " b", 1)
     assert zs == [("x", 0.3)]
@@ -189,7 +189,7 @@ def test_real_ontology_port_and_fill_candidates(monkeypatch):
         letters = onto.valid_letters("tamil-brahmi-1")
         assert letters and "a" in letters and all(isinstance(x, str) for x in letters)
         r = Restorer(decider=NoDecider(), ontology=onto)
-        with_onto = r.restore_gap("cantirātittavar", " ivai", 5)
+        with_onto = r.restore_gap("cantirātittavar", " ivai", 5, max_candidates=20)  # 5-gram fills may rank first
         onto_cands = [c for c in with_onto.candidates if "ontology" in c.sources]
         assert [c.text for c in onto_cands] == ["aiyum"]
         without = Restorer(decider=NoDecider(), ontology=onto, use_ontology=False).restore_gap(

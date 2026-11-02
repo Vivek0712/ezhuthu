@@ -1,5 +1,7 @@
-"""QA on PR #25: the shipped defaults (prerank + calibration.json) must not escalate or abstain on a confident,
-correct LLM fill, and the copy-floor pre-rank must survive disagreeing parallels.
+"""QA on PR #25: the shipped defaults must not escalate needlessly on a confident LLM fill, must fill or abstain on
+the shipped VAL calibration, and the copy-floor pre-rank must survive disagreeing parallels. The shipped defaults are
+the deployed configuration chosen on VAL (eval/reports/2026-11-02-deployed-config.md: routed + pre-rank with the
+5-gram share, no decider); the issue #26 decider path is tested with explicit settings.
 
 Unlike the rest of tests/agent, the end-to-end tests here remove the conftest overrides
 (EZHUTHU_CALIBRATION=none, EZHUTHU_RESTORER_STRATEGY=choice-all) so they run what ships.
@@ -7,6 +9,7 @@ Unlike the rest of tests/agent, the end-to-end tests here remove the conftest ov
 
 from __future__ import annotations
 
+import dataclasses
 import json
 
 import pytest
@@ -21,7 +24,7 @@ from ezhuthu.agent.retrieval import Parallel
 from ezhuthu.agent.text import normalize_iso
 
 CFG = load_models_config()
-LEFT, RIGHT, GAP = "svasti śrī kōvirājakēcari", " yāṇṭu mūṉṟāvatu", 8
+LEFT, RIGHT, GAP = "svasti śrī kōvirājakēcari", " yāṇṭu mūṉṟāvatu", 5  # paṉmaṟku: 5 Tamil letters
 
 
 @pytest.fixture
@@ -40,16 +43,17 @@ def _pre_escalates(r: Restorer, it) -> bool:
 
 
 @pytest.mark.parametrize("p", [0.85, 0.92])
-def test_shipped_defaults_fill_a_confident_correct_reply_without_escalating(shipped, p):
+def test_shipped_defaults_do_not_escalate_a_confident_reply_and_use_the_val_calibration(shipped, p):
     cur = {}
     llm = FakeLLM(lambda role, s, prompt: json.dumps({"fills": [[cur["target"], p]]}, ensure_ascii=False))
     r = Restorer(llm=llm)  # no settings / calibration / decider passed: config/models.yaml + calibration.json
-    assert r.settings.strategy == CFG.restorer.strategy == "prerank"
-    assert r.settings.strategy_llm == "self-report"
+    # Deployed (chosen on VAL): retrieval-only gaps self-report; LLM gaps the pre-rank with the 5-gram share
+    assert r.settings.strategy == CFG.restorer.strategy == "self-report"
+    assert r.settings.strategy_llm == "prerank" and r.settings.ngram_prerank
     assert r.calibration.entries, "the shipped calibration.json must load"
     items = [it for it in load_items("test") if it.gap_chars][:10]
     assert len(items) >= 5
-    filled = needless = 0
+    needless = 0
     for it in items:
         cur["target"] = it.target
         before = len(llm.calls)
@@ -62,17 +66,21 @@ def test_shipped_defaults_fill_a_confident_correct_reply_without_escalating(ship
         else:
             assert not g.escalated
         needless += g.escalated and not _pre_escalates(r, it)
-        filled += g.decision == "fill" and g.best.text == normalize_iso(it.target)
-        # the |llm-* entries in calibration.json are provisional (n=20): raw confidences, raw threshold
-        assert g.calibration is None and g.abstain_below == CFG.routing.abstain_if_confidence_below
-        assert g.strategy == "self-report" and g.best.raw_confidence == p
-    assert needless == 0 and filled == len(items)
+        hit = next(c for c in g.candidates if c.text == normalize_iso(it.target))
+        assert hit.raw_confidence >= p  # noisy-OR: the 5-gram and parallel terms only add support
+        # the shipped VAL calibration applies (n >= 100 entries), not the raw 0.5 threshold
+        llm_used = "opus" if roles == ["escalate"] else "sonnet"
+        assert g.decider_model == "prerank-ngram" and g.calibration == f"prerank-ngram|prerank|kall|llm-{llm_used}"
+        assert g.abstain_below == r.calibration.get(g.calibration).threshold
+        assert (g.decision == "fill") == (g.best.confidence >= g.abstain_below)
+    assert needless == 0
 
 
 def test_a_correct_llm_fill_longer_in_iso_than_the_letter_count_still_fills(shipped):
-    """[?N] counts Tamil letters; ISO spells many letters with 2+ characters ("yañ ceytā" is 5 letters, 9 chars),
-    so the ISO length check flags 29% of VAL targets. Under prerank that halved a correct p=0.85 LLM fill to 0.425
-    (abstain); with strategy_llm=self-report the LLM's own probability stands."""
+    """[?N] counts Tamil letters; ISO spells many letters with 2+ characters ("yañ ceytā" is 5 letters, 9 chars).
+    The old ISO-character length check flagged 29% of VAL targets, and under prerank that halved a correct p=0.85
+    LLM fill to 0.425 (abstain). The check now counts letters (issue #26): the fill is length-ok under every
+    strategy and prerank keeps its 0.85 (the shipped pre-rank can only add 5-gram support to it)."""
     target = "yañ ceytā"
     llm = FakeLLM(lambda role, s, prompt: json.dumps({"fills": [[target, 0.85]]}, ensure_ascii=False))
     pars = [Parallel("I1", "1", "s", None, 60.0, "kōyil")]  # a good parallel (>= 50): no pre-escalation
@@ -80,32 +88,75 @@ def test_a_correct_llm_fill_longer_in_iso_than_the_letter_count_still_fills(ship
     r.retrieve_parallels = lambda *a, **k: list(pars)  # type: ignore[method-assign]
     g = r.restore_gap(LEFT, RIGHT, 5, router="routed")
     hit = next(c for c in g.candidates if c.text == target)
-    assert not hit.length_ok  # the (ISO-character) length check still flags it ...
-    assert g.decision == "fill" and g.best.text == target and not g.escalated  # ... but it fills, with Sonnet only
-    assert [role for role, _ in llm.calls] == ["default"]
+    assert hit.length_ok and hit.prerank >= 0.85  # 5 letters for a 5-letter gap (9 ISO characters); not halved
+    assert not g.escalated and [role for role, _ in llm.calls] == ["default"]  # Sonnet only
     pre = Restorer(llm=FakeLLM(lambda *a: json.dumps({"fills": [[target, 0.85]]}, ensure_ascii=False)),
-                   use_ontology=False, settings=CFG.restorer.with_(strategy="prerank"))
+                   use_ontology=False, settings=CFG.restorer.with_(strategy="prerank", ngram_prerank=False))
     pre.retrieve_parallels = lambda *a, **k: list(pars)  # type: ignore[method-assign]
     g2 = pre.restore_gap(LEFT, RIGHT, 5, router="sonnet")
-    assert g2.strategy == "prerank" and next(c for c in g2.candidates if c.text == target).prerank == 0.425
+    assert g2.strategy == "prerank" and next(c for c in g2.candidates if c.text == target).prerank == 0.85
 
 
 def test_strategy_override_applies_to_llm_gaps_too():
     assert CFG.restorer.with_(strategy="choice-topk").strategy_for(True) == "choice-topk"
     assert CFG.restorer.with_(strategy="choice-topk", strategy_llm="prerank").strategy_for(True) == "prerank"
-    assert CFG.restorer.strategy_for(False) == "prerank" and CFG.restorer.strategy_for(True) == "self-report"
+    assert CFG.restorer.strategy_for(False) == "self-report" and CFG.restorer.strategy_for(True) == "prerank"
     with pytest.raises(ValueError):
         CFG.restorer.with_(strategy_llm="vote")
 
 
-def test_shipped_llm_entries_are_provisional_and_retrieval_entries_are_used(shipped):
+DEC = "strands-decider-2B-qwen3.5-v1-2610"
+
+
+def test_shipped_calibration_entries_are_fitted_on_enough_val_items(shipped):
+    """Issue #26: the |llm-sonnet and |llm-opus entries of the shipped strategy are fitted on >= 100 VAL items (the
+    n=20 entries are gone), and retrieval-only gaps use the full-VAL (n=443) entry of the shipped strategy."""
     r = Restorer()
     llm_keys = [k for k in r.calibration.entries if "|llm" in k]
-    assert llm_keys and all(r.calibration.get(k) is None for k in llm_keys)
     assert all(k.endswith(("|llm-sonnet", "|llm-opus")) for k in llm_keys)  # router-aware keys
-    assert r.calibration.get("prerank|prerank|kall|retrieval") is not None  # n=443, 104 positives
+    for key in (f"{DEC}|noul-topk|k3|llm-sonnet", f"{DEC}|noul-topk|k3|llm-opus"):
+        c = r.calibration.get(key)
+        assert c is not None and c.n >= 100 and c.positives >= 10 and c.split == "val"
+    assert all(e.n >= 100 for e in r.calibration.entries.values())
     g = r.restore_gap(LEFT, RIGHT, GAP, router="none")
-    assert g.calibration == "prerank|prerank|kall|retrieval"
+    assert g.calibration == "fallback:retrieval-heuristic|fallback|kall|retrieval"
+    assert r.calibration.get(g.calibration).n == 443
+
+
+class _NoulDecider:
+    """Says yes (p=0.9) to the candidate equal to ``target``, no (0.05) to anything else."""
+
+    model = DEC
+
+    def __init__(self):
+        self.target = ""
+
+    def available(self) -> bool:
+        return True
+
+    def choice(self, *a, **k):  # pragma: no cover - not used by noul-topk
+        raise AssertionError("noul-topk must not call choice")
+
+    def noul(self, state, instructions, *, name="q"):
+        from ezhuthu.agent.decider import Noul
+
+        p = 0.9 if state["candidate"]["fill"] == self.target else 0.05
+        return Noul(p, DEC, source="fake")
+
+
+def test_issue26_decider_path_fills_a_confident_correct_llm_fill_with_sonnet_only(shipped):
+    """The issue #26 VAL choice (local 2B decider noul on the top 3; measured on TEST in PR #31, not deployed)."""
+    dec = _NoulDecider()
+    llm = FakeLLM(lambda role, s, prompt: json.dumps({"fills": [[dec.target, 0.85]]}, ensure_ascii=False))
+    pars = [Parallel("I1", "1", "s", None, 60.0, "kōyil")]  # a good parallel: no pre-escalation
+    issue26 = dataclasses.replace(CFG.restorer, strategy_llm="noul-topk", ngram_prerank=False)
+    r = Restorer(llm=llm, decider=dec, use_ontology=False, settings=issue26)
+    r.retrieve_parallels = lambda *a, **k: list(pars)  # type: ignore[method-assign]
+    dec.target = "paṉmaṟku"
+    g = r.restore_gap(LEFT, RIGHT, GAP, router="routed")
+    assert [role for role, _ in llm.calls] == ["default"] and not g.escalated  # P(yes) 0.9 >= 0.6
+    assert g.calibration == f"{DEC}|noul-topk|k3|llm-sonnet" and g.decision == "fill" and g.best.text == "paṉmaṟku"
+    assert g.best.confidence_source == "decider-noul"
 
 
 def test_escalation_uses_raw_confidence_not_the_calibrated_score():
@@ -113,7 +164,7 @@ def test_escalation_uses_raw_confidence_not_the_calibrated_score():
     key = variant_key("prerank", "prerank", 5, "sonnet")
     table = CalibrationTable({key: Calibration(a=1.0, b=-4.0, threshold=0.1, n=500, positives=200)})
     llm = FakeLLM(lambda role, s, prompt: json.dumps({"fills": [["paṉmaṟku", 0.85]]}, ensure_ascii=False))
-    r = Restorer(llm=llm, decider=NoDecider(), use_ontology=False, settings=CFG.restorer.with_(strategy="prerank"),
+    r = Restorer(llm=llm, decider=NoDecider(), use_ontology=False, settings=CFG.restorer.with_(strategy="prerank", ngram_prerank=False),
                  calibration=table)
     g = r.restore_gap(LEFT, RIGHT, GAP, router="routed", allow_escalation=True)
     assert not g.escalated and [role for role, _ in llm.calls] == ["default"]  # this gap has a good parallel
@@ -123,7 +174,7 @@ def test_escalation_uses_raw_confidence_not_the_calibrated_score():
     low = FakeLLM(lambda role, s, prompt: json.dumps({"fills": [["xyzxyzxy", 0.05]]}, ensure_ascii=False))
     pars = [Parallel("I1", "1", "s", None, 90.0, "paṉmaṟku")]
     r2 = Restorer(llm=low, decider=NoDecider(), use_ontology=False,
-                  settings=CFG.restorer.with_(strategy="prerank"), calibration=CalibrationTable(min_n=0,
+                  settings=CFG.restorer.with_(strategy="prerank", ngram_prerank=False), calibration=CalibrationTable(min_n=0,
                                                                                                   min_positives=0))
     r2.retrieve_parallels = lambda *a, **k: pars  # type: ignore[method-assign]
     r2.calibration.entries[variant_key("prerank", "prerank", 5, "opus")] = Calibration(1.0, 0.0, 0.5)
@@ -141,7 +192,7 @@ def test_router_opus_uses_the_opus_calibration_key():
     table = CalibrationTable({variant_key("prerank", "prerank", 5, "opus"): Calibration(1.0, 0.0, 0.5),
                               variant_key("prerank", "prerank", 5, "sonnet"): Calibration(1.0, 0.0, 0.9)},
                              min_n=0, min_positives=0)
-    r = Restorer(llm=llm, decider=NoDecider(), use_ontology=False, settings=CFG.restorer.with_(strategy="prerank"),
+    r = Restorer(llm=llm, decider=NoDecider(), use_ontology=False, settings=CFG.restorer.with_(strategy="prerank", ngram_prerank=False),
                  calibration=table)
     assert r.restore_gap(LEFT, RIGHT, GAP, router="opus").calibration.endswith("|llm-opus")
     assert r.restore_gap(LEFT, RIGHT, GAP, router="sonnet").calibration.endswith("|llm-sonnet")
@@ -163,7 +214,7 @@ def test_prerank_copy_floor_keeps_full_match_score_when_parallels_disagree():
 
 def test_copy_floor_is_prerank_top1_through_restore_gap_with_disagreeing_parallels():
     found = [_par("A", 90.0, "kōyilaka")] + [_par(f"B{i}", 80.0, "nāṭṭuvar") for i in range(3)]
-    r = Restorer(decider=NoDecider(), use_ontology=False, settings=CFG.restorer.with_(strategy="prerank"),
+    r = Restorer(decider=NoDecider(), use_ontology=False, settings=CFG.restorer.with_(strategy="prerank", ngram_prerank=False),
                  calibration=CalibrationTable())
     r.retrieve_parallels = lambda *a, **k: list(found)  # type: ignore[method-assign]
     g = r.restore_gap(LEFT, RIGHT, GAP, router="none", max_candidates=20)

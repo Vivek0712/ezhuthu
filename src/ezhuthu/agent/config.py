@@ -59,17 +59,26 @@ class RestorerSettings:
       * ``self-report``: no decider; LLM fills keep the LLM's own probability, retrieval-only candidates get the
         parallel-agreement heuristic (the decider-unavailable fallback, and main's behaviour without a decider).
     ``strategy_llm``: the strategy for gaps where an LLM answered; ``None`` = same as ``strategy``. The shipped
-    config uses ``prerank`` for retrieval-only gaps and ``self-report`` once an LLM answered: on the 20 live-Sonnet
-    VAL rows self-report had the better top-1 (0.15 vs 0.10), and prerank halves a correct LLM fill whose ISO
-    length misses the letter-count ``[?N]`` (29% of VAL targets), which then abstained. ``with_(strategy=...)``
-    (env, eval CLIs) sets both unless ``strategy_llm`` is given too.
+    config (chosen on VAL, issue #26) uses ``self-report`` for retrieval-only gaps and ``noul-topk`` (top 3) once an
+    LLM answered; see ``eval/reports/2026-11-02-val-selection.md``. ``with_(strategy=...)`` (env, eval CLIs) sets
+    both unless ``strategy_llm`` is given too.
     ``calibration``: JSON of per-decider Platt parameters and abstain thresholds fitted on the VAL split
     (``python -m ezhuthu.eval.calibrate``); relative paths are resolved against the package directory.
     ``calibration_min_n`` / ``calibration_min_positives``: an entry fitted on fewer VAL items (or fewer correct
     top-1s) is provisional and ignored; the variant then keeps raw confidences and the routing thresholds.
+
+    Character 5-gram options (deployed-config issue; all off by default, see config/models.yaml):
+    ``ngram_beam``: when any option below is on, the 5-gram proposals come from one beam of this width/size (the
+    5-gram baseline's: ``k = beam = 20``) and every candidate gets ``ngram_prob``, its softmax share of that beam
+    (0 if not in it), the baseline's confidence.
+    ``ngram_prerank``: the pre-rank becomes a noisy-OR of LLM probability, parallel support and ``ngram_prob``
+    (instead of the 0.01 n-gram epsilon); the decider-free pre-rank is then tagged ``prerank-ngram``.
+    ``ngram_slot``: a top-k decider strategy always shows the 5-gram's top fill (like the copy-baseline fill).
+    ``ngram_gate``: if the 5-gram's top fill has ``ngram_prob`` >= this, fill it and ask no LLM (a cascade); ``None``
+    turns the gate off.
     """
 
-    strategy: str = "prerank"
+    strategy: str = "prerank"  # dataclass default; config/models.yaml sets the shipped value
     strategy_llm: str | None = None
     top_k: int = 5
     llm_candidates: int = 8
@@ -81,6 +90,14 @@ class RestorerSettings:
     calibration: str | None = "calibration.json"
     calibration_min_n: int = 100
     calibration_min_positives: int = 10
+    ngram_beam: int = 20
+    ngram_prerank: bool = False
+    ngram_slot: bool = False
+    ngram_gate: float | None = None
+
+    @property
+    def ngram_features(self) -> bool:
+        return self.ngram_prerank or self.ngram_slot or self.ngram_gate is not None
 
     def __post_init__(self) -> None:
         if self.strategy not in DECIDER_STRATEGIES:
@@ -89,6 +106,10 @@ class RestorerSettings:
             raise ValueError(f"restorer.strategy_llm must be one of {DECIDER_STRATEGIES}, got {self.strategy_llm!r}")
         if not 1 <= self.top_k <= 23:
             raise ValueError("restorer.top_k must be 1..23")
+        if self.ngram_gate is not None and not 0.0 < self.ngram_gate <= 1.0:
+            raise ValueError("restorer.ngram_gate must be in (0, 1] or null")
+        if self.ngram_beam < self.ngram_k:
+            raise ValueError("restorer.ngram_beam must be >= restorer.ngram_k")
 
     def with_(self, **kw: Any) -> RestorerSettings:
         from dataclasses import replace

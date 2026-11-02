@@ -1,0 +1,12 @@
+{
+ "usage": {
+  "calls": 0,
+  "cached_calls": 501,
+  "input_tokens": {},
+  "output_tokens": {},
+  "estimated_cost_usd": 0.0,
+  "price_basis": "USD/MTok list prices in ezhuthu.agent.llm.PRICE_PER_MTOK"
+ },
+ "code_commit": "3ec2cdac8958956c6021ace9bf4344f70fed99ef",
+ "code_dirty": false
+}

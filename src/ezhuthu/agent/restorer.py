@@ -7,6 +7,7 @@ fixed pipeline so the API is deterministic given the same model responses.
 from __future__ import annotations
 
 import logging
+import math
 import os
 import statistics
 import time
@@ -26,6 +27,7 @@ from .prompts import RESTORER_SYSTEM, parse_candidates, propose_max_tokens, prop
 from .retrieval import Parallel, ParallelIndex
 from .text import (
     DEFAULT_UNKNOWN_GAP,
+    akshara_len,
     fill_gaps,
     find_gaps,
     iso_to_tamil,
@@ -66,6 +68,7 @@ class Candidate:
     ngram_rank: int | None = None  # rank among the n-gram model's proposals (0 = best)
     prerank: float = 0.0  # cheap pre-rank score (LLM probability noisy-OR parallel support)
     raw_confidence: float | None = None  # decider/fallback confidence before calibration
+    ngram_prob: float | None = None  # softmax share of the 5-gram beam (restorer.ngram_* settings only)
 
     @property
     def model(self) -> str:
@@ -88,17 +91,21 @@ class Candidate:
                          "llm_probability": self.llm_confidence, "parallel_support": len(self.parallels),
                          "best_parallel_match": round(self.retrieval_score / 100.0, 4),
                          "ngram_rank": self.ngram_rank,
+                         "ngram_probability": None if self.ngram_prob is None else round(self.ngram_prob, 4),
                          "raw_confidence": None if self.raw_confidence is None else round(self.raw_confidence, 4)},
         }
 
     def option(self, lt: str, rt: str) -> dict[str, Any]:
         """The decider's view of this candidate: the fill in context plus its evidence scores."""
-        return {"fill": self.text, "restored_line": f"{lt}{self.text}{rt}",
-                "parallel_lines_supporting": len(self.parallels),
-                "best_parallel_match": round(self.retrieval_score / 100.0, 2),
-                "llm_probability": None if self.llm_confidence is None else round(self.llm_confidence, 2),
-                "copy_baseline": self.copy_floor, "ngram_proposal": self.ngram_rank is not None,
-                "length_matches_gap": self.length_ok}
+        out = {"fill": self.text, "restored_line": f"{lt}{self.text}{rt}",
+               "parallel_lines_supporting": len(self.parallels),
+               "best_parallel_match": round(self.retrieval_score / 100.0, 2),
+               "llm_probability": None if self.llm_confidence is None else round(self.llm_confidence, 2),
+               "copy_baseline": self.copy_floor, "ngram_proposal": self.ngram_rank is not None,
+               "length_matches_gap": self.length_ok}
+        if self.ngram_prob is not None:  # only with the restorer.ngram_* settings (unchanged request otherwise)
+            out["ngram_probability"] = round(self.ngram_prob, 2)
+        return out
 
 
 @dataclass
@@ -117,6 +124,11 @@ class GapResult:
     abstain_below: float = 0.5
     llm_truncated: int = 0  # LLM replies cut at max_tokens (after the parse of what arrived)
     llm_retries: int = 0  # stricter re-asks after a truncation
+    # One record per LLM call made for this gap (eval cost/latency accounting; not part of the API):
+    # {"model": sonnet|opus, "input_tokens", "output_tokens", "latency_ms" (of the original call, also when the
+    # reply came from the cache), "cached"}. ``llm_wall_ms``: wall time spent waiting on those calls here.
+    llm_calls: list[dict[str, Any]] = field(default_factory=list)
+    llm_wall_ms: float = 0.0
 
     @property
     def best(self) -> Candidate | None:
@@ -132,11 +144,31 @@ class GapResult:
 
 
 def length_tolerance(gap_chars: int) -> int:
+    """Allowed difference, in Tamil letters, between a fill and the gap's ``gap_chars`` (also letters)."""
     return max(2, round(gap_chars * 0.34))
 
 
-def prerank_score(c: Candidate, n_parallel_fills: int) -> float:
+def length_ok(text: str, gap_chars: int) -> bool:
+    """``text`` (ISO) is within :func:`length_tolerance` of the gap, both counted in Tamil letters
+    (:func:`ezhuthu.agent.text.akshara_len`). Comparing ISO characters with a letter count wrongly failed
+    130/443 VAL expert targets (issue #26)."""
+    return abs(akshara_len(text) - gap_chars) <= length_tolerance(gap_chars)
+
+
+def ngram_softmax(beams: list[tuple[str, float]]) -> list[tuple[str, float]]:
+    """The 5-gram baseline's confidence: softmax over the beam's log-probs (relative to the beam, not calibrated)."""
+    if not beams:
+        return []
+    m = max(lp for _, lp in beams)
+    exps = [(t, math.exp(lp - m)) for t, lp in beams]
+    z = sum(e for _, e in exps)
+    return [(t, round(e / z, 4)) for t, e in exps]
+
+
+def prerank_score(c: Candidate, n_parallel_fills: int, *, ngram: bool = False) -> float:
     """Cheap pre-rank: noisy-OR of the LLM's probability and parallel support, halved for a length mismatch.
+    With ``ngram`` (restorer.ngram_prerank) the 5-gram's softmax share is a third noisy-OR term instead of the
+    n-gram epsilon.
 
     Parallel support = best context match (0..1) x share of parallels whose aligned text is this fill; for the
     copy-floor fill it is at least its own match score, so with no LLM evidence the pre-rank top-1 is the copy
@@ -149,9 +181,11 @@ def prerank_score(c: Candidate, n_parallel_fills: int) -> float:
     if c.copy_floor:  # the copy baseline's pick keeps its full match score (never diluted by disagreement)
         par = max(par, c.retrieval_score / 100.0)
     s = 1.0 - (1.0 - llm) * (1.0 - min(1.0, par))
+    if ngram:
+        s = 1.0 - (1.0 - s) * (1.0 - min(1.0, c.ngram_prob or 0.0))
     if "ontology" in c.sources:
         s += 0.02
-    if c.ngram_rank is not None:
+    if c.ngram_rank is not None and not ngram:
         s += 0.01 / (1 + c.ngram_rank)
     if not c.length_ok:
         s *= 0.5
@@ -212,7 +246,7 @@ class Restorer:
         for h in self.ontology.hints_for_gap(left, right):
             if h.fill:  # the real API computes the gap text itself (anchored on both contexts)
                 rest = normalize_iso(h.fill).strip()
-                if rest and abs(len(rest) - gap_chars) <= length_tolerance(gap_chars):
+                if rest and length_ok(rest, gap_chars):
                     out.append((rest, h))
                 continue
             rec = self.ontology.entity(h.id) or {}
@@ -221,14 +255,14 @@ class Restorer:
                 for k in range(min(len(s) - 1, len(lt)), 2, -1):
                     if lt.endswith(s[:k]):
                         rest = s[k:].strip()
-                        if rest and abs(len(rest) - gap_chars) <= length_tolerance(gap_chars):
+                        if rest and length_ok(rest, gap_chars):
                             out.append((rest, h))
                         break
         return out
 
     def propose_fills(self, role: str, left: str, right: str, gap_chars: int | None,
                       parallels: list[Parallel], hints: list[Hint], k: int,
-                      info: dict[str, int] | None = None) -> list[tuple[str, float | None]]:
+                      info: dict[str, Any] | None = None) -> list[tuple[str, float | None]]:
         """LLM fills (compact JSON). A reply cut at ``max_tokens`` keeps every complete fill that arrived and,
         if ``restorer.retry_on_truncation``, is re-asked once with a stricter, shorter prompt."""
         if self.llm is None:
@@ -237,17 +271,29 @@ class Restorer:
                 for p in parallels]
         hs = [h.to_api() for h in hints]
         budget = propose_max_tokens(k, gap_chars, ceiling=self.settings.llm_max_tokens)
-        r = self.llm.complete(role, RESTORER_SYSTEM, propose_prompt(left, right, gap_chars, pars, hs, k),
-                              max_tokens=budget)
+
+        def complete(prompt: str, max_tokens: int):
+            t0 = time.perf_counter()
+            resp = self.llm.complete(role, RESTORER_SYSTEM, prompt, max_tokens=max_tokens)
+            if info is not None:
+                info["wall_ms"] = info.get("wall_ms", 0.0) + (time.perf_counter() - t0) * 1000
+                info.setdefault("calls", []).append({
+                    "model": "opus" if role == "escalate" else "sonnet",
+                    "input_tokens": int(getattr(resp, "input_tokens", 0) or 0),
+                    "output_tokens": int(getattr(resp, "output_tokens", 0) or 0),
+                    "latency_ms": float(getattr(resp, "latency_ms", 0.0) or 0.0),
+                    "cached": bool(getattr(resp, "cached", False))})
+            return resp
+
+        r = complete(propose_prompt(left, right, gap_chars, pars, hs, k), budget)
         got = parse_candidates(r.text)
         if getattr(r, "truncated", False):
             if info is not None:
                 info["truncated"] = info.get("truncated", 0) + 1
             if self.settings.retry_on_truncation:
                 k2 = max(1, min(k, 4))
-                r2 = self.llm.complete(role, RESTORER_SYSTEM,
-                                       propose_prompt(left, right, gap_chars, pars, hs, k2, strict=True),
-                                       max_tokens=self.settings.llm_max_tokens)
+                r2 = complete(propose_prompt(left, right, gap_chars, pars, hs, k2, strict=True),
+                              self.settings.llm_max_tokens)
                 if info is not None:
                     info["retries"] = info.get("retries", 0) + 1
                     if getattr(r2, "truncated", False):
@@ -264,10 +310,9 @@ class Restorer:
 
     def check_constraints(self, cands: list[Candidate], gap_chars: int, *, explicit_length: bool,
                           dynasty: str | None = None) -> list[Candidate]:
-        tol = length_tolerance(gap_chars)
         kept = []
         for c in cands:
-            c.length_ok = (not explicit_length) or abs(len(c.text) - gap_chars) <= tol
+            c.length_ok = (not explicit_length) or length_ok(c.text, gap_chars)
             c.letters_ok = not non_iso_chars(c.text) and letters_ok_for_dynasty(c.text, dynasty)
             if c.letters_ok:
                 kept.append(c)
@@ -285,14 +330,16 @@ class Restorer:
         k = top_k or self.settings.top_k
         lt, rt = left.split("\n")[-1][-60:], right.split("\n")[0][:60]
         state = {
-            "text_before_gap": left[-120:], "text_after_gap": right[:120], "gap_length_chars": gap_chars,
+            "text_before_gap": left[-120:], "text_after_gap": right[:120],
+            "gap_length_tamil_letters": gap_chars,  # aksharas, like gap_chars (not ISO characters)
             "parallel_passages": [f"{p.inscription_id}: {p.snippet}" for p in parallels[:3]],
             "known_entities_nearby": [h.label for h in hints[:5]],
         }
         if strategy == "prerank":
+            tag = "prerank-ngram" if self.settings.ngram_prerank else "prerank"
             for c in cands:
-                c.confidence, c.confidence_source, c.decider_source = c.prerank, "prerank", "prerank"
-            return "prerank", sorted(cands, key=lambda c: c.confidence, reverse=True)
+                c.confidence, c.confidence_source, c.decider_source = c.prerank, tag, "prerank"
+            return tag, sorted(cands, key=lambda c: c.confidence, reverse=True)
 
         if strategy == "self-report":
             return self._self_report(cands, parallels)
@@ -303,6 +350,13 @@ class Restorer:
             floor = next((c for c in cands if c.copy_floor), None)
             if floor is not None and floor not in top:  # the copy baseline always gets a slot
                 top = top[: k - 1] + [floor] if k > 1 else [floor]
+            ng = next((c for c in cands if c.ngram_rank == 0), None) if self.settings.ngram_slot else None
+            if ng is not None and ng not in top and k > 2:
+                # restorer.ngram_slot: the 5-gram's top fill also gets one, displacing the lowest pre-ranked
+                # candidate that is neither the pre-rank top-1 nor the copy-baseline fill
+                drop = next((c for c in reversed(top) if c is not top[0] and c is not floor), None)
+                if drop is not None:
+                    top = [ng if c is drop else c for c in top]
             rest = [c for c in cands if c not in top]
         try:
             if strategy == "noul-topk":
@@ -371,7 +425,7 @@ class Restorer:
     def _estimate_len(self, gap_chars: int | None, parallels: list[Parallel]) -> int:
         if gap_chars:
             return gap_chars
-        fills = [len(p.fill) for p in parallels if p.fill]
+        fills = [akshara_len(p.fill) for p in parallels if p.fill]
         return int(statistics.median(fills)) if fills else DEFAULT_UNKNOWN_GAP
 
     def restore_gap(self, left: str, right: str, gap_chars: int | None, *, index: int = 0, router: str = "routed",
@@ -408,8 +462,7 @@ class Restorer:
                 add(p.fill, "parallel", par=p)
         # Copy floor (the copy baseline's top-1): the best-scoring parallel fill within the length tolerance,
         # searched over the full retrieval depth, so the pipeline can always fall back to it.
-        tol = length_tolerance(gap_chars) if gap_chars else None
-        floor = next((p for p in found if p.fill and (tol is None or abs(len(p.fill) - gap_chars) <= tol)), None)
+        floor = next((p for p in found if p.fill and (not gap_chars or length_ok(p.fill, gap_chars))), None)
         if floor is not None:
             fc = add(floor.fill, "parallel", par=floor)
             if fc is not None:
@@ -417,15 +470,35 @@ class Restorer:
         if self.use_ontology:
             for text, h in self.ontology_candidates(left, right, length):
                 add(text, "ontology", hint=h)
-        for rank, (text, _lp) in enumerate(self.ngram.fill(left, right, length, k=st.ngram_k)):
+        ngram_probs: dict[str, float] | None = None
+        if st.ngram_features:  # one beam like the 5-gram baseline's (k = beam = ngram_beam); softmax shares
+            beams = ngram_softmax(self.ngram.fill(left, right, length, k=st.ngram_beam,
+                                                  beam=max(16, st.ngram_beam)))
+            ngram_props = beams[: st.ngram_k]
+            ngram_probs = {}
+            for text, p in beams:
+                t = normalize_iso(text)
+                if t:
+                    ngram_probs[t] = max(p, ngram_probs.get(t, 0.0))
+        else:
+            ngram_props = [(t, None) for t, _lp in self.ngram.fill(left, right, length, k=st.ngram_k)]
+        for rank, (text, _p) in enumerate(ngram_props):
             c = add(text, "ngram")
             if c is not None and (c.ngram_rank is None or rank < c.ngram_rank):
                 c.ngram_rank = rank
+        # restorer.ngram_gate: a confident 5-gram top fill is filled with no LLM call (the gate threshold is the
+        # 5-gram baseline's VAL-fitted abstain threshold). The fill must pass the same constraints as any candidate.
+        gated: str | None = None
+        if st.ngram_gate is not None and ngram_props and (ngram_props[0][1] or 0.0) >= st.ngram_gate:
+            g = normalize_iso(ngram_props[0][0])
+            if g and self.check_constraints([Candidate(g)], length, explicit_length=gap_chars is not None,
+                                            dynasty=dynasty):
+                gated = g
 
         good_parallel = any(p.fill and p.score >= 50 for p in parallels)
         models_used: list[str] = []
         escalated = False
-        llm_on = include_llm and self.llm is not None and router != "none"
+        llm_on = include_llm and self.llm is not None and router != "none" and gated is None
         if router == "routed":
             pre_escalate = allow_escalation and (
                 length > rt.escalate_if_gap_chars_over or (rt.escalate_if_no_parallel and not good_parallel))
@@ -433,7 +506,7 @@ class Restorer:
             escalated = pre_escalate
         else:
             first_role = {"sonnet": "default", "opus": "escalate"}.get(router, "default")
-        info: dict[str, int] = {}
+        info: dict[str, Any] = {}
         llm_answered: dict[str, str | None] = {"any": None}  # strongest LLM that answered: "sonnet" / "opus"
         used = {"strategy": st.strategy}
 
@@ -464,8 +537,17 @@ class Restorer:
                         c.hints.append(h)
             n_par = len([p for p in parallels if p.fill])
             for c in cands:
-                c.prerank = prerank_score(c, n_par)
+                if ngram_probs is not None:
+                    c.ngram_prob = ngram_probs.get(c.text, 0.0)
+                c.prerank = prerank_score(c, n_par, ngram=st.ngram_prerank)
             cands.sort(key=lambda c: (-c.prerank, -(c.llm_confidence or 0), -c.retrieval_score, c.text))
+            if gated is not None:  # the 5-gram's fill first at its softmax share; the rest in pre-rank order
+                used["strategy"] = "ngram-gate"
+                for c in cands:
+                    c.raw_confidence = c.confidence = c.ngram_prob if c.text == gated else c.prerank
+                    c.confidence_source, c.decider_source = "ngram-gate", "ngram-gate"
+                cands.sort(key=lambda c: (c.text != gated, -c.confidence, c.text))
+                return "ngram-gate", cands, None, float(st.ngram_gate)
             strat = st.strategy_for(bool(llm_answered["any"]))
             used["strategy"] = strat
             model, ranked = self.rank_and_decide(cands, left=left, right=right, gap_chars=length,
@@ -485,14 +567,16 @@ class Restorer:
             decider_model, ranked, cal_key, threshold = finalize()
         best = ranked[0].confidence if ranked else 0.0
 
-        if decider_model not in ("none", "prerank") and not decider_model.startswith("fallback:"):
+        if decider_model not in ("none", "prerank", "prerank-ngram", "ngram-gate") \
+                and not decider_model.startswith("fallback:"):
             models_used.append(decider_model)
         decision = "fill" if ranked and best >= threshold else "abstain"
         return GapResult(index=index, gap_chars=length, decision=decision, chosen=0 if ranked else None,
                          candidates=ranked[:max(1, max_candidates)], decider_model=decider_model,
                          models_used=models_used, escalated=escalated, parallels=parallels,
                          strategy=used["strategy"], calibration=cal_key, abstain_below=threshold,
-                         llm_truncated=info.get("truncated", 0), llm_retries=info.get("retries", 0))
+                         llm_truncated=info.get("truncated", 0), llm_retries=info.get("retries", 0),
+                         llm_calls=list(info.get("calls", [])), llm_wall_ms=round(info.get("wall_ms", 0.0), 1))
 
     def restore(self, text: str, *, script: str = "iso15919", max_candidates: int = 5,
                 allow_escalation: bool = True, router: str = "routed") -> dict[str, Any]:

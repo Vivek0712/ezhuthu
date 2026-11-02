@@ -1,0 +1,18 @@
+{
+ "usage": {
+  "calls": 79,
+  "cached_calls": 785,
+  "input_tokens": {
+   "sonnet": 3446,
+   "opus": 64938
+  },
+  "output_tokens": {
+   "sonnet": 434,
+   "opus": 7163
+  },
+  "estimated_cost_usd": 0.5206,
+  "price_basis": "USD/MTok list prices in ezhuthu.agent.llm.PRICE_PER_MTOK"
+ },
+ "budget_refusals": 0,
+ "max_live_calls": 300
+}

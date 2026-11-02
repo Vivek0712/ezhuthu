@@ -1,0 +1,21 @@
+{
+ "usage": {
+  "calls": 187,
+  "cached_calls": 309,
+  "input_tokens": {
+   "sonnet": 177210
+  },
+  "output_tokens": {
+   "sonnet": 16204
+  },
+  "estimated_cost_usd": 0.7747,
+  "price_basis": "USD/MTok list prices in ezhuthu.agent.llm.PRICE_PER_MTOK"
+ },
+ "budget_refusals": 0,
+ "max_live_calls": 480,
+ "items": "413 TEST gaps (reverse order) + the 88 ontology-hinted gaps with the ontology off",
+ "router": "sonnet",
+ "code_commit": "c9997cbfaaf1f14091c02e14532c0596b39ba6f8",
+ "code_dirty": false,
+ "note": "Recovered from the log of the uncommitted script .cache/runs/warm_test_sonnet.py (now `full_eval warm --split test --router sonnet [--hinted-noonto]`). It ran at the Sonnet quota (PacedBedrockLLM caps --rpm 40 at 10/min) while the scored run's Sonnet lane also ran at 10/min in another process: 20/min against a 10/min quota."
+}

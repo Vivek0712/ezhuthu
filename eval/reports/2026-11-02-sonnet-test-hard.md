@@ -1,5 +1,7 @@
 # Eval: sonnet-test-hard
 
+> **SUPERSEDED (issue #26, 2026-11-02).** Measured before gap lengths were counted in Tamil letters: the length check, copy floor, copy baseline, n-gram fill length and LLM prompt counted ISO characters against a letter count (130/443 VAL targets failed the length check). Also before the truncation fix (#22); n = 30. Kept unchanged below as history; do not cite these numbers. Current numbers: [`2026-11-02-test-eval.md`](2026-11-02-test-eval.md) (TEST scored once with VAL-chosen settings).
+
 - Date: 2026-11-01T20:32:32+00:00
 - Router: `sonnet`
 - Split/subset: test/hard, n = 30

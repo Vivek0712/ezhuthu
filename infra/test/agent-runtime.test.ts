@@ -118,6 +118,16 @@ describe('agent runtime: decider backend', () => {
     agent.hasOutput('DeciderBackend', { Value: Match.stringLikeRegexp('^hosted') });
   });
 
+  it('leaves the restorer configuration to the bundled config/models.yaml and calibration.json on both paths', () => {
+    // The deployed restorer config and its calibration are chosen on VAL (eval/reports/2026-11-02-deployed-config.md);
+    // an env override here would silently run something else (tests/agent/test_runtime_restorer_config.py).
+    for (const { env } of [synth(), synth({ deciderSecretArn: SECRET_ARN })]) {
+      expect(env).not.toHaveProperty('EZHUTHU_RESTORER_STRATEGY');
+      expect(env).not.toHaveProperty('EZHUTHU_CALIBRATION');
+      expect(env).not.toHaveProperty('EZHUTHU_CONFIG');
+    }
+  });
+
   it('reads the secret ARN from context, and treats anything else as "no secret"', () => {
     expect(synth({ context: { 'ezhuthu:deciderSecretArn': SECRET_ARN } }).env.EZHUTHU_DECIDER_BACKEND).toBe('hosted');
     expect(synth({ context: { 'ezhuthu:deciderSecretArn': 'none' } }).env.EZHUTHU_DECIDER_BACKEND).toBe('fallback');
