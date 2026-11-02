@@ -133,6 +133,7 @@ class UsageLedger:
     cached_calls: int = 0
     input_tokens: dict[str, int] = field(default_factory=dict)
     output_tokens: dict[str, int] = field(default_factory=dict)
+    calls_by_model: dict[str, int] = field(default_factory=dict)  # live calls per short model name
     _lock: threading.Lock = field(default_factory=threading.Lock, repr=False, compare=False)
 
     def add(self, short: str, r: LLMResponse) -> None:
@@ -141,6 +142,7 @@ class UsageLedger:
                 self.cached_calls += 1
                 return
             self.calls += 1
+            self.calls_by_model[short] = self.calls_by_model.get(short, 0) + 1
             self.input_tokens[short] = self.input_tokens.get(short, 0) + r.input_tokens
             self.output_tokens[short] = self.output_tokens.get(short, 0) + r.output_tokens
 
@@ -153,7 +155,7 @@ class UsageLedger:
     def to_dict(self) -> dict:
         # Not dataclasses.asdict: it deep-copies the lock and raises "cannot pickle '_thread.lock'".
         with self._lock:
-            d = {"calls": self.calls, "cached_calls": self.cached_calls,
+            d = {"calls": self.calls, "calls_by_model": dict(self.calls_by_model), "cached_calls": self.cached_calls,
                  "input_tokens": dict(self.input_tokens), "output_tokens": dict(self.output_tokens)}
         d["estimated_cost_usd"] = self.estimated_cost_usd()
         d["price_basis"] = "USD/MTok list prices in ezhuthu.agent.llm.PRICE_PER_MTOK"

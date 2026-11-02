@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import math
 
 from ezhuthu.eval import full_eval as fe
@@ -132,3 +133,91 @@ def test_report_renders_from_rows(tmp_path):
     md = fe.render_test_md(res, title="t", preface=["p"])
     assert "2B decider `choice-topk:3`" in md and "code_dirty=false" in md and "Seeded 100-item sample" in md
     assert res["configs"]["copy"]["vs_copy"] is None and res["configs"]["sonnet"]["vs_copy"]["full"]["n"] == 12
+
+
+def test_model_rates_pace_each_model_at_its_quota_share():
+    assert fe.model_rates() == {"sonnet": 10.0, "opus": 5.0}
+    assert fe.model_rates(quota_share=0.5) == {"sonnet": 5.0, "opus": 2.5}
+    assert fe.model_rates(rpm=4) == {"sonnet": 4, "opus": 4}  # --rpm only lowers the rate
+    assert fe.model_rates(rpm=40) == {"sonnet": 10.0, "opus": 5.0}  # never above the quota
+    for bad in (0, 1.5):
+        try:
+            fe.model_rates(quota_share=bad)
+        except ValueError:
+            continue
+        raise AssertionError(bad)
+
+
+def test_ledger_counts_live_calls_per_model():
+    from ezhuthu.agent.llm import LLMResponse, UsageLedger
+
+    led = UsageLedger()
+    led.add("sonnet", LLMResponse("x", "m", 10, 1))
+    led.add("opus", LLMResponse("x", "m", 10, 1))
+    led.add("opus", LLMResponse("x", "m", 10, 1, cached=True))
+    d = led.to_dict()
+    assert d["calls"] == 2 and d["calls_by_model"] == {"sonnet": 1, "opus": 1} and d["cached_calls"] == 1
+
+
+class _FakeRunner:
+    """Stands in for Runner in ``warm``: records what would be asked, no Bedrock."""
+
+    last: _FakeRunner | None = None
+
+    def __init__(self, *, live, max_live_calls, rpm=None, quota_share=1.0, **_):
+        from ezhuthu.agent.calibration import CalibrationTable
+        from ezhuthu.agent.decider import NoDecider
+        from ezhuthu.agent.llm import UsageLedger
+        from ezhuthu.agent.restorer import Restorer
+
+        self.probe = Restorer(decider=NoDecider(), calibration=CalibrationTable())
+        paced = type("P", (), {"ledger": UsageLedger(), "rates": fe.model_rates(rpm, quota_share)})()
+        self.llm = type("B", (), {"inner": paced, "exhausted": 0})()
+        self.runs: list = []
+        _FakeRunner.last = self
+
+    def run(self, name, items, **kw):
+        self.runs.append((name, [it.id for it in items], kw))
+        return []
+
+
+def test_warm_asks_the_scored_runs_prompts_and_keeps_its_ledger(tmp_path, monkeypatch):
+    from ezhuthu.agent.data import load_items
+
+    monkeypatch.setenv("EZHUTHU_LIVE", "1")
+    monkeypatch.setattr(fe, "Runner", _FakeRunner)
+    assert fe.main(["warm", "--split", "test", "--router", "sonnet", "--reverse", "--quota-share", "0.5",
+                    "--out", str(tmp_path), "--cache-out", str(tmp_path / "w")]) == 0
+    name, ids, kw = _FakeRunner.last.runs[0]
+    assert name == "_warm-test-sonnet" and ids == [it.id for it in reversed(load_items("test"))]
+    assert kw["strategy"] == "self-report" and kw["use_ontology"] is True and kw["router"] == "sonnet"
+    led = json.loads((tmp_path / fe.TEST_DIR / "usage-warm-test-sonnet.json").read_text())
+    assert led["rates_rpm"] == {"sonnet": 5.0, "opus": 2.5} and "calls_by_model" in led["usage"]
+
+    assert fe.main(["warm", "--split", "test", "--router", "opus", "--out", str(tmp_path),
+                    "--cache-out", str(tmp_path / "w")]) == 0
+    r = _FakeRunner.last
+    items = load_items("test")
+    want = {it.id for it in fe.seeded_sample(items, 100)} | {it.id for it in items if fe.pre_escalates(r.probe, it)}
+    assert set(r.runs[0][1]) == want
+
+    monkeypatch.setenv("EZHUTHU_LIVE", "0")
+    assert fe.main(["warm", "--split", "val", "--router", "opus", "--out", str(tmp_path)]) == 2
+
+
+def test_report_counts_pre_escalation_and_flags_uncalibrated_rows(tmp_path):
+    out = tmp_path / fe.TEST_DIR
+    rows = [_row(i, i % 2 == 0, calls=[OPU] if i < 3 else [SON, OPU] if i < 5 else [SON]) for i in range(8)]
+    for i, r in enumerate(rows):
+        r.update({"abstain_below": 0.5, "calibration": None if i < 3 else "k|llm-sonnet"})
+    for name in ("copy", "ngram", "prerank", "routed", "routed-prerank", "sonnet"):
+        fe.save_rows(out / "rows" / f"{name}.jsonl", rows, {"config": name, "data_commit": "d",
+                                                            "code_commit": "c" * 40, "code_dirty": False})
+    res = fe.build_report(out, {"baseline_thresholds": {}})
+    assert res["configs"]["routed"]["pre_escalated"] == 3 and res["configs"]["routed"]["cost"]["opus_items"] == 5
+    res["live_call_ledgers"] = {"note": "n", "entries": [{"phase": "p", "split": "test", "how": "h", "source": "s",
+                                                          "sonnet": 2, "opus": 1}],
+                                "totals": {"sonnet": 2, "opus": 1}, "checks": ["c1"]}
+    md = fe.render_test_md(res, title="t", preface=[])
+    assert "Not comparable: " in md and "Routed, prerank instead of the decider" in md.split("Not comparable: ")[1]
+    assert "## Live Bedrock calls by ledger" in md and "| **all** | | | | 2 | 1 | 3 |" in md

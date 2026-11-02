@@ -4,8 +4,16 @@
     EZHUTHU_LIVE=1 python -m ezhuthu.eval.full_eval val --n 120 --max-live-calls 320
     # 2. VAL decisions (0 Bedrock calls): strategy, escalation threshold, |llm-sonnet / |llm-opus calibration
     python -m ezhuthu.eval.full_eval decide --retrieval-report <calibrate JSON> [--write-calibration]
-    # 3. TEST, every configuration once (needs a clean, committed tree)
+    # 3. TEST, every configuration once (needs a clean, committed tree). Optionally warm the reply cache first,
+    #    one process per model (Sonnet and Opus have separate quotas), with no decider:
+    EZHUTHU_LIVE=1 python -m ezhuthu.eval.full_eval warm --split test --router sonnet --max-live-calls 480
     EZHUTHU_LIVE=1 python -m ezhuthu.eval.full_eval test --max-live-calls 900
+    # 4. Report (0 Bedrock calls), from the committed rows, preface and appendix
+    python -m ezhuthu.eval.full_eval report
+
+Bedrock pacing: every live call waits for its model's limiter, at the account quota (``MODEL_RPM``) times
+``--quota-share``. Limiters are per process: two processes calling the same model at once must split the quota
+(``--quota-share 0.5`` each). ``--rpm`` only lowers the rate further.
 
 Per-item rows go to ``<out>/rows/<config>.jsonl`` (committed, so every number can be re-derived), LLM replies to
 ``.cache/llm`` (re-scoring is free). Every row of an LLM configuration lists its LLM calls with tokens and the
@@ -71,12 +79,21 @@ def parse_strategy(spec: str | None) -> tuple[str | None, int | None]:
 MODEL_RPM = {"sonnet": 10.0, "opus": 5.0}
 
 
-class PacedBedrockLLM(BedrockLLM):
-    """BedrockLLM with one rate limiter per model (cache hits are never paced)."""
+def model_rates(rpm: float | None = None, quota_share: float = 1.0) -> dict[str, float]:
+    """Requests a minute per model: its account quota times ``quota_share``, lowered to ``rpm`` when given."""
+    if not 0 < quota_share <= 1:
+        raise ValueError("quota_share must be in (0, 1]")
+    return {m: min(rpm, r * quota_share) if rpm else r * quota_share for m, r in MODEL_RPM.items()}
 
-    def __init__(self, *, rpm: float, **kw: Any):
+
+class PacedBedrockLLM(BedrockLLM):
+    """BedrockLLM with one rate limiter per model (cache hits are never paced). The limiters live in this process:
+    another process calling the same model needs its own share of the quota (``quota_share``)."""
+
+    def __init__(self, *, rpm: float | None = None, quota_share: float = 1.0, **kw: Any):
         super().__init__(rpm=None, **kw)
-        self.limiters = {m: RateLimiter(min(rpm, r) if rpm else r) for m, r in MODEL_RPM.items()}
+        self.rates = model_rates(rpm, quota_share)
+        self.limiters = {m: RateLimiter(r) for m, r in self.rates.items()}
 
     def complete(self, role: str, system: str, prompt: str, *, max_tokens: int = 1024):
         model_id = self.config.model_id(role)
@@ -90,11 +107,13 @@ class PacedBedrockLLM(BedrockLLM):
 class Runner:
     """Shares the retrieval index, n-gram model, LLM client (one ledger, one budget) and decider across runs."""
 
-    def __init__(self, *, live: bool, max_live_calls: int, rpm: float, decider_url: str | None = None):
+    def __init__(self, *, live: bool, max_live_calls: int, rpm: float | None = None, quota_share: float = 1.0,
+                 decider_url: str | None = None):
         os.environ.setdefault("EZHUTHU_ONTOLOGY", "direct")  # same lookup API as the MCP server, in process
         self.cfg = load_models_config()
         # 8 attempts (full-jitter backoff, cap 30 s): other teams share the account's Bedrock quota
-        self.llm = BudgetedLLM(PacedBedrockLLM(rpm=rpm, retry_attempts=8), max_live_calls) if live else None
+        self.llm = (BudgetedLLM(PacedBedrockLLM(rpm=rpm, quota_share=quota_share, retry_attempts=8), max_live_calls)
+                    if live else None)
         self.http = HttpDecider(decider_url)
         self.prov = code_provenance()  # at start: the code this process imported
         self.probe = Restorer(decider=NoDecider(), calibration=CalibrationTable())
@@ -298,7 +317,7 @@ def cmd_val(args) -> int:
         print("the VAL LLM runs call Bedrock: set EZHUTHU_LIVE=1", file=sys.stderr)
         return 2
     out = Path(args.out) / VAL_DIR
-    R = Runner(live=True, max_live_calls=args.max_live_calls, rpm=args.rpm)
+    R = Runner(live=True, max_live_calls=args.max_live_calls, rpm=args.rpm, quota_share=args.quota_share)
     items = seeded_sample(load_items("val"), args.n)
     log.info("VAL sample: %d items (seed %d)", len(items), SEED)
     R.run("val-copy", items, router="baseline-copy", out=out)
@@ -309,7 +328,7 @@ def cmd_val(args) -> int:
     for strat in LLM_STRATEGIES[1:]:
         R.run(f"val-sonnet-{strat.replace(':', 'k')}", items, router="sonnet", out=out, strategy=strat)
     usage = R.llm.inner.ledger.to_dict()
-    (out / "usage.json").write_text(json.dumps({"usage": usage, "budget_refusals": R.llm.exhausted,
+    (out / args.ledger).write_text(json.dumps({"usage": usage, "budget_refusals": R.llm.exhausted,
                                                 "max_live_calls": args.max_live_calls}, indent=1), encoding="utf-8")
     print(json.dumps(usage))
     return 0
@@ -356,7 +375,7 @@ def cmd_decide(args) -> int:
     if best != "self-report":
         # Replay the routed (always-escalate) and Opus runs with the chosen strategy: every LLM reply is cached, so
         # this makes 0 Bedrock calls (the budget is 0: a cache miss would be refused, not billed).
-        R = Runner(live=True, max_live_calls=0, rpm=0)
+        R = Runner(live=True, max_live_calls=0)
         items = seeded_sample(load_items("val"), n)
         slug = best.replace(":", "k")
         always = R.run(f"val-routed-always-{slug}", items, router="routed", out=out, strategy=best,
@@ -439,7 +458,7 @@ def cmd_decide(args) -> int:
             "chosen": best_r, "decider_variant": max(dec_r, key=lambda v: var[v]["summary"]["top1"]) if dec_r else None,
             "copy_top1": rep["meta"]["copy_top1"], "n": rep["meta"]["n"], "report": args.retrieval_report,
             "rule": "highest full-VAL top-1 (n=443, retrieval candidates); ties go to the variant listed first"}
-    R = Runner(live=False, max_live_calls=0, rpm=0)
+    R = Runner(live=False, max_live_calls=0)
     val_all = load_items("val")
     thr = {}
     for name in ("baseline-copy", "baseline-ngram"):
@@ -491,7 +510,7 @@ def cmd_test(args) -> int:
               f"decisions ({want_ret} / {want_llm}); update it first", file=sys.stderr)
         return 2
     out = Path(args.out) / TEST_DIR
-    R = Runner(live=True, max_live_calls=args.max_live_calls, rpm=args.rpm)
+    R = Runner(live=True, max_live_calls=args.max_live_calls, rpm=args.rpm, quota_share=args.quota_share)
     cal = CalibrationTable.load(cfg.restorer.calibration, min_n=cfg.restorer.calibration_min_n,
                                min_positives=cfg.restorer.calibration_min_positives)
     items = load_items("test")
@@ -550,10 +569,51 @@ def cmd_test(args) -> int:
         R.run(f"sonnet-decider-{llm_dec.replace(':', 'k')}", items, router="sonnet", out=out,
               strategy=llm_dec, calibration=cal)
     usage = R.llm.inner.ledger.to_dict()
-    (out / "usage.json").write_text(json.dumps({"usage": usage, "budget_refusals": R.llm.exhausted,
+    (out / args.ledger).write_text(json.dumps({"usage": usage, "budget_refusals": R.llm.exhausted,
                                                 "max_live_calls": args.max_live_calls, **prov}, indent=1),
                                     encoding="utf-8")
     print(json.dumps(usage))
+    return 0
+
+
+# ---------------------------------------------------------------------------------------------- warm-up -------
+def cmd_warm(args) -> int:
+    """Fill ``.cache/llm`` with one model's replies before a scored run, without the decider (the LLM prompts do not
+    depend on the ranking strategy, so the scored run replays them byte for byte). Nothing here is scored: the rows go
+    to ``.cache/runs/warmup`` and only the usage ledger is kept, in ``<split dir>/usage-warm-<name>.json``.
+
+    ``--split test``: every TEST gap (``--hinted-noonto``: the ontology-hinted gaps with the ontology off, as the
+    ablation row asks them; ``--router opus``: the seeded 100-gap sample plus the gaps that pre-escalate).
+    ``--split val``: the seeded VAL sample of ``--n``. ``--reverse`` walks the items backwards, so a concurrent scored
+    run meets the warm-up halfway; give each process its share of the quota (``--quota-share``)."""
+    if not live_enabled():
+        print("warming the cache calls Bedrock: set EZHUTHU_LIVE=1", file=sys.stderr)
+        return 2
+    prov = code_provenance()
+    R = Runner(live=True, max_live_calls=args.max_live_calls, rpm=args.rpm, quota_share=args.quota_share)
+    if args.split == "test":
+        items = load_items("test")
+        if args.router == "opus":
+            sample_ids = {it.id for it in seeded_sample(items, 100)}
+            items = [it for it in items if it.id in sample_ids or pre_escalates(R.probe, it)]
+        split_dir = TEST_DIR
+    else:
+        items = seeded_sample(load_items("val"), args.n)
+        split_dir = VAL_DIR
+    if args.hinted_noonto:
+        items = [it for it in items if R.probe.ontology.hints_for_gap(it.left, it.right)]
+    if args.reverse:
+        items = list(reversed(items))
+    name = f"{args.split}-{args.router}" + ("-noonto-hinted" if args.hinted_noonto else "")
+    R.run(f"_warm-{name}", items, router=args.router, out=Path(args.cache_out), workers=args.workers,
+          strategy="self-report", calibration=CalibrationTable(), use_ontology=not args.hinted_noonto)
+    led = {"usage": R.llm.inner.ledger.to_dict(), "budget_refusals": R.llm.exhausted,
+           "max_live_calls": args.max_live_calls, "items": len(items), "router": args.router,
+           "rates_rpm": R.llm.inner.rates, **prov}
+    path = Path(args.out) / split_dir / f"usage-warm-{name}.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(led, indent=1), encoding="utf-8")
+    print(json.dumps(led["usage"]))
     return 0
 
 
@@ -613,6 +673,8 @@ def build_report(out_dir: Path, dec: dict[str, Any]) -> dict[str, Any]:
             "label": _label(n), "meta": metas[n], "by_subset": by_subset(rs, threshold=base_thr.get(n)),
             "vs_copy": vs(rs, copy) if n != "copy" else None, "cost": cost(rs), "latency": latency(rs),
             "escalated": sum(1 for r in rs if r.get("escalated")),
+            # gaps whose only LLM calls are Opus: routed sent them to Opus without asking Sonnet (pre-escalation)
+            "pre_escalated": sum(1 for r in rs if r.get("llm_calls") and all(c["model"] == "opus" for c in r["llm_calls"])),
             "abstain_threshold": (base_thr.get(n) if n in base_thr else
                                   sorted({r.get("abstain_below") for r in rs if r.get("abstain_below") is not None})),
             "calibration_keys": sorted({r.get("calibration") or "none (raw)" for r in rs if "calibration" in r}),
@@ -757,6 +819,22 @@ def render_test_md(res: dict[str, Any], *, title: str, preface: list[str]) -> st
     for n in names:
         c = res["configs"][n]
         L.append(f"| {c['label']} | {c['abstain_threshold']} | {', '.join('`' + k + '`' for k in c['calibration_keys']) or '-'} |")
+    raw = [res["configs"][n]["label"] for n in names if "none (raw)" in res["configs"][n]["calibration_keys"]]
+    if raw:
+        L += ["", (f"Not comparable: {'; '.join(raw)}. Some of its gaps have no calibration entry for the strategy and "
+                   "LLM that answered (`none (raw)`: e.g. no `prerank|...|llm-opus` entry was fitted on VAL), so they "
+                   "fill or abstain at the raw 0.5 threshold; its coverage and selective accuracy are therefore not "
+                   "comparable with the calibrated rows'. Its top-1, top-20 and CER are.")]
+    led = res.get("live_call_ledgers")
+    if led:
+        L += ["", "## Live Bedrock calls by ledger", "", led.get("note", ""), "",
+              "| phase | split | how it ran | ledger | Sonnet | Opus | total |", "|---|---|---|---|---|---|---|"]
+        for e in led["entries"]:
+            L.append(f"| {e['phase']} | {e['split']} | {e['how']} | {e['source']} | {e['sonnet']} | {e['opus']} | "
+                     f"{e['sonnet'] + e['opus']} |")
+        t = led["totals"]
+        L += [f"| **all** | | | | {t['sonnet']} | {t['opus']} | {t['sonnet'] + t['opus']} |", ""]
+        L += [f"- {x}" for x in led.get("checks", [])]
     return "\n".join(L) + "\n"
 
 
@@ -767,11 +845,16 @@ def cmd_report(args) -> int:
     usage_p = root / TEST_DIR / "usage.json"
     if usage_p.exists():
         res["usage_test_run"] = json.loads(usage_p.read_text(encoding="utf-8"))
-    pre = [line for line in Path(args.preface).read_text(encoding="utf-8").splitlines()] if args.preface else []
+    led_p = root / TEST_DIR / "usage-ledgers.json"
+    if led_p.exists():
+        res["live_call_ledgers"] = json.loads(led_p.read_text(encoding="utf-8"))
+    preface = Path(args.preface) if args.preface else root / TEST_DIR / "preface.md"
+    appendix = Path(args.appendix) if args.appendix else root / TEST_DIR / "appendix.md"
+    pre = preface.read_text(encoding="utf-8").splitlines() if preface.exists() else []
     (root / f"{TEST_DIR}.json").write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
     md = render_test_md(res, title="Full TEST evaluation (2026-11-02)", preface=pre)
-    if args.appendix:
-        md += "\n" + Path(args.appendix).read_text(encoding="utf-8")
+    if appendix.exists():
+        md += "\n" + appendix.read_text(encoding="utf-8")
     (root / f"{TEST_DIR}.md").write_text(md, encoding="utf-8")
     print(root / f"{TEST_DIR}.md")
     return 0
@@ -873,7 +956,7 @@ def cmd_repair(args) -> int:
     cfg = load_models_config()
     cal = CalibrationTable.load(cfg.restorer.calibration, min_n=cfg.restorer.calibration_min_n,
                                min_positives=cfg.restorer.calibration_min_positives)
-    R = Runner(live=True, max_live_calls=args.max_live_calls, rpm=40)
+    R = Runner(live=True, max_live_calls=args.max_live_calls, quota_share=args.quota_share)
     by_id = {it.id: it for it in load_items("test")}
     for p in sorted((out / "rows").glob("*.jsonl")):
         meta, rows = load_rows(p)
@@ -916,7 +999,7 @@ def cmd_extra(args) -> int:
     cfg = load_models_config()
     cal = CalibrationTable.load(cfg.restorer.calibration, min_n=cfg.restorer.calibration_min_n,
                                min_positives=cfg.restorer.calibration_min_positives)
-    R = Runner(live=True, max_live_calls=args.max_live_calls, rpm=40)
+    R = Runner(live=True, max_live_calls=args.max_live_calls, quota_share=args.quota_share)
     items = load_items("test")
     for name, kw in EXTRA_CONFIGS.items():
         R.run(name, items, out=out, workers=args.workers, calibration=cal, **kw)
@@ -938,10 +1021,18 @@ def main(argv: list[str] | None = None) -> int:
     t = sub.add_parser("test")
     t.add_argument("--max-live-calls", type=int, default=900)
     t.add_argument("--allow-dirty", action="store_true", help="never for a reported run")
-    for p in (v, t):
-        p.add_argument("--rpm", type=float, default=40.0)
+    w = sub.add_parser("warm")
+    w.add_argument("--split", choices=["val", "test"], required=True)
+    w.add_argument("--router", choices=["sonnet", "opus"], required=True)
+    w.add_argument("--n", type=int, default=120, help="VAL sample size (seed 26)")
+    w.add_argument("--hinted-noonto", action="store_true")
+    w.add_argument("--reverse", action="store_true")
+    w.add_argument("--max-live-calls", type=int, default=480)
+    w.add_argument("--cache-out", default=str(Path(".cache") / "runs" / "warmup"))
+    for p in (v, t, w):
+        p.add_argument("--rpm", type=float, default=None, help="lower the per-model rate further (requests/min)")
         p.add_argument("--workers", type=int, default=4)
-    for p in (v, d, t):
+    for p in (v, d, t, w):
         p.add_argument("--out", default=str((repo_root() or Path.cwd()) / "eval" / "reports"))
     ex = sub.add_parser("extra")
     ex.add_argument("--max-live-calls", type=int, default=60)
@@ -951,18 +1042,24 @@ def main(argv: list[str] | None = None) -> int:
     rp.add_argument("--max-live-calls", type=int, default=60)
     rp.add_argument("--workers", type=int, default=2)
     rp.add_argument("--out", default=str((repo_root() or Path.cwd()) / "eval" / "reports"))
+    for p in (v, t):
+        p.add_argument("--ledger", default="usage.json",
+                       help="usage ledger file name (a re-score must not overwrite the first run's ledger)")
+    for p in (v, t, w, ex, rp):
+        p.add_argument("--quota-share", type=float, default=1.0,
+                       help="share of each model's account quota this process may use (0-1]")
     vr = sub.add_parser("val-report")
     vr.add_argument("--out", default=str((repo_root() or Path.cwd()) / "eval" / "reports"))
     r = sub.add_parser("report")
-    r.add_argument("--preface", default=None, help="markdown lines to put under the title (headline, caveats)")
-    r.add_argument("--appendix", default=None, help="markdown appended at the end")
+    r.add_argument("--preface", default=None, help="markdown under the title (default: <test dir>/preface.md)")
+    r.add_argument("--appendix", default=None, help="markdown appended at the end (default: <test dir>/appendix.md)")
     r.add_argument("--out", default=str((repo_root() or Path.cwd()) / "eval" / "reports"))
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     logging.getLogger("strands").setLevel(logging.WARNING)
     return {"val": cmd_val, "decide": cmd_decide, "test": cmd_test, "report": cmd_report,
             "val-report": cmd_val_report, "repair": cmd_repair,
-            "extra": cmd_extra}[args.cmd](args)
+            "extra": cmd_extra, "warm": cmd_warm}[args.cmd](args)
 
 
 if __name__ == "__main__":
