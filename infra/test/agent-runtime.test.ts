@@ -125,7 +125,7 @@ describe('agent runtime: decider backend', () => {
     expect(secretArnFromContext(SECRET_ARN)).toBe(SECRET_ARN);
   });
 
-  it('looks the secret up read-only and falls back on any error', () => {
+  it('looks the secret up read-only; only a missing or deleted secret means fallback', () => {
     const calls: string[][] = [];
     const found = lookupDeciderSecretArn('heisenberg', 'us-east-1', (cmd, args) => {
       calls.push([cmd, ...args]);
@@ -139,7 +139,28 @@ describe('agent runtime: decider backend', () => {
     });
     expect(missing).toBeUndefined();
     expect(lookupDeciderSecretArn('p', 'r', () => JSON.stringify({ ARN: SECRET_ARN, DeletedDate: '2026-11-01' }))).toBeUndefined();
-    expect(lookupDeciderSecretArn('p', 'r', () => 'not json')).toBeUndefined();
+    // execFileSync puts the CLI's message on err.stderr; that alone must also count as "not found".
+    expect(lookupDeciderSecretArn('p', 'r', () => {
+      throw Object.assign(new Error('Command failed: aws secretsmanager describe-secret'), {
+        stderr: 'An error occurred (ResourceNotFoundException) when calling the DescribeSecret operation: not found',
+      });
+    })).toBeUndefined();
+  });
+
+  it('throws (with the override hint) on any other lookup failure instead of silently synthesising the fallback', () => {
+    const failures: Array<() => string> = [
+      () => { throw Object.assign(new Error('spawnSync aws ENOENT'), { code: 'ENOENT' }); },
+      () => { throw Object.assign(new Error('spawnSync aws ETIMEDOUT'), { code: 'ETIMEDOUT' }); },
+      () => { throw Object.assign(new Error('Command failed'), { stderr: 'An error occurred (ThrottlingException) when calling the DescribeSecret operation: Rate exceeded' }); },
+      () => { throw Object.assign(new Error('Command failed'), { stderr: 'The config profile (heisenberg) could not be found' }); },
+      () => { throw Object.assign(new Error('Command failed'), { stderr: 'An error occurred (AccessDeniedException) when calling the DescribeSecret operation' }); },
+      () => 'not json',
+      () => JSON.stringify({ Name: DECIDER_SECRET_NAME }),
+    ];
+    for (const run of failures) {
+      expect(() => lookupDeciderSecretArn('heisenberg', 'us-east-1', run)).toThrow(/ezhuthu:deciderSecretArn=<arn>.*ezhuthu:deciderSecretArn=none/);
+    }
+    expect(() => lookupDeciderSecretArn('heisenberg', 'us-east-1', failures[2]!)).toThrow(/ThrottlingException/);
   });
 });
 
@@ -151,6 +172,29 @@ describe('agent runtime: logs, tags, budget', () => {
       RetentionInDays: 14,
       LogGroupName: Match.objectLike({ 'Fn::Join': Match.arrayWith([Match.arrayWith(['/aws/bedrock-agentcore/runtimes/'])]) }),
     });
+  });
+
+  it('gives the LogRetention helper a scoped role, not logs:* on "*"', () => {
+    const fns = agent.findResources('AWS::Lambda::Function');
+    const helper = Object.entries(fns).find(([id]) => id.startsWith('LogRetention'));
+    expect(helper).toBeDefined();
+    const roleRef = (helper![1] as { Properties: { Role: { 'Fn::GetAtt': [string, string] } } }).Properties.Role['Fn::GetAtt'][0];
+    const roles = agent.findResources('AWS::IAM::Role');
+    const role = roles[roleRef] as { Properties: { ManagedPolicyArns?: unknown; Policies: Array<{ PolicyDocument: { Statement: Array<{ Action: string[]; Resource: unknown[] }> } }> } };
+    expect(role.Properties.ManagedPolicyArns).toBeUndefined();
+    const stmts = role.Properties.Policies.flatMap((p) => p.PolicyDocument.Statement);
+    for (const st of stmts) {
+      expect(st.Resource).not.toContain('*');
+      const text = JSON.stringify(st.Resource);
+      expect(text.includes('/aws/bedrock-agentcore/runtimes/') || text.includes('/aws/lambda/EzhuthuAgent*-LogRetention*')).toBe(true);
+    }
+    expect(stmts.flatMap((st) => st.Action).sort()).toEqual(
+      ['logs:CreateLogGroup', 'logs:CreateLogStream', 'logs:DeleteRetentionPolicy', 'logs:PutLogEvents', 'logs:PutRetentionPolicy'],
+    );
+    // No separate IAM::Policy may widen the helper's role (LogRetentionFunction's default '*' statement).
+    for (const pol of Object.values(agent.findResources('AWS::IAM::Policy'))) {
+      expect(JSON.stringify((pol as { Properties: { Roles: unknown } }).Properties.Roles)).not.toContain(roleRef);
+    }
   });
 
   it('keeps every log group in every stack at 14 days', () => {

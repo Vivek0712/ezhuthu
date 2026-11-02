@@ -7,7 +7,7 @@ import { LevelPicker } from '../components/LevelPicker';
 import { useI18n } from '../i18n/I18nProvider';
 import type { MessageKey } from '../i18n/strings';
 import { levelInfo } from '../lib/levels';
-import { safeHref } from '../lib/format';
+import { isDharmaUrl, safeHref } from '../lib/format';
 import { setSessionId } from '../lib/session';
 
 export function LearnPage() {
@@ -120,8 +120,13 @@ export function LearnPage() {
   const item = lesson.items[Math.min(idx, lesson.items.length - 1)]!;
   const ctx = lesson.context;
   const insc = lesson.inscription;
-  // DHARMA editions (TEI on GitHub, or the dharmalekha.info reader) carry CC BY-SA 4.0; a learner's own text has no source.
-  const dharma = safeHref(insc.dharmalekha_url) ?? safeHref(insc.source_url);
+  // A learner's own text has no source. DHARMA editions (TEI under github.com/erc-dharma, or the dharmalekha.info
+  // reader) are labelled as such and carry CC BY-SA 4.0 even if the API omits the licence; for any other source the
+  // app states only the licence the API sent, and none when it sent none.
+  const sourceHref = safeHref(insc.dharmalekha_url) ?? safeHref(insc.source_url);
+  const fromDharma = isDharmaUrl(sourceHref);
+  const licence = insc.licence?.trim() || (fromDharma ? 'CC BY-SA 4.0' : null);
+  const licenceIsCcBySa = licence != null && /^CC BY-SA 4\.0$/i.test(licence);
 
   return (
     <>
@@ -132,16 +137,25 @@ export function LearnPage() {
         <h1>{insc.title}</h1>
         <div className="source-card" data-testid="lesson-source">
           <p className="source-facts">{[ctx.ruler ?? insc.ruler, insc.dynasty, insc.approx_date].filter(Boolean).join(' · ')}</p>
-          {dharma ? (
+          {sourceHref ? (
             <p className="source-line">
               {t('common.source')}:{' '}
-              <a href={dharma} target="_blank" rel="noreferrer">
-                {t('credit.edition')} ↗
-              </a>{' '}
-              ·{' '}
-              <a href={CC_BY_SA} target="_blank" rel="noreferrer">
-                {insc.licence || 'CC BY-SA 4.0'}
+              <a href={sourceHref} target="_blank" rel="noreferrer">
+                {fromDharma ? t('credit.edition') : new URL(sourceHref).hostname} ↗
               </a>
+              {licence ? (
+                <>
+                  {' '}
+                  ·{' '}
+                  {licenceIsCcBySa ? (
+                    <a href={CC_BY_SA} target="_blank" rel="noreferrer" data-testid="lesson-licence">
+                      {licence}
+                    </a>
+                  ) : (
+                    <span data-testid="lesson-licence">{licence}</span>
+                  )}
+                </>
+              ) : null}
             </p>
           ) : null}
         </div>

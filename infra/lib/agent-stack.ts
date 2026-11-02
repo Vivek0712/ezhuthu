@@ -85,7 +85,9 @@ export class EzhuthuAgentStack extends cdk.Stack {
       }),
     );
     // Least privilege on the shared pk/sk table: the agent's DynamoStore only gets, puts (a conditional put for
-    // reviews) and queries the review queue on gsi1. No Scan, Delete, Update or batch calls, and only its own keys.
+    // reviews) and queries the review queue on gsi1. No Scan, Delete, Update or batch calls. LeadingKeys limits the
+    // partition keys to the SESSION#, CORRECTION# and QUEUE# prefixes, but IAM cannot condition on the sort key, so
+    // the role can also write the proxy-owned SESSION#<id>/META item; the agent code (sk=STATE) leaves it alone.
     role.addToPolicy(
       new iam.PolicyStatement({
         sid: 'TableItemsOwnKeys',
@@ -150,13 +152,50 @@ export class EzhuthuAgentStack extends cdk.Stack {
 
     // AgentCore creates the runtime's log group itself (/aws/bedrock-agentcore/runtimes/<id>-DEFAULT), so set
     // its retention with a LogRetention custom resource instead of owning the group (which would clash on deploy).
+    const runtimeLogGroup = `/aws/bedrock-agentcore/runtimes/${this.runtime.attrAgentRuntimeId}-DEFAULT`;
     new logs.LogRetention(this, 'RuntimeLogRetention', {
-      logGroupName: `/aws/bedrock-agentcore/runtimes/${this.runtime.attrAgentRuntimeId}-DEFAULT`,
+      logGroupName: runtimeLogGroup,
       retention: logs.RetentionDays.TWO_WEEKS,
+      role: logRetentionRole(this, runtimeLogGroup),
     });
 
     new cdk.CfnOutput(this, 'AgentRuntimeArn', { value: this.runtimeArn });
     new cdk.CfnOutput(this, 'AgentRuntimeRoleArn', { value: role.roleArn });
     new cdk.CfnOutput(this, 'DeciderBackend', { value: decider.label });
   }
+}
+
+/**
+ * A least-privilege role for CDK's LogRetention helper Lambda. The default role carries AWSLambdaBasicExecutionRole
+ * and logs:PutRetentionPolicy/DeleteRetentionPolicy on '*'. On Create the handler creates the target group if needed
+ * and sets its retention, then does the same for its own /aws/lambda/<fn> group (1 day), and it writes its own logs.
+ * So this role allows exactly that: the runtime log group, and the helper's own group, whose CloudFormation-generated
+ * name is "<stack name, truncated>-LogRetention<hash>-<suffix>". The role is immutable, so LogRetentionFunction
+ * cannot add its '*' statement to it.
+ */
+export function logRetentionRole(stack: cdk.Stack, targetLogGroup: string): iam.IRole {
+  const groupArn = (name: string) => `arn:${stack.partition}:logs:${stack.region}:${stack.account}:log-group:${name}`;
+  const helperGroup = `/aws/lambda/${stack.stackName.slice(0, 20)}*-LogRetention*`;
+  const groups = [targetLogGroup, helperGroup].flatMap((g) => [groupArn(g), `${groupArn(g)}:*`]);
+  const role = new iam.Role(stack, 'LogRetentionRole', {
+    assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+    description: 'CDK LogRetention helper: sets retention on the AgentCore runtime log group and its own log group only',
+    inlinePolicies: {
+      LogRetention: new iam.PolicyDocument({
+        statements: [
+          new iam.PolicyStatement({
+            sid: 'SetRetention',
+            actions: ['logs:CreateLogGroup', 'logs:PutRetentionPolicy', 'logs:DeleteRetentionPolicy'],
+            resources: groups,
+          }),
+          new iam.PolicyStatement({
+            sid: 'OwnLogs',
+            actions: ['logs:CreateLogStream', 'logs:PutLogEvents'],
+            resources: [`${groupArn(helperGroup)}:*`],
+          }),
+        ],
+      }),
+    },
+  });
+  return role.withoutPolicyUpdates();
 }

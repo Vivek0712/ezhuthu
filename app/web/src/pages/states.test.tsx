@@ -7,6 +7,7 @@ import type { PracticeItem } from '../api/client';
 import { GlyphTile } from '../components/GlyphTile';
 import { I18nProvider } from '../i18n/I18nProvider';
 import { VATTELUTTU } from '../lib/vatteluttu';
+import { LESSONS } from '../mocks/fixtures';
 import { server } from '../mocks/server';
 import { renderApp } from '../test/render';
 
@@ -98,6 +99,44 @@ describe('tutor: async lesson explanation (context_update)', () => {
     expect(within(src).getByRole('link', { name: 'CC BY-SA 4.0' })).toHaveAttribute('href', 'https://creativecommons.org/licenses/by-sa/4.0/');
   });
 
+  async function withL5Inscription(patch: Partial<(typeof LESSONS)['L5']['inscription']>, check: () => void) {
+    const orig = LESSONS.L5.inscription;
+    LESSONS.L5.inscription = { ...orig, ...patch };
+    try {
+      await startLesson();
+      check();
+    } finally {
+      LESSONS.L5.inscription = orig;
+    }
+  }
+
+  it('credits a DHARMA TEI link as the DHARMA edition, CC BY-SA 4.0, even without a licence from the API', async () => {
+    const tei = 'https://github.com/erc-dharma/tfa-pandya-epigraphy/blob/main/xml/DHARMA_INSPandya00001.xml';
+    await withL5Inscription({ source_url: tei, licence: null }, () => {
+      const src = screen.getByTestId('lesson-source');
+      expect(within(src).getByRole('link', { name: /DHARMA edition/ })).toHaveAttribute('href', tei);
+      expect(within(src).getByRole('link', { name: 'CC BY-SA 4.0' })).toHaveAttribute('href', 'https://creativecommons.org/licenses/by-sa/4.0/');
+    });
+  });
+
+  it('states no licence and no DHARMA label for another source when the API sent no licence', async () => {
+    await withL5Inscription({ source_url: 'https://example.org/inscriptions/42', licence: null }, () => {
+      const src = screen.getByTestId('lesson-source');
+      expect(src).not.toHaveTextContent(/DHARMA|CC BY/);
+      expect(within(src).getByRole('link', { name: /example\.org/ })).toHaveAttribute('href', 'https://example.org/inscriptions/42');
+      expect(within(src).queryByTestId('lesson-licence')).toBeNull();
+    });
+  });
+
+  it('shows exactly the licence the API sent for a non-DHARMA source', async () => {
+    await withL5Inscription({ source_url: 'https://example.org/inscriptions/42', licence: 'CC BY 4.0' }, () => {
+      const src = screen.getByTestId('lesson-source');
+      expect(src).not.toHaveTextContent('DHARMA');
+      expect(within(src).getByTestId('lesson-licence')).toHaveTextContent('CC BY 4.0');
+      expect(within(src).queryByRole('link', { name: 'CC BY 4.0' })).toBeNull(); // not linked to the BY-SA deed
+    });
+  });
+
   it('makes no DHARMA claim for the learner’s own text', async () => {
     const user = userEvent.setup();
     renderApp(<AppRoutes />, { route: '/learn' });
@@ -117,13 +156,24 @@ describe('review queue: 409 on a second review', () => {
     return user;
   }
 
-  it('treats an item another reviewer already reviewed as gone, not as an error', async () => {
+  it('treats an item that is no longer pending as gone, not as an error, with neutral copy', async () => {
     const user = await signIn();
     await user.click(screen.getByTestId('approve-q-0004'));
-    expect(await screen.findByTestId('review-notice')).toHaveTextContent('Another reviewer already reviewed this item');
+    // 409 means "reviewed already" or "no such item"; the app does not claim which.
+    expect(await screen.findByTestId('review-notice')).toHaveTextContent('This item is no longer in the queue');
+    expect(screen.getByTestId('review-notice')).not.toHaveTextContent(/another reviewer/i);
     expect(screen.queryByTestId('queue-q-0004')).toBeNull();
-    expect(screen.getByTestId('reviewed')).toHaveTextContent('q-0004: already reviewed elsewhere');
+    expect(screen.getByTestId('reviewed')).toHaveTextContent('q-0004: no longer in the queue');
     expect(screen.queryByRole('alert')).toBeNull();
+  });
+
+  it('re-translates the 409 notice when the language is switched', async () => {
+    const user = await signIn();
+    await user.click(screen.getByTestId('approve-q-0004'));
+    expect(await screen.findByTestId('review-notice')).toHaveTextContent('This item is no longer in the queue');
+    await user.click(screen.getAllByTestId('lang-toggle')[0]!);
+    expect(screen.getByTestId('review-notice')).toHaveTextContent('இந்த உருப்படி இனி வரிசையில் இல்லை');
+    expect(screen.getByTestId('reviewed')).toHaveTextContent('q-0004: இனி வரிசையில் இல்லை');
   });
 
   it('still shows other failures as errors', async () => {

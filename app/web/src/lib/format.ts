@@ -20,6 +20,22 @@ export function safeHref(url: string | null | undefined): string | undefined {
   }
 }
 
+/**
+ * True only for a DHARMA edition link: the dharmalekha.info reader, or the project's TEI repositories under
+ * github.com/erc-dharma (or their raw files). Only those may be labelled "DHARMA edition" and, when the API sends no
+ * licence, credited as CC BY-SA 4.0 (the DHARMA licence); any other URL is just a source.
+ */
+export function isDharmaUrl(url: string | null | undefined): boolean {
+  const href = safeHref(url);
+  if (!href) return false;
+  const u = new URL(href);
+  const host = u.hostname.toLowerCase();
+  if (host === 'dharmalekha.info' || host.endsWith('.dharmalekha.info')) return true;
+  if (host === 'github.com' || host === 'www.github.com' || host === 'raw.githubusercontent.com')
+    return u.pathname.toLowerCase().startsWith('/erc-dharma/');
+  return false;
+}
+
 /** Render server-provided SVG through an <img> data URL so any script inside it can never run. */
 export function svgDataUrl(svg: string): string {
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;

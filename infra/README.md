@@ -60,7 +60,10 @@ and `ontology/lookups/*.json`).
 ### Hosted decider switch
 
 `bin/ezhuthu.ts` runs a read-only `aws secretsmanager describe-secret --secret-id ezhuthu/decider-api-key` with the
-profile from `config/models.yaml` on every synth. If the secret exists, the runtime gets
+profile from `config/models.yaml` on every synth. Only a definite answer picks a backend: the secret's ARN (hosted), or
+`ResourceNotFoundException` / a secret scheduled for deletion (fallback). Any other failure (no AWS CLI, the 20 s
+timeout, throttling, a missing profile or credentials) stops the synth with a hint to pass the context override below,
+so a deploy cannot quietly drop the hosted decider once the secret exists. If the secret exists, the runtime gets
 `EZHUTHU_DECIDER_BACKEND=hosted` and `secretsmanager:GetSecretValue` on that one secret ARN. If it does not (today),
 the runtime gets `EZHUTHU_DECIDER_BACKEND=fallback` and no Secrets Manager permission: restoration confidences carry
 `decider_source: fallback` and tutor decisions `decider_source: rules` with `decider_confidence: null`, which the app
@@ -168,8 +171,11 @@ MCP server; `/health` reports `mcp:ezhuthu-ontology (stdio)` or a flagged `fallb
 (bundled), `EZHUTHU_MODEL_DEFAULT`, `EZHUTHU_MODEL_ESCALATE`, `EZHUTHU_MODEL_CHEAP` (all from `config/models.yaml`).
 
 The execution role's table access is `dynamodb:GetItem`/`PutItem` on the table, limited by `dynamodb:LeadingKeys` to
-`SESSION#*`, `CORRECTION#*` and `QUEUE#*`, plus `dynamodb:Query` on `index/gsi1` (the queue listing). The store makes
-no other calls.
+`SESSION#*`, `CORRECTION#*` and `QUEUE#*`, plus `dynamodb:Query` on `index/gsi1` (the queue listing). IAM cannot
+condition on the sort key, so the role can also write the proxy-owned `SESSION#<id>/META` item; the agent code only
+writes `sk=STATE` there and relies on that, not IAM, to leave `META` alone. No API path makes any other call.
+`DynamoStore.list("session")` and `list("correction")` (admin/debug only, never called by the API) use a `Scan`, which
+the role is not granted, so they fail with `AccessDenied` inside the runtime; run them with your own credentials.
 
 ## Monthly cost estimate (not measured; check current AWS pricing pages before relying on it)
 

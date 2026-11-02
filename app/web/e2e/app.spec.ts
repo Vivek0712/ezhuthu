@@ -209,7 +209,7 @@ test.describe('design system and states', () => {
     await page.goto('/review');
     await page.getByTestId('auth-gate').getByRole('button', { name: 'Sign in' }).click();
     await page.getByTestId('approve-q-0004').click();
-    await expect(page.getByTestId('review-notice')).toContainText('Another reviewer already reviewed this item');
+    await expect(page.getByTestId('review-notice')).toContainText('This item is no longer in the queue');
     await expect(page.getByTestId('queue-q-0004')).toHaveCount(0);
     await expect(page.getByRole('alert')).toHaveCount(0);
   });

@@ -164,8 +164,8 @@ export const en = {
   'review.proposed': 'Proposed',
   'review.from': 'from',
   'review.done': 'Reviewed',
-  'review.alreadyReviewed': 'Another reviewer already reviewed this item, so it has left your queue.',
-  'review.status.elsewhere': 'already reviewed elsewhere',
+  'review.noLongerQueued': 'This item is no longer in the queue, so it has been removed from your list.',
+  'review.status.gone': 'no longer in the queue',
   'review.emptyBody': 'New corrections and abstentions will appear here.',
   'about.title': 'About Ezhuthu',
   'about.lede':
@@ -354,8 +354,8 @@ export const ta: Record<MessageKey, string> = {
   'review.proposed': 'முன்மொழிவு',
   'review.from': 'அனுப்பியவர்',
   'review.done': 'மதிப்பாய்வு முடிந்தது',
-  'review.alreadyReviewed': 'இதை வேறொரு மதிப்பாய்வாளர் ஏற்கனவே மதிப்பாய்வு செய்துவிட்டார்; அதனால் இது உங்கள் வரிசையிலிருந்து நீக்கப்பட்டது.',
-  'review.status.elsewhere': 'வேறிடத்தில் ஏற்கனவே மதிப்பாய்வு செய்யப்பட்டது',
+  'review.noLongerQueued': 'இந்த உருப்படி இனி வரிசையில் இல்லை; அதனால் உங்கள் பட்டியலிலிருந்து நீக்கப்பட்டது.',
+  'review.status.gone': 'இனி வரிசையில் இல்லை',
   'review.emptyBody': 'புதிய திருத்தங்களும் விலகல்களும் இங்கே தோன்றும்.',
   'about.title': 'எழுத்து பற்றி',
   'about.lede':
