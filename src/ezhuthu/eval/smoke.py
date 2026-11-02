@@ -44,11 +44,12 @@ class BudgetedLLM(BedrockLLM):
         self.budget = budget
         self.responses: list[dict[str, Any]] = []
 
-    def complete(self, role: str, system: str, prompt: str, *, max_tokens: int = 1024) -> LLMResponse:
+    def complete(self, role: str, system: str, prompt: str, *, max_tokens: int = 1024,
+                 timeout_s: float | None = None) -> LLMResponse:
         mid = self.config.model_id(role)
         if self.cache.get(self.cache.key(mid, system, prompt, max_tokens)) is None:
             self.budget.take(f"propose_fills[{role}]", mid)
-        r = super().complete(role, system, prompt, max_tokens=max_tokens)
+        r = super().complete(role, system, prompt, max_tokens=max_tokens, timeout_s=timeout_s)
         self.responses.append({"model_id": r.model_id, "cached": r.cached, "input_tokens": r.input_tokens,
                                "output_tokens": r.output_tokens, "latency_ms": r.latency_ms, "text": r.text[:600]})
         return r

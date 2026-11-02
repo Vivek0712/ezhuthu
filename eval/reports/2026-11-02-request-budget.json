@@ -1,0 +1,412 @@
+{
+ "items": [
+  "DHARMA_INSCirkali00013:2:2",
+  "DHARMA_INSKotumpalur00038:2:0",
+  "DHARMA_INStfaSIIv04p0i0163:4:3"
+ ],
+ "live": true,
+ "settings": {
+  "request_budget_s": 25,
+  "escalate_min_remaining_s": 8,
+  "llm_min_remaining_s": 6,
+  "gap_min_remaining_s": 1,
+  "max_gaps_per_request": 8
+ },
+ "warm_up_s": {
+  "corpus": 0.0,
+  "index": 0.157,
+  "ngram": 0.945
+ },
+ "before_total_s": 138.78,
+ "rows": [
+  {
+   "run": "before",
+   "item": "DHARMA_INSCirkali00013:2:2",
+   "gaps": 7,
+   "wall_s": 30.83,
+   "budget": {
+    "request_budget_s": null,
+    "max_gaps_per_request": null,
+    "limited": false,
+    "abstained": {
+     "time_budget": 0,
+     "gap_cap": 0
+    },
+    "llm_skipped": 0,
+    "escalation_skipped": 0
+   },
+   "models_used": [
+    "us.anthropic.claude-opus-4-6-v1"
+   ],
+   "gap_rows": [
+    {
+     "index": 0,
+     "decision": "abstain",
+     "fill": "ṉṟa",
+     "top1": "ṉṟa",
+     "escalated": true
+    },
+    {
+     "index": 1,
+     "decision": "abstain",
+     "fill": "tillai-nāyakaṉ vā",
+     "top1": "tillai-nāyakaṉ vā",
+     "escalated": true
+    },
+    {
+     "index": 2,
+     "decision": "abstain",
+     "fill": "ṉ",
+     "top1": "ṉ",
+     "escalated": true
+    },
+    {
+     "index": 3,
+     "decision": "abstain",
+     "fill": "cantirātitta",
+     "top1": "cantirātitta",
+     "escalated": true
+    },
+    {
+     "index": 4,
+     "decision": "abstain",
+     "fill": "k",
+     "top1": "k",
+     "escalated": true
+    },
+    {
+     "index": 5,
+     "decision": "abstain",
+     "fill": "cantirikai",
+     "top1": "cantirikai",
+     "escalated": true
+    },
+    {
+     "index": 6,
+     "decision": "abstain",
+     "fill": "kuṭuttōm",
+     "top1": "kuṭuttōm",
+     "escalated": true
+    }
+   ]
+  },
+  {
+   "run": "before",
+   "item": "DHARMA_INSKotumpalur00038:2:0",
+   "gaps": 5,
+   "wall_s": 49.6,
+   "budget": {
+    "request_budget_s": null,
+    "max_gaps_per_request": null,
+    "limited": false,
+    "abstained": {
+     "time_budget": 0,
+     "gap_cap": 0
+    },
+    "llm_skipped": 0,
+    "escalation_skipped": 0
+   },
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "us.anthropic.claude-opus-4-6-v1"
+   ],
+   "gap_rows": [
+    {
+     "index": 0,
+     "decision": "fill",
+     "fill": "nallūr-uṭaiyār tiru-c",
+     "top1": "nallūr-uṭaiyār tiru-c",
+     "escalated": false
+    },
+    {
+     "index": 1,
+     "decision": "abstain",
+     "fill": "ḻai-k",
+     "top1": "ḻai-k",
+     "escalated": true
+    },
+    {
+     "index": 2,
+     "decision": "abstain",
+     "fill": "k",
+     "top1": "k",
+     "escalated": true
+    },
+    {
+     "index": 3,
+     "decision": "abstain",
+     "fill": "ḻuntaruḷi",
+     "top1": "ḻuntaruḷi",
+     "escalated": true
+    },
+    {
+     "index": 4,
+     "decision": "abstain",
+     "fill": "ṭu",
+     "top1": "ṭu",
+     "escalated": true
+    }
+   ]
+  },
+  {
+   "run": "before",
+   "item": "DHARMA_INStfaSIIv04p0i0163:4:3",
+   "gaps": 5,
+   "wall_s": 58.35,
+   "budget": {
+    "request_budget_s": null,
+    "max_gaps_per_request": null,
+    "limited": false,
+    "abstained": {
+     "time_budget": 0,
+     "gap_cap": 0
+    },
+    "llm_skipped": 0,
+    "escalation_skipped": 0
+   },
+   "models_used": [
+    "us.anthropic.claude-opus-4-6-v1"
+   ],
+   "gap_rows": [
+    {
+     "index": 0,
+     "decision": "abstain",
+     "fill": "yum ma",
+     "top1": "yum ma",
+     "escalated": true
+    },
+    {
+     "index": 1,
+     "decision": "abstain",
+     "fill": "puṉ-cey",
+     "top1": "puṉ-cey",
+     "escalated": true
+    },
+    {
+     "index": 2,
+     "decision": "abstain",
+     "fill": "muntirattu",
+     "top1": "muntirattu",
+     "escalated": true
+    },
+    {
+     "index": 3,
+     "decision": "fill",
+     "fill": "e",
+     "top1": "e",
+     "escalated": true
+    },
+    {
+     "index": 4,
+     "decision": "abstain",
+     "fill": "vaṭakku āka",
+     "top1": "vaṭakku āka",
+     "escalated": true
+    }
+   ]
+  },
+  {
+   "run": "after",
+   "item": "DHARMA_INSCirkali00013:2:2",
+   "gaps": 7,
+   "wall_s": 20.91,
+   "budget": {
+    "request_budget_s": 25,
+    "max_gaps_per_request": 8,
+    "limited": true,
+    "abstained": {
+     "time_budget": 0,
+     "gap_cap": 0
+    },
+    "llm_skipped": 1,
+    "escalation_skipped": 0
+   },
+   "models_used": [
+    "us.anthropic.claude-opus-4-6-v1"
+   ],
+   "gap_rows": [
+    {
+     "index": 0,
+     "decision": "abstain",
+     "fill": "ṉṟa",
+     "top1": "ṉṟa",
+     "escalated": true
+    },
+    {
+     "index": 1,
+     "decision": "abstain",
+     "fill": "tillai-nāyakaṉ vā",
+     "top1": "tillai-nāyakaṉ vā",
+     "escalated": true
+    },
+    {
+     "index": 2,
+     "decision": "abstain",
+     "fill": "ṉ",
+     "top1": "ṉ",
+     "escalated": true
+    },
+    {
+     "index": 3,
+     "decision": "abstain",
+     "fill": "cantirātitta",
+     "top1": "cantirātitta",
+     "escalated": true
+    },
+    {
+     "index": 4,
+     "decision": "abstain",
+     "fill": "k",
+     "top1": "k",
+     "escalated": true
+    },
+    {
+     "index": 5,
+     "decision": "abstain",
+     "fill": "cantirikai",
+     "top1": "cantirikai",
+     "escalated": true
+    },
+    {
+     "index": 6,
+     "decision": "abstain",
+     "fill": "ko",
+     "top1": "ko",
+     "escalated": true,
+     "llm_skipped": "time_budget"
+    }
+   ]
+  },
+  {
+   "run": "after",
+   "item": "DHARMA_INSKotumpalur00038:2:0",
+   "gaps": 5,
+   "wall_s": 25.01,
+   "budget": {
+    "request_budget_s": 25,
+    "max_gaps_per_request": 8,
+    "limited": true,
+    "abstained": {
+     "time_budget": 2,
+     "gap_cap": 0
+    },
+    "llm_skipped": 1,
+    "escalation_skipped": 0
+   },
+   "models_used": [
+    "us.anthropic.claude-sonnet-4-6",
+    "us.anthropic.claude-opus-4-6-v1"
+   ],
+   "gap_rows": [
+    {
+     "index": 0,
+     "decision": "fill",
+     "fill": "nallūr-uṭaiyār tiru-c",
+     "top1": "nallūr-uṭaiyār tiru-c",
+     "escalated": false
+    },
+    {
+     "index": 1,
+     "decision": "abstain",
+     "fill": "ḻai-k",
+     "top1": "ḻai-k",
+     "escalated": true
+    },
+    {
+     "index": 2,
+     "decision": "abstain",
+     "fill": "naṁ",
+     "top1": "naṁ",
+     "escalated": true,
+     "llm_skipped": "time_budget"
+    },
+    {
+     "index": 3,
+     "decision": "abstain",
+     "fill": null,
+     "top1": null,
+     "escalated": false,
+     "abstain_reason": "time_budget"
+    },
+    {
+     "index": 4,
+     "decision": "abstain",
+     "fill": null,
+     "top1": null,
+     "escalated": false,
+     "abstain_reason": "time_budget"
+    }
+   ]
+  },
+  {
+   "run": "after",
+   "item": "DHARMA_INStfaSIIv04p0i0163:4:3",
+   "gaps": 5,
+   "wall_s": 25.02,
+   "budget": {
+    "request_budget_s": 25,
+    "max_gaps_per_request": 8,
+    "limited": true,
+    "abstained": {
+     "time_budget": 2,
+     "gap_cap": 0
+    },
+    "llm_skipped": 1,
+    "escalation_skipped": 0
+   },
+   "models_used": [
+    "us.anthropic.claude-opus-4-6-v1"
+   ],
+   "gap_rows": [
+    {
+     "index": 0,
+     "decision": "abstain",
+     "fill": "yum ma",
+     "top1": "yum ma",
+     "escalated": true
+    },
+    {
+     "index": 1,
+     "decision": "abstain",
+     "fill": "puṉ-cey",
+     "top1": "puṉ-cey",
+     "escalated": true
+    },
+    {
+     "index": 2,
+     "decision": "abstain",
+     "fill": "y-atiyamāṉ-mu",
+     "top1": "y-atiyamāṉ-mu",
+     "escalated": true,
+     "llm_skipped": "time_budget"
+    },
+    {
+     "index": 3,
+     "decision": "abstain",
+     "fill": null,
+     "top1": null,
+     "escalated": false,
+     "abstain_reason": "time_budget"
+    },
+    {
+     "index": 4,
+     "decision": "abstain",
+     "fill": null,
+     "top1": null,
+     "escalated": false,
+     "abstain_reason": "time_budget"
+    }
+   ]
+  }
+ ],
+ "live_calls": {
+  "before": 17,
+  "after": 0,
+  "exhausted": 0
+ },
+ "replay": {
+  "replayed": 12,
+  "missed": 0,
+  "timed_out": 2
+ }
+}

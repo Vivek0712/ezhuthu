@@ -326,6 +326,25 @@ components:
         decision: { type: string, enum: [fill, abstain] }
         chosen: { type: [integer, 'null'] }
         candidates: { type: array, items: { $ref: '#/components/schemas/Candidate' } }
+        escalated: { type: boolean }
+        abstain_reason: { type: string, enum: [time_budget, gap_cap], description: 'Present only when the gap abstained with no work: the request time budget ran low, or the gap was past restorer.max_gaps_per_request (candidates is then empty)' }
+        llm_skipped: { type: string, enum: [time_budget, error], description: 'Present only when no LLM was asked because too little of the request budget was left (time_budget), or an LLM call failed under it (error); the candidates come from retrieval and the 5-gram' }
+        escalation_skipped: { type: string, enum: [time_budget, error], description: 'Present only when Opus was due but not asked (time_budget) or failed (error) under the request budget' }
+    RestoreBudget:
+      type: object
+      required: [request_budget_s, max_gaps_per_request, limited, abstained, llm_skipped, escalation_skipped]
+      properties:
+        request_budget_s: { type: [number, 'null'] }
+        max_gaps_per_request: { type: [integer, 'null'] }
+        limited: { type: boolean, description: 'true when any gap was abstained, restored without an LLM or without escalation because of the budget or the gap cap' }
+        abstained:
+          type: object
+          required: [time_budget, gap_cap]
+          properties:
+            time_budget: { type: integer }
+            gap_cap: { type: integer }
+        llm_skipped: { type: integer }
+        escalation_skipped: { type: integer }
     RestoreResponse:
       type: object
       required: [restored_text, restored_text_tamil, gaps, models_used, trace_id, latency_ms]
@@ -336,6 +355,7 @@ components:
         models_used: { type: array, items: { type: string } }
         trace_id: { type: string }
         latency_ms: { type: number }
+        budget: { $ref: '#/components/schemas/RestoreBudget' }
     EvaluateBuiltinRequest:
       type: object
       required: [benchmark]

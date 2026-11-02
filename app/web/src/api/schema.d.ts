@@ -313,6 +313,34 @@ export interface components {
             decision: "fill" | "abstain";
             chosen: number | null;
             candidates: components["schemas"]["Candidate"][];
+            escalated?: boolean;
+            /**
+             * @description Present only when the gap abstained with no work: the request time budget ran low, or the gap was past restorer.max_gaps_per_request (candidates is then empty)
+             * @enum {string}
+             */
+            abstain_reason?: "time_budget" | "gap_cap";
+            /**
+             * @description Present only when no LLM was asked because too little of the request budget was left (time_budget), or an LLM call failed under it (error); the candidates come from retrieval and the 5-gram
+             * @enum {string}
+             */
+            llm_skipped?: "time_budget" | "error";
+            /**
+             * @description Present only when Opus was due but not asked (time_budget) or failed (error) under the request budget
+             * @enum {string}
+             */
+            escalation_skipped?: "time_budget" | "error";
+        };
+        RestoreBudget: {
+            request_budget_s: number | null;
+            max_gaps_per_request: number | null;
+            /** @description true when any gap was abstained, restored without an LLM or without escalation because of the budget or the gap cap */
+            limited: boolean;
+            abstained: {
+                time_budget: number;
+                gap_cap: number;
+            };
+            llm_skipped: number;
+            escalation_skipped: number;
         };
         RestoreResponse: {
             restored_text: string;
@@ -321,6 +349,7 @@ export interface components {
             models_used: string[];
             trace_id: string;
             latency_ms: number;
+            budget?: components["schemas"]["RestoreBudget"];
         };
         EvaluateBuiltinRequest: {
             /** @enum {string} */

@@ -98,13 +98,14 @@ class PacedBedrockLLM(BedrockLLM):
         self.rates = model_rates(rpm, quota_share)
         self.limiters = {m: RateLimiter(r) for m, r in self.rates.items()}
 
-    def complete(self, role: str, system: str, prompt: str, *, max_tokens: int = 1024):
+    def complete(self, role: str, system: str, prompt: str, *, max_tokens: int = 1024,
+                 timeout_s: float | None = None):
         model_id = self.config.model_id(role)
         if self.cache.get(self.cache.key(model_id, system, prompt, max_tokens)) is None:
             lim = self.limiters.get(short_name(model_id))
             if lim is not None:
                 lim.acquire()
-        return super().complete(role, system, prompt, max_tokens=max_tokens)
+        return super().complete(role, system, prompt, max_tokens=max_tokens, timeout_s=timeout_s)
 
 
 class Runner:

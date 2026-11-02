@@ -10,8 +10,10 @@ import logging
 import math
 import os
 import statistics
+import threading
 import time
 import uuid
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from functools import cached_property
 from typing import Any
@@ -45,6 +47,9 @@ DECIDER_INSTRUCTIONS = (
     "the gap, i.e. matches what an expert epigraphist would supply? Use the context, the gap length and the "
     "parallel passages. Choose 'none' if no candidate fits."
 )
+# Lazily built corpus/index/5-gram: one build even when the runtime's warm-up thread and a request race (issue #41).
+_BUILD_LOCK = threading.RLock()
+BUDGET_REASONS = ("time_budget", "gap_cap")
 NOUL_INSTRUCTIONS = (
     "A Tamil stone inscription (ISO-15919 transliteration) has a damaged gap. Is the candidate fill exactly what "
     "an expert epigraphist would supply for the gap? Use the context, the gap length and the parallel passages."
@@ -129,6 +134,12 @@ class GapResult:
     # reply came from the cache), "cached"}. ``llm_wall_ms``: wall time spent waiting on those calls here.
     llm_calls: list[dict[str, Any]] = field(default_factory=list)
     llm_wall_ms: float = 0.0
+    # Request budget (issue #41; API fields present only when set): ``abstain_reason`` time_budget | gap_cap for a
+    # gap abstained with no work; ``llm_skipped`` time_budget | error when no LLM answered because of the budget (or
+    # an LLM call failed under it); ``escalation_skipped`` time_budget | error when Opus was due but not asked.
+    abstain_reason: str | None = None
+    llm_skipped: str | None = None
+    escalation_skipped: str | None = None
 
     @property
     def best(self) -> Candidate | None:
@@ -140,6 +151,8 @@ class GapResult:
             "candidates": [c.to_api(self.decider_model) for c in self.candidates], "escalated": self.escalated,
             # additive:
             "strategy": self.strategy, "calibration": self.calibration, "abstain_below": self.abstain_below,
+            **{k: v for k in ("abstain_reason", "llm_skipped", "escalation_skipped")
+               if (v := getattr(self, k)) is not None},
         }
 
 
@@ -196,8 +209,10 @@ class Restorer:
     def __init__(self, *, llm: LLMClient | None = None, decider: Decider | None = None,
                  ontology: OntologyPort | None = None, corpus: list[CorpusLine] | None = None,
                  config: ModelsConfig | None = None, use_ontology: bool = True,
-                 settings: RestorerSettings | None = None, calibration: CalibrationTable | None = None):
+                 settings: RestorerSettings | None = None, calibration: CalibrationTable | None = None,
+                 clock: Callable[[], float] = time.perf_counter):
         self.llm = llm
+        self.clock = clock  # request budget (restore); injectable for tests
         self.decider = decider or NoDecider()
         self._ontology = ontology
         self._corpus = corpus
@@ -214,17 +229,33 @@ class Restorer:
         self.calibration = calibration
 
     # ---- lazily built resources -------------------------------------------------
+    def _build(self, name: str, make: Callable[[], Any]) -> Any:
+        with _BUILD_LOCK:  # a second caller waits for the first build instead of repeating it
+            if name not in self.__dict__:
+                self.__dict__[name] = make()
+            return self.__dict__[name]
+
     @cached_property
     def corpus(self) -> list[CorpusLine]:
-        return list(self._corpus if self._corpus is not None else load_corpus_lines())
+        return self._build("corpus", lambda: list(self._corpus if self._corpus is not None else load_corpus_lines()))
 
     @cached_property
     def index(self) -> ParallelIndex:
-        return ParallelIndex(self.corpus)
+        return self._build("index", lambda: ParallelIndex(self.corpus))
 
     @cached_property
     def ngram(self) -> CharNgram:
-        return CharNgram().fit(ln.text for ln in self.corpus)
+        return self._build("ngram", lambda: CharNgram().fit(ln.text for ln in self.corpus))
+
+    def warm(self) -> dict[str, float]:
+        """Build the corpus, parallel index and 5-gram now (the 5-gram alone takes ~6 s on a cold runtime), so the
+        first request does not pay it. Returns seconds per part."""
+        out: dict[str, float] = {}
+        for name in ("corpus", "index", "ngram"):
+            t0 = time.perf_counter()
+            getattr(self, name)
+            out[name] = round(time.perf_counter() - t0, 3)
+        return out
 
     @cached_property
     def ontology(self) -> OntologyPort:
@@ -262,9 +293,13 @@ class Restorer:
 
     def propose_fills(self, role: str, left: str, right: str, gap_chars: int | None,
                       parallels: list[Parallel], hints: list[Hint], k: int,
-                      info: dict[str, Any] | None = None) -> list[tuple[str, float | None]]:
+                      info: dict[str, Any] | None = None,
+                      deadline: float | None = None) -> list[tuple[str, float | None]]:
         """LLM fills (compact JSON). A reply cut at ``max_tokens`` keeps every complete fill that arrived and,
-        if ``restorer.retry_on_truncation``, is re-asked once with a stricter, shorter prompt."""
+        if ``restorer.retry_on_truncation``, is re-asked once with a stricter, shorter prompt.
+
+        ``deadline`` (a ``self.clock()`` time, the request budget): each call's timeout is what is left, and the
+        truncation retry is skipped with less than ``restorer.llm_min_remaining_s`` left."""
         if self.llm is None:
             return []
         pars = [{"inscription_id": p.inscription_id, "line_n": p.line_n, "snippet": p.snippet, "fill": p.fill}
@@ -274,7 +309,11 @@ class Restorer:
 
         def complete(prompt: str, max_tokens: int):
             t0 = time.perf_counter()
-            resp = self.llm.complete(role, RESTORER_SYSTEM, prompt, max_tokens=max_tokens)
+            if deadline is None:
+                resp = self.llm.complete(role, RESTORER_SYSTEM, prompt, max_tokens=max_tokens)
+            else:
+                resp = self.llm.complete(role, RESTORER_SYSTEM, prompt, max_tokens=max_tokens,
+                                         timeout_s=max(1.0, deadline - self.clock()))
             if info is not None:
                 info["wall_ms"] = info.get("wall_ms", 0.0) + (time.perf_counter() - t0) * 1000
                 info.setdefault("calls", []).append({
@@ -290,7 +329,8 @@ class Restorer:
         if getattr(r, "truncated", False):
             if info is not None:
                 info["truncated"] = info.get("truncated", 0) + 1
-            if self.settings.retry_on_truncation:
+            if self.settings.retry_on_truncation and (
+                    deadline is None or deadline - self.clock() >= self.settings.llm_min_remaining_s):
                 k2 = max(1, min(k, 4))
                 r2 = complete(propose_prompt(left, right, gap_chars, pars, hs, k2, strict=True),
                               self.settings.llm_max_tokens)
@@ -430,7 +470,11 @@ class Restorer:
 
     def restore_gap(self, left: str, right: str, gap_chars: int | None, *, index: int = 0, router: str = "routed",
                     allow_escalation: bool = True, max_candidates: int = 5, exclude_inscription: str | None = None,
-                    dynasty: str | None = None, include_llm: bool = True) -> GapResult:
+                    dynasty: str | None = None, include_llm: bool = True,
+                    deadline: float | None = None) -> GapResult:
+        """Restore one gap. ``deadline`` (a ``self.clock()`` time; ``restore`` passes the request budget's) bounds
+        the LLM calls: Opus starts only with ``restorer.escalate_min_remaining_s`` left, each call's timeout is
+        what is left, and a failed call keeps the other candidates. ``None`` (per-gap evals) = no bound."""
         if router not in ROUTERS:
             raise ValueError(f"router must be one of {ROUTERS}")
         rt, st = self.config.routing, self.settings
@@ -499,9 +543,16 @@ class Restorer:
         models_used: list[str] = []
         escalated = False
         llm_on = include_llm and self.llm is not None and router != "none" and gated is None
+        skipped: dict[str, str | None] = {"llm": None, "escalation": None}
+
+        def time_for_opus() -> bool:
+            return deadline is None or deadline - self.clock() >= st.escalate_min_remaining_s
+
         if router == "routed":
             pre_escalate = allow_escalation and (
                 length > rt.escalate_if_gap_chars_over or (rt.escalate_if_no_parallel and not good_parallel))
+            if pre_escalate and llm_on and not time_for_opus():  # Sonnet only: no time for Opus
+                pre_escalate, skipped["escalation"] = False, "time_budget"
             first_role = "escalate" if pre_escalate else "default"
             escalated = pre_escalate
         else:
@@ -510,13 +561,23 @@ class Restorer:
         llm_answered: dict[str, str | None] = {"any": None}  # strongest LLM that answered: "sonnet" / "opus"
         used = {"strategy": st.strategy}
 
-        def call_llm(role: str) -> None:
+        def call_llm(role: str) -> bool:
             try:
                 props = self.propose_fills(role, left, right, gap_chars, parallels, hints, st.llm_candidates,
-                                           info=info)
+                                           info=info, deadline=deadline)
             except LiveCallsDisabled:
                 log.warning("LLM disabled (EZHUTHU_LIVE!=1); retrieval candidates only")
-                return
+                return True
+            except Exception as exc:
+                if deadline is None:
+                    raise
+                # Under a request budget (timed out, throttled with no time left to retry, Bedrock error): keep the
+                # candidates gathered so far instead of failing the whole request.
+                reason = "time_budget" if self.clock() >= deadline else "error"
+                log.warning("restorer %s call failed under the request budget (%s): %s", role, reason,
+                            type(exc).__name__)
+                skipped["escalation" if role == "escalate" and models_used else "llm"] = reason
+                return False
             mid = self.config.model_id(role)
             models_used.append(mid)
             short = "opus" if role == "escalate" else "sonnet"
@@ -524,6 +585,7 @@ class Restorer:
                 llm_answered["any"] = short
             for t, c in props:
                 add(t, short, conf=c)
+            return True
 
         if llm_on:
             call_llm(first_role)
@@ -562,9 +624,11 @@ class Restorer:
         raw_best = (ranked[0].raw_confidence or 0.0) if ranked else 0.0
         if (llm_on and router == "routed" and allow_escalation and first_role == "default"
                 and raw_best < rt.escalate_if_confidence_below):
-            call_llm("escalate")
-            escalated = True
-            decider_model, ranked, cal_key, threshold = finalize()
+            if not time_for_opus():
+                skipped["escalation"] = "time_budget"
+            elif call_llm("escalate"):
+                escalated = True
+                decider_model, ranked, cal_key, threshold = finalize()
         best = ranked[0].confidence if ranked else 0.0
 
         if decider_model not in ("none", "prerank", "prerank-ngram", "ngram-gate") \
@@ -576,21 +640,41 @@ class Restorer:
                          models_used=models_used, escalated=escalated, parallels=parallels,
                          strategy=used["strategy"], calibration=cal_key, abstain_below=threshold,
                          llm_truncated=info.get("truncated", 0), llm_retries=info.get("retries", 0),
-                         llm_calls=list(info.get("calls", [])), llm_wall_ms=round(info.get("wall_ms", 0.0), 1))
+                         llm_calls=list(info.get("calls", [])), llm_wall_ms=round(info.get("wall_ms", 0.0), 1),
+                         llm_skipped=skipped["llm"], escalation_skipped=skipped["escalation"])
 
     def restore(self, text: str, *, script: str = "iso15919", max_candidates: int = 5,
                 allow_escalation: bool = True, router: str = "routed") -> dict[str, Any]:
-        """``POST /api/restore`` (contracts/restore-api.md)."""
-        t0 = time.perf_counter()
+        """``POST /api/restore`` (contracts/restore-api.md).
+
+        Gaps run in order (each uses the earlier chosen fills as left context) inside the request budget
+        (``restorer.request_budget_s``, issue #41): with less than ``llm_min_remaining_s`` left a gap gets retrieval
+        and 5-gram candidates only, with less than ``gap_min_remaining_s`` left (or past ``max_gaps_per_request``)
+        it abstains with no work and says why. Until the budget runs low every gap is restored exactly as before."""
+        st = self.settings
+        t0 = self.clock()
+        deadline = t0 + st.request_budget_s if st.request_budget_s else None
+        cap = st.max_gaps_per_request or None
         iso = to_iso(text, script)
         gaps = find_gaps(iso)
         results: list[GapResult] = []
         fills: list[str | None] = []
-        for g in gaps:
-            # Earlier gaps use their chosen fill (if any) as context for later ones.
-            left = fill_gaps(iso[: g.start], fills)
-            res = self.restore_gap(left, g.right, g.gap_chars, index=g.index, router=router,
-                                   allow_escalation=allow_escalation, max_candidates=max_candidates)
+        llm_possible = self.llm is not None and router != "none"
+        for i, g in enumerate(gaps):
+            left_s = None if deadline is None else deadline - self.clock()
+            if cap is not None and i >= cap:
+                res = self._not_attempted(g.index, g.gap_chars, "gap_cap")
+            elif left_s is not None and left_s < st.gap_min_remaining_s:
+                res = self._not_attempted(g.index, g.gap_chars, "time_budget")
+            else:
+                include_llm = left_s is None or left_s >= st.llm_min_remaining_s
+                # Earlier gaps use their chosen fill (if any) as context for later ones.
+                left = fill_gaps(iso[: g.start], fills)
+                res = self.restore_gap(left, g.right, g.gap_chars, index=g.index, router=router,
+                                       allow_escalation=allow_escalation, max_candidates=max_candidates,
+                                       include_llm=include_llm, deadline=deadline)
+                if not include_llm and llm_possible:
+                    res.llm_skipped = "time_budget"
             results.append(res)
             fills.append(res.best.text if res.decision == "fill" and res.best else None)
         restored = fill_gaps(iso, fills)
@@ -602,5 +686,21 @@ class Restorer:
         return {
             "restored_text": restored, "restored_text_tamil": iso_to_tamil(restored),
             "gaps": [r.to_api() for r in results], "models_used": models,
-            "trace_id": uuid.uuid4().hex, "latency_ms": round((time.perf_counter() - t0) * 1000, 1),
+            "trace_id": uuid.uuid4().hex, "latency_ms": round((self.clock() - t0) * 1000, 1),
+            "budget": self._budget_summary(results),
         }
+
+    def _budget_summary(self, results: list[GapResult]) -> dict[str, Any]:
+        st = self.settings
+        abstained = {r: sum(1 for g in results if g.abstain_reason == r) for r in BUDGET_REASONS}
+        llm_skipped = sum(1 for g in results if g.llm_skipped and not g.abstain_reason)
+        esc_skipped = sum(1 for g in results if g.escalation_skipped)
+        return {"request_budget_s": st.request_budget_s or None, "max_gaps_per_request": st.max_gaps_per_request or None,
+                "limited": bool(sum(abstained.values()) or llm_skipped or esc_skipped),
+                "abstained": abstained, "llm_skipped": llm_skipped, "escalation_skipped": esc_skipped}
+
+    def _not_attempted(self, index: int, gap_chars: int | None, reason: str) -> GapResult:
+        """A gap abstained with no work (no retrieval, no LLM): the request budget or the gap cap was reached."""
+        return GapResult(index=index, gap_chars=gap_chars or DEFAULT_UNKNOWN_GAP, decision="abstain", chosen=None,
+                         candidates=[], decider_model="none", models_used=[], strategy="none",
+                         abstain_below=self.config.routing.abstain_if_confidence_below, abstain_reason=reason)

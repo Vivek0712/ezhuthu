@@ -174,7 +174,8 @@ class LLMClient(Protocol):
     config: ModelsConfig
     ledger: UsageLedger
 
-    def complete(self, role: str, system: str, prompt: str, *, max_tokens: int = 1024) -> LLMResponse: ...
+    def complete(self, role: str, system: str, prompt: str, *, max_tokens: int = 1024,
+                 timeout_s: float | None = None) -> LLMResponse: ...
 
 
 Images = list[tuple[bytes, str]]  # (bytes, Bedrock image format: jpeg|png|webp|gif)
@@ -257,8 +258,12 @@ class BedrockLLM:
                 self._session = boto3.Session(region_name=self.config.region)
         return self._session
 
-    def complete(self, role: str, system: str, prompt: str, *, max_tokens: int = 1024) -> LLMResponse:
+    def complete(self, role: str, system: str, prompt: str, *, max_tokens: int = 1024,
+                 timeout_s: float | None = None) -> LLMResponse:
+        """Text call. ``timeout_s`` bounds the whole call like :meth:`complete_image` (the restorer's request budget,
+        issue #41); without it the call is unbounded, as before."""
         model_id = self.config.model_id(role)
+        deadline = time.monotonic() + timeout_s if timeout_s is not None else None
         key = self.cache.key(model_id, system, prompt, max_tokens)
         hit = self.cache.get(key)
         if hit:
@@ -271,10 +276,13 @@ class BedrockLLM:
         def once() -> LLMResponse:
             attempts["n"] += 1
             self.limiter.acquire()
-            return self._invoke(model_id, system, prompt, max_tokens)
+            if deadline is None:
+                return self._invoke(model_id, system, prompt, max_tokens)
+            return self._invoke(model_id, system, prompt, max_tokens,
+                                read_timeout=max(1.0, deadline - time.monotonic()))
 
         r = call_with_retries(once, attempts=self.retry_attempts, base=self.retry_base, cap=self.retry_cap,
-                              sleep=self._sleep)
+                              sleep=self._sleep, deadline=deadline, min_attempt_s=3.0 if deadline else 0.0)
         r.attempts = attempts["n"]
         self.cache.put(key, r)
         self.ledger.add(short_name(model_id), r)
@@ -365,9 +373,11 @@ class FakeLLM:
         self.images: list[Images] = []
         self.timeouts: list[float | None] = []
 
-    def complete(self, role: str, system: str, prompt: str, *, max_tokens: int = 1024) -> LLMResponse:
+    def complete(self, role: str, system: str, prompt: str, *, max_tokens: int = 1024,
+                 timeout_s: float | None = None) -> LLMResponse:
         self.calls.append((role, prompt))
         self.max_tokens.append(max_tokens)
+        self.timeouts.append(timeout_s)
         model_id = self.config.model_id(role)
         out = self.responder(role, system, prompt)
         # A responder may return (text, truncated) to simulate a reply cut at max_tokens.
@@ -381,8 +391,7 @@ class FakeLLM:
         """Same responder; the images are recorded in ``self.images`` (tests check metadata never arrives) and the
         time budget in ``self.timeouts``."""
         self.images.append(list(images))
-        self.timeouts.append(timeout_s)
-        return self.complete(role, system, prompt, max_tokens=max_tokens)
+        return self.complete(role, system, prompt, max_tokens=max_tokens, timeout_s=timeout_s)
 
 
 class BudgetedLLM:
@@ -394,12 +403,13 @@ class BudgetedLLM:
         self.config, self.ledger = inner.config, inner.ledger
         self.exhausted = 0
 
-    def complete(self, role: str, system: str, prompt: str, *, max_tokens: int = 1024) -> LLMResponse:
+    def complete(self, role: str, system: str, prompt: str, *, max_tokens: int = 1024,
+                 timeout_s: float | None = None) -> LLMResponse:
         key = self.inner.cache.key(self.inner.config.model_id(role), system, prompt, max_tokens)
         if self.inner.cache.get(key) is None and self.inner.ledger.calls >= self.max_live:
             self.exhausted += 1
             raise LiveCallsDisabled(f"live-call budget of {self.max_live} reached")
-        return self.inner.complete(role, system, prompt, max_tokens=max_tokens)
+        return self.inner.complete(role, system, prompt, max_tokens=max_tokens, timeout_s=timeout_s)
 
     def complete_image(self, role: str, system: str, prompt: str, images: Images, *,
                        max_tokens: int = 1024, timeout_s: float | None = None) -> LLMResponse:

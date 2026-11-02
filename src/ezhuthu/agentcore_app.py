@@ -7,11 +7,18 @@ body, or ``{"error": {"status": 403|404|422|500, "detail": "..."}}``. ``review``
 ``"admin_token"`` (the runtime's ``EZHUTHU_ADMIN_TOKEN``); request size limits are in ``ezhuthu.api.limits``.
 
 Local run: ``python -m ezhuthu.agentcore_app`` (serves POST /invocations and GET /ping on :8080).
+
+On start (``__main__`` here and in infra/agentcore/agent_runtime.py) :func:`start_warmup` builds the service, the
+parallel index and the character 5-gram in a background thread (issue #41: ~6 s for the 5-gram on a cold runtime),
+so the first restore request does not pay it. ``EZHUTHU_WARMUP=0`` turns it off.
 """
 
 from __future__ import annotations
 
 import logging
+import os
+import threading
+import time
 from collections.abc import Callable
 from typing import Any
 
@@ -27,13 +34,42 @@ from .api.service import (
 
 log = logging.getLogger(__name__)
 _service: EzhuthuService | None = None
+_service_lock = threading.Lock()
 
 
 def service() -> EzhuthuService:
     global _service
     if _service is None:
-        _service = EzhuthuService()
+        with _service_lock:  # the warm-up thread and the first request must not build two services
+            if _service is None:
+                _service = EzhuthuService()
     return _service
+
+
+def warm_up(svc: EzhuthuService | None = None) -> dict[str, float]:
+    """Build the service and the restorer's corpus, parallel index and 5-gram now. Returns seconds per part."""
+    t0 = time.perf_counter()
+    s = svc or service()
+    out = {"service": round(time.perf_counter() - t0, 3), **s.restorer.warm()}
+    log.info("warm-up done: %s", out)
+    return out
+
+
+def start_warmup(svc: EzhuthuService | None = None) -> threading.Thread | None:
+    """Run :func:`warm_up` in a daemon thread (requests are served meanwhile; one that needs the 5-gram waits for
+    the build instead of starting its own). ``EZHUTHU_WARMUP=0`` skips it."""
+    if os.environ.get("EZHUTHU_WARMUP", "1") == "0":
+        return None
+
+    def run() -> None:
+        try:
+            warm_up(svc)
+        except Exception:  # a failed warm-up only means the first request builds it, as before
+            log.exception("warm-up failed")
+
+    th = threading.Thread(target=run, name="ezhuthu-warmup", daemon=True)
+    th.start()
+    return th
 
 
 def _require(p: dict[str, Any], *keys: str) -> None:
@@ -186,4 +222,5 @@ except ImportError:  # bedrock-agentcore is the optional "agentcore" extra
 if __name__ == "__main__":
     if app is None:
         raise SystemExit("pip install -e '.[agentcore]' to run the AgentCore entrypoint")
+    start_warmup()
     app.run()
