@@ -7,7 +7,7 @@ import { useI18n } from './I18nProvider';
 // src/hero/hero-view.json (scripts/hero_build.py), and tests/test_hero_assets.py checks that against the runs.
 
 export const enHero = {
-  'hero.kicker': 'Old Tamil stones, letter by letter',
+  'hero.kicker': 'Real temple stones, some carved over 1,100 years ago',
   'hero.title': 'Learn to read old Tamil inscriptions.',
   'hero.sub':
     'Practise on real inscriptions, from single letters to whole lines. Or upload a photo: Ezhuthu reads the letters, suggests worn-away ones and shows how sure it is.',
@@ -33,7 +33,7 @@ export type HeroKey = keyof typeof enHero;
 
 // Every Tamil string below is PENDING a native-speaker check.
 export const taHero: Record<HeroKey, string> = {
-  'hero.kicker': 'பழந்தமிழ்க் கல்வெட்டுகள், எழுத்து எழுத்தாக',
+  'hero.kicker': 'உண்மையான கோயில் கல்வெட்டுகள்; சில 1,100 ஆண்டுகளுக்கு மேல் பழமையானவை',
   'hero.title': 'பழைய தமிழ்க் கல்வெட்டுகளைப் படிக்கக் கற்றுக்கொள்ளுங்கள்.',
   'hero.sub':
     'உண்மையான கல்வெட்டுகளில், தனி எழுத்துகள் முதல் முழு வரிகள் வரை பயிற்சி செய்யுங்கள். அல்லது ஒரு ஒளிப்படத்தைப் பதிவேற்றுங்கள்: எழுத்து அதன் எழுத்துகளைப் படித்து, தேய்ந்தவற்றை முன்மொழிந்து, எவ்வளவு உறுதி என்று காட்டுகிறது.',

@@ -70,7 +70,7 @@ export const en = {
   'home.scholar4': 'Expert review: abstentions and corrections wait in a queue for an epigraphist to settle.',
   'home.evolutionTitle': 'One letter through the eras',
   'stoneHero.label': 'From stone to meaning: a real Chola-period inscription, read letter by letter by Ezhuthu, then put into words, a phrase in today’s Tamil and its meaning',
-  'stoneHero.place': 'Brihadisvara temple, Thanjavur · Chola period',
+  'stoneHero.place': 'Brihadisvara temple, Thanjavur · completed 1010 CE, over 1,000 years ago',
   'stoneHero.reader': 'Reader',
   'stoneHero.readerSub': 'matches each letter',
   'stoneHero.restorer': 'Restorer',
@@ -491,7 +491,7 @@ export const ta: Record<MessageKey, string> = {
     'வல்லுநர் மதிப்பாய்வு: விலகல்களும் திருத்தங்களும் ஒரு கல்வெட்டியலாளர் முடிவு செய்யும்வரை வரிசையில் காத்திருக்கின்றன.',
   'home.evolutionTitle': 'காலந்தோறும் ஒரே எழுத்து',
   'stoneHero.label': 'கல்லிலிருந்து உரைக்கு: ஒரு உண்மையான சோழர் காலக் கல்வெட்டை எழுத்து, எழுத்து எழுத்தாகப் படிக்கிறது',
-  'stoneHero.place': 'பெருவுடையார் கோயில், தஞ்சாவூர் · சோழர் காலம்',
+  'stoneHero.place': 'பெருவுடையார் கோயில், தஞ்சாவூர் · கி.பி. 1010இல் கட்டி முடிக்கப்பட்டது; 1,000 ஆண்டுகளுக்கு மேல் பழமையானது',
   'stoneHero.reader': 'வாசிப்பாளர்',
   // stoneHero.readerSub, output, match, toModern, rowConfidence, legend, gapOpen, gapFilled, verdict*, flagged,
   // readingBy, letters: PENDING a native-speaker check.
