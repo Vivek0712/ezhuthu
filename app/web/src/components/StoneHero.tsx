@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type RefObject } from 'react';
-import { confClass, HERO, heroSrcSet, pctLabel, wordRuns, type Box, type HeroGlyph } from '../hero/heroData';
+import { badgeAnchor, confClass, HERO, heroSrcSet, pctLabel, wordRuns, type Box, type HeroGlyph } from '../hero/heroData';
 import {
   BADGE_MS,
   BEATS,
@@ -167,10 +167,10 @@ function MatchCard({ idx, g, box, place, foot, era, gap }: { idx: number; g: Her
 
 function Badge({ idx, g, box }: { idx: number; g: HeroGlyph; box: Box }) {
   const { width: W, height: H } = HERO.photo;
-  const [x0, , x1, y1] = box;
+  const { x, y } = badgeAnchor(box);
   const open = g.gap && g.gap.decision === 'abstain';
   return (
-    <span className={`sh-badge ${confClass(g.c)}${g.gap ? ' sh-badge-gap' : ''}`} data-idx={idx} style={{ left: pct((x0 + x1) / 2, W), top: pct(y1, H) }}>
+    <span className={`sh-badge ${confClass(g.c)}${g.gap ? ' sh-badge-gap' : ''}`} data-idx={idx} style={{ left: pct(x, W), top: pct(y, H) }}>
       <span className="sh-badge-a">
         <b lang="ta">{g.ta || '?'}</b>
         <small>{Math.round((g.c ?? 0) * 100)}</small>
@@ -301,6 +301,8 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
       const badges = q<HTMLElement>('.sh-badge');
       const badgeRects = badges.map((b) => rel(b.getBoundingClientRect()));
       const nodeRects = q<HTMLElement>('.sh-node-dot').map((n) => rel(n.getBoundingClientRect()));
+      const capEl = one<HTMLElement>('.sh-place');
+      const capRect = capEl ? rel(capEl.getBoundingClientRect()) : null;
       const lands = q<HTMLElement>('[data-anim="land"]');
       const landRects = lands.map((n) => rel(n.getBoundingClientRect()));
       // The gap before each word of a row: letters are drawn closed up by the sum of the gaps before their word.
@@ -462,9 +464,14 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
           const by = cy + s * (b0.y + b0.h / 2 - cy + ty * kbRect.h);
           const ex = lr.x + lr.w / 2 - shift;
           const ey = lr.y + lr.h / 2;
-          // Quadratic Bezier start -> end with its control point at the Decider, so every letter passes it.
+          // Quadratic Bezier start -> end with its control point at the Decider, so every letter swings past it. When
+          // both ends are above the photo caption (wide screens), the control point is lowered no further than keeps
+          // the lowest point of the curve above the caption, so no letter crosses it: for a curve from y0 to y2 with
+          // control y1 below both, the lowest point is m when y1 = m + sqrt((m - y0)(m - y2)).
           const kx = dec.x + dec.w / 2 + (i % 3 - 1) * 10;
-          const ky = dec.y + dec.h / 2 + (r - 1.5) * 8;
+          let ky = dec.y + dec.h / 2 + (r - 1.5) * 8;
+          const m = capRect ? capRect.y - lr.h * 0.8 : Infinity;
+          if (m > by && m > ey) ky = Math.min(ky, m + Math.sqrt((m - by) * (m - ey)));
           const N = 10;
           for (let k = 0; k <= N; k++) {
             const u = k / N;
@@ -478,14 +485,19 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
         }
         track(el, [...stops, ...fadeStops()]);
       });
-      // While the Reader matches, each letter's slot in the reading lights as a dot in its confidence tint.
+      // Each letter's slot in the reading appears as a faint dot as the scan beam finds its box, then lights in its
+      // confidence tint when the Reader matches it.
       q<HTMLElement>('.sh-dot').forEach((el) => {
         const idx = Number(el.dataset.idx);
         const { r, i } = FLAT[idx]!;
+        const on = TL.boxOn(r, i);
         const at = TL.badgeAt(idx);
         const land = TL.flyAt(r, i) + FLY_MS;
+        const faint: Props = { opacity: 0.3, transform: 'scale(.55)' };
         track(el, [
-          [at, { opacity: 0, transform: 'scale(.2)' }, 'cubic-bezier(.2,.9,.3,1.4)'],
+          [on, { opacity: 0, transform: 'scale(.2)' }, EASE],
+          [on + 300, faint],
+          [at, faint, 'cubic-bezier(.2,.9,.3,1.4)'],
           [at + 260, SHOWN],
           [land - 220, SHOWN],
           [land - 40, { opacity: 0, transform: 'scale(.4)' }],
@@ -532,10 +544,10 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
       q<HTMLElement>('.sh-tok').forEach((el, k) => track(el, kept(TL.tokenAt(k), TOKEN_MS, 10)));
       track(one('.sh-phrase-iso'), kept(TL.phrase.end - 200, 420, 4));
       track(one('.sh-mean-k'), kept(TL.phrase.start + PANE_MS * 0.4, 400, 4));
-      // ---- (h) MEANING: English, then Tamil ----
-      track(one('[data-anim="mean-en"]'), kept(TL.meaning.en, MEANING_MS, 8));
-      track(one('[data-anim="mean-ta"]'), kept(TL.meaning.ta, MEANING_MS, 8));
-      track(one('[data-anim="mean-head"]'), kept(TL.meaning.en - 150, 400, 4));
+      // ---- (h) MEANING: in the UI language first, then the other ----
+      track(one('[data-anim="mean-1"]'), kept(TL.meaning.first, MEANING_MS, 8));
+      track(one('[data-anim="mean-2"]'), kept(TL.meaning.second, MEANING_MS, 8));
+      track(one('[data-anim="mean-head"]'), kept(TL.meaning.first - 150, 400, 4));
       // ---- verdict, call to action ----
       q<HTMLElement>('[data-anim="verdict"]').forEach((el, k) => track(el, rise(TL.verdict + k * VERDICT_STAGGER, VERDICT_MS, 8)));
       track(one('[data-anim="verdict-words"]'), rise(TL.words.end, 420, 4));
@@ -814,15 +826,14 @@ export function StoneHero({ ctaRef }: { ctaRef?: RefObject<HTMLElement | null> }
               <p className="sh-k sh-mean-head" data-anim="mean-head">
                 <span>{t('stoneHero.meaning')}</span>
                 <span className={`sh-mc ${confClass(HERO.meaningC)}`} title={t('stoneHero.meaningConfidence')}>
-                  {pctLabel(HERO.meaningC)}
+                  {t('stoneHero.confidence')} {pctLabel(HERO.meaningC)}
                 </span>
               </p>
-              <p className="sh-mean-en" lang="en" data-anim="mean-en">
-                {HERO.meaning.en}
-              </p>
-              <p className="sh-mean-ta" lang="ta" data-anim="mean-ta">
-                {HERO.meaning.ta}
-              </p>
+              {(lang === 'ta' ? (['ta', 'en'] as const) : (['en', 'ta'] as const)).map((l, k) => (
+                <p key={l} className={`sh-mean-${l}`} lang={l} data-anim={`mean-${k + 1}`}>
+                  {HERO.meaning[l]}
+                </p>
+              ))}
             </div>
           </div>
         </div>

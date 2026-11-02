@@ -2,7 +2,7 @@ import { expect, test, type Page } from '@playwright/test';
 import { expectNoHorizontalScroll, setEnglish } from './helpers';
 
 // The home hero (StoneHero.tsx): a real photo, read letter by letter by Ezhuthu, then put into words, a phrase in
-// today's Tamil and its meaning; animated with WAAPI (~23 s cycle).
+// today's Tamil and its meaning; animated with WAAPI (~24 s cycle).
 
 const pageSettled = async (page: Page) => {
   await page.getByTestId('stone-hero').waitFor(); // the app renders after the mock worker starts
@@ -36,6 +36,15 @@ test.describe('stone hero', () => {
     // ... then the cascade puts a badge on every box
     const boxes = await hero.locator('.sh-box').count();
     await expect.poll(() => shown(page, '.sh-badge'), { timeout: 8000 }).toBe(boxes);
+    // ... all of each badge inside the photo, the bottom line's included (letter and % readable)
+    const outside = await hero.locator('.sh-frame').evaluate((f) => {
+      const fr = f.getBoundingClientRect();
+      return Array.from(f.querySelectorAll('.sh-badge')).filter((b) => {
+        const r = b.getBoundingClientRect();
+        return r.top < fr.top - 0.5 || r.bottom > fr.bottom + 0.5 || r.left < fr.left - 0.5 || r.right > fr.right + 0.5;
+      }).map((b) => { const r = b.getBoundingClientRect(); return `${(b as HTMLElement).dataset.idx}: ${Math.round(r.left - fr.left)},${Math.round(r.top - fr.top)},${Math.round(fr.right - r.right)},${Math.round(fr.bottom - r.bottom)}`; });
+    });
+    expect(outside).toEqual([]);
     // (d) the gap: the Decider abstains and the badge turns to "?"
     await expect.poll(() => shown(page, '.sh-badge-gap .sh-badge-b'), { timeout: 6000 }).toBe(1);
     // (e) every letter lands, (f) then the verdict

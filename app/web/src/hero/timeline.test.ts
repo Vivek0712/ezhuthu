@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { HERO } from './heroData';
-import { buildTimeline, FEATURE_MS, FLY_MS, HOLD_MS, kbAt, kbTransform, readingIndex, trackKeyframes, type Stop } from './timeline';
+import { buildTimeline, CARD_READ_MS, FEATURE_MS, FLY_MS, HOLD_MS, kbAt, kbTransform, readingIndex, trackKeyframes, type Stop } from './timeline';
 
 const letters = HERO.rows.map((r) => r.glyphs.length);
 const total = letters.reduce((a, b) => a + b, 0);
@@ -28,6 +28,8 @@ describe('stone hero timeline: the story plays in order', () => {
         expect(c.end - c.in).toBeLessThanOrEqual(tl.cards[k - 1]!.end - tl.cards[k - 1]!.in); // accelerating
       }
       expect(c.end - c.in).toBeGreaterThanOrEqual(Math.min(...FEATURE_MS));
+      // The final % stays readable before the card shrinks into its badge.
+      expect(c.out - c.ringTo).toBeGreaterThanOrEqual(CARD_READ_MS);
     });
     // Featured letters get their badge as their card leaves; the cascade follows the last card, in reading order.
     tl.cards.forEach((c) => expect(tl.badgeAt(c.idx)).toBe(c.out));
@@ -78,8 +80,8 @@ describe('stone hero timeline: the story plays in order', () => {
       expect(tl.tokenAt(k)).toBeGreaterThan(tl.phrase.start);
       expect(tl.tokenAt(k)).toBeLessThan(tl.phrase.end);
     }
-    expect(tl.meaning.en).toBeGreaterThan(tl.phrase.end);
-    expect(tl.meaning.ta).toBeGreaterThan(tl.meaning.en);
+    expect(tl.meaning.first).toBeGreaterThan(tl.phrase.end);
+    expect(tl.meaning.second).toBeGreaterThan(tl.meaning.first);
   });
 
   it('brings the verdict once the letters have landed, holds the meaning 3 s, fades and rests within one cycle', () => {

@@ -17,8 +17,12 @@ export const BEATS = {
 /** Boxes light up while the beam passes their row. */
 export const ROW_BOX = 470;
 export const LETTER_BOX = 22;
-/** The first featured cards are slow enough to read; they speed up into the cascade. */
-export const FEATURE_MS = [1250, 900, 680, 520, 420] as const;
+/** The first featured cards are slow enough to read; they speed up into the cascade. Every card holds its final %
+ * for at least CARD_READ_MS after the ring has filled, before it shrinks into its badge. */
+export const FEATURE_MS = [1500, 1200, 1050, 1000, 1000] as const;
+export const CARD_READ_MS = 380;
+/** A card shrinks into its badge over this long. */
+export const CARD_EXIT_MS = 200;
 /** Stagger of the small badges in the cascade (reading order). */
 export const CASCADE_STAGGER = 36;
 /** One badge pops in this long. */
@@ -42,7 +46,7 @@ export const WORD_LINE_MS = 320;
 export const PANE_MS = 520;
 export const TOKEN_STAGGER = 170;
 export const TOKEN_MS = 420;
-/** MEANING: English, then Tamil. */
+/** MEANING: in the reader's language first (English, then Tamil; Tamil first when the UI is in Tamil). */
 export const MEANING_MS = 600;
 export const MEANING_STAGGER = 400;
 /** How long the finished frame (stone | phrase and meaning) is held before it fades. */
@@ -92,8 +96,8 @@ export interface Timeline {
   /** The letter rows give way to the phrase pane; phrase token k rises at tokenAt(k). */
   phrase: { start: number; paneIn: number; end: number };
   tokenAt: (k: number) => number;
-  /** English meaning, then Tamil. The finished frame is held HOLD_MS from meaning.end. */
-  meaning: { en: number; ta: number; end: number };
+  /** The meaning in the UI language, then in the other one. The finished frame is held HOLD_MS from meaning.end. */
+  meaning: { first: number; second: number; end: number };
   verdict: number;
   verdictItems: number;
   cta: number;
@@ -116,8 +120,11 @@ export function buildTimeline(letters: number[], featured = 4, gaps = 1, verdict
   let t = match;
   for (let k = 0; k < nf; k++) {
     const d = FEATURE_MS[Math.min(k, FEATURE_MS.length - 1)]!;
-    cards.push({ idx: k, in: t, ringFrom: t + d * 0.2, ringTo: t + d * 0.62, out: t + d * 0.84, end: t + d });
-    t += d;
+    const ringFrom = t + d * 0.16;
+    const ringTo = t + d * 0.42;
+    const out = Math.max(t + d - CARD_EXIT_MS, ringTo + CARD_READ_MS);
+    cards.push({ idx: k, in: t, ringFrom, ringTo, out, end: Math.max(t + d, out + CARD_EXIT_MS) });
+    t = cards[k]!.end;
   }
   const cascade = t + 60;
   const badgeAt = (idx: number) => (idx < nf ? cards[idx]!.out : cascade + (idx - nf) * CASCADE_STAGGER);
@@ -143,8 +150,8 @@ export function buildTimeline(letters: number[], featured = 4, gaps = 1, verdict
   const ps = words.end + 150;
   const tokenAt = (k: number) => ps + PANE_MS * 0.6 + k * TOKEN_STAGGER;
   const phrase = { start: ps, paneIn: ps + PANE_MS, end: nTokens ? tokenAt(nTokens - 1) + TOKEN_MS : ps + PANE_MS };
-  const en = phrase.end + 200;
-  const meaning = { en, ta: en + MEANING_STAGGER, end: en + MEANING_STAGGER + MEANING_MS };
+  const m0 = phrase.end + 200;
+  const meaning = { first: m0, second: m0 + MEANING_STAGGER, end: m0 + MEANING_STAGGER + MEANING_MS };
   // The verdict on the letters comes as soon as they have all landed (the bottom strip is never empty for long); the
   // hold starts once the meaning is in.
   const verdict = finalLanding + CHIP_MS + 120;

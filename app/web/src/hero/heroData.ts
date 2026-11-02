@@ -106,3 +106,24 @@ export function confClass(c: number | null | undefined): 'sh-c-high' | 'sh-c-mid
 export function pctLabel(c: number | null | undefined): string {
   return c == null ? '–' : `${Math.round(c * 100)}%`;
 }
+
+/** Where a letter's badge is centred, in photo pixels: on the bottom edge of its box, unless that would push the badge
+ * past the edge of the photo (the last carved line sits right at the crop's bottom; the first and last letters of a
+ * line at its sides). Then it is moved in just far enough that all of it stays inside the frame, also while the slow
+ * drift has the photo zoomed in. Badges are sized in cqw with an 8 px floor, so relative to the photo's width they are
+ * largest on a 375 px phone: there a badge reaches at most BADGE_HALF_H below its centre and (wide letters such as ண
+ * included) BADGE_HALF_W to either side; e2e/stone-hero.spec.ts checks every badge against the frame. */
+export const BADGE_HALF_H = 0.034;
+export const BADGE_HALF_W = 0.036;
+/** Room for the drift (the zoom and pan crop at most this much of the photo's width off an edge while badges show). */
+export const BADGE_EDGE_Y = 0.012;
+export const BADGE_EDGE_X = 0.02;
+export function badgeAnchor(box: Box): { x: number; y: number } {
+  const { width: W, height: H } = HERO.photo;
+  const [x0, , x1, y1] = box;
+  const side = (BADGE_HALF_W + BADGE_EDGE_X) * W;
+  return {
+    x: Math.min(W - side, Math.max(side, (x0 + x1) / 2)),
+    y: Math.min(y1, H - (BADGE_HALF_H + BADGE_EDGE_Y) * W),
+  };
+}

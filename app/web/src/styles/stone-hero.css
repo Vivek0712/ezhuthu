@@ -228,8 +228,8 @@ html[lang='ta'] .sh-k { text-transform: none; letter-spacing: 0.02em; font-size:
 .sh-phrase-iso { margin-top: var(--ez-space-1) !important; font-size: 0.8rem; letter-spacing: 0.02em; color: var(--sh-muted); }
 .sh-mean-head { margin-top: var(--ez-space-5) !important; padding-top: var(--ez-space-3); border-top: 1px solid rgba(255, 255, 255, 0.12); }
 .sh-mc { padding: 0 7px; border: 1px solid currentColor; border-radius: var(--ez-radius-pill); font-size: 0.7rem; letter-spacing: 0; text-transform: none; font-variant-numeric: tabular-nums; }
-.sh-mean-en { margin-top: var(--ez-space-2) !important; font-size: 0.95rem; line-height: 1.55; color: var(--ez-stone-100); }
-.sh-mean-ta { margin-top: var(--ez-space-2) !important; font-family: var(--ez-font-body-ta); font-size: 0.95rem; line-height: 1.6; color: var(--ez-stone-200, var(--ez-stone-100)); }
+.sh-mean-en { margin-top: var(--ez-space-2) !important; text-wrap: pretty; font-size: 0.95rem; line-height: 1.55; color: var(--ez-stone-100); }
+.sh-mean-ta { margin-top: var(--ez-space-2) !important; text-wrap: pretty; font-family: var(--ez-font-body-ta); font-size: 0.95rem; line-height: 1.6; color: var(--ez-stone-200, var(--ez-stone-100)); }
 .sh-sum { min-width: 0; padding-top: var(--ez-space-3); border-top: 1px solid rgba(255, 255, 255, 0.14); }
 .sh-verdict { display: flex; flex-wrap: wrap; gap: var(--ez-space-1) var(--ez-space-4); margin: 0; font-size: 0.86rem; color: var(--ez-stone-100); max-width: none !important; }
 .sh-verdict b { color: var(--ez-lamp-200); font-variant-numeric: tabular-nums; }
@@ -297,8 +297,8 @@ html[lang='ta'] .sh-k { text-transform: none; letter-spacing: 0.02em; font-size:
   .stone-hero[data-motion='static'] .sh-phrase { grid-area: 2 / 1; }
   .stone-hero[data-motion='static'] .sh-phrase-iso { grid-area: 3 / 1; }
   .stone-hero[data-motion='static'] .sh-mean-head { grid-area: 1 / 2; margin-top: 0 !important; padding-top: 0; border-top: 0; }
-  .stone-hero[data-motion='static'] .sh-mean-en { grid-area: 2 / 2; }
-  .stone-hero[data-motion='static'] .sh-mean-ta { grid-area: 3 / 2; }
+  .stone-hero[data-motion='static'] [data-anim='mean-1'] { grid-area: 2 / 2; }
+  .stone-hero[data-motion='static'] [data-anim='mean-2'] { grid-area: 3 / 2; }
 }
 /* Phones: the headline, lede and calls to action come first (they share the first screen); the stone follows, full
    width, then the pipeline and the reading. */
@@ -314,13 +314,19 @@ html[lang='ta'] .sh-k { text-transform: none; letter-spacing: 0.02em; font-size:
   .sh-node-text small { display: none; }
   .sh-node-text b { font-size: 0.66rem; line-height: 1.2; white-space: normal; }
   html[lang='ta'] .sh-node-text b { font-size: 0.6rem; letter-spacing: -0.01em; }
-  .sh-node-out { font-size: 0.68rem; }
+  /* The pipeline's sub-outputs repeat what the stone, the gap card and the verdict already say; on a phone they would
+     push the meaning under the tab bar, so the pipeline shows its four steps only. */
+  .sh-node-out { display: none; }
   .sh-place { margin-top: var(--ez-space-1); font-size: 0.7rem; }
   .sh-line { column-gap: var(--ez-space-2); padding: 6px 0 9px; }
   .sh-ta { font-size: 1.08rem; }
   .sh-lc { min-width: 2.6rem; padding: 1px 6px; font-size: 0.68rem; }
   .sh-phrase { font-size: 1.3rem; }
-  .sh-mean-en, .sh-mean-ta { font-size: 0.88rem; }
+  .sh-mean-en, .sh-mean-ta { font-size: 0.88rem; line-height: 1.5; }
+  .sh-mean-ta { margin-top: var(--ez-space-1) !important; }
+  .sh-mean-head { margin-top: var(--ez-space-3) !important; padding-top: var(--ez-space-2); }
+  .sh-out-head { margin-bottom: var(--ez-space-2); }
+  .sh-sum { padding-top: var(--ez-space-2); }
   .sh-gapnote, .sh-flagged { font-size: 0.74rem; }
   .sh-verdict { font-size: 0.8rem; }
   .sh-bar { padding: 0 var(--ez-space-1); }

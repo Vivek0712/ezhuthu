@@ -7,7 +7,7 @@ import heroView from '../hero/hero-view.json';
 import glyphs from '../hero/runs/glyphs.json';
 import interp from '../hero/runs/interpret.json';
 import restore from '../hero/runs/restore.json';
-import { HERO } from '../hero/heroData';
+import { BADGE_EDGE_X, BADGE_EDGE_Y, BADGE_HALF_H, BADGE_HALF_W, HERO } from '../hero/heroData';
 import { buildTimeline } from '../hero/timeline';
 import { en, ta } from '../i18n/strings';
 import { renderApp } from '../test/render';
@@ -62,7 +62,18 @@ describe('stone hero (home)', () => {
     expect(meaning.querySelector('.sh-phrase-iso')).toHaveTextContent(interp.response.phrase_iso);
     expect(meaning.querySelector('.sh-mean-en')).toHaveTextContent(interp.response.meaning_en);
     expect(meaning.querySelector('.sh-mean-ta')).toHaveTextContent(interp.response.meaning_ta);
-    expect(meaning.querySelector('.sh-mc')).toHaveTextContent(`${Math.round(interp.response.confidence * 100)}%`);
+    // The meaning's chip says what its % measures (the legend above is about letters).
+    expect(meaning.querySelector('.sh-mc')).toHaveTextContent(`confidence ${Math.round(interp.response.confidence * 100)}%`);
+    // English first in English.
+    expect(Array.from(meaning.querySelectorAll('[data-anim^="mean-"]:not([data-anim="mean-head"])')).map((e) => e.getAttribute('lang'))).toEqual(['en', 'ta']);
+    // The panel heading covers every stage it stays up for.
+    expect(hero.querySelector('.sh-out-head')).toHaveTextContent('Modern Tamil: letters, words, meaning');
+    // Every badge sits inside the photo, the last carved line included.
+    hero.querySelectorAll<HTMLElement>('.sh-badge').forEach((b) => {
+      expect(parseFloat(b.style.top)).toBeLessThanOrEqual(100 * (1 - ((BADGE_HALF_H + BADGE_EDGE_Y) * HERO.photo.width) / HERO.photo.height) + 1e-6);
+      expect(parseFloat(b.style.left)).toBeGreaterThanOrEqual(100 * (BADGE_HALF_W + BADGE_EDGE_X) - 1e-6);
+      expect(parseFloat(b.style.left)).toBeLessThanOrEqual(100 * (1 - BADGE_HALF_W - BADGE_EDGE_X) + 1e-6);
+    });
     expect(hero.querySelector('[data-node="interpreter"]')).toHaveTextContent(`Interpreter`);
     // No hedging labels, no claims of correctness or of anything being queued.
     expect(hero.textContent).not.toMatch(/experimental|not checked|edition|goes to expert review|\bcorrect\b|deciph/i);
@@ -101,6 +112,11 @@ describe('stone hero (home)', () => {
     expect(hero).toHaveTextContent('Strands Agents');
     expect(hero).toHaveTextContent('விளக்குநர்');
     expect(hero).toHaveTextContent('பொருள்: எழுத்து');
+    // In Tamil, the Tamil meaning comes first; the words verdict keeps its two numbers apart.
+    const meaning = screen.getByTestId('hero-meaning');
+    expect(Array.from(meaning.querySelectorAll('[data-anim^="mean-"]:not([data-anim="mean-head"])')).map((e) => e.getAttribute('lang'))).toEqual(['ta', 'en']);
+    expect(meaning.querySelector('.sh-mc')).toHaveTextContent('நம்பகம்');
+    expect(hero).toHaveTextContent('சொற்களின் நம்பகம் 50% அல்லது அதற்கு மேல்');
   });
 });
 
@@ -178,7 +194,7 @@ describe('stone hero animation: one track per element, and the loop has no seam'
     // The beats come in the order the story is told, and the loop is 22 to 26 s with a 3 s hold.
     expect(tl.words.start).toBeGreaterThan(Math.max(...tl.rows.map((r) => r.landed)) - 400);
     expect(tl.phrase.start).toBeGreaterThan(tl.words.end - 1);
-    expect(tl.meaning.en).toBeGreaterThan(tl.phrase.end);
+    expect(tl.meaning.first).toBeGreaterThan(tl.phrase.end);
     expect(tl.cycle).toBeGreaterThanOrEqual(22_000);
     expect(tl.cycle).toBeLessThanOrEqual(26_000);
   });
