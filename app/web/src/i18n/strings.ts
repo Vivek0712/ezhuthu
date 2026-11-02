@@ -1,3 +1,5 @@
+import { enUx, taUx } from './strings-ux';
+
 // Every English key must have a Tamil string (enforced by the type below and by i18n.test.ts).
 export const en = {
   'app.name': 'Ezhuthu',
@@ -370,6 +372,8 @@ export const en = {
     'Level L5 teaches Tamil-Brahmi letters from transliterated text, because the corpus has no Tamil-Brahmi editions. The drawn Vatteluttu letters await an epigrapher’s review.',
   'notFound.title': 'Page not found',
   'notFound.back': 'Back home',
+  // UX revamp: home sections, instant practice, How it works (strings-ux.ts).
+  ...enUx,
 } as const;
 
 export type MessageKey = keyof typeof en;
@@ -752,4 +756,6 @@ export const ta: Record<MessageKey, string> = {
     'L5 நிலை தமிழ்-பிராமி எழுத்துகளை ஒலிபெயர்ப்பு உரையிலிருந்து கற்பிக்கிறது; தொகுப்பில் தமிழ்-பிராமிப் பதிப்புகள் இல்லை. வரைந்த வட்டெழுத்துகள் கல்வெட்டியலாளர் மதிப்பாய்வுக்குக் காத்திருக்கின்றன.',
   'notFound.title': 'பக்கம் கிடைக்கவில்லை',
   'notFound.back': 'முகப்புக்குத் திரும்பு',
+  // UX revamp (strings-ux.ts): every Tamil string there is PENDING a native-speaker check.
+  ...taUx,
 };

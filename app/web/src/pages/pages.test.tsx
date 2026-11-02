@@ -34,7 +34,7 @@ describe('Restore page', () => {
 describe('Practice page (was Learn)', () => {
   it('starts a Tamil-Brahmi lesson, gives a hint on a wrong answer and advances on a right one', async () => {
     const user = userEvent.setup();
-    renderApp(<AppRoutes />, { route: '/practice' });
+    renderApp(<AppRoutes />, { route: '/practice/guided' });
     await user.click(screen.getByTestId('level-L5'));
     await user.click(screen.getByTestId('start-lesson'));
     expect(await screen.findByRole('heading', { level: 1, name: /Mangulam/ })).toBeInTheDocument();
@@ -55,7 +55,7 @@ describe('Practice page (was Learn)', () => {
   });
   it('renders Vatteluttu as an image, never as inline markup', async () => {
     const user = userEvent.setup();
-    renderApp(<AppRoutes />, { route: '/practice' });
+    renderApp(<AppRoutes />, { route: '/practice/guided' });
     await user.click(screen.getByTestId('level-L4'));
     await user.click(screen.getByTestId('start-lesson'));
     const tile = await screen.findByTestId('glyph-tile');
@@ -71,7 +71,7 @@ describe('Progress page', () => {
   });
   it('runs a pre-test and shows the score', async () => {
     const user = userEvent.setup();
-    renderApp(<AppRoutes />, { route: '/practice' });
+    renderApp(<AppRoutes />, { route: '/practice/guided' });
     await user.click(screen.getByTestId('start-lesson'));
     await screen.findByTestId('glyph-tile');
     await user.click(screen.getAllByRole('link', { name: 'Progress' })[0]!);

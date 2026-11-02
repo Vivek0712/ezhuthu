@@ -89,19 +89,23 @@ describe('stone hero (home)', () => {
     expect(hero.querySelector('.sh-out')?.closest('[aria-hidden="true"]')).toBeNull();
   });
 
-  it('keeps the era-evolution strip and offers the three calls to action', () => {
+  it('offers one primary call to action, then practice, how it works and scholars sections', () => {
     renderApp(<AppRoutes />, { route: '/' });
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Learn to read the stone. Help read the backlog.');
-    expect(screen.getByTestId('evolution-hero')).toBeInTheDocument();
+    expect(screen.getByTestId('hero-actions').querySelectorAll('.btn-primary')).toHaveLength(1);
+    expect(screen.getByTestId('cta-practice')).toHaveAttribute('href', '#practice');
     expect(screen.getByTestId('cta-upload')).toHaveAttribute('href', '/restore');
-    expect(screen.getByTestId('cta-samples')).toHaveAttribute('href', '#samples');
-    expect(screen.getByTestId('cta-scholars')).toHaveAttribute('href', '#scholars');
+    expect(screen.getByTestId('cta-how')).toHaveAttribute('href', '#how');
     // The headline and calls to action come before the stone in the page (phones show them first).
     const h1 = screen.getByRole('heading', { level: 1 });
     expect(h1.compareDocumentPosition(screen.getByTestId('stone-hero')) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    // Sections in order: hero, practice, how it works, scholars.
+    const order = ['stone-hero', 'home-practice', 'home-how', 'scholars'].map((id) => screen.getByTestId(id));
+    for (let i = 1; i < order.length; i++) expect(order[i - 1]!.compareDocumentPosition(order[i]!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(screen.getByTestId('mini-drill')).toBeInTheDocument();
     const scholars = screen.getByTestId('scholars');
-    expect(within(scholars).getByRole('link', { name: 'Expert review' })).toHaveAttribute('href', '/review');
-    expect(within(scholars).getByRole('link', { name: 'Benchmark' })).toHaveAttribute('href', '/benchmark');
+    expect(within(scholars).getByRole('link', { name: 'Expert review →' })).toHaveAttribute('href', '/review');
+    expect(within(scholars).getByTestId('scholars-benchmark')).toHaveAttribute('href', '/benchmark');
   });
 
   it('is in Tamil when the app is', () => {
@@ -337,7 +341,7 @@ function Where() {
 }
 
 describe('renamed routes keep old links working', () => {
-  it('/learn redirects to /practice with its query string', async () => {
+  it('/learn redirects to /practice with its query string (a tutor-lesson link lands on the guided lesson)', async () => {
     renderApp(
       <>
         <AppRoutes />
@@ -347,7 +351,7 @@ describe('renamed routes keep old links working', () => {
       </>,
       { route: '/learn?level=L2' },
     );
-    expect(await screen.findByTestId('where')).toHaveTextContent('/practice?level=L2');
+    expect(await screen.findByTestId('where')).toHaveTextContent('/practice/guided?level=L2');
     expect(screen.getByRole('heading', { level: 1, name: 'Practice' })).toBeInTheDocument();
   });
   it('/test redirects to /benchmark', async () => {

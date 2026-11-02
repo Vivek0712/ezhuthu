@@ -19,10 +19,10 @@ async function shot(page: Page, name: string, project: string, { fullPage = true
 test('@screens capture every page', async ({ page }, info) => {
   const p = info.project.name;
   await page.goto('/');
-  await expect(page.getByTestId('evolution-hero')).toBeVisible();
+  await expect(page.getByTestId('mini-drill')).toBeAttached();
   await shot(page, '01-home-ta', p, { fullPage: false });
 
-  await page.goto('/practice');
+  await page.goto('/practice/guided');
   await page.getByTestId('level-L5').click();
   await shot(page, '02-learn-levels-ta', p);
   await page.getByTestId('start-lesson').click();
@@ -42,7 +42,7 @@ test('@screens capture every page', async ({ page }, info) => {
   await page.goto('/');
   await shot(page, '05-home-en', p, { fullPage: false });
 
-  await page.goto('/practice');
+  await page.goto('/practice/guided');
   await page.getByTestId('level-L4').click();
   await page.getByTestId('start-lesson').click();
   await expect(page.getByTestId('glyph-tile').locator('img')).toBeVisible();
@@ -79,7 +79,7 @@ test('@screens capture every page', async ({ page }, info) => {
   await shot(page, '10-about-en', p);
 
   // Wave 3 states: rules-decided answer with the tutor team's explanation, a 409 on review, dark mode.
-  await page.goto('/practice');
+  await page.goto('/practice/guided');
   await page.getByTestId('level-L5').click();
   await page.getByTestId('start-lesson').click();
   for (let i = 0; i < 3; i++) {
@@ -97,7 +97,7 @@ test('@screens capture every page', async ({ page }, info) => {
 
   await page.emulateMedia({ colorScheme: 'dark' });
   await page.goto('/');
-  await expect(page.getByTestId('evolution-hero')).toBeVisible();
+  await expect(page.getByTestId('mini-drill')).toBeAttached();
   await shot(page, '13-home-dark-en', p, { fullPage: false });
   await page.goto('/restore');
   await page.getByTestId('read-tab-type').click();
@@ -108,7 +108,7 @@ test('@screens capture every page', async ({ page }, info) => {
 
   // Try-it samples: the gallery, and a sample opened in Restore (Tamil text) and restored.
   await page.emulateMedia({ colorScheme: 'light' });
-  await page.goto('/');
+  await page.goto('/how-it-works');
   await page.getByTestId('sample-gallery').scrollIntoViewIfNeeded();
   await expect(page.getByTestId('sample-gallery').getByRole('article').first()).toBeVisible();
   // The gallery's first screen (heading, filters, first cards), not all 13 cards.

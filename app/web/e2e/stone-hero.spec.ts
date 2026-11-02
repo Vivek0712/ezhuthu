@@ -197,7 +197,7 @@ test.describe('stone hero', () => {
     await page.goto('/');
     await pageSettled(page);
     const hero = await showHero(page);
-    await page.getByTestId('sample-gallery').scrollIntoViewIfNeeded();
+    await page.getByTestId('scholars').scrollIntoViewIfNeeded();
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     await expect(hero).toHaveAttribute('data-phase', 'paused');
     await hero.locator('.sh-stage').scrollIntoViewIfNeeded();
@@ -280,7 +280,7 @@ test.describe('stone hero on a small phone (375 x 740)', () => {
         return bar && getComputedStyle(bar).display !== 'none' ? bar.getBoundingClientRect().top : window.innerHeight;
       });
       const h1 = (await page.getByRole('heading', { level: 1 }).boundingBox())!;
-      const cta = (await page.getByTestId('cta-upload').boundingBox())!;
+      const cta = (await page.getByTestId('cta-practice').boundingBox())!;
       expect(h1.y, `${lang}: heading on screen`).toBeGreaterThanOrEqual(0);
       expect(cta.y + cta.height, `${lang}: first call to action above the tab bar`).toBeLessThanOrEqual(tabbarTop);
       const photo = (await hero.locator('.sh-frame').boundingBox())!;

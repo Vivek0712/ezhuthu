@@ -42,7 +42,11 @@ export async function expectNoHorizontalScroll(page: Page) {
 export async function gotoNav(page: Page, name: RegExp | string) {
   const isMobile = (page.viewportSize()?.width ?? 1000) < 1000;
   if (!isMobile) {
-    await page.getByRole('navigation', { name: 'primary' }).getByRole('link', { name }).click();
+    await page.getByRole('navigation', { name: 'primary' }).waitFor(); // the app renders after the mock worker starts
+    const top = page.getByRole('navigation', { name: 'primary' }).getByRole('link', { name });
+    // Progress and Benchmark moved to the footer's secondary links.
+    if (await top.count()) await top.click();
+    else await page.getByTestId('footer-nav').getByRole('link', { name }).click();
     return;
   }
   await page.getByTestId('tabbar').waitFor(); // the app renders after the mock worker starts

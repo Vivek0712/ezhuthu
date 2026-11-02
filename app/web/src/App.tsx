@@ -4,8 +4,11 @@ import { RequireAuth } from './components/RequireAuth';
 import { AboutPage } from './pages/AboutPage';
 import { AuthCallbackPage } from './pages/AuthCallbackPage';
 import { HomePage } from './pages/HomePage';
+import { HowItWorksPage } from './pages/HowItWorksPage';
 import { LearnPage } from './pages/LearnPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { PracticeHubPage } from './pages/PracticeHubPage';
+import { PracticeSessionPage, TrialPage } from './pages/PracticeSessionPage';
 import { ProgressPage } from './pages/ProgressPage';
 import { RestorePage } from './pages/RestorePage';
 import { ReviewPage } from './pages/ReviewPage';
@@ -22,7 +25,11 @@ export function AppRoutes() {
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<HomePage />} />
-        <Route path="practice" element={<LearnPage />} />
+        <Route path="practice" element={<PracticeHubPage />} />
+        <Route path="practice/guided" element={<LearnPage />} />
+        <Route path="practice/trial" element={<TrialPage />} />
+        <Route path="practice/:kind" element={<PracticeSessionPage />} />
+        <Route path="how-it-works" element={<HowItWorksPage />} />
         <Route path="learn" element={<Moved to="/practice" />} />
         <Route path="progress" element={<ProgressPage />} />
         <Route path="restore" element={<RestorePage />} />
