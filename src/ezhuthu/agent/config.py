@@ -66,6 +66,16 @@ class RestorerSettings:
     (``python -m ezhuthu.eval.calibrate``); relative paths are resolved against the package directory.
     ``calibration_min_n`` / ``calibration_min_positives``: an entry fitted on fewer VAL items (or fewer correct
     top-1s) is provisional and ignored; the variant then keeps raw confidences and the routing thresholds.
+
+    Character 5-gram options (deployed-config issue; all off by default, see config/models.yaml):
+    ``ngram_beam``: when any option below is on, the 5-gram proposals come from one beam of this width/size (the
+    5-gram baseline's: ``k = beam = 20``) and every candidate gets ``ngram_prob``, its softmax share of that beam
+    (0 if not in it), the baseline's confidence.
+    ``ngram_prerank``: the pre-rank becomes a noisy-OR of LLM probability, parallel support and ``ngram_prob``
+    (instead of the 0.01 n-gram epsilon); the decider-free pre-rank is then tagged ``prerank-ngram``.
+    ``ngram_slot``: a top-k decider strategy always shows the 5-gram's top fill (like the copy-baseline fill).
+    ``ngram_gate``: if the 5-gram's top fill has ``ngram_prob`` >= this, fill it and ask no LLM (a cascade); ``None``
+    turns the gate off.
     """
 
     strategy: str = "prerank"  # dataclass default; config/models.yaml sets the shipped value
@@ -80,6 +90,14 @@ class RestorerSettings:
     calibration: str | None = "calibration.json"
     calibration_min_n: int = 100
     calibration_min_positives: int = 10
+    ngram_beam: int = 20
+    ngram_prerank: bool = False
+    ngram_slot: bool = False
+    ngram_gate: float | None = None
+
+    @property
+    def ngram_features(self) -> bool:
+        return self.ngram_prerank or self.ngram_slot or self.ngram_gate is not None
 
     def __post_init__(self) -> None:
         if self.strategy not in DECIDER_STRATEGIES:
@@ -88,6 +106,10 @@ class RestorerSettings:
             raise ValueError(f"restorer.strategy_llm must be one of {DECIDER_STRATEGIES}, got {self.strategy_llm!r}")
         if not 1 <= self.top_k <= 23:
             raise ValueError("restorer.top_k must be 1..23")
+        if self.ngram_gate is not None and not 0.0 < self.ngram_gate <= 1.0:
+            raise ValueError("restorer.ngram_gate must be in (0, 1] or null")
+        if self.ngram_beam < self.ngram_k:
+            raise ValueError("restorer.ngram_beam must be >= restorer.ngram_k")
 
     def with_(self, **kw: Any) -> RestorerSettings:
         from dataclasses import replace

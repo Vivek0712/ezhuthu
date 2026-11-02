@@ -207,7 +207,7 @@ components:
       type: object
       required: [text]
       properties:
-        text: { type: string, description: 'Gap markers: [?] unknown length, [?N] about N characters' }
+        text: { type: string, description: 'Gap markers: [?] unknown length, [?N] about N Tamil letters (aksharas, not ISO characters)' }
         script: { type: string, enum: [iso15919, tamil], default: iso15919 }
         max_candidates: { type: integer, minimum: 1, maximum: 20, default: 5 }
         allow_escalation: { type: boolean, default: true }
@@ -322,7 +322,7 @@ components:
       required: [index, gap_chars, decision, chosen, candidates]
       properties:
         index: { type: integer }
-        gap_chars: { type: [integer, 'null'] }
+        gap_chars: { type: [integer, 'null'], description: 'Gap length in Tamil letters (the N of [?N]); null for [?]' }
         decision: { type: string, enum: [fill, abstain] }
         chosen: { type: [integer, 'null'] }
         candidates: { type: array, items: { $ref: '#/components/schemas/Candidate' } }
@@ -399,7 +399,7 @@ components:
         left: { type: string }
         right: { type: string }
         target: { type: string }
-        gap_chars: { type: integer, minimum: 1 }
+        gap_chars: { type: integer, minimum: 1, description: 'Gap length in Tamil letters' }
         hard: { type: boolean }
         kind: { type: string, enum: [supplied, blank] }
         source_url: { type: string }
@@ -412,7 +412,7 @@ components:
         gap_index: { type: integer }
         left: { type: string }
         right: { type: string }
-        gap_chars: { type: [integer, 'null'] }
+        gap_chars: { type: [integer, 'null'], description: 'Gap length in Tamil letters; null for [?]' }
         inscription_id: { type: string }
     CorrectionRequest:
       type: object

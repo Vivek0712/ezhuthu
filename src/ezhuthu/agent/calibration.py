@@ -92,9 +92,23 @@ class Calibration:
 
 
 def fit_platt(conf: Sequence[float], correct: Sequence[bool], *, l2: float = 1.0, iters: int = 50) -> tuple[float, float]:
-    """MAP logistic regression of ``correct`` on ``logit(conf)`` with a Gaussian prior centred on (a=1, b=0)."""
+    """MAP logistic regression of ``correct`` on ``logit(conf)`` with a Gaussian prior centred on (a=1, b=0).
+
+    Newton's method with step halving: a full Newton step is taken whenever it lowers the penalised log-loss (so a
+    fit that converged without damping is unchanged); otherwise the step is halved until it does. Undamped Newton
+    diverged (a = 218) on scores bunched near 1 whose prediction from the (1, 0) start was confidently wrong (the
+    deployed-config issue's 5-gram pre-rank)."""
     xs = [logit(c) for c in conf]
     ys = [1.0 if y else 0.0 for y in correct]
+
+    def loss(a_: float, b_: float) -> float:
+        out = 0.5 * l2 * ((a_ - 1.0) ** 2 + b_ ** 2)
+        for x, y in zip(xs, ys, strict=True):
+            z = a_ * x + b_
+            # log(1 + e^z) - y z, stably
+            out += (z if z > 0 else 0.0) + math.log1p(math.exp(-abs(z))) - y * z
+        return out
+
     a, b = 1.0, 0.0
     for _ in range(iters):
         ga = l2 * (a - 1.0)
@@ -114,6 +128,10 @@ def fit_platt(conf: Sequence[float], correct: Sequence[bool], *, l2: float = 1.0
             break
         da = (hbb * ga - hab * gb) / det
         db = (haa * gb - hab * ga) / det
+        cur, t = loss(a, b), 1.0
+        while t > 1e-6 and loss(a - t * da, b - t * db) > cur:
+            t /= 2
+        da, db = t * da, t * db
         a, b = a - da, b - db
         if abs(da) < 1e-8 and abs(db) < 1e-8:
             break

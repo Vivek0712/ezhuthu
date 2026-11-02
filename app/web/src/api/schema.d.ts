@@ -180,7 +180,7 @@ export interface components {
         /** @enum {string} */
         Lang: "ta" | "en";
         RestoreRequest: {
-            /** @description Gap markers: [?] unknown length, [?N] about N characters */
+            /** @description Gap markers: [?] unknown length, [?N] about N Tamil letters (aksharas, not ISO characters) */
             text: string;
             /**
              * @default iso15919
@@ -307,6 +307,7 @@ export interface components {
         };
         Gap: {
             index: number;
+            /** @description Gap length in Tamil letters (the N of [?N]); null for [?] */
             gap_chars: number | null;
             /** @enum {string} */
             decision: "fill" | "abstain";
@@ -379,6 +380,7 @@ export interface components {
             left: string;
             right: string;
             target: string;
+            /** @description Gap length in Tamil letters */
             gap_chars: number;
             hard: boolean;
             /** @enum {string} */
@@ -391,6 +393,7 @@ export interface components {
             gap_index: number;
             left?: string;
             right?: string;
+            /** @description Gap length in Tamil letters; null for [?] */
             gap_chars?: number | null;
             inscription_id?: string;
         };

@@ -1,0 +1,979 @@
+{
+ "rule": "Stage 1: on the same VAL items (the 280-item selection set), the decider-free variant with the most top-1 matches wins; a tie in matches goes to the lower estimated USD per gap, then the lower p50 latency. Stage 2: the hosted-v19 variant replaces the stage-1 winner only if it has strictly more top-1 matches on the 120-item hosted set (a subset of the selection set); otherwise the decider-free winner (cheaper, faster, no external dependency) stands. No escalation threshold, n-gram threshold or strategy parameter is re-tuned; the n-gram gate uses the issue #26 full-VAL 5-gram threshold 0.9103.",
+ "n_selection": 280,
+ "n_hosted": 120,
+ "variants": {
+  "ngram": {
+   "n": 280,
+   "top1": 0.2821,
+   "top1_matching": 79,
+   "top1_ci": [
+    0.2321,
+    0.3357
+   ],
+   "top20": 0.4821,
+   "cer_clipped": 0.6035,
+   "errors": 0,
+   "cost": {
+    "by_model": {},
+    "calls": 0,
+    "live_calls_this_run": 0,
+    "usd": 0,
+    "usd_per_item": 0.0,
+    "opus_items": 0
+   },
+   "latency": {
+    "p50_ms": 15.6,
+    "p90_ms": 54.2,
+    "max_ms": 248.7,
+    "over_proxy_limit": 0
+   },
+   "llm_skipped": 0,
+   "decider_calls": 0,
+   "vs": {
+    "ngram": {
+     "only_a": 0,
+     "only_b": 0,
+     "both": 79,
+     "p_mcnemar": 1.0
+    }
+   },
+   "abstain": {
+    "threshold": 0.9103,
+    "in_sample": {
+     "coverage": 0.2143,
+     "filled": 60,
+     "filled_matching": 45,
+     "selective_accuracy": 0.75
+    },
+    "cross_validated": {
+     "coverage": 0.2143,
+     "filled": 60,
+     "filled_matching": 45,
+     "selective_accuracy": 0.75
+    },
+    "note": "issue #26 full-VAL 5-gram threshold (not refitted)"
+   }
+  },
+  "hybrid-gate": {
+   "n": 280,
+   "top1": 0.3286,
+   "top1_matching": 92,
+   "top1_ci": [
+    0.275,
+    0.3857
+   ],
+   "top20": 0.5571,
+   "cer_clipped": 0.5046,
+   "errors": 0,
+   "cost": {
+    "by_model": {
+     "opus": {
+      "calls": 190,
+      "input_tokens": 172324,
+      "output_tokens": 20341
+     },
+     "sonnet": {
+      "calls": 39,
+      "input_tokens": 36015,
+      "output_tokens": 3893
+     }
+    },
+    "calls": 229,
+    "live_calls_this_run": 0,
+    "usd": 1.5366,
+    "usd_per_item": 0.00549,
+    "opus_items": 189
+   },
+   "latency": {
+    "p50_ms": 3247.6,
+    "p90_ms": 6611.8,
+    "max_ms": 17488.5,
+    "over_proxy_limit": 0
+   },
+   "llm_skipped": 60,
+   "decider_calls": 0,
+   "vs": {
+    "ngram": {
+     "only_a": 30,
+     "only_b": 17,
+     "both": 62,
+     "p_mcnemar": 0.078941
+    }
+   },
+   "abstain": {
+    "entries": {
+     "prerank|prerank|kall|llm-opus": {
+      "a": 1.121116,
+      "b": -1.752788,
+      "threshold": 0.3373,
+      "n": 189,
+      "positives": 39,
+      "split": "val",
+      "fitted_at": "",
+      "note": "",
+      "provisional": false
+     },
+     "prerank|prerank|kall|llm-sonnet": {
+      "a": 0.12822,
+      "b": -1.08564,
+      "threshold": 0.3192,
+      "n": 31,
+      "positives": 8,
+      "split": "val",
+      "fitted_at": "",
+      "note": "",
+      "provisional": true
+     }
+    },
+    "in_sample": {
+     "coverage": 0.4607,
+     "filled": 129,
+     "filled_matching": 79,
+     "selective_accuracy": 0.6124
+    },
+    "cross_validated": {
+     "coverage": 0.4571,
+     "filled": 128,
+     "filled_matching": 78,
+     "selective_accuracy": 0.6094
+    },
+    "keys_used": [
+     "prerank|prerank|kall|llm-opus",
+     "prerank|prerank|kall|llm-sonnet"
+    ]
+   }
+  },
+  "hybrid-prerank": {
+   "n": 280,
+   "top1": 0.3571,
+   "top1_matching": 100,
+   "top1_ci": [
+    0.3,
+    0.4143
+   ],
+   "top20": 0.5536,
+   "cer_clipped": 0.4924,
+   "errors": 0,
+   "cost": {
+    "by_model": {
+     "opus": {
+      "calls": 225,
+      "input_tokens": 204301,
+      "output_tokens": 23469
+     },
+     "sonnet": {
+      "calls": 61,
+      "input_tokens": 58710,
+      "output_tokens": 5746
+     }
+    },
+    "calls": 286,
+    "live_calls_this_run": 0,
+    "usd": 1.8706,
+    "usd_per_item": 0.00668,
+    "opus_items": 224
+   },
+   "latency": {
+    "p50_ms": 3362.1,
+    "p90_ms": 7114.6,
+    "max_ms": 17531.6,
+    "over_proxy_limit": 0
+   },
+   "llm_skipped": 0,
+   "decider_calls": 0,
+   "vs": {
+    "ngram": {
+     "only_a": 25,
+     "only_b": 4,
+     "both": 75,
+     "p_mcnemar": 0.000104
+    }
+   },
+   "abstain": {
+    "entries": {
+     "prerank-ngram|prerank|kall|llm-opus": {
+      "a": 0.656823,
+      "b": -1.870518,
+      "threshold": 0.4887,
+      "n": 224,
+      "positives": 67,
+      "split": "val",
+      "fitted_at": "",
+      "note": "",
+      "provisional": false
+     },
+     "prerank-ngram|prerank|kall|llm-sonnet": {
+      "a": 0.685211,
+      "b": -2.132567,
+      "threshold": 0.4111,
+      "n": 278,
+      "positives": 85,
+      "split": "val",
+      "fitted_at": "",
+      "note": "",
+      "provisional": false
+     }
+    },
+    "in_sample": {
+     "coverage": 0.2536,
+     "filled": 71,
+     "filled_matching": 57,
+     "selective_accuracy": 0.8028
+    },
+    "cross_validated": {
+     "coverage": 0.2607,
+     "filled": 73,
+     "filled_matching": 53,
+     "selective_accuracy": 0.726
+    },
+    "keys_used": [
+     "prerank-ngram|prerank|kall|llm-opus",
+     "prerank-ngram|prerank|kall|llm-sonnet"
+    ]
+   }
+  },
+  "routed-prerank": {
+   "n": 280,
+   "top1": 0.2964,
+   "top1_matching": 83,
+   "top1_ci": [
+    0.2429,
+    0.3536
+   ],
+   "top20": 0.5536,
+   "cer_clipped": 0.5328,
+   "errors": 0,
+   "cost": {
+    "by_model": {
+     "opus": {
+      "calls": 231,
+      "input_tokens": 210368,
+      "output_tokens": 23985
+     },
+     "sonnet": {
+      "calls": 61,
+      "input_tokens": 58710,
+      "output_tokens": 5746
+     }
+    },
+    "calls": 292,
+    "live_calls_this_run": 1,
+    "usd": 1.9138,
+    "usd_per_item": 0.00683,
+    "opus_items": 230
+   },
+   "latency": {
+    "p50_ms": 3375.8,
+    "p90_ms": 7632.5,
+    "max_ms": 19420.8,
+    "over_proxy_limit": 0
+   },
+   "llm_skipped": 0,
+   "decider_calls": 0,
+   "vs": {
+    "ngram": {
+     "only_a": 35,
+     "only_b": 31,
+     "both": 48,
+     "p_mcnemar": 0.712231
+    }
+   },
+   "abstain": {
+    "entries": {
+     "prerank|prerank|kall|llm-opus": {
+      "a": 1.233723,
+      "b": -1.592115,
+      "threshold": 0.3998,
+      "n": 230,
+      "positives": 62,
+      "split": "val",
+      "fitted_at": "",
+      "note": "",
+      "provisional": false
+     },
+     "prerank|prerank|kall|llm-sonnet": {
+      "a": 0.850129,
+      "b": -2.005915,
+      "threshold": 0.3484,
+      "n": 280,
+      "positives": 57,
+      "split": "val",
+      "fitted_at": "",
+      "note": "",
+      "provisional": false
+     }
+    },
+    "in_sample": {
+     "coverage": 0.2929,
+     "filled": 82,
+     "filled_matching": 58,
+     "selective_accuracy": 0.7073
+    },
+    "cross_validated": {
+     "coverage": 0.2786,
+     "filled": 78,
+     "filled_matching": 56,
+     "selective_accuracy": 0.7179
+    },
+    "keys_used": [
+     "prerank|prerank|kall|llm-opus",
+     "prerank|prerank|kall|llm-sonnet"
+    ]
+   }
+  },
+  "routed-selfreport": {
+   "n": 280,
+   "top1": 0.3036,
+   "top1_matching": 85,
+   "top1_ci": [
+    0.2464,
+    0.3607
+   ],
+   "top20": 0.5536,
+   "cer_clipped": 0.5231,
+   "errors": 0,
+   "cost": {
+    "by_model": {
+     "opus": {
+      "calls": 237,
+      "input_tokens": 215902,
+      "output_tokens": 24592
+     },
+     "sonnet": {
+      "calls": 61,
+      "input_tokens": 58710,
+      "output_tokens": 5746
+     }
+    },
+    "calls": 298,
+    "live_calls_this_run": 132,
+    "usd": 1.9566,
+    "usd_per_item": 0.00699,
+    "opus_items": 236
+   },
+   "latency": {
+    "p50_ms": 3200.1,
+    "p90_ms": 7625.7,
+    "max_ms": 17354.0,
+    "over_proxy_limit": 0
+   },
+   "llm_skipped": 0,
+   "decider_calls": 0,
+   "vs": {
+    "ngram": {
+     "only_a": 38,
+     "only_b": 32,
+     "both": 47,
+     "p_mcnemar": 0.550413
+    }
+   },
+   "abstain": {
+    "entries": {
+     "fallback:llm-self-report|fallback|kall|llm-opus": {
+      "a": 1.055442,
+      "b": -1.081867,
+      "threshold": 0.3624,
+      "n": 235,
+      "positives": 69,
+      "split": "val",
+      "fitted_at": "",
+      "note": "",
+      "provisional": false
+     },
+     "fallback:retrieval-heuristic|fallback|kall|llm-opus": {
+      "a": 1.098329,
+      "b": -0.031965,
+      "threshold": 1.0,
+      "n": 1,
+      "positives": 0,
+      "split": "val",
+      "fitted_at": "",
+      "note": "",
+      "provisional": true
+     },
+     "fallback:llm-self-report|fallback|kall|llm-sonnet": {
+      "a": 0.991675,
+      "b": -2.077864,
+      "threshold": 0.3603,
+      "n": 280,
+      "positives": 49,
+      "split": "val",
+      "fitted_at": "",
+      "note": "",
+      "provisional": false
+     }
+    },
+    "in_sample": {
+     "coverage": 0.3179,
+     "filled": 89,
+     "filled_matching": 55,
+     "selective_accuracy": 0.618
+    },
+    "cross_validated": {
+     "coverage": 0.25,
+     "filled": 70,
+     "filled_matching": 43,
+     "selective_accuracy": 0.6143
+    },
+    "keys_used": [
+     "fallback:llm-self-report|fallback|kall|llm-opus",
+     "fallback:llm-self-report|fallback|kall|llm-sonnet",
+     "fallback:retrieval-heuristic|fallback|kall|llm-opus"
+    ]
+   }
+  },
+  "routed-hosted-v19": {
+   "n": 120,
+   "top1": 0.325,
+   "top1_matching": 39,
+   "top1_ci": [
+    0.2417,
+    0.4083
+   ],
+   "top20": 0.5417,
+   "cer_clipped": 0.4903,
+   "errors": 0,
+   "cost": {
+    "by_model": {
+     "opus": {
+      "calls": 120,
+      "input_tokens": 108547,
+      "output_tokens": 11353
+     },
+     "sonnet": {
+      "calls": 24,
+      "input_tokens": 22809,
+      "output_tokens": 2224
+     }
+    },
+    "calls": 144,
+    "live_calls_this_run": 0,
+    "usd": 0.9283,
+    "usd_per_item": 0.00774,
+    "opus_items": 120
+   },
+   "latency": {
+    "p50_ms": 11600.2,
+    "p90_ms": 28148.9,
+    "max_ms": 42158.3,
+    "over_proxy_limit": 13
+   },
+   "llm_skipped": 0,
+   "decider_calls": 144,
+   "vs": {
+    "ngram": {
+     "only_a": 9,
+     "only_b": 3,
+     "both": 30,
+     "p_mcnemar": 0.145996
+    },
+    "hybrid-prerank": {
+     "only_a": 2,
+     "only_b": 4,
+     "both": 37,
+     "p_mcnemar": 0.6875
+    }
+   },
+   "abstain": {
+    "entries": {
+     "strands-decider-2b-hobson-v19|choice-topk|k3|llm-opus": {
+      "a": 1.25535,
+      "b": 0.68128,
+      "threshold": 0.4946,
+      "n": 120,
+      "positives": 39,
+      "split": "val",
+      "fitted_at": "",
+      "note": "",
+      "provisional": false
+     }
+    },
+    "in_sample": {
+     "coverage": 0.0833,
+     "filled": 10,
+     "filled_matching": 7,
+     "selective_accuracy": 0.7
+    },
+    "cross_validated": {
+     "coverage": 0.0083,
+     "filled": 1,
+     "filled_matching": 1,
+     "selective_accuracy": 1.0
+    },
+    "keys_used": [
+     "strands-decider-2b-hobson-v19|choice-topk|k3|llm-opus"
+    ]
+   }
+  }
+ },
+ "stage1": {
+  "ranking": [
+   "hybrid-prerank",
+   "hybrid-gate",
+   "routed-selfreport",
+   "routed-prerank",
+   "ngram"
+  ],
+  "winner": "hybrid-prerank"
+ },
+ "hosted_set": {
+  "ngram": {
+   "n": 120,
+   "top1": 0.275,
+   "top1_matching": 33,
+   "top1_ci": [
+    0.2,
+    0.35
+   ],
+   "top20": 0.4417,
+   "cer_clipped": 0.6178,
+   "errors": 0,
+   "cost": {
+    "by_model": {},
+    "calls": 0,
+    "live_calls_this_run": 0,
+    "usd": 0,
+    "usd_per_item": 0.0,
+    "opus_items": 0
+   },
+   "latency": {
+    "p50_ms": 16.1,
+    "p90_ms": 44.3,
+    "max_ms": 172.0,
+    "over_proxy_limit": 0
+   },
+   "llm_skipped": 0,
+   "decider_calls": 0,
+   "vs": {
+    "ngram": {
+     "only_a": 0,
+     "only_b": 0,
+     "both": 33,
+     "p_mcnemar": 1.0
+    }
+   },
+   "abstain": {
+    "threshold": 0.9103,
+    "in_sample": {
+     "coverage": 0.1833,
+     "filled": 22,
+     "filled_matching": 19,
+     "selective_accuracy": 0.8636
+    },
+    "cross_validated": {
+     "coverage": 0.1833,
+     "filled": 22,
+     "filled_matching": 19,
+     "selective_accuracy": 0.8636
+    },
+    "note": "issue #26 full-VAL 5-gram threshold (not refitted)"
+   }
+  },
+  "hybrid-gate": {
+   "n": 120,
+   "top1": 0.3333,
+   "top1_matching": 40,
+   "top1_ci": [
+    0.25,
+    0.425
+   ],
+   "top20": 0.5333,
+   "cer_clipped": 0.5029,
+   "errors": 0,
+   "cost": {
+    "by_model": {
+     "opus": {
+      "calls": 84,
+      "input_tokens": 74586,
+      "output_tokens": 8498
+     },
+     "sonnet": {
+      "calls": 19,
+      "input_tokens": 17753,
+      "output_tokens": 1789
+     }
+    },
+    "calls": 103,
+    "live_calls_this_run": 0,
+    "usd": 0.6655,
+    "usd_per_item": 0.00555,
+    "opus_items": 84
+   },
+   "latency": {
+    "p50_ms": 3268.7,
+    "p90_ms": 6571.5,
+    "max_ms": 17488.5,
+    "over_proxy_limit": 0
+   },
+   "llm_skipped": 22,
+   "decider_calls": 0,
+   "vs": {
+    "ngram": {
+     "only_a": 13,
+     "only_b": 6,
+     "both": 27,
+     "p_mcnemar": 0.167068
+    }
+   },
+   "abstain": {
+    "entries": {
+     "prerank|prerank|kall|llm-opus": {
+      "a": 1.074538,
+      "b": -1.62976,
+      "threshold": 0.7595,
+      "n": 84,
+      "positives": 17,
+      "split": "val",
+      "fitted_at": "",
+      "note": "",
+      "provisional": true
+     },
+     "prerank|prerank|kall|llm-sonnet": {
+      "a": 0.382073,
+      "b": -1.112662,
+      "threshold": 0.5395,
+      "n": 14,
+      "positives": 4,
+      "split": "val",
+      "fitted_at": "",
+      "note": "",
+      "provisional": true
+     }
+    },
+    "in_sample": {
+     "coverage": 0.6083,
+     "filled": 73,
+     "filled_matching": 39,
+     "selective_accuracy": 0.5342
+    },
+    "cross_validated": {
+     "coverage": 0.6083,
+     "filled": 73,
+     "filled_matching": 39,
+     "selective_accuracy": 0.5342
+    },
+    "keys_used": [
+     "prerank|prerank|kall|llm-opus",
+     "prerank|prerank|kall|llm-sonnet"
+    ]
+   }
+  },
+  "hybrid-prerank": {
+   "n": 120,
+   "top1": 0.3417,
+   "top1_matching": 41,
+   "top1_ci": [
+    0.2583,
+    0.4333
+   ],
+   "top20": 0.525,
+   "cer_clipped": 0.5049,
+   "errors": 0,
+   "cost": {
+    "by_model": {
+     "opus": {
+      "calls": 98,
+      "input_tokens": 87960,
+      "output_tokens": 9569
+     },
+     "sonnet": {
+      "calls": 24,
+      "input_tokens": 22809,
+      "output_tokens": 2224
+     }
+    },
+    "calls": 122,
+    "live_calls_this_run": 0,
+    "usd": 0.7808,
+    "usd_per_item": 0.00651,
+    "opus_items": 98
+   },
+   "latency": {
+    "p50_ms": 3333.5,
+    "p90_ms": 7945.8,
+    "max_ms": 17531.6,
+    "over_proxy_limit": 0
+   },
+   "llm_skipped": 0,
+   "decider_calls": 0,
+   "vs": {
+    "ngram": {
+     "only_a": 9,
+     "only_b": 1,
+     "both": 32,
+     "p_mcnemar": 0.021484
+    }
+   },
+   "abstain": {
+    "entries": {
+     "prerank-ngram|prerank|kall|llm-opus": {
+      "a": 0.812238,
+      "b": -2.114932,
+      "threshold": 0.5356,
+      "n": 98,
+      "positives": 29,
+      "split": "val",
+      "fitted_at": "",
+      "note": "",
+      "provisional": true
+     },
+     "prerank-ngram|prerank|kall|llm-sonnet": {
+      "a": 0.971299,
+      "b": -2.466628,
+      "threshold": 0.29,
+      "n": 120,
+      "positives": 36,
+      "split": "val",
+      "fitted_at": "",
+      "note": "",
+      "provisional": false
+     }
+    },
+    "in_sample": {
+     "coverage": 0.675,
+     "filled": 81,
+     "filled_matching": 38,
+     "selective_accuracy": 0.4691
+    },
+    "cross_validated": {
+     "coverage": 0.7583,
+     "filled": 91,
+     "filled_matching": 41,
+     "selective_accuracy": 0.4505
+    },
+    "keys_used": [
+     "prerank-ngram|prerank|kall|llm-opus",
+     "prerank-ngram|prerank|kall|llm-sonnet"
+    ]
+   }
+  },
+  "routed-prerank": {
+   "n": 120,
+   "top1": 0.275,
+   "top1_matching": 33,
+   "top1_ci": [
+    0.2,
+    0.3667
+   ],
+   "top20": 0.525,
+   "cer_clipped": 0.546,
+   "errors": 0,
+   "cost": {
+    "by_model": {
+     "opus": {
+      "calls": 103,
+      "input_tokens": 93026,
+      "output_tokens": 10004
+     },
+     "sonnet": {
+      "calls": 24,
+      "input_tokens": 22809,
+      "output_tokens": 2224
+     }
+    },
+    "calls": 127,
+    "live_calls_this_run": 0,
+    "usd": 0.817,
+    "usd_per_item": 0.00681,
+    "opus_items": 103
+   },
+   "latency": {
+    "p50_ms": 3353.9,
+    "p90_ms": 9216.7,
+    "max_ms": 19420.8,
+    "over_proxy_limit": 0
+   },
+   "llm_skipped": 0,
+   "decider_calls": 0,
+   "vs": {
+    "ngram": {
+     "only_a": 14,
+     "only_b": 14,
+     "both": 19,
+     "p_mcnemar": 1.0
+    }
+   },
+   "abstain": {
+    "entries": {
+     "prerank|prerank|kall|llm-opus": {
+      "a": 1.304422,
+      "b": -1.596716,
+      "threshold": 0.4151,
+      "n": 103,
+      "positives": 27,
+      "split": "val",
+      "fitted_at": "",
+      "note": "",
+      "provisional": false
+     },
+     "prerank|prerank|kall|llm-sonnet": {
+      "a": 1.021665,
+      "b": -2.296331,
+      "threshold": 0.5779,
+      "n": 120,
+      "positives": 18,
+      "split": "val",
+      "fitted_at": "",
+      "note": "",
+      "provisional": false
+     }
+    },
+    "in_sample": {
+     "coverage": 0.2083,
+     "filled": 25,
+     "filled_matching": 18,
+     "selective_accuracy": 0.72
+    },
+    "cross_validated": {
+     "coverage": 0.55,
+     "filled": 66,
+     "filled_matching": 31,
+     "selective_accuracy": 0.4697
+    },
+    "keys_used": [
+     "prerank|prerank|kall|llm-opus",
+     "prerank|prerank|kall|llm-sonnet"
+    ]
+   }
+  },
+  "routed-selfreport": {
+   "n": 120,
+   "top1": 0.275,
+   "top1_matching": 33,
+   "top1_ci": [
+    0.2,
+    0.3583
+   ],
+   "top20": 0.525,
+   "cer_clipped": 0.5403,
+   "errors": 0,
+   "cost": {
+    "by_model": {
+     "opus": {
+      "calls": 105,
+      "input_tokens": 94289,
+      "output_tokens": 10252
+     },
+     "sonnet": {
+      "calls": 24,
+      "input_tokens": 22809,
+      "output_tokens": 2224
+     }
+    },
+    "calls": 129,
+    "live_calls_this_run": 0,
+    "usd": 0.8295,
+    "usd_per_item": 0.00691,
+    "opus_items": 105
+   },
+   "latency": {
+    "p50_ms": 3175.2,
+    "p90_ms": 8997.7,
+    "max_ms": 17354.0,
+    "over_proxy_limit": 0
+   },
+   "llm_skipped": 0,
+   "decider_calls": 0,
+   "vs": {
+    "ngram": {
+     "only_a": 14,
+     "only_b": 14,
+     "both": 19,
+     "p_mcnemar": 1.0
+    }
+   },
+   "abstain": {
+    "entries": {
+     "fallback:llm-self-report|fallback|kall|llm-opus": {
+      "a": 1.148377,
+      "b": -1.036005,
+      "threshold": 0.6694,
+      "n": 104,
+      "positives": 30,
+      "split": "val",
+      "fitted_at": "",
+      "note": "",
+      "provisional": false
+     },
+     "fallback:retrieval-heuristic|fallback|kall|llm-opus": {
+      "a": 1.098329,
+      "b": -0.031965,
+      "threshold": 1.0,
+      "n": 1,
+      "positives": 0,
+      "split": "val",
+      "fitted_at": "",
+      "note": "",
+      "provisional": true
+     },
+     "fallback:llm-self-report|fallback|kall|llm-sonnet": {
+      "a": 1.000719,
+      "b": -2.347348,
+      "threshold": 0.5242,
+      "n": 120,
+      "positives": 14,
+      "split": "val",
+      "fitted_at": "",
+      "note": "",
+      "provisional": false
+     }
+    },
+    "in_sample": {
+     "coverage": 0.125,
+     "filled": 15,
+     "filled_matching": 11,
+     "selective_accuracy": 0.7333
+    },
+    "cross_validated": {
+     "coverage": 0.475,
+     "filled": 57,
+     "filled_matching": 26,
+     "selective_accuracy": 0.4561
+    },
+    "keys_used": [
+     "fallback:llm-self-report|fallback|kall|llm-opus",
+     "fallback:llm-self-report|fallback|kall|llm-sonnet",
+     "fallback:retrieval-heuristic|fallback|kall|llm-opus"
+    ]
+   }
+  }
+ },
+ "stage2": {
+  "hosted_matching": 39,
+  "stage1_winner_matching": 41,
+  "n": 120,
+  "paired": {
+   "only_a": 2,
+   "only_b": 4,
+   "both": 37,
+   "p_mcnemar": 0.6875
+  },
+  "hosted_wins": false
+ },
+ "chosen": "hybrid-prerank",
+ "calibration": {
+  "prerank-ngram|prerank|kall|llm-opus": {
+   "a": 0.656823,
+   "b": -1.870518,
+   "threshold": 0.4887,
+   "n": 224,
+   "positives": 67,
+   "split": "val",
+   "fitted_at": "2026-11-02T06:46:11+00:00",
+   "note": "deployed-config issue: VAL routed run, selection set (280), ontology on, n=224",
+   "provisional": false
+  },
+  "prerank-ngram|prerank|kall|llm-sonnet": {
+   "a": 0.685211,
+   "b": -2.132567,
+   "threshold": 0.4111,
+   "n": 278,
+   "positives": 85,
+   "split": "val",
+   "fitted_at": "2026-11-02T06:46:11+00:00",
+   "note": "deployed-config issue: VAL Sonnet-only run, selection set (280), ontology on, n=278",
+   "provisional": false
+  }
+ }
+}

@@ -15,7 +15,7 @@
     "left": {"type": "string", "description": "ISO-15919 text before the gap (same line, plus previous line if short)"},
     "right": {"type": "string", "description": "ISO-15919 text after the gap"},
     "target": {"type": "string", "description": "expert restoration from <supplied>, ISO-15919"},
-    "gap_chars": {"type": "integer", "minimum": 1},
+    "gap_chars": {"type": "integer", "minimum": 1, "description": "gap length in Tamil letters (uyir, mey, uyirmey; DHARMA's character unit), not ISO-15919 characters"},
     "hard": {"type": "boolean", "description": "true if no near-identical parallel for target exists in TRAIN"},
     "kind": {"enum": ["supplied", "blank"], "default": "supplied", "description": "blank = <gap> with no expert fill (discovery set, no target scoring)"},
     "source_url": {"type": "string", "description": "https://dharmalekha.info/texts/<id> or GitHub blob URL at pinned commit"}
