@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
-import { api, type QueueItem } from '../api/client';
-import { Busy, ErrorNote } from '../components/Feedback';
+import { api, ApiError, type QueueItem } from '../api/client';
+import { EmptyState, ErrorNote, Skeleton } from '../components/Feedback';
 import { useI18n } from '../i18n/I18nProvider';
 
-function Row({ item, onDone }: { item: QueueItem; onDone: (q: QueueItem) => void }) {
+/** A reviewed item, or one another reviewer got to first (409 Conflict: an item is reviewed once). */
+type Done = QueueItem | { id: string; elsewhere: true };
+
+function Row({ item, onDone }: { item: QueueItem; onDone: (q: Done) => void }) {
   const { t } = useI18n();
   const proposal = item.corrected_text ?? item.accepted_candidate ?? '';
   const [text, setText] = useState(proposal);
@@ -16,6 +19,10 @@ function Row({ item, onDone }: { item: QueueItem; onDone: (q: QueueItem) => void
     try {
       onDone(await api.review(item.id, action === 'edit' ? { action, text } : { action }));
     } catch (err) {
+      if (err instanceof ApiError && err.status === 409) {
+        onDone({ id: item.id, elsewhere: true }); // not an error: the queue moved on without us
+        return;
+      }
       setError(err);
     } finally {
       setBusy(false);
@@ -59,7 +66,8 @@ export function ReviewPage() {
   const { t } = useI18n();
   const [items, setItems] = useState<QueueItem[] | null>(null);
   const [error, setError] = useState<unknown>(null);
-  const [done, setDone] = useState<QueueItem[]>([]);
+  const [done, setDone] = useState<Done[]>([]);
+  const [notice, setNotice] = useState<string | null>(null);
 
   const load = useCallback(() => {
     setError(null);
@@ -74,8 +82,13 @@ export function ReviewPage() {
         <p className="lede">{t('review.lede')}</p>
       </header>
       {error != null && <ErrorNote error={error} onRetry={load} />}
-      {!items && error == null && <Busy />}
-      {items && items.length === 0 && <p className="note">{t('review.empty')}</p>}
+      {!items && error == null && <Skeleton lines={4} />}
+      {notice && (
+        <p className="note note-unsure" role="status" data-testid="review-notice">
+          {notice}
+        </p>
+      )}
+      {items && items.length === 0 && <EmptyState title="review.empty" body="review.emptyBody" testId="review-empty" />}
       <div className="grid">
         {items?.map((q) => (
           <Row
@@ -84,6 +97,7 @@ export function ReviewPage() {
             onDone={(u) => {
               setItems((xs) => xs?.filter((x) => x.id !== u.id) ?? null);
               setDone((d) => [u, ...d]);
+              setNotice('elsewhere' in u ? t('review.alreadyReviewed') : null);
             }}
           />
         ))}
@@ -94,8 +108,16 @@ export function ReviewPage() {
           <ul data-testid="reviewed">
             {done.map((d) => (
               <li key={d.id}>
-                {d.id}: {d.status}
-                {d.final_text ? ` → ${d.final_text}` : ''}
+                {'elsewhere' in d ? (
+                  <>
+                    {d.id}: {t('review.status.elsewhere')}
+                  </>
+                ) : (
+                  <>
+                    {d.id}: {d.status}
+                    {d.final_text ? ` → ${d.final_text}` : ''}
+                  </>
+                )}
               </li>
             ))}
           </ul>

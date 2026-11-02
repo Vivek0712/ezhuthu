@@ -49,6 +49,7 @@ const uttiramerur = {
   dynasty: 'Chola',
   approx_date: 'c. 920 CE',
   source_url: DHARMA,
+  licence: 'CC BY-SA 4.0',
   restored_text: 'svasti śrī matiraikoṇṭa kōpparakēcaripaṉmaṟku yāṇṭu paṉṉiraṇṭāvatu',
   restored_text_tamil: 'ஸ்வஸ்தி ஸ்ரீ மதிரைகொண்ட கோப்பரகேசரிபன்மற்கு யாண்டு பன்னிரண்டாவது',
 };
@@ -112,6 +113,7 @@ export const LESSONS: Record<Level, MockLesson> = {
       dynasty: 'Pallava',
       approx_date: 'c. 8th c. CE',
       source_url: DHARMA,
+      licence: 'CC BY-SA 4.0',
       restored_text: 'kō vicaiya nantivikkiramaparumaṟku yāṇṭu',
       restored_text_tamil: 'கோ விசைய நந்திவிக்கிரமபருமற்கு யாண்டு',
     },
@@ -134,6 +136,7 @@ export const LESSONS: Record<Level, MockLesson> = {
       dynasty: null,
       approx_date: 'c. 8th c. CE',
       source_url: DHARMA,
+      licence: 'CC BY-SA 4.0',
       restored_text: 'paṭṭāṉ kal',
       restored_text_tamil: 'பட்டான் கல்',
     },
@@ -155,6 +158,7 @@ export const LESSONS: Record<Level, MockLesson> = {
       dynasty: 'Pandya',
       approx_date: 'c. 2nd c. BCE',
       source_url: DHARMA,
+      licence: 'CC BY-SA 4.0',
       restored_text: 'kaṇiy nanta asiriy',
       restored_text_tamil: 'கணிய் நந்த அசிரிய்',
     },
@@ -206,4 +210,36 @@ export const SEED_QUEUE: Schemas['QueueItem'][] = [
     status: 'pending',
     created_at: '2026-11-01T11:05:00Z',
   },
+  {
+    id: 'q-0004',
+    gap_ref: { trace_id: 'mock-trace-seed-4', gap_index: 0, left: 'kaṇiy ', right: ' asiriy', gap_chars: 4, inscription_id: 'mock:mangulam-cave' },
+    accepted_candidate: 'nanta',
+    user: 'guide-madurai',
+    status: 'pending',
+    created_at: '2026-11-01T11:30:00Z',
+  },
 ];
+
+/**
+ * Queue items another expert reviews while this one is still listed (two reviewers, one queue): the first review
+ * here gets 409 Conflict, as the cloud proxy and the Python service answer for an item that is no longer pending.
+ */
+export const REVIEWED_ELSEWHERE = new Set(['q-0004']);
+
+/**
+ * The template explanation /api/lesson returns at once while the tutor team writes the fuller one
+ * (context.explanation_status "pending"); the fixture's own explanation then arrives as context_update.
+ */
+export function templateContext(lesson: MockLesson): Schemas['LessonContext'] {
+  const { ruler, temple, grant } = lesson.context;
+  const date = lesson.inscription.approx_date;
+  return {
+    ...(ruler ? { ruler } : {}),
+    ...(temple ? { temple } : {}),
+    ...(grant ? { grant } : {}),
+    explain_ta: `இந்தப் பாடம் ஒரு உண்மையான கல்வெட்டிலிருந்து எடுக்கப்பட்டது${date ? ` (${date})` : ''}.`,
+    explain_en: `This lesson comes from a real inscription${date ? ` (${date})` : ''}.`,
+    explained_by: 'template',
+    explanation_status: 'pending',
+  };
+}

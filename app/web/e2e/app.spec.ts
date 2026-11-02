@@ -140,3 +140,102 @@ test('unknown routes show the bilingual 404 (SPA fallback works)', async ({ page
   await page.goto('/no/such/page');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('பக்கம் கிடைக்கவில்லை');
 });
+
+test.describe('design system and states', () => {
+  test('header shows the brand logo; bottom tabs only below 1000 px; no horizontal scroll on any page', async ({ page }) => {
+    await page.goto('/');
+    const width = page.viewportSize()!.width;
+    const visibleLogo = page.getByTestId('brand').locator('img:visible');
+    await expect(visibleLogo).toHaveCount(1);
+    await expect(visibleLogo).toHaveAttribute('src', width < 560 ? /wordmark-ta-color/ : /lockup-horizontal-color/);
+    if (width < 1000) {
+      await expect(page.getByTestId('tabbar')).toBeVisible();
+      await expect(page.getByRole('navigation', { name: 'primary' })).toBeHidden();
+    } else {
+      await expect(page.getByTestId('tabbar')).toBeHidden();
+    }
+    for (const path of ['/', '/learn', '/restore', '/progress', '/test', '/review', '/about', '/nope']) {
+      await page.goto(path);
+      await expect(page.locator('main')).toBeVisible();
+      await expectNoHorizontalScroll(page);
+    }
+  });
+
+  test('dark mode uses the reversed logo and the dark tokens', async ({ page }) => {
+    await page.emulateMedia({ colorScheme: 'dark' });
+    await page.goto('/');
+    const visibleLogo = page.getByTestId('brand').locator('img:visible');
+    await expect(visibleLogo).toHaveAttribute('src', (page.viewportSize()!.width < 560) ? /wordmark-ta-reversed/ : /lockup-horizontal-reversed/);
+    const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
+    expect(bg).toBe('rgb(19, 16, 13)'); // --ez-bg dark #13100D
+  });
+
+  test('keyboard focus is a visible 3 px outline', async ({ page }) => {
+    await page.goto('/learn');
+    await page.getByTestId('start-lesson').focus();
+    await page.keyboard.press('Shift+Tab');
+    await page.keyboard.press('Tab');
+    const outline = await page.getByTestId('start-lesson').evaluate((el) => {
+      const s = getComputedStyle(el);
+      return `${s.outlineStyle} ${s.outlineWidth}`;
+    });
+    expect(outline).toBe('solid 3px');
+  });
+
+  test('tutor: "decided by rules" instead of confidence 0%, and the explanation updates after an answer', async ({ page }) => {
+    await setEnglish(page);
+    await page.goto('/learn');
+    await page.getByTestId('level-L5').click();
+    await page.getByTestId('start-lesson').click();
+    await expect(page.getByTestId('explanation-pending')).toBeVisible();
+    await expect(page.getByTestId('lesson-source')).toContainText('CC BY-SA 4.0');
+    for (let i = 0; i < 3; i++) {
+      await page.getByTestId('answer-input').fill('ம');
+      await Promise.all([page.waitForResponse('**/api/answer'), page.getByTestId('check-answer').click()]);
+      await expect(page.getByTestId('busy')).toHaveCount(0);
+      if (i === 0) {
+        await expect(page.getByTestId('explanation')).toContainText('Mangulam caves');
+        await expect(page.getByTestId('explanation-updated')).toBeVisible();
+        await expect(page.getByTestId('explanation-pending')).toHaveCount(0);
+      }
+    }
+    await expect(page.getByTestId('decided-by-rules')).toHaveText('decided by rules');
+    await expect(page.getByTestId('feedback')).not.toContainText('0%');
+    await expectNoHorizontalScroll(page);
+  });
+
+  test('review: a second review (409) leaves the queue calmly, without an error', async ({ page }) => {
+    await setEnglish(page);
+    await page.goto('/review');
+    await page.getByTestId('auth-gate').getByRole('button', { name: 'Sign in' }).click();
+    await page.getByTestId('approve-q-0004').click();
+    await expect(page.getByTestId('review-notice')).toContainText('Another reviewer already reviewed this item');
+    await expect(page.getByTestId('queue-q-0004')).toHaveCount(0);
+    await expect(page.getByRole('alert')).toHaveCount(0);
+  });
+
+  test('licence: DHARMA CC BY-SA 4.0 in the footer, restore result and Test page; never CC BY 4.0', async ({ page }) => {
+    await setEnglish(page);
+    await page.goto('/restore');
+    await expect(page.getByTestId('footer-credit')).toHaveText('Inscription texts: DHARMA, CC BY-SA 4.0');
+    await page.getByTestId('use-sample').click();
+    await page.getByTestId('restore-submit').click();
+    await expect(page.getByTestId('restore-credit')).toContainText('CC BY-SA 4.0');
+    await page.goto('/test');
+    await page.getByTestId('auth-gate').getByRole('button', { name: 'Sign in' }).click();
+    await expect(page.getByTestId('benchmark-credit')).toContainText('CC BY-SA 4.0');
+    for (const path of ['/', '/learn', '/restore', '/about', '/test']) {
+      await page.goto(path);
+      await expect(page.locator('body')).not.toContainText('CC BY 4.0');
+    }
+  });
+
+  test('head: favicon, manifest and social preview are served', async ({ page, request }) => {
+    await page.goto('/');
+    for (const href of ['/favicon.svg', '/favicon-32.png', '/apple-touch-icon-180.png', '/manifest.webmanifest', '/og-image.png', '/icon-maskable-512.png']) {
+      const r = await request.get(href);
+      expect(r.status(), href).toBe(200);
+    }
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', '/og-image.png');
+  });
+});

@@ -1,7 +1,7 @@
-import { useMemo, useState, type FormEvent } from 'react';
+import { useMemo, useState, type FormEvent, type ReactNode } from 'react';
 import { api, type Gap, type RestoreResponse } from '../api/client';
 import { ConfidenceMeter } from '../components/ConfidenceMeter';
-import { Busy, ErrorNote } from '../components/Feedback';
+import { Busy, DharmaCredit, ErrorNote } from '../components/Feedback';
 import { useI18n } from '../i18n/I18nProvider';
 import { gapContext, parseGaps } from '../lib/gaps';
 import { safeHref } from '../lib/format';
@@ -73,6 +73,21 @@ function CorrectionForm({ text, res, gap }: { text: string; res: RestoreResponse
       )}
       {error != null && <ErrorNote error={error} />}
     </div>
+  );
+}
+
+/** On an abstain the candidates are behind a disclosure ("Show candidates anyway"); on a fill they are shown. */
+function Candidates({ abstain, label, count, children }: { abstain: boolean; label: string; count: number; children: ReactNode }) {
+  if (!abstain || count === 0) return <>{children}</>;
+  return (
+    <details className="cand-disclosure">
+      <summary>
+        {label} ({count})
+      </summary>
+      <div className="grid" style={{ gap: 10, marginTop: 10 }}>
+        {children}
+      </div>
+    </details>
   );
 }
 
@@ -174,8 +189,8 @@ export function RestorePage() {
                   {display(c)}
                 </span>
               ) : (
-                <span key={i} className="unsure" title={t('restore.abstainTitle')}>
-                  ?
+                <span key={i} className="unsure" title={t('restore.abstainTitle')} aria-label={`${t('restore.gap')} ${s.index + 1}: ${t('restore.abstainTitle')}`}>
+                  {s.chars ? '?' : '…?…'}
                 </span>
               );
             })}
@@ -194,10 +209,14 @@ export function RestorePage() {
               </header>
               {g.decision === 'abstain' && (
                 <div className="abstain" data-testid="abstain">
-                  <h3>{t('restore.abstainTitle')}</h3>
+                  <h3 lang="ta">வல்லுநர்களுக்கும் உறுதியில்லை</h3>
+                  <p className="abstain-sub" lang="en">
+                    Experts are unsure
+                  </p>
                   <p style={{ margin: 0 }}>{t('restore.abstainBody')}</p>
                 </div>
               )}
+              <Candidates abstain={g.decision === 'abstain'} label={t('restore.showCandidates')} count={g.candidates.length}>
               {g.candidates.map((c, ci) => (
                 <div key={ci} className={`cand ${g.chosen === ci && g.decision === 'fill' ? 'chosen' : ''}`}>
                   <div className="cand-top">
@@ -245,10 +264,12 @@ export function RestorePage() {
                   )}
                 </div>
               ))}
+              </Candidates>
               <CorrectionForm text={res.text} res={res.data} gap={g} />
             </article>
           ))}
           <p className="note">{t('restore.matchesNote')}</p>
+          <DharmaCredit testId="restore-credit" />
         </section>
       )}
     </>

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { api, type PracticeItem, type ProgressResponse } from '../api/client';
-import { Busy, ErrorNote } from '../components/Feedback';
+import { Busy, EmptyState, ErrorNote, Skeleton } from '../components/Feedback';
 import { GlyphTile } from '../components/GlyphTile';
 import { useI18n } from '../i18n/I18nProvider';
 import { pct, signedPct } from '../lib/format';
@@ -47,7 +47,7 @@ function Assessment({ sessionId, phase, onDone }: { sessionId: string; phase: Ph
   }
 
   if (error != null) return <ErrorNote error={error} />;
-  if (!items) return <Busy />;
+  if (!items) return <Skeleton lines={3} />;
   const item = items[idx]!;
   return (
     <section className="leaf holes" style={{ paddingTop: 40 }} data-testid={`assessment-${phase}`}>
@@ -96,12 +96,15 @@ export function ProgressPage() {
           <h1>{t('progress.title')}</h1>
           <p className="lede">{t('progress.lede')}</p>
         </header>
-        <div className="leaf" data-testid="no-session">
-          <p>{t('progress.noSession')}</p>
-          <Link className="btn btn-primary" to="/learn">
-            {t('home.ctaLearn')}
-          </Link>
-        </div>
+        <EmptyState
+          title="progress.noSession"
+          testId="no-session"
+          action={
+            <Link className="btn btn-primary" to="/learn">
+              {t('home.ctaLearn')}
+            </Link>
+          }
+        />
       </>
     );
 
@@ -123,7 +126,7 @@ export function ProgressPage() {
           }}
         />
       ) : !progress ? (
-        error == null && <Busy />
+        error == null && <Skeleton lines={4} />
       ) : (
         <div className="grid">
           <div className="stats" data-testid="scores">

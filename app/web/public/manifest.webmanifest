@@ -1,0 +1,18 @@
+{
+  "name": "எழுத்து · Ezhuthu",
+  "short_name": "எழுத்து",
+  "description": "Read 2,000 years of Tamil inscriptions, in Tamil. Built with Strands Agents.",
+  "lang": "ta",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#F4EEE2",
+  "background_color": "#F4EEE2",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

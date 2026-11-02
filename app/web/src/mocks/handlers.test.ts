@@ -96,3 +96,36 @@ describe('mock API enforces auth like the real HTTP API', () => {
     await expect(api.correction({ gap_ref: { trace_id: 't', gap_index: 0 }, user: 'x' })).rejects.toMatchObject({ status: 400 });
   });
 });
+
+describe('mock API mirrors the agent: async lesson, rules decisions and single review', () => {
+  it('returns a pending template explanation and delivers the tutor team one once, as context_update', async () => {
+    const lesson = await api.lesson({ level: 'L5', lang: 'en' });
+    expect(lesson.context).toMatchObject({ explanation_status: 'pending', explained_by: 'template', ruler: 'Neṭuñceḻiyaṉ (Pandya)' });
+    const item = lesson.items[0]!.item_id;
+    const a1 = await api.answer({ session_id: lesson.session_id, item_id: item, answer: 'ம' });
+    expect(a1.context_update).toEqual({
+      explain_ta: LESSONS.L5.context.explain_ta,
+      explain_en: LESSONS.L5.context.explain_en,
+      explained_by: 'tutor_team',
+      explanation_status: 'done',
+    });
+    const a2 = await api.answer({ session_id: lesson.session_id, item_id: item, answer: 'ம' });
+    expect(a2).not.toHaveProperty('context_update');
+  });
+  it('sends decider_confidence null with decider_source rules when the attempt limit decides', async () => {
+    const lesson = await api.lesson({ level: 'L1', lang: 'en' });
+    const ask = () => api.answer({ session_id: lesson.session_id, item_id: lesson.items[0]!.item_id, answer: 'x' });
+    expect((await ask()).decider_confidence).toBe(0.68);
+    expect((await ask()).decider_confidence).toBe(0.61);
+    expect(await ask()).toMatchObject({ next_action: 'advance', decider_confidence: null, decider_source: 'rules' });
+  });
+  it('answers 409 when another expert reviewed the item first', async () => {
+    setTokenGetter(() => 'mock-access-token');
+    expect((await api.queue()).items.map((q) => q.id)).toContain('q-0004');
+    const e = await api.review('q-0004', { action: 'approve' }).catch((x: unknown) => x);
+    expect(e).toBeInstanceOf(ApiError);
+    expect(e).toMatchObject({ status: 409, code: 'conflict' });
+    expect((await api.queue()).items.map((q) => q.id)).not.toContain('q-0004');
+    setTokenGetter(() => null);
+  });
+});
