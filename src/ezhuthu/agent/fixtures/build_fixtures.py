@@ -5,6 +5,8 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 import json
 import unicodedata
 
+from ezhuthu.agent.text import akshara_len  # gap_chars counts Tamil letters, as in the benchmark
+
 N = lambda s: unicodedata.normalize("NFC", s)
 URL = "https://example.invalid/ezhuthu-fixture/{}"  # synthetic: not a DHARMA edition
 ins = {
@@ -46,7 +48,7 @@ items = [
 with open("items.test.jsonl","w") as f:
   for iid,ln,l,t,r,hard in items:
     col,dyn,age,_,_ = test_ins[iid]
-    f.write(json.dumps({"id":f"{iid}:{ln}:0","inscription_id":iid,"collection":col,"dynasty":dyn,"age_set":age,"split":"test","line_n":ln,"left":N(l),"right":N(r),"target":N(t),"gap_chars":len(N(t)),"hard":hard,"kind":"supplied","source_url":URL.format(iid)},ensure_ascii=False)+"\n")
+    f.write(json.dumps({"id":f"{iid}:{ln}:0","inscription_id":iid,"collection":col,"dynasty":dyn,"age_set":age,"split":"test","line_n":ln,"left":N(l),"right":N(r),"target":N(t),"gap_chars":akshara_len(N(t)),"hard":hard,"kind":"supplied","source_url":URL.format(iid)},ensure_ascii=False)+"\n")
 with open("inscriptions.jsonl","w") as f:
   for iid,(col,dyn,title,date,lines) in ins.items():
     f.write(json.dumps({"id":iid,"collection":col,"dynasty":dyn,"title":title,"date_text":date,"source_url":URL.format(iid)},ensure_ascii=False)+"\n")

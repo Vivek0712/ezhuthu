@@ -1,7 +1,8 @@
 """Text utilities: gap markers, ISO-15919 normalisation, script rendering, aksharas.
 
 Text is ISO-15919 internally (contracts/restore-api.md). Gap markers:
-``[?]`` is a gap of unknown length and ``[?N]`` a gap of about N characters.
+``[?]`` is a gap of unknown length and ``[?N]`` a gap of about N Tamil letters (aksharas; DHARMA's "character"
+unit, see :func:`akshara_len`), not N ISO-15919 characters.
 """
 
 from __future__ import annotations
@@ -151,8 +152,44 @@ _AKSHARA_RE = re.compile(
 
 
 def aksharas(iso: str) -> list[str]:
-    """Split an ISO word into aksharas (consonant + optional vowel, or bare vowel)."""
+    """Split an ISO word into aksharas (consonant + optional vowel, or bare vowel).
+
+    For display and letter drills. To *count* letters against a gap length use :func:`akshara_len`, which is the
+    benchmark's own counter (this split disagrees with ``gap_chars`` on 21 of 443 VAL targets, e.g. ``ḵ``)."""
     return _AKSHARA_RE.findall(unicodedata.normalize("NFC", iso.lower()))
+
+
+def akshara_len(iso: str) -> int:
+    """Length of ISO text in Tamil letters (uyir, mey, uyirmey): the unit of ``gap_chars`` and of ``[?N]``.
+
+    Every gap length in the restorer (length check, copy floor, copy baseline, n-gram fill length, alignment
+    window, LLM prompt) is compared in this unit. It is :func:`ezhuthu.corpus.script.count_aksharas`, the
+    function that computed ``gap_chars`` when the benchmark was built, so an expert target always has
+    ``akshara_len(target) == gap_chars`` (443/443 VAL, 413/413 test, also after :func:`normalize_iso`).
+    ISO-15919 characters are not letters: ``yañ ceytā`` is 9 characters but 5 letters (ya ñ ce y tā)."""
+    from ezhuthu.corpus.script import count_aksharas
+
+    return count_aksharas(iso or "")
+
+
+def akshara_span_end(text: str, start: int, n: int) -> int:
+    """End offset of the longest ``text[start:end]`` holding at most ``n`` letters (``n`` >= 1)."""
+    end = start
+    for e in range(start + 1, len(text) + 1):
+        if akshara_len(text[start:e]) > n:
+            break
+        end = e
+    return end
+
+
+def akshara_span_start(text: str, end: int, n: int) -> int:
+    """Start offset of the longest ``text[start:end]`` holding at most ``n`` letters (``n`` >= 1)."""
+    start = end
+    for s in range(end - 1, -1, -1):
+        if akshara_len(text[s:end]) > n:
+            break
+        start = s
+    return start
 
 
 ISO_LETTER_CHARS = set("aāiīuūeēoōkṅcñṭṇtnpmyrlvḻḷṟṉśṣsjhgdbḍḥṃ" + "̥̄")

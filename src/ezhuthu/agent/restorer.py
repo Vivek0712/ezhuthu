@@ -26,6 +26,7 @@ from .prompts import RESTORER_SYSTEM, parse_candidates, propose_max_tokens, prop
 from .retrieval import Parallel, ParallelIndex
 from .text import (
     DEFAULT_UNKNOWN_GAP,
+    akshara_len,
     fill_gaps,
     find_gaps,
     iso_to_tamil,
@@ -132,7 +133,15 @@ class GapResult:
 
 
 def length_tolerance(gap_chars: int) -> int:
+    """Allowed difference, in Tamil letters, between a fill and the gap's ``gap_chars`` (also letters)."""
     return max(2, round(gap_chars * 0.34))
+
+
+def length_ok(text: str, gap_chars: int) -> bool:
+    """``text`` (ISO) is within :func:`length_tolerance` of the gap, both counted in Tamil letters
+    (:func:`ezhuthu.agent.text.akshara_len`). Comparing ISO characters with a letter count wrongly failed
+    130/443 VAL expert targets (issue #26)."""
+    return abs(akshara_len(text) - gap_chars) <= length_tolerance(gap_chars)
 
 
 def prerank_score(c: Candidate, n_parallel_fills: int) -> float:
@@ -212,7 +221,7 @@ class Restorer:
         for h in self.ontology.hints_for_gap(left, right):
             if h.fill:  # the real API computes the gap text itself (anchored on both contexts)
                 rest = normalize_iso(h.fill).strip()
-                if rest and abs(len(rest) - gap_chars) <= length_tolerance(gap_chars):
+                if rest and length_ok(rest, gap_chars):
                     out.append((rest, h))
                 continue
             rec = self.ontology.entity(h.id) or {}
@@ -221,7 +230,7 @@ class Restorer:
                 for k in range(min(len(s) - 1, len(lt)), 2, -1):
                     if lt.endswith(s[:k]):
                         rest = s[k:].strip()
-                        if rest and abs(len(rest) - gap_chars) <= length_tolerance(gap_chars):
+                        if rest and length_ok(rest, gap_chars):
                             out.append((rest, h))
                         break
         return out
@@ -264,10 +273,9 @@ class Restorer:
 
     def check_constraints(self, cands: list[Candidate], gap_chars: int, *, explicit_length: bool,
                           dynasty: str | None = None) -> list[Candidate]:
-        tol = length_tolerance(gap_chars)
         kept = []
         for c in cands:
-            c.length_ok = (not explicit_length) or abs(len(c.text) - gap_chars) <= tol
+            c.length_ok = (not explicit_length) or length_ok(c.text, gap_chars)
             c.letters_ok = not non_iso_chars(c.text) and letters_ok_for_dynasty(c.text, dynasty)
             if c.letters_ok:
                 kept.append(c)
@@ -285,7 +293,8 @@ class Restorer:
         k = top_k or self.settings.top_k
         lt, rt = left.split("\n")[-1][-60:], right.split("\n")[0][:60]
         state = {
-            "text_before_gap": left[-120:], "text_after_gap": right[:120], "gap_length_chars": gap_chars,
+            "text_before_gap": left[-120:], "text_after_gap": right[:120],
+            "gap_length_tamil_letters": gap_chars,  # aksharas, like gap_chars (not ISO characters)
             "parallel_passages": [f"{p.inscription_id}: {p.snippet}" for p in parallels[:3]],
             "known_entities_nearby": [h.label for h in hints[:5]],
         }
@@ -371,7 +380,7 @@ class Restorer:
     def _estimate_len(self, gap_chars: int | None, parallels: list[Parallel]) -> int:
         if gap_chars:
             return gap_chars
-        fills = [len(p.fill) for p in parallels if p.fill]
+        fills = [akshara_len(p.fill) for p in parallels if p.fill]
         return int(statistics.median(fills)) if fills else DEFAULT_UNKNOWN_GAP
 
     def restore_gap(self, left: str, right: str, gap_chars: int | None, *, index: int = 0, router: str = "routed",
@@ -408,8 +417,7 @@ class Restorer:
                 add(p.fill, "parallel", par=p)
         # Copy floor (the copy baseline's top-1): the best-scoring parallel fill within the length tolerance,
         # searched over the full retrieval depth, so the pipeline can always fall back to it.
-        tol = length_tolerance(gap_chars) if gap_chars else None
-        floor = next((p for p in found if p.fill and (tol is None or abs(len(p.fill) - gap_chars) <= tol)), None)
+        floor = next((p for p in found if p.fill and (not gap_chars or length_ok(p.fill, gap_chars))), None)
         if floor is not None:
             fc = add(floor.fill, "parallel", par=floor)
             if fc is not None:

@@ -21,7 +21,7 @@ from ezhuthu.agent.retrieval import Parallel
 from ezhuthu.agent.text import normalize_iso
 
 CFG = load_models_config()
-LEFT, RIGHT, GAP = "svasti śrī kōvirājakēcari", " yāṇṭu mūṉṟāvatu", 8
+LEFT, RIGHT, GAP = "svasti śrī kōvirājakēcari", " yāṇṭu mūṉṟāvatu", 5  # paṉmaṟku: 5 Tamil letters
 
 
 @pytest.fixture
@@ -70,9 +70,10 @@ def test_shipped_defaults_fill_a_confident_correct_reply_without_escalating(ship
 
 
 def test_a_correct_llm_fill_longer_in_iso_than_the_letter_count_still_fills(shipped):
-    """[?N] counts Tamil letters; ISO spells many letters with 2+ characters ("yañ ceytā" is 5 letters, 9 chars),
-    so the ISO length check flags 29% of VAL targets. Under prerank that halved a correct p=0.85 LLM fill to 0.425
-    (abstain); with strategy_llm=self-report the LLM's own probability stands."""
+    """[?N] counts Tamil letters; ISO spells many letters with 2+ characters ("yañ ceytā" is 5 letters, 9 chars).
+    The old ISO-character length check flagged 29% of VAL targets, and under prerank that halved a correct p=0.85
+    LLM fill to 0.425 (abstain). The check now counts letters (issue #26): the fill is length-ok under every
+    strategy and prerank keeps its 0.85."""
     target = "yañ ceytā"
     llm = FakeLLM(lambda role, s, prompt: json.dumps({"fills": [[target, 0.85]]}, ensure_ascii=False))
     pars = [Parallel("I1", "1", "s", None, 60.0, "kōyil")]  # a good parallel (>= 50): no pre-escalation
@@ -80,14 +81,14 @@ def test_a_correct_llm_fill_longer_in_iso_than_the_letter_count_still_fills(ship
     r.retrieve_parallels = lambda *a, **k: list(pars)  # type: ignore[method-assign]
     g = r.restore_gap(LEFT, RIGHT, 5, router="routed")
     hit = next(c for c in g.candidates if c.text == target)
-    assert not hit.length_ok  # the (ISO-character) length check still flags it ...
-    assert g.decision == "fill" and g.best.text == target and not g.escalated  # ... but it fills, with Sonnet only
+    assert hit.length_ok  # 5 letters for a 5-letter gap (9 ISO characters)
+    assert g.decision == "fill" and g.best.text == target and not g.escalated  # fills, with Sonnet only
     assert [role for role, _ in llm.calls] == ["default"]
     pre = Restorer(llm=FakeLLM(lambda *a: json.dumps({"fills": [[target, 0.85]]}, ensure_ascii=False)),
                    use_ontology=False, settings=CFG.restorer.with_(strategy="prerank"))
     pre.retrieve_parallels = lambda *a, **k: list(pars)  # type: ignore[method-assign]
     g2 = pre.restore_gap(LEFT, RIGHT, 5, router="sonnet")
-    assert g2.strategy == "prerank" and next(c for c in g2.candidates if c.text == target).prerank == 0.425
+    assert g2.strategy == "prerank" and next(c for c in g2.candidates if c.text == target).prerank == 0.85
 
 
 def test_strategy_override_applies_to_llm_gaps_too():

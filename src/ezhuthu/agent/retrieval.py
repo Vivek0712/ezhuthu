@@ -14,7 +14,7 @@ from rank_bm25 import BM25Okapi
 from rapidfuzz import fuzz
 
 from .data import CorpusLine
-from .text import GAP_RE, normalize_iso
+from .text import GAP_RE, akshara_span_end, akshara_span_start, normalize_iso
 
 NGRAM = 3
 CONTEXT_CHARS = 24
@@ -95,7 +95,8 @@ def _extend_to_word(line: str, start: int, end: int, slack: int = 3) -> int:
 
 
 def align(line: str, left: str, right: str, gap_chars: int | None) -> Alignment:
-    """Text in ``line`` between the left and right context of a gap."""
+    """Text in ``line`` between the left and right context of a gap. With only one anchor, the window next to
+    it holds ``gap_chars`` Tamil letters (aksharas, the unit of ``gap_chars``), not ``gap_chars`` ISO characters."""
     line = normalize_iso(line)
     la = _anchor_left(line, left) if left.strip() else None
     if la is not None:
@@ -104,13 +105,13 @@ def align(line: str, left: str, right: str, gap_chars: int | None) -> Alignment:
         if ra is not None and ra[0] > lpos:
             return Alignment(line[lpos:ra[0]].strip() or None, llen, ra[1])
         if gap_chars:
-            end = _extend_to_word(line, lpos, lpos + gap_chars)
+            end = _extend_to_word(line, lpos, akshara_span_end(line, lpos, gap_chars))
             return Alignment(line[lpos:end].strip() or None, llen, 0)
         return Alignment(None, llen, 0)
     if right.strip() and gap_chars:
         ra = _anchor_right(line, right, 0)
         if ra is not None and ra[0] > 0:
-            return Alignment(line[max(0, ra[0] - gap_chars): ra[0]].strip() or None, 0, ra[1])
+            return Alignment(line[akshara_span_start(line, ra[0], gap_chars): ra[0]].strip() or None, 0, ra[1])
         return Alignment(None, 0, ra[1] if ra else 0)
     return Alignment(None, 0, 0)
 

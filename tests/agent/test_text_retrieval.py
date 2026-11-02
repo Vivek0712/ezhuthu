@@ -8,6 +8,7 @@ from ezhuthu.agent.data import (
 from ezhuthu.agent.ngram import CharNgram
 from ezhuthu.agent.retrieval import ParallelIndex, align_fill
 from ezhuthu.agent.text import (
+    akshara_len,
     aksharas,
     fill_gaps,
     find_gaps,
@@ -57,7 +58,7 @@ def test_fixture_data_loads():
     assert len(lines) == 13 and all(ln.text for ln in lines)
     items = load_items("test")
     assert len(items) == 8
-    assert all(it.gap_chars == len(it.target) for it in items)
+    assert all(it.gap_chars == akshara_len(it.target) for it in items)  # Tamil letters, as in the benchmark
     assert len(load_items("test", subset="hard")) == 2
     assert len(load_items("test", subset="age")) == 2
     assert parse_benchmark_name("test-hard") == ("test", "hard")
@@ -66,21 +67,21 @@ def test_fixture_data_loads():
 
 def test_align_fill_between_anchors():
     line = "svasti śrī kōvirājakēcaripaṉmaṟku yāṇṭu irupattirāvatu"
-    assert align_fill(line, "svasti śrī kōvirājakēcari", " yāṇṭu mūṉṟāvatu", 8) == "paṉmaṟku"
+    assert align_fill(line, "svasti śrī kōvirājakēcari", " yāṇṭu mūṉṟāvatu", 5) == "paṉmaṟku"
     # boundary space in the left context must survive normalisation
-    assert align_fill("cantirātittavar celvatāka ivai paṉmāhēcurar rakṣai", "ivai paṉmāhēcurar ", "", 6) == "rakṣai"
+    assert align_fill("cantirātittavar celvatāka ivai paṉmāhēcurar rakṣai", "ivai paṉmāhēcurar ", "", 3) == "rakṣai"
 
 
 def test_parallel_index_ranks_formula_and_excludes_own_inscription():
     idx = ParallelIndex(load_corpus_lines())
-    ps = idx.search("mahādēvarkku nantā viḷakku ", " vaitta āṭu", gap_chars=7, k=3)
+    ps = idx.search("mahādēvarkku nantā viḷakku ", " vaitta āṭu", gap_chars=5, k=3)
     assert ps[0].fill == "oṉṟukku" and ps[0].inscription_id == "FIXTURE_CHOLA_001"
-    ps = idx.search("mahādēvarkku nantā viḷakku ", " vaitta āṭu", gap_chars=7, k=3,
+    ps = idx.search("mahādēvarkku nantā viḷakku ", " vaitta āṭu", gap_chars=5, k=3,
                     exclude_inscription="FIXTURE_CHOLA_001")
     assert all(p.inscription_id != "FIXTURE_CHOLA_001" for p in ps)
 
 
 def test_ngram_fills_seen_formula():
     lm = CharNgram().fit(ln.text for ln in load_corpus_lines())
-    out = lm.fill("cantirātittavar ", " vaittēn", 9, k=5)
+    out = lm.fill("cantirātittavar ", " vaittēn", 5, k=5)  # celvatāka: 5 letters, 9 ISO characters
     assert out and out[0][0] == "celvatāka"
