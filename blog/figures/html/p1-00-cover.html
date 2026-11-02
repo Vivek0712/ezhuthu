@@ -1,0 +1,57 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>p1-00-cover</title>
+<style>/* Shared styles for the blog figures. Colours from design/tokens/tokens.css, fonts from @fontsource (SIL OFL 1.1). */
+@font-face { font-family: 'Fraunces'; font-weight: 600; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-600-normal.woff2'); }
+@font-face { font-family: 'Fraunces'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-700-normal.woff2'); }
+@font-face { font-family: 'Fraunces'; font-weight: 800; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-800-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 400; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-400-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 600; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-600-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-700-normal.woff2'); }
+@font-face { font-family: 'Noto Sans Tamil'; font-weight: 400; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-sans-tamil/files/noto-sans-tamil-tamil-400-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Sans Tamil'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-sans-tamil/files/noto-sans-tamil-tamil-700-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Tamil'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-serif-tamil/files/noto-serif-tamil-tamil-700-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Tamil'; font-weight: 800; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-serif-tamil/files/noto-serif-tamil-tamil-800-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+
+:root {
+  --stone-50: #FBF8F1; --stone-100: #F4EEE2; --stone-200: #EAE1CE; --stone-300: #DACDB4; --stone-400: #BFAE8F;
+  --stone-500: #9A896C; --stone-600: #76674F; --stone-700: #564A3A;
+  --granite-950: #13100D; --granite-900: #1B1713; --granite-850: #231E18; --granite-800: #2D261F; --granite-700: #40362B;
+  --palm-100: #F5EACB; --palm-300: #DCC07D; --palm-500: #B28C42;
+  --lat-100: #F7E0D5; --lat-300: #EBA07F; --lat-400: #D9764F; --lat-500: #B5502F; --lat-600: #9B3D22; --lat-700: #7E2F19;
+  --ink: #1D1611; --ink-700: #3B2F25;
+  --lamp-200: #FBDFA6; --lamp-300: #F5C468; --lamp-400: #EAA43A; --lamp-500: #D2891C; --lamp-700: #8A5508;
+  --neem-100: #DEEBD7; --neem-300: #93D09C; --neem-700: #2C6534;
+  --neelam-100: #E3E5F4; --neelam-300: #AEB8EC; --neelam-700: #3B4787;
+  --serif: 'Fraunces', 'Noto Serif Tamil', Georgia, serif;
+  --sans: 'Instrument Sans', 'Noto Sans Tamil', system-ui, sans-serif;
+  --mono: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #fff; }
+body { font-family: var(--sans); color: var(--ink); -webkit-font-smoothing: antialiased; }
+#fig { position: relative; overflow: hidden; width: 1600px; }
+#fig.light { background: var(--stone-100); color: var(--ink); }
+#fig.dark { background: radial-gradient(120% 90% at 85% 0%, #3a2414 0%, var(--granite-900) 45%, var(--granite-950) 100%); color: #F3EADA; }
+
+.fh { padding: 56px 72px 0; }
+.kicker { font: 700 17px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--lat-600); }
+.dark .kicker { color: var(--lamp-300); }
+.fh h1 { font: 800 50px/1.08 var(--serif); margin-top: 16px; letter-spacing: -.01em; max-width: 1400px; }
+.fh h1 em { font-style: normal; color: var(--lat-600); }
+.dark .fh h1 em { color: var(--lamp-400); }
+.fh .dek { font: 400 22px/1.45 var(--sans); color: var(--stone-700); margin-top: 14px; max-width: 1300px; }
+.dark .fh .dek { color: #C9BBA3; }
+
+.ff { position: absolute; left: 72px; right: 72px; bottom: 30px; display: flex; align-items: center; justify-content: space-between; gap: 32px;
+      font: 400 15px/1.35 var(--sans); color: var(--stone-600); }
+.dark .ff { color: #A8997F; }
+.ff img { height: 34px; }
+.ff .src { text-align: right; max-width: 1250px; }
+.mono { font-family: var(--mono); }
+.ta { font-family: 'Noto Sans Tamil', var(--sans); }
+
+</style></head><body><div id="fig" class="dark" style="width:1200px;height:675px;"><div style="position:absolute;inset:0;background:#1B1713"></div>
+<div style="position:absolute;left:-110px;top:-24px;width:1420px;height:705px">
+ <img src="file:///Users/vivekrajaps/tamil-script/ezhuthu-wt/media/app/web/public/hero/thanjavur-1568.jpg" style="width:100%;height:100%;display:block;filter:saturate(1.08) contrast(1.05)">
+ <svg viewBox="0 0 1568 778" style="position:absolute;inset:0;width:100%;height:100%"><defs><filter id="gl"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+ <g filter="url(#gl)"><rect x="65" y="15" width="105" height="135" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="200" y="40" width="85" height="95" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="280" y="30" width="82" height="100" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.45" stroke-width="5"/><rect x="352" y="40" width="148" height="85" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="522" y="38" width="110" height="102" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="668" y="55" width="84" height="67" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="800" y="15" width="82" height="97" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="888" y="15" width="82" height="109" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="1005" y="12" width="95" height="90" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="1110" y="12" width="112" height="66" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="1236" y="5" width="159" height="130" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="1405" y="4" width="125" height="96" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="12" y="240" width="90" height="78" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="112" y="220" width="100" height="115" rx="12" fill="none" stroke="#EBA07F" stroke-opacity="0.45" stroke-width="5"/><rect x="195" y="222" width="147" height="178" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="378" y="160" width="102" height="130" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="510" y="200" width="102" height="116" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.45" stroke-width="5"/><rect x="606" y="198" width="134" height="100" rx="12" fill="none" stroke="#EBA07F" stroke-opacity="0.45" stroke-width="5"/><rect x="762" y="188" width="158" height="180" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.45" stroke-width="5"/><rect x="918" y="195" width="122" height="67" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="1060" y="188" width="190" height="94" rx="12" fill="none" stroke="#EBA07F" stroke-opacity="0.45" stroke-width="5"/><rect x="1265" y="185" width="75" height="65" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="1342" y="185" width="140" height="147" rx="12" fill="none" stroke="#EBA07F" stroke-opacity="0.45" stroke-width="5"/><rect x="1505" y="190" width="55" height="146" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="58" y="428" width="94" height="70" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="183" y="425" width="165" height="143" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="368" y="355" width="164" height="133" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="580" y="415" width="40" height="135" rx="12" fill="none" stroke="#EBA07F" stroke-opacity="0.45" stroke-width="5"/><rect x="660" y="405" width="120" height="170" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="778" y="400" width="127" height="162" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.45" stroke-width="5"/><rect x="965" y="400" width="95" height="165" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.45" stroke-width="5"/><rect x="1060" y="385" width="108" height="183" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="1175" y="380" width="150" height="150" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="1325" y="375" width="115" height="95" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="1442" y="360" width="78" height="152" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="52" y="605" width="120" height="145" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="222" y="630" width="60" height="54" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.45" stroke-width="5"/><rect x="298" y="592" width="130" height="156" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="448" y="600" width="180" height="100" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="665" y="598" width="87" height="147" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.45" stroke-width="5"/><rect x="752" y="598" width="150" height="167" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="930" y="590" width="132" height="138" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="1080" y="595" width="175" height="85" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.45" stroke-width="5"/><rect x="1262" y="560" width="34" height="144" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.45" stroke-width="5"/><rect x="1305" y="575" width="143" height="87" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.95" stroke-width="5"/><rect x="1448" y="565" width="90" height="131" rx="12" fill="none" stroke="#F5C468" stroke-opacity="0.45" stroke-width="5"/></g></svg></div>
+<div style="position:absolute;inset:0;background:radial-gradient(90% 80% at 50% 45%,rgba(0,0,0,0) 40%,rgba(19,16,13,.75) 100%)"></div></div></body></html>

@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>p1-05-practice-banks</title>
+<style>/* Shared styles for the blog figures. Colours from design/tokens/tokens.css, fonts from @fontsource (SIL OFL 1.1). */
+@font-face { font-family: 'Fraunces'; font-weight: 600; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-600-normal.woff2'); }
+@font-face { font-family: 'Fraunces'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-700-normal.woff2'); }
+@font-face { font-family: 'Fraunces'; font-weight: 800; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-800-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 400; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-400-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 600; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-600-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-700-normal.woff2'); }
+@font-face { font-family: 'Noto Sans Tamil'; font-weight: 400; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-sans-tamil/files/noto-sans-tamil-tamil-400-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Sans Tamil'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-sans-tamil/files/noto-sans-tamil-tamil-700-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Tamil'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-serif-tamil/files/noto-serif-tamil-tamil-700-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Tamil'; font-weight: 800; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-serif-tamil/files/noto-serif-tamil-tamil-800-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+
+:root {
+  --stone-50: #FBF8F1; --stone-100: #F4EEE2; --stone-200: #EAE1CE; --stone-300: #DACDB4; --stone-400: #BFAE8F;
+  --stone-500: #9A896C; --stone-600: #76674F; --stone-700: #564A3A;
+  --granite-950: #13100D; --granite-900: #1B1713; --granite-850: #231E18; --granite-800: #2D261F; --granite-700: #40362B;
+  --palm-100: #F5EACB; --palm-300: #DCC07D; --palm-500: #B28C42;
+  --lat-100: #F7E0D5; --lat-300: #EBA07F; --lat-400: #D9764F; --lat-500: #B5502F; --lat-600: #9B3D22; --lat-700: #7E2F19;
+  --ink: #1D1611; --ink-700: #3B2F25;
+  --lamp-200: #FBDFA6; --lamp-300: #F5C468; --lamp-400: #EAA43A; --lamp-500: #D2891C; --lamp-700: #8A5508;
+  --neem-100: #DEEBD7; --neem-300: #93D09C; --neem-700: #2C6534;
+  --neelam-100: #E3E5F4; --neelam-300: #AEB8EC; --neelam-700: #3B4787;
+  --serif: 'Fraunces', 'Noto Serif Tamil', Georgia, serif;
+  --sans: 'Instrument Sans', 'Noto Sans Tamil', system-ui, sans-serif;
+  --mono: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #fff; }
+body { font-family: var(--sans); color: var(--ink); -webkit-font-smoothing: antialiased; }
+#fig { position: relative; overflow: hidden; width: 1600px; }
+#fig.light { background: var(--stone-100); color: var(--ink); }
+#fig.dark { background: radial-gradient(120% 90% at 85% 0%, #3a2414 0%, var(--granite-900) 45%, var(--granite-950) 100%); color: #F3EADA; }
+
+.fh { padding: 56px 72px 0; }
+.kicker { font: 700 17px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--lat-600); }
+.dark .kicker { color: var(--lamp-300); }
+.fh h1 { font: 800 50px/1.08 var(--serif); margin-top: 16px; letter-spacing: -.01em; max-width: 1400px; }
+.fh h1 em { font-style: normal; color: var(--lat-600); }
+.dark .fh h1 em { color: var(--lamp-400); }
+.fh .dek { font: 400 22px/1.45 var(--sans); color: var(--stone-700); margin-top: 14px; max-width: 1300px; }
+.dark .fh .dek { color: #C9BBA3; }
+
+.ff { position: absolute; left: 72px; right: 72px; bottom: 30px; display: flex; align-items: center; justify-content: space-between; gap: 32px;
+      font: 400 15px/1.35 var(--sans); color: var(--stone-600); }
+.dark .ff { color: #A8997F; }
+.ff img { height: 34px; }
+.ff .src { text-align: right; max-width: 1250px; }
+.mono { font-family: var(--mono); }
+.ta { font-family: 'Noto Sans Tamil', var(--sans); }
+
+</style></head><body><div id="fig" class="light" style="width:1600px;height:900px;"><header class="fh"><div class="kicker">Practice</div><h1><em>1,469</em> practice items, built from real inscriptions</h1><p class="dek">Four kinds of drill, each at three difficulty levels, Tamil first with English letters (ISO-15919) beside them.</p></header><svg width="1600" height="900" style="position:absolute;left:0;top:0">
+<style>.rn{font:700 26px 'Fraunces';fill:#1D1611} .rk{font:400 18px 'Instrument Sans';fill:#76674F}
+.sv{font:700 22px 'Instrument Sans'} .tot{font:800 32px 'Fraunces';fill:#9B3D22} .lg{font:600 18px 'Instrument Sans';fill:#564A3A}</style>
+<rect x="420" y="250" width="22" height="22" rx="4" fill="#DCC07D"/><text x="452" y="268" class="lg">Level 1</text><rect x="590" y="250" width="22" height="22" rx="4" fill="#D2891C"/><text x="622" y="268" class="lg">Level 2</text><rect x="760" y="250" width="22" height="22" rx="4" fill="#9B3D22"/><text x="792" y="268" class="lg">Level 3</text><text x="392" y="330" text-anchor="end" class="rn">Letter recognition</text><text x="392" y="356" text-anchor="end" class="rk">letters</text><rect x="420.0" y="300" width="63.1" height="64" rx="6" fill="#DCC07D"/><text x="451.5" y="341" text-anchor="middle" class="sv" style="fill:#1D1611">37</text><rect x="486.1" y="300" width="164.9" height="64" rx="6" fill="#D2891C"/><text x="568.5" y="341" text-anchor="middle" class="sv" style="fill:#1D1611">94</text><rect x="653.9" y="300" width="129.1" height="64" rx="6" fill="#9B3D22"/><text x="718.5" y="341" text-anchor="middle" class="sv" style="fill:#fff">74</text><text x="804.1" y="342" class="tot">205</text><text x="392" y="442" text-anchor="end" class="rn">Reading drill</text><text x="392" y="468" text-anchor="end" class="rk">words</text><rect x="420.0" y="412" width="407.7" height="64" rx="6" fill="#DCC07D"/><text x="623.9" y="453" text-anchor="middle" class="sv" style="fill:#1D1611">230</text><rect x="830.7" y="412" width="291.6" height="64" rx="6" fill="#D2891C"/><text x="976.5" y="453" text-anchor="middle" class="sv" style="fill:#1D1611">165</text><rect x="1125.4" y="412" width="255.9" height="64" rx="6" fill="#9B3D22"/><text x="1253.3" y="453" text-anchor="middle" class="sv" style="fill:#fff">145</text><text x="1402.3" y="454" class="tot">540</text><text x="392" y="554" text-anchor="end" class="rn">Fill the gap</text><text x="392" y="580" text-anchor="end" class="rk">gaps</text><rect x="420.0" y="524" width="300.6" height="64" rx="6" fill="#DCC07D"/><text x="570.3" y="565" text-anchor="middle" class="sv" style="fill:#1D1611">170</text><rect x="723.6" y="524" width="279.1" height="64" rx="6" fill="#D2891C"/><text x="863.1" y="565" text-anchor="middle" class="sv" style="fill:#1D1611">158</text><rect x="1005.7" y="524" width="114.9" height="64" rx="6" fill="#9B3D22"/><text x="1063.1" y="565" text-anchor="middle" class="sv" style="fill:#fff">66</text><text x="1141.6" y="566" class="tot">394</text><text x="392" y="666" text-anchor="end" class="rn">Spot the formula</text><text x="392" y="692" text-anchor="end" class="rk">formulas</text><rect x="420.0" y="636" width="254.1" height="64" rx="6" fill="#DCC07D"/><text x="547.1" y="677" text-anchor="middle" class="sv" style="fill:#1D1611">144</text><rect x="677.1" y="636" width="232.7" height="64" rx="6" fill="#D2891C"/><text x="793.5" y="677" text-anchor="middle" class="sv" style="fill:#1D1611">132</text><rect x="912.9" y="636" width="93.4" height="64" rx="6" fill="#9B3D22"/><text x="959.6" y="677" text-anchor="middle" class="sv" style="fill:#fff">54</text><text x="1027.3" y="678" class="tot">330</text></svg><footer class="ff"><img src="file:///Users/vivekrajaps/tamil-script/ezhuthu-wt/media/design/brand/logo/lockup-horizontal-color.svg" alt=""><div class="src">Source: app/web/src/practice/banks/summary.json. Built from the train split only; Tamil strings pending a native-speaker check. Inscription texts: DHARMA, CC BY-SA 4.0.</div></footer></div></body></html>

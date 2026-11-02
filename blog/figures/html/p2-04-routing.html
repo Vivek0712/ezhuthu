@@ -1,0 +1,56 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>p2-04-routing</title>
+<style>/* Shared styles for the blog figures. Colours from design/tokens/tokens.css, fonts from @fontsource (SIL OFL 1.1). */
+@font-face { font-family: 'Fraunces'; font-weight: 600; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-600-normal.woff2'); }
+@font-face { font-family: 'Fraunces'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-700-normal.woff2'); }
+@font-face { font-family: 'Fraunces'; font-weight: 800; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-800-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 400; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-400-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 600; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-600-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-700-normal.woff2'); }
+@font-face { font-family: 'Noto Sans Tamil'; font-weight: 400; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-sans-tamil/files/noto-sans-tamil-tamil-400-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Sans Tamil'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-sans-tamil/files/noto-sans-tamil-tamil-700-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Tamil'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-serif-tamil/files/noto-serif-tamil-tamil-700-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Tamil'; font-weight: 800; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-serif-tamil/files/noto-serif-tamil-tamil-800-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+
+:root {
+  --stone-50: #FBF8F1; --stone-100: #F4EEE2; --stone-200: #EAE1CE; --stone-300: #DACDB4; --stone-400: #BFAE8F;
+  --stone-500: #9A896C; --stone-600: #76674F; --stone-700: #564A3A;
+  --granite-950: #13100D; --granite-900: #1B1713; --granite-850: #231E18; --granite-800: #2D261F; --granite-700: #40362B;
+  --palm-100: #F5EACB; --palm-300: #DCC07D; --palm-500: #B28C42;
+  --lat-100: #F7E0D5; --lat-300: #EBA07F; --lat-400: #D9764F; --lat-500: #B5502F; --lat-600: #9B3D22; --lat-700: #7E2F19;
+  --ink: #1D1611; --ink-700: #3B2F25;
+  --lamp-200: #FBDFA6; --lamp-300: #F5C468; --lamp-400: #EAA43A; --lamp-500: #D2891C; --lamp-700: #8A5508;
+  --neem-100: #DEEBD7; --neem-300: #93D09C; --neem-700: #2C6534;
+  --neelam-100: #E3E5F4; --neelam-300: #AEB8EC; --neelam-700: #3B4787;
+  --serif: 'Fraunces', 'Noto Serif Tamil', Georgia, serif;
+  --sans: 'Instrument Sans', 'Noto Sans Tamil', system-ui, sans-serif;
+  --mono: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #fff; }
+body { font-family: var(--sans); color: var(--ink); -webkit-font-smoothing: antialiased; }
+#fig { position: relative; overflow: hidden; width: 1600px; }
+#fig.light { background: var(--stone-100); color: var(--ink); }
+#fig.dark { background: radial-gradient(120% 90% at 85% 0%, #3a2414 0%, var(--granite-900) 45%, var(--granite-950) 100%); color: #F3EADA; }
+
+.fh { padding: 56px 72px 0; }
+.kicker { font: 700 17px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--lat-600); }
+.dark .kicker { color: var(--lamp-300); }
+.fh h1 { font: 800 50px/1.08 var(--serif); margin-top: 16px; letter-spacing: -.01em; max-width: 1400px; }
+.fh h1 em { font-style: normal; color: var(--lat-600); }
+.dark .fh h1 em { color: var(--lamp-400); }
+.fh .dek { font: 400 22px/1.45 var(--sans); color: var(--stone-700); margin-top: 14px; max-width: 1300px; }
+.dark .fh .dek { color: #C9BBA3; }
+
+.ff { position: absolute; left: 72px; right: 72px; bottom: 30px; display: flex; align-items: center; justify-content: space-between; gap: 32px;
+      font: 400 15px/1.35 var(--sans); color: var(--stone-600); }
+.dark .ff { color: #A8997F; }
+.ff img { height: 34px; }
+.ff .src { text-align: right; max-width: 1250px; }
+.mono { font-family: var(--mono); }
+.ta { font-family: 'Noto Sans Tamil', var(--sans); }
+
+</style></head><body><div id="fig" class="light" style="width:1600px;height:900px;"><header class="fh"><div class="kicker">Model routing on Amazon Bedrock</div><h1>Sonnet first. <em>Opus where it counts.</em></h1><p class="dek">The router escalates to Claude Opus 4.6 when Sonnet's best score is under 0.6, the gap is over 12 letters, or no good parallel exists. 413 held-out TEST gaps:</p></header><div style="position:absolute;left:120px;top:330px;width:954.2566585956416px;height:120px;background:#9B3D22;border-radius:10px"></div><div style="position:absolute;left:120px;top:468px;width:954.2566585956416px;font:800 40px/1 var(--serif);color:#1D1611">291</div><div style="position:absolute;left:120px;top:516px;width:954.2566585956416px;font:400 18px/1.35 var(--sans);color:#564A3A">straight to Opus 4.6 by the pre-escalation rules</div><div style="position:absolute;left:1078.2566585956415px;top:330px;width:14.464891041162229px;height:120px;background:#D2891C;border-radius:4px"></div><div style="position:absolute;left:1098.7215496368037px;top:330px;width:381.2784503631961px;height:120px;background:#9A896C;border-radius:10px"></div><div style="position:absolute;left:1098.7215496368037px;top:468px;width:381.2784503631961px;font:800 40px/1 var(--serif);color:#1D1611">117</div><div style="position:absolute;left:1098.7215496368037px;top:516px;width:381.2784503631961px;font:400 18px/1.35 var(--sans);color:#564A3A">answered by Sonnet 4.6 alone</div><div style="position:absolute;left:828.2566585956415px;top:252px;width:500px;text-align:center;font:700 19px/1.2 var(--sans);color:#8A5508">5 escalate after a Sonnet answer</div><svg width="1600" height="900" style="position:absolute;left:0;top:0"><defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#9B3D22"/></marker>
+<marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#76674F"/></marker>
+<marker id="ahl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#D2891C"/></marker>
+</defs><path d="M1086.4891041162227 280 L1086.4891041162227 326" stroke="#D2891C" stroke-width="2.6" marker-end="url(#ahl)"/></svg><div style="position:absolute;left:120px;width:1360px;top:620px;display:flex;gap:20px"><div style="flex:1;background:#FBF8F1;border:1px solid #DACDB4;border-radius:16px;padding:20px 22px"><div style="font:800 38px/1 var(--serif);color:#9B3D22">296 of 413</div><div style="font:400 17px/1.35 var(--sans);color:#564A3A;margin-top:10px">gaps used Opus 4.6</div></div><div style="flex:1;background:#FBF8F1;border:1px solid #DACDB4;border-radius:16px;padding:20px 22px"><div style="font:800 38px/1 var(--serif);color:#9B3D22">122</div><div style="font:400 17px/1.35 var(--sans);color:#564A3A;margin-top:10px">Sonnet 4.6 calls</div></div><div style="flex:1;background:#FBF8F1;border:1px solid #DACDB4;border-radius:16px;padding:20px 22px"><div style="font:800 38px/1 var(--serif);color:#9B3D22">297</div><div style="font:400 17px/1.35 var(--sans);color:#564A3A;margin-top:10px">Opus 4.6 calls</div></div><div style="flex:1;background:#FBF8F1;border:1px solid #DACDB4;border-radius:16px;padding:20px 22px"><div style="font:800 38px/1 var(--serif);color:#9B3D22">$0.0060</div><div style="font:400 17px/1.35 var(--sans);color:#564A3A;margin-top:10px">per gap, about $2.49 for 413 gaps at list prices</div></div></div><footer class="ff"><img src="file:///Users/vivekrajaps/tamil-script/ezhuthu-wt/media/design/brand/logo/lockup-horizontal-color.svg" alt=""><div class="src">Source: eval/reports/2026-11-02-deployed-config.md; routing rules in config/models.yaml. Cost is an estimate at list prices, not the bill.</div></footer></div></body></html>

@@ -1,0 +1,63 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>p1-09-tamil-nadu-stones</title>
+<style>/* Shared styles for the blog figures. Colours from design/tokens/tokens.css, fonts from @fontsource (SIL OFL 1.1). */
+@font-face { font-family: 'Fraunces'; font-weight: 600; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-600-normal.woff2'); }
+@font-face { font-family: 'Fraunces'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-700-normal.woff2'); }
+@font-face { font-family: 'Fraunces'; font-weight: 800; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-800-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 400; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-400-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 600; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-600-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-700-normal.woff2'); }
+@font-face { font-family: 'Noto Sans Tamil'; font-weight: 400; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-sans-tamil/files/noto-sans-tamil-tamil-400-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Sans Tamil'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-sans-tamil/files/noto-sans-tamil-tamil-700-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Tamil'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-serif-tamil/files/noto-serif-tamil-tamil-700-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Tamil'; font-weight: 800; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-serif-tamil/files/noto-serif-tamil-tamil-800-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+
+:root {
+  --stone-50: #FBF8F1; --stone-100: #F4EEE2; --stone-200: #EAE1CE; --stone-300: #DACDB4; --stone-400: #BFAE8F;
+  --stone-500: #9A896C; --stone-600: #76674F; --stone-700: #564A3A;
+  --granite-950: #13100D; --granite-900: #1B1713; --granite-850: #231E18; --granite-800: #2D261F; --granite-700: #40362B;
+  --palm-100: #F5EACB; --palm-300: #DCC07D; --palm-500: #B28C42;
+  --lat-100: #F7E0D5; --lat-300: #EBA07F; --lat-400: #D9764F; --lat-500: #B5502F; --lat-600: #9B3D22; --lat-700: #7E2F19;
+  --ink: #1D1611; --ink-700: #3B2F25;
+  --lamp-200: #FBDFA6; --lamp-300: #F5C468; --lamp-400: #EAA43A; --lamp-500: #D2891C; --lamp-700: #8A5508;
+  --neem-100: #DEEBD7; --neem-300: #93D09C; --neem-700: #2C6534;
+  --neelam-100: #E3E5F4; --neelam-300: #AEB8EC; --neelam-700: #3B4787;
+  --serif: 'Fraunces', 'Noto Serif Tamil', Georgia, serif;
+  --sans: 'Instrument Sans', 'Noto Sans Tamil', system-ui, sans-serif;
+  --mono: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #fff; }
+body { font-family: var(--sans); color: var(--ink); -webkit-font-smoothing: antialiased; }
+#fig { position: relative; overflow: hidden; width: 1600px; }
+#fig.light { background: var(--stone-100); color: var(--ink); }
+#fig.dark { background: radial-gradient(120% 90% at 85% 0%, #3a2414 0%, var(--granite-900) 45%, var(--granite-950) 100%); color: #F3EADA; }
+
+.fh { padding: 56px 72px 0; }
+.kicker { font: 700 17px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--lat-600); }
+.dark .kicker { color: var(--lamp-300); }
+.fh h1 { font: 800 50px/1.08 var(--serif); margin-top: 16px; letter-spacing: -.01em; max-width: 1400px; }
+.fh h1 em { font-style: normal; color: var(--lat-600); }
+.dark .fh h1 em { color: var(--lamp-400); }
+.fh .dek { font: 400 22px/1.45 var(--sans); color: var(--stone-700); margin-top: 14px; max-width: 1300px; }
+.dark .fh .dek { color: #C9BBA3; }
+
+.ff { position: absolute; left: 72px; right: 72px; bottom: 30px; display: flex; align-items: center; justify-content: space-between; gap: 32px;
+      font: 400 15px/1.35 var(--sans); color: var(--stone-600); }
+.dark .ff { color: #A8997F; }
+.ff img { height: 34px; }
+.ff .src { text-align: right; max-width: 1250px; }
+.mono { font-family: var(--mono); }
+.ta { font-family: 'Noto Sans Tamil', var(--sans); }
+
+</style></head><body><div id="fig" class="light" style="width:1600px;height:900px;"><header class="fh"><div class="kicker">The stones behind Ezhuthu</div><h1>From Madurai to Thanjavur, <em>every great Tamil dynasty</em> is on the wall</h1><p class="dek">1,320 DHARMA editions from Tamil Nadu and beyond. Counts are of editions, which are not the same as stones.</p></header><svg width="800" height="900" style="position:absolute;left:0;top:0"><style>.hl{font:700 21px Fraunces;fill:#1D1611} .hs{font:400 15px 'Instrument Sans';fill:#76674F}
+.hv{font:800 25px Fraunces;fill:#1D1611} .hx{font:600 15px 'Instrument Sans';fill:#76674F}
+.dk .hl{fill:#F3EADA} .dk .hs{fill:#A8997F} .dk .hv{fill:#F3EADA} .dk .hx{fill:#A8997F}
+.pt{font:700 22px Fraunces;fill:#1D1611} .dk .pt{fill:#F5C468}</style><text x="72" y="290" class="pt">Dynasty, by edition (of 1,320)</text><text x="228" y="336.0" text-anchor="end" class="hl">Pallava</text><rect x="250" y="318" width="1100" height="40" rx="8" fill="rgba(0,0,0,.045)"/><rect x="250" y="318" width="400.0" height="40" rx="8" fill="#9B3D22"/><text x="664.0" y="347.0" class="hv">480</text><text x="228" y="402.0" text-anchor="end" class="hl">Chola</text><rect x="250" y="384" width="1100" height="40" rx="8" fill="rgba(0,0,0,.045)"/><rect x="250" y="384" width="260.0" height="40" rx="8" fill="#9B3D22"/><text x="524.0" y="413.0" class="hv">312</text><text x="228" y="468.0" text-anchor="end" class="hl">Pandya</text><rect x="250" y="450" width="1100" height="40" rx="8" fill="rgba(0,0,0,.045)"/><rect x="250" y="450" width="95.8" height="40" rx="8" fill="#9B3D22"/><text x="359.8" y="479.0" class="hv">115</text><text x="228" y="534.0" text-anchor="end" class="hl">Vijayanagara</text><rect x="250" y="516" width="1100" height="40" rx="8" fill="rgba(0,0,0,.045)"/><rect x="250" y="516" width="17.5" height="40" rx="8" fill="#D2891C"/><text x="281.5" y="545.0" class="hv">21</text><text x="228" y="600.0" text-anchor="end" class="hl">Rashtrakuta</text><rect x="250" y="582" width="1100" height="40" rx="8" fill="rgba(0,0,0,.045)"/><rect x="250" y="582" width="10.0" height="40" rx="8" fill="#D2891C"/><text x="274.0" y="611.0" class="hv">12</text><text x="228" y="666.0" text-anchor="end" class="hl">Kadava</text><rect x="250" y="648" width="1100" height="40" rx="8" fill="rgba(0,0,0,.045)"/><rect x="250" y="648" width="7.5" height="40" rx="8" fill="#D2891C"/><text x="271.5" y="677.0" class="hv">9</text><text x="228" y="732.0" text-anchor="end" class="hl">not stated</text><rect x="250" y="714" width="1100" height="40" rx="8" fill="rgba(0,0,0,.045)"/><rect x="250" y="714" width="309.2" height="40" rx="8" fill="#BFAE8F"/><text x="573.2" y="743.0" class="hv">371</text></svg><div style="position:absolute;left:820px;top:270px;width:720px;display:grid;gap:18px">
+<div style="background:#FBF8F1;border:1px solid #DACDB4;border-radius:18px;padding:22px">
+ <div style="font:700 14px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:#76674F">Madurai in the stones</div>
+ <div style="display:flex;align-items:baseline;gap:16px;margin-top:12px"><div style="font:800 64px/1 var(--serif);color:#9B3D22">25</div>
+ <div style="font:400 18px/1.4 var(--sans);color:#564A3A">editions contain <b lang="ta" style="font-family:'Noto Serif Tamil',serif">&#2990;&#2980;&#3007;&#2992;&#3016;</b> (matirai), Madurai in the inscriptions' own spelling</div></div>
+ <div style="font:400 18px/1.4 var(--sans);color:#564A3A;margin-top:10px"><b>23</b> of them inside the royal title <b lang="ta" style="font-family:'Noto Serif Tamil',serif">&#2990;&#2980;&#3007;&#2992;&#3016; &#2965;&#3018;&#2979;&#3021;&#2975;</b> (matirai konta), "who took Madurai", of the Chola king Parantaka I</div></div>
+<div style="display:flex;gap:18px">
+ <div style="flex:1;background:#FBF8F1;border:1px solid #DACDB4;border-radius:18px;padding:22px"><div style="font:800 52px/1 var(--serif);color:#1D1611">534</div><div style="font:400 17px/1.4 var(--sans);color:#564A3A;margin-top:8px">of 1,320 editions name a temple in their title</div></div>
+ <div style="flex:1;background:#FBF8F1;border:1px solid #DACDB4;border-radius:18px;padding:22px"><div style="font:800 52px/1 var(--serif);color:#1D1611">1 + 6</div><div style="font:400 17px/1.4 var(--sans);color:#564A3A;margin-top:8px">from Madurai's Minakshi temple and Thanjavur's Brihadisvara temple</div></div></div></div><footer class="ff"><img src="file:///Users/vivekrajaps/tamil-script/ezhuthu-wt/media/design/brand/logo/lockup-horizontal-color.svg" alt=""><div class="src">Source: benchmark/inscriptions.jsonl (title, dynasty, text_iso; counted 2026-11-03); ontology/seeds/dynasties_rulers.yaml. Inscription texts: DHARMA, CC BY-SA 4.0.</div></footer></div></body></html>

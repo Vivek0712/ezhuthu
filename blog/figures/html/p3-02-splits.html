@@ -1,0 +1,76 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>p3-02-splits</title>
+<style>/* Shared styles for the blog figures. Colours from design/tokens/tokens.css, fonts from @fontsource (SIL OFL 1.1). */
+@font-face { font-family: 'Fraunces'; font-weight: 600; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-600-normal.woff2'); }
+@font-face { font-family: 'Fraunces'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-700-normal.woff2'); }
+@font-face { font-family: 'Fraunces'; font-weight: 800; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-800-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 400; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-400-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 600; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-600-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-700-normal.woff2'); }
+@font-face { font-family: 'Noto Sans Tamil'; font-weight: 400; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-sans-tamil/files/noto-sans-tamil-tamil-400-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Sans Tamil'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-sans-tamil/files/noto-sans-tamil-tamil-700-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Tamil'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-serif-tamil/files/noto-serif-tamil-tamil-700-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Tamil'; font-weight: 800; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-serif-tamil/files/noto-serif-tamil-tamil-800-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+
+:root {
+  --stone-50: #FBF8F1; --stone-100: #F4EEE2; --stone-200: #EAE1CE; --stone-300: #DACDB4; --stone-400: #BFAE8F;
+  --stone-500: #9A896C; --stone-600: #76674F; --stone-700: #564A3A;
+  --granite-950: #13100D; --granite-900: #1B1713; --granite-850: #231E18; --granite-800: #2D261F; --granite-700: #40362B;
+  --palm-100: #F5EACB; --palm-300: #DCC07D; --palm-500: #B28C42;
+  --lat-100: #F7E0D5; --lat-300: #EBA07F; --lat-400: #D9764F; --lat-500: #B5502F; --lat-600: #9B3D22; --lat-700: #7E2F19;
+  --ink: #1D1611; --ink-700: #3B2F25;
+  --lamp-200: #FBDFA6; --lamp-300: #F5C468; --lamp-400: #EAA43A; --lamp-500: #D2891C; --lamp-700: #8A5508;
+  --neem-100: #DEEBD7; --neem-300: #93D09C; --neem-700: #2C6534;
+  --neelam-100: #E3E5F4; --neelam-300: #AEB8EC; --neelam-700: #3B4787;
+  --serif: 'Fraunces', 'Noto Serif Tamil', Georgia, serif;
+  --sans: 'Instrument Sans', 'Noto Sans Tamil', system-ui, sans-serif;
+  --mono: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #fff; }
+body { font-family: var(--sans); color: var(--ink); -webkit-font-smoothing: antialiased; }
+#fig { position: relative; overflow: hidden; width: 1600px; }
+#fig.light { background: var(--stone-100); color: var(--ink); }
+#fig.dark { background: radial-gradient(120% 90% at 85% 0%, #3a2414 0%, var(--granite-900) 45%, var(--granite-950) 100%); color: #F3EADA; }
+
+.fh { padding: 56px 72px 0; }
+.kicker { font: 700 17px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--lat-600); }
+.dark .kicker { color: var(--lamp-300); }
+.fh h1 { font: 800 50px/1.08 var(--serif); margin-top: 16px; letter-spacing: -.01em; max-width: 1400px; }
+.fh h1 em { font-style: normal; color: var(--lat-600); }
+.dark .fh h1 em { color: var(--lamp-400); }
+.fh .dek { font: 400 22px/1.45 var(--sans); color: var(--stone-700); margin-top: 14px; max-width: 1300px; }
+.dark .fh .dek { color: #C9BBA3; }
+
+.ff { position: absolute; left: 72px; right: 72px; bottom: 30px; display: flex; align-items: center; justify-content: space-between; gap: 32px;
+      font: 400 15px/1.35 var(--sans); color: var(--stone-600); }
+.dark .ff { color: #A8997F; }
+.ff img { height: 34px; }
+.ff .src { text-align: right; max-width: 1250px; }
+.mono { font-family: var(--mono); }
+.ta { font-family: 'Noto Sans Tamil', var(--sans); }
+
+
+.bx{position:absolute;border-radius:16px;background:var(--stone-50);border:1.5px solid var(--stone-300);padding:14px 16px;
+ box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 14px 30px -22px rgba(60,35,10,.55)}
+.bx h3{font:700 20px/1.2 var(--serif);color:var(--ink)}
+.bx .st{font:700 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--lat-600);margin-bottom:8px}
+.bx p{font:400 15.5px/1.4 var(--sans);color:var(--stone-700);margin-top:6px}
+.bx.aws{border-color:#C9B48F}
+.bx.hot{border:2px solid var(--lat-600);background:#FFFDF8}
+.bx.lamp{border:2px solid var(--lamp-500);background:#FFF9EC}
+.bx.dk{background:var(--granite-900);border-color:var(--granite-700);color:#F3EADA}
+.bx.dk h3{color:#F3EADA}.bx.dk p{color:#C9BBA3}.bx.dk .st{color:var(--lamp-300)}
+.chip{display:inline-block;font:600 13.5px/1 var(--mono);padding:6px 8px;border-radius:7px;background:var(--stone-200);color:var(--ink-700);margin:6px 4px 0 0}
+.dk .chip{background:var(--granite-800);color:#E9DCC6}
+.zone{position:absolute;border-radius:24px;border:2px dashed var(--stone-400);}
+.zl{position:absolute;font:700 14px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--stone-600);background:var(--stone-100);padding:0 10px}
+
+.ins{position:absolute;display:grid;gap:7px}
+.ins i{display:block;width:26px;height:34px;border-radius:13px 13px 4px 4px;background:var(--stone-400)}
+.pool{position:absolute;border-radius:22px;padding:18px 20px}
+.pool .t{font:800 30px/1 var(--serif)} .pool .s{font:400 16.5px/1.4 var(--sans);margin-top:8px}
+</style></head><body><div id="fig" class="light" style="width:1600px;height:980px;"><header class="fh"><div class="kicker">Benchmark design</div><h1>Split by inscription, so <em>nothing leaks</em></h1><p class="dek">Every gap, line and blank of an inscription goes to one split, and editions of the same stone travel together.</p></header><div class="bx " style="left:56px;top:290px;width:280px;height:430px"><div class="st">Corpus</div><h3>1,320 DHARMA inscriptions</h3><p>3,289 expert restorations in Tamil lines become gaps: context, gap length, the editor's fill as target</p><div class="ins" style="position:static;grid-template-columns:repeat(7,26px);margin-top:16px"><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9B3D22"></i><i style="background:#9B3D22"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#3B4787"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9B3D22"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9B3D22"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9B3D22"></i><i style="background:#3B4787"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i><i style="background:#9A896C"></i></div></div><div class="pool" style="left:420px;top:270px;width:420px;height:200px;background:#EFE5D2;border:2px solid #9A896C"><div class="t">TRAIN</div><div class="s">the only split the restorer can read</div></div><div class="pool" style="left:420px;top:500px;width:420px;height:130px;background:var(--neelam-100);border:2px solid var(--neelam-700)"><div class="t" style="color:#3B4787">VAL</div><div class="s">280 gaps choose the configuration and fit the calibration</div></div><div class="pool" style="left:420px;top:660px;width:420px;height:170px;background:var(--lat-100);border:2px solid var(--lat-600)"><div class="t" style="color:#9B3D22">TEST</div><div class="s">131 inscriptions, 413 gaps, scored once<br><b>TEST-hard: 317 gaps</b> with no close parallel in another train inscription</div></div><div class="bx " style="left:960px;top:250px;width:270px;height:120px"><div class="st">Train only</div><h3>Retrieval corpus</h3><p>14,355 train lines, BM25 + rapidfuzz</p></div><div class="bx " style="left:960px;top:390px;width:270px;height:110px"><div class="st">Train only</div><h3>Character 5-gram</h3><p>built from the same train lines</p></div><div class="bx " style="left:960px;top:520px;width:270px;height:120px"><div class="st">Train only</div><h3>OWL ontology</h3><p>862 train editions; 229 held-out editions excluded</p></div><div class="bx hot" style="left:1280px;top:250px;width:264px;height:390px"><div class="st">Enforced</div><h3>make check</h3><p>A corpus that contains a held-out inscription refuses to load.</p><p>Tests enforce the leakage rules and that the README numbers match the benchmark statistics.</p><p style="margin-top:14px;font:800 30px/1 var(--serif);color:#9B3D22">461</p><p>Python test functions</p></div><div class="bx lamp" style="left:960px;top:680px;width:584px;height:150px"><div class="st">Then</div><h3>Pre-registered selection</h3><p>The rule was committed (1322bdb) before any variant was scored on VAL. Nothing was re-tuned after the choice. TEST was scored once.</p></div><svg width="1600" height="980" style="position:absolute;left:0;top:0;pointer-events:none"><defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#9B3D22"/></marker>
+<marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#76674F"/></marker>
+<marker id="ahl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#D2891C"/></marker>
+</defs><path d="M336 420 L418 370" fill="none" stroke="#9B3D22" stroke-width="2.6"  marker-end="url(#ah)"/><path d="M336 505 L418 565" fill="none" stroke="#9B3D22" stroke-width="2.6"  marker-end="url(#ah)"/><path d="M336 600 L418 740" fill="none" stroke="#9B3D22" stroke-width="2.6"  marker-end="url(#ah)"/><path d="M840 330 L958 310" fill="none" stroke="#9B3D22" stroke-width="2.6"  marker-end="url(#ah)"/><path d="M840 370 L958 445" fill="none" stroke="#9B3D22" stroke-width="2.6"  marker-end="url(#ah)"/><path d="M840 420 L958 575" fill="none" stroke="#9B3D22" stroke-width="2.6"  marker-end="url(#ah)"/><path d="M840 565 C900 565 900 740 958 750" fill="none" stroke="#76674F" stroke-width="2.6" stroke-dasharray="7 6" marker-end="url(#ahg)"/><path d="M840 745 L958 760" fill="none" stroke="#76674F" stroke-width="2.6" stroke-dasharray="7 6" marker-end="url(#ahg)"/></svg><div style="position:absolute;left:56px;top:760px;width:300px;font:400 15px/1.4 var(--sans);color:#76674F">Each stone shape stands for one inscription; its colour shows its split (grey train, blue VAL, red TEST). Illustrative, not to scale.</div><footer class="ff"><img src="file:///Users/vivekrajaps/tamil-script/ezhuthu-wt/media/design/brand/logo/lockup-horizontal-color.svg" alt=""><div class="src">Sources: benchmark/DATA_CARD.md, benchmark/stats.json, ontology/coverage.json, eval/reports/2026-11-02-deployed-config.md.</div></footer></div></body></html>
