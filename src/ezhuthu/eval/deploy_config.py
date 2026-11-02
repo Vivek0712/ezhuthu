@@ -523,10 +523,111 @@ def build_report(out_dir: Path) -> dict[str, Any]:
     return res
 
 
+def _usd(c: dict[str, Any]) -> str:
+    return f"{c['usd_per_item']:.5f}"
+
+
+def _lat(lt: dict[str, Any]) -> str:
+    if not lt:
+        return "-"
+    return f"{lt['p50_ms'] / 1000:.1f} / {lt['p90_ms'] / 1000:.1f} / {lt['max_ms'] / 1000:.1f} ({lt['over_proxy_limit']})"
+
+
+def _cov(f: dict[str, Any]) -> str:
+    sa = "-" if f["selective_accuracy"] is None else f"{f['selective_accuracy']:.4f}"
+    return f"{f['coverage']:.4f} / {sa} ({f['filled_matching']}/{f['filled']})"
+
+
+def _calls(c: dict[str, Any]) -> str:
+    bm = c["by_model"]
+    return f"{int(bm.get('sonnet', {}).get('calls', 0))} / {int(bm.get('opus', {}).get('calls', 0))}"
+
+
+def val_table(variants: dict[str, dict[str, Any]], names: list[str], vs_name: str) -> list[str]:
+    lines = ["| variant | n | top-1 [95% CI] | matches | top-20 | vs " + vs_name + " (only / only, p) | LLM calls "
+             "(Sonnet / Opus) | gaps with no LLM call | decider calls | est. USD per gap | latency p50 / p90 / max s "
+             "(gaps over 27 s) | coverage / selective acc., in-sample | same, 5-fold out-of-fold |",
+             "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+    for n in names:
+        v = variants[n]
+        p = v["vs"].get(vs_name)
+        pv = "-" if p is None or n == vs_name else f"{p['only_a']} / {p['only_b']}, p={p['p_mcnemar']:.4f}"
+        ci = v["top1_ci"]
+        lines.append(f"| {VARIANTS[n]['label']} | {v['n']} | {v['top1']:.4f} [{ci[0]}, {ci[1]}] | {v['top1_matching']} "
+                     f"| {v['top20']:.4f} | {pv} | {_calls(v['cost'])} | {v['llm_skipped']} | {v['decider_calls']} "
+                     f"| {_usd(v['cost'])} | {_lat(v['latency'])} | {_cov(v['abstain']['in_sample'])} "
+                     f"| {_cov(v['abstain']['cross_validated'])} |")
+    return lines
+
+
+def render_md(res: dict[str, Any], preface: str, appendix: str) -> str:
+    dec = res["decisions"]
+    f = res["by_subset"]["full"]
+    L = [preface.rstrip(), "", "## VAL: stage 1 (selection set, same items)", ""]
+    L += val_table(dec["variants"], list(STAGE1), "ngram")
+    L += ["", (f"Ranking by the rule: {', '.join(dec['stage1']['ranking'])}. Stage-1 winner: "
+               f"**{dec['stage1']['winner']}**."), ""]
+    if "stage2" in dec:
+        s2 = dec["stage2"]
+        L += ["## VAL: stage 2 (hosted set, 120 items, same items)", ""]
+        hs = {**dec["hosted_set"], "routed-hosted-v19": dec["variants"]["routed-hosted-v19"]}
+        L += val_table(hs, [*STAGE1, "routed-hosted-v19"], "ngram")
+        p = s2["paired"]
+        L += ["", (f"Hosted v19 {s2['hosted_matching']} vs stage-1 winner {s2['stage1_winner_matching']} matches "
+                   f"of {s2['n']} (only hosted / only winner: {p['only_a']} / {p['only_b']}, p = "
+                   f"{p['p_mcnemar']:.4f}); hosted wins: {s2['hosted_wins']}."), ""]
+    L += [f"**Chosen: {res['label']}** (`{res['chosen']}`).", ""]
+    if dec.get("calibration"):
+        L += ["### Calibration entries fitted for it (VAL only)", "",
+              "| key | n | positives | a | b | abstain threshold | used by the runtime |", "|---|---|---|---|---|---|---|"]
+        for k, e in sorted(dec["calibration"].items()):
+            L.append(f"| `{k}` | {e['n']} | {e['positives']} | {e['a']} | {e['b']} | {e['threshold']} | "
+                     f"{'no (provisional)' if e['provisional'] else 'yes'} |")
+        L.append("")
+    L += ["## TEST: the deployed configuration, scored once (413 gaps)", ""]
+    L += ["| configuration | n | top-1 [95% CI] | top-20 | CER clipped | ECE | coverage | selective acc. |",
+          "|---|---|---|---|---|---|---|---|"]
+
+    def trow(label: str, s: dict[str, Any]) -> str:
+        sa = "-" if s["selective_accuracy"] is None else f"{s['selective_accuracy']:.4f} ({s['filled_matching']}/{s['filled']})"
+        return (f"| {label} | {s['n']} | {s['top1']:.4f} [{s['top1_ci'][0]}, {s['top1_ci'][1]}] | {s['top20']:.4f} | "
+                f"{s['cer_clipped']:.4f} | {s['ece']:.4f} | {s['coverage']:.4f} | {sa} |")
+
+    L.append(trow(f"**Deployed: {res['label']}**", f))
+    for n, lab in (("copy", "Copy baseline (PR #31 row)"), ("ngram", "Character 5-gram baseline (PR #31 row)"),
+                   ("routed", "Routed + local 2B decider (PR #31 measured pipeline)")):
+        L.append(trow(lab, res["test31"][n]))
+    L += ["", "Hard subset and age subset (deployed configuration):", "",
+          "| subset | n | top-1 [95% CI] | coverage | selective acc. |", "|---|---|---|---|---|"]
+    for sub in ("hard", "age"):
+        s = res["by_subset"][sub]
+        sa = "-" if s["selective_accuracy"] is None else f"{s['selective_accuracy']:.4f}"
+        L.append(f"| {sub} | {s['n']} | {s['top1']:.4f} [{s['top1_ci'][0]}, {s['top1_ci'][1]}] | {s['coverage']:.4f} "
+                 f"| {sa} |")
+    L += ["", "Paired exact McNemar on top-1 (same 413 gaps; only deployed right / only the other right):", "",
+          "| vs | n | only deployed | only other | p |", "|---|---|---|---|---|"]
+    for n, lab in (("copy", "copy baseline"), ("ngram", "character 5-gram"), ("routed", "PR #31 routed row")):
+        v = res["vs"][n]["full"]
+        L.append(f"| {lab} | {v['n']} | {v['only_a']} | {v['only_b']} | {v['p_mcnemar']:.4f} |")
+    c, lt = res["cost"], res["latency"]
+    L += ["", "| cost and latency (deployed, TEST) | value |", "|---|---|",
+          f"| LLM calls (Sonnet / Opus) | {_calls(c)} |", f"| gaps that used Opus | {c['opus_items']} |",
+          f"| gaps filled by the 5-gram gate with no LLM call | {res['llm_skipped']} |",
+          f"| hosted decider calls | {res['decider_calls']} |",
+          f"| est. USD (per gap) | {c['usd']} ({_usd(c)}) |",
+          f"| latency per gap p50 / p90 / max s (gaps over 27 s) | {_lat(lt)} |",
+          f"| calibration keys applied | {', '.join('`' + k + '`' for k in res['calibration_keys'])} |", ""]
+    L.append(appendix.rstrip())
+    return "\n".join(L) + "\n"
+
+
 def cmd_report(args) -> int:
     out = Path(args.out) / OUT_DIR
     res = build_report(out)
     (Path(args.out) / f"{REPORT}.json").write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
+    pre = (out / "preface.md").read_text(encoding="utf-8") if (out / "preface.md").exists() else f"# {REPORT}\n"
+    app = (out / "appendix.md").read_text(encoding="utf-8") if (out / "appendix.md").exists() else ""
+    (Path(args.out) / f"{REPORT}.md").write_text(render_md(res, pre, app), encoding="utf-8")
     print(json.dumps({k: res["by_subset"]["full"][k] for k in ("n", "top1", "top1_ci", "coverage",
                                                                "selective_accuracy", "ece")}))
     return 0
