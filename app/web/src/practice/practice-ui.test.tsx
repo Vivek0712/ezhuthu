@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { AppRoutes } from '../App';
 import { renderApp } from '../test/render';
 import { _resetProgressMemory, loadProgress } from './progress';
+import { mentionsBannedName } from '../test/copyRules';
 
 beforeEach(() => {
   window.localStorage.clear();
@@ -93,7 +94,8 @@ describe('how it works', () => {
     expect(limits).toHaveTextContent('259 of 413');
     expect(limits).toHaveTextContent('187 of 206');
     expect(screen.getByTestId('how-data')).toHaveTextContent('CC BY-SA 4.0');
-    expect(document.body.textContent).not.toMatch(/experimental|Aivar/i);
+    expect(document.body.textContent).not.toMatch(/experimental/i);
+    expect(mentionsBannedName(document.body.textContent)).toBe(false);
   });
 
   it('is in Tamil when the app is', () => {

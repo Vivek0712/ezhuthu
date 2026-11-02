@@ -5,7 +5,7 @@
   "split": "test",
   "subset": "hard",
   "limit": 30,
-  "data_dir": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/evalq/benchmark",
+  "data_dir": "benchmark",
   "data_is_fixture": false,
   "data_commit": "8e5f4a8005e4d5dd6dc2641e2dd7019e4c592f11",
   "ontology_ref": null,

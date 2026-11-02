@@ -9,6 +9,7 @@ import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { AuthProvider } from '../auth/AuthProvider';
 import { en, ta } from './strings';
+import { mentionsBannedName } from '../test/copyRules';
 
 describe('strings', () => {
   it('has a non-empty Tamil string for every English key', () => {
@@ -27,9 +28,9 @@ describe('strings', () => {
 });
 
 describe('copy rules', () => {
-  it('never says "experimental" in any user-visible English string, nor names Aivar', () => {
+  it('never says "experimental" in any user-visible English string, nor the banned name', () => {
     const all = { ...en, ...Object.fromEntries(Object.entries(ta).filter(([, v]) => !/[\u0b80-\u0bff]/.test(v))) };
-    expect(Object.entries(all).filter(([, v]) => /experimental|aivar/i.test(v)).map(([k]) => k)).toEqual([]);
+    expect(Object.entries(all).filter(([, v]) => (/experimental/i.test(v) || mentionsBannedName(v))).map(([k]) => k)).toEqual([]);
   });
 });
 

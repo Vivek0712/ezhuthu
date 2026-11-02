@@ -8,7 +8,7 @@
    "split": "test",
    "subset": "hard",
    "limit": 60,
-   "data_dir": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/decider/benchmark",
+   "data_dir": "benchmark",
    "router": "sonnet",
    "llm": "us.anthropic.claude-sonnet-4-6",
    "use_ontology": false,

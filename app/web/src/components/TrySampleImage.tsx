@@ -13,7 +13,7 @@ export interface TrySampleImageProps {
 /**
  * "Try a sample image": thumbnails of the synthetic sample photos (public/samples/*.jpg). Choosing one fetches the
  * JPEG and hands it to `onPick` as a File, so the upload flow treats it exactly like a photo the person chose.
- * Agreed with the upload/OCR track over KrewHQ (EZ-29/EZ-30).
+ * Agreed with the upload/OCR track (issues #29 and #30).
  */
 export function TrySampleImage({ onPick, disabled = false, images = SAMPLE_IMAGES }: TrySampleImageProps) {
   const { lang, t } = useI18n();

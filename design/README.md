@@ -1,6 +1,6 @@
 # design/: Ezhuthu brand and design system
 
-Owner: Design & Brand (KrewHQ `u:design`), issue #8. Open **[`preview.html`](preview.html)** in any browser (no build step) for the living style guide.
+Owner: Design & Brand, issue #8. Open **[`preview.html`](preview.html)** in any browser (no build step) for the living style guide.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="renders/preview-dark.png">

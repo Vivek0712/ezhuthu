@@ -8,7 +8,7 @@
   "router": "none",
   "use_ontology": true,
   "decider": "strands-decider-2B-qwen3.5-v1-2610",
-  "data_dir": "/Users/vivekrajaps/tamil-script/ezhuthu-wt/w3b-eval/benchmark",
+  "data_dir": "benchmark",
   "data_commit": "e83886327ff525f385c6865bd01b8e213fa597a8",
   "code_commit": "e3d94e48f41f4e41e9465d089a68a1386200a4de",
   "code_dirty": false,

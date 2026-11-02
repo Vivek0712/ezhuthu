@@ -12,6 +12,7 @@ import { buildTimeline } from '../hero/timeline';
 import { en, ta } from '../i18n/strings';
 import { enHero, taHero } from '../i18n/strings-hero';
 import { renderApp } from '../test/render';
+import { mentionsBannedName } from '../test/copyRules';
 
 const cleanText = (el: Element) => (el.textContent ?? '').replace(/\s+/g, ' ').trim();
 
@@ -96,7 +97,8 @@ describe('stone hero (home)', () => {
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Learn to read old Tamil inscriptions.');
     // A short subline a non-expert understands, then the calls to action.
     expect(screen.getByTestId('hero-head').querySelector('.hh-sub')).toHaveTextContent(/^Practise on real inscriptions/);
-    expect(screen.getByTestId('hero-head').textContent).not.toMatch(/abstain|backlog|review queue|experimental|\bcorrect\b|Aivar/i);
+    expect(screen.getByTestId('hero-head').textContent).not.toMatch(/abstain|backlog|review queue|experimental|\bcorrect\b/i);
+    expect(mentionsBannedName(screen.getByTestId('hero-head').textContent)).toBe(false);
     expect(screen.getByTestId('hero-actions').querySelectorAll('.btn-primary')).toHaveLength(1);
     expect(screen.getByTestId('cta-practice')).toHaveAttribute('href', '#try');
     expect(screen.getByTestId('cta-upload')).toHaveAttribute('href', '/restore');

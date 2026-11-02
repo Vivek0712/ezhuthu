@@ -1,0 +1,23 @@
+Ezhuthu
+Copyright 2026 Vivek Raja and the Ezhuthu contributors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE). The licence covers the code.
+It does not cover the data and media listed below, which keep their own licences.
+
+Inscription texts and the derived benchmark (benchmark/)
+  The inscription texts come from DHARMA, "The Domestication of 'Hindu' Asceticism and the Religious Making
+  of South and Southeast Asia" (ERC grant 809994), https://dharmalekha.info, and the named editors of each
+  edition. Most edition files declare CC BY-SA 4.0; the rest fall under their repository's CC BY 4.0 licence.
+  The derived benchmark is shared under CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/
+  Pinned source commits: config/dharma.lock.json. Details: benchmark/LICENSE and benchmark/DATA_CARD.md.
+  Text from DHARMA editions also appears in app/web/src/samples/, app/web/src/practice/banks/,
+  app/web/public/samples/ and eval/reports/, under the same CC BY-SA 4.0 terms and attribution.
+
+Home hero photograph (app/web/public/hero/, design/hero/)
+  "Brihadishwara Temple, Dedicated to Shiva, built by Rajaraja I, completed in 1010, Thanjavur (38)"
+  by Richard Mortel, CC BY 2.0, via Wikimedia Commons. Cropped and resized. See
+  app/web/public/hero/ATTRIBUTION.md.
+
+Fonts
+  Noto Serif Tamil, Noto Sans Tamil, Noto Sans Brahmi, Noto Sans Grantha, Fraunces and Instrument Sans,
+  under the SIL Open Font License 1.1. See design/brand/FONTS.md.

@@ -2,7 +2,7 @@
 Closes #
 
 ## Team / contract impact
-- [ ] No contract change, or a `contract-change` label plus a KrewHQ handoff to affected teams
+- [ ] No contract change, or a `contract-change` label and a note to the owners of every affected path
 
 ## Evidence
 - [ ] `make check` passes locally (paste the summary)

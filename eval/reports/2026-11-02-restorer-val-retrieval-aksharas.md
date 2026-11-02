@@ -5,7 +5,7 @@
 - Date: 2026-11-02T04:41:12+00:00
 - Items: 443 (val/full, limit None)
 - Router: `none`; ontology: on; decider: strands-decider-2B-qwen3.5-v1-2610
-- Data: `/Users/vivekrajaps/tamil-script/ezhuthu-wt/w3b-eval/benchmark` (last data commit e83886327ff525f385c6865bd01b8e213fa597a8)
+- Data: `benchmark` (last data commit e83886327ff525f385c6865bd01b8e213fa597a8)
 - Code: e3d94e48f41f4e41e9465d089a68a1386200a4de
 - Command: `python -m ezhuthu.eval.calibrate --split val --router none --variants prerank,fallback,choice-topk:3,choice-topk:5,noul-topk:3,choice-all --calibration-out .cache/runs/v2/cal-retrieval-onto.json --name restorer-val-retrieval-aksharas --note issue #26: gap lengths counted in Tamil letters; ontology on (train-only build, direct lookup API); supersedes 2026-11-02-restorer-val-calibration-retrieval --note re-run after the 5-gram determinism fix (QA on PR #31)`
 

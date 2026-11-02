@@ -14,6 +14,7 @@ import recorded from '../../samples/recorded-restores.json';
 import reading from '../../hero/hero-reading.json';
 import { HERO } from '../../hero/heroData';
 import { SLICE, UTAIYAR, VARI, VARI_PARALLEL } from './how-data';
+import { mentionsBannedName } from '../../test/copyRules';
 
 const TAMIL = /[஀-௿]/;
 
@@ -340,12 +341,13 @@ describe('Home agent chips', () => {
 });
 
 describe('copy rules for the new strings', () => {
-  it('never says "correct", "experimental", Aivar, "Strands AI" or "AWS AI", and says "built with Strands Agents"', () => {
-    const bad = Object.entries({ ...enHow, ...taHow }).filter(([, v]) => /\bcorrect\b|experimental|aivar|strands ai\b|aws ai\b|1,100/i.test(v));
+  it('never says "correct", "experimental", the banned name, "Strands AI" or "AWS AI", and says "built with Strands Agents"', () => {
+    const bad = Object.entries({ ...enHow, ...taHow }).filter(([, v]) => /\bcorrect\b|experimental|strands ai\b|aws ai\b|1,100/i.test(v) || mentionsBannedName(v));
     expect(bad).toEqual([]);
     expect(enHow['hw.agentsLede']).toContain('built with Strands Agents');
     renderApp(<HowItWorksPage />, { route: '/how-it-works' });
-    expect(document.body.textContent).not.toMatch(/\bcorrect\b|experimental|aivar|strands ai\b|aws ai\b/i);
+    expect(document.body.textContent).not.toMatch(/\bcorrect\b|experimental|strands ai\b|aws ai\b/i);
+    expect(mentionsBannedName(document.body.textContent)).toBe(false);
   });
 
   it('keeps the copy short: the English strings for the page stay under 1,400 words', () => {
