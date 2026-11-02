@@ -11,6 +11,26 @@
    "fitted_at": "2026-11-02T04:00:27+00:00",
    "note": "none router, ontology on, n=443"
   },
+  "prerank-ngram|prerank|kall|llm-opus": {
+   "a": 0.656823,
+   "b": -1.870518,
+   "threshold": 0.4887,
+   "n": 224,
+   "positives": 67,
+   "split": "val",
+   "fitted_at": "2026-11-02T06:46:11+00:00",
+   "note": "deployed-config issue: VAL routed run, selection set (280), ontology on, n=224"
+  },
+  "prerank-ngram|prerank|kall|llm-sonnet": {
+   "a": 0.685211,
+   "b": -2.132567,
+   "threshold": 0.4111,
+   "n": 278,
+   "positives": 85,
+   "split": "val",
+   "fitted_at": "2026-11-02T06:46:11+00:00",
+   "note": "deployed-config issue: VAL Sonnet-only run, selection set (280), ontology on, n=278"
+  },
   "prerank|prerank|kall|llm-sonnet": {
    "a": 1.021665,
    "b": -2.296331,

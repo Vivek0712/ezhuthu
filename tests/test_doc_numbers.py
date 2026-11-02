@@ -120,6 +120,7 @@ def test_licence_covers_editions_without_a_header():
 
 # ---------------------------------------------------------------------------------------------- test eval ------
 EVAL_PATH = ROOT / "eval" / "reports" / "2026-11-02-test-eval.json"
+DEPLOY_PATH = ROOT / "eval" / "reports" / "2026-11-02-deployed-config.json"
 F = r"([\d.]+)"  # a number as written in prose: 49.6, 0.113, 0.0066
 
 
@@ -166,10 +167,35 @@ def _eval_claims() -> dict[str, list[tuple[str, list[float]]]]:
          [sd["only_a"], sd["only_b"], rd["only_a"], rd["only_b"]]),
         (rf"\({F}% vs {F}%, p = {F}\)", [_pct(c[ret_dec]["top1"]), _pct(c["prerank"]["top1"]),
                                           round(p[f"{ret_dec}_vs_prerank"]["full"]["p_mcnemar"], 3)]),
-        (rf"On test, {N} of {N} gaps reach Opus, {N} of them by the last two rules",
+        (rf"confidence: on test, {N} of {N} gaps reach Opus, {N} of them by the last two rules",
          [r["configs"]["routed"]["cost"]["opus_items"], routed["n"], r["configs"]["routed"]["pre_escalated"]]),
     ]
     assert long_max <= 1 / 3 + 1e-9  # "no system matches the expert on more than 1 in 3" (gaps of 4+ letters)
+    # The deployed configuration (chosen on VAL, TEST scored once): eval/reports/2026-11-02-deployed-config.json
+    d = json.loads(DEPLOY_PATH.read_text(encoding="utf-8"))
+    df = d["by_subset"]["full"]
+    d_matched = round(df["top1"] * df["n"])
+    d_vs_ngram = round(d["vs"]["ngram"]["full"]["p_mcnemar"], 4)
+    d_long = d["by_gap_length"]["deployed"]["4+ letters"]["top1"]
+    assert d_long <= 1 / 3 + 1e-9  # the "1 in 3" sentence still holds with the deployed configuration
+    readme += [
+        ((rf"the deployed cloud configuration: routed LLMs \+ 5-gram pre-rank, no decider\) \| \*\*{F}%\*\* \({N} of {N}\);"
+          rf" at its VAL-calibrated threshold it fills \*\*{F}%\*\* of test gaps, and \*\*{F}%\*\* of those fills match"),
+         [_pct(df["top1"]), d_matched, df["n"], _pct(df["coverage"]), _pct(df["selective_accuracy"])]),
+        (rf"no decider matches the expert on {F}% of test gaps, above the 5-gram alone \(p = {F};",
+         [_pct(df["top1"]), d_vs_ngram]),
+        (rf"its latency is measured per gap \(test p90 {F} s\)", [round(d["latency"]["p90_ms"] / 1000, 1)]),
+    ]
+    d_sonnet_first = d["cost"]["by_model"]["sonnet"]["calls"]  # one Sonnet call per gap that Sonnet answers first
+    d_after_sonnet = d["cost"]["opus_items"] - (df["n"] - d_sonnet_first)  # the rest of the Opus gaps pre-escalated
+    charter += [
+        (rf"on test only {N} of the {N} gaps Sonnet answered first went on to Opus", [d_after_sonnet, d_sonnet_first]),
+        ((rf"Its top fill matches the expert on {N} of {N} test gaps \({F}%\), above the 5-gram alone \(p = {F}\); at its"
+          rf" validation-fitted thresholds it fills {F}% of gaps and {F}% of those fills match\. Like every system here it"
+          rf" is weakest on long gaps \({F}% on gaps of 4 or more letters\)"),
+         [d_matched, df["n"], _pct(df["top1"]), d_vs_ngram, _pct(df["coverage"]), _pct(df["selective_accuracy"]),
+          _pct(d_long)]),
+    ]
     return {"README.md": readme, "docs/CHARTER.md": charter}
 
 
@@ -187,10 +213,10 @@ def test_doc_restoration_numbers_match_the_test_eval(doc):
 # The paragraphs that quote TEST results (by their first words), and the numbers in them that are not TEST results:
 # model versions, rule settings, the 60-gap benchmark size, "1 in 3".
 RESULT_PARAGRAPHS = {
-    "README.md": ["| Fills that match the expert restoration", "| Calibration (ECE) and coverage",
-                  "**What the test evaluation says**"],
-    "docs/CHARTER.md": ["**Measured (test, scored once", "1. **Restoration ranking and abstention:**",
-                        "2. **Model routing:**"],
+    "README.md": ["| Fills that match the expert restoration (top-1, test, measured", "| Calibration (ECE) and coverage",
+                  "| Fills that match the expert restoration (top-1, test, the deployed", "**What the test evaluation says**"],
+    "docs/CHARTER.md": ["**Measured (test, scored once", "**Deployed configuration (chosen afterwards",
+                        "1. **Restoration ranking and abstention:**", "2. **Model routing:**"],
 }
 NOT_RESULTS = {"4.6", "2", "1", "3", "4", "0.6", "12", "60", "19", "3.5", "2610", "26", "2026", "11", "02", "0.5"}
 
@@ -219,12 +245,22 @@ def test_restoration_paragraphs_quote_no_unpinned_number(doc):
 MEASURED_SCOPE = {
     "README.md": [
         "Fills that match the expert restoration (top-1, test, measured with the local 2B decider)",
-        ("**These numbers were measured with the local strands-decider-2B and its VAL calibration; the deployed cloud "
-         "runtime (hosted v19 decider, or the self-report fallback without a decider) is not measured.**"),
+        ("**These numbers were measured with the local strands-decider-2B and its VAL calibration, a configuration the "
+         "cloud runtime never ran; the configuration it does run was chosen afterwards on VAL by a pre-registered rule, "
+         "calibrated on VAL and scored once on test"),
+        "Fills that match the expert restoration (top-1, test, the deployed cloud configuration",
+        # QA on PR #40: the deployed restorer makes no decider call; the decider serves the tutor
+        "Restoration (deployed): a decider-free pre-rank with the character 5-gram's score ranks the candidates, with no decider call",
+        "Strands Decider makes the tutor's advance / repeat / hint decision",
+        "the 27 s proxy limit applies per request",
     ],
     "docs/CHARTER.md": [
-        ("with the local 2B decider and its validation calibration (the cloud runtime's hosted v19 decider and its "
-         "self-report fallback are not measured), the engine's top fill matches"),
+        ("with the local 2B decider and its validation calibration (a configuration the cloud runtime never ran; the "
+         "deployed one is below), the engine's top fill matches"),
+        ("**Deployed configuration (chosen afterwards on validation by a pre-registered rule, calibrated on validation, "
+         "test scored once;"),
+        "the strongest restorer in that evaluation (the deployed configuration below beats it)",
+        "The deployed runtime escalates on the raw (uncalibrated) `prerank-ngram` score of Sonnet's best candidate",
     ],
 }
 
@@ -234,7 +270,8 @@ def test_doc_says_which_configuration_was_measured(doc):
     text = " ".join((ROOT / doc).read_text(encoding="utf-8").split())
     for sentence in MEASURED_SCOPE[doc]:
         assert sentence in text, f"{doc} lost the measured-scope sentence: {sentence!r}"
-    for word in ("shipped pipeline", "shipped engine"):
+    for word in ("shipped pipeline", "shipped engine", "strongest restorer measured so far",
+                 "Strands Decider: ranks LLM candidates", "when the decider's confidence in Sonnet's best candidate"):
         assert word not in text, f"{doc}: the measured configuration is not what the cloud runtime ships"
 
 

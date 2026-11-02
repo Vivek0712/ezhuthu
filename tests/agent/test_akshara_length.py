@@ -82,8 +82,9 @@ def test_ngram_fill_returns_fills_of_exactly_n_letters():
 
 
 def _restorer_with(parallels: list[Parallel]) -> Restorer:
-    r = Restorer(decider=NoDecider(), use_ontology=False, settings=CFG.restorer.with_(strategy="prerank"),
-                 calibration=CalibrationTable())
+    # the issue #26 pre-rank (no 5-gram term): these tests are about the length unit, not the deployed ranking
+    r = Restorer(decider=NoDecider(), use_ontology=False,
+                 settings=CFG.restorer.with_(strategy="prerank", ngram_prerank=False), calibration=CalibrationTable())
     r.retrieve_parallels = lambda *a, **k: list(parallels)  # type: ignore[method-assign]
     return r
 

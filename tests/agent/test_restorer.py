@@ -189,7 +189,7 @@ def test_real_ontology_port_and_fill_candidates(monkeypatch):
         letters = onto.valid_letters("tamil-brahmi-1")
         assert letters and "a" in letters and all(isinstance(x, str) for x in letters)
         r = Restorer(decider=NoDecider(), ontology=onto)
-        with_onto = r.restore_gap("cantirātittavar", " ivai", 5)
+        with_onto = r.restore_gap("cantirātittavar", " ivai", 5, max_candidates=20)  # 5-gram fills may rank first
         onto_cands = [c for c in with_onto.candidates if "ontology" in c.sources]
         assert [c.text for c in onto_cands] == ["aiyum"]
         without = Restorer(decider=NoDecider(), ontology=onto, use_ontology=False).restore_gap(
