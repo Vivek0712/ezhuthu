@@ -9,6 +9,7 @@
   <a href="https://strandsagents.com"><img alt="Built with Strands Agents" src="https://img.shields.io/badge/built%20with-Strands%20Agents-1D1611"></a>
   <a href="https://aws.amazon.com/bedrock/agentcore/"><img alt="Runs on Amazon Bedrock AgentCore" src="https://img.shields.io/badge/runs%20on-Amazon%20Bedrock%20AgentCore-D2891C"></a>
   <a href="https://dharmalekha.info"><img alt="Data: CC BY-SA 4.0 (DHARMA)" src="https://img.shields.io/badge/data-CC%20BY--SA%204.0%20·%20DHARMA-3B4787"></a>
+  <a href="https://huggingface.co/sparrow-decider/ezhuthu-sparrow-decider-2b"><img alt="Model on Hugging Face" src="https://img.shields.io/badge/%F0%9F%A4%97%20model-ezhuthu--sparrow--decider--2b-D2891C"></a>
   <img alt="Education track" src="https://img.shields.io/badge/hackathon-Education%20track-2C6534">
 </p>
 
@@ -115,16 +116,30 @@ Vatteluttu is not measured: it has no Unicode encoding, so nothing could be rend
 photograph with a published reading. The app marks every photo reading as one to check against the edition, and warns
 on Tamil-Brahmi, Vatteluttu and Grantha.
 
-### A fine-tuned decider (not deployed)
+### A fine-tuned Strands Decider for restoration
 
-We also fine-tuned the 2B Strands Decider on the restorer's own decision ("which of the top 3 candidate fills, or
-none, matches the editors"), on TRAIN only, chosen and calibrated on VAL and scored once on TEST. It is in
-[pull request #43](https://github.com/Vivek0712/ezhuthu/pull/43) (`eval/reports/2026-11-02-finetuned-decider.md` on
-that branch), not yet merged, and **it is not deployed**: the cloud runtime cannot serve a local checkpoint. Ranking
-Sonnet 4.6's candidates (a different candidate set from the deployed routed restorer above), it matched 0.6538
-(270/413, 95% CI 0.6077-0.6973), against 0.5908 for the decider-free pre-rank on the same candidates (32 vs 6
-discordant, p = 2.4e-5). On the frozen 60-item TEST-hard benchmark it does not win: 0.400, tied with Sonnet
-self-confidence and below the hosted v19 decider (0.450).
+We fine-tuned the 2B Strands Decider on the restorer's own decision ("which of the top 3 candidate fills, or none,
+matches the editors"), on TRAIN only, chosen and calibrated on VAL and scored once on TEST
+([report](eval/reports/2026-11-02-finetuned-decider.md)). The weights are public on Hugging Face:
+**[sparrow-decider/ezhuthu-sparrow-decider-2b](https://huggingface.co/sparrow-decider/ezhuthu-sparrow-decider-2b)** (Apache-2.0, with the model card, an example request and the
+checksums).
+
+| TEST, 413 gaps (Sonnet 4.6 candidates) | Top-1 match |
+| --- | --- |
+| Restorer ranked by the fine-tuned decider | **0.6538** (270/413, 95% CI 0.6077-0.6973) |
+| Same candidates, decider-free pre-rank | 0.5908 (32 vs 6 discordant, p = 2.4e-5) |
+| Decider only, top 3 + none: fine-tuned vs hosted v19 | **0.5472** vs 0.4310 (53 vs 5 discordant, p < 1e-8) |
+
+It uses a different candidate set from the routed restorer in the table above, so the two top-1 numbers are not a
+like-for-like comparison. On the frozen 60-item TEST-hard benchmark (an older request format) it does not win: 0.400,
+tied with Sonnet self-confidence and below hosted v19 (0.450).
+
+**Where it runs:** the hosted Strands Decider service serves it as `ezhuthu-strands-2b-ft` next to the general model,
+on the same instances. `main` routes restoration through it (`restorer.strategy_llm: choice-topk` in
+[`config/models.yaml`](config/models.yaml), [#47](https://github.com/Vivek0712/ezhuthu/pull/47)), falling back to the
+pre-rank when the decider is unavailable or the request is short of time; the live app picks this up at its next
+deploy. A one-gap restore takes about 15 s with the decider call, against about 3.4 s with the pre-rank
+([live check](eval/reports/2026-11-03-hosted-ft-live.md)).
 
 ## Honest limits
 
@@ -140,7 +155,10 @@ self-confidence and below the hosted v19 decider (0.450).
   and the drawn Vatteluttu glyphs are teaching shapes pending an epigrapher's review ([sources](design/glyphs/REFERENCES.md)).
 - **Learner gain is not measured yet.** The pre-test and post-test are built; the pilot has not run.
 
-**Known limit of the deployed restorer:** its latency is measured per gap (test p90 5.5 s), but the 27 s proxy limit applies per request, and a request's gaps are restored one after another with no cap. A text with about 5 gaps, or the first request on a cold runtime (which also builds the 5-gram), can time out. Follow-up: [#41](https://github.com/Vivek0712/ezhuthu/issues/41).
+- **One request has a 25 s budget.** For the deployed restorer, its latency is measured per gap (test p90 5.5 s), but the 27 s proxy limit applies per request, so the restorer restores at most 8
+  gaps per request, skips the Opus escalation or the LLM call when time runs short, and leaves the remaining gaps open
+  with an `abstain_reason` instead of timing out ([#41](https://github.com/Vivek0712/ezhuthu/issues/41),
+  [report](eval/reports/2026-11-02-request-budget.md)). The 5-gram is built at start-up, not on the first request.
 
 ## How it works
 
@@ -175,6 +193,8 @@ flowchart LR
   validation split to decide fill or abstain.
 - **Interpreter:** letters in; words, a modern Tamil phrase and a plain meaning out ([`interpreter.py`](src/ezhuthu/agent/interpreter.py)).
 - **Decisions:** Restoration (deployed): a decider-free pre-rank with the character 5-gram's score ranks the candidates, with no decider call; Strands Decider makes the tutor's advance / repeat / hint decision.
+  On `main`, the fine-tuned Strands Decider ([sparrow-decider/ezhuthu-sparrow-decider-2b](https://huggingface.co/sparrow-decider/ezhuthu-sparrow-decider-2b)) picks among the
+  pre-rank's top 3 candidates or none, with the pre-rank as the fallback; the live app picks this up at its next deploy.
 - **Model IDs** come only from [`config/models.yaml`](config/models.yaml).
 
 **Ontology:** an OWL ontology of rulers, titles, places, grants, measures and formulae, with 27 classes, 21 object
@@ -244,7 +264,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Please report security issues privately 
 ## Credits
 
 - The **DHARMA** project and the editors of every edition used here, whose restorations are the benchmark.
-- [Strands Agents](https://strandsagents.com) and Strands Decider, Amazon Bedrock and Amazon Bedrock AgentCore.
+- [Strands Agents](https://strandsagents.com) and [Strands Decider](https://huggingface.co/StrandsAgents/strands-decider-2B-qwen3.5-v1-2610) (the base of our fine-tune), Amazon Bedrock and Amazon Bedrock AgentCore.
 - Richard Mortel for the Thanjavur photograph, and the Noto, Fraunces and Instrument Sans font projects.
 - Built by Vivek Raja for the hackathon's Education track.
 
