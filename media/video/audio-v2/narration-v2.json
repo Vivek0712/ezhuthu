@@ -1,0 +1,1048 @@
+{
+  "generated": "2026-11-03",
+  "tts": {
+    "service": "Amazon Polly",
+    "aws_profile": "heisenberg",
+    "region": "us-east-1",
+    "voice_id": "Arjun",
+    "engine": "generative",
+    "language": "en-IN",
+    "pacing": "per scene: longest text variant at the slowest of 90%+350ms breaks / 95%+breaks / 95% / 100% that fits; 105% only if no variant fits at 100%",
+    "format": "Polly mp3 24 kHz -> trimmed, loudnorm -18 LUFS / -1.5 dBTP, WAV 48 kHz mono 24-bit"
+  },
+  "text_changes": "Act 1 (a1-02..a1-06), a2-08 and c-22 rewritten per user direction 2026-11-03 (Tamil significance, urgency, recovery); see scenes[].text vs narration_v1",
+  "lexicon_ipa": {
+    "Ezhuthu": "ˈeɭʊt̪ːʊ",
+    "Madurai": "ˈmʌd̪ʊɾaɪ",
+    "Thanjavur": "t̪ənˈdʒɑːʋuːɾ",
+    "Meenakshi": "miːˈnɑːkʃi",
+    "Rajaraja": "ˈɾɑːdʒəˌɾɑːdʒə",
+    "Vatteluttu": "ˈʋʌʈʈeɻʊt̪t̪ʊ",
+    "Keeladi": "ˈkiːɻəd̪i",
+    "Uttiramerur": "ʊt̪t̪ɪɾəˈmeːɾuːɾ",
+    "Chola": "ˈtʃoːɻə"
+  },
+  "subs": {
+    "AgentCore": "Agent Core",
+    "5-gram": "five-gram"
+  },
+  "fit_rule": "duration <= vo_window_s - 0.3 s",
+  "all_fit": true,
+  "stem": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/narration-v2.wav",
+  "auditions": [
+    {
+      "voice": "Arjun",
+      "engine": "generative",
+      "rate": "90%",
+      "scenes": [
+        {
+          "id": "a1-01-cold-open",
+          "dur_s": 4.578,
+          "window_s": 4.5,
+          "margin_s": -0.078,
+          "words": 11,
+          "wpm": 144.2,
+          "raw_lufs": -21.9,
+          "pauses_s": [
+            0.35,
+            0.45
+          ],
+          "f0_hz": 82.9,
+          "f0_spread_st": 7.8
+        },
+        {
+          "id": "a1-02-place",
+          "dur_s": 8.704,
+          "window_s": 8.45,
+          "margin_s": -0.254,
+          "words": 19,
+          "wpm": 131.0,
+          "raw_lufs": -21.1,
+          "pauses_s": [
+            0.43,
+            0.35,
+            0.45
+          ],
+          "f0_hz": 89.7,
+          "f0_spread_st": 11.51
+        }
+      ],
+      "wpm": 135.5,
+      "f0_hz": 86.3,
+      "f0_spread_st": 9.65,
+      "fits": false
+    },
+    {
+      "voice": "Kajal",
+      "engine": "generative",
+      "rate": "90%",
+      "scenes": [
+        {
+          "id": "a1-01-cold-open",
+          "dur_s": 3.86,
+          "window_s": 4.5,
+          "margin_s": 0.64,
+          "words": 11,
+          "wpm": 171.0,
+          "raw_lufs": -24.0,
+          "pauses_s": [
+            0.89
+          ],
+          "f0_hz": 227.5,
+          "f0_spread_st": 9.14
+        },
+        {
+          "id": "a1-02-place",
+          "dur_s": 6.915,
+          "window_s": 8.45,
+          "margin_s": 1.535,
+          "words": 19,
+          "wpm": 164.8,
+          "raw_lufs": -24.6,
+          "pauses_s": [
+            0.21,
+            0.78
+          ],
+          "f0_hz": 247.4,
+          "f0_spread_st": 10.29
+        }
+      ],
+      "wpm": 167.1,
+      "f0_hz": 237.5,
+      "f0_spread_st": 9.72,
+      "fits": true
+    },
+    {
+      "voice": "Kiara",
+      "engine": "generative",
+      "rate": "90%",
+      "scenes": [
+        {
+          "id": "a1-01-cold-open",
+          "dur_s": 4.834,
+          "window_s": 4.5,
+          "margin_s": -0.334,
+          "words": 11,
+          "wpm": 136.5,
+          "raw_lufs": -21.7,
+          "pauses_s": [
+            0.35,
+            0.42
+          ],
+          "f0_hz": 248.7,
+          "f0_spread_st": 9.46
+        },
+        {
+          "id": "a1-02-place",
+          "dur_s": 9.001,
+          "window_s": 8.45,
+          "margin_s": -0.551,
+          "words": 19,
+          "wpm": 126.6,
+          "raw_lufs": -21.6,
+          "pauses_s": [
+            0.19,
+            0.39,
+            0.35,
+            0.42
+          ],
+          "f0_hz": 237.6,
+          "f0_spread_st": 11.11
+        }
+      ],
+      "wpm": 130.1,
+      "f0_hz": 243.2,
+      "f0_spread_st": 10.29,
+      "fits": false
+    },
+    {
+      "voice": "Gregory",
+      "engine": "long-form",
+      "rate": "90%",
+      "scenes": [
+        {
+          "id": "a1-01-cold-open",
+          "dur_s": 4.471,
+          "window_s": 4.5,
+          "margin_s": 0.029,
+          "words": 11,
+          "wpm": 147.6,
+          "raw_lufs": -24.9,
+          "pauses_s": [
+            0.86
+          ],
+          "f0_hz": 124.7,
+          "f0_spread_st": 9.94
+        },
+        {
+          "id": "a1-02-place",
+          "dur_s": 9.485,
+          "window_s": 8.45,
+          "margin_s": -1.035,
+          "words": 19,
+          "wpm": 120.2,
+          "raw_lufs": -25.0,
+          "pauses_s": [
+            0.2,
+            1.09
+          ],
+          "f0_hz": 123.4,
+          "f0_spread_st": 9.6
+        }
+      ],
+      "wpm": 129.0,
+      "f0_hz": 124.0,
+      "f0_spread_st": 9.77,
+      "fits": false
+    },
+    {
+      "voice": "Arthur",
+      "engine": "neural",
+      "rate": "90%",
+      "scenes": [
+        {
+          "id": "a1-01-cold-open",
+          "dur_s": 4.059,
+          "window_s": 4.5,
+          "margin_s": 0.441,
+          "words": 11,
+          "wpm": 162.6,
+          "raw_lufs": -26.2,
+          "pauses_s": [
+            0.95
+          ],
+          "f0_hz": 111.6,
+          "f0_spread_st": 9.96
+        },
+        {
+          "id": "a1-02-place",
+          "dur_s": 7.876,
+          "window_s": 8.45,
+          "margin_s": 0.574,
+          "words": 19,
+          "wpm": 144.7,
+          "raw_lufs": -26.9,
+          "pauses_s": [
+            0.33,
+            0.95
+          ],
+          "f0_hz": 106.2,
+          "f0_spread_st": 9.7
+        }
+      ],
+      "wpm": 150.8,
+      "f0_hz": 108.9,
+      "f0_spread_st": 9.83,
+      "fits": true
+    },
+    {
+      "voice": "Matthew",
+      "engine": "generative",
+      "rate": "90%",
+      "scenes": [
+        {
+          "id": "a1-01-cold-open",
+          "dur_s": 4.186,
+          "window_s": 4.5,
+          "margin_s": 0.314,
+          "words": 11,
+          "wpm": 157.7,
+          "raw_lufs": -23.0,
+          "pauses_s": [
+            0.35,
+            0.41
+          ],
+          "f0_hz": 100.7,
+          "f0_spread_st": 9.73
+        },
+        {
+          "id": "a1-02-place",
+          "dur_s": 8.464,
+          "window_s": 8.45,
+          "margin_s": -0.014,
+          "words": 19,
+          "wpm": 134.7,
+          "raw_lufs": -22.1,
+          "pauses_s": [
+            0.38,
+            0.36,
+            0.46
+          ],
+          "f0_hz": 116.2,
+          "f0_spread_st": 11.35
+        }
+      ],
+      "wpm": 142.3,
+      "f0_hz": 108.5,
+      "f0_spread_st": 10.54,
+      "fits": false
+    }
+  ],
+  "scenes": [
+    {
+      "id": "a1-01-cold-open",
+      "act": "1-problem",
+      "scene_start_s": 0.0,
+      "scene_end_s": 5.0,
+      "vo_in_s": 0.25,
+      "vo_window_s": 4.5,
+      "vo_out_s": 4.214,
+      "offset_s": 0.25,
+      "duration_s": 3.964,
+      "margin_s": 0.536,
+      "fits": true,
+      "rate": "95%",
+      "sentence_breaks_ms": 0,
+      "wpm": 166.5,
+      "text": "These temple walls are written in Tamil. The letters are fading.",
+      "variant": 0,
+      "text_changed": false,
+      "narration_v1": "These temple walls are written in Tamil. The letters are fading.",
+      "ssml": "<speak><prosody rate=\"95%\">These temple walls are written in Tamil. The letters are fading.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a1-01-cold-open.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a1-01-cold-open.polly.mp3",
+      "captions": [
+        {
+          "text": "These temple walls are written in Tamil.",
+          "start_s": 0.25,
+          "end_s": 2.773
+        },
+        {
+          "text": "The letters are fading.",
+          "start_s": 2.773,
+          "end_s": 4.514
+        }
+      ]
+    },
+    {
+      "id": "a1-02-place",
+      "act": "1-problem",
+      "scene_start_s": 5.0,
+      "scene_end_s": 14.0,
+      "vo_in_s": 5.3,
+      "vo_window_s": 8.45,
+      "vo_out_s": 13.358,
+      "offset_s": 5.3,
+      "duration_s": 8.058,
+      "margin_s": 0.392,
+      "fits": true,
+      "rate": "90%",
+      "sentence_breaks_ms": 350,
+      "wpm": 156.4,
+      "text": "Tamil is one of the oldest living classical languages, written in stone for over 2,000 years, from Madurai to Thanjavur.",
+      "variant": 0,
+      "text_changed": true,
+      "narration_v1": "From Madurai to Thanjavur, kings carved their words in stone. Thanjavur's great temple has stood over a thousand years.",
+      "ssml": "<speak><prosody rate=\"90%\">Tamil is one of the oldest living classical languages, written in stone for over two thousand years, from Madurai to Thanjavur.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a1-02-place.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a1-02-place.polly.mp3",
+      "captions": [
+        {
+          "text": "Tamil is one of the oldest living classical languages,",
+          "start_s": 5.3,
+          "end_s": 8.478
+        },
+        {
+          "text": "written in stone for over 2,000 years, from Madurai to Thanjavur.",
+          "start_s": 8.478,
+          "end_s": 13.658
+        }
+      ]
+    },
+    {
+      "id": "a1-03-madurai-in-stone",
+      "act": "1-problem",
+      "scene_start_s": 14.0,
+      "scene_end_s": 20.0,
+      "vo_in_s": 14.3,
+      "vo_window_s": 5.45,
+      "vo_out_s": 19.019,
+      "offset_s": 14.3,
+      "duration_s": 4.719,
+      "margin_s": 0.731,
+      "fits": true,
+      "rate": "95%",
+      "sentence_breaks_ms": 0,
+      "wpm": 165.3,
+      "text": "Sangam poets sang of Madurai. Its name is carved in these stones too.",
+      "variant": 0,
+      "text_changed": true,
+      "narration_v1": "Madurai itself is carved into them: twenty-five editions name it.",
+      "ssml": "<speak><prosody rate=\"95%\">Sangam poets sang of Madurai. Its name is carved in these stones too.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a1-03-madurai-in-stone.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a1-03-madurai-in-stone.polly.mp3",
+      "captions": [
+        {
+          "text": "Sangam poets sang of Madurai.",
+          "start_s": 14.3,
+          "end_s": 16.602
+        },
+        {
+          "text": "Its name is carved in these stones too.",
+          "start_s": 16.602,
+          "end_s": 19.319
+        }
+      ]
+    },
+    {
+      "id": "a1-04-damage",
+      "act": "1-problem",
+      "scene_start_s": 20.0,
+      "scene_end_s": 29.0,
+      "vo_in_s": 20.3,
+      "vo_window_s": 8.45,
+      "vo_out_s": 27.809,
+      "offset_s": 20.3,
+      "duration_s": 7.509,
+      "margin_s": 0.941,
+      "fits": true,
+      "rate": "100%",
+      "sentence_breaks_ms": 0,
+      "wpm": 135.8,
+      "text": "Sun and rain wear the letters away. 65% of the 1,320 inscriptions we studied are damaged.",
+      "variant": 1,
+      "text_changed": true,
+      "narration_v1": "Time wears the letters away. 65% of the 1,320 inscriptions we studied are damaged.",
+      "ssml": "<speak><prosody rate=\"100%\">Sun and rain wear the letters away. 65 percent of the 1,320 inscriptions we studied are damaged.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a1-04-damage.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a1-04-damage.polly.mp3",
+      "captions": [
+        {
+          "text": "Sun and rain wear the letters away.",
+          "start_s": 20.3,
+          "end_s": 22.619
+        },
+        {
+          "text": "65% of the 1,320 inscriptions we studied are damaged.",
+          "start_s": 22.619,
+          "end_s": 28.109
+        }
+      ]
+    },
+    {
+      "id": "a1-05-few-readers",
+      "act": "1-problem",
+      "scene_start_s": 29.0,
+      "scene_end_s": 36.0,
+      "vo_in_s": 29.3,
+      "vo_window_s": 6.45,
+      "vo_out_s": 35.197,
+      "offset_s": 29.3,
+      "duration_s": 5.897,
+      "margin_s": 0.553,
+      "fits": true,
+      "rate": "95%",
+      "sentence_breaks_ms": 350,
+      "wpm": 132.3,
+      "text": "In 2021, India had only about 23 epigraphists for nearly one lakh inscriptions.",
+      "variant": 0,
+      "text_changed": true,
+      "narration_v1": "In 2021, India had about 23 epigraphists for nearly one lakh inscriptions.",
+      "ssml": "<speak><prosody rate=\"95%\">In <say-as interpret-as=\"date\" format=\"y\">2021</say-as>, India had only about 23 epigraphists for nearly one lakh inscriptions.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a1-05-few-readers.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a1-05-few-readers.polly.mp3",
+      "captions": [
+        {
+          "text": "In 2021, India had only about 23 epigraphists for nearly one lakh inscriptions.",
+          "start_s": 29.3,
+          "end_s": 35.497
+        }
+      ]
+    },
+    {
+      "id": "a1-06-slow",
+      "act": "1-problem",
+      "scene_start_s": 36.0,
+      "scene_end_s": 40.0,
+      "vo_in_s": 36.3,
+      "vo_window_s": 3.45,
+      "vo_out_s": 39.278,
+      "offset_s": 36.3,
+      "duration_s": 2.978,
+      "margin_s": 0.472,
+      "fits": true,
+      "rate": "100%",
+      "sentence_breaks_ms": 0,
+      "wpm": 181.3,
+      "text": "And every year, more of the story is lost.",
+      "variant": 0,
+      "text_changed": true,
+      "narration_v1": "And training a new reader is slow.",
+      "ssml": "<speak><prosody rate=\"100%\">And every year, more of the story is lost.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a1-06-slow.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a1-06-slow.polly.mp3",
+      "captions": [
+        {
+          "text": "And every year, more of the story is lost.",
+          "start_s": 36.3,
+          "end_s": 39.578
+        }
+      ]
+    },
+    {
+      "id": "a2-07-title",
+      "act": "2-solution",
+      "scene_start_s": 40.0,
+      "scene_end_s": 47.0,
+      "vo_in_s": 40.4,
+      "vo_window_s": 6.35,
+      "vo_out_s": 46.25,
+      "offset_s": 40.4,
+      "duration_s": 5.85,
+      "margin_s": 0.5,
+      "fits": true,
+      "rate": "90%",
+      "sentence_breaks_ms": 350,
+      "wpm": 102.6,
+      "text": "So I built an apprentice. Meet Ezhuthu: in Tamil, 'letter'.",
+      "variant": 0,
+      "text_changed": false,
+      "narration_v1": "So I built an apprentice. Meet Ezhuthu: in Tamil, 'letter'.",
+      "ssml": "<speak><prosody rate=\"90%\">So I built an apprentice. <break time=\"350ms\"/> Meet <phoneme alphabet=\"ipa\" ph=\"ˈeɭʊt̪ːʊ\">Ezhuthu</phoneme>: in Tamil, 'letter'.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a2-07-title.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a2-07-title.polly.mp3",
+      "captions": [
+        {
+          "text": "So I built an apprentice.",
+          "start_s": 40.4,
+          "end_s": 43.262
+        },
+        {
+          "text": "Meet Ezhuthu: in Tamil, 'letter'.",
+          "start_s": 43.262,
+          "end_s": 46.55
+        }
+      ]
+    },
+    {
+      "id": "a2-08-hero-read",
+      "act": "2-solution",
+      "scene_start_s": 47.0,
+      "scene_end_s": 60.0,
+      "vo_in_s": 47.3,
+      "vo_window_s": 12.45,
+      "vo_out_s": 59.232,
+      "offset_s": 47.3,
+      "duration_s": 11.932,
+      "margin_s": 0.518,
+      "fits": true,
+      "rate": "100%",
+      "sentence_breaks_ms": 0,
+      "wpm": 150.9,
+      "text": "On a Chola-period stone from Thanjavur, it reads the letters, the words, then the meaning. Stones like it record gifts to temples, lamps to burn forever, land and water.",
+      "variant": 1,
+      "text_changed": true,
+      "narration_v1": "On a real Chola-period stone from Thanjavur, it reads forty-six carved letters, each with its own confidence, then the words, a phrase in today's Tamil, and its meaning.",
+      "ssml": "<speak><prosody rate=\"100%\">On a Chola period stone from Thanjavur, it reads the letters, the words, then the meaning. Stones like it record gifts to temples, lamps to burn forever, land and water.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a2-08-hero-read.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a2-08-hero-read.polly.mp3",
+      "captions": [
+        {
+          "text": "On a Chola-period stone from Thanjavur,",
+          "start_s": 47.3,
+          "end_s": 49.958
+        },
+        {
+          "text": "it reads the letters, the words, then the meaning.",
+          "start_s": 49.958,
+          "end_s": 53.521
+        },
+        {
+          "text": "Stones like it record gifts to temples, lamps to burn forever, land and water.",
+          "start_s": 53.521,
+          "end_s": 59.532
+        }
+      ]
+    },
+    {
+      "id": "a2-09-practice",
+      "act": "2-solution",
+      "scene_start_s": 60.0,
+      "scene_end_s": 70.0,
+      "vo_in_s": 60.3,
+      "vo_window_s": 9.45,
+      "vo_out_s": 69.319,
+      "offset_s": 60.3,
+      "duration_s": 9.019,
+      "margin_s": 0.431,
+      "fits": true,
+      "rate": "95%",
+      "sentence_breaks_ms": 0,
+      "wpm": 93.1,
+      "text": "Practice turns real inscriptions into 1,469 drills: letters, words, gaps and formulas. Tamil first.",
+      "variant": 0,
+      "text_changed": false,
+      "narration_v1": "Practice turns real inscriptions into 1,469 drills: letters, words, gaps and formulas. Tamil first.",
+      "ssml": "<speak><prosody rate=\"95%\">Practice turns real inscriptions into 1,469 drills: letters, words, gaps and formulas. Tamil first.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a2-09-practice.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a2-09-practice.polly.mp3",
+      "captions": [
+        {
+          "text": "Practice turns real inscriptions into 1,469 drills:",
+          "start_s": 60.3,
+          "end_s": 65.229
+        },
+        {
+          "text": "letters, words, gaps and formulas.",
+          "start_s": 65.229,
+          "end_s": 68.336
+        },
+        {
+          "text": "Tamil first.",
+          "start_s": 68.336,
+          "end_s": 69.619
+        }
+      ]
+    },
+    {
+      "id": "a2-10-restore-fill",
+      "act": "2-solution",
+      "scene_start_s": 70.0,
+      "scene_end_s": 80.5,
+      "vo_in_s": 70.3,
+      "vo_window_s": 9.95,
+      "vo_out_s": 79.888,
+      "offset_s": 70.3,
+      "duration_s": 9.588,
+      "margin_s": 0.362,
+      "fits": true,
+      "rate": "95%",
+      "sentence_breaks_ms": 350,
+      "wpm": 137.7,
+      "text": "Restore proposes the worn-away letters. In our recorded gallery run, it filled four gaps of ten; all four match the editors' restoration.",
+      "variant": 0,
+      "text_changed": false,
+      "narration_v1": "Restore proposes the worn-away letters. In our recorded gallery run, it filled four gaps of ten; all four match the editors' restoration.",
+      "ssml": "<speak><prosody rate=\"95%\">Restore proposes the worn-away letters. <break time=\"350ms\"/> In our recorded gallery run, it filled four gaps of ten; all four match the editors' restoration.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a2-10-restore-fill.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a2-10-restore-fill.polly.mp3",
+      "captions": [
+        {
+          "text": "Restore proposes the worn-away letters.",
+          "start_s": 70.3,
+          "end_s": 73.25
+        },
+        {
+          "text": "In our recorded gallery run, it filled four gaps of ten;",
+          "start_s": 73.25,
+          "end_s": 77.311
+        },
+        {
+          "text": "all four match the editors' restoration.",
+          "start_s": 77.311,
+          "end_s": 80.188
+        }
+      ]
+    },
+    {
+      "id": "a2-11-restore-open",
+      "act": "2-solution",
+      "scene_start_s": 80.5,
+      "scene_end_s": 90.0,
+      "vo_in_s": 80.8,
+      "vo_window_s": 8.95,
+      "vo_out_s": 89.062,
+      "offset_s": 80.8,
+      "duration_s": 8.262,
+      "margin_s": 0.688,
+      "fits": true,
+      "rate": "95%",
+      "sentence_breaks_ms": 350,
+      "wpm": 145.2,
+      "text": "Where it is unsure, it leaves the gap open. And that doubt becomes the lesson: experts are unsure here too.",
+      "variant": 0,
+      "text_changed": false,
+      "narration_v1": "Where it is unsure, it leaves the gap open. And that doubt becomes the lesson: experts are unsure here too.",
+      "ssml": "<speak><prosody rate=\"95%\">Where it is unsure, it leaves the gap open. <break time=\"350ms\"/> And that doubt becomes the lesson: experts are unsure here too.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a2-11-restore-open.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a2-11-restore-open.polly.mp3",
+      "captions": [
+        {
+          "text": "Where it is unsure, it leaves the gap open.",
+          "start_s": 80.8,
+          "end_s": 84.229
+        },
+        {
+          "text": "And that doubt becomes the lesson: experts are unsure here too.",
+          "start_s": 84.229,
+          "end_s": 89.362
+        }
+      ]
+    },
+    {
+      "id": "a3-12-under-the-hood",
+      "act": "3-implementation",
+      "scene_start_s": 90.0,
+      "scene_end_s": 96.0,
+      "vo_in_s": 90.3,
+      "vo_window_s": 5.45,
+      "vo_out_s": 95.022,
+      "offset_s": 90.3,
+      "duration_s": 4.722,
+      "margin_s": 0.728,
+      "fits": true,
+      "rate": "90%",
+      "sentence_breaks_ms": 350,
+      "wpm": 127.1,
+      "text": "Six agents, built with Strands Agents, pass the stone along.",
+      "variant": 0,
+      "text_changed": false,
+      "narration_v1": "Six agents, built with Strands Agents, pass the stone along.",
+      "ssml": "<speak><prosody rate=\"90%\">Six agents, built with Strands Agents, pass the stone along.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a3-12-under-the-hood.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a3-12-under-the-hood.polly.mp3",
+      "captions": [
+        {
+          "text": "Six agents, built with Strands Agents, pass the stone along.",
+          "start_s": 90.3,
+          "end_s": 95.322
+        }
+      ]
+    },
+    {
+      "id": "a3-13-reader-restorer",
+      "act": "3-implementation",
+      "scene_start_s": 96.0,
+      "scene_end_s": 108.0,
+      "vo_in_s": 96.3,
+      "vo_window_s": 11.45,
+      "vo_out_s": 107.266,
+      "offset_s": 96.3,
+      "duration_s": 10.966,
+      "margin_s": 0.484,
+      "fits": true,
+      "rate": "95%",
+      "sentence_breaks_ms": 0,
+      "wpm": 142.3,
+      "text": "The Reader turns photos into letters. The Restorer checks parallels and a 5-gram model, then asks Claude on Amazon Bedrock: Sonnet first, Opus when it matters.",
+      "variant": 0,
+      "text_changed": false,
+      "narration_v1": "The Reader turns photos into letters. The Restorer checks parallels and a 5-gram model, then asks Claude on Amazon Bedrock: Sonnet first, Opus when it matters.",
+      "ssml": "<speak><prosody rate=\"95%\">The Reader turns photos into letters. The Restorer checks parallels and a <sub alias=\"five-gram\">5-gram</sub> model, then asks Claude on Amazon Bedrock: Sonnet first, Opus when it matters.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a3-13-reader-restorer.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a3-13-reader-restorer.polly.mp3",
+      "captions": [
+        {
+          "text": "The Reader turns photos into letters.",
+          "start_s": 96.3,
+          "end_s": 98.66
+        },
+        {
+          "text": "The Restorer checks parallels and a 5-gram model,",
+          "start_s": 98.66,
+          "end_s": 102.081
+        },
+        {
+          "text": "then asks Claude on Amazon Bedrock: Sonnet first, Opus when it matters.",
+          "start_s": 102.081,
+          "end_s": 107.566
+        }
+      ]
+    },
+    {
+      "id": "a3-14-confidence",
+      "act": "3-implementation",
+      "scene_start_s": 108.0,
+      "scene_end_s": 114.0,
+      "vo_in_s": 108.3,
+      "vo_window_s": 5.45,
+      "vo_out_s": 113.363,
+      "offset_s": 108.3,
+      "duration_s": 5.063,
+      "margin_s": 0.387,
+      "fits": true,
+      "rate": "90%",
+      "sentence_breaks_ms": 350,
+      "wpm": 142.2,
+      "text": "Then a calibrated confidence check decides: fill it, or leave it open.",
+      "variant": 0,
+      "text_changed": false,
+      "narration_v1": "Then a calibrated confidence check decides: fill it, or leave it open.",
+      "ssml": "<speak><prosody rate=\"90%\">Then a calibrated confidence check decides: fill it, or leave it open.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a3-14-confidence.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a3-14-confidence.polly.mp3",
+      "captions": [
+        {
+          "text": "Then a calibrated confidence check decides: fill it, or leave it open.",
+          "start_s": 108.3,
+          "end_s": 113.663
+        }
+      ]
+    },
+    {
+      "id": "a3-15-interpreter-tutor",
+      "act": "3-implementation",
+      "scene_start_s": 114.0,
+      "scene_end_s": 123.0,
+      "vo_in_s": 114.3,
+      "vo_window_s": 8.45,
+      "vo_out_s": 121.991,
+      "offset_s": 114.3,
+      "duration_s": 7.691,
+      "margin_s": 0.759,
+      "fits": true,
+      "rate": "95%",
+      "sentence_breaks_ms": 0,
+      "wpm": 156.0,
+      "text": "The Interpreter turns letters into meaning. A Strands Graph runs every lesson, with a Swarm of Tutor and Assessor inside.",
+      "variant": 0,
+      "text_changed": false,
+      "narration_v1": "The Interpreter turns letters into meaning. A Strands Graph runs every lesson, with a Swarm of Tutor and Assessor inside.",
+      "ssml": "<speak><prosody rate=\"95%\">The Interpreter turns letters into meaning. A Strands Graph runs every lesson, with a Swarm of Tutor and Assessor inside.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a3-15-interpreter-tutor.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a3-15-interpreter-tutor.polly.mp3",
+      "captions": [
+        {
+          "text": "The Interpreter turns letters into meaning.",
+          "start_s": 114.3,
+          "end_s": 116.823
+        },
+        {
+          "text": "A Strands Graph runs every lesson, with a Swarm of Tutor and Assessor inside.",
+          "start_s": 116.823,
+          "end_s": 122.291
+        }
+      ]
+    },
+    {
+      "id": "a3-16-ontology",
+      "act": "3-implementation",
+      "scene_start_s": 123.0,
+      "scene_end_s": 130.0,
+      "vo_in_s": 123.3,
+      "vo_window_s": 6.45,
+      "vo_out_s": 128.916,
+      "offset_s": 123.3,
+      "duration_s": 5.616,
+      "margin_s": 0.834,
+      "fits": true,
+      "rate": "95%",
+      "sentence_breaks_ms": 350,
+      "wpm": 149.6,
+      "text": "Agents look up kings, temples and formulas in a custom Tamil ontology over MCP.",
+      "variant": 0,
+      "text_changed": false,
+      "narration_v1": "Agents look up kings, temples and formulas in a custom Tamil ontology over MCP.",
+      "ssml": "<speak><prosody rate=\"95%\">Agents look up kings, temples and formulas in a custom Tamil ontology over <say-as interpret-as=\"characters\">MCP</say-as>.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a3-16-ontology.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a3-16-ontology.polly.mp3",
+      "captions": [
+        {
+          "text": "Agents look up kings, temples and formulas in a custom Tamil ontology over MCP.",
+          "start_s": 123.3,
+          "end_s": 129.216
+        }
+      ]
+    },
+    {
+      "id": "a3-17-finetuned",
+      "act": "3-implementation",
+      "scene_start_s": 130.0,
+      "scene_end_s": 139.0,
+      "vo_in_s": 130.3,
+      "vo_window_s": 8.45,
+      "vo_out_s": 137.909,
+      "offset_s": 130.3,
+      "duration_s": 7.609,
+      "margin_s": 0.841,
+      "fits": true,
+      "rate": "95%",
+      "sentence_breaks_ms": 350,
+      "wpm": 126.2,
+      "text": "We fine-tuned Strands decision models for Tamil: train stones only, a pre-registered pick, one held-out test.",
+      "variant": 0,
+      "text_changed": false,
+      "narration_v1": "We fine-tuned Strands decision models for Tamil: train stones only, a pre-registered pick, one held-out test.",
+      "ssml": "<speak><prosody rate=\"95%\">We fine-tuned Strands decision models for Tamil: train stones only, a pre-registered pick, one held-out test.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a3-17-finetuned.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a3-17-finetuned.polly.mp3",
+      "captions": [
+        {
+          "text": "We fine-tuned Strands decision models for Tamil:",
+          "start_s": 130.3,
+          "end_s": 133.439
+        },
+        {
+          "text": "train stones only, a pre-registered pick, one held-out test.",
+          "start_s": 133.439,
+          "end_s": 138.209
+        }
+      ]
+    },
+    {
+      "id": "a3-18-agentcore",
+      "act": "3-implementation",
+      "scene_start_s": 139.0,
+      "scene_end_s": 145.0,
+      "vo_in_s": 139.3,
+      "vo_window_s": 5.45,
+      "vo_out_s": 144.345,
+      "offset_s": 139.3,
+      "duration_s": 5.045,
+      "margin_s": 0.405,
+      "fits": true,
+      "rate": "90%",
+      "sentence_breaks_ms": 350,
+      "wpm": 130.8,
+      "text": "The live app runs on Amazon Bedrock AgentCore, serverless, as code.",
+      "variant": 0,
+      "text_changed": false,
+      "narration_v1": "The live app runs on Amazon Bedrock AgentCore, serverless, as code.",
+      "ssml": "<speak><prosody rate=\"90%\">The live app runs on Amazon Bedrock <sub alias=\"Agent Core\">AgentCore</sub>, serverless, as code.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a3-18-agentcore.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a3-18-agentcore.polly.mp3",
+      "captions": [
+        {
+          "text": "The live app runs on Amazon Bedrock AgentCore, serverless, as code.",
+          "start_s": 139.3,
+          "end_s": 144.645
+        }
+      ]
+    },
+    {
+      "id": "a4-19-who",
+      "act": "4-impact",
+      "scene_start_s": 145.0,
+      "scene_end_s": 156.0,
+      "vo_in_s": 145.3,
+      "vo_window_s": 10.45,
+      "vo_out_s": 154.327,
+      "offset_s": 145.3,
+      "duration_s": 9.027,
+      "margin_s": 1.423,
+      "fits": true,
+      "rate": "95%",
+      "sentence_breaks_ms": 0,
+      "wpm": 159.5,
+      "text": "Students practise on real stones. Temple visitors point a phone at Tamil text. And what it cannot settle goes to an epigraphist's review queue.",
+      "variant": 0,
+      "text_changed": false,
+      "narration_v1": "Students practise on real stones. Temple visitors point a phone at Tamil text. And what it cannot settle goes to an epigraphist's review queue.",
+      "ssml": "<speak><prosody rate=\"95%\">Students practise on real stones. Temple visitors point a phone at Tamil text. And what it cannot settle goes to an epigraphist's review queue.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a4-19-who.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a4-19-who.polly.mp3",
+      "captions": [
+        {
+          "text": "Students practise on real stones.",
+          "start_s": 145.3,
+          "end_s": 147.577
+        },
+        {
+          "text": "Temple visitors point a phone at Tamil text.",
+          "start_s": 147.577,
+          "end_s": 150.649
+        },
+        {
+          "text": "And what it cannot settle goes to an epigraphist's review queue.",
+          "start_s": 150.649,
+          "end_s": 154.627
+        }
+      ]
+    },
+    {
+      "id": "a4-20-proof",
+      "act": "4-impact",
+      "scene_start_s": 156.0,
+      "scene_end_s": 165.0,
+      "vo_in_s": 157.5,
+      "vo_window_s": 7.25,
+      "vo_out_s": 164.256,
+      "offset_s": 157.5,
+      "duration_s": 6.756,
+      "margin_s": 0.494,
+      "fits": true,
+      "rate": "90%",
+      "sentence_breaks_ms": 350,
+      "wpm": 97.7,
+      "text": "On 413 held-out test gaps, 62.7% match the editors' restoration.",
+      "variant": 0,
+      "text_changed": false,
+      "narration_v1": "On 413 held-out test gaps, 62.7% match the editors' restoration.",
+      "ssml": "<speak><prosody rate=\"90%\">On 413 held-out test gaps, 62.7 percent match the editors' restoration.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a4-20-proof.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a4-20-proof.polly.mp3",
+      "captions": [
+        {
+          "text": "On 413 held-out test gaps, 62.7% match the editors' restoration.",
+          "start_s": 157.5,
+          "end_s": 164.556
+        }
+      ]
+    },
+    {
+      "id": "a4-21-knows",
+      "act": "4-impact",
+      "scene_start_s": 165.0,
+      "scene_end_s": 172.0,
+      "vo_in_s": 165.3,
+      "vo_window_s": 6.45,
+      "vo_out_s": 171.406,
+      "offset_s": 165.3,
+      "duration_s": 6.106,
+      "margin_s": 0.344,
+      "fits": true,
+      "rate": "90%",
+      "sentence_breaks_ms": 350,
+      "wpm": 147.4,
+      "text": "When it commits, nine in ten fills match. When it doesn't know, it says so.",
+      "variant": 0,
+      "text_changed": false,
+      "narration_v1": "When it commits, nine in ten fills match. When it doesn't know, it says so.",
+      "ssml": "<speak><prosody rate=\"90%\">When it commits, nine in ten fills match. <break time=\"350ms\"/> When it doesn't know, it says so.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a4-21-knows.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/a4-21-knows.polly.mp3",
+      "captions": [
+        {
+          "text": "When it commits, nine in ten fills match.",
+          "start_s": 165.3,
+          "end_s": 168.601
+        },
+        {
+          "text": "When it doesn't know, it says so.",
+          "start_s": 168.601,
+          "end_s": 171.706
+        }
+      ]
+    },
+    {
+      "id": "c-22-close",
+      "act": "close",
+      "scene_start_s": 172.0,
+      "scene_end_s": 180.0,
+      "vo_in_s": 172.4,
+      "vo_window_s": 7.35,
+      "vo_out_s": 178.752,
+      "offset_s": 172.4,
+      "duration_s": 6.352,
+      "margin_s": 0.998,
+      "fits": true,
+      "rate": "95%",
+      "sentence_breaks_ms": 0,
+      "wpm": 141.7,
+      "text": "Ezhuthu. Let the stones speak again. Learn to read the stone. Help read the backlog.",
+      "variant": 0,
+      "text_changed": true,
+      "narration_v1": "Ezhuthu. Learn to read the stone. Help read the backlog.",
+      "ssml": "<speak><prosody rate=\"95%\"><phoneme alphabet=\"ipa\" ph=\"ˈeɭʊt̪ːʊ\">Ezhuthu</phoneme>. Let the stones speak again. Learn to <phoneme alphabet=\"ipa\" ph=\"ɹiːd\">read</phoneme> the stone. Help <phoneme alphabet=\"ipa\" ph=\"ɹiːd\">read</phoneme> the backlog.</prosody></speak>",
+      "file": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/c-22-close.wav",
+      "polly_mp3": "/Users/vivekrajaps/tamil-script/ezhuthu-video/audio-v2/vo/Arjun-generative/c-22-close.polly.mp3",
+      "captions": [
+        {
+          "text": "Ezhuthu. Let the stones speak again.",
+          "start_s": 172.4,
+          "end_s": 175.298
+        },
+        {
+          "text": "Learn to read the stone.",
+          "start_s": 175.298,
+          "end_s": 177.123
+        },
+        {
+          "text": "Help read the backlog.",
+          "start_s": 177.123,
+          "end_s": 179.052
+        }
+      ]
+    }
+  ]
+}

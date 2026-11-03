@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>p2-00-cover</title>
+<style>/* Shared styles for the blog figures. Colours from design/tokens/tokens.css, fonts from @fontsource (SIL OFL 1.1). */
+@font-face { font-family: 'Fraunces'; font-weight: 600; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-600-normal.woff2'); }
+@font-face { font-family: 'Fraunces'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-700-normal.woff2'); }
+@font-face { font-family: 'Fraunces'; font-weight: 800; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-800-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 400; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-400-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 600; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-600-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-700-normal.woff2'); }
+@font-face { font-family: 'Noto Sans Tamil'; font-weight: 400; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-sans-tamil/files/noto-sans-tamil-tamil-400-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Sans Tamil'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-sans-tamil/files/noto-sans-tamil-tamil-700-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Tamil'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-serif-tamil/files/noto-serif-tamil-tamil-700-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Tamil'; font-weight: 800; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-serif-tamil/files/noto-serif-tamil-tamil-800-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+
+:root {
+  --stone-50: #FBF8F1; --stone-100: #F4EEE2; --stone-200: #EAE1CE; --stone-300: #DACDB4; --stone-400: #BFAE8F;
+  --stone-500: #9A896C; --stone-600: #76674F; --stone-700: #564A3A;
+  --granite-950: #13100D; --granite-900: #1B1713; --granite-850: #231E18; --granite-800: #2D261F; --granite-700: #40362B;
+  --palm-100: #F5EACB; --palm-300: #DCC07D; --palm-500: #B28C42;
+  --lat-100: #F7E0D5; --lat-300: #EBA07F; --lat-400: #D9764F; --lat-500: #B5502F; --lat-600: #9B3D22; --lat-700: #7E2F19;
+  --ink: #1D1611; --ink-700: #3B2F25;
+  --lamp-200: #FBDFA6; --lamp-300: #F5C468; --lamp-400: #EAA43A; --lamp-500: #D2891C; --lamp-700: #8A5508;
+  --neem-100: #DEEBD7; --neem-300: #93D09C; --neem-700: #2C6534;
+  --neelam-100: #E3E5F4; --neelam-300: #AEB8EC; --neelam-700: #3B4787;
+  --serif: 'Fraunces', 'Noto Serif Tamil', Georgia, serif;
+  --sans: 'Instrument Sans', 'Noto Sans Tamil', system-ui, sans-serif;
+  --mono: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #fff; }
+body { font-family: var(--sans); color: var(--ink); -webkit-font-smoothing: antialiased; }
+#fig { position: relative; overflow: hidden; width: 1600px; }
+#fig.light { background: var(--stone-100); color: var(--ink); }
+#fig.dark { background: radial-gradient(120% 90% at 85% 0%, #3a2414 0%, var(--granite-900) 45%, var(--granite-950) 100%); color: #F3EADA; }
+
+.fh { padding: 56px 72px 0; }
+.kicker { font: 700 17px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--lat-600); }
+.dark .kicker { color: var(--lamp-300); }
+.fh h1 { font: 800 50px/1.08 var(--serif); margin-top: 16px; letter-spacing: -.01em; max-width: 1400px; }
+.fh h1 em { font-style: normal; color: var(--lat-600); }
+.dark .fh h1 em { color: var(--lamp-400); }
+.fh .dek { font: 400 22px/1.45 var(--sans); color: var(--stone-700); margin-top: 14px; max-width: 1300px; }
+.dark .fh .dek { color: #C9BBA3; }
+
+.ff { position: absolute; left: 72px; right: 72px; bottom: 30px; display: flex; align-items: center; justify-content: space-between; gap: 32px;
+      font: 400 15px/1.35 var(--sans); color: var(--stone-600); }
+.dark .ff { color: #A8997F; }
+.ff img { height: 34px; }
+.ff .src { text-align: right; max-width: 1250px; }
+.mono { font-family: var(--mono); }
+.ta { font-family: 'Noto Sans Tamil', var(--sans); }
+
+</style></head><body><div id="fig" class="dark" style="width:1200px;height:675px;"><div style="position:absolute;inset:0;background:radial-gradient(70% 90% at 55% 45%,#3a2414 0%,#1B1713 55%,#13100D 100%)"></div>
+<svg width="1200" height="675" style="position:absolute;inset:0"><defs><filter id="g2"><feGaussianBlur stdDeviation="9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.4" fill="#40362B"/></pattern></defs>
+<rect width="1200" height="675" fill="url(#dots)"/><g filter="url(#g2)"><line x1="170" y1="340" x2="390" y2="200" stroke="#EAA43A" stroke-width="5"/><line x1="170" y1="340" x2="390" y2="480" stroke="#5A4D3E" stroke-width="3"/><line x1="390" y1="200" x2="620" y2="340" stroke="#EAA43A" stroke-width="5"/><line x1="390" y1="480" x2="620" y2="340" stroke="#5A4D3E" stroke-width="3"/><line x1="620" y1="340" x2="840" y2="200" stroke="#EAA43A" stroke-width="5"/><line x1="620" y1="340" x2="840" y2="480" stroke="#5A4D3E" stroke-width="3"/><line x1="840" y1="200" x2="1040" y2="340" stroke="#EAA43A" stroke-width="5"/><line x1="840" y1="480" x2="1040" y2="340" stroke="#5A4D3E" stroke-width="3"/><line x1="390" y1="200" x2="620" y2="110" stroke="#5A4D3E" stroke-width="3"/><line x1="620" y1="110" x2="840" y2="200" stroke="#5A4D3E" stroke-width="3"/><line x1="390" y1="480" x2="620" y2="570" stroke="#5A4D3E" stroke-width="3"/><line x1="620" y1="570" x2="840" y2="480" stroke="#5A4D3E" stroke-width="3"/><line x1="840" y1="200" x2="840" y2="480" stroke="#5A4D3E" stroke-width="3"/><circle cx="170" cy="340" r="34" fill="#231E18" stroke="#F5C468" stroke-width="5"/><circle cx="170" cy="340" r="14" fill="#F5C468"/><circle cx="390" cy="200" r="34" fill="#231E18" stroke="#F5C468" stroke-width="5"/><circle cx="390" cy="200" r="14" fill="#F5C468"/><circle cx="390" cy="480" r="34" fill="#231E18" stroke="#76674F" stroke-width="3"/><circle cx="620" cy="340" r="46" fill="#231E18" stroke="#F5C468" stroke-width="5"/><circle cx="620" cy="340" r="20" fill="#F5C468"/><circle cx="840" cy="200" r="34" fill="#231E18" stroke="#F5C468" stroke-width="5"/><circle cx="840" cy="200" r="14" fill="#F5C468"/><circle cx="840" cy="480" r="34" fill="#231E18" stroke="#76674F" stroke-width="3"/><circle cx="1040" cy="340" r="34" fill="#231E18" stroke="#F5C468" stroke-width="5"/><circle cx="1040" cy="340" r="14" fill="#F5C468"/><circle cx="620" cy="110" r="34" fill="#231E18" stroke="#76674F" stroke-width="3"/><circle cx="620" cy="570" r="34" fill="#231E18" stroke="#76674F" stroke-width="3"/><path d="M620 300 L655 362 L585 362 Z" fill="#D2891C" opacity=".0"/></g></svg></div></body></html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>a2-08-hero-read</title>
+<link rel="stylesheet" href="/media/video/scenes/_lib/scene.css">
+<script src="/media/video/scenes/_lib/timeline.js"></script>
+<script src="/media/video/scenes/_lib/kit.js"></script>
+<style>
+  #V { position: absolute; inset: 0; overflow: hidden; background: #16120E; }
+  #flash { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(251,223,166,.55), rgba(234,164,58,.15)); mix-blend-mode: screen; pointer-events: none; z-index: 30; }
+  #topb { position: absolute; left: 0; right: 0; top: 0; height: 100px; z-index: 35; background: #13100D; box-shadow: 0 8px 30px rgba(0,0,0,.5); }
+  #hcred { position: absolute; right: 64px; top: 38px; z-index: 40; font: 500 21px/1.2 var(--f-ui); color: var(--s300); }
+  #live { position: absolute; left: 64px; top: 22px; z-index: 40; display: flex; align-items: center; gap: 14px; padding: 12px 22px 12px 18px; border-radius: 999px;
+          background: rgba(19,16,13,.88); border: 1.5px solid rgba(234,164,58,.5); font: 600 24px/1 var(--f-ui); color: var(--s100); box-shadow: 0 10px 40px rgba(0,0,0,.5); }
+  #live i { width: 14px; height: 14px; border-radius: 50%; background: var(--kum300); box-shadow: 0 0 12px var(--kum300); display: block; }
+  #live span { font-family: var(--f-mono); font-weight: 500; font-size: 22px; color: var(--lamp300); }
+  .pop { position: absolute; z-index: 40; max-width: 660px; padding: 18px 26px; border-radius: 18px; background: rgba(27,23,19,.94);
+         border: 1.5px solid rgba(234,164,58,.55); box-shadow: 0 20px 60px rgba(0,0,0,.6), 0 0 40px rgba(234,164,58,.18);
+         font: 600 28px/1.3 var(--f-ui); color: var(--s50); }
+  .pop small { display: block; font: 500 22px/1.3 var(--f-ui); color: var(--s300); margin-top: 6px; }
+  .pop b { color: var(--lamp300); }
+  #p1 { left: 1180px; top: 660px; }
+  #p2 { left: 1180px; top: 660px; }
+  #p2 b { color: var(--neelam300); }
+  #p3 { left: 120px; top: 150px; }
+</style></head>
+<body><div id="stage">
+  <div id="V"></div>
+  <div id="flash"></div>
+  <div id="topb"></div>
+  <div id="hcred">Photo: Richard Mortel, CC BY 2.0, via Wikimedia Commons (cropped) · reading by Ezhuthu</div>
+  <div id="live"><i></i>Live<span>d3jz2k92ne5puo.cloudfront.net</span></div>
+  <div class="pop" id="p1"><b>46</b> carved letters, each with the model's own probability<small>self-reported, not a measured accuracy</small></div>
+  <div class="pop" id="p2">The least certain letter: <b>left open (?)</b><small>0.45, sent to Restore; not sure enough to fill</small></div>
+  <div class="pop" id="p3">Meaning by Ezhuthu<small>confidence 0.30</small></div>
+</div>
+<script>
+const { p, E, $, css, clamp } = EZ;
+const v = KIT.clip($('#V'), 'home-hero', 'vclip');
+const g = KIT.grain(null, 0.06);
+const OFF = 2.5; // clip starts at source 2.5 s
+// edit decision list: [scene start, scene end, source in, speed]
+const EDL = [[0, 6, 3.0, 1.0], [6, 9, 10.5, 1.5], [9, 13, 19.5, 1.0]];
+const src = (t) => { for (const [a, b, s, k] of EDL) if (t < b) return s + (t - a) * k; const [a, , s, k] = EDL[EDL.length - 1]; return s + (t - a) * k; };
+window.SCENE = {
+  duration: 13.0,
+  async render(t) {
+    g(t);
+    // frame the hero panel only: source x 200-1720, y 108-960 (legend row fully in, nav, "Pause animation" / "Replay"
+    // and the page's own credit line out; our credit sits in the top band). 1.15x with a slow 1.03x push.
+    const S = 1.15 * (1 + 0.03 * E.inOut(t / 13));
+    const ax = 960, ay = 534, X = 960, Y = 590; // source anchor -> screen anchor
+    v.style.transform = `translate(${X - ax * S}px, ${Y - ay * S}px) scale(${S})`;
+    await KIT.seek(v, src(t) - OFF);
+    const f = Math.max(1 - Math.abs(t - 6) / 0.15, 1 - Math.abs(t - 9) / 0.15, 0);
+    css($('#flash'), { opacity: clamp(f) * 0.7 });
+    css($('#live'), { opacity: p(t, 0.2, 0.5) }); css($('#hcred'), { opacity: p(t, 0.3, 0.5) });
+    const pop = (id, a, b) => { const k = Math.min(p(t, a, 0.4, E.outBack), 1 - p(t, b, 0.3)); css($(id), { opacity: clamp(k), transform: `translateY(${(1 - clamp(k)) * 16}px) scale(${0.96 + 0.04 * clamp(k)})` }); };
+    pop('#p1', 1.0, 5.6); pop('#p2', 6.6, 8.8); pop('#p3', 10.0, 13.5);
+  },
+};
+</script></body></html>

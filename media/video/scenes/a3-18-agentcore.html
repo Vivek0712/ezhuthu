@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>a3-18-agentcore</title>
+<link rel="stylesheet" href="/media/video/scenes/_lib/scene.css">
+<script src="/media/video/scenes/_lib/timeline.js"></script>
+<script src="/media/video/scenes/_lib/kit.js"></script>
+<style>
+  #hdr { position: absolute; left: 96px; top: 60px; }
+  #hdr .eyebrow { display: block; margin-bottom: 10px; }
+  #hdr .h1 { position: static; font-size: 62px; }
+  #hdr .h1 b { color: var(--lamp300); font-weight: 600; }
+  #hdr .h2 { position: static; margin-top: 10px; }
+  #net { position: absolute; inset: 0; }
+  .svc { position: absolute; top: 440px; height: 170px; padding: 20px 20px; border-radius: 22px; background: linear-gradient(180deg, #2D261F, #231E18); border: 2px solid rgba(218,205,180,.25);
+         box-shadow: 0 18px 50px rgba(0,0,0,.5); display: flex; flex-direction: column; justify-content: center; }
+  .svc .t { font: 600 27px/1.15 var(--f-ui); color: var(--s50); }
+  .svc .d { font: 500 19px/1.3 var(--f-ui); color: var(--s300); margin-top: 8px; }
+  .svc.lit { border-color: var(--lamp300); box-shadow: 0 18px 50px rgba(0,0,0,.5), 0 0 50px rgba(245,196,104,.5); }
+  #ac { border-color: rgba(234,164,58,.7); }
+  #ac .mini { display: flex; gap: 6px; margin-top: 12px; }
+  #ac .mini i { flex: 1; height: 10px; border-radius: 5px; background: var(--lamp400); opacity: .75; display: block; }
+  .sub { position: absolute; top: 700px; padding: 14px 18px; border-radius: 16px; background: #231E18; border: 1.5px dashed rgba(218,205,180,.3); font: 600 22px/1.2 var(--f-ui); color: var(--s200); }
+  .sub small { display: block; font: 500 17px/1.2 var(--f-ui); color: var(--s400); margin-top: 4px; }
+  #phone { position: absolute; left: 100px; top: 430px; width: 120px; height: 200px; border-radius: 22px; border: 3px solid var(--s300); background: #1B1713; }
+  #phone::after { content: ''; position: absolute; left: 50%; top: 8px; width: 34px; height: 6px; margin-left: -17px; border-radius: 3px; background: var(--s500); }
+  #phone .ta { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font: 700 56px/1 var(--f-ta-display); color: var(--lamp300); }
+  #ring { position: absolute; left: 30px; top: 400px; width: 260px; height: 260px; }
+  #ringl { position: absolute; left: 30px; top: 672px; width: 260px; text-align: center; font: 600 21px/1.2 var(--f-ui); color: var(--s200); }
+  #dimx { position: absolute; inset: 0; z-index: 40; background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(19,16,13,.82), rgba(19,16,13,.95)); }
+  #ph2 { position: absolute; left: 50%; top: 50%; z-index: 41; width: 400px; height: 820px; margin: -410px 0 0 -200px; border-radius: 54px; border: 10px solid #2D261F;
+         background: #13100D; overflow: hidden; box-shadow: 0 0 0 2px rgba(218,205,180,.35), 0 40px 120px rgba(0,0,0,.8), 0 0 80px rgba(147,208,156,.25); }
+  #ph2 video { position: absolute; left: 0; top: 0; width: 380px; height: 800px; object-fit: cover; object-position: 50% 0; }
+  #ph2l { position: absolute; z-index: 42; left: 1210px; top: 470px; width: 560px; font: 600 40px/1.15 var(--f-display); color: var(--s50); }
+  #ph2l small { display: block; margin-top: 12px; font: 500 26px/1.3 var(--f-mono); color: var(--neem300); }
+  #chips { position: absolute; left: 96px; top: 900px; display: flex; gap: 16px; }
+  #chips .chip b { color: var(--lamp300); }
+</style></head>
+<body><div id="stage">
+  <div class="stage-bg"><div class="dotgrid" style="opacity:.3"></div></div>
+  <div id="hdr"><span class="eyebrow">In the cloud</span><div class="h1">Runs on <b>Amazon Bedrock AgentCore</b></div><div class="h2">serverless, and defined as code</div></div>
+  <svg id="net" viewBox="0 0 1920 1080">
+    <path id="fw" class="edge" d="M 222 525 L 1840 525"/>
+    <path id="bk" d="M 1560 612 C 1500 650, 1300 656, 1100 656 L 400 656 C 300 656, 250 652, 215 640" fill="none" stroke="rgba(147,208,156,.7)" stroke-width="3" stroke-dasharray="8 8"/>
+    <circle id="pk" r="11" class="pkt"/><circle id="pb" r="10" class="pkt" style="fill:#93D09C;filter:drop-shadow(0 0 10px #93D09C)"/>
+  </svg>
+  <div id="phone"><div class="ta">எ</div></div>
+  <svg id="ring" viewBox="0 0 260 260"><circle cx="130" cy="130" r="122" fill="none" stroke="#2D261F" stroke-width="8"/><circle id="ra" cx="130" cy="130" r="122" fill="none" stroke="#EAA43A" stroke-width="8" stroke-linecap="round" transform="rotate(-90 130 130)"/></svg>
+  <div id="ringl">inside a 25 s budget</div>
+  <div class="svc" id="s1" style="left:320px;width:220px"><div class="t">CloudFront</div><div class="d">private S3 web app</div></div>
+  <div class="svc" id="s2" style="left:575px;width:245px"><div class="t">API Gateway</div><div class="d">HTTP API + JWT</div></div>
+  <div class="svc" id="s3" style="left:850px;width:240px"><div class="t">Lambda proxy</div><div class="d">Node 22</div></div>
+  <div class="svc" id="ac" style="left:1130px;width:400px"><div class="t">AgentCore Runtime</div><div class="d"><span style="font-family:var(--f-mono);color:var(--lamp200)">ezhuthu_tutor</span> · Python 3.12 · arm64<br>six agents + ontology MCP inside</div>
+    <div class="mini"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+  <div class="svc" id="s5" style="left:1570px;width:290px"><div class="t">Amazon Bedrock</div><div class="d">Claude Sonnet 4.6<br>Claude Opus 4.6</div></div>
+  <div class="sub" id="cg" style="left:575px">Amazon Cognito<small>sign-in, experts group</small></div>
+  <div class="sub" id="dd" style="left:850px;top:770px">Amazon DynamoDB<small>on demand, point-in-time recovery</small></div>
+  <div id="chips"><span class="chip"><b>5</b> CDK stacks</span><span class="chip">Cognito</span><span class="chip">DynamoDB</span><span class="chip">ontology MCP inside the bundle</span></div>
+  <div id="dimx"></div>
+  <div id="ph2"></div>
+  <div id="ph2l">The live app, on a phone<small>d3jz2k92ne5puo.cloudfront.net</small></div>
+</div>
+<script>
+const { p, E, $, $$, css, clamp } = EZ;
+const g = KIT.grain(null, 0.05);
+const fw = $('#fw'), bk = $('#bk'); let LF = 0, LB = 0;
+const C = 2 * Math.PI * 122;
+const svc = ['#s1', '#s2', '#s3', '#ac', '#s5'], XS = [430, 697, 970, 1330, 1715];
+const mv = KIT.clip($('#ph2'), 'practice-mobile');
+window.SCENE = {
+  duration: 6.0,
+  prepare() { LF = fw.getTotalLength(); LB = bk.getTotalLength(); fw.style.strokeDasharray = LF; bk.style.strokeDasharray = `8 8`; },
+  async render(t) {
+    g(t);
+    const h = p(t, 0, 0.5); css($('#hdr'), { opacity: h, transform: `translateY(${(1 - h) * 12}px)` });
+    css($('#phone'), { opacity: p(t, 0.1, 0.3) });
+    svc.forEach((id, i) => { const k = p(t, 0.2 + i * 0.12, 0.45, E.outBack); css($(id), { opacity: clamp(k), transform: `translateY(${(1 - clamp(k)) * 24}px)` }); });
+    css($('#cg'), { opacity: p(t, 0.9, 0.4) }); css($('#dd'), { opacity: p(t, 1.0, 0.4) });
+    fw.style.strokeDashoffset = LF * (1 - p(t, 0.6, 1.0, E.standard));
+    // a lit request travels out to Bedrock, then the answer comes back to the phone
+    const go = p(t, 1.2, 2.2, E.inOut);
+    const pt = fw.getPointAtLength(LF * go);
+    const pk = $('#pk'); pk.setAttribute('cx', pt.x); pk.setAttribute('cy', pt.y); pk.style.opacity = go > 0 && go < 1 ? 1 : 0;
+    svc.forEach((id, i) => $(id).classList.toggle('lit', go > 0 && Math.abs(pt.x - XS[i]) < 130));
+    const back = p(t, 3.5, 1.6, E.inOut);
+    const pb = bk.getPointAtLength(LB * back); const b = $('#pb'); b.setAttribute('cx', pb.x); b.setAttribute('cy', pb.y); b.style.opacity = back > 0 && back < 1 ? 1 : 0;
+    bk.style.opacity = p(t, 3.4, 0.3);
+    // 25 s ring around the phone fills while the request is out
+    $('#ra').style.strokeDasharray = `${C * clamp((t - 1.2) / 4.0) * 0.86} ${C}`;
+    css($('#ring'), { opacity: p(t, 1.1, 0.3) }); css($('#ringl'), { opacity: p(t, 1.3, 0.3) });
+    $('#phone').style.boxShadow = back >= 1 ? '0 0 50px rgba(147,208,156,.6)' : 'none';
+    $$('#ac .mini i').forEach((e, i) => { e.style.opacity = 0.35 + 0.65 * (go > 0.55 ? clamp(Math.sin((t * 4 - i * 0.5)) * 0.5 + 0.5) : 0.3); });
+    $$('#chips .chip').forEach((e, i) => { e.style.opacity = p(t, 3.2 + i * 0.12, 0.3); });
+    // end beat: the answer lands on a phone, and the phone becomes the live site (own capture, Tamil UI)
+    const z = p(t, 4.75, 0.55, E.standard);
+    css($('#dimx'), { opacity: z });
+    css($('#ph2'), { opacity: z, transform: `translate(${(1 - z) * -800}px, ${(1 - z) * 10}px) scale(${0.3 + 0.7 * z})` });
+    css($('#ph2l'), { opacity: p(t, 5.1, 0.35), transform: `translateX(${(1 - p(t, 5.1, 0.35)) * 20}px)` });
+    if (z > 0) await KIT.seek(mv, 0.4 + (t - 4.75) * 1.0);
+  },
+};
+</script></body></html>

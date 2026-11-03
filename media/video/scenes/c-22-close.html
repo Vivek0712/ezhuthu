@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>c-22-close</title>
+<link rel="stylesheet" href="/media/video/scenes/_lib/scene.css">
+<script src="/media/video/scenes/_lib/timeline.js"></script>
+<script src="/media/video/scenes/_lib/kit.js"></script>
+<style>
+  #A { position: absolute; inset: 0; }
+  #dk { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 70% at 50% 45%, rgba(19,16,13,.45), rgba(19,16,13,.85)); }
+  #lock1 { position: absolute; left: 0; right: 0; top: 170px; text-align: center; }
+  #lock1 img { width: 600px; height: auto; }
+  #tag { position: absolute; left: 0; right: 0; top: 470px; text-align: center; font: 600 56px/1.15 var(--f-display); font-variation-settings: 'opsz' 144; color: var(--s50); }
+  #built { position: absolute; left: 0; right: 0; top: 580px; text-align: center; font: 500 30px/1.3 var(--f-ui); color: var(--s200); }
+  #urls { position: absolute; left: 0; right: 0; top: 660px; text-align: center; font: 500 32px/1.6 var(--f-mono); color: var(--lamp300); }
+  /* end card */
+  #top { position: absolute; left: 0; right: 0; top: 46px; display: flex; align-items: center; justify-content: center; gap: 46px; }
+  #top img { width: 300px; height: auto; }
+  #top .u { font: 500 26px/1.5 var(--f-mono); color: var(--lamp300); text-align: left; }
+  #top .u span { display: block; font: 500 20px/1.3 var(--f-ui); color: var(--s300); }
+  #crawl { position: absolute; left: 96px; right: 96px; top: 270px; height: 790px; overflow: hidden; }
+  #cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 64px; font: 500 21px/1.36 var(--f-ui); color: rgba(251,248,241,.86); }
+  #cols h4 { font: 600 18px/1.2 var(--f-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--lat300); margin: 10px 0 4px; }
+  #cols p { margin: 0 0 3px; }
+  #cols i { color: rgba(251,248,241,.86); font-style: normal; }
+  #cols b.sa { color: var(--lamp300); font-weight: 600; }
+  #veil { position: absolute; inset: 0; background: #13100D; opacity: 0; }
+</style></head>
+<body><div id="stage">
+  <div id="A"></div>
+  <div id="dk"></div>
+  <div id="veil"></div>
+  <div id="lock1"><img src="/design/brand/logo/lockup-stacked-reversed.svg" alt=""></div>
+  <div id="tag">Learn to read the stone. Help read the backlog.</div>
+  <div id="built">Built with Strands Agents, on Amazon Bedrock AgentCore</div>
+  <div id="urls">ezhuthu.sparrowdecider.com<br>github.com/Vivek0712/ezhuthu</div>
+  <div id="top"><img src="/design/brand/logo/lockup-stacked-reversed.svg" alt=""><div class="u">ezhuthu.sparrowdecider.com<br>github.com/Vivek0712/ezhuthu<span>Built with Strands Agents, on Amazon Bedrock AgentCore</span></div></div>
+  <div id="crawl"><div id="cols">
+    <div>
+      <h4>Inscriptions</h4>
+      <p>Texts and restorations: DHARMA project (ERC grant 809994) and the named editors of each edition, CC BY-SA 4.0</p>
+      <p>Home-page stone photo: Richard Mortel, “Brihadishwara Temple … Thanjavur”, CC BY 2.0 (cropped, letter boxes added)</p>
+      <h4>Photos and footage via Wikimedia Commons</h4>
+      <p>“Tamil Inscription in wall of agneeshwaran Temple”, Neechalkaran, CC BY-SA 4.0</p>
+      <p>“Aerial view of Madurai Meenakshi amman temple”, Prakashkumar, CC BY-SA 4.0</p>
+      <p>“Tanjavur Song Devotee” (video), Rainer Halama, CC BY-SA 4.0</p>
+      <p>“Brihadeeswarar temple evening, Thanjavur, Tamilnadu”, Cafeskool, CC BY-SA 4.0</p>
+      <p>“Tamil Inscriptions in Thanjavur Brahadeeshwara Temple …”, KARTY JazZ, CC BY-SA 4.0</p>
+      <p>“Mamallapuram, Shore Temple, Dusk, India”, Vyacheslav Argenberg, CC BY 4.0</p>
+      <p>“3D Scanning of The Arachalur 400CE Musical Notations Inscription 01”, Mythic Society Inscriptions 3D Scanning Project, CC BY-SA 4.0</p>
+    </div>
+    <div>
+      <h4>&nbsp;</h4>
+      <p>“Inscriptions at the Brihadisvara Temple, Thanjavur … (2016) 1” and “… 2”, Nandhinikandhasamy, CC BY-SA 4.0</p>
+      <p>“Tamilnadu Govt-Oriental Manuscripts Library … Tamil alphabets palm leaf book”, Info-farmer, CC BY-SA 4.0</p>
+      <p>“A sunrise over Vaigai River in Madurai Tamil Nadu India”, Paulthy, CC BY 2.0</p>
+      <p>“Brihadeeswarar Temple 3587”, Vengolis, CC BY-SA 4.0</p>
+      <p>“Tamil Nadu school kids”, McKay Savage, CC BY 2.0</p>
+      <p>“Meenakshi Temple, Gopuram, Madurai, India”, Vyacheslav Argenberg, CC BY 4.0</p>
+      <p><i>All cropped, scaled, colour-graded and animated. Details: media/video/CREDITS.md</i></p>
+      <h4>Made with</h4>
+      <p>Strands Agents and Strands Decider · Amazon Bedrock AgentCore · Claude Sonnet 4.6 and Claude Opus 4.6 on Amazon Bedrock</p>
+      <p>Fonts: Noto Serif Tamil, Noto Sans Tamil, Fraunces, Instrument Sans, JetBrains Mono (SIL OFL 1.1)</p>
+      <p>Narration: Amazon Polly · Score and chisel/bell sounds: original · Screens: the live Ezhuthu site</p>
+      <p>Sounds via Wikimedia Commons: dawn birds, “Birds Perungalathur Reserved Forest”, Mk170101, CC BY 4.0 (filtered, looped); ghanta, the_very_Real_Horst; stream, jackthemurray; chant, Seetharaman G.K. (CC0)</p>
+      <p><b class="sa">This film is shared under CC BY-SA 4.0</b> (share-alike, from the CC BY-SA sources above).</p>
+    </div>
+  </div></div>
+  <div class="src src-r" id="cr">Photo: Meenakshi temple, Madurai, Vyacheslav Argenberg, CC BY 4.0</div>
+</div>
+<script>
+const { p, E, $, css } = EZ;
+const A = KIT.photo($('#A'), 'p05');
+const g = KIT.grain(null, 0.07);
+window.SCENE = {
+  duration: 8.0,
+  render(t) {
+    g(t);
+    KIT.kb(A, [0.10, 0.05, 0.80, 0.74], [0.14, 0.05, 0.74, 0.69], t / 8);
+    css($('#A'), { opacity: 0.35 }); css($('#veil'), { opacity: 0.82 * p(t, 2.6, 0.5) });
+    // lockup fades in (never scales); tagline, built-with, URLs
+    const out = p(t, 2.55, 0.3, E.linear);
+    css($('#lock1'), { opacity: p(t, 0.2, 0.8, E.linear) * (1 - out) });
+    const tg = p(t, 0.7, 0.5); css($('#tag'), { opacity: tg * (1 - out), transform: `translateY(${(1 - tg) * 14}px)` });
+    css($('#built'), { opacity: p(t, 1.1, 0.4) * (1 - out) });
+    css($('#urls'), { opacity: p(t, 1.4, 0.4) * (1 - out) });
+    // 4.0 s: fade-through to the end card at the top, credits drift underneath
+    css($('#top'), { opacity: p(t, 2.85, 0.35, E.linear) });
+    const c = p(t, 2.95, 0.4); css($('#crawl'), { opacity: c });
+    css($('#cols'), { transform: `translateY(${(1 - p(t, 2.95, 5.0, E.linear)) * 24}px)` });
+    css($('#cr'), { opacity: 1 - out });
+  },
+};
+</script></body></html>

@@ -1,0 +1,71 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>p3-01-decider-effort</title>
+<style>/* Shared styles for the blog figures. Colours from design/tokens/tokens.css, fonts from @fontsource (SIL OFL 1.1). */
+@font-face { font-family: 'Fraunces'; font-weight: 600; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-600-normal.woff2'); }
+@font-face { font-family: 'Fraunces'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-700-normal.woff2'); }
+@font-face { font-family: 'Fraunces'; font-weight: 800; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-800-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 400; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-400-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 600; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-600-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-700-normal.woff2'); }
+@font-face { font-family: 'Noto Sans Tamil'; font-weight: 400; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-sans-tamil/files/noto-sans-tamil-tamil-400-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Sans Tamil'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-sans-tamil/files/noto-sans-tamil-tamil-700-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Tamil'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-serif-tamil/files/noto-serif-tamil-tamil-700-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Tamil'; font-weight: 800; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-serif-tamil/files/noto-serif-tamil-tamil-800-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+
+:root {
+  --stone-50: #FBF8F1; --stone-100: #F4EEE2; --stone-200: #EAE1CE; --stone-300: #DACDB4; --stone-400: #BFAE8F;
+  --stone-500: #9A896C; --stone-600: #76674F; --stone-700: #564A3A;
+  --granite-950: #13100D; --granite-900: #1B1713; --granite-850: #231E18; --granite-800: #2D261F; --granite-700: #40362B;
+  --palm-100: #F5EACB; --palm-300: #DCC07D; --palm-500: #B28C42;
+  --lat-100: #F7E0D5; --lat-300: #EBA07F; --lat-400: #D9764F; --lat-500: #B5502F; --lat-600: #9B3D22; --lat-700: #7E2F19;
+  --ink: #1D1611; --ink-700: #3B2F25;
+  --lamp-200: #FBDFA6; --lamp-300: #F5C468; --lamp-400: #EAA43A; --lamp-500: #D2891C; --lamp-700: #8A5508;
+  --neem-100: #DEEBD7; --neem-300: #93D09C; --neem-700: #2C6534;
+  --neelam-100: #E3E5F4; --neelam-300: #AEB8EC; --neelam-700: #3B4787;
+  --serif: 'Fraunces', 'Noto Serif Tamil', Georgia, serif;
+  --sans: 'Instrument Sans', 'Noto Sans Tamil', system-ui, sans-serif;
+  --mono: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #fff; }
+body { font-family: var(--sans); color: var(--ink); -webkit-font-smoothing: antialiased; }
+#fig { position: relative; overflow: hidden; width: 1600px; }
+#fig.light { background: var(--stone-100); color: var(--ink); }
+#fig.dark { background: radial-gradient(120% 90% at 85% 0%, #3a2414 0%, var(--granite-900) 45%, var(--granite-950) 100%); color: #F3EADA; }
+
+.fh { padding: 56px 72px 0; }
+.kicker { font: 700 17px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--lat-600); }
+.dark .kicker { color: var(--lamp-300); }
+.fh h1 { font: 800 50px/1.08 var(--serif); margin-top: 16px; letter-spacing: -.01em; max-width: 1400px; }
+.fh h1 em { font-style: normal; color: var(--lat-600); }
+.dark .fh h1 em { color: var(--lamp-400); }
+.fh .dek { font: 400 22px/1.45 var(--sans); color: var(--stone-700); margin-top: 14px; max-width: 1300px; }
+.dark .fh .dek { color: #C9BBA3; }
+
+.ff { position: absolute; left: 72px; right: 72px; bottom: 30px; display: flex; align-items: center; justify-content: space-between; gap: 32px;
+      font: 400 15px/1.35 var(--sans); color: var(--stone-600); }
+.dark .ff { color: #A8997F; }
+.ff img { height: 34px; }
+.ff .src { text-align: right; max-width: 1250px; }
+.mono { font-family: var(--mono); }
+.ta { font-family: 'Noto Sans Tamil', var(--sans); }
+
+
+.bx{position:absolute;border-radius:16px;background:var(--stone-50);border:1.5px solid var(--stone-300);padding:14px 16px;
+ box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 14px 30px -22px rgba(60,35,10,.55)}
+.bx h3{font:700 20px/1.2 var(--serif);color:var(--ink)}
+.bx .st{font:700 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--lat-600);margin-bottom:8px}
+.bx p{font:400 15.5px/1.4 var(--sans);color:var(--stone-700);margin-top:6px}
+.bx.aws{border-color:#C9B48F}
+.bx.hot{border:2px solid var(--lat-600);background:#FFFDF8}
+.bx.lamp{border:2px solid var(--lamp-500);background:#FFF9EC}
+.bx.dk{background:var(--granite-900);border-color:var(--granite-700);color:#F3EADA}
+.bx.dk h3{color:#F3EADA}.bx.dk p{color:#C9BBA3}.bx.dk .st{color:var(--lamp-300)}
+.chip{display:inline-block;font:600 13.5px/1 var(--mono);padding:6px 8px;border-radius:7px;background:var(--stone-200);color:var(--ink-700);margin:6px 4px 0 0}
+.dk .chip{background:var(--granite-800);color:#E9DCC6}
+.zone{position:absolute;border-radius:24px;border:2px dashed var(--stone-400);}
+.zl{position:absolute;font:700 14px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--stone-600);background:var(--stone-100);padding:0 10px}
+</style></head><body><div id="fig" class="light" style="width:1600px;height:1010px;"><header class="fh"><div class="kicker">The fine-tuned Strands decision model</div><h1>Six steps from <em>train-only data</em> to one look at TEST</h1><p class="dek">Task: given the Restorer's top 3 candidate fills, pick the one the editors wrote, or none. Fine-tuned and tested on held-out inscriptions; not yet live.</p></header><div class="bx " style="left:72px;top:270px;width:460px;height:270px"><div class="st">1 &middot; Data, TRAIN only</div><h3>Training rows</h3><p>2,337 train items. 1,162 Sonnet 4.6 calls build the candidates (cap 1,200, about USD 4.8).</p><p style='margin-top:12px;font:800 34px/1 var(--serif);color:#9B3D22'>2,334 + 6,936</p><p>choice rows + yes/no rows</p></div><div class="bx " style="left:588px;top:270px;width:460px;height:270px"><div class="st">2 &middot; Cross-fit by stone</div><h3>No answer key in the candidates</h3><p>5 folds by stone: retrieval and the 5-gram for each train item are built without its own fold.</p><p style='margin-top:12px;font:800 34px/1 var(--serif);color:#9B3D22'>0 of 6,996</p><p>train parallels from the item's own fold (audit)</p></div><div class="bx " style="left:1104px;top:270px;width:460px;height:270px"><div class="st">3 &middot; Scrub near-duplicates</div><h3>Formulas repeat across stones</h3><p>96 of 2,433 train items dropped: 78 matched a TEST item, 18 a VAL item.</p><p style='margin-top:12px;font:800 34px/1 var(--serif);color:#9B3D22'>1 of 413</p><p>TEST item shares a target in the reverse audit</p></div><div class="bx lamp" style="left:72px;top:590px;width:460px;height:270px"><div class="st">4 &middot; Three model sizes</div><h3>2B chosen</h3><p><b>2B</b>: Strands Decider v1-2610 2B + LoRA r 48 + pointer head; 1x A100 40 GB, 74 min per variant.</p><p><b>Sparrow tiny</b>: Ettin-32M, 21 min on an M4 Pro. <b>Sparrow nano</b>: Tamil WordPiece 8k, seconds.</p></div><div class="bx " style="left:588px;top:590px;width:460px;height:270px"><div class="st">5 &middot; Pre-registered selection</div><h3>Chosen on VAL</h3><p>Rule committed first (2c2f5b2). 8 decider variants compared on the same 280 VAL gaps.</p><p>Calibration fitted on VAL only (n = 443 and 244).</p></div><div class="bx hot" style="left:1104px;top:590px;width:460px;height:270px"><div class="st">6 &middot; TEST, scored once</div><h3>413 held-out gaps</h3><p>Cached candidates replayed: 0 new Bedrock calls.</p><p style='margin-top:12px;font:800 34px/1 var(--serif);color:#9B3D22'>92.0%</p><p>of its fills match the editors' restoration (fills 57.6% of gaps)</p></div><svg width="1600" height="1010" style="position:absolute;left:0;top:0;pointer-events:none"><defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#9B3D22"/></marker>
+<marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#76674F"/></marker>
+<marker id="ahl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#D2891C"/></marker>
+</defs><path d="M534 405.0 L584 405.0" fill="none" stroke="#9B3D22" stroke-width="2.6"  marker-end="url(#ah)"/><path d="M1050 405.0 L1100 405.0" fill="none" stroke="#9B3D22" stroke-width="2.6"  marker-end="url(#ah)"/><path d="M534 725.0 L584 725.0" fill="none" stroke="#9B3D22" stroke-width="2.6"  marker-end="url(#ah)"/><path d="M1050 725.0 L1100 725.0" fill="none" stroke="#9B3D22" stroke-width="2.6"  marker-end="url(#ah)"/><path d="M1334.0 542 C1334.0 570 302.0 560 302.0 586" fill="none" stroke="#76674F" stroke-width="2.6" stroke-dasharray="7 6" marker-end="url(#ahg)"/></svg><div style="position:absolute;left:72px;top:884px;font:700 22px/1.3 var(--serif);color:#1D1611">Trained for <span style="color:#9B3D22">USD 2.26</span> in total. Checkpoint 224 MB.</div><footer class="ff"><img src="file:///Users/vivekrajaps/tamil-script/ezhuthu-wt/media/design/brand/logo/lockup-horizontal-color.svg" alt=""><div class="src">Sources: eval/reports/2026-11-02-finetuned-decider.md and 2026-11-02-ft-data.md (branch team/agent/ft-decider).</div></footer></div></body></html>

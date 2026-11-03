@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>a3-13-reader-restorer</title>
+<link rel="stylesheet" href="/media/video/scenes/_lib/scene.css">
+<script src="/media/video/scenes/_lib/timeline.js"></script>
+<script src="/media/video/scenes/_lib/kit.js"></script>
+<style>
+  #hdr { position: absolute; left: 96px; top: 60px; }
+  #hdr .eyebrow { display: block; margin-bottom: 10px; }
+  #hdr .h1 { position: static; font-size: 56px; }
+  #hdr .h2 { position: static; margin-top: 8px; }
+  #stone { position: absolute; left: 96px; top: 300px; width: 940px; height: 467px; border-radius: 20px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.6); }
+  #stone img { position: absolute; left: 0; top: 0; width: 940px; height: 467px; filter: contrast(1.08); }
+  #stone svg { position: absolute; inset: 0; }
+  #stone rect { fill: rgba(245,196,104,.16); stroke: #F5C468; stroke-width: 6; filter: drop-shadow(0 0 8px rgba(234,164,58,.9)); }
+  #stone rect.gap { fill: rgba(30,36,72,.55); stroke: #AEB8EC; stroke-dasharray: 6 5; }
+  #line { position: absolute; left: 1100px; top: 470px; display: flex; gap: 2px; align-items: center; font: 600 54px/1 var(--f-ta-display); color: var(--s50); white-space: nowrap; }
+  #line span { display: inline-block; }
+  #line .gp { padding: 4px 10px; margin: 0 6px; border: 3px dashed var(--neelam300); border-radius: 12px; color: var(--neelam300); font-family: var(--f-display); font-size: 44px;
+              box-shadow: 0 0 22px rgba(174,184,236,.5); }
+  #fly { position: absolute; inset: 0; pointer-events: none; }
+  #fly span { position: absolute; font: 600 54px/1 var(--f-ta-display); color: var(--lamp200); text-shadow: 0 0 20px rgba(245,196,104,.9); }
+  #iso { position: absolute; left: 1110px; top: 560px; font: 500 26px/1 var(--f-mono); color: var(--s400); }
+  /* restorer */
+  #R { position: absolute; inset: 0; }
+  .lane { position: absolute; left: 96px; width: 1180px; height: 150px; border-radius: 20px; background: rgba(35,30,24,.75); border: 1.5px solid rgba(218,205,180,.14); }
+  .lane .k { position: absolute; left: 24px; top: 18px; font: 600 22px/1 var(--f-ui); letter-spacing: .14em; text-transform: uppercase; color: var(--lat300); }
+  .lane .tool { position: absolute; left: 24px; bottom: 18px; font-size: 21px; }
+  #L1 { top: 330px; } #L2 { top: 500px; } #L3 { top: 670px; }
+  #wall { position: absolute; left: 330px; top: 16px; width: 330px; height: 118px; }
+  #wall i { position: absolute; height: 3px; border-radius: 2px; background: rgba(218,205,180,.18); }
+  #stack { position: absolute; left: 720px; top: 14px; width: 420px; height: 122px; }
+  #stack div { position: absolute; left: 0; height: 18px; border-radius: 5px; background: rgba(218,205,180,.22); font: 500 13px/18px var(--f-mono); color: rgba(244,238,226,.7); padding: 0 8px; white-space: nowrap; overflow: hidden; width: 420px; }
+  #stack div.best { background: rgba(234,164,58,.3); color: var(--lamp200); box-shadow: 0 0 18px rgba(234,164,58,.6); border: 1px solid var(--lamp400); }
+  #bars { position: absolute; left: 330px; top: 20px; height: 110px; display: flex; align-items: flex-end; gap: 10px; }
+  #bars i { width: 34px; border-radius: 6px 6px 2px 2px; background: linear-gradient(180deg, var(--lamp300), var(--lat500)); display: block; }
+  #ms { position: absolute; left: 860px; top: 50px; }
+  #llm { position: absolute; left: 330px; top: 30px; display: flex; align-items: center; gap: 22px; }
+  .mchip { padding: 14px 24px; border-radius: 16px; font: 600 28px/1 var(--f-ui); border: 2px solid rgba(218,205,180,.3); background: #2D261F; color: var(--s200); white-space: nowrap; }
+  .mchip.on { border-color: var(--lamp400); color: var(--s50); box-shadow: 0 0 34px rgba(234,164,58,.5); }
+  .mchip.opus.on { border-color: var(--lamp500); background: #3A2A17; color: var(--lamp200); box-shadow: 0 0 50px rgba(210,137,28,.75); }
+  #sw { width: 70px; height: 36px; border-radius: 18px; background: #40362B; position: relative; }
+  #sw i { position: absolute; top: 4px; left: 4px; width: 28px; height: 28px; border-radius: 50%; background: var(--s200); display: block; }
+  #rule { position: absolute; left: 330px; top: 102px; font: 500 21px/1.2 var(--f-ui); color: var(--s300); }
+  #bed { position: absolute; right: 24px; top: 18px; font: 600 20px/1 var(--f-ui); color: var(--s400); }
+  #fuse { position: absolute; inset: 0; }
+  #nor { position: absolute; left: 1330px; top: 520px; width: 150px; height: 110px; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+         background: #2D261F; border: 2px solid var(--lamp400); font: 600 26px/1 var(--f-ui); color: var(--s50); box-shadow: 0 0 34px rgba(234,164,58,.35); }
+  #nor small { font: 500 17px/1.2 var(--f-ui); color: var(--s400); margin-top: 6px; }
+  #tray { position: absolute; left: 1540px; top: 400px; width: 300px; padding: 20px; border-radius: 22px; background: rgba(27,23,19,.95); border: 2px solid rgba(234,164,58,.6); }
+  #tray .tl { font: 600 20px/1 var(--f-ui); letter-spacing: .14em; text-transform: uppercase; color: var(--lat300); margin-bottom: 14px; }
+  .cand { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; margin-top: 10px; border-radius: 14px; background: #2D261F; border: 1.5px solid #40362B; }
+  .cand .ta { font: 600 40px/1 var(--f-ta-display); color: var(--s50); }
+  .cand .c { font: 600 22px/1 var(--f-ui); color: var(--s300); font-variant-numeric: tabular-nums; }
+  #tools { position: absolute; left: 96px; top: 860px; display: flex; gap: 14px; flex-wrap: wrap; width: 1700px; }
+  #tools .tool { padding: 10px 16px; border-radius: 10px; background: rgba(45,38,31,.9); border: 1px solid #5A4D3E; }
+</style></head>
+<body><div id="stage">
+  <div class="stage-bg"><div class="dotgrid" style="opacity:.4"></div></div>
+  <div id="hdr"><span class="eyebrow" id="eb">Reader</span><div class="h1" id="ttl">Photo or EpiDoc in, letters out</div><div class="h2" id="sub">The real Thanjavur stone from the home page, read box by box</div></div>
+  <div id="stone"><img src="/design/hero/thanjavur-crop.jpg" alt=""><svg viewBox="0 0 1568 778" width="940" height="467" id="bx"></svg></div>
+  <div id="line"></div>
+  <div id="iso">pa [?2] piravaḷanilaikoṭuma</div>
+  <div id="fly"></div>
+  <div id="R">
+    <div class="lane" id="L1"><div class="k">Parallels</div><div class="tool">retrieve_parallels</div><div id="wall"></div><div id="stack"></div></div>
+    <div class="lane" id="L2"><div class="k">5-gram</div><div class="tool">character 5-gram</div><div id="bars"></div><div class="chip" id="ms">11 ms per gap <span style="color:var(--s400);font-weight:500">(p50, Apple M4 Pro)</span></div></div>
+    <div class="lane" id="L3"><div class="k">LLM</div><div class="tool">propose_fills</div><div id="llm"><div class="mchip" id="son">Claude Sonnet 4.6</div><div id="sw"><i></i></div><div class="mchip opus" id="opus">Claude Opus 4.6</div></div>
+      <div id="rule">escalate if best score &lt; 0.6, gap &gt; 12 letters, or no good parallel</div><div id="bed">on Amazon Bedrock</div></div>
+    <svg id="fuse" viewBox="0 0 1920 1080"><path class="edge" id="f1" d="M1276 405 C 1310 405, 1300 560, 1330 570"/><path class="edge" id="f2" d="M1276 575 L 1330 575"/><path class="edge" id="f3" d="M1276 745 C 1310 745, 1300 590, 1330 580"/><path class="edge" id="f4" d="M1480 575 L 1540 575"/></svg>
+    <div id="nor">noisy-OR<small>one score</small></div>
+    <div id="tray"><div class="tl">Top 3</div><div class="cand"><span class="ta">குப்</span><span class="c">0.08</span></div><div class="cand"><span class="ta">ணம்</span><span class="c">0.08</span></div><div class="cand"><span class="ta">ரம்</span><span class="c">0.07</span></div></div>
+    <div id="tools"><span class="tool">retrieve_parallels</span><span class="tool">propose_fills</span><span class="tool">check_constraints</span><span class="tool">rank_and_decide</span><span class="tool">ontology_hints</span></div>
+  </div>
+  <div class="src" id="cr">Photo: Richard Mortel, CC BY 2.0 (cropped, letter boxes by hand) · 14,355 train lines: DHARMA, CC BY-SA 4.0</div>
+</div>
+<script>
+const { p, E, $, $$, css, clamp, lerp, rng } = EZ;
+const g = KIT.grain(null, 0.05);
+// row 3 of design/hero/boxes.json and the Reader's glyphs for it (app/web/src/hero/hero-view.json)
+const BOX = [[58,428,152,498],[183,425,348,568],[368,355,532,488],[580,415,620,550],[660,405,780,575],[778,400,905,562],[965,400,1060,565],[1060,385,1168,568],[1175,380,1325,530],[1325,375,1440,470],[1442,360,1520,512]];
+const GL = ['ப', '?', 'பி', 'ர', 'வ', 'ள', 'நி', 'லை', 'கொ', 'டு', 'ம'];
+const svg = $('#bx'), line = $('#line'), fly = $('#fly');
+const rects = BOX.map((b, i) => { const r = document.createElementNS('http://www.w3.org/2000/svg', 'rect'); r.setAttribute('x', b[0]); r.setAttribute('y', b[1]); r.setAttribute('width', b[2] - b[0]); r.setAttribute('height', b[3] - b[1]); if (GL[i] === '?') r.setAttribute('class', 'gap'); svg.appendChild(r); return r; });
+const slots = GL.map((ch) => { const s = document.createElement('span'); if (ch === '?') { s.className = 'gp'; s.textContent = '? ?'; } else s.textContent = ch; line.appendChild(s); return s; });
+const flies = GL.map((ch) => { const s = document.createElement('span'); s.textContent = ch === '?' ? '' : ch; fly.appendChild(s); return s; });
+// parallels: a wall of faint lines and 20 strips that fly into a stack
+const R = rng(5);
+for (let i = 0; i < 140; i++) { const e = document.createElement('i'); e.style.left = (R() * 260) + 'px'; e.style.top = (i % 28) * 4.2 + 'px'; e.style.width = (30 + R() * 60) + 'px'; $('#wall').appendChild(e); }
+// real lines: the hero gap's best parallel (DHARMA_INSPallava00046 B.71) and lines from benchmark/corpus_lines.jsonl (train)
+const SNIP = ['ḷukku-p piramatēyaṅ koṭuppataṟkum maṇayiṟ-kōṭṭattu-p paṉmā-nāṭṭu-p para', 'tu piramatāyaṅ koṭuttēm i', 'tile pōvārkaḷākavum Inta tirunāmat=tu-k kāṇikku nāṭṭu mutalikaḷ', 'vētaṉam tirumālai tiruviḷak=ku tiruppaṇi tirunantaṉavaṉam tiru', 'm Amañcākka-vayalukkum kiḻakku vaṭa-pāṟk-ellai teṉṉūr-vayalukku', 'kavum tirucciṟṟampalam vempiṟavi vēlaitaṉil vīḻpa'];
+const strips = []; for (let i = 0; i < 20; i++) { const d = document.createElement('div'); d.textContent = SNIP[i % SNIP.length]; if (i === 0) d.className = 'best'; $('#stack').appendChild(d); strips.push(d); }
+const bars = []; for (let i = 0; i < 12; i++) { const b = document.createElement('i'); $('#bars').appendChild(b); bars.push(b); }
+const fuse = ['#f1', '#f2', '#f3', '#f4'].map((id) => $(id)); let FL = [];
+let SL = [];
+const FLASH = KIT.flash('p11', [0.06, 0.08, 0.86, 0.86], [0.18, 0.2, 0.62, 0.62], 'Tamil inscriptions, Brihadisvara temple, Thanjavur', 'Photo: KARTY JazZ, CC BY-SA 4.0');
+window.SCENE = {
+  duration: 12.0,
+  prepare() { FL = fuse.map((f) => f.getTotalLength()); fuse.forEach((f, i) => { f.style.strokeDasharray = FL[i]; }); SL = slots.map((s) => { const r = s.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; }); },
+  render(t) {
+    FLASH(t, 11.0, 12.0);
+    g(t);
+    const A = 1 - p(t, 3.3, 0.5, E.exit); // reader phase out
+    css($('#stone'), { opacity: p(t, 0.0, 0.5) * A, transform: `translateX(${-80 * (1 - A)}px)` });
+    css($('#iso'), { opacity: p(t, 2.6, 0.5) * A });
+    // boxes light one by one; letters fly from each box into the typed line
+    BOX.forEach((b, i) => {
+      const k = p(t, 0.4 + i * 0.12, 0.25);
+      rects[i].style.opacity = k;
+      const f = p(t, 0.6 + i * 0.12, 0.6, E.inOut);
+      const sx = 96 + (b[0] + b[2]) / 2 * 0.6, sy = 300 + (b[1] + b[3]) / 2 * 0.6;
+      const [ex, ey] = SL[i] || [0, 0];
+      const fl = flies[i];
+      css(fl, { left: lerp(sx, ex, f) - 22 + 'px', top: lerp(sy, ey, f) - 40 + (Math.sin(f * Math.PI) * -80) + 'px', opacity: f > 0 && f < 1 ? 1 : 0, transform: `scale(${1 + 0.4 * Math.sin(f * Math.PI)})` });
+      slots[i].style.opacity = f >= 1 ? 1 : 0;
+    });
+    // phase B: the line rises to the top as context, the Restorer opens
+    const B = p(t, 3.4, 0.8, E.standard);
+    css(line, { transform: `translate(${-1004 * B}px, ${-250 * B}px) scale(${1 - 0.1 * B})`, transformOrigin: '0 50%' });
+    $('#eb').textContent = t < 3.6 ? 'Reader' : 'Restorer';
+    $('#ttl').textContent = t < 3.6 ? 'Photo or EpiDoc in, letters out' : 'A tool-using Strands agent, 5 tools';
+    $('#sub').textContent = t < 3.6 ? 'The real Thanjavur stone from the home page, read box by box' : '';
+    const hd = Math.min(p(t, 0.1, 0.4), 1 - p(t, 3.3, 0.3)) + p(t, 3.7, 0.4);
+    css($('#hdr'), { opacity: clamp(hd) });
+    css($('#hdr'), { transform: `translateY(${t > 3.6 ? 0 : 0}px)` });
+    css($('#hdr'), { top: (t < 3.6 ? 60 : 40) + 'px' });
+    if (t >= 3.6) css($('#hdr'), { left: '1110px' });
+    else css($('#hdr'), { left: '96px' });
+    css($('#R'), { opacity: p(t, 3.6, 0.4) });
+    // lane 1: parallels (3.8 s)
+    css($('#L1'), { opacity: p(t, 3.8, 0.4) });
+    strips.forEach((s, i) => { const k = p(t, 4.1 + i * 0.06, 0.45, E.outCubic); css(s, { top: (i * 5.2) + 'px', transform: `translateX(${(1 - k) * -420}px)`, opacity: k * (i === 0 ? 1 : 0.85), zIndex: 20 - i }); });
+    strips[0].style.top = '0px';
+    // lane 2: 5-gram (5.6 s)
+    css($('#L2'), { opacity: p(t, 5.6, 0.4) });
+    const R2 = rng(Math.floor(t * 8) + 3);
+    bars.forEach((b, i) => { const k = p(t, 5.8 + i * 0.05, 0.3); b.style.height = (10 + k * (20 + R2() * 80)) + 'px'; b.style.opacity = k; });
+    css($('#ms'), { opacity: p(t, 6.3, 0.4) });
+    // lane 3: Sonnet first (7.3 s), the routing rule flips to Opus (10.2 s)
+    css($('#L3'), { opacity: p(t, 7.2, 0.4) });
+    $('#son').classList.toggle('on', t >= 7.5 && t < 10.2);
+    $('#opus').classList.toggle('on', t >= 10.3);
+    const s = p(t, 10.0, 0.3, E.standard);
+    css($('#sw i'), { left: (4 + 34 * s) + 'px', background: s > 0.5 ? '#D2891C' : '#EAE1CE' });
+    css($('#rule'), { opacity: p(t, 9.0, 0.5), color: t >= 10.0 ? '#FBDFA6' : '' });
+    // fuse into one score, then the top-3 tray (10.6 s)
+    fuse.forEach((f, i) => { f.style.strokeDashoffset = FL[i] * (1 - p(t, i < 3 ? 10.5 : 10.9, 0.4)); });
+    css($('#nor'), { opacity: p(t, 10.6, 0.3) });
+    const tr = p(t, 11.0, 0.4, E.outBack); css($('#tray'), { opacity: clamp(tr), transform: `translateX(${(1 - clamp(tr)) * 40}px)` });
+    $$('.cand').forEach((c, i) => { c.style.opacity = p(t, 11.1 + i * 0.12, 0.25); });
+    $$('#tools .tool').forEach((c, i) => { c.style.opacity = p(t, 4.0 + i * 0.15, 0.3); });
+  },
+};
+</script></body></html>

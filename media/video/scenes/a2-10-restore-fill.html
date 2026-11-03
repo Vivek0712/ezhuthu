@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>a2-10-restore-fill</title>
+<link rel="stylesheet" href="/media/video/scenes/_lib/scene.css">
+<script src="/media/video/scenes/_lib/timeline.js"></script>
+<script src="/media/video/scenes/_lib/kit.js"></script>
+<style>
+  /* Live-site stills captured at 3x DPR (capture.mjs restore-fill-stills): 1 image unit = 1 CSS px of the page,
+     so the camera below frames exact elements from footage/stills/restore-fill.json, always downsampled, never upscaled. */
+  #V { position: absolute; inset: 0; overflow: hidden; background: #16120E; }
+  #V img { position: absolute; left: 0; top: 0; width: 1280px; transform-origin: 0 0; }
+  #dust { position: absolute; inset: 0; pointer-events: none; z-index: 20; }
+  #prog { position: absolute; left: 50%; top: 50%; z-index: 30; transform: translate(-50%, -50%); display: flex; align-items: center; gap: 18px; padding: 22px 34px;
+          border-radius: 999px; background: rgba(19,16,13,.96); border: 1.5px solid rgba(234,164,58,.55); font: 600 32px/1 var(--f-ui); color: var(--s100); box-shadow: 0 20px 70px rgba(0,0,0,.6); white-space: nowrap; }
+  #prog .st { opacity: .35; } #prog .st.on { opacity: 1; color: var(--lamp300); }
+  #prog .ar { color: var(--s500); }
+  .ring { position: absolute; z-index: 25; border: 4px solid var(--neem300); border-radius: 14px; pointer-events: none;
+          box-shadow: 0 0 30px rgba(147,208,156,.85), inset 0 0 18px rgba(147,208,156,.25); }
+  #chip { position: absolute; right: 64px; top: 44px; z-index: 30; display: flex; gap: 14px; align-items: center; padding: 14px 26px; border-radius: 999px;
+          background: rgba(19,16,13,.96); border: 1.5px solid rgba(147,208,156,.6); font: 600 30px/1 var(--f-ui); color: var(--s50); }
+  #chip span { color: var(--neem300); }
+  #band { position: absolute; left: 0; right: 0; bottom: 0; height: 330px; z-index: 28; pointer-events: none;
+          background: linear-gradient(180deg, rgba(19,16,13,0), rgba(19,16,13,.97) 34%, #13100D); }
+  #lt3 { position: absolute; left: 64px; bottom: 64px; z-index: 30; padding: 26px 34px; border-radius: 22px; background: #13100D;
+         border: 1.5px solid rgba(147,208,156,.45); box-shadow: 0 24px 70px rgba(0,0,0,.6); max-width: 1500px; }
+  #lt3 .a { font: 600 44px/1.2 var(--f-display); font-variation-settings: 'opsz' 72; color: var(--s50); }
+  #lt3 .a b { color: var(--neem300); }
+  #lt3 .b { margin-top: 10px; font: 500 24px/1.2 var(--f-ui); color: var(--s300); }
+  #cur { position: absolute; z-index: 40; width: 34px; height: 34px; filter: drop-shadow(0 2px 6px rgba(0,0,0,.6)); }
+  #rip { position: absolute; z-index: 39; width: 20px; height: 20px; margin: -10px 0 0 -10px; border-radius: 50%; border: 3px solid #D9764F; box-shadow: 0 0 18px #D9764F; }
+</style></head>
+<body><div id="stage">
+  <div id="V"><img id="I1" src="/__footage/stills/restore-fill-input.jpg" alt=""><img id="I2" src="/__footage/stills/restore-fill-result.jpg" alt=""></div>
+  <canvas id="dust" width="1920" height="1080"></canvas>
+  <div class="ring" id="r1"></div><div class="ring" id="r2"></div>
+  <svg id="cur" viewBox="0 0 26 26"><path d="M3 2 L3 21 L8.2 16.4 L11.6 24 L15 22.5 L11.7 15 L19 15 Z" fill="#FBF8F1" stroke="#13100D" stroke-width="1.6" stroke-linejoin="round"/></svg>
+  <div id="rip"></div>
+  <div id="prog"><span class="st" id="s1">Reader</span><span class="ar">→</span><span class="st" id="s2">Restorer</span><span class="ar">→</span><span class="st" id="s3">confidence check</span></div>
+  <div id="chip">Restore <span>· fills when sure</span></div>
+  <div id="band"></div>
+  <div id="lt3"><div class="a">Gallery run: <b>4 of 10</b> filled, <b>all 4</b> match the editors' restoration</div><div class="b">recorded gallery run · 10 gaps: too few to estimate a rate · inscription text DHARMA, CC BY-SA 4.0</div></div>
+</div>
+<script>
+const { p, E, $, css, clamp, lerp, rng } = EZ;
+const g = KIT.grain(null, 0.04);
+const dc = $('#dust').getContext('2d');
+let J = null;
+const box = (list, test) => list.find(test);
+// camera: page CSS px (x0, y0) lands at screen (sx, sy), scale s (screen px per CSS px)
+function cam(img, x0, y0, s, sx, sy) { img.style.transform = `translate(${(sx - x0 * s).toFixed(2)}px, ${(sy - y0 * s).toFixed(2)}px) scale(${s.toFixed(5)})`; return (x, y) => [sx + (x - x0) * s, sy + (y - y0) * s]; }
+function ring(el, map, b, s, pad, k) { const [x, y] = map(b.x - pad, b.y - pad); css(el, { left: x + 'px', top: y + 'px', width: (b.w + 2 * pad) * s + 'px', height: (b.h + 2 * pad) * s + 'px', opacity: clamp(k), transform: `scale(${1.15 - 0.15 * clamp(k)})` }); }
+let BTN, FILL, MATCH;
+window.SCENE = {
+  duration: 10.5,
+  async prepare() {
+    J = await (await fetch('/__footage/stills/restore-fill.json')).json();
+    BTN = box(J.input, (r) => r.tag === 'BUTTON' && /Restore missing/.test(r.text));
+    FILL = box(J.result, (r) => r.cls === 'fill' && r.y < 1450);
+    MATCH = box(J.result, (r) => /reveal-match/.test(r.cls));
+  },
+  render(t) {
+    g(t);
+    const I1 = $('#I1'), I2 = $('#I2');
+    // 1) the input form (0-2.75 s): slow push, the cursor presses "Restore missing letters"
+    const inPhase = t < 3.15;
+    I1.style.display = inPhase ? '' : 'none'; I2.style.display = inPhase ? 'none' : '';
+    let map, s;
+    if (inPhase) {
+      s = lerp(1.38, 1.45, E.inOut(clamp(t / 3.1)));
+      map = cam(I1, 100, 745, s, 120, 140);
+      const [bx, by] = map(BTN.x + BTN.w * 0.55, BTN.y + BTN.h * 0.55);
+      const m = E.inOut(clamp((t - 0.5) / 1.4));
+      css($('#cur'), { left: lerp(1500, bx, m) + 'px', top: lerp(620, by, m) + 'px', opacity: 1 - p(t, 2.6, 0.2) });
+      const rp = clamp((t - 2.05) / 0.65);
+      css($('#rip'), { left: bx + 'px', top: by + 'px', opacity: rp > 0 && rp < 1 ? 1 - rp : 0, transform: `scale(${0.4 + 3.8 * E.standard(rp)})` });
+    } else {
+      css($('#cur'), { opacity: 0 }); css($('#rip'), { opacity: 0 });
+      if (t < 6.3) {   // 2) the result, crisp: summary + the line with the filled letter
+        s = lerp(1.74, 1.84, E.inOut(clamp((t - 3.3) / 3)));
+        map = cam(I2, 100, 1134, s, 70, 120);
+      } else {         // 3) hard cut: what the published edition reads (no scroll, no half-painted frames)
+        s = lerp(1.66, 1.72, E.inOut(clamp((t - 6.3) / 4.2)));
+        map = cam(I2, 118, 1598, s, 90, 120);
+      }
+    }
+    const br = Math.max(0, 1 - Math.abs(t - 3.1) / 0.32);
+    $('#V').style.filter = br > 0 ? `blur(${10 * br}px) brightness(${1 - 0.45 * br})` : 'none';
+    // stone dust bridge over the live ~20 s model wait (cut, no fake timer)
+    dc.clearRect(0, 0, 1920, 1080);
+    const d = Math.max(0, 1 - Math.abs(t - 3.1) / 0.45);
+    if (d > 0) { const R = rng(42); for (let i = 0; i < 900; i++) { const x = R() * 1920, y = R() * 1080, sp = 200 + R() * 500, z = 1 + R() * 3.5;
+      dc.fillStyle = `rgba(${220 + R() * 30},${180 + R() * 40},${130 + R() * 40},${d * (0.3 + 0.5 * R())})`; dc.fillRect(x + (t - 2.7) * sp * 0.6, y - (t - 2.7) * sp * 0.25, z, z); } }
+    css($('#prog'), { opacity: Math.min(p(t, 2.7, 0.2), 1 - p(t, 3.4, 0.25)) });
+    ['#s1', '#s2', '#s3'].forEach((id, i) => $(id).classList.toggle('on', t >= 2.8 + i * 0.17));
+    // neem ring on the filled letter, then on "matches the editors' restoration"
+    if (!inPhase && t < 6.3) ring($('#r1'), map, FILL, s, 6, Math.min(p(t, 4.2, 0.35, E.outBack), 1 - p(t, 6.0, 0.25))); else css($('#r1'), { opacity: 0 });
+    if (t >= 6.3) ring($('#r2'), map, MATCH, s, 6, p(t, 6.9, 0.4, E.outBack)); else css($('#r2'), { opacity: 0 });
+    css($('#chip'), { opacity: p(t, 0.2, 0.4) });
+    const l = p(t, 6.45, 0.45);
+    css($('#lt3'), { opacity: l, transform: `translateY(${(1 - l) * 20}px)` }); css($('#band'), { opacity: p(t, 6.3, 0.3) });
+  },
+};
+</script></body></html>

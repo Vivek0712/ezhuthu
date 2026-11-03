@@ -1,0 +1,64 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>p3-05-finetuned-decider</title>
+<style>/* Shared styles for the blog figures. Colours from design/tokens/tokens.css, fonts from @fontsource (SIL OFL 1.1). */
+@font-face { font-family: 'Fraunces'; font-weight: 600; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-600-normal.woff2'); }
+@font-face { font-family: 'Fraunces'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-700-normal.woff2'); }
+@font-face { font-family: 'Fraunces'; font-weight: 800; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-800-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 400; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-400-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 600; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-600-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-700-normal.woff2'); }
+@font-face { font-family: 'Noto Sans Tamil'; font-weight: 400; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-sans-tamil/files/noto-sans-tamil-tamil-400-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Sans Tamil'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-sans-tamil/files/noto-sans-tamil-tamil-700-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Tamil'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-serif-tamil/files/noto-serif-tamil-tamil-700-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Tamil'; font-weight: 800; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-serif-tamil/files/noto-serif-tamil-tamil-800-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+
+:root {
+  --stone-50: #FBF8F1; --stone-100: #F4EEE2; --stone-200: #EAE1CE; --stone-300: #DACDB4; --stone-400: #BFAE8F;
+  --stone-500: #9A896C; --stone-600: #76674F; --stone-700: #564A3A;
+  --granite-950: #13100D; --granite-900: #1B1713; --granite-850: #231E18; --granite-800: #2D261F; --granite-700: #40362B;
+  --palm-100: #F5EACB; --palm-300: #DCC07D; --palm-500: #B28C42;
+  --lat-100: #F7E0D5; --lat-300: #EBA07F; --lat-400: #D9764F; --lat-500: #B5502F; --lat-600: #9B3D22; --lat-700: #7E2F19;
+  --ink: #1D1611; --ink-700: #3B2F25;
+  --lamp-200: #FBDFA6; --lamp-300: #F5C468; --lamp-400: #EAA43A; --lamp-500: #D2891C; --lamp-700: #8A5508;
+  --neem-100: #DEEBD7; --neem-300: #93D09C; --neem-700: #2C6534;
+  --neelam-100: #E3E5F4; --neelam-300: #AEB8EC; --neelam-700: #3B4787;
+  --serif: 'Fraunces', 'Noto Serif Tamil', Georgia, serif;
+  --sans: 'Instrument Sans', 'Noto Sans Tamil', system-ui, sans-serif;
+  --mono: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #fff; }
+body { font-family: var(--sans); color: var(--ink); -webkit-font-smoothing: antialiased; }
+#fig { position: relative; overflow: hidden; width: 1600px; }
+#fig.light { background: var(--stone-100); color: var(--ink); }
+#fig.dark { background: radial-gradient(120% 90% at 85% 0%, #3a2414 0%, var(--granite-900) 45%, var(--granite-950) 100%); color: #F3EADA; }
+
+.fh { padding: 56px 72px 0; }
+.kicker { font: 700 17px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--lat-600); }
+.dark .kicker { color: var(--lamp-300); }
+.fh h1 { font: 800 50px/1.08 var(--serif); margin-top: 16px; letter-spacing: -.01em; max-width: 1400px; }
+.fh h1 em { font-style: normal; color: var(--lat-600); }
+.dark .fh h1 em { color: var(--lamp-400); }
+.fh .dek { font: 400 22px/1.45 var(--sans); color: var(--stone-700); margin-top: 14px; max-width: 1300px; }
+.dark .fh .dek { color: #C9BBA3; }
+
+.ff { position: absolute; left: 72px; right: 72px; bottom: 30px; display: flex; align-items: center; justify-content: space-between; gap: 32px;
+      font: 400 15px/1.35 var(--sans); color: var(--stone-600); }
+.dark .ff { color: #A8997F; }
+.ff img { height: 34px; }
+.ff .src { text-align: right; max-width: 1250px; }
+.mono { font-family: var(--mono); }
+.ta { font-family: 'Noto Sans Tamil', var(--sans); }
+
+</style></head><body><div id="fig" class="light" style="width:1600px;height:980px;"><header class="fh"><div class="kicker">The fine-tuned 2B Strands decision model</div><h1>Fine-tuned for Tamil: <em>92.0%</em> of its fills match the editors</h1><p class="dek">Top-1 match with the editors' restoration on held-out TEST, scored once. Left: the Restorer ranked by each option. Right: the decision alone, same requests for every decider.</p></header><svg width="1600" height="980" style="position:absolute;left:0;top:0"><style>.hl{font:700 21px Fraunces;fill:#1D1611} .hs{font:400 15px 'Instrument Sans';fill:#76674F}
+.hv{font:800 25px Fraunces;fill:#1D1611} .hx{font:600 15px 'Instrument Sans';fill:#76674F}
+.dk .hl{fill:#F3EADA} .dk .hs{fill:#A8997F} .dk .hv{fill:#F3EADA} .dk .hx{fill:#A8997F}
+.pt{font:700 22px Fraunces;fill:#1D1611} .dk .pt{fill:#F5C468}</style><text x="72" y="300" class="pt">Inside the Restorer: same Sonnet 4.6 candidates</text><text x="308" y="361.0" text-anchor="end" class="hl">Fine-tuned 2B</text><text x="308" y="385.0" text-anchor="end" class="hs">270 of 413, CI 0.6077 to 0.6973</text><rect x="330" y="340" width="330" height="46" rx="8" fill="rgba(0,0,0,.045)"/><rect x="330" y="340" width="215.8" height="46" rx="8" fill="#9B3D22"/><text x="559.8" y="372.0" class="hv">0.6538</text><text x="308" y="457.0" text-anchor="end" class="hl">Deployed pre-rank</text><text x="308" y="481.0" text-anchor="end" class="hs">decider-free noisy-OR</text><rect x="330" y="436" width="330" height="46" rx="8" fill="rgba(0,0,0,.045)"/><rect x="330" y="436" width="195.0" height="46" rx="8" fill="#9A896C"/><text x="539.0" y="468.0" class="hv">0.5908</text><text x="308" y="553.0" text-anchor="end" class="hl">Base 2B</text><text x="308" y="577.0" text-anchor="end" class="hs">Strands Decider v1-2610 2B</text><rect x="330" y="532" width="330" height="46" rx="8" fill="rgba(0,0,0,.045)"/><rect x="330" y="532" width="191.8" height="46" rx="8" fill="#9A896C"/><text x="535.8" y="564.0" class="hv">0.5811</text><text x="539.0" y="506" class="hx">32 vs 6, p = 2.4e-5</text><text x="535.8" y="602" class="hx">41 vs 11, p = 3.6e-5</text><line x1="830" x2="830" y1="270" y2="620" stroke="#DACDB4" stroke-width="2"/><text x="870" y="300" class="pt">As a pure decider: 413 recorded requests</text><text x="1108" y="348.0" text-anchor="end" class="hl">Ceiling</text><text x="1108" y="372.0" text-anchor="end" class="hs">target among the 3 options</text><rect x="1130" y="330" width="330" height="40" rx="8" fill="rgba(0,0,0,.045)"/><rect x="1130" y="330" width="199.0" height="40" rx="8" fill="#AEB8EC"/><text x="1343.0" y="359.0" class="hv">0.6029</text><text x="1108" y="422.0" text-anchor="end" class="hl">Fine-tuned 2B</text><text x="1108" y="446.0" text-anchor="end" class="hs">fine-tuned on Tamil train rows</text><rect x="1130" y="404" width="330" height="40" rx="8" fill="rgba(0,0,0,.045)"/><rect x="1130" y="404" width="180.6" height="40" rx="8" fill="#9B3D22"/><text x="1324.6" y="433.0" class="hv">0.5472</text><text x="1108" y="496.0" text-anchor="end" class="hl">Hosted v19</text><text x="1108" y="520.0" text-anchor="end" class="hs">general-purpose decider</text><rect x="1130" y="478" width="330" height="40" rx="8" fill="rgba(0,0,0,.045)"/><rect x="1130" y="478" width="142.2" height="40" rx="8" fill="#9A896C"/><text x="1286.2" y="507.0" class="hv">0.4310</text><text x="1108" y="570.0" text-anchor="end" class="hl">Base 2B</text><text x="1108" y="594.0" text-anchor="end" class="hs">before fine-tuning</text><rect x="1130" y="552" width="330" height="40" rx="8" fill="rgba(0,0,0,.045)"/><rect x="1130" y="552" width="137.4" height="40" rx="8" fill="#9A896C"/><text x="1281.4" y="581.0" class="hv">0.4165</text></svg><div style="position:absolute;left:72px;top:660px;width:700px;background:#FBF8F1;border:1px solid #DACDB4;border-radius:18px;padding:22px">
+ <div style="font:700 15px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:#76674F">It knows when it knows</div>
+ <div style="margin-top:16px;height:46px;border-radius:10px;overflow:hidden;display:flex;border:1px solid #DACDB4">
+  <div style="width:57.6%;background:#9B3D22;color:#fff;font:700 17px/46px var(--sans);padding-left:12px">fills 57.6% of TEST gaps</div><div style="flex:1;background:#E3E5F4;color:#3B4787;font:700 17px/46px var(--sans);padding-left:12px">abstains</div></div>
+ <div style="display:flex;align-items:baseline;gap:16px;margin-top:16px"><div style="font:800 58px/1 var(--serif);color:#9B3D22">92.0%</div>
+ <div style="font:400 17px/1.4 var(--sans);color:#564A3A">of its 238 fills match the editors' restoration; ECE 0.070. TEST-hard: 0.5962.</div></div></div>
+<div style="position:absolute;left:870px;top:660px;width:670px;background:#1B1713;border-radius:18px;padding:22px;color:#F3EADA">
+ <div style="font:800 40px/1 var(--serif);color:#F5C468">90.8% of the gaps it can reach</div>
+ <div style="font:400 17px/1.45 var(--sans);color:#C9BBA3;margin-top:10px">0.5472 against a ceiling of 0.6029 (target among the 3 options). +11.6 points over hosted v19, p &lt; 1e-8. Yes/no head: AUC 0.971, ECE 0.015.</div>
+ <div style="font:600 15px/1.4 var(--sans);color:#F5C468;margin-top:12px">Fine-tuned and tested on held-out inscriptions; not yet live.</div></div><footer class="ff"><img src="file:///Users/vivekrajaps/tamil-script/ezhuthu-wt/media/design/brand/logo/lockup-horizontal-color.svg" alt=""><div class="src">Source: eval/reports/2026-11-02-finetuned-decider.md (branch team/agent/ft-decider). p: exact McNemar on discordant gaps. Not a paired comparison with the routed deployed run (0.6271).</div></footer></div></body></html>

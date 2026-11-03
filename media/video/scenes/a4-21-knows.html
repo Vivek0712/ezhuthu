@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>a4-21-knows</title>
+<link rel="stylesheet" href="/media/video/scenes/_lib/scene.css">
+<script src="/media/video/scenes/_lib/timeline.js"></script>
+<script src="/media/video/scenes/_lib/kit.js"></script>
+<style>
+  #field { position: absolute; inset: 0; }
+  .dt { position: absolute; width: 20px; height: 20px; margin: -10px 0 0 -10px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        font: 700 14px/1 var(--f-display); color: transparent; }
+  .glab { position: absolute; top: 250px; font: 600 24px/1 var(--f-ui); letter-spacing: .14em; text-transform: uppercase; }
+  #gl1 { left: 120px; color: var(--neem300); } #gl2 { left: 1350px; color: var(--neelam300); }
+  .glab b { font-family: var(--f-display); font-size: 40px; letter-spacing: 0; margin-right: 10px; }
+  #tray { position: absolute; left: 1330px; top: 822px; width: 470px; padding: 14px 20px; border-radius: 16px; border: 2px dashed var(--neelam300); text-align: center;
+          font: 600 24px/1.2 var(--f-ui); color: var(--neelam300); background: rgba(30,36,72,.35); }
+  #mid { position: absolute; left: 640px; top: 250px; width: 640px; text-align: center; }
+  #nine { font: 700 190px/1 var(--f-display); font-variation-settings: 'opsz' 144; color: var(--neem300); text-shadow: 0 0 70px rgba(147,208,156,.45); }
+  #m1 { font: 600 38px/1.2 var(--f-display); color: var(--s50); margin-top: 18px; }
+  #m1 b { color: var(--neem300); font-weight: 600; }
+  #m2 { font: 500 28px/1.3 var(--f-ui); color: var(--s200); margin-top: 16px; }
+  #m3 { font: 500 21px/1.3 var(--f-ui); color: var(--s400); margin-top: 12px; }
+  #dim { position: absolute; inset: 0; background: #0E0B09; pointer-events: none; }
+  #oneq { position: absolute; left: 960px; top: 430px; transform: translate(-50%, -50%); font: 700 220px/1 var(--f-display); color: var(--neelam300);
+          text-shadow: 0 0 60px rgba(174,184,236,.9), 0 0 140px rgba(174,184,236,.5); }
+  #know { position: absolute; left: 0; right: 0; top: 640px; text-align: center; font: italic 600 72px/1.1 var(--f-display); font-variation-settings: 'opsz' 144; color: var(--s50); }
+</style></head>
+<body><div id="stage">
+  <div class="stage-bg"></div>
+  <div id="field"></div>
+  <div class="glab" id="gl1"><b>206</b>filled</div>
+  <div class="glab" id="gl2"><b>207</b>left open</div>
+  <div id="tray">→ expert review</div>
+  <div id="mid"><div id="nine">9 in 10</div><div id="m1"><b>90.8%</b> of fills match<br>(187 of 206)</div><div id="m2">fills about half, flags the rest for an expert</div><div id="m3">413 held-out test gaps · matches = the editors' restoration</div></div>
+  <div id="dim"></div>
+  <div id="oneq">?</div>
+  <div id="know">It knows when it does not know.</div>
+</div>
+<script>
+const { p, E, $, css, clamp, lerp, rng } = EZ;
+const g = KIT.grain(null, 0.05);
+const N = 413, FILL = 206, FMATCH = 187;
+// start: the a4-20 field (21 columns, 30 px pitch at 120, 200)
+const start = (i) => [120 + 10 + (i % 21) * 30, 200 + 10 + Math.floor(i / 21) * 30];
+const R = rng(2121);
+const order = [...Array(N).keys()].map((i) => [R(), i]).sort((a, b) => a[0] - b[0]).map((x) => x[1]);
+const dots = order.map((i, k) => {
+  const d = document.createElement('div'); d.className = 'dt'; $('#field').appendChild(d);
+  const filled = k < FILL, match = k < FMATCH;
+  const j = filled ? k : k - FILL;
+  const cols = 14;
+  const end = filled ? [130 + (j % cols) * 32, 320 + Math.floor(j / cols) * 32] : [1360 + (j % cols) * 32, 320 + Math.floor(j / cols) * 32];
+  return { d, s: start(i), e: end, filled, match, delay: R() * 0.5 };
+});
+const hero = dots[N - 1];
+window.SCENE = {
+  duration: 7.0,
+  render(t) {
+    g(t);
+    dots.forEach((o) => {
+      const k = p(t, 0.1 + o.delay, 0.9, E.inOut);
+      const x = lerp(o.s[0], o.e[0], k), y = lerp(o.s[1], o.e[1], k);
+      o.d.style.left = x + 'px'; o.d.style.top = y + 'px';
+      if (o.filled) { o.d.style.background = o.match ? '#93D09C' : '#5A4D3E'; o.d.style.boxShadow = o.match ? `0 0 ${8 * k}px rgba(147,208,156,.6)` : 'none'; o.d.style.color = 'transparent'; o.d.style.border = 'none'; }
+      else { o.d.style.background = k > 0.5 ? 'rgba(30,36,72,.8)' : '#5A4D3E'; o.d.style.border = k > 0.5 ? '1.5px solid #AEB8EC' : 'none'; o.d.style.color = k > 0.5 ? '#AEB8EC' : 'transparent'; o.d.textContent = '?'; }
+    });
+    css($('#gl1'), { opacity: p(t, 1.0, 0.4) }); css($('#gl2'), { opacity: p(t, 1.1, 0.4) }); css($('#tray'), { opacity: p(t, 1.6, 0.4) });
+    const n = p(t, 1.2, 0.35, E.outBack); css($('#nine'), { opacity: clamp(n * 3), transform: `scale(${1.5 - 0.5 * n})` });
+    css($('#m1'), { opacity: p(t, 1.7, 0.4) }); css($('#m2'), { opacity: p(t, 2.3, 0.4) }); css($('#m3'), { opacity: p(t, 2.6, 0.4) });
+    // 4.0 s: everything dims except one glowing '?'
+    const d = p(t, 4.0, 0.6, E.standard);
+    css($('#dim'), { opacity: 0.88 * d });
+    const q = p(t, 4.2, 0.6, E.outBack);
+    css($('#oneq'), { opacity: clamp(q), left: lerp(hero.e[0], 960, E.standard(clamp(q))) + 'px', top: lerp(hero.e[1], 430, E.standard(clamp(q))) + 'px', fontSize: lerp(18, 220, E.standard(clamp(q))) + 'px' });
+    const k = p(t, 4.7, 0.6); css($('#know'), { opacity: k, transform: `translateY(${(1 - k) * 16}px)` });
+  },
+};
+</script></body></html>

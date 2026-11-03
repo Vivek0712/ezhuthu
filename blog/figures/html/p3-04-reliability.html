@@ -1,0 +1,64 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>p3-04-reliability</title>
+<style>/* Shared styles for the blog figures. Colours from design/tokens/tokens.css, fonts from @fontsource (SIL OFL 1.1). */
+@font-face { font-family: 'Fraunces'; font-weight: 600; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-600-normal.woff2'); }
+@font-face { font-family: 'Fraunces'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-700-normal.woff2'); }
+@font-face { font-family: 'Fraunces'; font-weight: 800; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-800-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 400; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-400-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 600; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-600-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-700-normal.woff2'); }
+@font-face { font-family: 'Noto Sans Tamil'; font-weight: 400; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-sans-tamil/files/noto-sans-tamil-tamil-400-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Sans Tamil'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-sans-tamil/files/noto-sans-tamil-tamil-700-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Tamil'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-serif-tamil/files/noto-serif-tamil-tamil-700-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Tamil'; font-weight: 800; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-serif-tamil/files/noto-serif-tamil-tamil-800-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+
+:root {
+  --stone-50: #FBF8F1; --stone-100: #F4EEE2; --stone-200: #EAE1CE; --stone-300: #DACDB4; --stone-400: #BFAE8F;
+  --stone-500: #9A896C; --stone-600: #76674F; --stone-700: #564A3A;
+  --granite-950: #13100D; --granite-900: #1B1713; --granite-850: #231E18; --granite-800: #2D261F; --granite-700: #40362B;
+  --palm-100: #F5EACB; --palm-300: #DCC07D; --palm-500: #B28C42;
+  --lat-100: #F7E0D5; --lat-300: #EBA07F; --lat-400: #D9764F; --lat-500: #B5502F; --lat-600: #9B3D22; --lat-700: #7E2F19;
+  --ink: #1D1611; --ink-700: #3B2F25;
+  --lamp-200: #FBDFA6; --lamp-300: #F5C468; --lamp-400: #EAA43A; --lamp-500: #D2891C; --lamp-700: #8A5508;
+  --neem-100: #DEEBD7; --neem-300: #93D09C; --neem-700: #2C6534;
+  --neelam-100: #E3E5F4; --neelam-300: #AEB8EC; --neelam-700: #3B4787;
+  --serif: 'Fraunces', 'Noto Serif Tamil', Georgia, serif;
+  --sans: 'Instrument Sans', 'Noto Sans Tamil', system-ui, sans-serif;
+  --mono: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #fff; }
+body { font-family: var(--sans); color: var(--ink); -webkit-font-smoothing: antialiased; }
+#fig { position: relative; overflow: hidden; width: 1600px; }
+#fig.light { background: var(--stone-100); color: var(--ink); }
+#fig.dark { background: radial-gradient(120% 90% at 85% 0%, #3a2414 0%, var(--granite-900) 45%, var(--granite-950) 100%); color: #F3EADA; }
+
+.fh { padding: 56px 72px 0; }
+.kicker { font: 700 17px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--lat-600); }
+.dark .kicker { color: var(--lamp-300); }
+.fh h1 { font: 800 50px/1.08 var(--serif); margin-top: 16px; letter-spacing: -.01em; max-width: 1400px; }
+.fh h1 em { font-style: normal; color: var(--lat-600); }
+.dark .fh h1 em { color: var(--lamp-400); }
+.fh .dek { font: 400 22px/1.45 var(--sans); color: var(--stone-700); margin-top: 14px; max-width: 1300px; }
+.dark .fh .dek { color: #C9BBA3; }
+
+.ff { position: absolute; left: 72px; right: 72px; bottom: 30px; display: flex; align-items: center; justify-content: space-between; gap: 32px;
+      font: 400 15px/1.35 var(--sans); color: var(--stone-600); }
+.dark .ff { color: #A8997F; }
+.ff img { height: 34px; }
+.ff .src { text-align: right; max-width: 1250px; }
+.mono { font-family: var(--mono); }
+.ta { font-family: 'Noto Sans Tamil', var(--sans); }
+
+</style></head><body><div id="fig" class="light" style="width:1600px;height:1010px;"><header class="fh"><div class="kicker">Calibration and abstention</div><h1>When it commits, <em>nine in ten fills match</em></h1><p class="dek">Each dot is a confidence bin on held-out TEST (size = number of gaps). On the dashed line, a stated 70% would mean 70% match.</p></header><svg width="1600" height="980" style="position:absolute;left:0;top:0"><style>
+.tk{font:400 16px 'Instrument Sans';fill:#76674F} .ax{font:600 18px 'Instrument Sans';fill:#564A3A}
+.an{font:700 18px 'Instrument Sans';fill:#9B3D22}</style><rect x="150" y="270" width="600" height="600" fill="#FBF8F1" stroke="#DACDB4"/><line x1="150" x2="750" y1="870" y2="870" stroke="#EAE1CE"/><text x="138" y="876" text-anchor="end" class="tk">0%</text><text x="150" y="900" text-anchor="middle" class="tk">0.0</text><line x1="150" x2="750" y1="750.0" y2="750.0" stroke="#EAE1CE"/><text x="138" y="756.0" text-anchor="end" class="tk">20%</text><text x="270.0" y="900" text-anchor="middle" class="tk">0.2</text><line x1="150" x2="750" y1="630.0" y2="630.0" stroke="#EAE1CE"/><text x="138" y="636.0" text-anchor="end" class="tk">40%</text><text x="390.0" y="900" text-anchor="middle" class="tk">0.4</text><line x1="150" x2="750" y1="510.0" y2="510.0" stroke="#EAE1CE"/><text x="138" y="516.0" text-anchor="end" class="tk">60%</text><text x="510.0" y="900" text-anchor="middle" class="tk">0.6</text><line x1="150" x2="750" y1="390.0" y2="390.0" stroke="#EAE1CE"/><text x="138" y="396.0" text-anchor="end" class="tk">80%</text><text x="630.0" y="900" text-anchor="middle" class="tk">0.8</text><line x1="150" x2="750" y1="270" y2="270" stroke="#EAE1CE"/><text x="138" y="276" text-anchor="end" class="tk">100%</text><text x="750" y="900" text-anchor="middle" class="tk">1.0</text><line x1="150" y1="870" x2="750" y2="270" stroke="#9A896C" stroke-width="2" stroke-dasharray="7 6"/><circle cx="204.5" cy="834.7" r="14.2" fill="#D2891C" fill-opacity=".85" stroke="#fff" stroke-width="2"/><circle cx="236.6" cy="801.4" r="21.6" fill="#D2891C" fill-opacity=".85" stroke="#fff" stroke-width="2"/><circle cx="296.5" cy="640.9" r="19.9" fill="#D2891C" fill-opacity=".85" stroke="#fff" stroke-width="2"/><circle cx="360.1" cy="544.3" r="17.3" fill="#D2891C" fill-opacity=".85" stroke="#fff" stroke-width="2"/><circle cx="414.5" cy="390.0" r="17.3" fill="#D2891C" fill-opacity=".85" stroke="#fff" stroke-width="2"/><circle cx="470.1" cy="500.8" r="15.9" fill="#D2891C" fill-opacity=".85" stroke="#fff" stroke-width="2"/><circle cx="531.4" cy="316.1" r="15.9" fill="#D2891C" fill-opacity=".85" stroke="#fff" stroke-width="2"/><circle cx="599.9" cy="270.0" r="14.6" fill="#D2891C" fill-opacity=".85" stroke="#fff" stroke-width="2"/><circle cx="660.9" cy="355.7" r="17.3" fill="#D2891C" fill-opacity=".85" stroke="#fff" stroke-width="2"/><circle cx="728.2" cy="282.7" r="24.0" fill="#9B3D22" fill-opacity=".85" stroke="#fff" stroke-width="2"/><text x="732" y="822" text-anchor="end" class="an">red dot, the 0.9 to 1.0 bin:</text><text x="732" y="848" text-anchor="end" class="an">95 gaps, 97.9% match</text><text x="450.0" y="936" text-anchor="middle" class="ax">calibrated confidence</text><text transform="translate(72 570.0) rotate(-90)" text-anchor="middle" class="ax">share that match the editors</text></svg><div style="position:absolute;left:880px;top:270px;width:660px">
+<div style="font:700 15px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:#76674F">Held-out TEST, 413 gaps</div>
+<div style="margin-top:18px;height:64px;border-radius:12px;overflow:hidden;display:flex;border:1px solid #DACDB4">
+ <div style="width:49.9%;background:#9B3D22;color:#fff;font:700 20px/64px var(--sans);padding-left:18px">fills 49.9% (206)</div>
+ <div style="flex:1;background:#E3E5F4;color:#3B4787;font:700 20px/64px var(--sans);padding-left:18px">abstains: to an expert</div></div>
+<div style="display:flex;gap:18px;margin-top:28px">
+ <div style="flex:1;background:#FBF8F1;border:1px solid #DACDB4;border-radius:18px;padding:22px"><div style="font:800 64px/1 var(--serif);color:#9B3D22">90.8%</div><div style="font:400 18px/1.4 var(--sans);color:#564A3A;margin-top:10px">of fills match the editors' restoration (187 of 206)</div></div>
+ <div style="flex:1;background:#FBF8F1;border:1px solid #DACDB4;border-radius:18px;padding:22px"><div style="font:800 64px/1 var(--serif);color:#1D1611">0.110</div><div style="font:400 18px/1.4 var(--sans);color:#564A3A;margin-top:10px">expected calibration error; 0 would be perfect</div></div></div>
+<div style="margin-top:18px;background:#FBF8F1;border:1px solid #DACDB4;border-radius:18px;padding:20px 22px;font:400 18px/1.45 var(--sans);color:#564A3A">
+ <b style="color:#1D1611">TEST-hard holds the line:</b> coverage 0.4101, and 0.9077 of its fills match.<br>
+ <b style="color:#1D1611">Thresholds fitted on VAL only:</b> Opus 0.4887 (n = 224), Sonnet 0.4111 (n = 278).</div></div><footer class="ff"><img src="file:///Users/vivekrajaps/tamil-script/ezhuthu-wt/media/design/brand/logo/lockup-horizontal-color.svg" alt=""><div class="src">Source: eval/reports/2026-11-02-deployed-config.md; bins from app/web/src/benchmark/summary.json (abstention.reliability).</div></footer></div></body></html>

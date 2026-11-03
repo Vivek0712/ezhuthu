@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Ezhuthu teaser 30 s</title>
+<link rel="stylesheet" href="/media/video/scenes/_lib/scene.css">
+<link rel="stylesheet" href="_lib/social.css">
+<style>
+  .bx { fill: rgba(245,196,104,.10); stroke: #F5C468; stroke-width: 5; filter: drop-shadow(0 0 10px rgba(245,196,104,.9)); }
+  /* the 16:9 "screen" holds the main-film shots; wide = full frame, square = a 1080x608 panel */
+  #screen { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; transform-origin: 0 0; background: #0B0907; }
+  #screen video { position: absolute; inset: 0; width: 1920px; height: 1080px; object-fit: cover; opacity: 0; }
+  #plate { position: absolute; inset: 0; opacity: 0; }
+  #chips { position: absolute; left: 0; right: 0; top: 300px; display: flex; flex-direction: column; align-items: center; gap: 26px; z-index: 20; }
+  #chips .chipx { font-size: 52px; padding: 20px 40px; }
+  #scrimw { position: absolute; left: 0; right: 0; bottom: 0; height: 420px; z-index: 5; pointer-events: none;
+    background: linear-gradient(180deg, rgba(11,9,7,0), rgba(11,9,7,.55) 60%, rgba(11,9,7,.75)); }
+  body.wide .cap { left: 140px; right: 140px; bottom: 200px; font-size: 72px; }
+  body.wide .hook { left: 0; right: 0; top: 330px; font-size: 128px; }
+  body.wide .eyeb { left: 0; right: 0; top: 270px; }
+  body.square #screen { top: 196px; transform: scale(0.5625); }
+  body.square #band { position: absolute; left: 0; top: 0; width: 1080px; height: 196px; display: flex; align-items: center; justify-content: center; }
+  body.square #band img { height: 104px; }
+  body.square .cap { left: 50px; right: 50px; top: 830px; font-size: 64px; }
+  body.square .hook { left: 0; right: 0; top: 290px; font-size: 92px; }
+  body.square .eyeb { left: 0; right: 0; top: 232px; font-size: 22px; }
+  body.square #scrimw { display: none; }
+  body.wide #band { display: none; }
+  .end .lock img { display: block; }
+</style></head>
+<body><div id="stage">
+  <div id="band"><img src="/design/brand/logo/lockup-horizontal-reversed.svg" alt=""></div>
+  <div id="screen">
+    <div id="plate"></div>
+    <div id="chips"></div>
+    <div class="srcx" id="platecr" style="right:40px;bottom:22px;opacity:0">Photo: Thanjavur temple inscriptions, KARTY JazZ, CC BY-SA 4.0</div>
+    <div id="rbw" style="position:absolute;inset:0;background:radial-gradient(ellipse 90% 80% at 50% 45%, #241D17, #13100D 70%);opacity:0"></div>
+    <div id="meaning" style="position:absolute;inset:0;opacity:0;background:radial-gradient(ellipse 90% 80% at 50% 45%, #241D17, #13100D 70%)">
+      <div style="position:absolute;left:96px;top:70px" class="rb-head"><span class="eb" style="display:block;font:700 22px/1 var(--f-ui);letter-spacing:.18em;text-transform:uppercase;color:var(--lat300);margin-bottom:10px">Interpreter</span>Letters into words and meaning</div>
+      <div style="position:absolute;left:96px;top:230px;width:860px;height:427px;overflow:hidden;border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.6)"><img src="/design/hero/thanjavur-crop.jpg" style="width:860px;height:427px;display:block" alt=""><svg viewBox="0 0 1568 778" width="860" height="427" style="position:absolute;left:0;top:0" id="mbx"></svg></div>
+      <div class="mcard" id="mc" style="left:1010px;top:230px;width:820px"><div class="k">Meaning by Ezhuthu <i>confidence 0.30</i></div><div class="ta">ஒரு குடிக்கு குளம் கொடுக்கப்படும்</div><div class="en">A tank is to be given for a settlement.</div></div>
+      <div class="srcx" style="left:96px;top:672px">Thanjavur stone on the live site. Photo: Richard Mortel, CC BY 2.0. Reading by Ezhuthu, not an edition.</div>
+    </div>
+    <div id="scrimw"></div>
+  </div>
+  <div class="eyeb" id="eyeb">Tamil · one of the oldest living languages</div>
+  <div class="hook" id="hook">Who will read<br>the <em>stones</em>?</div>
+  <div class="cap" id="cap"></div>
+  <div class="end" id="end">
+    <div class="lock" id="lock"><img src="/design/brand/logo/lockup-stacked-reversed.svg" alt=""></div>
+    <div class="tagl" id="tagl">Learn to read the stone.<br>Help read the backlog.</div>
+    <div class="built" id="built">Built with Strands Agents, on Amazon Bedrock AgentCore</div>
+    <div class="url" id="url">ezhuthu.sparrowdecider.com<br><b>github.com/Vivek0712/ezhuthu</b></div>
+    <div class="cred" id="cred">Photos and video via Wikimedia Commons: MADHURANTHAKAN JAGADEESAN, Neechalkaran, Mythic Society Inscriptions 3D Scanning Project, Nandhinikandhasamy (CC BY-SA 4.0); Paulthy, Richard Mortel (CC BY 2.0). Inscription texts: DHARMA, CC BY-SA 4.0. Narration: Amazon Polly. Music: original. Full credits: github.com/Vivek0712/ezhuthu</div>
+  </div>
+</div>
+<script src="/media/video/scenes/_lib/timeline.js"></script>
+<script src="_lib/social.js"></script>
+<script>
+const { p, E, $, css, clamp, lerp } = EZ;
+const FMT = new URLSearchParams(location.search).get('fmt') || 'wide';
+const W = 1920 * (FMT === 'wide' ? 1 : 0) + (FMT === 'square' ? 1080 : 0), H = FMT === 'wide' ? 1080 : 1080;
+document.body.classList.add(FMT);
+for (const el of [document.documentElement, document.body, $('#stage')]) css(el, { width: W + 'px', height: H + 'px' });
+const g = SOC.grain($('#stage'), W, H, 0.05);
+
+// the p11 plate (Thanjavur inscriptions) for "the stories in the stones"
+const plate = SOC.photo($('#plate'), '/__stock/web/p11.jpg', 1920, 1080);
+const CHIPS = [['gifts', 'Gifts of land'], ['lamps', 'Lamps for the gods'], ['stones,', 'A tank for a settlement']];
+const chipEls = CHIPS.map(([, txt]) => { const d = document.createElement('div'); d.className = 'chipx'; d.textContent = txt; $('#chips').appendChild(d); return d; });
+
+const vids = {};
+function clip(name) { if (!vids[name]) { const v = document.createElement('video'); v.src = `/__scenes/${name}.mp4`; v.muted = true; v.preload = 'auto'; v.playsInline = true; $('#screen').insertBefore(v, $('#plate')); vids[name] = v; } return vids[name]; }
+let SH = [];
+let RT = {};
+const RB = SOC.restoreBeat($('#rbw'), { W: 1920, H: 1080, horizontal: true, head: { x: 96, y: 60, w: 1000 }, line: { x: 96, y: 150, w: 1728, fs: 84 },
+  src: [0, 1, 2, 3].map((i) => ({ x: 96, y: 300 + i * 120, w: 640, h: 104 })), node: { x: 900, y: 470, w: 440, h: 120 },
+  verdict: { x: 1380, y: 455, w: 470, dy: 80 }, foot: { x: 96, y: 1032, w: 1300 } });
+const MB = [];
+{ const svg = $('#mbx'); [[65,15,170,150],[200,40,285,135],[280,30,362,130],[352,40,500,125],[522,38,632,140],[668,55,752,122],[800,15,882,112],[888,15,970,124],[1005,12,1100,102],[1110,12,1222,78],[1236,5,1395,135],[1405,4,1530,100]].forEach((b) => {
+  const r = document.createElementNS('http://www.w3.org/2000/svg', 'rect'); r.setAttribute('x', b[0]); r.setAttribute('y', b[1]); r.setAttribute('width', b[2] - b[0]); r.setAttribute('height', b[3] - b[1]);
+  r.setAttribute('class', 'bx'); svg.appendChild(r); MB.push(r); }); }
+const wordAt = (n, w) => { const x = SOC.line(n).words.find((y) => y.w.toLowerCase().startsWith(w)); return x ? x.s : SOC.line(n).start_s; };
+
+window.SCENE = {
+  duration: 30.0,
+  async prepare() {
+    await SOC.load(FMT === 'wide' ? 4 : 5, FMT === 'wide' ? 30 : 34);
+    const L = (n) => SOC.line(n);
+    const END = L(7).end_s + 0.2;
+    SH = [
+      { a: 0.0, b: 2.6, c: 'a1-01-cold-open', i: 2.4 },                              // weathered Tamil wall, raking light
+      { a: 2.6, b: L(2).start_s - 0.2, c: 'a1-01-cold-open', i: 0.0 },               // Madurai gopuram tilt
+      { a: L(2).start_s - 0.2, b: L(2).start_s + 2.1, c: 'a1-04-damage', i: 2.5 },   // the gap and the 65% ring
+      { a: L(2).start_s + 2.1, b: L(3).start_s - 0.15, c: 'a1-05-few-readers', i: 1.7 }, // epigraphists, 23
+      { a: L(3).start_s - 0.15, b: L(4).start_s - 0.1, c: 'a2-07-title', i: 2.9 },   // எழுத்து lockup
+      { a: L(4).start_s - 0.1, b: wordAt(4, 'reads') - 0.05, c: 'a2-08-hero-read', i: 1.2 },      // live: letter boxes light on the stone
+      { a: wordAt(4, 'reads') - 0.05, b: L(5).start_s - 0.15, c: 'a3-13-reader-restorer', i: 0.2 }, // letter by letter, off the stone
+      { a: L(5).start_s - 0.15, b: L(6).start_s + 0.35, c: 'restore' },                // the gap: sources -> confidence check -> fill
+      { a: L(6).start_s + 0.35, b: L(7).start_s - 0.12, c: 'a4-21-knows', i: 0.9, max: 4.2, capLow: true }, // 9 in 10 (hold before its '?' outro)
+      { a: L(7).start_s - 0.12, b: wordAt(7, 'teaches') - 0.1, c: 'meaning' },         // meaning in Tamil and English
+      { a: wordAt(7, 'teaches') - 0.1, b: END, c: 'a2-09-practice', i: 6.6 },          // Practice: a drill answered                  // 9 in 10
+    ];
+    SH.forEach((s) => { if (s.c.includes('-')) clip(s.c); });
+    this.END = END;
+    const L5 = L(5);
+    RT = { in: L5.start_s - 0.15, src0: wordAt(5, 'checks') - 0.05, srcStep: 0.42, fill: wordAt(5, 'fills'), sure: wordAt(5, 'fills') + 0.15, match: wordAt(5, 'fills') + 0.6, out: L(6).start_s + 0.35 };
+    await Promise.all(Object.values(vids).map((v) => (v.readyState >= 2 ? 0 : new Promise((r) => { v.addEventListener('loadeddata', r, { once: true }); setTimeout(r, 8000); }))));
+  },
+  async render(t) {
+    g(t);
+    const END = this.END;
+    const sh = SH.find((s) => t >= s.a && t < s.b) || SH[SH.length - 1];
+    for (const [n, v] of Object.entries(vids)) v.style.opacity = sh.c === n ? 1 : 0;
+    RB.render(t, RT);
+    css($('#rbw'), { opacity: sh.c === 'restore' ? 1 : 0 });
+    css($('#meaning'), { opacity: sh.c === 'meaning' ? 1 : 0 });
+    if (sh.c === 'meaning') { css($('#mc'), { opacity: p(t, sh.a + 0.1, 0.3), transform: `translateY(${(1 - p(t, sh.a + 0.1, 0.4)) * 20}px)` });
+      MB.forEach((r, i) => { r.style.opacity = p(t, sh.a + i * 0.04, 0.15); }); }
+    if (FMT === 'wide') css($('#cap'), { bottom: sh.capLow ? '70px' : '200px' });
+    const isPlate = sh.c === 'plate';
+    css($('#plate'), { opacity: isPlate ? 1 : 0 });
+    css($('#platecr'), { opacity: isPlate ? 1 : 0 });
+    if (isPlate) {
+      const k = (t - sh.a) / (sh.b - sh.a);
+      SOC.kb(plate, [0.05, 0.10, 0.80, 0.80], [0.20, 0.22, 0.60, 0.60], E.inOut(k));
+      CHIPS.forEach(([w], i) => { const ws = wordAt(5, w); const q = p(t, Math.min(ws, sh.a + 0.25 + i * 0.6) - 0.1, 0.35, E.outBack); css(chipEls[i], { opacity: q, transform: `translateY(${(1 - q) * 30}px) scale(${0.9 + 0.1 * q})` }); });
+    } else chipEls.forEach((c) => css(c, { opacity: 0 }));
+    if (vids[sh.c]) await EZ.seekVideo(vids[sh.c], Math.min(sh.max || 1e9, sh.i + (t - sh.a)));
+    // hook: title on frame 0 (stop-scroll), eyebrow names Tamil
+    const hk = 1 - p(t, 2.35, 0.3, E.exit);
+    css($('#hook'), { opacity: Math.min(p(t, 0.0, 0.18), hk), transform: `scale(${1.04 - 0.04 * p(t, 0, 2.4, E.outCubic)})` });
+    css($('#eyeb'), { opacity: Math.min(p(t, 0.55, 0.3), hk) });
+    // captions (hidden on the end card except its own spoken line, which the card shows in big type)
+    const c = SOC.captions($('#cap'), t);
+    if (t >= END - 0.05) css($('#cap'), { opacity: 0 });
+    // end card
+    const e = p(t, END, 0.45);
+    css($('#end'), { opacity: e, display: e > 0 ? 'block' : 'none' });
+    const sq = FMT === 'square';
+    css($('#lock'), { top: (sq ? 150 : 120) + 'px', opacity: p(t, END + 0.05, 0.4) });
+    $('#lock img').style.height = (sq ? 190 : 200) + 'px';
+    css($('#tagl'), { top: (sq ? 395 : 360) + 'px', fontSize: (sq ? 60 : 78) + 'px', opacity: p(t, END + 0.25, 0.4) });
+    css($('#built'), { top: (sq ? 560 : 550) + 'px', fontSize: (sq ? 27 : 32) + 'px', opacity: p(t, END + 0.5, 0.4) });
+    css($('#url'), { top: (sq ? 640 : 630) + 'px', fontSize: (sq ? 32 : 38) + 'px', opacity: p(t, END + 0.75, 0.4) });
+    css($('#cred'), { top: (sq ? 860 : 900) + 'px', fontSize: (sq ? 15 : 16) + 'px', opacity: 0.9 * p(t, END + 0.95, 0.4) });
+  },
+};
+</script>
+</body></html>

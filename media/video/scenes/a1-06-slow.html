@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>a1-06-slow</title>
+<link rel="stylesheet" href="/media/video/scenes/_lib/scene.css">
+<script src="/media/video/scenes/_lib/timeline.js"></script>
+<script src="/media/video/scenes/_lib/kit.js"></script>
+<style>
+  #A .ph img { filter: sepia(.3) saturate(.7) contrast(1.05) brightness(.9); }
+  #dim { position: absolute; inset: 0; background: #0E0B09; z-index: 52; }
+  #glow { position: absolute; left: 960px; top: 540px; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; z-index: 53;
+          background: var(--lamp200); box-shadow: 0 0 30px 10px rgba(245,196,104,.9), 0 0 120px 50px rgba(234,164,58,.45), 0 0 300px 120px rgba(234,164,58,.18); }
+  #cap { bottom: 96px; }
+  #cap .ta { font: 600 44px/1 var(--f-ta-display); color: var(--lamp300); margin-right: 8px; }
+  #cap .en { font: 500 30px/1 var(--f-ui); color: var(--s100); }
+</style></head>
+<body><div id="stage">
+  <div id="A"></div>
+  <div class="scrim-b" style="height:380px"></div>
+  <div class="vignette"></div>
+  <div class="tag" id="cap"><span class="ta">அரிச்சுவடி</span><span class="en">a palm-leaf alphabet primer</span></div>
+  <div class="src src-r" id="cr">Photo: Tamil Nadu Govt Oriental Manuscripts Library, Chennai, Info-farmer, CC BY-SA 4.0</div>
+  <div id="dim"></div>
+  <div id="glow"></div>
+</div>
+<script>
+const { p, E, $, css, clamp } = EZ;
+const A = KIT.photo($('#A'), 'p26');
+const g = KIT.grain();
+window.SCENE = {
+  duration: 4.0,
+  render(t) {
+    g(t);
+    KIT.kb(A, [0.10, 0.30, 0.55, 0.41], [0.30, 0.32, 0.55, 0.41], E.linear(t / 4));
+    css($('#cap'), { opacity: p(t, 0.3, 0.5) * (1 - p(t, 3.0, 0.3)) });
+    css($('#cr'), { opacity: 1 - p(t, 3.0, 0.3) });
+    css($('#dim'), { opacity: 0.8 * p(t, 3.2, 0.5, E.standard) });
+    const gl = p(t, 3.35, 0.55, E.enter);
+    css($('#glow'), { opacity: gl, transform: `scale(${0.4 + 0.6 * gl})` });
+  },
+};
+</script></body></html>

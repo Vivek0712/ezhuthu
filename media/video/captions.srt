@@ -1,0 +1,188 @@
+1
+00:00:00,250 --> 00:00:02,806
+These temple walls are written in Tamil.
+
+2
+00:00:02,806 --> 00:00:04,505
+The letters are fading.
+
+3
+00:00:05,300 --> 00:00:09,628
+From Madurai to Thanjavur, kings
+carved their words in stone.
+
+4
+00:00:09,628 --> 00:00:13,524
+Thanjavur's great temple has
+stood over a thousand years.
+
+5
+00:00:14,300 --> 00:00:18,795
+Madurai itself is carved into
+them: twenty-five editions name it.
+
+6
+00:00:20,300 --> 00:00:22,133
+Time wears the letters away.
+
+7
+00:00:22,133 --> 00:00:27,843
+65% of the 1,320 inscriptions
+we studied are damaged.
+
+8
+00:00:29,300 --> 00:00:35,216
+In 2021, India had about 23 epigraphists
+for nearly one lakh inscriptions.
+
+9
+00:00:36,300 --> 00:00:38,395
+And training a new reader is slow.
+
+10
+00:00:40,400 --> 00:00:42,660
+So I built an apprentice.
+
+11
+00:00:42,660 --> 00:00:45,382
+Meet Ezhuthu: in Tamil, 'letter'.
+
+12
+00:00:47,300 --> 00:00:50,251
+On a real Chola-period
+stone from Thanjavur,
+
+13
+00:00:50,251 --> 00:00:54,582
+it reads forty-six carved letters,
+each with its own confidence,
+
+14
+00:00:54,582 --> 00:00:58,751
+then the words, a phrase in
+today's Tamil, and its meaning.
+
+15
+00:01:00,300 --> 00:01:05,159
+Practice turns real
+inscriptions into 1,469 drills:
+
+16
+00:01:05,159 --> 00:01:08,268
+letters, words, gaps and formulas.
+
+17
+00:01:08,268 --> 00:01:09,568
+Tamil first.
+
+18
+00:01:10,300 --> 00:01:12,882
+Restore proposes the worn-away letters.
+
+19
+00:01:12,882 --> 00:01:16,914
+In our recorded gallery run,
+it filled four gaps of ten;
+
+20
+00:01:16,914 --> 00:01:19,707
+all four match the editors' restoration.
+
+21
+00:01:20,800 --> 00:01:23,905
+Where it is unsure, it
+leaves the gap open.
+
+22
+00:01:23,905 --> 00:01:28,954
+And that doubt becomes the lesson:
+experts are unsure here too.
+
+23
+00:01:30,300 --> 00:01:35,089
+Six agents, built with
+Strands Agents, pass the stone along.
+
+24
+00:01:36,300 --> 00:01:38,693
+The Reader turns photos into letters.
+
+25
+00:01:38,693 --> 00:01:42,194
+The Restorer checks
+parallels and a 5-gram model,
+
+26
+00:01:42,194 --> 00:01:47,666
+then asks Claude on Amazon Bedrock:
+Sonnet first, Opus when it matters.
+
+27
+00:01:48,300 --> 00:01:53,421
+Then a calibrated confidence check
+decides: fill it, or leave it open.
+
+28
+00:01:54,300 --> 00:01:56,736
+The Interpreter turns
+letters into meaning.
+
+29
+00:01:56,736 --> 00:02:02,128
+A Strands Graph runs every lesson, with
+a Swarm of Tutor and Assessor inside.
+
+30
+00:02:03,300 --> 00:02:09,624
+Agents look up kings, temples and formulas
+in a custom Tamil ontology over MCP.
+
+31
+00:02:10,300 --> 00:02:13,465
+We fine-tuned Strands decision
+models for Tamil:
+
+32
+00:02:13,465 --> 00:02:18,229
+train stones only, a pre-registered
+pick, one held-out test.
+
+33
+00:02:19,300 --> 00:02:24,457
+The live app runs on Amazon Bedrock
+AgentCore, serverless, as code.
+
+34
+00:02:25,300 --> 00:02:27,567
+Students practise on real stones.
+
+35
+00:02:27,567 --> 00:02:30,662
+Temple visitors point
+a phone at Tamil text.
+
+36
+00:02:30,662 --> 00:02:34,764
+And what it cannot settle goes
+to an epigraphist's review queue.
+
+37
+00:02:37,500 --> 00:02:44,515
+On 413 held-out test gaps, 62.7%
+match the editors' restoration.
+
+38
+00:02:45,300 --> 00:02:48,389
+When it commits, nine in ten fills match.
+
+39
+00:02:48,389 --> 00:02:50,897
+When it doesn't know, it says so.
+
+40
+00:02:52,400 --> 00:02:55,097
+Ezhuthu. Learn to read the stone.
+
+41
+00:02:55,097 --> 00:02:56,877
+Help read the backlog.

@@ -1,0 +1,47 @@
+1
+00:00:00,460 --> 00:00:03,200
+Tamil, one of the oldest living languages,
+
+2
+00:00:03,220 --> 00:00:05,090
+is fading from temple walls.
+
+3
+00:00:05,110 --> 00:00:09,170
+In 2021, India had about 23 epigraphists.
+
+4
+00:00:09,241 --> 00:00:10,901
+So I built Ezhuthu,
+
+5
+00:00:10,921 --> 00:00:12,041
+an apprentice.
+
+6
+00:00:12,061 --> 00:00:14,681
+A team of Strands agents reads the stone,
+
+7
+00:00:14,701 --> 00:00:15,725
+letter by letter.
+
+8
+00:00:15,745 --> 00:00:18,885
+Lost letters? It checks thousands of parallels,
+
+9
+00:00:18,905 --> 00:00:20,656
+and fills only when sure.
+
+10
+00:00:20,676 --> 00:00:24,115
+Nine in ten fills match the editors' restoration.
+
+11
+00:00:24,135 --> 00:00:25,655
+It explains the meaning,
+
+12
+00:00:25,675 --> 00:00:27,405
+and teaches you to read it.

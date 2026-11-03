@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>a3-14-confidence</title>
+<link rel="stylesheet" href="/media/video/scenes/_lib/scene.css">
+<script src="/media/video/scenes/_lib/timeline.js"></script>
+<script src="/media/video/scenes/_lib/kit.js"></script>
+<style>
+  #hdr { position: absolute; left: 96px; top: 60px; }
+  #hdr .eyebrow { display: block; margin-bottom: 10px; }
+  #hdr .h1 { position: static; font-size: 64px; }
+  #hdr .h2 { position: static; margin-top: 10px; }
+  #gauge { position: absolute; left: 200px; top: 560px; width: 1100px; height: 16px; border-radius: 8px;
+           background: linear-gradient(90deg, rgba(174,184,236,.55), rgba(174,184,236,.25) 44%, rgba(147,208,156,.3) 50%, rgba(147,208,156,.75)); }
+  .tk { position: absolute; top: 30px; font: 500 22px/1 var(--f-mono); color: var(--s400); transform: translateX(-50%); }
+  #thr { position: absolute; left: 737px; top: 470px; width: 4px; height: 200px; background: var(--lamp300); box-shadow: 0 0 16px var(--lamp300); border-radius: 2px; }
+  #thrl { position: absolute; left: 739px; top: 420px; transform: translateX(-50%); font: 600 22px/1.2 var(--f-ui); color: var(--lamp300); white-space: nowrap; text-align: center; }
+  .cd { position: absolute; padding: 14px 22px; border-radius: 16px; background: #2D261F; border: 2px solid #5A4D3E; display: flex; align-items: baseline; gap: 14px;
+        box-shadow: 0 16px 40px rgba(0,0,0,.5); transform: translate(-50%, -50%); white-space: nowrap; }
+  .cd .ta { font: 600 46px/1 var(--f-ta-display); color: var(--s50); }
+  .cd .c { font: 600 26px/1 var(--f-ui); color: var(--s200); font-variant-numeric: tabular-nums; }
+  .cd .src { position: static; font: 500 17px/1.2 var(--f-ui); color: var(--s400); text-shadow: none; }
+  .out { position: absolute; left: 1420px; width: 420px; padding: 24px 28px; border-radius: 24px; background: rgba(27,23,19,.92); }
+  .out .k { font: 700 34px/1 var(--f-ui); letter-spacing: .12em; }
+  .out .s { font: 500 22px/1.3 var(--f-ui); color: var(--s300); margin-top: 10px; max-width: 290px; }
+  #fill { top: 300px; border: 2px solid rgba(147,208,156,.7); } #fill .k { color: var(--neem300); }
+  #open { top: 700px; border: 2px solid rgba(174,184,236,.7); } #open .k { color: var(--neelam300); }
+  #fl { position: absolute; left: 1740px; top: 318px; font: 700 70px/1 var(--f-ta-display); color: var(--neem300); text-shadow: 0 0 30px rgba(147,208,156,.8); }
+  #ql { position: absolute; left: 1770px; top: 712px; font: 700 76px/1 var(--f-display); color: var(--neelam300); text-shadow: 0 0 30px rgba(174,184,236,.9); }
+  #chips { position: absolute; left: 200px; top: 790px; display: flex; gap: 18px; }
+  #watch { position: absolute; left: 1650px; top: 60px; width: 170px; height: 170px; }
+  #watch .lbl { position: absolute; left: -40px; right: -40px; top: 176px; text-align: center; font: 600 22px/1.2 var(--f-ui); color: var(--s200); }
+  #wt { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font: 600 46px/1 var(--f-display); color: var(--s50); font-variant-numeric: tabular-nums; }
+  #paths { position: absolute; inset: 0; }
+</style></head>
+<body><div id="stage">
+  <div class="stage-bg"><div class="dotgrid" style="opacity:.35"></div></div>
+  <div id="hdr"><span class="eyebrow">Confidence check</span><div class="h1">Fill it, or leave it open</div><div class="h2">calibrated on validation only</div></div>
+  <svg id="paths" viewBox="0 0 1920 1080"><path class="edge" id="pa" d="M 992 520 C 1150 450, 1250 370, 1420 365" style="stroke:#93D09C"/><path class="edge-d" id="pb" d="M 288 600 C 500 820, 1100 800, 1420 770"/></svg>
+  <div id="gauge"><div class="tk" style="left:0">0</div><div class="tk" style="left:50%">0.5</div><div class="tk" style="left:100%">1</div></div>
+  <div id="thr"></div><div id="thrl">threshold<br>fitted on VAL</div>
+  <div class="cd" id="ca"><span class="ta">க்</span><span class="c" id="cac">0.72</span></div>
+  <div class="cd" id="cb"><span class="ta">குப்</span><span class="c">0.08</span></div>
+  <div class="out" id="fill"><div class="k">FILL</div><div class="s">sure enough: the letter goes in</div></div>
+  <div id="fl">க்</div>
+  <div class="out" id="open"><div class="k">LEAVE OPEN</div><div class="s">→ learner lesson / expert review</div></div>
+  <div id="ql">?</div>
+  <div id="chips"><span class="chip">Platt scaling, fitted on VAL</span><span class="chip">25-second budget per request</span></div>
+  <div id="watch"><svg viewBox="0 0 170 170" width="170" height="170"><circle cx="85" cy="85" r="72" fill="none" stroke="#2D261F" stroke-width="12"/>
+    <circle id="wa" cx="85" cy="85" r="72" fill="none" stroke="#EAA43A" stroke-width="12" stroke-linecap="round" transform="rotate(-90 85 85)" style="filter:drop-shadow(0 0 8px rgba(234,164,58,.7))"/></svg>
+    <div id="wt">0 s</div><div class="lbl">request budget</div></div>
+  <div class="src">Examples: a live Restore fill (Tiruvāliśvaram, 72%) and the home-page stone's open gap (8%); texts DHARMA, CC BY-SA 4.0</div>
+</div>
+<script>
+const { p, E, $, css, clamp, lerp } = EZ;
+const g = KIT.grain(null, 0.05);
+const X = (v) => 200 + 1100 * v; // gauge position
+const pa = $('#pa'), pb = $('#pb'); let LA = 0, LB = 0;
+const C = 2 * Math.PI * 72;
+window.SCENE = {
+  duration: 6.0,
+  prepare() { LA = pa.getTotalLength(); LB = pb.getTotalLength(); pa.style.strokeDasharray = LA; pb.style.strokeDasharray = LB; },
+  render(t) {
+    g(t);
+    const h = p(t, 0.0, 0.5); css($('#hdr'), { opacity: h, transform: `translateY(${(1 - h) * 14}px)` });
+    css($('#gauge'), { opacity: p(t, 0.2, 0.4), transform: `scaleX(${0.6 + 0.4 * p(t, 0.2, 0.6, E.standard)})`, transformOrigin: '0 50%' });
+    const th = p(t, 0.6, 0.4, E.outBack); css($('#thr'), { opacity: clamp(th), transform: `scaleY(${th})` }); css($('#thrl'), { opacity: p(t, 0.8, 0.4) });
+    // the two candidates drop from the top-3 tray onto the gauge
+    const da = p(t, 0.9, 0.7, E.outBack), db = p(t, 1.1, 0.7, E.outBack);
+    // candidate A rides the gauge to 0.72, passes the line, continues to FILL
+    const ma = p(t, 1.6, 0.8, E.inOut), go = p(t, 2.6, 0.9, E.inOut);
+    let ax = lerp(X(0.5), X(0.72), ma), ay = lerp(140, 520, clamp(da));
+    if (go > 0) { const pt = pa.getPointAtLength(LA * go); ax = pt.x; ay = pt.y; }
+    css($('#ca'), { left: ax + 'px', top: ay + 'px', opacity: Math.min(clamp(da * 2), 1 - p(t, 3.4, 0.2)), borderColor: ma > 0.6 ? '#93D09C' : '', boxShadow: ma > 0.6 ? '0 0 30px rgba(147,208,156,.6)' : '' });
+    // candidate B sits at 0.08, below the line, and splits to the '?' lane
+    const gob = p(t, 2.8, 1.0, E.inOut);
+    let bx = X(0.08), by = lerp(140, 520, clamp(db));
+    if (gob > 0) { const pt = pb.getPointAtLength(LB * gob); bx = pt.x; by = pt.y; }
+    css($('#cb'), { left: bx + 'px', top: by + 'px', opacity: Math.min(clamp(db * 2), 1 - p(t, 3.7, 0.2)), borderColor: t > 2.2 ? '#AEB8EC' : '', boxShadow: t > 2.2 ? '0 0 30px rgba(174,184,236,.5)' : '' });
+    pa.style.strokeDashoffset = LA * (1 - go); pb.style.strokeDashoffset = LB * (1 - gob);
+    const of = p(t, 2.4, 0.4); css($('#fill'), { opacity: of }); css($('#open'), { opacity: p(t, 2.6, 0.4) });
+    // filled letter chisel-reveals; the '?' glows
+    const fr = p(t, 3.4, 0.6, E.chisel); css($('#fl'), { clipPath: `inset(0 ${100 - fr * 100}% 0 0)`, opacity: fr > 0 ? 1 : 0 });
+    const q = p(t, 3.7, 0.5, E.outBack); css($('#ql'), { opacity: clamp(q), transform: `scale(${0.6 + 0.4 * q})` });
+    css($('#chips'), { opacity: p(t, 3.6, 0.5) });
+    // stopwatch ring fills to 25 s over the scene
+    const w = clamp(t / 5.6);
+    $('#wa').style.strokeDasharray = `${C * w} ${C}`;
+    $('#wt').textContent = Math.floor(25 * w) + ' s';
+    css($('#watch'), { opacity: p(t, 0.3, 0.4) });
+  },
+};
+</script></body></html>

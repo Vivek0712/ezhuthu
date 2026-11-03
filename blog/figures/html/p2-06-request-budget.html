@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>p2-06-request-budget</title>
+<style>/* Shared styles for the blog figures. Colours from design/tokens/tokens.css, fonts from @fontsource (SIL OFL 1.1). */
+@font-face { font-family: 'Fraunces'; font-weight: 600; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-600-normal.woff2'); }
+@font-face { font-family: 'Fraunces'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-700-normal.woff2'); }
+@font-face { font-family: 'Fraunces'; font-weight: 800; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/fraunces/files/fraunces-latin-800-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 400; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-400-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 600; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-600-normal.woff2'); }
+@font-face { font-family: 'Instrument Sans'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-700-normal.woff2'); }
+@font-face { font-family: 'Noto Sans Tamil'; font-weight: 400; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-sans-tamil/files/noto-sans-tamil-tamil-400-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Sans Tamil'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-sans-tamil/files/noto-sans-tamil-tamil-700-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Tamil'; font-weight: 700; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-serif-tamil/files/noto-serif-tamil-tamil-700-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Tamil'; font-weight: 800; src: url('file:///Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@fontsource/noto-serif-tamil/files/noto-serif-tamil-tamil-800-normal.woff2'); unicode-range: U+0B80-0BFF, U+200C-200D, U+25CC; }
+
+:root {
+  --stone-50: #FBF8F1; --stone-100: #F4EEE2; --stone-200: #EAE1CE; --stone-300: #DACDB4; --stone-400: #BFAE8F;
+  --stone-500: #9A896C; --stone-600: #76674F; --stone-700: #564A3A;
+  --granite-950: #13100D; --granite-900: #1B1713; --granite-850: #231E18; --granite-800: #2D261F; --granite-700: #40362B;
+  --palm-100: #F5EACB; --palm-300: #DCC07D; --palm-500: #B28C42;
+  --lat-100: #F7E0D5; --lat-300: #EBA07F; --lat-400: #D9764F; --lat-500: #B5502F; --lat-600: #9B3D22; --lat-700: #7E2F19;
+  --ink: #1D1611; --ink-700: #3B2F25;
+  --lamp-200: #FBDFA6; --lamp-300: #F5C468; --lamp-400: #EAA43A; --lamp-500: #D2891C; --lamp-700: #8A5508;
+  --neem-100: #DEEBD7; --neem-300: #93D09C; --neem-700: #2C6534;
+  --neelam-100: #E3E5F4; --neelam-300: #AEB8EC; --neelam-700: #3B4787;
+  --serif: 'Fraunces', 'Noto Serif Tamil', Georgia, serif;
+  --sans: 'Instrument Sans', 'Noto Sans Tamil', system-ui, sans-serif;
+  --mono: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #fff; }
+body { font-family: var(--sans); color: var(--ink); -webkit-font-smoothing: antialiased; }
+#fig { position: relative; overflow: hidden; width: 1600px; }
+#fig.light { background: var(--stone-100); color: var(--ink); }
+#fig.dark { background: radial-gradient(120% 90% at 85% 0%, #3a2414 0%, var(--granite-900) 45%, var(--granite-950) 100%); color: #F3EADA; }
+
+.fh { padding: 56px 72px 0; }
+.kicker { font: 700 17px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--lat-600); }
+.dark .kicker { color: var(--lamp-300); }
+.fh h1 { font: 800 50px/1.08 var(--serif); margin-top: 16px; letter-spacing: -.01em; max-width: 1400px; }
+.fh h1 em { font-style: normal; color: var(--lat-600); }
+.dark .fh h1 em { color: var(--lamp-400); }
+.fh .dek { font: 400 22px/1.45 var(--sans); color: var(--stone-700); margin-top: 14px; max-width: 1300px; }
+.dark .fh .dek { color: #C9BBA3; }
+
+.ff { position: absolute; left: 72px; right: 72px; bottom: 30px; display: flex; align-items: center; justify-content: space-between; gap: 32px;
+      font: 400 15px/1.35 var(--sans); color: var(--stone-600); }
+.dark .ff { color: #A8997F; }
+.ff img { height: 34px; }
+.ff .src { text-align: right; max-width: 1250px; }
+.mono { font-family: var(--mono); }
+.ta { font-family: 'Noto Sans Tamil', var(--sans); }
+
+</style></head><body><div id="fig" class="light" style="width:1600px;height:920px;"><header class="fh"><div class="kicker">A hard 25-second budget</div><h1>Three timeouts became <em>three answers</em></h1><p class="dek">Same requests, before and after the budget. The 13 gaps the budget did not touch came out identical (13 of 13).</p></header><svg width="1600" height="900" style="position:absolute;left:0;top:0"><style>
+.rl{font:700 22px Fraunces;fill:#1D1611} .rs{font:400 17px 'Instrument Sans';fill:#76674F} .bv{font:700 20px 'Instrument Sans';fill:#564A3A}
+.to{font:600 16px 'Instrument Sans';fill:#76674F;font-style:italic} .av{font:700 20px 'Instrument Sans';fill:#fff} .tk{font:400 16px 'Instrument Sans';fill:#76674F}</style>
+<line x1="718.3" x2="718.3" y1="270" y2="730" stroke="#8A5508" stroke-width="2.5" stroke-dasharray="6 6"/><line x1="755.0" x2="755.0" y1="270" y2="730" stroke="#9B3D22" stroke-width="2.5" stroke-dasharray=""/><line x1="791.7" x2="791.7" y1="270" y2="730" stroke="#76674F" stroke-width="2.5" stroke-dasharray="3 5"/><text x="236" y="340" text-anchor="end" class="rl">Request 1</text><text x="236" y="366" text-anchor="end" class="rs">7 gaps</text><rect x="260" y="300" width="564.7" height="44" rx="6" fill="#BFAE8F"/><text x="836.7" y="331" class="bv">30.8 s</text><text x="914.7" y="331" class="to">timed out</text><rect x="260" y="356" width="383.2" height="44" rx="6" fill="#9B3D22"/><text x="631.2" y="387" text-anchor="end" class="av">20.9 s</text><text x="236" y="490" text-anchor="end" class="rl">Request 2</text><text x="236" y="516" text-anchor="end" class="rs">5 gaps</text><rect x="260" y="450" width="909.3" height="44" rx="6" fill="#BFAE8F"/><text x="1181.3" y="481" class="bv">49.6 s</text><text x="1259.3" y="481" class="to">timed out</text><rect x="260" y="506" width="458.3" height="44" rx="6" fill="#9B3D22"/><text x="706.3" y="537" text-anchor="end" class="av">25.0 s</text><text x="236" y="640" text-anchor="end" class="rl">Request 3</text><text x="236" y="666" text-anchor="end" class="rs">5 gaps</text><rect x="260" y="600" width="1070.7" height="44" rx="6" fill="#BFAE8F"/><text x="1342.7" y="631" class="bv">58.4 s</text><text x="1420.7" y="631" class="to">timed out</text><rect x="260" y="656" width="458.3" height="44" rx="6" fill="#9B3D22"/><text x="706.3" y="687" text-anchor="end" class="av">25.0 s</text><text x="260.0" y="762" text-anchor="middle" class="tk">0 s</text><text x="443.3" y="762" text-anchor="middle" class="tk">10 s</text><text x="626.7" y="762" text-anchor="middle" class="tk">20 s</text><text x="810.0" y="762" text-anchor="middle" class="tk">30 s</text><text x="993.3" y="762" text-anchor="middle" class="tk">40 s</text><text x="1176.7" y="762" text-anchor="middle" class="tk">50 s</text><text x="1360.0" y="762" text-anchor="middle" class="tk">60 s</text></svg><div style="position:absolute;left:558px;top:238px;width:150px;text-align:right;font:700 16px/1.2 var(--sans);color:#8A5508">25 s budget</div><div style="position:absolute;left:763px;top:238px;width:200px;font:700 16px/1.2 var(--sans);color:#9B3D22">27 s proxy limit</div><div style="position:absolute;left:260px;top:800px;display:flex;gap:28px;font:600 17px/1 var(--sans);color:#564A3A"><span><i style="display:inline-block;width:18px;height:18px;border-radius:4px;background:#BFAE8F;vertical-align:-3px;margin-right:8px"></i>before the budget</span><span><i style="display:inline-block;width:18px;height:18px;border-radius:4px;background:#9B3D22;vertical-align:-3px;margin-right:8px"></i>after: 25 s clock, Opus only with 8 s left, LLM only with 6 s left, at most 8 gaps</span></div><footer class="ff"><img src="file:///Users/vivekrajaps/tamil-script/ezhuthu-wt/media/design/brand/logo/lockup-horizontal-color.svg" alt=""><div class="src">Source: eval/reports/2026-11-02-request-budget.md. n = 3 requests: a latency check, not an accuracy estimate.</div></footer></div></body></html>
