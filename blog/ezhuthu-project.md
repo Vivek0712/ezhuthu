@@ -1,9 +1,9 @@
 ---
 title: "Ezhuthu: An Apprentice for Tamil Temple Inscriptions, Built with Strands Agents on Amazon Bedrock AgentCore"
-description: "Identify letters, restore worn-away text and learn to read Tamil inscriptions over 1,000 years old. Built with Strands Agents on Amazon Bedrock AgentCore: a Reader names each carved letter, a Restorer fills gaps using a fine-tuned Strands decision model and a custom Tamil epigraphy ontology, and a Tutor teaches in Tamil. Matches the editors' restoration on 62.7% of 413 held-out gaps; 9 in 10 when it commits."
+description: "Identify letters, restore worn-away text and learn to read Tamil inscriptions over 1,000 years old. Built with Strands Agents on Amazon Bedrock AgentCore: a Reader names each carved letter, a Restorer fills gaps from parallel inscriptions with calibrated confidence, the agents look up a custom Tamil epigraphy ontology, a fine-tuned Strands decision model is public on Hugging Face, and a Tutor teaches in Tamil. Matches the editors' restoration on 62.7% of 413 held-out gaps; 9 in 10 when it commits."
 tags: ["strands-agents", "amazon-bedrock-agentcore", "generative-ai", "education", "social-good"]
-cover: "img/p1-00-cover.jpg"
-cover_alt: "Carved Tamil letters on a stone wall of the Brihadishwara temple at Thanjavur, lit warm, with a soft outline around each letter"
+cover: "img/project-00-cover.jpg"
+cover_alt: "The Tamil letter ka at five stages, from Tamil-Brahmi through Vatteluttu, Pallava Grantha and Chola Tamil to modern Tamil, lamp-lit in a row of tiles over a dark, blurred temple inscription"
 repo: "https://github.com/Vivek0712/ezhuthu"
 demo: "https://d3jz2k92ne5puo.cloudfront.net"
 notebook: "https://github.com/Vivek0712/ezhuthu/blob/main/notebooks/ezhuthu_end_to_end.ipynb"
@@ -11,7 +11,7 @@ notebook: "https://github.com/Vivek0712/ezhuthu/blob/main/notebooks/ezhuthu_end_
 
 By Vivek Raja, AWS AI Hero
 
-The great temple at Thanjavur has stood for over 1,000 years, and its walls are written in Tamil. Rajaraja I Chola completed it in 1010 CE. Tamil is one of the oldest living languages in the world, and across Tamil Nadu, from Madurai to Thanjavur, temple walls hold more than a thousand years of its writing. Time, weather and repairs are wearing the letters away.
+The great temple at Thanjavur has stood for over 1,000 years, and its walls are written in Tamil. Rajaraja I Chola completed it in 1010 CE. Across Tamil Nadu, from Madurai to Thanjavur, temple walls hold more than a thousand years of its writing. Time, weather and repairs are wearing the letters away.
 
 In 2021 India had about 23 epigraphists. Of nearly 1 lakh (100,000) inscriptions found since 1886, only 30,000 to 35,000 had been deciphered and published (The Federal, 3 August 2021). Training a new reader is slow and depends on a mentor, and most learners cannot read the inscription on their own village temple. There was no tool that teaches old Tamil scripts in Tamil.
 
@@ -54,7 +54,7 @@ When the Restorer is unsure, the lesson says so: experts are unsure here too. Do
 
 Every agent is built with Strands Agents and runs on Amazon Bedrock AgentCore Runtime, with Claude Sonnet 4.6 and Claude Opus 4.6 on Amazon Bedrock.
 
-- **A Graph for every lesson, a Swarm for the teaching.** A Strands Graph runs `restore`, then `lesson_builder`, then a Swarm in which a Tutor and an Assessor work together. A Strands Decider makes the tutor's advance, repeat or hint call, with rule guardrails.
+- **A Graph for every lesson, a Swarm for the teaching.** A Strands Graph runs `restore`, then `lesson_builder`, then a Swarm in which a Tutor and an Assessor work together. The tutor's advance, repeat or hint policy is built on Strands Decider with rule guardrails.
 - **The Restorer is a tool-using agent.** It has five Strands tools: `retrieve_parallels` (BM25 over character n-grams across 14,355 train lines, re-ranked with rapidfuzz), `propose_fills`, `check_constraints`, `rank_and_decide` and `ontology_hints`.
 - **Routing between models.** Sonnet 4.6 answers first. A gap goes to Opus 4.6 when Sonnet's best score is under 0.6, the gap is longer than 12 letters, or there is no good parallel.
 - **Three signals, one calibrated score.** Candidates are pre-ranked by a noisy-OR of the LLM's probability, parallel-passage support and a character 5-gram's share. The top score is Platt-calibrated on the validation split to decide fill or abstain.
@@ -71,11 +71,11 @@ Every agent is built with Strands Agents and runs on Amazon Bedrock AgentCore Ru
 The last step of a restoration is a decision: of the top three candidate fills, which one matches the editors, or none. I fine-tuned the 2B Strands Decider for exactly that decision.
 
 - **Data from TRAIN only.** 2,334 choice rows and 6,936 yes/no rows, built from the Restorer's real requests. Train candidates were cross-fitted over 5 folds by stone, so no item saw its own answer key, and 96 formulaic near-duplicates of held-out lines were dropped.
-- **Cheap to train.** One epoch on one A100 40 GB GPU, 74 minutes, about USD 2.26 of compute.
+- **Cheap to train.** One epoch on one A100 40 GB GPU, 74 minutes per variant, USD 2.26 of compute for the whole run.
 - **Chosen on validation, tested once.** I committed the selection rule before scoring any variant, compared 8 variants on 280 validation gaps, and scored the held-out TEST split once.
 - **Results on 413 held-out TEST gaps.** Ranking the same Sonnet 4.6 candidates, the Restorer with the fine-tuned decider matches the editors' restoration on 65.4% (270 of 413), against 59.1% for the decider-free pre-rank. As a decision model on its own, it picks the editors' fill on 54.7% of requests, against 43.1% for the general hosted Strands Decider (p < 1e-8). On an older 60-item benchmark in a request format it was not trained on, it does not win.
 
-The weights are public on Hugging Face as `sparrow-decider/ezhuthu-sparrow-decider-2b`, with the model card, an example request and checksums. The hosted Strands Decider service serves it next to the general model on the same instances, and the main branch now routes restoration through it, with the pre-rank as the fallback.
+The weights are public on Hugging Face as `sparrow-decider/ezhuthu-sparrow-decider-2b`, with the model card, an example request and checksums. The hosted Strands Decider service serves it next to the general model on the same instances, and the main branch now routes restoration through it, with the pre-rank as the fallback. It is not yet live in the app: the live app switches to it at its next deploy.
 
 ![The fine-tuned 2B decider on 413 held-out TEST gaps. Inside the Restorer, ranking the same Sonnet 4.6 candidates, top-1 is 0.6538 with the fine-tuned decider, 0.5908 with the decider-free pre-rank and 0.5811 with the base 2B model. As a decider on its own, against a ceiling of 0.6029, the fine-tuned model gets 0.5472, the general hosted Strands Decider v19 0.4310 and the base 2B model 0.4165. Inside the Restorer it fills 57.6 percent of TEST gaps, and 92.0 percent of those fills match](img/p3-05-finetuned-decider.png)
 
@@ -98,7 +98,7 @@ The configuration the live app runs was chosen on the validation split by a rule
 ## Honest limits
 
 - The Reader cannot read Tamil-Brahmi photos yet (character error rate 0.83 to 0.91 on real photos), so that level teaches from edition text and drawn letters.
-- The ontology hints made no measurable difference to restoration accuracy. The ontology earns its place in the lessons and the history.
+- The ontology hints made no measurable difference to restoration. The ontology earns its place in the lessons and the history.
 - Learner gain is not measured yet. The pre-test and post-test are built, and a pilot with AWS UG Madurai student volunteers is next.
 - The Tamil strings are pending a native-speaker review, and the drawn Vatteluttu glyphs are pending an epigrapher's review.
 
@@ -116,4 +116,8 @@ Thanks to the DHARMA project and the editors of every edition used here, whose r
 
 Inscription texts: the DHARMA project (ERC grant 809994) and the named editors of each edition, CC BY-SA 4.0. The derived benchmark is shared under CC BY-SA 4.0.
 
-Cover photograph: "Brihadishwara Temple, Dedicated to Shiva, built by Rajaraja I, completed in 1010, Thanjavur (38)" by Richard Mortel, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0/), via Wikimedia Commons (https://commons.wikimedia.org/wiki/File:1010_CE_Brihadishwara_Shiva_Temple,_inscription,_built_by_Rajaraja_I,_Thanjavur_Tamil_Nadu_India.jpg); cropped, letter outlines added.
+Cover background photograph: "Brihadishwara Temple, Dedicated to Shiva, built by Rajaraja I, completed in 1010, Thanjavur (38)" by Richard Mortel, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0/), via Wikimedia Commons (https://commons.wikimedia.org/wiki/File:1010_CE_Brihadishwara_Shiva_Temple,_inscription,_built_by_Rajaraja_I,_Thanjavur_Tamil_Nadu_India.jpg); cropped, blurred and darkened, with the letter ka at five stages drawn over it.
+
+Fonts: Noto Serif Tamil, Noto Sans Tamil, Noto Sans Brahmi, Noto Sans Grantha, Fraunces and Instrument Sans, SIL OFL 1.1.
+
+Built with Strands Agents and Strands Decider; runs on Amazon Bedrock AgentCore; models Claude Sonnet 4.6 and Claude Opus 4.6 on Amazon Bedrock.

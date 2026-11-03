@@ -145,9 +145,9 @@ Long gaps are still hard: on gaps of four or more letters it matches 19.6%, the 
 
 ## Next in this series
 
-Part 2 is the build: a Strands Graph with a Swarm inside it, six specialist agents, a custom Tamil-epigraphy ontology served over MCP, routing between Claude Sonnet 4.6 and Claude Opus 4.6 on Amazon Bedrock, calibrated confidence, and a 25-second request budget on Amazon Bedrock AgentCore Runtime. Part 3 is the Strands decision model I fine-tuned for Tamil, tested on held-out inscriptions and not yet live, and the evaluation discipline behind every number in this post.
+Part 2 is the build: a Strands Graph with a Swarm inside it, six specialist agents, a custom Tamil-epigraphy ontology served over MCP, routing between Claude Sonnet 4.6 and Claude Opus 4.6 on Amazon Bedrock, calibrated confidence, and a 25-second request budget on Amazon Bedrock AgentCore Runtime. Part 3 is the Strands decision model I fine-tuned for Tamil, tested on held-out inscriptions and public on Hugging Face but not yet live in the app, and the evaluation discipline behind every number in this post.
 
-Try it at https://d3jz2k92ne5puo.cloudfront.net.
+Try it at https://d3jz2k92ne5puo.cloudfront.net. The end-to-end Jupyter notebook, from the data to the live AgentCore API and the test evaluation, is at https://github.com/Vivek0712/ezhuthu/blob/main/notebooks/ezhuthu_end_to_end.ipynb.
 
 ## Credits
 

@@ -1,6 +1,6 @@
 ---
 title: "Fine-Tuning a 2B Strands Decision Model for Tamil Epigraphy for USD 2.26, and Keeping Every Number Honest"
-description: "How I taught a Strands decision model to choose the way the editors of Tamil temple inscriptions chose, and how I evaluated it. Training rows from the train split only, cross-fitted by stone, near-duplicates scrubbed, eight variants compared on validation under a pre-registered rule, and the test set scored once. The fine-tuned 2B model is tested on held-out inscriptions and not yet live: 92.0% of the fills it commits to match the editors' restoration."
+description: "How I taught a Strands decision model to choose the way the editors of Tamil temple inscriptions chose, and how I evaluated it. Training rows from the train split only, cross-fitted by stone, near-duplicates scrubbed, eight variants compared on validation under a pre-registered rule, and the test set scored once. The fine-tuned 2B model is public on Hugging Face and not yet live in the app: 92.0% of the fills it commits to match the editors' restoration."
 tags: ["strands-agents", "fine-tuning", "evaluation", "machine-learning", "amazon-bedrock"]
 cover: "img/p3-00-cover.png"
 series: "Ezhuthu: an apprenticeship in Tamil epigraphy"
@@ -11,7 +11,7 @@ By Vivek Raja, AWS AI Hero
 
 Part 1 introduced Ezhuthu, an apprentice for reading the Tamil inscriptions on the temple walls of Tamil Nadu. Part 2 opened its agent pipeline on Amazon Bedrock AgentCore. This part is about two pieces of work that do not show on the home page: the Strands decision models I fine-tuned for Tamil, and the evaluation discipline behind every number in this series.
 
-Up front, so nobody has to dig for it: the fine-tuned 2B Strands decision model is tested on held-out inscriptions and is not yet live. The deployed Restorer runs without it, because the runtime cannot serve a local checkpoint. Everything below says which system each number belongs to.
+Up front, so nobody has to dig for it: the fine-tuned 2B Strands decision model is tested on held-out inscriptions and public on Hugging Face at https://huggingface.co/sparrow-decider/ezhuthu-sparrow-decider-2b, and it is not yet live in the app. The hosted Strands Decider service serves it, and the main branch routes restoration through it with the decider-free pre-rank as the fallback; the live app switches to it at its next deploy. Until then the live app's Restorer runs without it, and everything below says which system each number belongs to.
 
 ![The decision-model effort on one page: 2,337 train items, 1,162 Sonnet 4.6 calls to build candidates, 2,334 choice rows and 6,936 yes or no rows, five folds cross-fitted by stone, 96 near-duplicates dropped, three model sizes, eight variants compared on 280 validation gaps under a pre-registered rule, the test set scored once, and USD 2.26 of training on one A100](img/p3-01-decider-effort.png)
 
@@ -102,7 +102,7 @@ Judged as a pure decision model, on the 413 recorded test requests, it picks the
 
 ![The fine-tuned 2B Strands decision model on held-out test: inside the Restorer it reaches 0.6538 on the same candidates against 0.5908 for the deployed pre-rank and 0.5811 for the base 2B, it fills 57.6 percent of gaps with 92.0 percent of fills matching, and as a pure decider it reaches 0.5472 against a ceiling of 0.6029, ahead of the hosted v19 decider at 0.4310](img/p3-05-finetuned-decider.png)
 
-*Fine-tuned for Tamil, tested on held-out inscriptions, not yet live.*
+*Fine-tuned for Tamil, tested on held-out inscriptions, public on Hugging Face, not yet live in the app.*
 
 One caution on reading these numbers. The deployed system's 0.6271 comes from routed candidates, with Opus on 296 gaps. The fine-tuned model's 0.6538 comes from Sonnet-only candidates replayed from a cache, because routing it on test would have needed new Opus calls that the pre-registered protocol did not allow. The two runs are not a paired comparison, and the fine-tuned model's routed test number is unknown.
 
@@ -122,9 +122,9 @@ Two risks stay open. A match with the editors' restoration is agreement with exp
 
 ## What is next
 
-The first job is serving the fine-tuned Strands decision model next to the AgentCore runtime, then running it routed on the validation split under the same kind of pre-registered rule before it goes live. After that come a near-duplicate scrub in both directions for the next training build, a stronger approach to long gaps, an expert study, and the learner pilot with student volunteers from the AWS User Group Madurai.
+Serving is done: the hosted Strands Decider service serves the fine-tuned Strands decision model, and the main branch ranks with it inside the 25-second budget. The next job is the deploy that puts it in the live app, then faster serving for the decider call, which runs on CPU today. After that come a near-duplicate scrub in both directions for the next training build, a stronger approach to long gaps, an expert study, and the learner pilot with student volunteers from the AWS User Group Madurai.
 
-Everything in this series is reproducible from the reports in eval/reports at https://github.com/Vivek0712/ezhuthu, and the system is live at https://d3jz2k92ne5puo.cloudfront.net.
+Everything in this series is reproducible from the reports in eval/reports at https://github.com/Vivek0712/ezhuthu, and the system is live at https://d3jz2k92ne5puo.cloudfront.net. The end-to-end Jupyter notebook walks through the data, the ontology over MCP, retrieval and the 5-gram, the Strands restorer on Amazon Bedrock with the fine-tuned decider served from Hugging Face, the Graph and Swarm lesson, the live AgentCore API and the test evaluation: https://github.com/Vivek0712/ezhuthu/blob/main/notebooks/ezhuthu_end_to_end.ipynb.
 
 ## Credits
 
