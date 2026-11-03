@@ -23,7 +23,7 @@ storyboard cites them); new rows use new IDs (P12+, R1+, D1+, H1+, E1+).
   skeptic's question, not a headline.
 - **External facts** (section 6, IDs `E*`) are about Madurai, Tamil Nadu and the Tamil language, not about Ezhuthu.
   Each carries a public URL. Say them as context ("Tamil Nadu ...", "UNESCO lists ..."), never as our result.
-- **Live site:** https://d3jz2k92ne5puo.cloudfront.net (pages: Home, Practice, Restore, How it works, Benchmark).
+- **Live site:** https://ezhuthu.sparrowdecider.com, also served at https://d3jz2k92ne5puo.cloudfront.net (pages: Home, Practice, Restore, How it works, Benchmark).
 - **Repo:** https://github.com/Vivek0712/ezhuthu (public).
 
 ## Copy rules (hard bans)
@@ -37,8 +37,8 @@ storyboard cites them); new rows use new IDs (P12+, R1+, D1+, H1+, E1+).
 | "over 1,100 years old" for anything but the Pallava collection | "410 restorations in Pallava inscriptions over 1,100 years old" | `benchmark/DATA_CARD.md` Known limits |
 | "reads Tamil-Brahmi (or Grantha, or Vatteluttu) from photos" | "reads Tamil-script photos; teaches Tamil-Brahmi letters" | `eval/reports/2026-11-02-ocr-eval.md` |
 | "COA store / FalkorDB / Context Ontology Accelerator runs" or "built with AWS Context Ontology Accelerator" | "a custom OWL ontology served to the agents over MCP" | `ontology/README.md` (COA "not run yet") |
-| "the fine-tuned decider is live / deployed / in production" | "fine-tuned", "tested on held-out TEST" | `2026-11-02-finetuned-decider.md` ("It is not deployed") |
-| "the live Strands Decider drives the tutor in the cloud" | "the tutor's advance / repeat / hint policy is built on Strands Decider with rule guardrails" | `infra/README.md` "Hosted decider switch": without the decider key the cloud runtime falls back to rules ("today" at `d4ea3b3`); see S8 |
+| a new headline TEST number for the live (routed + fine-tuned decider) configuration, or "the fine-tuned decider scored 62.7%" | "the live app ranks with the fine-tuned decider; the 62.7% figure is for the configuration scored on TEST before the switch" | deployed 2026-11-04 (`DeciderBackend = hosted`); routed + fine-tuned has NOT been scored on TEST (`2026-11-02-finetuned-decider.md`: "the fine-tuned model's routed test number is unknown") |
+| "the tutor never falls back to rules" | "the tutor's advance / repeat / hint policy runs on the hosted Strands Decider with rule guardrails; if the decider cannot answer, the rules decide" | `infra/README.md` "Hosted decider switch" (`DeciderBackend = hosted` since the 2026-11-04 deploy); see S8 |
 | "deciphers inscriptions", "clears the backlog", "replaces epigraphists", "validated by scholars" | "an apprenticeship tool", "routes doubts to expert review" | `docs/marketing/positioning.md` |
 | "beats humans", "better than epigraphists", "state of the art", "first", "world's first" | "matches the editors' restoration on N of 413 held-out gaps" | campaign rule; no human study exists (L7) |
 | "a backlog of about 70,000" | The Federal wording in P1 | `docs/marketing/positioning.md` |
@@ -64,7 +64,7 @@ storyboard cites them); new rows use new IDs (P12+, R1+, D1+, H1+, E1+).
 | --- | --- | --- |
 | Problem | Tamil Nadu's temple walls hold over a thousand years of Tamil writing; 65% of the inscriptions we use have a gap or an editor's restoration; and in 2021 India had about 23 epigraphists. | E2, E3, E5, P1, P7, P12 |
 | Solution | Ezhuthu is an apprentice for Tamil epigraphy: Practice, Restore, Reader, Interpreter, Tutor, Tamil first. | S1-S16, R1 |
-| Implementation | A Strands Graph and Swarm of six agents, a custom ontology over MCP and Claude on Amazon Bedrock, running on Amazon Bedrock AgentCore; plus Strands decision models we fine-tuned for Tamil and tested on held-out inscriptions (not live). | T1-T20, D1-D8 |
+| Implementation | A Strands Graph and Swarm of six agents, a custom ontology over MCP and Claude on Amazon Bedrock, running on Amazon Bedrock AgentCore; plus a Strands decision model fine-tuned for Tamil, tested on held-out inscriptions, that the live Restorer ranks with. | T1-T20, D1-D8 |
 | Impact | Students, temple visitors and heritage volunteers learn to read the stone; what the AI cannot settle goes to an epigraphist's review queue. | H1-H6 |
 | Achievement | On 413 held-out gaps it matches the editors' restoration on 62.7%, and when it commits, 9 times in 10. | A1, A7, A8 |
 
@@ -104,7 +104,7 @@ Tagline: **"Learn to read the stone. Help read the backlog."** Tamil: *கல்
 | S5 | When it is unsure, that becomes the lesson: *experts are unsure here too*. | (qualitative) | none | `README.md` |
 | S6 | Reader: photo or EpiDoc file in, an editable transcription out. | Sonnet 4.6 vision, escalating to Opus 4.6 | Tamil script only (see L6) | `src/ezhuthu/agent/reader.py` docstring |
 | S7 | Interpreter: letters in, words, a modern Tamil phrase and a plain meaning out. | (qualitative) | credited "Meaning by Ezhuthu" | `src/ezhuthu/agent/interpreter.py` docstring |
-| S8 | Tutor: hints and history (ruler, temple, grant) in Tamil, English optional. | The advance / repeat / hint policy is built on Strands Decider with rule guardrails; in the cloud it uses the hosted Strands Decider only when the decider key is configured, otherwise the rules decide and the app shows "decided by rules" | "not yet measured with learners"; do not say a live decider drives the cloud tutor unless `DeciderBackend` = hosted is re-checked | `src/ezhuthu/agent/tutor/policy.py`, `docs/CHARTER.md`, `infra/README.md` "Hosted decider switch" |
+| S8 | Tutor: hints and history (ruler, temple, grant) in Tamil, English optional. | The advance / repeat / hint policy is built on Strands Decider with rule guardrails; in the cloud it uses the hosted Strands Decider (general model; the key is configured, `DeciderBackend = hosted` at the 2026-11-04 deploy); if the decider cannot answer, the rules decide and the app shows "decided by rules" | "not yet measured with learners" | `src/ezhuthu/agent/tutor/policy.py`, `docs/CHARTER.md`, `infra/README.md` "Hosted decider switch" |
 | S9 | Expert review queue: what the assistant cannot settle goes to a human. | experts-only route (Cognito group `experts`) | none | `infra/README.md` Access rules |
 | S10 | Try it in one click: a gallery of 13 real DHARMA passages. | **10** masked VAL passages + **3** genuine lacunae | none | `README.md`, `eval/reports/2026-11-02-samples.md` |
 | S11 | It only fills when it is sure, and when it fills, it matches the editors. | Gallery live run: filled **4 of 10**, **all 4 match** the editors' restoration; 6 left open; edition reading among the 5 candidates on **9 of 10** | "10 gaps are far too few to estimate a rate" (say "in our recorded gallery run") | `eval/reports/2026-11-02-samples.md` |
@@ -137,27 +137,27 @@ Tagline: **"Learn to read the stone. Help read the backlog."** Tamil: *கல்
 | T14 | A hard 25-second request budget so every answer beats the proxy. | `request_budget_s` **25**; Opus only with **8 s** left; LLM only with **6 s** left; max **8** gaps per request; proxy limit **27 s** (API Gateway 29 s) | none | `config/models.yaml` `restorer`; `eval/reports/2026-11-02-request-budget.md` |
 | T15 | Runs on Amazon Bedrock AgentCore Runtime. | Runtime `ezhuthu_tutor`, Python 3.12, Direct Code Deploy, linux/arm64 bundle (~237 MB unpacked, ~67 MB zipped), ontology MCP server inside the bundle | none | `infra/README.md` |
 | T16 | Serverless AWS stack, all as code (CDK, TypeScript). | **5** stacks: EzhuthuData (DynamoDB, on demand, PITR), EzhuthuAuth (Cognito, PKCE, `experts` group), EzhuthuAgent (AgentCore Runtime), EzhuthuApi (API Gateway HTTP API + JWT authorizer + Lambda proxy, Node 22 arm64), EzhuthuWeb (private S3 + CloudFront) | none | `infra/README.md` |
-| T17 | Secrets stay secret. | The hosted decider key lives only in AWS Secrets Manager; the runtime gets read access to that one secret only when it exists | do not claim the runtime calls the hosted decider for restoration (it does not) | `infra/README.md` "Hosted decider switch" |
+| T17 | Secrets stay secret. | The hosted decider key lives only in AWS Secrets Manager; the runtime gets read access to that one secret only when it exists (it does: `DeciderBackend = hosted`, 2026-11-04) | the runtime calls the hosted decider for restoration (`ezhuthu-strands-2b-ft`) and for the tutor (general model); the pre-rank is the restoration fallback | `infra/README.md` "Hosted decider switch" |
 | T18 | Model IDs in one file. | `us.anthropic.claude-sonnet-4-6`, `us.anthropic.claude-opus-4-6-v1` | none | `config/models.yaml` |
-| T19 | Strands Decider for calibrated decisions. | Tutor policy: advance / repeat / hint (see S8). Restoration ranking: Tamil fine-tuned Strands decision models trained and tested (D1-D8) | "the deployed restorer makes no decider call" | `docs/CHARTER.md`; `eval/reports/2026-11-02-deployed-config.md` |
+| T19 | Strands Decider for calibrated decisions. | Tutor policy: advance / repeat / hint (see S8). Restoration ranking: the live Restorer asks the fine-tuned `ezhuthu-strands-2b-ft` to pick one of the pre-rank's top 3 or none (`choice-topk`), with the decider-free pre-rank as the fallback (`decider_timeout_s` 18, `decider_min_remaining_s` 10); trained and tested in D1-D8 | "the 62.7% headline is the pre-rank configuration scored before the switch"; no TEST number for the routed live configuration | `docs/CHARTER.md`; `config/models.yaml`; `eval/reports/2026-11-03-hosted-ft-live.md` |
 | T20 | Engineered like a lab. | **461** Python test functions (`grep -r "def test_" tests`, 2026-11-03); `make check` enforces leakage rules and that the README numbers match `stats.json` | none | `tests/`; `benchmark/DATA_CARD.md` leakage table; `tests/test_doc_numbers.py` |
 
 ### 3b. The fine-tuned Strands decision models: the effort behind them
 
 What the decider learns: given the restorer's top-3 candidate fills for a gap (or "none"), pick the one the editors
 chose. All rows: `origin/team/agent/ft-decider`, `eval/reports/2026-11-02-finetuned-decider.md` unless noted.
-Must keep on every row: **"fine-tuned", "tested on held-out TEST", never "live" or "deployed".**
+Must keep on every row: **"fine-tuned", "tested on held-out TEST"**. Status (2026-11-04): the live app ranks with `ezhuthu-strands-2b-ft`; say "the live app ranks with it", and keep every TEST number tied to the configuration it measured (Sonnet-only candidates, not the routed live configuration).
 
 | ID | Punchy claim | Exact number / fact | Must keep | Source |
 | --- | --- | --- | --- | --- |
-| D1 | We taught a Strands decision model to choose like a Tamil epigrapher's edition. | `ezhuthu-strands-2b-ft`: continue-from of Strands Decider v1-2610 2B, LoRA r **48** (50.5M) + pointer head (3.2M), 1 epoch, **580** steps x 16 rows | "fine-tuned", NOT live | finetuned-decider "Training compute and cost" |
+| D1 | We taught a Strands decision model to choose like a Tamil epigrapher's edition. | `ezhuthu-strands-2b-ft`: continue-from of Strands Decider v1-2610 2B, LoRA r **48** (50.5M) + pointer head (3.2M), 1 epoch, **580** steps x 16 rows | "fine-tuned" | finetuned-decider "Training compute and cost" |
 | D2 | Training data built from TRAIN only. | **2,334** choice + **6,936** yes/no rows from **2,337** train items; **1,162** live Sonnet 4.6 calls to build candidates (hard cap 1,200), about USD 4.8 | none | finetuned-decider "Data and leakage controls"; `eval/reports/2026-11-02-ft-data.md` |
 | D3 | Cross-fitted, so the model never sees its own answer key. | Train candidates built with retrieval and the 5-gram excluding the item's own fold (**5** folds by stone); audit: **0 of 6,996** train parallels from the item's own fold | none | finetuned-decider; `2026-11-02-ft-data.md` |
 | D4 | Near-duplicates scrubbed. | **96 of 2,433** train items dropped (78 matched a TEST item, 18 a VAL item); reverse-direction audit: **1** shared target among 413 TEST items | "at most one TEST item affected" | finetuned-decider |
 | D5 | Pre-registered, chosen on VAL, TEST scored once. | Selection rule committed before the VAL runs (commit `2c2f5b2`); **8** decider variants compared on **280** VAL gaps; calibration fitted on VAL (n 443 and 244); TEST scored once, 0 new Bedrock calls | none | finetuned-decider "VAL selection", `preregistration.md` |
 | D6 | Three model sizes tried, from 2B down to one that trains in seconds. | ft 2B (A100, 74 min per variant); Sparrow tiny (Ettin-32M, M4 Pro, 21 min); Sparrow nano (static, Tamil WordPiece 8k vocabulary, seconds) | the 2B was chosen | finetuned-decider "Training compute and cost" |
-| D7 | Trained for the price of a coffee. | 1x A100 40 GB, **74 min** per variant, 3.5 h total, **USD 2.26** | "fine-tuned", NOT live | same (= A19) |
-| D8 | As a decision model it picks the editors' fill on 90.8% of the gaps it can reach. | Decider-only TEST: top-1 **0.5472** against a ceiling of **0.6029** (0.908 when the target is in the top 3); yes/no head AUC **0.971**, ECE 0.015; inside the restorer it fills **57.6%** of TEST gaps with **92.0%** matching | "fine-tuned", "on held-out TEST", NOT live; it is not run routed on TEST | same (= A17, A18) |
+| D7 | Trained for the price of a coffee. | 1x A100 40 GB, **74 min** per variant, 3.5 h total, **USD 2.26** | "fine-tuned" | same (= A19) |
+| D8 | As a decision model it picks the editors' fill on 90.8% of the gaps it can reach. | Decider-only TEST: top-1 **0.5472** against a ceiling of **0.6029** (0.908 when the target is in the top 3); yes/no head AUC **0.971**, ECE 0.015; inside the restorer it fills **57.6%** of TEST gaps with **92.0%** matching | "fine-tuned", "on held-out TEST"; it is not run routed on TEST (the live configuration is routed) | same (= A17, A18) |
 
 ## 4. Impact: who it helps
 
@@ -183,7 +183,7 @@ answer "compared to what?", not as the hook (user direction: no model-vs-model f
 
 | ID | Punchy claim | Exact number | Must keep | Source |
 | --- | --- | --- | --- | --- |
-| A1 | **Headline:** on held-out TEST, the deployed system matches the editors' restoration on 62.7% of gaps. | **259 of 413** = **0.6271** (95% CI 0.5787-0.6731) | "TEST", "matches the editors' restoration" | deployed-config Headline |
+| A1 | **Headline:** on held-out TEST, the pre-rank system (deployed until the 2026-11-04 switch to the fine-tuned decider) matches the editors' restoration on 62.7% of gaps. | **259 of 413** = **0.6271** (95% CI 0.5787-0.6731) | "TEST", "matches the editors' restoration", "the configuration scored on TEST before the switch" | deployed-config Headline |
 | A2 | **+21 points over Claude Sonnet 4.6 alone.** | 0.6271 vs **0.4165** (172/413) = +21.06 points | "Sonnet 4.6 alone" row is from the PR #31 test eval (Sonnet candidates ranked by the local 2B decider); both on the same 413 TEST gaps | `app/web/src/benchmark/summary.json` leaderboard; `eval/reports/2026-11-02-test-eval.md` |
 | A3 | Beats a classic character 5-gram language model, with significance. | 0.6271 vs **0.5666**; 34 vs 9 discordant gaps, **p = 0.0002** (exact McNemar) | none | deployed-config |
 | A4 | Beats copying the best parallel passage by 15 points. | 0.6271 vs **0.4722**; 88 vs 24, **p < 0.0001** | none | deployed-config |
@@ -197,11 +197,11 @@ answer "compared to what?", not as the hook (user direction: no model-vs-model f
 | A12 | Pallava + Uttiramerur age set. | **0.5686** on 51 TEST gaps; selective accuracy 0.8824 | do NOT call this set "over 1,100 years old" | deployed-config hard/age table |
 | A13 | Pre-registered, chosen on validation, test scored once. | rule committed before scoring (commit `1322bdb`); 280 VAL gaps for selection; TEST scored once | none | deployed-config "How the choice was made" |
 | A14 | The 25 s budget turned three timeouts into three answers. | Requests of 7, 5, 5 gaps: before **30.8 s, 49.6 s, 58.4 s** (all over 27 s); after **20.9 s, 25.0 s, 25.0 s**; **13/13** gaps the budget did not touch are identical | "n = 3 requests, a latency check, not an accuracy estimate" | `eval/reports/2026-11-02-request-budget.md` |
-| A15 | **Fine-tuned 2B Strands Decider beats Claude Sonnet's self-confidence by 26.6 points.** | On the same Sonnet 4.6 candidates, full TEST: fine-tuned **0.6538** (270/413, CI 0.6077-0.6973) vs Sonnet self-confidence **0.3874** (116 vs 6, p < 1e-6) | "fine-tuned", "on held-out TEST"; NOT live | `origin/team/agent/ft-decider:eval/reports/2026-11-02-finetuned-decider.md` |
-| A16 | It also beats the base 2B and the deployed ranking on the same candidates. | vs deployed pre-rank 0.5908 (32 vs 6, p = 2.4e-5); vs base 2B 0.5811 (41 vs 11, p = 3.6e-5); TEST-hard **0.5962** | "same Sonnet-only candidates", "not deployed" | same |
+| A15 | **Fine-tuned 2B Strands Decider beats Claude Sonnet's self-confidence by 26.6 points.** | On the same Sonnet 4.6 candidates, full TEST: fine-tuned **0.6538** (270/413, CI 0.6077-0.6973) vs Sonnet self-confidence **0.3874** (116 vs 6, p < 1e-6) | "fine-tuned", "on held-out TEST", "same Sonnet-only candidates" | `origin/team/agent/ft-decider:eval/reports/2026-11-02-finetuned-decider.md` |
+| A16 | It also beats the base 2B and the decider-free pre-rank on the same candidates. | vs pre-rank 0.5908 (32 vs 6, p = 2.4e-5); vs base 2B 0.5811 (41 vs 11, p = 3.6e-5); TEST-hard **0.5962** | "same Sonnet-only candidates" | same |
 | A17 | It knows when it knows. | fills **57.6%** of TEST gaps with **92.0%** of fills matching (238 fills); ECE **0.070** | same | same |
 | A18 | As a pure decider it gets 90.8% of the ones it can get. | decider-only top-1 **0.5472** vs ceiling 0.6029 (**0.908** when the target is in the top 3); vs hosted v19 0.4310 (+0.116), base 2B 0.4165, Sonnet self-confidence 0.3826; all p < 1e-8. Yes/no head: AUC **0.971**, ECE 0.015 | same | same |
-| A19 | Trained for the price of a coffee. | 1x A100 40 GB, **74 min** per variant, **USD 2.26** total; LoRA r 48 continue-from Strands Decider v1-2610 2B; checkpoint 224 MB; decider time **0.83 s** p50 per gap on an M4 Pro (4.5 s p50 per gap including the LLM, VAL) | "fine-tuned", NOT live | same |
+| A19 | Trained for the price of a coffee. | 1x A100 40 GB, **74 min** per variant, **USD 2.26** total; LoRA r 48 continue-from Strands Decider v1-2610 2B; checkpoint 224 MB; decider time **0.83 s** p50 per gap on an M4 Pro (4.5 s p50 per gap including the LLM, VAL); hosted on CPU in the live app, a one-gap restore takes ~15 s p50 (VAL live check) | "fine-tuned" | same; `eval/reports/2026-11-03-hosted-ft-live.md` |
 | A20 | Clean training data. | Trained on TRAIN only (2,334 choice + 6,936 yes/no rows); **96** near-duplicate train items dropped | none | same |
 | A21 | Reads printed and synthetic Tamil-script text with about 1 letter in 10 wrong. | CER **0.097** on 72 synthetic Tamil-script plates from DHARMA TEST lines (**0.047** clean, 0.052 photo-like, 0.192 weathered); CER **0.093** on 3 real printed Tamil pages | Tamil script only; "synthetic plates" / "printed pages"; never "stone photos"; never "experimental" (ban) | `eval/reports/2026-11-02-ocr-eval.md` |
 | A22 | Full eval spend is tiny. | Full TEST run: 122 Sonnet + 300 Opus calls, about $2.50 at list prices; OCR eval about $1.06 | "list prices" | `eval/reports/2026-11-02-test-eval.md`; ocr-eval |
@@ -229,10 +229,10 @@ via Wikipedia citing a 2005 newspaper report, and E4's minister figure points mu
 
 | ID | Limit | Source |
 | --- | --- | --- |
-| L1 | Long gaps are still hard: on gaps of 4+ letters (n = 51) the deployed system matches 19.6%, the same as copying a parallel. | deployed-config |
+| L1 | Long gaps are still hard: on gaps of 4+ letters (n = 51) the pre-rank system matches 19.6%, the same as copying a parallel. | deployed-config |
 | L2 | It abstains on about half of TEST gaps (fills 49.9%); those go to the learner as "experts are unsure" or to expert review. | deployed-config |
 | L3 | "Matches the editors' restoration" is not proof of the original text; editors' restorations are expert judgement. | `benchmark/DATA_CARD.md` Known limits |
-| L4 | The fine-tuned decider is not deployed (the runtime cannot serve a local checkpoint), and on the frozen 60-item TEST-hard benchmark it ties Sonnet (0.400) and is below hosted v19 (0.450, p = 0.375). | finetuned-decider report |
+| L4 | The live app ranks with the fine-tuned decider (hosted Strands Decider service, deployed 2026-11-04), but that routed configuration has not been scored on TEST: the 62.7% headline is the pre-rank configuration scored before the switch. The decider call makes a one-gap restore ~15 s p50 instead of ~3.4 s (VAL live check; two live gallery restores took 29.3 s and 22.2 s). On the frozen 60-item TEST-hard benchmark it ties Sonnet (0.400) and is below hosted v19 (0.450, p = 0.375). | finetuned-decider report; `eval/reports/2026-11-03-hosted-ft-live.md` |
 | L5 | Ontology hints made no measurable difference to restoration (88 hinted gaps, 3 gained, 3 lost; hint hit@5 on held-out TEST 16/253). | test-eval; `ontology/hint_eval.json` |
 | L6 | Photo reading fails on Tamil-Brahmi (CER 0.83 to 0.91 on 3 real images), Grantha is 0.56 (synthetic), Vatteluttu is unmeasured, and no real stone photo has been scored against an edition. | ocr-eval |
 | L7 | Learner gain (pre/post test) and the expert studies have not run yet. | `README.md` (TBD); `docs/expert-validation/` |
@@ -262,6 +262,6 @@ via Wikipedia citing a 2005 newspaper report, and E4's minister figure points mu
 | App screenshots (desktop + mobile, Tamil + English, light + dark) | `app/web/screenshots/desktop-01..18-*.{png,jpg}`, `mobile-01..18-*.{png,jpg}` | home, practice levels, Brahmi hint, restore, progress, benchmark report, review, about, rules, dark mode, samples gallery, restore from sample, read upload, read warning. Older shots say "Learn"/"Test" (renamed Practice/Benchmark) |
 | Positioning before/after shots | `docs/media/positioning-c/{before,after}-{home,about}-{desktop,mobile}-{en,ta}.jpg` | current home copy ("after-*") |
 | UX wireframe renders, design preview | `design/renders/ux/01-learn..06-states.png`, `design/renders/preview-{light,dark,mobile}.png` | |
-| Live pages to screen-record | https://d3jz2k92ne5puo.cloudfront.net (Home hero, Practice, Restore, How it works animated overview, Benchmark leaderboard + reliability chart) | |
+| Live pages to screen-record | https://ezhuthu.sparrowdecider.com (Home hero, Practice, Restore, How it works animated overview, Benchmark leaderboard + reliability chart) | |
 | Architecture diagram source | `README.md` mermaid ("How it works"); `infra/README.md` ASCII diagram | redraw for video |
 | Benchmark chart data | `app/web/src/benchmark/summary.json` (leaderboards full/hard, reliability bins, gap-length bins) | use for animated bar charts |

@@ -34,7 +34,7 @@ md(r"""
 **Built with Strands Agents · runs on Amazon Bedrock AgentCore · Claude Sonnet 4.6 and Opus 4.6 on Amazon Bedrock ·
 a fine-tuned Strands Decider on Hugging Face · a custom Tamil epigraphy ontology over MCP · Education track (social good)**
 
-[Live app](https://d3jz2k92ne5puo.cloudfront.net) ·
+[Live app](https://ezhuthu.sparrowdecider.com) ·
 [Code (Apache-2.0)](https://github.com/Vivek0712/ezhuthu) ·
 [Fine-tuned model](https://huggingface.co/sparrow-decider/ezhuthu-sparrow-decider-2b) ·
 [Benchmark data card](../benchmark/DATA_CARD.md) ·
@@ -100,7 +100,7 @@ os.chdir(ROOT)
 LIVE_BEDROCK = os.environ.get("EZHUTHU_LIVE") == "1"          # Claude on Amazon Bedrock (a few calls)
 RUN_FT_DECIDER = os.environ.get("RUN_FT_DECIDER", "1") == "1"  # serve the Hugging Face model locally
 CALL_LIVE_APP = os.environ.get("CALL_LIVE_APP", "1") == "1"    # the public AgentCore deployment
-LIVE_APP = "https://d3jz2k92ne5puo.cloudfront.net"
+LIVE_APP = "https://ezhuthu.sparrowdecider.com"
 HF_MODEL = "sparrow-decider/ezhuthu-sparrow-decider-2b"
 print(f"repo={ROOT.name}  live_bedrock={LIVE_BEDROCK}  ft_decider={RUN_FT_DECIDER}  live_app={CALL_LIVE_APP}")
 """)
@@ -321,7 +321,9 @@ md(r"""
 The same code runs on **Amazon Bedrock AgentCore Runtime** (`ezhuthu_tutor`, Python 3.12, Direct Code Deploy, with the
 ontology MCP server inside the bundle). CloudFront serves the React app from a private S3 bucket and routes `/api/*`
 to an API Gateway HTTP API (JWT authorizer on expert routes) and a Lambda proxy, which invokes the runtime. DynamoDB
-holds sessions and the review queue; the hosted decider key lives only in AWS Secrets Manager.
+holds sessions and the review queue; the hosted decider key lives only in AWS Secrets Manager. The app is served at
+https://ezhuthu.sparrowdecider.com, and its restorer ranks with the fine-tuned decider, with the pre-rank as the
+fallback.
 """)
 
 code(r"""
@@ -389,11 +391,13 @@ TEST, 413 gaps (Sonnet 4.6 candidates)            top-1
 """)
 
 md(r"""
-**What the numbers say.** On 413 held-out TEST gaps the deployed restorer matches the editors' restoration on 62.7%
+**What the numbers say.** On 413 held-out TEST gaps the pre-rank restorer (what the live app ran before it switched to
+the fine-tuned decider) matches the editors' restoration on 62.7%
 (259 of 413), above a character 5-gram (34 vs 9 discordant gaps, p = 0.0002) and copying the best parallel passage
 (p < 0.0001). When it commits, 9 in 10 of its fills match (187 of 206, 90.8%); the rest go to an expert. Long gaps stay
-hard (19.6% on gaps of 4 or more letters). The fine-tuned Strands Decider improves the ranking of the same candidates
-from 0.5908 to 0.6538.
+hard (19.6% on gaps of 4 or more letters). The fine-tuned Strands Decider improves the ranking of the same Sonnet 4.6
+candidates from 0.5908 to 0.6538. The live app now ranks with it; that routed configuration has not been scored on
+TEST, so 62.7% stays the figure for the configuration scored before the switch.
 
 **Honest limits.** The Reader cannot read Tamil-Brahmi photos yet; the ontology hints made no measurable difference to
 restoration accuracy (they supply the history in lessons); learner gain is not measured yet (the pre-test and post-test

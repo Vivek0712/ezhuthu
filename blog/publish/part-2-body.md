@@ -30,7 +30,7 @@ Alt text: The lesson Graph: restore feeds lesson_builder, which feeds tutor_team
 
 *Deterministic nodes where the facts are fixed, a Swarm where the words are written and checked.*
 
-The Tutor's next move (advance, repeat or hint) comes from a policy built on Strands Decider with rule guardrails. In the cloud it calls the hosted Strands Decider only when the decider key is configured; otherwise the rules decide and the app says "decided by rules". I have not measured its effect on learners yet.
+The Tutor's next move (advance, repeat or hint) comes from a policy built on Strands Decider with rule guardrails. In the cloud it calls the hosted Strands Decider, whose key is configured; if the decider cannot answer, the rules decide and the app says "decided by rules". I have not measured its effect on learners yet.
 
 ## The Restorer: a tool-using Strands agent
 
@@ -56,16 +56,16 @@ A character 5-gram language model, built from the same train lines, proposes its
 
 ### Three signals fused into one score
 
-The pre-rank is a noisy-OR of three signals: the LLM's probability, the support from parallel passages, and the 5-gram's share. Any one strong signal can lift a candidate, and agreement between them lifts it further. A pre-registered rule picked this configuration on the validation split, and it is what the live app runs today.
+The pre-rank is a noisy-OR of three signals: the LLM's probability, the support from parallel passages, and the 5-gram's share. Any one strong signal can lift a candidate, and agreement between them lifts it further. A pre-registered rule picked this configuration on the validation split, and the live app ran it on its own until the fine-tuned decision model below took over the final pick. It is still the shortlist and the fallback.
 
 < FIGURE 3 of 7: upload blog/img/p2-03-restorer-pipeline.png here >
-Alt text: The Restorer pipeline: a gap goes to parallel retrieval and the character 5-gram, Claude proposes fills, constraints filter them, and a noisy-OR of LLM probability, parallel support and 5-gram share gives a score that a Platt calibration turns into fill or abstain
+Alt text: The Restorer pipeline: a gap goes to parallel retrieval and the character 5-gram, Claude proposes fills, constraints filter them, and a noisy-OR of LLM probability, parallel support and 5-gram share shortlists the top 3 for the fine-tuned Strands Decider, whose pick a Platt calibration turns into fill or abstain
 
 *From a gap to a decision in one pass.*
 
 ### Where the Strands decision models plug in
 
-The last step of rank_and_decide is a choice: pick the candidate fill the editors would have written, or none of them. That choice is exactly the job a Strands Decider does. The hosted general-purpose decider was tested for it under the same pre-registered rule and did not earn the slot, so the Restorer in the live app makes no decider call today. I then fine-tuned a 2B Strands decision model for Tamil on this exact choice. It is tested on held-out inscriptions and public on Hugging Face at https://huggingface.co/sparrow-decider/ezhuthu-sparrow-decider-2b, and the hosted Strands Decider service serves it next to the general model. On the main branch, rank_and_decide asks it to choose among the pre-rank's top 3 candidates or none, and falls back to the pre-rank when the decider is unavailable or the request is short of time. It is not yet live in the app: the live app switches to it at its next deploy. Part 3 tells that story.
+The last step of rank_and_decide is a choice: pick the candidate fill the editors would have written, or none of them. That choice is exactly the job a Strands Decider does. The hosted general-purpose decider was tested for it under the same pre-registered rule and did not earn the slot. I then fine-tuned a 2B Strands decision model for Tamil on this exact choice. It is tested on held-out inscriptions and public on Hugging Face at https://huggingface.co/sparrow-decider/ezhuthu-sparrow-decider-2b, and the hosted Strands Decider service serves it next to the general model. In the live app, rank_and_decide asks it to choose among the pre-rank's top 3 candidates or none, and falls back to the pre-rank when the decider is unavailable or the request is short of time. Part 3 tells that story.
 
 ## Routing between Sonnet and Opus on Amazon Bedrock
 
@@ -108,7 +108,7 @@ I measured what the hints do for restoration, and on 88 hinted gaps they made no
 
 API Gateway allows 29 seconds, and the Lambda proxy gives the runtime 27. A restore request can carry several gaps, and each gap can call Sonnet and then Opus. Without a budget, a busy request runs straight through the limit.
 
-So every request runs on a 25-second clock. Opus starts only with 8 seconds left, any LLM call only with 6 seconds left, and a request carries at most 8 gaps. A gap that runs out of time abstains with the reason time_budget, so the learner always gets an answer. On the main branch the fine-tuned decider call runs on the same clock: it starts only with 10 seconds left and may take at most 18, and a gap without that time is ranked by the pre-rank.
+So every request runs on a 25-second clock. Opus starts only with 8 seconds left, any LLM call only with 6 seconds left, and a request carries at most 8 gaps. A gap that runs out of time abstains with the reason time_budget, so the learner always gets an answer. The fine-tuned decider call runs on the same clock: it starts only with 10 seconds left and may take at most 18, and a gap without that time is ranked by the pre-rank.
 
 | Request | Before the budget | After the budget |
 |---|---|---|
@@ -137,7 +137,7 @@ Everything around it is serverless and written as code with the AWS CDK in TypeS
 | EzhuthuApi | API Gateway HTTP API, JWT authorizer, Lambda proxy on Node 22 arm64 |
 | EzhuthuWeb | private Amazon S3 behind Amazon CloudFront |
 
-The hosted Strands Decider key lives only in AWS Secrets Manager, and the runtime gets read access to that one secret only when it exists. The Restorer in the live app makes no decider call yet.
+The hosted Strands Decider key lives only in AWS Secrets Manager, and the runtime gets read access to that one secret only when it exists. The secret exists, so the live Restorer ranks with the fine-tuned decision model and the Tutor asks the general one.
 
 < FIGURE 7 of 7: upload blog/img/p2-07-cdk-stacks.png here >
 Alt text: The five CDK stacks: EzhuthuWeb with S3 and CloudFront, EzhuthuApi with API Gateway, a JWT authorizer and a Lambda proxy, EzhuthuAuth with Cognito, EzhuthuAgent with the AgentCore Runtime, and EzhuthuData with DynamoDB, plus Secrets Manager holding the decider key
@@ -152,7 +152,7 @@ The repository has 461 Python test functions. make check enforces the leakage ru
 
 Part 3 is about the Strands decision models I fine-tuned for Tamil and the evaluation work behind every number in this series: training rows built from the train split only, cross-fitting by stone, a selection rule committed before the validation runs, and a test set scored once. It also covers what did not work.
 
-The code is at https://github.com/Vivek0712/ezhuthu and the site is live at https://d3jz2k92ne5puo.cloudfront.net. The end-to-end Jupyter notebook runs this pipeline step by step, from the ontology over MCP and the Strands restorer on Amazon Bedrock to the live AgentCore API: https://github.com/Vivek0712/ezhuthu/blob/main/notebooks/ezhuthu_end_to_end.ipynb.
+The code is at https://github.com/Vivek0712/ezhuthu and the site is live at https://ezhuthu.sparrowdecider.com. The end-to-end Jupyter notebook runs this pipeline step by step, from the ontology over MCP and the Strands restorer on Amazon Bedrock to the live AgentCore API: https://github.com/Vivek0712/ezhuthu/blob/main/notebooks/ezhuthu_end_to_end.ipynb.
 
 ## Credits
 

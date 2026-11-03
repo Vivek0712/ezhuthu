@@ -2,7 +2,7 @@
 // Usage: node blog/figures/shots.cjs <hero|practice|restore|benchmark|all>
 const PW = process.env.PW_PATH || '/Users/vivekrajaps/tamil-script/ezhuthu/app/web/node_modules/@playwright/test';
 const { chromium } = require(PW);
-const SITE = 'https://d3jz2k92ne5puo.cloudfront.net';
+const SITE = 'https://ezhuthu.sparrowdecider.com';
 const OUT = process.env.SHOTS_DIR || '/Users/vivekrajaps/tamil-script/ezhuthu-video/blog-shots';
 const which = process.argv[2] || 'all';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));

@@ -32,8 +32,8 @@ import '../styles/stone-hero.css';
 /**
  * The home hero: a real photograph of a Chola-period inscription (Brihadisvara temple, Thanjavur; Richard Mortel,
  * CC BY 2.0), read letter by letter by Ezhuthu's Reader (letter boxes marked by hand; the % is the Reader's own,
- * uncalibrated confidence), with the Restorer and its calibrated confidence check (the deployed configuration: no
- * Strands Decider call for restoration) on the letter it could not name with confidence, and the Interpreter turning the letters into words, a phrase in today's Tamil and
+ * uncalibrated confidence), with the Restorer and its calibrated confidence check (this recorded reading
+ * ran the pre-rank configuration, with no Strands Decider call; the live restorer now ranks with the fine-tuned one) on the letter it could not name with confidence, and the Interpreter turning the letters into words, a phrase in today's Tamil and
  * its meaning. Every letter, word, percentage and decision shown comes from src/hero/hero-view.json
  * (scripts/hero_read.py + scripts/hero_build.py): nothing is invented for the animation.
  *

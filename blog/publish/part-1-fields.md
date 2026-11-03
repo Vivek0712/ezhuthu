@@ -12,12 +12,12 @@ Cover image: blog/img/p1-00-cover.png [1200x675 PNG, 1561 KB] (1200x675 png/jpg/
 
 Figures, in body order. Each < FIGURE n of N > marker in the body is replaced by the upload; the
 Alt text line under it goes into the image's alt field; the italic line after it is the caption.
-  1. blog/img/p1-01-at-a-glance.png  [1600x900 PNG, 472 KB]  (under "(top)")
+  1. blog/img/p1-01-at-a-glance.png  [1600x900 PNG, 486 KB]  (under "(top)")
   2. blog/img/p1-09-tamil-nadu-stones.png  [1600x900 PNG, 158 KB]  (under "From Madurai to Thanjavur, the walls are written")
   3. blog/img/p1-03-gap-lengths.png  [1600x900 PNG, 95 KB]  (under "Damage is the normal case")
   4. blog/img/p1-02-letter-evolution.png  [1600x900 PNG, 212 KB]  (under "Damage is the normal case")
   5. blog/img/p1-04-home-hero.png  [1600x1250 PNG, 1328 KB]  (under "Home: a real stone, read letter by letter")
   6. blog/img/p1-05-practice-banks.png  [1600x900 PNG, 105 KB]  (under "Practice: real inscriptions turned into drills")
-  7. blog/img/p1-06-practice-screens.png  [1600x1420 PNG, 916 KB]  (under "Practice: real inscriptions turned into drills")
+  7. blog/img/p1-06-practice-screens.png  [1600x1420 PNG, 915 KB]  (under "Practice: real inscriptions turned into drills")
   8. blog/img/p1-07-restore.png  [1600x940 PNG, 320 KB]  (under "Restore: propose, show the confidence, or abstain")
   9. blog/img/p1-08-benchmark-page.png  [1600x600 PNG, 252 KB]  (under "Expert review, How it works and Benchmark")

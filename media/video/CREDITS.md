@@ -143,7 +143,7 @@ jackthemurray; chant, Seetharaman G.K. (CC0)".
 ## Video description (paste with every upload; CC BY-SA 4.0 requires the attributions to travel with the film)
 
 Ezhuthu: an apprentice for Tamil epigraphy. Built with Strands Agents, on Amazon Bedrock AgentCore.
-Live: https://d3jz2k92ne5puo.cloudfront.net · Code: https://github.com/Vivek0712/ezhuthu
+Live: https://ezhuthu.sparrowdecider.com · Code: https://github.com/Vivek0712/ezhuthu
 This film is shared under CC BY-SA 4.0 (it adapts CC BY-SA 4.0 photos and footage).
 
 Inscription texts and editors' restorations: DHARMA project (ERC grant 809994) and the named editors of each edition, CC BY-SA 4.0.

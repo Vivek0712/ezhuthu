@@ -64,11 +64,15 @@ and `ontology/lookups/*.json`).
 profile from `config/models.yaml` on every synth. Only a definite answer picks a backend: the secret's ARN (hosted), or
 `ResourceNotFoundException` / a secret scheduled for deletion (fallback). Any other failure (no AWS CLI, the 20 s
 timeout, throttling, a missing profile or credentials) stops the synth with a hint to pass the context override below,
-so a deploy cannot quietly drop the hosted decider once the secret exists. If the secret exists, the runtime gets
-`EZHUTHU_DECIDER_BACKEND=hosted` and `secretsmanager:GetSecretValue` on that one secret ARN. If it does not (today),
-the runtime gets `EZHUTHU_DECIDER_BACKEND=fallback` and no Secrets Manager permission: restoration confidences carry
-`decider_source: fallback` and tutor decisions `decider_source: rules` with `decider_confidence: null`, which the app
-shows as "decided by rules". The `DeciderBackend` stack output says which one was synthesised. Override with
+so a deploy cannot quietly drop the hosted decider once the secret exists. If the secret exists (it does: the
+2026-11-04 deploy output is `DeciderBackend = hosted (Secrets Manager ezhuthu/decider-api-key)`), the runtime gets
+`EZHUTHU_DECIDER_BACKEND=hosted` and `secretsmanager:GetSecretValue` on that one secret ARN: the restorer ranks with
+the fine-tuned `ezhuthu-strands-2b-ft` (`restorer.strategy_llm: choice-topk`, the decider-free pre-rank as the
+fallback when the decider is unavailable or the request is short of time) and the tutor policy calls the hosted
+general model. If it does not, the runtime gets `EZHUTHU_DECIDER_BACKEND=fallback` and no Secrets Manager permission:
+restoration ranks with the pre-rank alone (`decider_fallback: unavailable`) and tutor decisions carry
+`decider_source: rules` with `decider_confidence: null`, which the app shows as "decided by rules". The
+`DeciderBackend` stack output says which one was synthesised. Override with
 `-c ezhuthu:deciderSecretArn=<arn>` or force the fallback with `-c ezhuthu:deciderSecretArn=none`. Nothing here
 creates the secret.
 

@@ -94,7 +94,7 @@ class RestorerSettings:
     Decider calls (strategies ``choice-*`` / ``noul-topk``; issue: hosted fine-tuned decider):
     ``decider_fallback``: what ranks the candidates when the decider is unavailable, refuses, times out or there is
     no time left for it: ``self-report`` (the dataclass default, the behaviour before) or ``prerank`` (the
-    decider-free pre-rank, the deployed ranking). The gap then says ``decider_fallback: unavailable | time_budget``
+    decider-free pre-rank, the ranking deployed before the fine-tuned decider). The gap then says ``decider_fallback: unavailable | time_budget``
     and uses the pre-rank's calibration.
     ``decider_timeout_s``: the longest one decider call may take (``null`` = only the request budget bounds it).
     ``decider_min_remaining_s``: under a request budget, ask the decider only with at least this much left; each

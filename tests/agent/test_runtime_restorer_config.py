@@ -180,14 +180,18 @@ def test_contract_documents_the_deployed_configs_additive_fields():
     assert "`ngram_probability`" in text
 
 
-def test_about_copy_does_not_say_the_decider_picks_fills():
-    """The web About page (en + ta) must describe what the deployed runtime does (QA on PR #40)."""
+def test_about_copy_says_the_fine_tuned_decider_picks_fills():
+    """The web About page (en + ta) must describe what the deployed runtime does (QA on PR #40; updated when the
+    fine-tuned restoration decider went live, 2026-11-04): the pre-rank shortlists and escalates, the fine-tuned
+    Strands Decider picks one of the top 3 or none, the pre-rank is the fallback, and the decider also serves the tutor."""
     src = (ROOT / "app" / "web" / "src" / "i18n" / "strings.ts").read_text(encoding="utf-8")
     how2 = [ln for ln in src.splitlines() if "'about.how2':" in ln]
     assert len(how2) == 2  # English and Tamil
     en, ta = how2
-    assert "which fill to choose" in en and "Strands Decider makes the tutor" in en
+    assert "A Strands Decider fine-tuned for Tamil inscriptions then picks one of the top three fills, or none" in en
+    assert "which fill to choose" in en and "If the decider is slow or unavailable, the pre-rank decides" in en
+    assert "also makes the tutor" in en
     assert "Strands Decider makes the calibrated calls" not in en
-    assert not en.split("Strands Decider", 1)[1].count("fill")  # the decider sentence is about the tutor only
-    assert ta.count("Strands Decider") == 1 and "ஆசிரியர் முடிவை Strands Decider எடுக்கிறது" in ta
+    assert "கூடுதல் பயிற்சி பெற்ற Strands Decider முதல் மூன்று நிரப்புகளில் ஒன்றை" in ta
+    assert "ஆசிரியர் முடிவையும் Strands Decider எடுக்கிறது" in ta
     assert "Strands Decider அளவிட்ட முடிவுகளை எடுக்கிறது" not in ta

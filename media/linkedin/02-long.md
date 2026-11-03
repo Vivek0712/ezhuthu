@@ -22,7 +22,7 @@ How it is built
 - A custom Tamil-epigraphy ontology, 1,958 named entities (kings, places, temples, formulas), served to the agents over MCP
 - Claude Sonnet 4.6 first, Claude Opus 4.6 when it matters, on Amazon Bedrock, with confidence calibrated on validation
 - Runs on Amazon Bedrock AgentCore Runtime; 5 CDK stacks for data, auth, agent, API and web
-- I also fine-tuned a 2B Strands decision model to pick the fill the editors chose: train split only, cross-fitted, pre-registered. One A100, 74 minutes, USD 2.26. Inside the restorer, on held-out test, it fills 57.6% of gaps and 92.0% of those match. Tested, not yet live.
+- I also fine-tuned a 2B Strands decision model to pick the fill the editors chose: train split only, cross-fitted, pre-registered. One A100, 74 minutes, USD 2.26. Inside the restorer, on held-out test, it fills 57.6% of gaps and 92.0% of those match. The live app now ranks with it.
 
 What it scores
 On 413 held-out test gaps, scored once after every choice was locked on validation:
@@ -35,7 +35,7 @@ Still hard: gaps of 4+ letters (19.6%), and it does not read Tamil-Brahmi from p
 
 Learn to read the stone. Help read the backlog.
 
-Try it: https://d3jz2k92ne5puo.cloudfront.net
+Try it: https://ezhuthu.sparrowdecider.com
 Code (public): https://github.com/Vivek0712/ezhuthu
 Inscription texts: DHARMA project (ERC grant 809994), CC BY-SA 4.0.
 
@@ -48,6 +48,6 @@ king's title); P6, P7 (1,320; 858, 65%); P1/E7 (The Federal, 3 Aug 2021); S2, P4
 Tamil-Brahmi level teaches letters from transliterated text); S4, S6, S7 (Reader: Tamil script only), S5, S8; T1, T2;
 T4 (1,958 named individuals, MCP); T8, T13 (routing; Platt scaling fitted on VAL); T15, T16 (AgentCore, 5 stacks);
 D1-D5, D7, A17 (2B LoRA continue-from, TRAIN only, 5-fold cross-fit, pre-registered, A100 74 min, USD 2.26; 57.6% /
-92.0% on held-out TEST, NOT live); A1, A7, A13; A4 (copy 0.4722), A3 (5-gram 0.5666); A11 (list prices, an
+92.0% on held-out TEST; the live app ranks with it, routed config not scored on TEST); A1, A7, A13; A4 (copy 0.4722), A3 (5-gram 0.5666); A11 (list prices, an
 estimate); L1 (4+ letters 0.1961), L6; H6 (planned). Credits: FACTS "Credits". Put the hero photo credit (Richard
 Mortel, CC BY 2.0) in the image alt text or first comment if the hero image is attached.

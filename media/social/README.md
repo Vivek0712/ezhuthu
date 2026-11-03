@@ -51,8 +51,8 @@ The four "how it works" beats (both layouts):
    கொடுக்கப்படும் / "A tank is to be given for a settlement.", confidence 0.30, from `app/web/src/hero/hero-view.json`),
    then a Practice drill answered on a phone (live capture), "on Amazon Bedrock AgentCore".
 
-No status claim for the decision models (no "live", no "not yet live"); the 62.7% / 90.8% numbers are the deployed
-system's and are not attributed to any single component.
+No status claim for the decision models (no "live", no "not yet live"); the 62.7% / 90.8% numbers are the pre-rank
+configuration's (scored on TEST before the switch to the fine-tuned decider) and are not attributed to any single component.
 
 ## Shots
 
@@ -140,8 +140,8 @@ CC BY-SA 4.0.
 Never "experimental", "Strands AI", "AWS AI", "correct", "state of the art", "first", "beats humans", or the banned
 company name; restorations always "match the editors' restoration"; "over 1,100 years" not used (no Pallava shot);
 no Tamil-Brahmi claim; "fine-tuned Strands decision models" with no live / not-live status claim; Madurai written
-மதுரை where shown (மதிரை is not shown in these cuts). Live URL: https://ezhuthu.sparrowdecider.com (going live
-soon; check it resolves before posting).
+மதுரை where shown (மதிரை is not shown in these cuts). Live URL: https://ezhuthu.sparrowdecider.com (live since 2026-11-04;
+also served at https://d3jz2k92ne5puo.cloudfront.net).
 
 ## Files
 

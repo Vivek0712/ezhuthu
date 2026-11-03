@@ -17,7 +17,7 @@ routing:
   abstain_if_confidence_below: 0.5   # used only when no calibration exists for the active decider
 # Restorer pipeline knobs (issue #22); eval flags override them per run (python -m ezhuthu.eval.run --help).
 restorer:
-  # Deployed configuration, chosen on VAL by a pre-registered rule (deployed-config issue,
+  # Pre-rank configuration (deployed until 2026-11-04; still the fallback), chosen on VAL by a pre-registered rule (deployed-config issue,
   # eval/reports/2026-11-02-deployed-config.md): routed Sonnet -> Opus, then the decider-free pre-rank with the
   # character 5-gram's share as a noisy-OR term ("hybrid-prerank"). VAL selection set (280 gaps): 100 matches vs 85
   # routed + self-report, 83 routed + prerank, 92 5-gram gate, 79 5-gram only; hosted v19 choice-topk:3 41 vs 39 on
@@ -25,7 +25,7 @@ restorer:
   # without the decider key (Secrets Manager ezhuthu/decider-api-key): no decider call is made for restoration.
   # Previous settings (issue #26, eval/reports/2026-11-02-val-selection.md; measured on TEST with the local 2B decider
   # only, never deployable as measured): strategy_llm: noul-topk (2B decider noul on the top-3), ngram_prerank: false.
-  # 2026-11-03 (hosted fine-tuned decider): once an LLM answered, the fine-tuned restoration decider
+  # 2026-11-03 (hosted fine-tuned decider; deployed 2026-11-04, DeciderBackend hosted): once an LLM answered, the fine-tuned restoration decider
   # (ezhuthu-strands-2b-ft, now served by decider-cloud next to v19; decider.cloud.restorer_model) ranks the pre-rank's
   # top 3 + none: the variant the pre-registered rule selected on VAL (finetuned-decider issue #37, PR #43,
   # eval/reports/2026-11-02-finetuned-decider.md: 112 vs 100 of 280; TEST once with Sonnet candidates 270 vs 244 of

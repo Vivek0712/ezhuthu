@@ -179,7 +179,7 @@ def _eval_claims() -> dict[str, list[tuple[str, list[float]]]]:
     d_long = d["by_gap_length"]["deployed"]["4+ letters"]["top1"]
     assert d_long <= 1 / 3 + 1e-9  # the "1 in 3" sentence still holds with the deployed configuration
     readme += [
-        ((rf"the deployed cloud configuration: routed LLMs \+ 5-gram pre-rank, no decider\) \| \*\*{F}%\*\* \({N} of {N}\);"
+        ((rf"the cloud configuration deployed before the fine-tuned decider: routed LLMs \+ 5-gram pre-rank, no decider\) \| \*\*{F}%\*\* \({N} of {N}\);"
           rf" at its VAL-calibrated threshold it fills \*\*{F}%\*\* of test gaps, and \*\*{F}%\*\* of those fills match"),
          [_pct(df["top1"]), d_matched, df["n"], _pct(df["coverage"]), _pct(df["selective_accuracy"])]),
         (rf"no decider matches the expert on {F}% of test gaps, above the 5-gram alone \(p = {F};",
@@ -214,11 +214,11 @@ def test_doc_restoration_numbers_match_the_test_eval(doc):
 # model versions, rule settings, the 60-gap benchmark size, "1 in 3".
 RESULT_PARAGRAPHS = {
     "README.md": ["| Fills that match the expert restoration (top-1, test, measured", "| Calibration (ECE) and coverage",
-                  "| Fills that match the expert restoration (top-1, test, the deployed", "**What the test evaluation says**"],
-    "docs/CHARTER.md": ["**Measured (test, scored once", "**Deployed configuration (chosen afterwards",
+                  "| Fills that match the expert restoration (top-1, test, the cloud configuration deployed before", "**What the test evaluation says**"],
+    "docs/CHARTER.md": ["**Measured (test, scored once", "**Pre-rank configuration, deployed until 2026-11-04 (chosen afterwards",
                         "1. **Restoration ranking and abstention:**", "2. **Model routing:**"],
 }
-NOT_RESULTS = {"4.6", "2", "1", "3", "4", "0.6", "12", "60", "19", "3.5", "2610", "26", "2026", "11", "02", "0.5"}
+NOT_RESULTS = {"4.6", "2", "1", "3", "4", "0.6", "12", "60", "19", "3.5", "2610", "26", "2026", "11", "02", "04", "0.5"}
 
 
 @pytest.mark.skipif(not EVAL_PATH.exists(), reason="test evaluation not run")
@@ -246,20 +246,28 @@ MEASURED_SCOPE = {
     "README.md": [
         "Fills that match the expert restoration (top-1, test, measured with the local 2B decider)",
         ("**These numbers were measured with the local strands-decider-2B and its VAL calibration, a configuration the "
-         "cloud runtime never ran; the configuration it does run was chosen afterwards on VAL by a pre-registered rule, "
-         "calibrated on VAL and scored once on test"),
-        "Fills that match the expert restoration (top-1, test, the deployed cloud configuration",
-        # QA on PR #40: the deployed restorer makes no decider call; the decider serves the tutor
-        "Restoration (deployed): a decider-free pre-rank with the character 5-gram's score ranks the candidates, with no decider call",
+         "cloud runtime never ran; the configuration it ran next, until the fine-tuned decider replaced it, was chosen "
+         "afterwards on VAL by a pre-registered rule, calibrated on VAL and scored once on test"),
+        "Fills that match the expert restoration (top-1, test, the cloud configuration deployed before the fine-tuned decider",
+        # QA on PR #40, updated 2026-11-04 when the fine-tuned restoration decider went live: the doc must say which
+        # configuration ranks restorations now, which one the TEST headline measured, and that the decider serves the tutor
+        ("Restoration (live since 2026-11-04): the fine-tuned Strands Decider "
+         "([sparrow-decider/ezhuthu-sparrow-decider-2b]"),
+        "with the decider-free pre-rank as the fallback when the decider is unavailable or the request is short of time",
+        ("Before that, the deployed restorer ranked with the decider-free pre-rank alone, with no decider call (the "
+         "configuration scored on TEST at 62.7%)"),
+        ("The routed configuration with this decider has not been scored on TEST: the TEST numbers above are on Sonnet "
+         "4.6 candidates, and the 62.7% headline is for the pre-rank configuration scored before the switch"),
         "Strands Decider makes the tutor's advance / repeat / hint decision",
         "the 27 s proxy limit applies per request",
     ],
     "docs/CHARTER.md": [
         ("with the local 2B decider and its validation calibration (a configuration the cloud runtime never ran; the "
-         "deployed one is below), the engine's top fill matches"),
-        ("**Deployed configuration (chosen afterwards on validation by a pre-registered rule, calibrated on validation, "
-         "test scored once;"),
-        "the strongest restorer in that evaluation (the deployed configuration below beats it)",
+         "pre-rank configuration deployed next is below), the engine's top fill matches"),
+        ("**Pre-rank configuration, deployed until 2026-11-04 (chosen afterwards on validation by a pre-registered rule, "
+         "calibrated on validation, test scored once;"),
+        "The routed configuration with this decider has not been scored on test",
+        "the strongest restorer in that evaluation (the pre-rank configuration below beats it)",
         "The deployed runtime escalates on the raw (uncalibrated) `prerank-ngram` score of Sonnet's best candidate",
     ],
 }

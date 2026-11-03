@@ -177,7 +177,7 @@ export const enUx = {
   'home3.howCta': 'See how it works',
   'home3.samplesLink': 'Try a sample inscription',
   'home3.scholarsNumbers':
-    'On 413 test gaps, the first proposal matches the editors’ restoration 63% of the time. When it is sure enough to fill (about half of the gaps), 91% of its fills match.',
+    'On 413 test gaps, the first proposal of the version scored before the switch to the fine-tuned decider matches the editors’ restoration 63% of the time. When it is sure enough to fill (about half of the gaps), 91% of its fills match.',
   'home3.tryLede': 'One question from a real inscription. Tap an answer to see why.',
 } as const;
 
@@ -356,6 +356,6 @@ export const taUx: Record<keyof typeof enUx, string> = {
   'home3.howCta': 'எப்படி இயங்குகிறது எனக் காண்க',
   'home3.samplesLink': 'ஒரு மாதிரிக் கல்வெட்டை முயலுங்கள்',
   'home3.scholarsNumbers':
-    '413 சோதனை இடைவெளிகளில், முதல் முன்மொழிவு 63% பதிப்பாசிரியர்களின் மீட்டமைப்புடன் பொருந்துகிறது. நிரப்பும் அளவு உறுதியாக இருக்கும்போது (ஏறத்தாழப் பாதி இடைவெளிகள்), அதன் நிரப்புகளில் 91% பொருந்துகின்றன.',
+    'கூடுதல் பயிற்சி பெற்ற தீர்மானிக்கு மாறுவதற்கு முன் மதிப்பிட்ட அமைப்பில், 413 சோதனை இடைவெளிகளில் முதல் முன்மொழிவு 63% பதிப்பாசிரியர்களின் மீட்டமைப்புடன் பொருந்துகிறது. நிரப்பும் அளவு உறுதியாக இருக்கும்போது (ஏறத்தாழப் பாதி இடைவெளிகள்), அதன் நிரப்புகளில் 91% பொருந்துகின்றன.',
   'home3.tryLede': 'உண்மையான கல்வெட்டிலிருந்து ஒரு கேள்வி. ஏன் என்று அறிய ஒரு விடையைத் தொடுங்கள்.',
 };

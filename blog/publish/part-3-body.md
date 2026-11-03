@@ -4,7 +4,7 @@ By Vivek Raja, AWS AI Hero
 
 Part 1 introduced Ezhuthu, an apprentice for reading the Tamil inscriptions on the temple walls of Tamil Nadu. Part 2 opened its agent pipeline on Amazon Bedrock AgentCore. This part is about two pieces of work that do not show on the home page: the Strands decision models I fine-tuned for Tamil, and the evaluation discipline behind every number in this series.
 
-Up front, so nobody has to dig for it: the fine-tuned 2B Strands decision model is tested on held-out inscriptions and public on Hugging Face at https://huggingface.co/sparrow-decider/ezhuthu-sparrow-decider-2b, and it is not yet live in the app. The hosted Strands Decider service serves it, and the main branch routes restoration through it with the decider-free pre-rank as the fallback; the live app switches to it at its next deploy. Until then the live app's Restorer runs without it, and everything below says which system each number belongs to.
+Up front, so nobody has to dig for it: the fine-tuned 2B Strands decision model is tested on held-out inscriptions and public on Hugging Face at https://huggingface.co/sparrow-decider/ezhuthu-sparrow-decider-2b, and the live app now ranks restorations with it. The hosted Strands Decider service serves it next to the general model, and the Restorer asks it to pick one of the top three candidates or none, with the decider-free pre-rank as the fallback when the decider is unavailable or the request is short of time. The headline 62.7% test figure belongs to the pre-rank configuration the app ran before the switch; the routed configuration with the fine-tuned model has not been scored on test yet. Everything below says which system each number belongs to.
 
 < FIGURE 1 of 5: upload blog/img/p3-01-decider-effort.png here >
 Alt text: The decision-model effort on one page: 2,337 train items, 1,162 Sonnet 4.6 calls to build candidates, 2,334 choice rows and 6,936 yes or no rows, five folds cross-fitted by stone, 96 near-duplicates dropped, three model sizes, eight variants compared on 280 validation gaps under a pre-registered rule, the test set scored once, and USD 2.26 of training on one A100
@@ -24,17 +24,17 @@ Alt text: The split by inscription: whole inscriptions flow into train, validati
 
 *Leakage is closed by construction and enforced by tests.*
 
-## Choosing the deployed pipeline on validation, then scoring test once
+## Choosing the pre-rank pipeline on validation, then scoring test once
 
-I wrote the selection rule for the deployed configuration and committed it (commit 1322bdb) before any variant was scored. It compares variants by top-1 matches on the same 280 validation gaps, breaks ties toward the cheaper and then the faster variant, and lets the hosted Strands Decider take over only if it scores strictly more matches on a smaller hosted set. The rule picked the routed Sonnet 4.6 to Opus 4.6 pipeline with the noisy-OR pre-rank and the 5-gram as its third term. Nothing was re-tuned after the choice.
+I wrote the selection rule for the configuration to deploy and committed it (commit 1322bdb) before any variant was scored. It compares variants by top-1 matches on the same 280 validation gaps, breaks ties toward the cheaper and then the faster variant, and lets the hosted Strands Decider take over only if it scores strictly more matches on a smaller hosted set. The rule picked the routed Sonnet 4.6 to Opus 4.6 pipeline with the noisy-OR pre-rank and the 5-gram as its third term. Nothing was re-tuned after the choice. This is the configuration the live app ran until it switched to the fine-tuned model described below.
 
 The validation gaps turned out harder than the test gaps for every system, including the baselines. So I used validation for two jobs only: ranking variants against each other on the same gaps, and fitting the calibration. Its absolute numbers say nothing about test.
 
 With the configuration and calibration fixed, I scored the test set once. Every comparison below is on the same 413 gaps, with an exact McNemar test on the gaps where only one of the two systems matches.
 
-| System on held-out test | Top-1 match | Only deployed vs only other | p |
+| System on held-out test | Top-1 match | Only pre-rank vs only other | p |
 |---|---|---|---|
-| Ezhuthu as deployed | 0.6271 (259 of 413, CI 0.5787 to 0.6731) | | |
+| Ezhuthu, pre-rank version | 0.6271 (259 of 413, CI 0.5787 to 0.6731) | | |
 | Character 5-gram model | 0.5666 | 34 vs 9 | 0.0002 |
 | Earlier pipeline, routed with a local 2B decider | 0.4964 | 74 vs 20 | < 0.0001 |
 | Copy the best parallel passage | 0.4722 | 88 vs 24 | < 0.0001 |
@@ -42,7 +42,7 @@ With the configuration and calibration fixed, I scored the test set once. Every 
 On the hard set it matches 182 of 317 gaps (0.5741), against 0.5268 for the 5-gram (p = 0.0081) and 0.3817 for copying a parallel.
 
 < FIGURE 3 of 5: upload blog/img/p3-03-leaderboard.png here >
-Alt text: Leaderboards on held-out test and on the hard subset: the deployed system ahead of the character 5-gram and of copying the best parallel on both, with 95 percent intervals
+Alt text: Leaderboards on held-out test and on the hard subset: the pre-rank system ahead of the character 5-gram and of copying the best parallel on both, with 95 percent intervals
 
 *Same systems, same gaps, full set and hard set.*
 
@@ -50,7 +50,7 @@ By gap length, the wins come from short gaps: 0.7367 on one-letter gaps (n = 281
 
 ## Calibration and abstention
 
-A restoration assistant for scholars has to know when to stay quiet. The deployed Restorer calibrates its final score with Platt scaling fitted on validation only (n = 224 for the Opus key, 278 for the Sonnet key) and abstains below the fitted thresholds.
+A restoration assistant for scholars has to know when to stay quiet. The pre-rank Restorer calibrates its final score with Platt scaling fitted on validation only (n = 224 for the Opus key, 278 for the Sonnet key) and abstains below the fitted thresholds.
 
 At those thresholds, on held-out test, it fills 49.9% of gaps (206), and 90.8% of those fills match the editors' restoration (187 of 206). The 95 gaps it scores between 0.9 and 1.0 match 97.9% of the time, and the expected calibration error is 0.110. The hard set holds up too, with coverage 0.4101 and 0.9077 of fills matching.
 
@@ -90,7 +90,7 @@ Inside the Restorer, ranking the same Sonnet 4.6 candidates on all 413 test gaps
 | Ranking of the same candidates | Top-1 match on test | Only fine-tuned vs only other | p |
 |---|---|---|---|
 | Fine-tuned 2B Strands decision model | 0.6538 (270 of 413, CI 0.6077 to 0.6973) | | |
-| Deployed noisy-OR pre-rank | 0.5908 | 32 vs 6 | 2.4e-5 |
+| Decider-free noisy-OR pre-rank | 0.5908 | 32 vs 6 | 2.4e-5 |
 | Base Strands Decider 2B | 0.5811 | 41 vs 11 | 3.6e-5 |
 
 It also knows when it knows. At its validation thresholds it fills 57.6% of test gaps, and 92.0% of its 238 fills match the editors' restoration, with an expected calibration error of 0.070. On the hard subset it reaches 0.5962.
@@ -98,15 +98,15 @@ It also knows when it knows. At its validation thresholds it fills 57.6% of test
 Judged as a pure decision model, on the 413 recorded test requests, it picks the editors' fill 0.5472 of the time against a ceiling of 0.6029, the share of gaps where the target is among the 3 options at all. That is 90.8% of the gaps it can reach. The hosted general-purpose Strands Decider (v19) gets 0.4310 on the same requests and the base 2B gets 0.4165, so fine-tuning for Tamil adds 11.6 points over the hosted decider, with p < 1e-8. Its yes-or-no head reaches an AUC of 0.971 with an expected calibration error of 0.015. The decider itself takes 0.83 s per gap at p50 on an Apple M4 Pro, and the checkpoint is 224 MB.
 
 < FIGURE 5 of 5: upload blog/img/p3-05-finetuned-decider.png here >
-Alt text: The fine-tuned 2B Strands decision model on held-out test: inside the Restorer it reaches 0.6538 on the same candidates against 0.5908 for the deployed pre-rank and 0.5811 for the base 2B, it fills 57.6 percent of gaps with 92.0 percent of fills matching, and as a pure decider it reaches 0.5472 against a ceiling of 0.6029, ahead of the hosted v19 decider at 0.4310
+Alt text: The fine-tuned 2B Strands decision model on held-out test: inside the Restorer it reaches 0.6538 on the same candidates against 0.5908 for the decider-free pre-rank and 0.5811 for the base 2B, it fills 57.6 percent of gaps with 92.0 percent of fills matching, and as a pure decider it reaches 0.5472 against a ceiling of 0.6029, ahead of the hosted v19 decider at 0.4310
 
-*Fine-tuned for Tamil, tested on held-out inscriptions, public on Hugging Face, not yet live in the app.*
+*Fine-tuned for Tamil, tested on held-out inscriptions, public on Hugging Face; the live app ranks with it.*
 
-One caution on reading these numbers. The deployed system's 0.6271 comes from routed candidates, with Opus on 296 gaps. The fine-tuned model's 0.6538 comes from Sonnet-only candidates replayed from a cache, because routing it on test would have needed new Opus calls that the pre-registered protocol did not allow. The two runs are not a paired comparison, and the fine-tuned model's routed test number is unknown.
+One caution on reading these numbers. The pre-rank system's 0.6271 comes from routed candidates, with Opus on 296 gaps. The fine-tuned model's 0.6538 comes from Sonnet-only candidates replayed from a cache, because routing it on test would have needed new Opus calls that the pre-registered protocol did not allow. The two runs are not a paired comparison, and the fine-tuned model's routed test number is unknown. That routed configuration is the one the live app now runs, so I do not claim a new headline test number for it.
 
 ## What did not work
 
-Long gaps. On gaps of four or more letters (n = 51) the deployed system matches 19.6%, the same as copying a parallel.
+Long gaps. On gaps of four or more letters (n = 51) the pre-rank system matches 19.6%, the same as copying a parallel.
 
 The fine-tuned model on the frozen benchmark. On the frozen 60-item hard benchmark, built in an older request format the model was never trained on, it ties the LLM's own confidence score at 0.400 and sits below the hosted v19 decider at 0.450 (p = 0.375). It is only 60 items and the gap is not significant, and I report it anyway.
 
@@ -120,9 +120,9 @@ Two risks stay open. A match with the editors' restoration is agreement with exp
 
 ## What is next
 
-Serving is done: the hosted Strands Decider service serves the fine-tuned Strands decision model, and the main branch ranks with it inside the 25-second budget. The next job is the deploy that puts it in the live app, then faster serving for the decider call, which runs on CPU today. After that come a near-duplicate scrub in both directions for the next training build, a stronger approach to long gaps, an expert study, and the learner pilot with student volunteers from the AWS User Group Madurai.
+Serving is done: the hosted Strands Decider service serves the fine-tuned Strands decision model, and the live app ranks with it inside the 25-second budget. Two live restores of a gallery sample filled the editors' letter at 0.9087 in 29.3 s and 22.2 s end to end, against about 3.4 s per gap for the pre-rank on validation. The next jobs are scoring the routed configuration on fresh held-out data and faster serving for the decider call, which runs on CPU today. After that come a near-duplicate scrub in both directions for the next training build, a stronger approach to long gaps, an expert study, and the learner pilot with student volunteers from the AWS User Group Madurai.
 
-Everything in this series is reproducible from the reports in eval/reports at https://github.com/Vivek0712/ezhuthu, and the system is live at https://d3jz2k92ne5puo.cloudfront.net. The end-to-end Jupyter notebook walks through the data, the ontology over MCP, retrieval and the 5-gram, the Strands restorer on Amazon Bedrock with the fine-tuned decider served from Hugging Face, the Graph and Swarm lesson, the live AgentCore API and the test evaluation: https://github.com/Vivek0712/ezhuthu/blob/main/notebooks/ezhuthu_end_to_end.ipynb.
+Everything in this series is reproducible from the reports in eval/reports at https://github.com/Vivek0712/ezhuthu, and the system is live at https://ezhuthu.sparrowdecider.com. The end-to-end Jupyter notebook walks through the data, the ontology over MCP, retrieval and the 5-gram, the Strands restorer on Amazon Bedrock with the fine-tuned decider served from Hugging Face, the Graph and Swarm lesson, the live AgentCore API and the test evaluation: https://github.com/Vivek0712/ezhuthu/blob/main/notebooks/ezhuthu_end_to_end.ipynb.
 
 ## Credits
 
