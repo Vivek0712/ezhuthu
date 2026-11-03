@@ -935,28 +935,53 @@ def covers() -> None:
 <circle cx="1080" cy="90" r="20" fill="#D2891C"/><circle cx="1080" cy="90" r="38" fill="none" stroke="#D2891C" stroke-width="3" opacity=".5"/></svg>"""
     page("p3-00-cover", c3, w=1200, h=675)
 
-    # Project cover: the letter ka at five stages (design/glyphs/hero-evolution.json), lamp-lit on the dark,
-    # blurred Thanjavur stone (photo: Richard Mortel, CC BY 2.0; credited in the article). No text.
-    evo = json.loads((ROOT / "design/glyphs/hero-evolution.json").read_text())
-    st = evo["stages"]  # brahmi, vatteluttu, pallava, chola, modern: oldest to newest
-    gl, step, size, y = 96, 216, 150, 262
-    marks = ""
-    for i, s in enumerate(st):
-        x = gl + i * step
-        op = .42 + .145 * i
-        col = C["lamp300"] if i == len(st) - 1 else C["lamp400"]
-        shape = (f'<path d="{s["d"]}" fill="none" stroke="{col}" stroke-width="{evo["stroke"]}" stroke-linecap="round" stroke-linejoin="round"/>'
-                 if s["kind"] == "stroke" else f'<path d="{s["d"]}" fill="{col}"/>')
-        marks += (f'<rect x="{x - 18}" y="{y - 18}" width="{size + 36}" height="{size + 36}" rx="22" fill="{C["g850"]}" fill-opacity=".72" '
-                  f'stroke="{C["lamp300"] if i == len(st) - 1 else "#76674F"}" stroke-width="{4 if i == len(st) - 1 else 2.5}"/>'
-                  f'<svg x="{x}" y="{y}" width="{size}" height="{size}" viewBox="{evo["viewBox"]}" opacity="{op:.2f}">{shape}</svg>')
-    dots = "".join(f'<circle cx="{gl + i * step + size + 18 + (step - size - 36) / 2:.0f}" cy="{y + size / 2:.0f}" r="5" fill="{C["lamp500"]}"/>' for i in range(len(st) - 1))
-    c4 = f"""<div style="position:absolute;inset:0;background:#13100D"></div>
-<img src="{photo}" style="position:absolute;left:-40px;top:-40px;width:1280px;height:755px;object-fit:cover;filter:blur(7px) saturate(.9) brightness(.42)">
-<div style="position:absolute;inset:0;background:radial-gradient(75% 85% at 50% 50%,rgba(19,16,13,.15) 0%,rgba(19,16,13,.85) 100%)"></div>
-<svg width="1200" height="675" style="position:absolute;inset:0"><defs><filter id="g4"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-<line x1="{gl + size / 2}" y1="{y + size / 2}" x2="{gl + 4 * step + size / 2}" y2="{y + size / 2}" stroke="{C["lamp500"]}" stroke-opacity=".35" stroke-width="2" stroke-dasharray="6 10"/>
-<g filter="url(#g4)">{marks}{dots}</g></svg>"""
+    # Project cover: highlights the project. The real Thanjavur stone (photo: Richard Mortel, CC BY 2.0; credited in
+    # the article) with lamp-lit letter boxes and one restored gap, the Tamil and English wordmarks, the headline,
+    # the held-out result (A1, A7) and what it is built with.
+    sc, ox, oy = 0.86, 395, -10
+    pw, ph = W * sc, Hh * sc
+    pr = []
+    rnd2 = random.Random(11)
+    hot = (2, 4)  # row 2, box 4: the restored gap, on the lit part of the stone
+    for ri, row in enumerate(boxes["rows"]):
+        for bi, (x1, y1, x2, y2) in enumerate(row):
+            if (ri, bi) == hot:
+                continue
+            op = .9 if rnd2.random() < .6 else .4
+            pr.append(f'<rect x="{x1}" y="{y1}" width="{x2-x1}" height="{y2-y1}" rx="12" fill="none" stroke="{C["lamp300"]}" stroke-opacity="{op}" stroke-width="5"/>')
+    hx1, hy1, hx2, hy2 = boxes["rows"][hot[0]][hot[1]]
+    pr.append(f'<rect x="{hx1-8}" y="{hy1-8}" width="{hx2-hx1+16}" height="{hy2-hy1+16}" rx="16" fill="{C["lamp300"]}" fill-opacity=".34" '
+              f'stroke="{C["lamp200"]}" stroke-width="9"/>'
+              f'<rect x="{hx1-22}" y="{hy1-22}" width="{hx2-hx1+44}" height="{hy2-hy1+44}" rx="24" fill="none" '
+              f'stroke="{C["lamp300"]}" stroke-opacity=".55" stroke-width="3" stroke-dasharray="14 10"/>')
+    tagx, tagy = ox + (hx1 + hx2) / 2 * sc, oy + hy1 * sc - 66
+    chips = "".join(f'<span style="display:inline-block;margin:0 10px 0 0;padding:9px 15px;border-radius:999px;border:1.5px solid {C["lamp700"]};'
+                    f'background:rgba(35,30,24,.9);font:600 17px/1 var(--sans);color:{C["stone100"]}">{t}</span>'
+                    for t in ("Strands Agents", "Amazon Bedrock AgentCore", "Fine-tuned Strands Decider", "Tamil ontology over MCP"))
+    tiles = "".join(f'<div style="flex:1;padding:16px 16px 14px;border-radius:16px;background:rgba(35,30,24,.92);border:1.5px solid {C["g700"]}">'
+                    f'<div style="font:800 40px/1 var(--serif);color:{C["lamp300"]}">{big}</div>'
+                    f'<div style="font:500 15px/1.3 var(--sans);color:{C["stone300"]};margin-top:8px">{small}</div></div>'
+                    for big, small in (("62.7%", "of 413 held-out gaps match the editors' restoration"),
+                                       ("9 in 10", "of the fills it commits to match"),
+                                       ("1,958", "rulers, temples, places and formulas in the ontology")))
+    c4 = f"""<div style="position:absolute;inset:0;background:{C["g950"]}"></div>
+<div style="position:absolute;left:{ox}px;top:{oy}px;width:{pw:.0f}px;height:{ph:.0f}px">
+ <img src="{photo}" style="width:100%;height:100%;display:block;filter:saturate(1.05) contrast(1.05) brightness(.92)">
+ <svg viewBox="0 0 {W} {Hh}" style="position:absolute;inset:0;width:100%;height:100%"><defs><filter id="g4"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+ <g filter="url(#g4)">{''.join(pr)}</g></svg></div>
+<div style="position:absolute;inset:0;background:linear-gradient(90deg,{C["g950"]} 0%,{C["g950"]} 36%,rgba(19,16,13,.86) 56%,rgba(19,16,13,.15) 78%,rgba(19,16,13,.35) 100%)"></div>
+<div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(19,16,13,.92) 0%,rgba(19,16,13,0) 34%)"></div>
+<div style="position:absolute;left:{tagx-70:.0f}px;top:{tagy:.0f}px;width:140px;text-align:center;padding:7px 0;border-radius:10px;background:{C["lamp300"]};
+ font:700 17px/1 var(--sans);color:{C["g950"]};letter-spacing:.04em;box-shadow:0 0 24px rgba(245,196,104,.6)">RESTORED</div>
+<div style="position:absolute;left:56px;top:44px;width:660px">
+ <div style="display:flex;align-items:flex-end;gap:20px"><img src="{LOGO}/wordmark-ta-reversed.svg" style="height:84px">
+  <span style="font:700 64px/0.9 var(--serif);color:{C["stone50"]};letter-spacing:-.01em">Ezhuthu</span></div>
+ <div style="font:700 21px/1 var(--sans);color:{C["lamp300"]};letter-spacing:.14em;margin-top:22px">AGENTIC AI FOR TAMIL EPIGRAPHY</div>
+ <div style="font:700 38px/1.12 var(--serif);color:{C["stone50"]};margin-top:14px">Reads, restores and teaches Tamil temple inscriptions over 1,000 years old</div>
+ <div style="display:flex;gap:14px;margin-top:28px">{tiles}</div>
+</div>
+<div style="position:absolute;left:56px;bottom:46px;width:1100px">{chips}</div>
+<div style="position:absolute;right:40px;bottom:24px;font:500 14px/1 var(--sans);color:{C["stone500"]}">Vivek Raja, AWS AI Hero</div>"""
     page("project-00-cover", c4, w=1200, h=675, theme="dark")
 
 

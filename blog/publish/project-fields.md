@@ -10,8 +10,8 @@ Tags: ["strands-agents", "amazon-bedrock-agentcore", "generative-ai", "education
 GitHub or GitLab Repository: https://github.com/Vivek0712/ezhuthu
 Endpoint or live demo: https://d3jz2k92ne5puo.cloudfront.net
 Jupyter or SageMaker notebook: https://github.com/Vivek0712/ezhuthu/blob/main/notebooks/ezhuthu_end_to_end.ipynb
-Cover image: blog/img/project-00-cover.jpg [1200x675 JPEG, 57 KB] (1200x675 png/jpg/webp, <= 2 MB, no text)
-Cover alt text: The Tamil letter ka at five stages, from Tamil-Brahmi through Vatteluttu, Pallava Grantha and Chola Tamil to modern Tamil, lamp-lit in a row of tiles over a dark, blurred temple inscription
+Cover image: blog/img/project-00-cover.jpg [1200x675 JPEG, 178 KB] (1200x675 png/jpg/webp, <= 2 MB, no text)
+Cover alt text: Ezhuthu cover: the Tamil and English wordmarks, the label Agentic AI for Tamil epigraphy and the title Reads, restores and teaches Tamil temple inscriptions over 1,000 years old; three highlights: 62.7% of 413 held-out gaps match the editors' restoration, 9 in 10 of the fills it commits to match, and 1,958 rulers, temples, places and formulas in the ontology; chips for Strands Agents, Amazon Bedrock AgentCore, a fine-tuned Strands Decider and a Tamil ontology over MCP; on the right, the inscribed Thanjavur temple wall with lamp-lit letter outlines and one gap highlighted as restored
 
 Figures, in body order. Each < FIGURE n of N > marker in the body is replaced by the upload; the
 Alt text line under it goes into the image's alt field; the italic line after it is the caption.
