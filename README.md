@@ -24,8 +24,12 @@ It teaches Tamil learners to read their own temple inscriptions, in Tamil, from 
 <a href="https://ezhuthu.sparrowdecider.com/how-it-works">How it works</a> ·
 <a href="https://ezhuthu.sparrowdecider.com/benchmark">Benchmark</a> ·
 <a href="notebooks/ezhuthu_end_to_end.ipynb">End-to-end notebook</a> ·
-<a href="https://huggingface.co/sparrow-decider/ezhuthu-sparrow-decider-2b">Fine-tuned model</a><br>
+<a href="https://huggingface.co/sparrow-decider/ezhuthu-sparrow-decider-2b">Fine-tuned model</a> ·
+<a href="https://youtu.be/K89oYIeQITY"><b>Watch the 3-minute film</b></a><br>
 <sub>Also served at <a href="https://d3jz2k92ne5puo.cloudfront.net">d3jz2k92ne5puo.cloudfront.net</a>.</sub></p>
+
+<p align="center"><a href="https://youtu.be/K89oYIeQITY"><img src="design/brand/banners/video/film-thumbnail.jpg" alt="Watch the Ezhuthu film on YouTube: agentic AI that reads, restores and teaches Tamil temple inscriptions over 1,000 years old" width="72%"></a><br>
+<sub><a href="https://youtu.be/K89oYIeQITY">▶ Watch the 3-minute film on YouTube</a>: the problem, the app, the agents on AWS and the results.</sub></p>
 
 <p align="center"><img src="design/brand/banners/hero-stone.gif" alt="A Chola-period inscription at the Brihadisvara temple, Thanjavur: the Reader names each carved letter in modern Tamil with its confidence, the Restorer proposes a lost letter and leaves it open for an expert because its confidence is too low, and the Interpreter gives the phrase and its meaning in Tamil and English" width="100%"></p>
 
@@ -173,7 +177,7 @@ pre-rank configuration scored before the switch.
 
 ## How it works
 
-Clips from the Ezhuthu launch film (each loops a few seconds of the 3-minute film).
+Clips from the [Ezhuthu launch film](https://youtu.be/K89oYIeQITY) (each loops a few seconds of the 3-minute film).
 
 | Restore: fills when sure | The Restorer: a tool-using Strands agent and the confidence check |
 | --- | --- |

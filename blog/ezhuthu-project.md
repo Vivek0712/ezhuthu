@@ -17,6 +17,7 @@ In 2021 India had about 23 epigraphists. Of nearly 1 lakh (100,000) inscriptions
 
 So I built Ezhuthu. The name is the Tamil word for "letter". It is an apprenticeship tool for Tamil epigraphy, submitted to the Education track. It teaches students, heritage guides and new epigraphists to read real, damaged inscriptions, Tamil first. It gives scholars an assistant that proposes the worn-away letters, shows how sure it is, and hands its doubts to an expert.
 
+- 3-minute film: https://youtu.be/K89oYIeQITY
 - Live app: https://ezhuthu.sparrowdecider.com (also served at https://d3jz2k92ne5puo.cloudfront.net)
 - Code (Apache-2.0): https://github.com/Vivek0712/ezhuthu
 - Fine-tuned decision model: https://huggingface.co/sparrow-decider/ezhuthu-sparrow-decider-2b
