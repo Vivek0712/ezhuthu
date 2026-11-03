@@ -10,11 +10,33 @@ It also checks the Builder Center rules and the copy bans, and exits non-zero if
 title <= 255 chars, description <= 512, at most 5 tags, plain ASCII, no banned words, first person singular.
 """
 import json
+import struct
 import pathlib
 import re
 import sys
 
 BLOG = pathlib.Path(__file__).resolve().parent.parent
+LIMIT = 2 * 1024 * 1024  # Builder Center upload limit per image
+
+
+def spec(rel: str) -> str:
+    """'1200x675 JPEG, 296 KB' for an image under blog/, read from the file header (PNG or JPEG)."""
+    p = BLOG / rel
+    if not p.exists():
+        return "MISSING"
+    data, kind, w, h = p.read_bytes(), "?", 0, 0
+    if data[:8] == b"\x89PNG\r\n\x1a\n":
+        kind, (w, h) = "PNG", struct.unpack(">II", data[16:24])
+    elif data[:2] == b"\xff\xd8":
+        kind, i = "JPEG", 2
+        while i < len(data):
+            seg, ln = data[i + 1], struct.unpack(">H", data[i + 2:i + 4])[0]
+            if seg in (0xC0, 0xC1, 0xC2):
+                h, w = struct.unpack(">HH", data[i + 5:i + 9])
+                break
+            i += 2 + ln
+    return f"{w}x{h} {kind}, {round(p.stat().st_size / 1024)} KB"
+
 PARTS = [
     ("part-1", "ezhuthu-part-1-problem-and-product.md"),
     ("part-2", "ezhuthu-part-2-architecture.md"),
@@ -74,7 +96,9 @@ for n, f in PARTS:
         return f"< FIGURE {counter[0]} of {total}: upload blog/img/{m.group(2)} here >\nAlt text: {m.group(1)}"
 
     body = re.sub(r'!\[([^\]]*)\]\(img/([^)]+)\)', marker, body)
-    body = f"< COVER IMAGE: upload blog/{get('cover')} in the cover field (1200x675, no text) >\n\n" + body.lstrip("\n")
+    cover_alt = f"Alt text: {get('cover_alt')}\n" if get("cover_alt") else ""
+    body = (f"< COVER IMAGE: upload blog/{get('cover')} in the cover field (1200x675, no text) >\n{cover_alt}\n"
+            + body.lstrip("\n"))
     fields = (
         f"# {n}: form fields\n\n"
         f"Title ({len(title)} chars):\n{title}\n\n"
@@ -83,10 +107,12 @@ for n, f in PARTS:
         + (f"Series: {get('series')}, part {get('part')}\n" if get("series") else "")
         + (f"GitHub or GitLab Repository: {get('repo')}\n" if get("repo") else "")
         + (f"Endpoint or live demo: {get('demo')}\n" if get("demo") else "")
-        + f"Cover image: blog/{get('cover')} (1200x675 png/jpg/webp, <= 2 MB, no text)\n\n"
+        + (f"Jupyter or SageMaker notebook: {get('notebook')}\n" if get("notebook") else "")
+        + f"Cover image: blog/{get('cover')} [{spec(get('cover'))}] (1200x675 png/jpg/webp, <= 2 MB, no text)\n"
+        + (f"Cover alt text: {get('cover_alt')}\n" if get("cover_alt") else "") + "\n"
         "Figures, in body order. Each < FIGURE n of N > marker in the body is replaced by the upload; the\n"
         "Alt text line under it goes into the image's alt field; the italic line after it is the caption.\n"
-        + "".join(f"  {i}. blog/img/{im}  (under \"{h}\")\n" for i, im, h in placed)
+        + "".join(f"  {i}. blog/img/{im}  [{spec('img/' + im)}]  (under \"{h}\")\n" for i, im, h in placed)
     )
     (BLOG / "publish" / f"{n}-fields.md").write_text(fields)
     (BLOG / "publish" / f"{n}-body.md").write_text(body)
@@ -96,7 +122,7 @@ for n, f in PARTS:
         p = BLOG / im
         if not p.exists():
             print(f"  missing image (draw it): blog/{im}")
-        elif p.stat().st_size > 2 * 1024 * 1024:
+        elif p.stat().st_size > LIMIT:
             problems.append(f"blog/{im}: over 2 MB")
 
 if problems:
