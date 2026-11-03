@@ -10,8 +10,8 @@ Tags: ["strands-agents", "amazon-bedrock-agentcore", "generative-ai", "education
 GitHub or GitLab Repository: https://github.com/Vivek0712/ezhuthu
 Endpoint or live demo: https://d3jz2k92ne5puo.cloudfront.net
 Jupyter or SageMaker notebook: https://github.com/Vivek0712/ezhuthu/blob/main/notebooks/ezhuthu_end_to_end.ipynb
-Cover image: blog/img/project-00-cover.jpg [1200x675 JPEG, 183 KB] (1200x675 png/jpg/webp, <= 2 MB, no text)
-Cover alt text: Ezhuthu cover: the Tamil and English wordmarks and the line Agentic AI that reads and restores Tamil temple inscriptions over 1,000 years old, beside the inscribed Thanjavur temple wall with lamp-lit outlines around the carved letters and one gap highlighted as restored; it matches the editors' restoration on 62.7% of 413 held-out gaps and 9 in 10 of its committed fills; built with Strands Agents, Amazon Bedrock AgentCore, a fine-tuned Strands Decider and a Tamil ontology over MCP
+Cover image: blog/img/project-00-cover.jpg [1200x675 JPEG, 178 KB] (1200x675 png/jpg/webp, <= 2 MB, no text)
+Cover alt text: Ezhuthu cover: the Tamil and English wordmarks, the label Agentic AI for Tamil epigraphy and the title Reads, restores and teaches Tamil temple inscriptions over 1,000 years old; three highlights: 62.7% of 413 held-out gaps match the editors' restoration, 9 in 10 of the fills it commits to match, and 1,958 rulers, temples, places and formulas in the ontology; chips for Strands Agents, Amazon Bedrock AgentCore, a fine-tuned Strands Decider and a Tamil ontology over MCP; on the right, the inscribed Thanjavur temple wall with lamp-lit letter outlines and one gap highlighted as restored
 
 Figures, in body order. Each < FIGURE n of N > marker in the body is replaced by the upload; the
 Alt text line under it goes into the image's alt field; the italic line after it is the caption.

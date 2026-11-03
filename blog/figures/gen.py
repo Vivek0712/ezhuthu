@@ -955,25 +955,32 @@ def covers() -> None:
               f'<rect x="{hx1-22}" y="{hy1-22}" width="{hx2-hx1+44}" height="{hy2-hy1+44}" rx="24" fill="none" '
               f'stroke="{C["lamp300"]}" stroke-opacity=".55" stroke-width="3" stroke-dasharray="14 10"/>')
     tagx, tagy = ox + (hx1 + hx2) / 2 * sc, oy + hy1 * sc - 66
-    chips = "".join(f'<span style="display:inline-block;margin:0 10px 10px 0;padding:8px 14px;border-radius:999px;border:1.5px solid #5A4D3E;'
-                    f'background:rgba(35,30,24,.85);font:600 17px/1 var(--sans);color:{C["stone100"]}">{t}</span>'
+    chips = "".join(f'<span style="display:inline-block;margin:0 10px 0 0;padding:9px 15px;border-radius:999px;border:1.5px solid {C["lamp700"]};'
+                    f'background:rgba(35,30,24,.9);font:600 17px/1 var(--sans);color:{C["stone100"]}">{t}</span>'
                     for t in ("Strands Agents", "Amazon Bedrock AgentCore", "Fine-tuned Strands Decider", "Tamil ontology over MCP"))
+    tiles = "".join(f'<div style="flex:1;padding:16px 16px 14px;border-radius:16px;background:rgba(35,30,24,.92);border:1.5px solid {C["g700"]}">'
+                    f'<div style="font:800 40px/1 var(--serif);color:{C["lamp300"]}">{big}</div>'
+                    f'<div style="font:500 15px/1.3 var(--sans);color:{C["stone300"]};margin-top:8px">{small}</div></div>'
+                    for big, small in (("62.7%", "of 413 held-out gaps match the editors' restoration"),
+                                       ("9 in 10", "of the fills it commits to match"),
+                                       ("1,958", "rulers, temples, places and formulas in the ontology")))
     c4 = f"""<div style="position:absolute;inset:0;background:{C["g950"]}"></div>
 <div style="position:absolute;left:{ox}px;top:{oy}px;width:{pw:.0f}px;height:{ph:.0f}px">
  <img src="{photo}" style="width:100%;height:100%;display:block;filter:saturate(1.05) contrast(1.05) brightness(.92)">
  <svg viewBox="0 0 {W} {Hh}" style="position:absolute;inset:0;width:100%;height:100%"><defs><filter id="g4"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
  <g filter="url(#g4)">{''.join(pr)}</g></svg></div>
-<div style="position:absolute;inset:0;background:linear-gradient(90deg,{C["g950"]} 0%,{C["g950"]} 36%,rgba(19,16,13,.82) 52%,rgba(19,16,13,.15) 74%,rgba(19,16,13,.35) 100%)"></div>
+<div style="position:absolute;inset:0;background:linear-gradient(90deg,{C["g950"]} 0%,{C["g950"]} 36%,rgba(19,16,13,.86) 56%,rgba(19,16,13,.15) 78%,rgba(19,16,13,.35) 100%)"></div>
 <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(19,16,13,.92) 0%,rgba(19,16,13,0) 34%)"></div>
 <div style="position:absolute;left:{tagx-70:.0f}px;top:{tagy:.0f}px;width:140px;text-align:center;padding:7px 0;border-radius:10px;background:{C["lamp300"]};
  font:700 17px/1 var(--sans);color:{C["g950"]};letter-spacing:.04em;box-shadow:0 0 24px rgba(245,196,104,.6)">RESTORED</div>
-<div style="position:absolute;left:64px;top:56px;width:640px">
- <div style="display:flex;align-items:center;gap:18px"><img src="{LOGO}/wordmark-ta-reversed.svg" style="height:62px">
-  <span style="font:600 30px/1 var(--serif);color:{C["stone200"]}">Ezhuthu</span></div>
- <div style="font:800 50px/1.06 var(--serif);color:{C["stone50"]};margin-top:34px;letter-spacing:-.01em">Agentic AI that reads and restores Tamil temple inscriptions over 1,000 years old</div>
- <div style="font:500 21px/1.4 var(--sans);color:{C["stone300"]};margin-top:20px">Matches the editors' restoration on <b style="color:{C["lamp300"]}">62.7%</b> of 413 held-out gaps, and <b style="color:{C["lamp300"]}">9 in 10</b> of the fills it commits to.</div>
+<div style="position:absolute;left:56px;top:44px;width:660px">
+ <div style="display:flex;align-items:flex-end;gap:20px"><img src="{LOGO}/wordmark-ta-reversed.svg" style="height:84px">
+  <span style="font:700 64px/0.9 var(--serif);color:{C["stone50"]};letter-spacing:-.01em">Ezhuthu</span></div>
+ <div style="font:700 21px/1 var(--sans);color:{C["lamp300"]};letter-spacing:.14em;margin-top:22px">AGENTIC AI FOR TAMIL EPIGRAPHY</div>
+ <div style="font:700 38px/1.12 var(--serif);color:{C["stone50"]};margin-top:14px">Reads, restores and teaches Tamil temple inscriptions over 1,000 years old</div>
+ <div style="display:flex;gap:14px;margin-top:28px">{tiles}</div>
 </div>
-<div style="position:absolute;left:64px;bottom:52px;width:1080px">{chips}</div>
+<div style="position:absolute;left:56px;bottom:46px;width:1100px">{chips}</div>
 <div style="position:absolute;right:40px;bottom:24px;font:500 14px/1 var(--sans);color:{C["stone500"]}">Vivek Raja, AWS AI Hero</div>"""
     page("project-00-cover", c4, w=1200, h=675, theme="dark")
 
