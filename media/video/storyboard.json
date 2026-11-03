@@ -227,7 +227,7 @@
     "render": "comp",
     "narration": "On a real Chola-period stone from Thanjavur, it reads forty-six carved letters, each with its own confidence, then the words, a phrase in today's Tamil, and its meaning.",
     "on_screen_text": [
-      "Live: d3jz2k92ne5puo.cloudfront.net",
+      "Live: ezhuthu.sparrowdecider.com",
       "46 carved letters, each with the model's own probability (self-reported)",
       "The least certain letter: left open (?)",
       "Meaning by Ezhuthu (confidence 0.30)",
@@ -580,7 +580,7 @@
       "CloudFront -> API Gateway (JWT) -> Lambda -> AgentCore -> Amazon Bedrock",
       "5 CDK stacks · Cognito · DynamoDB · ontology MCP inside the bundle",
       "The live app, on a phone",
-      "d3jz2k92ne5puo.cloudfront.net"
+      "ezhuthu.sparrowdecider.com"
     ],
     "visual": "The whole pipeline compresses into one box labelled 'AgentCore Runtime: ezhuthu_tutor' (Python 3.12, arm64). The cloud path draws left to right as a lit request travelling: phone/browser -> CloudFront (private S3 web) -> API Gateway HTTP API + JWT (Cognito) -> Lambda proxy (Node 22) -> AgentCore Runtime -> Amazon Bedrock (Claude Sonnet 4.6 / Opus 4.6), with DynamoDB beside the API. Text labels only, no AWS logos. '5 CDK stacks' chip; the request returns to the phone inside a 25 s ring.",
     "music_cue": "M4 resolves on a downbeat at 145.0 (cut to silence for 0.3 s).",
@@ -713,7 +713,7 @@
       "எழுத்து Ezhuthu",
       "Learn to read the stone. Help read the backlog.",
       "Built with Strands Agents, on Amazon Bedrock AgentCore",
-      "d3jz2k92ne5puo.cloudfront.net",
+      "ezhuthu.sparrowdecider.com",
       "github.com/Vivek0712/ezhuthu",
       "(end crawl: credits, see CREDITS.md 'End card for storyboard v2')"
     ],

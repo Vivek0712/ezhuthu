@@ -19,11 +19,11 @@ So I built Ezhuthu. The name is the Tamil word for "letter". It is an apprentice
 
 *Ezhuthu at a glance. Every number traces to an evaluation report in the repository.*
 
-It is built with Strands Agents, runs on Amazon Bedrock AgentCore, and uses Claude Sonnet 4.6 and Claude Opus 4.6 on Amazon Bedrock. On 413 held-out test gaps, scored once, it matches the editors' restoration on 259 of them (62.7%). When it commits to a fill, 9 in 10 match: 187 of 206.
+It is built with Strands Agents, runs on Amazon Bedrock AgentCore, and uses Claude Sonnet 4.6 and Claude Opus 4.6 on Amazon Bedrock. On 413 held-out test gaps, scored once, the configuration it ran before its current decision model matches the editors' restoration on 259 of them (62.7%). When it commits to a fill, 9 in 10 match: 187 of 206. The live app now ranks its candidate fills with a Strands decision model I fine-tuned for Tamil; that configuration has not been scored on the test set yet, and part 3 gives the numbers for the model itself.
 
 This is part 1 of a three-part series about the problem, the place and the product, with a walkthrough of the live site. Part 2 opens the agent pipeline on AWS. Part 3 covers the Strands decision models I fine-tuned for Tamil and the evaluation work behind every number here.
 
-The site is live at https://d3jz2k92ne5puo.cloudfront.net and the code is public at https://github.com/Vivek0712/ezhuthu.
+The site is live at https://ezhuthu.sparrowdecider.com and the code is public at https://github.com/Vivek0712/ezhuthu.
 
 ## From Madurai to Thanjavur, the walls are written
 
@@ -121,7 +121,7 @@ The next step is local. I plan a learner pilot with student volunteers from the 
 
 ## The results, with their qualifiers
 
-All numbers below are on 413 held-out test gaps from 131 inscriptions the system was never tuned on. Every choice was made on the validation split by a rule committed in advance, and the test set was scored once. "Match" means the fill equals the DHARMA editor's restoration after normalisation.
+All numbers below are on 413 held-out test gaps from 131 inscriptions the system was never tuned on. Every choice was made on the validation split by a rule committed in advance, and the test set was scored once. They are for the pre-rank configuration the live app ran before it switched to the fine-tuned Strands decision model (part 3). "Match" means the fill equals the DHARMA editor's restoration after normalisation.
 
 | What | On held-out test |
 |---|---|
@@ -143,9 +143,9 @@ Long gaps are still hard: on gaps of four or more letters it matches 19.6%, the 
 
 ## Next in this series
 
-Part 2 is the build: a Strands Graph with a Swarm inside it, six specialist agents, a custom Tamil-epigraphy ontology served over MCP, routing between Claude Sonnet 4.6 and Claude Opus 4.6 on Amazon Bedrock, calibrated confidence, and a 25-second request budget on Amazon Bedrock AgentCore Runtime. Part 3 is the Strands decision model I fine-tuned for Tamil, tested on held-out inscriptions and public on Hugging Face but not yet live in the app, and the evaluation discipline behind every number in this post.
+Part 2 is the build: a Strands Graph with a Swarm inside it, six specialist agents, a custom Tamil-epigraphy ontology served over MCP, routing between Claude Sonnet 4.6 and Claude Opus 4.6 on Amazon Bedrock, calibrated confidence, and a 25-second request budget on Amazon Bedrock AgentCore Runtime. Part 3 is the Strands decision model I fine-tuned for Tamil, tested on held-out inscriptions, public on Hugging Face and now ranking restorations in the live app, and the evaluation discipline behind every number in this post.
 
-Try it at https://d3jz2k92ne5puo.cloudfront.net. The end-to-end Jupyter notebook, from the data to the live AgentCore API and the test evaluation, is at https://github.com/Vivek0712/ezhuthu/blob/main/notebooks/ezhuthu_end_to_end.ipynb.
+Try it at https://ezhuthu.sparrowdecider.com. The end-to-end Jupyter notebook, from the data to the live AgentCore API and the test evaluation, is at https://github.com/Vivek0712/ezhuthu/blob/main/notebooks/ezhuthu_end_to_end.ipynb.
 
 ## Credits
 

@@ -9,7 +9,7 @@ In 2021 India had about 23 epigraphists. Of nearly 1 lakh (100,000) inscriptions
 
 So I built Ezhuthu. The name is the Tamil word for "letter". It is an apprenticeship tool for Tamil epigraphy, submitted to the Education track. It teaches students, heritage guides and new epigraphists to read real, damaged inscriptions, Tamil first. It gives scholars an assistant that proposes the worn-away letters, shows how sure it is, and hands its doubts to an expert.
 
-- Live app: https://d3jz2k92ne5puo.cloudfront.net
+- Live app: https://ezhuthu.sparrowdecider.com (also served at https://d3jz2k92ne5puo.cloudfront.net)
 - Code (Apache-2.0): https://github.com/Vivek0712/ezhuthu
 - Fine-tuned decision model: https://huggingface.co/sparrow-decider/ezhuthu-sparrow-decider-2b
 - End-to-end Jupyter notebook (data, ontology over MCP, Strands agents on Amazon Bedrock, the fine-tuned decider, the live AgentCore API and the evaluation): https://github.com/Vivek0712/ezhuthu/blob/main/notebooks/ezhuthu_end_to_end.ipynb
@@ -52,13 +52,13 @@ Every agent is built with Strands Agents and runs on Amazon Bedrock AgentCore Ru
 - **A Graph for every lesson, a Swarm for the teaching.** A Strands Graph runs `restore`, then `lesson_builder`, then a Swarm in which a Tutor and an Assessor work together. The tutor's advance, repeat or hint policy is built on Strands Decider with rule guardrails.
 - **The Restorer is a tool-using agent.** It has five Strands tools: `retrieve_parallels` (BM25 over character n-grams across 14,355 train lines, re-ranked with rapidfuzz), `propose_fills`, `check_constraints`, `rank_and_decide` and `ontology_hints`.
 - **Routing between models.** Sonnet 4.6 answers first. A gap goes to Opus 4.6 when Sonnet's best score is under 0.6, the gap is longer than 12 letters, or there is no good parallel.
-- **Three signals, one calibrated score.** Candidates are pre-ranked by a noisy-OR of the LLM's probability, parallel-passage support and a character 5-gram's share. The top score is Platt-calibrated on the validation split to decide fill or abstain.
+- **Three signals, one calibrated score.** Candidates are pre-ranked by a noisy-OR of the LLM's probability, parallel-passage support and a character 5-gram's share. The fine-tuned Strands decision model picks one of the top three or none, and its score, Platt-calibrated on the validation split, decides fill or abstain; the pre-rank is the fallback.
 - **A custom Tamil epigraphy ontology over MCP.** An OWL ontology with 27 classes, 21 object properties and 1,958 named individuals: 42 rulers, 357 places, 139 temples, 14 formulas and 8 taxes, with dynasties and rulers linked to Wikidata. I built it from train editions only and serve it to the agents through my own MCP server. It supplies the history in every lesson.
 - **A 25-second request budget.** The API proxy allows 27 seconds per request, so the Restorer handles at most 8 gaps per request, skips the Opus escalation or the LLM call when time runs short, and returns an `abstain_reason` for any gap it could not reach. Three requests that timed out at 30.8 s, 49.6 s and 58.4 s now answer in 20.9 s, 25.0 s and 25.0 s.
 - **All as code.** Five AWS CDK stacks in TypeScript: DynamoDB (on demand, point-in-time recovery), Cognito, the AgentCore Runtime, API Gateway with a JWT authorizer and a Lambda proxy, and a private S3 bucket behind CloudFront. Model IDs live in one config file, and the decider key lives only in AWS Secrets Manager.
 
 < FIGURE 4 of 6: upload blog/img/p2-03-restorer-pipeline.png here >
-Alt text: The Restorer pipeline: retrieve parallels, propose fills with Sonnet 4.6 escalating to Opus 4.6, check constraints, pre-rank with the noisy-OR score, then calibrate and fill or abstain
+Alt text: The Restorer pipeline: retrieve parallels, propose fills with Sonnet 4.6 escalating to Opus 4.6, check constraints, pre-rank with the noisy-OR score, let the fine-tuned Strands Decider pick one of the top 3 or none, then calibrate and fill or abstain
 
 *From a gap to a decision in one pass.*
 
@@ -71,7 +71,7 @@ The last step of a restoration is a decision: of the top three candidate fills, 
 - **Chosen on validation, tested once.** I committed the selection rule before scoring any variant, compared 8 variants on 280 validation gaps, and scored the held-out TEST split once.
 - **Results on 413 held-out TEST gaps.** Ranking the same Sonnet 4.6 candidates, the Restorer with the fine-tuned decider matches the editors' restoration on 65.4% (270 of 413), against 59.1% for the decider-free pre-rank. As a decision model on its own, it picks the editors' fill on 54.7% of requests, against 43.1% for the general hosted Strands Decider (p < 1e-8). On an older 60-item benchmark in a request format it was not trained on, it does not win.
 
-The weights are public on Hugging Face as `sparrow-decider/ezhuthu-sparrow-decider-2b`, with the model card, an example request and checksums. The hosted Strands Decider service serves it next to the general model on the same instances, and the main branch now routes restoration through it, with the pre-rank as the fallback. It is not yet live in the app: the live app switches to it at its next deploy.
+The weights are public on Hugging Face as `sparrow-decider/ezhuthu-sparrow-decider-2b`, with the model card, an example request and checksums. The hosted Strands Decider service serves it next to the general model on the same instances, and the live app ranks with it: the Restorer asks it to pick one of the pre-rank's top three candidates or none, with the decider-free pre-rank as the fallback when the decider is unavailable or the request is short of time. Two live restores of a gallery sample filled the editors' letter at 0.9087, in 29.3 s and 22.2 s end to end; on validation, a one-gap restore takes about 15 s with the decider call against about 3.4 s with the pre-rank. The routed configuration with the fine-tuned model has not been scored on TEST yet.
 
 < FIGURE 5 of 6: upload blog/img/p3-05-finetuned-decider.png here >
 Alt text: The fine-tuned 2B decider on 413 held-out TEST gaps. Inside the Restorer, ranking the same Sonnet 4.6 candidates, top-1 is 0.6538 with the fine-tuned decider, 0.5908 with the decider-free pre-rank and 0.5811 with the base 2B model. As a decider on its own, against a ceiling of 0.6029, the fine-tuned model gets 0.5472, the general hosted Strands Decider v19 0.4310 and the base 2B model 0.4165. Inside the Restorer it fills 57.6 percent of TEST gaps, and 92.0 percent of those fills match
@@ -80,7 +80,7 @@ Alt text: The fine-tuned 2B decider on 413 held-out TEST gaps. Inside the Restor
 
 ## Results, scored once on held-out data
 
-The configuration the live app runs was chosen on the validation split by a rule committed before any variant was scored, calibrated on validation, and scored once on 413 held-out TEST gaps. A match means the fill equals the DHARMA editor's supplied text after normalisation. Editors' restorations are expert judgement, so this is agreement with the edition, not a claim about what the stone said.
+The configuration the live app ran before the switch to the fine-tuned model (the decider-free pre-rank) was chosen on the validation split by a rule committed before any variant was scored, calibrated on validation, and scored once on 413 held-out TEST gaps. These are its numbers; the live configuration has not been scored this way yet. A match means the fill equals the DHARMA editor's supplied text after normalisation. Editors' restorations are expert judgement, so this is agreement with the edition, not a claim about what the stone said.
 
 - **62.7% of held-out gaps match the editors' restoration** (259 of 413, 95% CI 57.9 to 67.3).
 - **When it commits, 9 in 10 match.** At its validation-fitted threshold it fills 49.9% of gaps, and 90.8% of those fills match (187 of 206). The rest go to an expert.
@@ -89,7 +89,7 @@ The configuration the live app runs was chosen on the validation split by a rule
 - **Fast and cheap.** Per gap, p50 3.2 s and p90 5.5 s, about USD 0.006 at list prices.
 
 < FIGURE 6 of 6: upload blog/img/p3-03-leaderboard.png here >
-Alt text: Leaderboards of top-1 match with the editors' restoration, with 95 percent intervals. Full TEST, 413 gaps: Ezhuthu as deployed 0.6271, the character 5-gram 0.5666 and copying the best parallel 0.4722. TEST-hard, 317 gaps with no close parallel: 0.5741, 0.5268 and 0.3817
+Alt text: Leaderboards of top-1 match with the editors' restoration, with 95 percent intervals. Full TEST, 413 gaps: Ezhuthu, pre-rank version 0.6271, the character 5-gram 0.5666 and copying the best parallel 0.4722. TEST-hard, 317 gaps with no close parallel: 0.5741, 0.5268 and 0.3817
 
 *Same systems, same gaps, on the full test set and on the hard set.*
 

@@ -39,7 +39,7 @@ Ezhuthu. Let the stones speak again.
 
 6
 00:00:14,122 --> 00:00:15,000
-d3jz2k92ne5puo.cloudfront.net
+ezhuthu.sparrowdecider.com
 SRT
 
 # 1) base cut, 1920x1080, near-lossless intermediate

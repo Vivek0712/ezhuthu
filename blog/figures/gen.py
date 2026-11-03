@@ -69,7 +69,7 @@ def p1_01_at_a_glance() -> None:
     tiles = [
         ("1,320", "DHARMA inscriptions parsed", "18,066 lines from 14 pinned DHARMA repositories", "lamp"),
         ("1,469", "practice items", "letters, words, gaps and formulas across five script levels, Tamil first", "lamp"),
-        ("62.7%", "of held-out TEST gaps match the editors' restoration", "259 of 413 gaps, first proposal, scored once", "lat"),
+        ("62.7%", "of held-out TEST gaps match the editors' restoration", "259 of 413 gaps, first proposal, scored once; the pre-rank version, before the switch to the fine-tuned decision model", "lat"),
         ("90.8%", "of committed fills match", "187 of 206 fills on TEST; below its calibrated threshold it abstains", "lat"),
     ]
     cards = "".join(
@@ -274,7 +274,7 @@ def p1_06_practice_screens() -> None:
     body = head("Practice, in Tamil", "Each miss shows <em>the right letter and why</em>",
                 "A Level 3 Vatteluttu letter drill in the Tamil interface.")
     body += f"""<div class="wrap">
-<div style="flex:1"><div class="lbl">Desktop</div><div class="browser"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">d3jz2k92ne5puo.cloudfront.net/practice/letters?level=3</div></div><img src="{desk}" alt=""></div></div>
+<div style="flex:1"><div class="lbl">Desktop</div><div class="browser"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">ezhuthu.sparrowdecider.com/practice/letters?level=3</div></div><img src="{desk}" alt=""></div></div>
 <div><div class="lbl">Mobile</div><div class="phone"><img src="{mob}" alt=""></div></div>
 </div>"""
     body += foot("Live site, captured 2026-11-03. Vatteluttu glyphs are Ezhuthu's drawn teaching shapes, pending an epigrapher's review.")
@@ -450,7 +450,7 @@ def p2_02_graph_swarm() -> None:
 def p2_03_restorer_pipeline() -> None:
     H = 980
     b = [head("The Restorer", "Three signals, one score, <em>one honest decision</em>",
-              "A gap goes through retrieval, the 5-gram and Claude, gets filtered, fused by a noisy-OR and calibrated. Then it fills or it abstains.")]
+              "A gap goes through retrieval, the 5-gram and Claude, gets filtered, fused by a noisy-OR, picked by the fine-tuned Strands Decider and calibrated. Then it fills or it abstains.")]
     b.append(bx(56, 420, 200, 150, "A gap", '<p>context left and right, gap length</p><p class="ta" style="font-size:20px;color:#1D1611">வரி<b style="color:#D2891C">[?1]</b>பாடும்</p>', "Input"))
     b.append(bx(320, 270, 300, 150, "Parallel passages", "<p>BM25 over character n-grams, re-ranked with rapidfuzz; 14,355 train lines; top 20</p>", "retrieve_parallels", ""))
     b.append(bx(320, 450, 300, 150, "Character 5-gram", "<p>its own fills plus a score for every candidate; 11 ms per gap (p50)</p>", "Train only", ""))
@@ -458,7 +458,7 @@ def p2_03_restorer_pipeline() -> None:
     b.append(bx(690, 450, 240, 150, "Constraints", "<p>gap length and the letters valid for the era</p>", "check_constraints", ""))
     b.append(bx(1000, 380, 260, 290, "Noisy-OR pre-rank",
                 '<p style="font:600 17px/1.5 var(--mono);color:#1D1611;margin-top:12px">1 &minus; (1&minus;p<sub>LLM</sub>)<br>&nbsp;&nbsp;&times; (1&minus;s<sub>parallel</sub>)<br>&nbsp;&nbsp;&times; (1&minus;s<sub>5-gram</sub>)</p>'
-                '<p>any strong signal lifts a candidate; agreement lifts it further</p>', "rank_and_decide", "lamp"))
+                '<p>its top 3 go to the fine-tuned Strands Decider, which picks one or none; the pre-rank is the fallback</p>', "rank_and_decide", "lamp"))
     b.append(bx(1320, 300, 226, 170, "Platt calibration", "<p>fitted on VAL only; one key per answering model</p>", "Calibrate", ""))
     b.append(bx(1320, 520, 226, 110, "Fill", "<p>score above threshold</p>", "Decision", "hot"))
     b.append(bx(1320, 660, 226, 150, "Abstain", "<p>\"experts are unsure here too\", or the expert review queue</p>", "Decision", ""))
@@ -475,7 +475,7 @@ def p2_03_restorer_pipeline() -> None:
         ("M1546 385 C1590 385 1590 735 1548 735", "grey"),
     ], h=H))
     b.append('<div style="position:absolute;left:660px;top:322px;font:600 14px/1 var(--sans);color:#76674F">parallel support</div>')
-    b.append('<div style="position:absolute;left:1320px;top:826px;width:226px;font:600 14px/1.35 var(--sans);color:#76674F">thresholds fitted on VAL:<br>Opus 0.4887, Sonnet 0.4111</div>')
+    b.append('<div style="position:absolute;left:1320px;top:826px;width:226px;font:600 14px/1.35 var(--sans);color:#76674F">pre-rank thresholds fitted on VAL:<br>Opus 0.4887, Sonnet 0.4111</div>')
     b.append(foot("Sources: src/ezhuthu/agent/tools.py, retrieval.py, calibration.py; config/models.yaml (restorer.ngram_prerank). 5-gram timing on an Apple M4 Pro."))
     page("p2-03-restorer-pipeline", "".join(b), h=H, extra_css=BOX_CSS)
 
@@ -681,7 +681,7 @@ def p3_01_decider_effort() -> None:
     """D1-D7, A20: the work behind the fine-tuned Strands decision model, in order."""
     H = 1010
     b = [head("The fine-tuned Strands decision model", "Six steps from <em>train-only data</em> to one look at TEST",
-              "Task: given the Restorer's top 3 candidate fills, pick the one the editors wrote, or none. Fine-tuned and tested on held-out inscriptions. Public on Hugging Face; not yet live in the app.")]
+              "Task: given the Restorer's top 3 candidate fills, pick the one the editors wrote, or none. Fine-tuned and tested on held-out inscriptions. Public on Hugging Face; the live app ranks with it.")]
     W, Hh, gx, gy, x0, y0 = 460, 270, 56, 50, 72, 270
     cells = [
         ("1 &middot; Data, TRAIN only", "Training rows",
@@ -761,7 +761,7 @@ def p3_02_splits() -> None:
 
 def p3_03_leaderboard() -> None:
     s = json.loads((ROOT / "app/web/src/benchmark/summary.json").read_text())["leaderboard"]
-    names = {"deployed": ("Ezhuthu, as deployed", C["lat600"]), "ngram": ("Character 5-gram", C["stone500"]),
+    names = {"deployed": ("Ezhuthu, pre-rank version", C["lat600"]), "ngram": ("Character 5-gram", C["stone500"]),
              "copy": ("Copy the best parallel", C["stone500"])}
     H = 900
     svg = f'<svg width="1600" height="{H}" style="position:absolute;left:0;top:0">{HB_STYLE}'
@@ -781,7 +781,7 @@ def p3_03_leaderboard() -> None:
                 svg += f'<text x="{x0+300*rows[rid]["top1"]+14:.1f}" y="{y+40}" class="hx">{extra[i]}</text>'
     svg += "</svg>"
     b = [head("Leaderboards", "Ahead of the classic methods, <em>on the hard set too</em>",
-              "Top-1 match with the editors' restoration, same gaps for every system. Whiskers: 95% intervals. p: exact McNemar against the deployed system.")]
+              "Top-1 match with the editors' restoration, same gaps for every system. Whiskers: 95% intervals. p: exact McNemar against the pre-rank version (what the app ran before the fine-tuned decision model).")]
     b.append(svg)
     b.append(foot("Source: app/web/src/benchmark/summary.json (from eval/reports/2026-11-02-deployed-config.md). \"Matches\" = equals the editor's supplied text after normalisation."))
     page("p3-03-leaderboard", "".join(b), h=740)
@@ -837,7 +837,7 @@ def p3_05_finetuned_decider() -> None:
     """A16, A17, D8/A18, L4: fine-tuned 2B on held-out TEST. No LLM-vs-decider framing (brief)."""
     H = 980
     left = [("Fine-tuned 2B", "270 of 413, CI 0.6077 to 0.6973", 0.6538, C["lat600"]),
-            ("Deployed pre-rank", "decider-free noisy-OR", 0.5908, C["stone500"]),
+            ("Pre-rank", "decider-free noisy-OR", 0.5908, C["stone500"]),
             ("Base 2B", "Strands Decider v1-2610 2B", 0.5811, C["stone500"])]
     lx = [None, "32 vs 6, p = 2.4e-5", "41 vs 11, p = 3.6e-5"]
     right = [("Ceiling", "target among the 3 options", 0.6029, C["neelam300"]),
@@ -864,11 +864,11 @@ def p3_05_finetuned_decider() -> None:
 <div style="position:absolute;left:870px;top:660px;width:670px;background:#1B1713;border-radius:18px;padding:22px;color:#F3EADA">
  <div style="font:800 40px/1 var(--serif);color:#F5C468">90.8% of the gaps it can reach</div>
  <div style="font:400 17px/1.45 var(--sans);color:#C9BBA3;margin-top:10px">0.5472 against a ceiling of 0.6029 (target among the 3 options). +11.6 points over hosted v19, p &lt; 1e-8. Yes/no head: AUC 0.971, ECE 0.015.</div>
- <div style="font:600 15px/1.4 var(--sans);color:#F5C468;margin-top:12px">Public on Hugging Face (sparrow-decider/ezhuthu-sparrow-decider-2b); not yet live in the app.</div></div>"""
+ <div style="font:600 15px/1.4 var(--sans);color:#F5C468;margin-top:12px">Public on Hugging Face (sparrow-decider/ezhuthu-sparrow-decider-2b); the live app ranks with it.</div></div>"""
     b = [head("The fine-tuned 2B Strands decision model", "Fine-tuned for Tamil: <em>92.0%</em> of its fills match the editors",
               "Top-1 match with the editors' restoration on held-out TEST, scored once. Left: the Restorer ranked by each option. Right: the decision alone, same requests for every decider.")]
     b.append(svg + panel)
-    b.append(foot("Source: eval/reports/2026-11-02-finetuned-decider.md. p: exact McNemar on discordant gaps. Not a paired comparison with the routed deployed run (0.6271)."))
+    b.append(foot("Source: eval/reports/2026-11-02-finetuned-decider.md. p: exact McNemar on discordant gaps. Not a paired comparison with the routed pre-rank run (0.6271)."))
     page("p3-05-finetuned-decider", "".join(b), h=H)
 
 

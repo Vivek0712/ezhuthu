@@ -14,10 +14,10 @@ describe('Benchmark results page (/benchmark)', () => {
     expect(screen.queryByTestId('auth-gate')).toBeNull();
     expect(screen.getByRole('heading', { level: 1, name: 'Benchmark results' })).toBeInTheDocument();
     const board = screen.getByTestId('leaderboard');
-    // Deployed first, with its interval and the paired tests against it, numbers straight from summary.json.
+    // The pre-rank version (deployed before the fine-tuned decider) first, with its interval and the paired tests against it, numbers straight from summary.json.
     const rows = within(screen.getByTestId('leaderboard-table')).getAllByRole('row').slice(1);
     expect(rows.map((r) => within(r).getByRole('rowheader').textContent)).toEqual([
-      'Ezhuthu, as deployed',
+      'Ezhuthu, pre-rank version',
       'Character 5-gram',
       'Routed with a local 2B decider',
       'Copy the best parallel',
@@ -25,7 +25,7 @@ describe('Benchmark results page (/benchmark)', () => {
     ]);
     expect(rows[0]).toHaveTextContent('0.6271 [0.5787–0.6731]');
     expect(rows[0]).toHaveTextContent('259 / 413');
-    expect(rows[1]).toHaveTextContent('only deployed 34, only this 9; p = 0.0002');
+    expect(rows[1]).toHaveTextContent('only pre-rank 34, only this 9; p = 0.0002');
     expect(rows[4]).toHaveTextContent('0.4165');
     expect(rows[4]).toHaveTextContent('not tested in the reports');
     expect(within(board).getByTestId('leaderboard-chart-deployed')).toHaveClass('hi');

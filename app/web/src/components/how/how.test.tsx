@@ -78,14 +78,16 @@ describe('How it works: the page', () => {
     expect(screen.getByTestId('agent-ex-retrieval')).toHaveTextContent('vari-p-pāṭum');
     expect(screen.getByTestId('agent-tutor')).toHaveTextContent('Strands Graph');
     expect(screen.getByTestId('agent-tutor')).toHaveTextContent('Swarm');
-    expect(screen.getByTestId('agent-decider')).toHaveTextContent('Not used for restoration');
+    expect(screen.getByTestId('agent-decider')).toHaveTextContent('a Tamil fine-tune for restoration');
+    expect(screen.getByTestId('agent-decider')).not.toHaveTextContent('Not used for restoration');
   });
 
   it('states where the Strands Decider is and is not used, with the measured numbers', () => {
     renderApp(<HowItWorksPage />, { route: '/how-it-works' });
     const dec = screen.getByTestId('models-decider');
     expect(dec).toHaveTextContent('Used in lessons');
-    expect(dec).toHaveTextContent('Not used for restoration');
+    expect(dec).toHaveTextContent('Used for restoration: a model fine-tuned for Tamil picks one of the top three fills, or none.');
+    expect(dec).not.toHaveTextContent('Not used for restoration');
     expect(dec).toHaveTextContent('39 times against 41');
     expect(dec).toHaveTextContent('13 of the 120 took longer than the 27-second limit');
     expect(screen.getByTestId('models-cal')).toHaveTextContent('fill level 41%');

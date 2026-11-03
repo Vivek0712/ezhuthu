@@ -14,7 +14,7 @@ Figures, in body order. Each < FIGURE n of N > marker in the body is replaced by
 Alt text line under it goes into the image's alt field; the italic line after it is the caption.
   1. blog/img/p2-01-architecture.png  [1600x1060 PNG, 323 KB]  (under "(top)")
   2. blog/img/p2-02-graph-swarm.png  [1600x900 PNG, 164 KB]  (under "A Strands Graph runs every lesson, and a Swarm teaches inside it")
-  3. blog/img/p2-03-restorer-pipeline.png  [1600x980 PNG, 208 KB]  (under "Three signals fused into one score")
+  3. blog/img/p2-03-restorer-pipeline.png  [1600x980 PNG, 220 KB]  (under "Three signals fused into one score")
   4. blog/img/p2-04-routing.png  [1600x900 PNG, 109 KB]  (under "Routing between Sonnet and Opus on Amazon Bedrock")
   5. blog/img/p2-05-ontology-mcp.png  [1600x1000 PNG, 222 KB]  (under "A Tamil epigraphy ontology, served over MCP")
   6. blog/img/p2-06-request-budget.png  [1600x920 PNG, 104 KB]  (under "A hard 25-second request budget")

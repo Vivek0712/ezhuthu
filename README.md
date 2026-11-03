@@ -17,14 +17,15 @@
 It teaches Tamil learners to read their own temple inscriptions, in Tamil, from today's letters back to Tamil-Brahmi.<br>
 <span lang="ta">உங்கள் ஊர்க் கோயில் கல்வெட்டை நீங்களே படியுங்கள்.</span></p>
 
-<p align="center"><b><a href="https://d3jz2k92ne5puo.cloudfront.net">Open the live app</a></b> ·
-<a href="https://d3jz2k92ne5puo.cloudfront.net/">Home</a> ·
-<a href="https://d3jz2k92ne5puo.cloudfront.net/practice">Practice</a> ·
-<a href="https://d3jz2k92ne5puo.cloudfront.net/restore">Restore</a> ·
-<a href="https://d3jz2k92ne5puo.cloudfront.net/how-it-works">How it works</a> ·
-<a href="https://d3jz2k92ne5puo.cloudfront.net/benchmark">Benchmark</a> ·
+<p align="center"><b><a href="https://ezhuthu.sparrowdecider.com">Open the live app</a></b> ·
+<a href="https://ezhuthu.sparrowdecider.com/">Home</a> ·
+<a href="https://ezhuthu.sparrowdecider.com/practice">Practice</a> ·
+<a href="https://ezhuthu.sparrowdecider.com/restore">Restore</a> ·
+<a href="https://ezhuthu.sparrowdecider.com/how-it-works">How it works</a> ·
+<a href="https://ezhuthu.sparrowdecider.com/benchmark">Benchmark</a> ·
 <a href="notebooks/ezhuthu_end_to_end.ipynb">End-to-end notebook</a> ·
-<a href="https://huggingface.co/sparrow-decider/ezhuthu-sparrow-decider-2b">Fine-tuned model</a></p>
+<a href="https://huggingface.co/sparrow-decider/ezhuthu-sparrow-decider-2b">Fine-tuned model</a><br>
+<sub>Also served at <a href="https://d3jz2k92ne5puo.cloudfront.net">d3jz2k92ne5puo.cloudfront.net</a>.</sub></p>
 
 <p align="center"><img src="design/brand/banners/hero-stone.gif" alt="A Chola-period inscription at the Brihadisvara temple, Thanjavur: the Reader names each carved letter in modern Tamil with its confidence, the Restorer proposes a lost letter and leaves it open for an expert because its confidence is too low, and the Interpreter gives the phrase and its meaning in Tamil and English" width="100%"></p>
 
@@ -66,20 +67,22 @@ not a claim that the fill is what the stone said.
 | --- | --- | --- |
 | Expert restorations in the benchmark | **3,289** (test **413**, test-hard **317**) | [benchmark/DATA_CARD.md](benchmark/DATA_CARD.md) |
 | Restorations in inscriptions over 1,100 years old (Pallava collection only) | **410** (age set with Uttiramerur: **419**) | [benchmark/DATA_CARD.md](benchmark/DATA_CARD.md) |
-| Fills that match the expert restoration (top-1, test, the deployed cloud configuration: routed LLMs + 5-gram pre-rank, no decider) | **62.7%** (259 of 413); at its VAL-calibrated threshold it fills **49.9%** of test gaps, and **90.8%** of those fills match | [deployed config](eval/reports/2026-11-02-deployed-config.md) |
+| Fills that match the expert restoration (top-1, test, the cloud configuration deployed before the fine-tuned decider: routed LLMs + 5-gram pre-rank, no decider) | **62.7%** (259 of 413); at its VAL-calibrated threshold it fills **49.9%** of test gaps, and **90.8%** of those fills match | [deployed config](eval/reports/2026-11-02-deployed-config.md) |
 | Fills that match the expert restoration (top-1, test, measured with the local 2B decider) | **49.6%** (205 of 413; copy-from-parallel baseline 47.2%, character 5-gram baseline **56.7%**) | [test eval](eval/reports/2026-11-02-test-eval.md) |
 | Calibration (ECE) and coverage at the abstain threshold (local 2B decider, VAL calibration) | ECE **0.113**; fills **46.5%** of test gaps, and **63.5%** of those fills match the expert | [test eval](eval/reports/2026-11-02-test-eval.md) |
 | Learner gain, pre-test to post-test | **TBD**: the pilot with student volunteers has not been run yet; we do not estimate | [eval/reports/](eval/reports/) |
 
-### The deployed restorer on TEST (413 gaps, scored once)
+### The pre-rank restorer on TEST (413 gaps, scored once)
 
-The configuration the live app runs was chosen on the validation split by a rule committed before any variant was
-scored ([pre-registration](eval/reports/2026-11-02-deployed-config/preregistration.md)), calibrated on validation,
-and scored once on TEST ([report](eval/reports/2026-11-02-deployed-config.md)).
+The configuration the live app ran until 4 November 2026 was chosen on the validation split by a rule committed before
+any variant was scored ([pre-registration](eval/reports/2026-11-02-deployed-config/preregistration.md)), calibrated on
+validation, and scored once on TEST ([report](eval/reports/2026-11-02-deployed-config.md)). The live app now ranks with
+the fine-tuned Strands Decider ([below](#a-fine-tuned-strands-decider-for-restoration)); that routed configuration has
+not been scored on TEST, so the numbers in this section are for the configuration scored before the switch.
 
 | System (TEST, 413 gaps) | Top-1 match [95% CI] | Matches | ECE | Coverage | Selective accuracy |
 | --- | --- | --- | --- | --- | --- |
-| **Deployed: Sonnet 4.6 → Opus 4.6, noisy-OR pre-rank with the 5-gram, Platt-calibrated** | **0.6271** [0.5787, 0.6731] | 259 / 413 | 0.1103 | 0.4988 | 0.9078 (187/206) |
+| **Pre-rank (deployed until 2026-11-04): Sonnet 4.6 → Opus 4.6, noisy-OR pre-rank with the 5-gram, Platt-calibrated** | **0.6271** [0.5787, 0.6731] | 259 / 413 | 0.1103 | 0.4988 | 0.9078 (187/206) |
 | Character 5-gram baseline | 0.5666 [0.5182, 0.615] | | 0.1611 | 0.3705 | 0.9020 (138/153) |
 | Copy the best parallel passage | 0.4722 [0.4237, 0.5206] | | 0.0771 | 0.1622 | 0.7761 (52/67) |
 | Sonnet 4.6 alone ([test eval](eval/reports/2026-11-02-test-eval.md), ranked by the local 2B decider) | 0.4165 [0.3705, 0.4649] | | 0.1497 | 0.1574 | 0.8154 (53/65) |
@@ -91,14 +94,14 @@ and scored once on TEST ([report](eval/reports/2026-11-02-deployed-config.md)).
 
   | System | 1 letter (n=281) | 2-3 letters (n=81) | 4+ letters (n=51) |
   | --- | --- | --- | --- |
-  | Deployed | 0.7367 | 0.5185 | 0.1961 |
+  | Pre-rank (deployed until 2026-11-04) | 0.7367 | 0.5185 | 0.1961 |
   | Character 5-gram | 0.6797 | 0.4321 | 0.1569 |
   | Copy baseline | 0.5445 | 0.3951 | 0.1961 |
 
 - **Cost and latency** (list prices, an estimate): 122 Sonnet + 297 Opus calls for the 413 gaps, $0.0060 per gap;
   latency per gap p50 3.2 s, p90 5.5 s.
 
-**What the test evaluation says** (413 test gaps, scored once with settings chosen on the validation split; [report](eval/reports/2026-11-02-test-eval.md)). **These numbers were measured with the local strands-decider-2B and its VAL calibration, a configuration the cloud runtime never ran; the configuration it does run was chosen afterwards on VAL by a pre-registered rule, calibrated on VAL and scored once on test: Sonnet 4.6 escalating to Opus 4.6 with the character 5-gram as a pre-rank feature and no decider matches the expert on 62.7% of test gaps, above the 5-gram alone (p = 0.0002; [deployed config](eval/reports/2026-11-02-deployed-config.md)).** The measured pipeline (Sonnet 4.6, escalating to Opus 4.6) is not significantly better than copying the best parallel passage (p = 0.27), and a character 5-gram model beats both (p = 0.012 against the pipeline). Most test gaps are a single letter (68%); on gaps of 4 or more letters every system matches the expert on at most 1 in 3. Escalating to Opus matters (Sonnet alone: 41.6%). The 2B Strands Decider ranks candidates no better than the decider-free pre-rank on these gaps, and the ontology hints made no measurable difference. These are the honest starting numbers for the restoration engine, not a claim that it reads inscriptions like an epigraphist.
+**What the test evaluation says** (413 test gaps, scored once with settings chosen on the validation split; [report](eval/reports/2026-11-02-test-eval.md)). **These numbers were measured with the local strands-decider-2B and its VAL calibration, a configuration the cloud runtime never ran; the configuration it ran next, until the fine-tuned decider replaced it, was chosen afterwards on VAL by a pre-registered rule, calibrated on VAL and scored once on test: Sonnet 4.6 escalating to Opus 4.6 with the character 5-gram as a pre-rank feature and no decider matches the expert on 62.7% of test gaps, above the 5-gram alone (p = 0.0002; [deployed config](eval/reports/2026-11-02-deployed-config.md)).** The measured pipeline (Sonnet 4.6, escalating to Opus 4.6) is not significantly better than copying the best parallel passage (p = 0.27), and a character 5-gram model beats both (p = 0.012 against the pipeline). Most test gaps are a single letter (68%); on gaps of 4 or more letters every system matches the expert on at most 1 in 3. Escalating to Opus matters (Sonnet alone: 41.6%). The 2B Strands Decider ranks candidates no better than the decider-free pre-rank on these gaps, and the ontology hints made no measurable difference. These are the honest starting numbers for the restoration engine, not a claim that it reads inscriptions like an epigraphist.
 
 ### Reading photos (OCR)
 
@@ -135,18 +138,23 @@ It uses a different candidate set from the routed restorer in the table above, s
 like-for-like comparison. On the frozen 60-item TEST-hard benchmark (an older request format) it does not win: 0.400,
 tied with Sonnet self-confidence and below hosted v19 (0.450).
 
-**Where it runs:** the hosted Strands Decider service serves it as `ezhuthu-strands-2b-ft` next to the general model,
-on the same instances. `main` routes restoration through it (`restorer.strategy_llm: choice-topk` in
-[`config/models.yaml`](config/models.yaml), [#47](https://github.com/Vivek0712/ezhuthu/pull/47)), falling back to the
-pre-rank when the decider is unavailable or the request is short of time; the live app picks this up at its next
-deploy. A one-gap restore takes about 15 s with the decider call, against about 3.4 s with the pre-rank
-([live check](eval/reports/2026-11-03-hosted-ft-live.md)).
+**Where it runs:** the live app ranks with it. The hosted Strands Decider service serves it as `ezhuthu-strands-2b-ft`
+next to the general model, on the same instances, and the restorer at https://ezhuthu.sparrowdecider.com routes
+restoration through it (`restorer.strategy_llm: choice-topk` in [`config/models.yaml`](config/models.yaml),
+[#47](https://github.com/Vivek0712/ezhuthu/pull/47); deployed 2026-11-04 with `DeciderBackend = hosted`), falling back
+to the decider-free pre-rank when the decider is unavailable or the request is short of time (`decider_timeout_s` 18,
+`decider_min_remaining_s` 10). Two live restores of the gallery sample `DHARMA_INSPandya00160:85:0` used Claude Opus 4.6
+and `ezhuthu-strands-2b-ft`, filled with `k` at 0.9087 (matching the editors' restoration) and took 29.3 s and 22.2 s
+end to end. On 20 VAL gaps a one-gap restore took about 15 s (p50) with the decider call, against about 3.4 s with the
+pre-rank ([live check](eval/reports/2026-11-03-hosted-ft-live.md)). The routed configuration with this decider has
+not been scored on TEST: the TEST numbers above are on Sonnet 4.6 candidates, and the 62.7% headline is for the
+pre-rank configuration scored before the switch.
 
 ## Honest limits
 
 - **Tamil-Brahmi photos are not readable** by the Reader (CER 0.83 to 0.91 on real photos). The Tamil-Brahmi level
   teaches from edition text and drawn letters, not from photos.
-- **Long gaps are hard.** On gaps of 4 or more letters the deployed restorer matches the editors on 0.1961 of test
+- **Long gaps are hard.** On gaps of 4 or more letters the pre-rank restorer (deployed before the switch) matches the editors on 0.1961 of test
   gaps, about 1 in 5, no better than copying the best parallel passage.
 - **The ontology hints had no measurable effect** on restoration (3 gaps gained, 3 lost, p = 1.0; [test eval](eval/reports/2026-11-02-test-eval.md)).
   The ontology still supplies the history (rulers, temples, grants) shown in lessons and readings.
@@ -156,8 +164,10 @@ deploy. A one-gap restore takes about 15 s with the decider call, against about 
   and the drawn Vatteluttu glyphs are teaching shapes pending an epigrapher's review ([sources](design/glyphs/REFERENCES.md)).
 - **Learner gain is not measured yet.** The pre-test and post-test are built; the pilot has not run.
 
-- **One request has a 25 s budget.** For the deployed restorer, its latency is measured per gap (test p90 5.5 s), but the 27 s proxy limit applies per request, so the restorer restores at most 8
-  gaps per request, skips the Opus escalation or the LLM call when time runs short, and leaves the remaining gaps open
+- **One request has a 25 s budget.** For the pre-rank restorer its latency is measured per gap (test p90 5.5 s); the
+  fine-tuned decider call adds about 10 s per gap (VAL live check), but the 27 s proxy limit applies per request, so the restorer restores at most 8
+  gaps per request, ranks a gap with the pre-rank when too little time is left for the decider, skips the Opus
+  escalation or the LLM call when time runs short, and leaves the remaining gaps open
   with an `abstain_reason` instead of timing out ([#41](https://github.com/Vivek0712/ezhuthu/issues/41),
   [report](eval/reports/2026-11-02-request-budget.md)). The 5-gram is built at start-up, not on the first request.
 
@@ -179,7 +189,7 @@ Clips from the Ezhuthu launch film (each loops a few seconds of the 3-minute fil
 flowchart LR
   A["Damaged inscription line<br/>(DHARMA, ISO-15919)"] --> R
   subgraph G["Strands Graph · one lesson"]
-    R["restore<br/>Restorer: parallels + candidate fills"] --> D{"Calibrated confidence<br/>fill or abstain?"}
+    R["restore<br/>Restorer: parallels + candidate fills"] --> D{"Fine-tuned Strands Decider<br/>+ calibrated confidence:<br/>fill or abstain?"}
     D -- fill --> L["lesson_builder<br/>letters → words → line,<br/>at level L1–L5"]
     D -- abstain --> U["'Experts are unsure'<br/>(a teaching moment)"] --> L
     L --> S
@@ -201,12 +211,13 @@ flowchart LR
   `ontology_hints` ([`tools.py`](src/ezhuthu/agent/tools.py), [`restorer.py`](src/ezhuthu/agent/restorer.py)).
   Claude Sonnet 4.6 proposes fills first; a gap goes to Claude Opus 4.6 when Sonnet's best candidate scores under
   0.6, the gap is longer than 12 letters, or there is no good parallel. Candidates are pre-ranked by a noisy-OR of the
-  parallel evidence, the LLM's score and the character 5-gram's share, and the top score is Platt-calibrated on the
-  validation split to decide fill or abstain.
+  parallel evidence, the LLM's score and the character 5-gram's share; the fine-tuned Strands Decider then picks one of
+  the top 3 or none, and its probability, Platt-calibrated on the validation split, decides fill or abstain (the
+  pre-rank's own calibrated score is the fallback).
 - **Interpreter:** letters in; words, a modern Tamil phrase and a plain meaning out ([`interpreter.py`](src/ezhuthu/agent/interpreter.py)).
-- **Decisions:** Restoration (deployed): a decider-free pre-rank with the character 5-gram's score ranks the candidates, with no decider call; Strands Decider makes the tutor's advance / repeat / hint decision.
-  On `main`, the fine-tuned Strands Decider ([sparrow-decider/ezhuthu-sparrow-decider-2b](https://huggingface.co/sparrow-decider/ezhuthu-sparrow-decider-2b)) picks among the
-  pre-rank's top 3 candidates or none, with the pre-rank as the fallback; the live app picks this up at its next deploy.
+- **Decisions:** Restoration (live since 2026-11-04): the fine-tuned Strands Decider ([sparrow-decider/ezhuthu-sparrow-decider-2b](https://huggingface.co/sparrow-decider/ezhuthu-sparrow-decider-2b)) picks among the pre-rank's top 3 candidates or none, with the decider-free pre-rank as the fallback when the decider is unavailable or the request is short of time.
+  Before that, the deployed restorer ranked with the decider-free pre-rank alone, with no decider call (the configuration scored on TEST at 62.7%).
+  Strands Decider makes the tutor's advance / repeat / hint decision (the hosted general model).
 - **Model IDs** come only from [`config/models.yaml`](config/models.yaml).
 
 **Ontology:** an OWL ontology of rulers, titles, places, grants, measures and formulae, with 27 classes, 21 object

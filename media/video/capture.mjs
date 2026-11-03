@@ -20,7 +20,7 @@ import os from 'node:os';
 const HOME = os.homedir();
 const PW_FROM = process.env.PLAYWRIGHT_FROM || path.join(HOME, 'tamil-script/ezhuthu/app/web/');
 const { chromium } = createRequire(PW_FROM.endsWith('/') ? PW_FROM : PW_FROM + '/')('playwright');
-const SITE = process.env.EZ_SITE || 'https://d3jz2k92ne5puo.cloudfront.net';
+const SITE = process.env.EZ_SITE || 'https://ezhuthu.sparrowdecider.com';
 const OUT = path.join(process.env.EZ_VIDEO_DIR || path.join(HOME, 'tamil-script/ezhuthu-video'), 'footage');
 fs.mkdirSync(OUT, { recursive: true });
 const FPS = 30;

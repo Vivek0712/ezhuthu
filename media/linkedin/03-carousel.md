@@ -12,10 +12,10 @@ Visual paths are repo-relative (FACTS section 8). Fact IDs are for the reviewer,
 | 4 | Meet Ezhuthu. எழுத்து, "letter". | An apprentice for Tamil epigraphy. Practice. Restore. Read. Interpret. Tutor. Tamil first. | Logo lockup, `design/brand/logo/` | R1, S16 |
 | 5 | Learn on real stones. | 1,469 practice drills, five levels: modern Tamil, Chola Tamil, Pallava (Grantha), Vatteluttu, Tamil-Brahmi letters. | Evolution strip, `design/renders/glyphs/evolution-strip-light.png` | S2, P4, L9 |
 | 6 | Six agents, on AWS. | A Strands Graph and Swarm, a 1,958-entity Tamil ontology over MCP, Claude on Amazon Bedrock, running on Amazon Bedrock AgentCore. | Redrawn pipeline: Restorer -> Lesson Builder -> Tutor ⇄ Assessor; Reader, Interpreter; ontology MCP | T1, T2, T4, T15 |
-| 7 | A decision model, fine-tuned for Tamil. | A 2B Strands decision model taught to pick the editors' fill. Train split only, pre-registered. 74 minutes on one A100: USD 2.26. Tested, not yet live. | Training card: "2B · LoRA · 74 min · USD 2.26" | D1, D2, D5, D7 |
+| 7 | A decision model, fine-tuned for Tamil. | A 2B Strands decision model taught to pick the editors' fill. Train split only, pre-registered. 74 minutes on one A100: USD 2.26. Tested; the live app ranks with it. | Training card: "2B · LoRA · 74 min · USD 2.26" | D1, D2, D5, D7 |
 | 8 | When it commits, 9 in 10 match. | On 413 held-out test gaps: 62.7% match the editors' restoration. Of the fills it commits to, 90.8% match (187 of 206). | Two big numbers; reliability chart from `app/web/src/benchmark/summary.json` | A1, A7 |
 | 9 | Doubt becomes the lesson. | When it is unsure, it abstains, tells the learner experts are unsure here too, and sends the gap to an epigraphist's review queue. | Restore screen showing "?" (`app/web/screenshots/` restore shot) | S5, S9, S12, H4 |
-| 10 | Learn to read the stone. Help read the backlog. | Built with Strands Agents, on Amazon Bedrock AgentCore. Try it: d3jz2k92ne5puo.cloudfront.net · Code: github.com/Vivek0712/ezhuthu | Wordmark + credits strip: "Inscriptions: DHARMA (ERC 809994), CC BY-SA 4.0 · Photo: Richard Mortel, CC BY 2.0" | FACTS "Credits" |
+| 10 | Learn to read the stone. Help read the backlog. | Built with Strands Agents, on Amazon Bedrock AgentCore. Try it: ezhuthu.sparrowdecider.com · Code: github.com/Vivek0712/ezhuthu | Wordmark + credits strip: "Inscriptions: DHARMA (ERC 809994), CC BY-SA 4.0 · Photo: Richard Mortel, CC BY 2.0" | FACTS "Credits" |
 
 ## Post text to go with the carousel
 
@@ -28,5 +28,5 @@ Visual paths are repo-relative (FACTS section 8). Fact IDs are for the reviewer,
 - Slide 1: if unsure of the UNESCO wording, drop "a UNESCO World Heritage Site" (E5 is a *secondary* check). Never
   "1,100 years" for Thanjavur.
 - Slide 5: "Tamil-Brahmi letters", never "Tamil-Brahmi inscriptions" (L9: no Tamil-Brahmi editions in the corpus).
-- Slide 7: keep "Tested, not yet live" on the slide itself (L4).
+- Slide 7: keep "Tested; the live app ranks with it" on the slide itself, with no new TEST headline for the live configuration (L4).
 - Slide 8: "match the editors' restoration", never "correct". Keep 90.8% (do not round to 91%).

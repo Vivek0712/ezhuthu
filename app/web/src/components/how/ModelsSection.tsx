@@ -74,8 +74,9 @@ export function ModelsSection() {
         <ul className="dec-uses">
           {/* src/ezhuthu/agent/tutor/policy.py: pedagogy choice by Strands Decider with rule guardrails. */}
           <li className="is-yes">{t('hw.dec1')}</li>
-          {/* eval/reports/2026-11-02-deployed-config.md: restoration makes no Strands Decider call in the deployed configuration. */}
-          <li className="is-no">{t('hw.dec2')}</li>
+          {/* config/models.yaml restorer.strategy_llm: choice-topk with ezhuthu-strands-2b-ft (deployed 2026-11-04,
+              DeciderBackend hosted); eval/reports/2026-11-02-finetuned-decider.md. The pre-rank is the fallback. */}
+          <li className="is-yes">{t('hw.dec2')}</li>
         </ul>
         <details className="how-more">
           <summary>{t('hw.more')}</summary>

@@ -22,7 +22,7 @@ No "state of the art", "first", or "beats humans".
 ## Wording guard rails (wow, but defensible)
 - "reads ... accurately": tie accuracy to the restoration numbers (91% when it commits; 63% overall). Do not claim photo OCR accuracy on real weathered stones (not measured) or any Tamil-Brahmi ability.
 - "1,100+ years old" = the Pallava collection (410 restorations). The Thanjavur temple in the hero was completed 1010 CE ("over 1,000 years").
-- "Strands decision models": the live Strands Decider drives the tutor's teaching decisions; the Tamil fine-tuned Strands Decider beats the hosted one on held-out test but is NOT live. Never say it is live.
+- "Strands decision models": the hosted Strands Decider drives the tutor's teaching decisions; the Tamil fine-tuned Strands Decider beats the hosted one on held-out test, and since 2026-11-04 the live app ranks restorations with it. Never give the live (routed + fine-tuned) configuration a TEST number: the 62.7% is the configuration scored on TEST before the switch.
 - Ontology: custom, 1,958 entities (kings, places, titles, temples, grants), 27 classes, served to the agents over MCP. Do not claim it improves accuracy (ablation showed no measurable effect).
 - Never: "experimental", "Strands AI", "AWS AI", "correct" for restorations (say "match the editors' restoration"), the banned company name.
 - Every number must trace to media/FACTS.md / eval/reports.

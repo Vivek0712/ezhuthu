@@ -167,7 +167,8 @@ describe('stone hero accuracy: every number shown comes from the recorded runs',
     expect(HERO.mean).toBe(g.mean_confidence);
     expect(HERO.letterCut).toBe(g.gap_below);
     expect(HERO.gaps[0]!.g.gap).toEqual({ decision: gap.decision, below: gap.abstain_below, best: { ta: gap.best.ta, c: gap.best.confidence } });
-    // Restoration is not credited to the Strands Decider (the deployed restorer makes no decider call); the letter
+    // This recorded reading ran the pre-rank configuration (no decider call), so its restoration is not credited to the
+    // Strands Decider, although the live restorer now ranks with the fine-tuned one; the letter
     // % is labelled as the Reader's own; the boxes as hand-marked; nothing says the reading is verified.
     expect(hero.querySelector('.sh-pipe')!.textContent).not.toMatch(/Strands Decider/);
     expect(hero.querySelector('.sh-gapnote')!.textContent).not.toMatch(/Decider/);

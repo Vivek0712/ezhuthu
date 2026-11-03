@@ -42,10 +42,13 @@ For each `[?]` / `[?N]` gap:
    | `prerank` | none | the pre-rank score |
    | `self-report` | none | LLM fills: the LLM's own probability; other candidates: parallel agreement |
 
-   Shipped (the deployed configuration, chosen on VAL by a pre-registered rule,
-   `eval/reports/2026-11-02-deployed-config.md`): `self-report` for retrieval-only gaps and `prerank` with
-   `ngram_prerank` once an LLM answered, so restoration makes **no decider call** with or without the hosted decider
-   key. On 280 VAL gaps it had 100 top-1 matches against 85 (routed + self-report, the runtime without a decider), 83
+   Shipped and live since 2026-11-04 (`config/models.yaml`, `eval/reports/2026-11-02-finetuned-decider.md`):
+   `self-report` for retrieval-only gaps and, once an LLM answered, `choice-topk` over the `ngram_prerank` pre-rank's
+   top 3 + `none` on the hosted fine-tuned decider `ezhuthu-strands-2b-ft`; without the hosted key, or when the
+   decider is unavailable or the request is short of time, the gap is ranked by `prerank` (no decider call) and says
+   `decider_fallback`. Before that, the deployed configuration (chosen on VAL by a pre-registered rule,
+   `eval/reports/2026-11-02-deployed-config.md`) was `prerank` with `ngram_prerank` and made **no decider call**
+   for restoration. On 280 VAL gaps that pre-rank configuration had 100 top-1 matches against 85 (routed + self-report, the runtime without a decider), 83
    (routed + prerank), 92 (5-gram gate) and 79 (5-gram only); the hosted v19 decider (`choice-topk:3`) had 39 vs 41
    on 120 of them. Issue #26's choice (`eval/reports/2026-11-02-val-selection.md`) was `noul-topk` with `top_k` 3
    and the local 2B decider; it is measured on TEST in `eval/reports/2026-11-02-test-eval.md` but was never what

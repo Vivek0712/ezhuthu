@@ -178,7 +178,7 @@ Narration: **335 words over 180 s** (about 112 wpm average). Every scene's spoke
 
 **On screen**
 
-- Live: d3jz2k92ne5puo.cloudfront.net
+- Live: ezhuthu.sparrowdecider.com
 - 46 carved letters, each with the model's own probability (self-reported)
 - The least certain letter: left open (?)
 - Meaning by Ezhuthu (confidence 0.30)
@@ -453,7 +453,7 @@ Narration: **335 words over 180 s** (about 112 wpm average). Every scene's spoke
 - எழுத்து Ezhuthu
 - Learn to read the stone. Help read the backlog.
 - Built with Strands Agents, on Amazon Bedrock AgentCore
-- d3jz2k92ne5puo.cloudfront.net
+- ezhuthu.sparrowdecider.com
 - github.com/Vivek0712/ezhuthu
 - (end crawl: credits, see CREDITS.md 'End card for storyboard v2')
 

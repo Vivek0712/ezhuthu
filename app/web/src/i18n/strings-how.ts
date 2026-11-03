@@ -100,14 +100,14 @@ export const enHow = {
   'hw.check.do': 'One calibrated confidence, then fill or leave open.',
   'hw.check.in': 'Each proposal with its evidence',
   'hw.check.out': 'A calibrated confidence, and fill or leave open',
-  'hw.check.how': 'A noisy-OR pre-rank of model, parallels and 5-gram; Platt scaling fitted on validation data. Fill level: {ts} (Sonnet), {to} (Opus).',
+  'hw.check.how': 'A noisy-OR pre-rank of model, parallels and 5-gram shortlists three; the fine-tuned Strands Decider picks one or none. Platt-scaled on validation data. Pre-rank fill level: {ts} (Sonnet), {to} (Opus).',
   'hw.check.ex': '{c}, below the level of {t}: left open.',
 
-  'hw.decider.do': 'In lessons: move on, repeat or hint.',
-  'hw.decider.in': 'Your answers so far',
-  'hw.decider.out': 'Move on, repeat or hint, inside fixed rules',
-  'hw.decider.how': 'The hosted Strands Decider API. Without its key, fixed rules decide. Not used for restoration.',
-  'hw.decider.ex': 'Tested on restoration: chose நின்ற at {c}, as the check did, but took {s} s.',
+  'hw.decider.do': 'Restoration: one of the top three fills, or none. Lessons: move on, repeat or hint.',
+  'hw.decider.in': 'The top three fills; your answers so far',
+  'hw.decider.out': 'One fill or none; move on, repeat or hint, inside fixed rules',
+  'hw.decider.how': 'The hosted Strands Decider API: a Tamil fine-tune for restoration, the general model for lessons. Fallback: the pre-rank or fixed rules.',
+  'hw.decider.ex': 'General model on restoration: chose நின்ற at {c}, as the check did, but took {s} s.',
 
   'hw.interpreter.name': 'Interpreter',
   'hw.interpreter.do': 'Splits the letters into words and gives the meaning.',
@@ -243,8 +243,8 @@ export const enHow = {
   'hw.thrLabel': 'Two real gaps against the Sonnet fill level',
   'hw.decTitle': 'Strands Decider',
   'hw.dec1': 'Used in lessons: move on, repeat or hint.',
-  'hw.dec2': 'Not used for restoration.',
-  'hw.dec3': 'On {n} validation gaps it matched the editors {d} times against {w} for the calibrated check, and {slow} of the {n} took longer than the {limit}-second limit.',
+  'hw.dec2': 'Used for restoration: a model fine-tuned for Tamil picks one of the top three fills, or none.',
+  'hw.dec3': 'On {n} validation gaps the general model matched the editors {d} times against {w} for the calibrated check, and {slow} of the {n} took longer than the {limit}-second limit.',
   'hw.modelsSource': 'Sources: eval/reports/2026-11-02-deployed-config.md, 2026-11-02-test-eval.md, config/models.yaml.',
 
   // ---- In the cloud. ----
@@ -260,7 +260,7 @@ export const enHow = {
   'hw.c.dynamoSub': 'sessions, review queue',
   'hw.c.cognitoSub': 'sign-in, experts group',
   'hw.c.secretsSub': 'Decider key, if set',
-  'hw.c.deciderSub': 'hosted, lessons only',
+  'hw.c.deciderSub': 'hosted, restoration + lessons',
   'hw.cloudNote': 'No Lambda function URLs: only API Gateway reaches the proxy and checks sign-in on expert routes. Stacks in infra/: EzhuthuWeb, EzhuthuApi, EzhuthuAgent, EzhuthuData, EzhuthuAuth.',
 
   // ---- People in the loop. ----
@@ -280,12 +280,12 @@ export const enHow = {
   'hw.limLong': 'on gaps of four or more letters',
   'hw.limBrahmi': 'Tamil-Brahmi photos: not readable yet',
   'hw.limConf': 'Confidence measures agreement with published editions, not truth.',
-  'hw.limData': 'Texts: DHARMA editions, split by inscription; the test set was scored once.',
+  'hw.limData': 'Texts: DHARMA editions, split by inscription; the test set was scored once. Scores: the pre-rank version, before the fine-tuned decider.',
 
   // Home: agent chips.
   'hw.chipsLabel': 'The helpers, built with Strands Agents',
 
-  // The pipeline's decision step on home (restoration does not use the Strands Decider).
+  // The pipeline's decision step on home (the calibrated confidence; the fine-tuned Strands Decider picks the fill, see hw.dec2).
   'hw.pipeDecide': 'Confidence check',
   'hw.pipeDecideDo': 'Fills the gap only when the calibrated confidence is high enough. Otherwise it leaves the gap open.',
 };
@@ -376,14 +376,14 @@ export const taHow: Record<keyof typeof enHow, string> = {
   'hw.check.do': 'ஒரே அளவுதிருத்திய நம்பகம்; பின் நிரப்பு அல்லது திறந்து விடு.',
   'hw.check.in': 'ஒவ்வொரு முன்மொழிவும் அதன் சான்றுகளுடன்',
   'hw.check.out': 'அளவுதிருத்திய நம்பகம்; நிரப்புவதா திறந்து விடுவதா',
-  'hw.check.how': 'மாதிரி, இணைப் பகுதிகள், 5-கிராம் மூன்றின் noisy-OR முன்வரிசை; சரிபார்ப்புத் தரவில் பொருத்திய Platt அளவுதிருத்தம். நிரப்பும் அளவு: {ts} (Sonnet), {to} (Opus).',
+  'hw.check.how': 'மாதிரி, இணைப் பகுதிகள், 5-கிராம் மூன்றின் noisy-OR முன்வரிசை முதல் மூன்றைத் தருகிறது; கூடுதல் பயிற்சி பெற்ற Strands Decider அவற்றில் ஒன்றை, அல்லது எதுவும் இல்லை எனத் தேர்கிறது. சரிபார்ப்புத் தரவில் பொருத்திய Platt அளவுதிருத்தம். முன்வரிசையின் நிரப்பும் அளவு: {ts} (Sonnet), {to} (Opus).',
   'hw.check.ex': '{c}, அளவு {t}-க்குக் கீழ்: திறந்து விடப்பட்டது.',
 
-  'hw.decider.do': 'பாடங்களில்: முன்னேறு, திரும்பச் செய், அல்லது குறிப்பு.',
-  'hw.decider.in': 'இதுவரை உங்கள் விடைகள்',
-  'hw.decider.out': 'முன்னேறு, திரும்பச் செய், அல்லது குறிப்பு; நிலையான விதிகளுக்குள்',
-  'hw.decider.how': 'இணையத்தில் இயங்கும் Strands Decider API. சாவி இல்லையெனில் நிலையான விதிகள் முடிவெடுக்கின்றன. மீட்டமைப்புக்குப் பயன்படுவதில்லை.',
-  'hw.decider.ex': 'மீட்டமைப்பில் சோதித்தபோது நின்ற என்பதை {c} நம்பகத்துடன் தேர்ந்தது, சரிபார்ப்பும் அதையே; ஆனால் {s} விநாடி ஆனது.',
+  'hw.decider.do': 'முதல் மூன்று நிரப்புகளில் ஒன்றை, அல்லது எதுவும் இல்லை எனத் தேர்கிறது; பாடங்களில்: முன்னேறு, திரும்பச் செய், அல்லது குறிப்பு.',
+  'hw.decider.in': 'முதல் மூன்று நிரப்புகள்; பாடங்களில், இதுவரை உங்கள் விடைகள்',
+  'hw.decider.out': 'ஒரு நிரப்பு, அல்லது எதுவும் இல்லை; பாடங்களில், முன்னேறு, திரும்பச் செய், அல்லது குறிப்பு; நிலையான விதிகளுக்குள்',
+  'hw.decider.how': 'இணையத்தில் இயங்கும் Strands Decider API: தமிழ்க் கல்வெட்டுகளுக்காகக் கூடுதல் பயிற்சி பெற்ற மாதிரி மீட்டமைப்புகளை வரிசைப்படுத்துகிறது; பொது மாதிரி பாட முடிவுகளை எடுக்கிறது. அது தாமதித்தாலோ கிடைக்காவிட்டாலோ, முன்வரிசை அல்லது நிலையான விதிகள் முடிவெடுக்கின்றன.',
+  'hw.decider.ex': 'பொது மாதிரியை மீட்டமைப்பில் சோதித்தபோது நின்ற என்பதை {c} நம்பகத்துடன் தேர்ந்தது, சரிபார்ப்பும் அதையே; ஆனால் {s} விநாடி ஆனது.',
 
   'hw.interpreter.name': 'பொருளாளர்',
   'hw.interpreter.do': 'எழுத்துகளைச் சொற்களாகப் பிரித்துப் பொருள் தருகிறது.',
@@ -512,8 +512,8 @@ export const taHow: Record<keyof typeof enHow, string> = {
   'hw.thrLabel': 'Sonnet நிரப்பும் அளவுக்கு எதிரே இரண்டு உண்மையான இடைவெளிகள்',
   'hw.decTitle': 'Strands Decider (முடிவாளர்)',
   'hw.dec1': 'பாடங்களில் பயன்படுகிறது: முன்னேறு, திரும்பச் செய், அல்லது குறிப்பு.',
-  'hw.dec2': 'மீட்டமைப்புக்குப் பயன்படுவதில்லை.',
-  'hw.dec3': '{n} சரிபார்ப்பு இடைவெளிகளில் அது {d} முறை பதிப்பாசிரியர்களுடன் பொருந்தியது; அளவுதிருத்திய சரிபார்ப்பு {w} முறை. {n}-இல் {slow} இடைவெளிகள் {limit} விநாடி வரம்பைத் தாண்டின.',
+  'hw.dec2': 'மீட்டமைப்பில் பயன்படுகிறது: தமிழுக்காகக் கூடுதல் பயிற்சி பெற்ற மாதிரி முதல் மூன்று நிரப்புகளில் ஒன்றை, அல்லது எதுவும் இல்லை எனத் தேர்கிறது.',
+  'hw.dec3': 'பொது மாதிரி {n} சரிபார்ப்பு இடைவெளிகளில் {d} முறை பதிப்பாசிரியர்களுடன் பொருந்தியது; அளவுதிருத்திய சரிபார்ப்பு {w} முறை. {n}-இல் {slow} இடைவெளிகள் {limit} விநாடி வரம்பைத் தாண்டின.',
   'hw.modelsSource': 'மூலங்கள்: eval/reports/2026-11-02-deployed-config.md, 2026-11-02-test-eval.md, config/models.yaml.',
 
   'hw.cloudTitle': 'மேகத்தில்',
@@ -528,7 +528,7 @@ export const taHow: Record<keyof typeof enHow, string> = {
   'hw.c.dynamoSub': 'அமர்வுகள், மதிப்பாய்வு வரிசை',
   'hw.c.cognitoSub': 'உள்நுழைவு, வல்லுநர் குழு',
   'hw.c.secretsSub': 'Decider சாவி (இருந்தால்)',
-  'hw.c.deciderSub': 'பாடங்களுக்கு மட்டும்',
+  'hw.c.deciderSub': 'மீட்டமைப்பு + பாடங்கள்',
   'hw.cloudNote': 'Lambda function URL இல்லை: API Gateway மட்டுமே இடைநிலையை அடைந்து, வல்லுநர் வழிகளில் உள்நுழைவைச் சரிபார்க்கிறது. infra/ அடுக்குகள்: EzhuthuWeb, EzhuthuApi, EzhuthuAgent, EzhuthuData, EzhuthuAuth.',
 
   'hw.peopleTitle': 'சுழற்சியில் மனிதர்கள்',
@@ -546,7 +546,7 @@ export const taHow: Record<keyof typeof enHow, string> = {
   'hw.limLong': 'நான்கு அல்லது அதற்கு மேற்பட்ட எழுத்து இடைவெளிகளில்',
   'hw.limBrahmi': 'தமிழ்-பிராமி ஒளிப்படங்கள்: இன்னும் படிக்க இயலாது',
   'hw.limConf': 'நம்பகம் வெளியான பதிப்புகளுடனான பொருத்தத்தை அளக்கிறது, உண்மையை அல்ல.',
-  'hw.limData': 'உரைகள்: DHARMA பதிப்புகள், கல்வெட்டு வாரியாகப் பிரிக்கப்பட்டவை; சோதனைத் தொகுப்பு ஒருமுறை மதிப்பிடப்பட்டது.',
+  'hw.limData': 'உரைகள்: DHARMA பதிப்புகள், கல்வெட்டு வாரியாகப் பிரிக்கப்பட்டவை; சோதனைத் தொகுப்பு ஒருமுறை மதிப்பிடப்பட்டது. இந்த மதிப்பெண்கள், கூடுதல் பயிற்சி பெற்ற தீர்மானிக்கு மாறுவதற்கு முன் செயலி இயக்கிய முன்வரிசை அமைப்புக்கானவை.',
 
   'hw.chipsLabel': 'Strands Agents கொண்டு உருவான உதவியாளர்கள்',
 

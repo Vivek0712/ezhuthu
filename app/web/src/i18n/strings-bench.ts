@@ -7,7 +7,7 @@ export const enBench = {
   'bench.kicker': 'Results',
   'bench.title': 'Benchmark results',
   'bench.lede':
-    'How often Ezhuthu restores lost letters the way the editors did, measured on {n} gaps from {ins} inscriptions it was never tuned on. Every number links to the report it comes from.',
+    'How often Ezhuthu restores lost letters the way the editors did, measured on {n} gaps from {ins} inscriptions it was never tuned on. Every number links to the report it comes from. The headline numbers are for the pre-rank version the app ran before it switched to the fine-tuned Strands Decider; the live version has not been scored this way yet.',
   'bench.statTop1': 'First proposal matches the editors’ restoration',
   'bench.statTop1Sub': '{k} of {n} test gaps',
   'bench.statFill': 'Of the gaps it chooses to fill, these match',
@@ -22,12 +22,12 @@ export const enBench = {
   'bench.subsetHard': 'Hard gaps ({n})',
   'bench.subsetHardHint':
     'Hard gaps have no close parallel in another training inscription, so copying a set phrase does not help.',
-  'bench.sys.deployed': 'Ezhuthu, as deployed',
-  'bench.sys.deployedD': 'Sonnet 4.6, Opus 4.6 for harder gaps, re-ranked with a character 5-gram',
+  'bench.sys.deployed': 'Ezhuthu, pre-rank version',
+  'bench.sys.deployedD': 'Sonnet 4.6, Opus 4.6 for harder gaps, re-ranked with a character 5-gram; what the app ran before the fine-tuned decider',
   'bench.sys.ngram': 'Character 5-gram',
   'bench.sys.ngramD': 'Predicts letters from the training texts alone; no AI model',
   'bench.sys.routed2b': 'Routed with a local 2B decider',
-  'bench.sys.routed2bD': 'The pipeline measured in PR #31, before the deployed one',
+  'bench.sys.routed2bD': 'The pipeline measured in PR #31, before the pre-rank version',
   'bench.sys.copy': 'Copy the best parallel',
   'bench.sys.copyD': 'Copies the matching passage from another inscription',
   'bench.sys.sonnet': 'Sonnet 4.6 alone',
@@ -35,8 +35,8 @@ export const enBench = {
   'bench.colSystem': 'System',
   'bench.colTop1': 'Top-1 [95% interval]',
   'bench.colMatches': 'Matches',
-  'bench.colVs': 'Against the deployed system',
-  'bench.vs': 'only deployed {a}, only this {b}; p {p}',
+  'bench.colVs': 'Against the pre-rank version',
+  'bench.vs': 'only pre-rank {a}, only this {b}; p {p}',
   'bench.vsSelf': 'reference',
   'bench.vsNone': 'not tested in the reports',
   'bench.vsNote':
@@ -78,7 +78,7 @@ export const enBench = {
   'bench.dec1':
     'We tried the hosted Strands Decider (v19) as the step that picks a fill. On the {n} validation gaps set aside for it, it matched {a} against {b} for the setup without it ({x} and {y} gaps where only one matched, p = {p}): a tie.',
   'bench.dec2':
-    'It was too slow: {o} of {n} gaps went over the app’s {s}-second limit. So restoration does not use it. The tutor does, to decide whether a learner moves on, repeats or gets a hint.',
+    'It was too slow: {o} of {n} gaps went over the app’s {s}-second limit. So restoration does not use it: it now ranks with a Strands Decider fine-tuned for Tamil instead. The tutor uses the general model, to decide whether a learner moves on, repeats or gets a hint.',
   'bench.dec3':
     'The small Sparrow Deciders do not help with restoration: their vocabularies are English and do not cover Tamil written in English letters. Their best run scored a top-1 of {best} on {n} hard test gaps, close to a random pick among the top three ({rnd}); always taking the first proposal scores {first}.',
   'bench.dec4':
@@ -96,7 +96,7 @@ export const enBench = {
   'bench.m6':
     'Texts: DHARMA editions, CC BY-SA 4.0. The benchmark is derived from them, shared under the same licence, and can be downloaded from the repository’s benchmark folder with its data card.',
   'bench.reports': 'The reports',
-  'bench.rep.deployed': 'Deployed configuration, test scored once',
+  'bench.rep.deployed': 'Pre-rank configuration (deployed before the switch), test scored once',
   'bench.rep.preregistration': 'Pre-registered selection rule',
   'bench.rep.test': 'Full test evaluation (PR #31)',
   'bench.rep.val': 'Validation selection',
@@ -117,7 +117,7 @@ export const taBench: Record<keyof typeof enBench, string> = {
   'bench.kicker': 'முடிவுகள்',
   'bench.title': 'அளவுகோல் முடிவுகள்',
   'bench.lede':
-    'இழந்த எழுத்துகளைப் பதிப்பாசிரியர்கள் மீட்டமைத்தபடியே எழுத்து எவ்வளவு அடிக்கடி மீட்டமைக்கிறது என்பது, அது ஒருபோதும் சரிசெய்யப்படாத {ins} கல்வெட்டுகளின் {n} இடைவெளிகளில் அளக்கப்பட்டது. ஒவ்வொரு எண்ணும் அதன் அறிக்கைக்கு இணைப்பு தருகிறது.',
+    'இழந்த எழுத்துகளைப் பதிப்பாசிரியர்கள் மீட்டமைத்தபடியே எழுத்து எவ்வளவு அடிக்கடி மீட்டமைக்கிறது என்பது, அது ஒருபோதும் சரிசெய்யப்படாத {ins} கல்வெட்டுகளின் {n} இடைவெளிகளில் அளக்கப்பட்டது. ஒவ்வொரு எண்ணும் அதன் அறிக்கைக்கு இணைப்பு தருகிறது. முதன்மை எண்கள், கூடுதல் பயிற்சி பெற்ற Strands Decider-க்கு மாறுவதற்கு முன் செயலி இயக்கிய முன்வரிசை அமைப்புக்கானவை; இப்போதைய அமைப்பு இன்னும் இவ்வாறு மதிப்பிடப்படவில்லை.',
   'bench.statTop1': 'முதல் முன்மொழிவு பதிப்பாசிரியர்களின் மீட்டமைப்புடன் பொருந்துகிறது',
   'bench.statTop1Sub': '{n} சோதனை இடைவெளிகளில் {k}',
   'bench.statFill': 'அது நிரப்பத் தேர்ந்தெடுக்கும் இடைவெளிகளில் பொருந்துபவை',
@@ -132,8 +132,8 @@ export const taBench: Record<keyof typeof enBench, string> = {
   'bench.subsetHard': 'கடினமான இடைவெளிகள் ({n})',
   'bench.subsetHardHint':
     'கடினமான இடைவெளிகளுக்கு வேறு பயிற்சிக் கல்வெட்டில் நெருங்கிய இணைப்பகுதி இல்லை; எனவே ஒரு வழக்கமான சொற்றொடரைப் படியெடுப்பது உதவாது.',
-  'bench.sys.deployed': 'எழுத்து, செயல்பாட்டில் உள்ளபடி',
-  'bench.sys.deployedD': 'Sonnet 4.6, கடினமான இடைவெளிகளுக்கு Opus 4.6, எழுத்து 5-gram கொண்டு மறுவரிசைப்படுத்தல்',
+  'bench.sys.deployed': 'எழுத்து, முன்வரிசை அமைப்பு',
+  'bench.sys.deployedD': 'Sonnet 4.6, கடினமான இடைவெளிகளுக்கு Opus 4.6, எழுத்து 5-gram கொண்டு மறுவரிசைப்படுத்தல்; கூடுதல் பயிற்சி பெற்ற தீர்மானிக்கு முன் செயலி இயக்கியது',
   'bench.sys.ngram': 'எழுத்து 5-gram',
   'bench.sys.ngramD': 'பயிற்சி நூல்களிலிருந்து மட்டுமே எழுத்துகளை ஊகிக்கிறது; AI மாதிரி இல்லை',
   'bench.sys.routed2b': 'உள்ளூர் 2B தீர்மானியுடன் வழிப்படுத்தல்',
@@ -145,8 +145,8 @@ export const taBench: Record<keyof typeof enBench, string> = {
   'bench.colSystem': 'அமைப்பு',
   'bench.colTop1': 'Top-1 [95% இடைவெளி]',
   'bench.colMatches': 'பொருத்தங்கள்',
-  'bench.colVs': 'செயல்பாட்டு அமைப்புடன் ஒப்பீடு',
-  'bench.vs': 'செயல்பாட்டு அமைப்பு மட்டும் {a}, இது மட்டும் {b}; p {p}',
+  'bench.colVs': 'முன்வரிசை அமைப்புடன் ஒப்பீடு',
+  'bench.vs': 'முன்வரிசை அமைப்பு மட்டும் {a}, இது மட்டும் {b}; p {p}',
   'bench.vsSelf': 'ஒப்பீட்டு அடிப்படை',
   'bench.vsNone': 'அறிக்கைகளில் சோதிக்கப்படவில்லை',
   'bench.vsNote':
@@ -188,7 +188,7 @@ export const taBench: Record<keyof typeof enBench, string> = {
   'bench.dec1':
     'நிரப்பைத் தேர்ந்தெடுக்கும் படியாக hosted Strands Decider (v19)-ஐ முயன்றோம். அதற்காக ஒதுக்கிய {n} சரிபார்ப்பு இடைவெளிகளில், அது {a} பொருந்தியது; அது இல்லாத அமைப்பு {b} ({x}, {y} இடைவெளிகளில் ஒன்று மட்டும் பொருந்தியது, p = {p}): சமநிலை.',
   'bench.dec2':
-    'அது மிக மெதுவாக இருந்தது: {n} இடைவெளிகளில் {o} செயலியின் {s} வினாடி வரம்பைத் தாண்டின. எனவே மீட்டமைப்பு அதைப் பயன்படுத்துவதில்லை. கற்பவர் முன்செல்வதா, மீண்டும் செய்வதா, குறிப்பு பெறுவதா என்பதைத் தீர்மானிக்க ஆசிரியர் பகுதி அதைப் பயன்படுத்துகிறது.',
+    'அது மிக மெதுவாக இருந்தது: {n} இடைவெளிகளில் {o} செயலியின் {s} வினாடி வரம்பைத் தாண்டின. எனவே மீட்டமைப்பு அதைப் பயன்படுத்துவதில்லை; இப்போது தமிழுக்காகக் கூடுதல் பயிற்சி பெற்ற Strands Decider-ஐப் பயன்படுத்துகிறது. கற்பவர் முன்செல்வதா, மீண்டும் செய்வதா, குறிப்பு பெறுவதா என்பதைத் தீர்மானிக்க ஆசிரியர் பகுதி பொது மாதிரியைப் பயன்படுத்துகிறது.',
   'bench.dec3':
     'சிறிய Sparrow Decider-கள் மீட்டமைப்புக்கு உதவுவதில்லை: அவற்றின் சொற்களஞ்சியம் ஆங்கிலம்; ஆங்கில எழுத்துகளில் எழுதிய தமிழை அவை அறியா. அவற்றின் சிறந்த ஓட்டம் {n} கடினமான இடைவெளிகளில் {best} பொருந்தியது; இது முதல் மூன்றில் தற்செயலாக ஒன்றைத் தேர்வதற்கு அருகில் ({rnd}); எப்போதும் முதல் முன்மொழிவை எடுத்தால் {first}.',
   'bench.dec4':
@@ -206,7 +206,7 @@ export const taBench: Record<keyof typeof enBench, string> = {
   'bench.m6':
     'உரைகள்: DHARMA பதிப்புகள், CC BY-SA 4.0. அளவுகோல் அவற்றிலிருந்து பெறப்பட்டது, அதே உரிமத்தில் பகிரப்படுகிறது; களஞ்சியத்தின் benchmark கோப்புறையிலிருந்து அதன் தரவு அட்டையுடன் பதிவிறக்கலாம்.',
   'bench.reports': 'அறிக்கைகள்',
-  'bench.rep.deployed': 'செயல்பாட்டு அமைப்பு, சோதனை ஒருமுறை மதிப்பீடு',
+  'bench.rep.deployed': 'முன்வரிசை அமைப்பு (மாற்றத்துக்கு முன் செயல்பாட்டில்), சோதனை ஒருமுறை மதிப்பீடு',
   'bench.rep.preregistration': 'முன்பதிவு செய்த தேர்வு விதி',
   'bench.rep.test': 'முழுச் சோதனை மதிப்பீடு (PR #31)',
   'bench.rep.val': 'சரிபார்ப்புத் தேர்வு',

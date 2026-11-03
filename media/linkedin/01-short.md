@@ -15,7 +15,7 @@ On 413 held-out test gaps, 62.7% match the editors' restoration. When it commits
 
 Next: a learner pilot with AWS UG Madurai student volunteers.
 
-Try it: https://d3jz2k92ne5puo.cloudfront.net
+Try it: https://ezhuthu.sparrowdecider.com
 Code (public): https://github.com/Vivek0712/ezhuthu
 
 #StrandsAgents #AmazonBedrock #AgentCore #Tamil #Epigraphy #Madurai #AIforGood

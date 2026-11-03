@@ -31,7 +31,7 @@ Punchy 87.7 · Hard-technical 77.4.
 2. **Bold in words, exact in numbers.** "When it commits, 9 in 10 match" (A7 allows it) is bold; "91%" is not allowed
    (0.908 is 90.8%; never round up). The brief's "91% (187/206)" must be written **90.8%**.
 3. **Every result carries its qualifier in the same sentence:** "on 413 held-out test gaps", "match the editors'
-   restoration", "at list prices", "fine-tuned, tested, not yet live".
+   restoration", "at list prices", "fine-tuned, tested; the live app ranks with it" (and the 62.7% is "the configuration scored on TEST before the switch").
 4. **Humility is the wow.** "It knows when it does not know" and "doubt becomes the lesson" scored as high with
    the skeptic and the epigraphist as any number. Abstention is a feature; say it proudly.
 5. **The human stays in the loop and in the frame.** Learners and epigraphists are the heroes; the agents are the
@@ -51,7 +51,7 @@ Punchy 87.7 · Hard-technical 77.4.
 | matches the editors' restoration (with N) | correct, accurate, right (about restorations) |
 | proposes the worn-away letters; fills when sure; abstains; asks an expert | reads any inscription; restores the original text |
 | built with Strands Agents; runs on Amazon Bedrock AgentCore | Strands AI, AWS AI, experimental |
-| fine-tuned Strands decision model, tested on held-out inscriptions, not yet live | live / deployed / in production (fine-tuned decider) |
+| fine-tuned Strands decision model, tested on held-out inscriptions; the live app ranks with it | a new headline TEST number for the live configuration; "the fine-tuned decider scored 62.7%" |
 | a custom ontology served to the agents over MCP | COA / FalkorDB runs; "the ontology makes it more accurate" |
 | over 1,000 years (Thanjavur); over 1,100 years (only the 410 Pallava restorations) | 1,100 years for anything else; any city-age figure |
 | reads Tamil-script photos; teaches Tamil-Brahmi letters | reads Tamil-Brahmi / Grantha / Vatteluttu from photos |
@@ -78,7 +78,7 @@ thousands of stones, no tool existed, reads (alone, for stones), AI magic*.
 | LinkedIn carousel | (built from D4v2) | `media/linkedin/03-carousel.md` |
 | Blog title | E7v2 (113) | "In 2021 India Had About 23 Epigraphists. So I Built an Apprentice with Strands Agents." [P1] |
 | Blog title, pedagogy angle (part 1 or 3 alt) | E8v2 (103) | "When the AI Is Unsure, That Becomes the Lesson: Teaching Tamil Inscriptions with Strands Agents" [S5] |
-| Blog title, dev audience (part 2 / 3) | E6 (round 1, Dev 22/25) | "Fine-Tuning a 2B Strands Decision Model for Tamil Epigraphy for USD 2.26" (lede must say "tested, not yet live") [D7, L4] |
+| Blog title, dev audience (part 2 / 3) | E6 (round 1, Dev 22/25) | "Fine-Tuning a 2B Strands Decision Model for Tamil Epigraphy for USD 2.26" (lede must say "tested; the live app ranks with it", and that the 62.7% is the pre-rank configuration) [D7, L4] |
 | End-card tagline | F7v2 (113) | "Learn to read the stone. Help read the backlog." / sub-line "Built with Strands Agents, on Amazon Bedrock AgentCore" |
 | End-card alt (heritage cut) | F4v2 (105) | "Over a thousand years of Tamil on the walls. Now, more readers." |
 
@@ -102,7 +102,7 @@ thousands of stones, no tool existed, reads (alone, for stones), AI magic*.
 | "It fills about half and sends the rest to an expert" | A7 (49.9%), S9 |
 | "1,469 Tamil-first practice drills, five levels" | S2, P4 |
 | "1,958 named entities: kings, places, temples, formulas, served over MCP" | T4, T5 |
-| "Fine-tuned in 74 minutes on one A100 for USD 2.26; tested, not yet live" | D7, L4 |
+| "Fine-tuned in 74 minutes on one A100 for USD 2.26; tested, and the live app ranks with it" | D7, L4 |
 | "About $0.0060 per gap at list prices" | A11 |
 | "Madurai is carved into the stones: 25 editions name it, 23 in a Chola king's title, 'who took Madurai'" | P13 |
 | "410 restorations in Pallava inscriptions over 1,100 years old" | P10 |

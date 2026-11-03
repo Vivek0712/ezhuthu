@@ -10,8 +10,9 @@ is that same letter count (the field keeps its name).
 > letters) and the length checks have counted Tamil letters since issue #26. Clients that convert a damaged span to
 > `[?N]` must count letters, not ISO characters (ISO spells most letters with 2-3 characters).
 
-> **Additive response change (2026-11-02, deployed-config PR):** with the deployed restorer settings
-> (`strategy_llm: prerank`, `ngram_prerank: true`), each candidate's `decider_model` is `"prerank-ngram"` (no decider
+> **Additive response change (2026-11-02, deployed-config PR):** with the pre-rank restorer settings
+> (`strategy_llm: prerank`, `ngram_prerank: true`; deployed until 2026-11-04, and still the fallback of the live
+> fine-tuned decider, see "Decider" below), each candidate's `decider_model` is `"prerank-ngram"` (no decider
 > ranks the candidates; before, it named the ranking decider or a fallback) and its untyped `features` object gains
 > `ngram_probability`: the character 5-gram's share for that fill (0-1, 4 decimals), or `null` when the 5-gram options
 > are off. `features` is not in the example below nor in `app/web/api/openapi.yaml`; clients may ignore it.
@@ -56,7 +57,7 @@ Response:
   refuses more than `EZHUTHU_MAX_GAPS` (5) markers per request, so the cap bounds other callers (the tutor restores
   whole inscriptions).
 
-- Decider (additive, 2026-11-03, hosted fine-tuned decider): once an LLM answered, the restorer asks the hosted
+- Decider (additive, 2026-11-03, hosted fine-tuned decider; live since 2026-11-04): once an LLM answered, the restorer asks the hosted
   fine-tuned decider (`ezhuthu-strands-2b-ft`, `choice-topk` over the pre-rank's top 3 + none) and its calibrated
   probability is the confidence (`decider_model` names it). It is asked only with `decider_min_remaining_s` [10] left,
   and the call may take what is left (at most `decider_timeout_s` [18]). If it is unavailable, refuses or times out,
