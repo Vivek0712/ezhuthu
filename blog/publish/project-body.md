@@ -1,5 +1,5 @@
 < COVER IMAGE: upload blog/img/project-00-cover.jpg in the cover field (1200x675, no text) >
-Alt text: The Tamil letter ka at five stages, from Tamil-Brahmi through Vatteluttu, Pallava Grantha and Chola Tamil to modern Tamil, lamp-lit in a row of tiles over a dark, blurred temple inscription
+Alt text: Ezhuthu cover: the Tamil and English wordmarks and the line Agentic AI that reads and restores Tamil temple inscriptions over 1,000 years old, beside the inscribed Thanjavur temple wall with lamp-lit outlines around the carved letters and one gap highlighted as restored; it matches the editors' restoration on 62.7% of 413 held-out gaps and 9 in 10 of its committed fills; built with Strands Agents, Amazon Bedrock AgentCore, a fine-tuned Strands Decider and a Tamil ontology over MCP
 
 By Vivek Raja, AWS AI Hero
 
@@ -114,7 +114,7 @@ Thanks to the DHARMA project and the editors of every edition used here, whose r
 
 Inscription texts: the DHARMA project (ERC grant 809994) and the named editors of each edition, CC BY-SA 4.0. The derived benchmark is shared under CC BY-SA 4.0.
 
-Cover background photograph: "Brihadishwara Temple, Dedicated to Shiva, built by Rajaraja I, completed in 1010, Thanjavur (38)" by Richard Mortel, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0/), via Wikimedia Commons (https://commons.wikimedia.org/wiki/File:1010_CE_Brihadishwara_Shiva_Temple,_inscription,_built_by_Rajaraja_I,_Thanjavur_Tamil_Nadu_India.jpg); cropped, blurred and darkened, with the letter ka at five stages drawn over it.
+Cover background photograph: "Brihadishwara Temple, Dedicated to Shiva, built by Rajaraja I, completed in 1010, Thanjavur (38)" by Richard Mortel, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0/), via Wikimedia Commons (https://commons.wikimedia.org/wiki/File:1010_CE_Brihadishwara_Shiva_Temple,_inscription,_built_by_Rajaraja_I,_Thanjavur_Tamil_Nadu_India.jpg); cropped and darkened at the left, with letter outlines and the project title drawn over it.
 
 Fonts: Noto Serif Tamil, Noto Sans Tamil, Noto Sans Brahmi, Noto Sans Grantha, Fraunces and Instrument Sans, SIL OFL 1.1.
 
