@@ -1,4 +1,5 @@
-< COVER IMAGE: upload blog/img/p1-00-cover.png in the cover field (1200x675, no text) >
+< COVER IMAGE: upload blog/img/p1-00-cover.jpg in the cover field (1200x675, no text) >
+Alt text: Carved Tamil letters on a stone wall of the Brihadishwara temple at Thanjavur, lit warm, with a soft outline around each letter
 
 By Vivek Raja, AWS AI Hero
 
@@ -14,6 +15,8 @@ So I built Ezhuthu. The name is the Tamil word for "letter". It is an apprentice
 
 < FIGURE 1 of 6: upload blog/img/p1-01-at-a-glance.png here >
 Alt text: Ezhuthu at a glance: 1,320 DHARMA inscriptions parsed, 1,469 Tamil-first practice items, 62.7 percent of 413 held-out test gaps matching the editors' restoration, and 90.8 percent of the fills it commits to matching
+
+*Ezhuthu at a glance. Every number traces to an evaluation report in the repository.*
 
 ## The problem: damage is the normal case
 
@@ -32,12 +35,16 @@ A reading tutor for these texts has to handle damage honestly. It cannot pretend
 When the Restorer is unsure, the lesson says so: experts are unsure here too. Doubt becomes part of what the learner is taught.
 
 < FIGURE 2 of 6: upload blog/img/p1-07-restore.png here >
-Alt text: The Restore screen: a damaged line, candidate fills with their confidence, parallel passages from other inscriptions, and the editors' reading for comparison
+Alt text: The Restore screen on a Pandya passage with one letter hidden on purpose: the Restorer fills it with -k at 72 percent, ahead of k at 16 percent and kai at 8 percent, with related terms and parallel passages from other inscriptions; the published edition reads the same letter, and the app marks the fill as matching the editors' restoration
+
+*One letter hidden on purpose. The Restorer fills it at 72%, and the published edition reads the same letter.*
 
 ## How I built it: agents, an ontology and a decision model
 
 < FIGURE 3 of 6: upload blog/img/p2-01-architecture.png here >
 Alt text: Ezhuthu on AWS: CloudFront and a private S3 bucket serve the React app; API Gateway, a Lambda proxy and Amazon Bedrock AgentCore Runtime run the Strands agents and the ontology MCP server; DynamoDB holds sessions and the review queue; Secrets Manager holds the hosted decider key
+
+*The whole system on one page: five CDK stacks, one AgentCore runtime, two Claude models.*
 
 Every agent is built with Strands Agents and runs on Amazon Bedrock AgentCore Runtime, with Claude Sonnet 4.6 and Claude Opus 4.6 on Amazon Bedrock.
 
@@ -52,6 +59,8 @@ Every agent is built with Strands Agents and runs on Amazon Bedrock AgentCore Ru
 < FIGURE 4 of 6: upload blog/img/p2-03-restorer-pipeline.png here >
 Alt text: The Restorer pipeline: retrieve parallels, propose fills with Sonnet 4.6 escalating to Opus 4.6, check constraints, pre-rank with the noisy-OR score, then calibrate and fill or abstain
 
+*From a gap to a decision in one pass.*
+
 ## A Strands decision model fine-tuned for Tamil
 
 The last step of a restoration is a decision: of the top three candidate fills, which one matches the editors, or none. I fine-tuned the 2B Strands Decider for exactly that decision.
@@ -64,7 +73,9 @@ The last step of a restoration is a decision: of the top three candidate fills, 
 The weights are public on Hugging Face as `sparrow-decider/ezhuthu-sparrow-decider-2b`, with the model card, an example request and checksums. The hosted Strands Decider service serves it next to the general model on the same instances, and the main branch now routes restoration through it, with the pre-rank as the fallback.
 
 < FIGURE 5 of 6: upload blog/img/p3-05-finetuned-decider.png here >
-Alt text: The fine-tuned decider on held-out TEST: restorer top-1 with the fine-tuned decider against the pre-rank, and the decider alone against the general hosted Strands Decider
+Alt text: The fine-tuned 2B decider on 413 held-out TEST gaps. Inside the Restorer, ranking the same Sonnet 4.6 candidates, top-1 is 0.6538 with the fine-tuned decider, 0.5908 with the decider-free pre-rank and 0.5811 with the base 2B model. As a decider on its own, against a ceiling of 0.6029, the fine-tuned model gets 0.5472, the general hosted Strands Decider v19 0.4310 and the base 2B model 0.4165. Inside the Restorer it fills 57.6 percent of TEST gaps, and 92.0 percent of those fills match
+
+*Fine-tuned for Tamil and tested once on held-out inscriptions. The 90.8% in the dark panel is the share of reachable gaps the decider gets right, a different measure from the 90.8% of committed fills at the top of this article.*
 
 ## Results, scored once on held-out data
 
@@ -77,7 +88,9 @@ The configuration the live app runs was chosen on the validation split by a rule
 - **Fast and cheap.** Per gap, p50 3.2 s and p90 5.5 s, about USD 0.006 at list prices.
 
 < FIGURE 6 of 6: upload blog/img/p3-03-leaderboard.png here >
-Alt text: Leaderboard on 413 held-out TEST gaps: the deployed Restorer, the character 5-gram, copying the best parallel, and Claude Sonnet 4.6 alone
+Alt text: Leaderboards of top-1 match with the editors' restoration, with 95 percent intervals. Full TEST, 413 gaps: Ezhuthu as deployed 0.6271, the character 5-gram 0.5666 and copying the best parallel 0.4722. TEST-hard, 317 gaps with no close parallel: 0.5741, 0.5268 and 0.3817
+
+*Same systems, same gaps, on the full test set and on the hard set.*
 
 ## Honest limits
 
@@ -95,3 +108,9 @@ Alt text: Leaderboard on 413 held-out TEST gaps: the deployed Restorer, the char
 Everything is open: the code under Apache-2.0, the restoration benchmark under CC BY-SA 4.0, the fine-tuned decision model on Hugging Face, and every number in this article in an evaluation report in the repository. Ezhuthu does not replace an epigraphist. It helps more people learn to read the stones while the people who can teach them are still here.
 
 Thanks to the DHARMA project and the editors of every edition used here, whose restorations are the benchmark, and to the Strands Agents and Strands Decider teams.
+
+## Credits
+
+Inscription texts: the DHARMA project (ERC grant 809994) and the named editors of each edition, CC BY-SA 4.0. The derived benchmark is shared under CC BY-SA 4.0.
+
+Cover photograph: "Brihadishwara Temple, Dedicated to Shiva, built by Rajaraja I, completed in 1010, Thanjavur (38)" by Richard Mortel, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0/), via Wikimedia Commons (https://commons.wikimedia.org/wiki/File:1010_CE_Brihadishwara_Shiva_Temple,_inscription,_built_by_Rajaraja_I,_Thanjavur_Tamil_Nadu_India.jpg); cropped, letter outlines added.

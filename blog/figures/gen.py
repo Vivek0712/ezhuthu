@@ -4,7 +4,8 @@
 Every number here is copied from media/FACTS.md (fact IDs in comments) or read from the repo files that FACTS.md
 cites (benchmark/stats.json, app/web/src/benchmark/summary.json, ontology-slice.json, hero-evolution.json).
 Run: python3 blog/figures/gen.py && node blog/figures/render.cjs && python3 blog/figures/gen.py --shrink
-(--shrink palette-quantises any PNG over 2 MB, the Builder Center upload limit.)
+(--shrink palette-quantises any PNG over 2 MB, the Builder Center upload limit, and writes a JPEG copy of each
+photographic image in JPEG_COPIES: a photo stored as PNG is several times larger than it needs to be.)
 """
 from __future__ import annotations
 
@@ -875,6 +876,10 @@ def p3_05_finetuned_decider() -> None:
 # Covers: 1200x675, no text
 # ---------------------------------------------------------------------------------------------------------------
 
+# Photographic images also exported as JPEG for upload (the PNG stays the render output).
+JPEG_COPIES = ["p1-00-cover"]
+
+
 def covers() -> None:
     boxes = json.loads((ROOT / "design/hero/boxes.json").read_text())
     photo = (ROOT / "app/web/public/hero/thanjavur-1568.jpg").as_uri()
@@ -939,6 +944,11 @@ ALL = [p1_01_at_a_glance, p1_02_letter_evolution, p1_03_gap_lengths, p1_04_home_
 if __name__ == "__main__":
     import sys
     if sys.argv[1:] == ["--shrink"]:
+        for name in JPEG_COPIES:
+            src = HERE.parent / "img" / f"{name}.png"
+            dst = src.with_suffix(".jpg")
+            Image.open(src).convert("RGB").save(dst, quality=90, optimize=True, progressive=True)
+            print("jpeg", dst.name, dst.stat().st_size // 1024, "KB")
         for f in sorted((HERE.parent / "img").glob("*.png")):
             if f.stat().st_size > 2 * 1024 * 1024:
                 q = Image.open(f).convert("RGB").quantize(colors=256, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.FLOYDSTEINBERG)
