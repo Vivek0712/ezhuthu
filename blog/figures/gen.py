@@ -681,7 +681,7 @@ def p3_01_decider_effort() -> None:
     """D1-D7, A20: the work behind the fine-tuned Strands decision model, in order."""
     H = 1010
     b = [head("The fine-tuned Strands decision model", "Six steps from <em>train-only data</em> to one look at TEST",
-              "Task: given the Restorer's top 3 candidate fills, pick the one the editors wrote, or none. Fine-tuned and tested on held-out inscriptions; not yet live.")]
+              "Task: given the Restorer's top 3 candidate fills, pick the one the editors wrote, or none. Fine-tuned and tested on held-out inscriptions. Public on Hugging Face; not yet live in the app.")]
     W, Hh, gx, gy, x0, y0 = 460, 270, 56, 50, 72, 270
     cells = [
         ("1 &middot; Data, TRAIN only", "Training rows",
@@ -716,7 +716,7 @@ def p3_01_decider_effort() -> None:
     paths.append((f"M{xr} {y0+Hh+2} C{xr} {y0+Hh+30} {x0+W/2} {y0+Hh+20} {x0+W/2} {y0+Hh+gy-4}", "grey"))
     b.append(arrows(paths, h=H))
     b.append('<div style="position:absolute;left:72px;top:884px;font:700 22px/1.3 var(--serif);color:#1D1611">Trained for <span style="color:#9B3D22">USD 2.26</span> in total. Checkpoint 224 MB.</div>')
-    b.append(foot("Sources: eval/reports/2026-11-02-finetuned-decider.md and 2026-11-02-ft-data.md (branch team/agent/ft-decider)."))
+    b.append(foot("Sources: eval/reports/2026-11-02-finetuned-decider.md and 2026-11-02-ft-data.md."))
     page("p3-01-decider-effort", "".join(b), h=H, extra_css=BOX_CSS)
 
 
@@ -864,11 +864,11 @@ def p3_05_finetuned_decider() -> None:
 <div style="position:absolute;left:870px;top:660px;width:670px;background:#1B1713;border-radius:18px;padding:22px;color:#F3EADA">
  <div style="font:800 40px/1 var(--serif);color:#F5C468">90.8% of the gaps it can reach</div>
  <div style="font:400 17px/1.45 var(--sans);color:#C9BBA3;margin-top:10px">0.5472 against a ceiling of 0.6029 (target among the 3 options). +11.6 points over hosted v19, p &lt; 1e-8. Yes/no head: AUC 0.971, ECE 0.015.</div>
- <div style="font:600 15px/1.4 var(--sans);color:#F5C468;margin-top:12px">Fine-tuned and tested on held-out inscriptions; not yet live.</div></div>"""
+ <div style="font:600 15px/1.4 var(--sans);color:#F5C468;margin-top:12px">Public on Hugging Face (sparrow-decider/ezhuthu-sparrow-decider-2b); not yet live in the app.</div></div>"""
     b = [head("The fine-tuned 2B Strands decision model", "Fine-tuned for Tamil: <em>92.0%</em> of its fills match the editors",
               "Top-1 match with the editors' restoration on held-out TEST, scored once. Left: the Restorer ranked by each option. Right: the decision alone, same requests for every decider.")]
     b.append(svg + panel)
-    b.append(foot("Source: eval/reports/2026-11-02-finetuned-decider.md (branch team/agent/ft-decider). p: exact McNemar on discordant gaps. Not a paired comparison with the routed deployed run (0.6271)."))
+    b.append(foot("Source: eval/reports/2026-11-02-finetuned-decider.md. p: exact McNemar on discordant gaps. Not a paired comparison with the routed deployed run (0.6271)."))
     page("p3-05-finetuned-decider", "".join(b), h=H)
 
 
@@ -877,7 +877,7 @@ def p3_05_finetuned_decider() -> None:
 # ---------------------------------------------------------------------------------------------------------------
 
 # Photographic images also exported as JPEG for upload (the PNG stays the render output).
-JPEG_COPIES = ["p1-00-cover"]
+JPEG_COPIES = ["p1-00-cover", "project-00-cover"]
 
 
 def covers() -> None:
@@ -934,6 +934,30 @@ def covers() -> None:
 <line x1="120" y1="600" x2="1080" y2="90" stroke="#76674F" stroke-width="4" stroke-dasharray="14 12"/>{bars}
 <circle cx="1080" cy="90" r="20" fill="#D2891C"/><circle cx="1080" cy="90" r="38" fill="none" stroke="#D2891C" stroke-width="3" opacity=".5"/></svg>"""
     page("p3-00-cover", c3, w=1200, h=675)
+
+    # Project cover: the letter ka at five stages (design/glyphs/hero-evolution.json), lamp-lit on the dark,
+    # blurred Thanjavur stone (photo: Richard Mortel, CC BY 2.0; credited in the article). No text.
+    evo = json.loads((ROOT / "design/glyphs/hero-evolution.json").read_text())
+    st = evo["stages"]  # brahmi, vatteluttu, pallava, chola, modern: oldest to newest
+    gl, step, size, y = 96, 216, 150, 262
+    marks = ""
+    for i, s in enumerate(st):
+        x = gl + i * step
+        op = .42 + .145 * i
+        col = C["lamp300"] if i == len(st) - 1 else C["lamp400"]
+        shape = (f'<path d="{s["d"]}" fill="none" stroke="{col}" stroke-width="{evo["stroke"]}" stroke-linecap="round" stroke-linejoin="round"/>'
+                 if s["kind"] == "stroke" else f'<path d="{s["d"]}" fill="{col}"/>')
+        marks += (f'<rect x="{x - 18}" y="{y - 18}" width="{size + 36}" height="{size + 36}" rx="22" fill="{C["g850"]}" fill-opacity=".72" '
+                  f'stroke="{C["lamp300"] if i == len(st) - 1 else "#76674F"}" stroke-width="{4 if i == len(st) - 1 else 2.5}"/>'
+                  f'<svg x="{x}" y="{y}" width="{size}" height="{size}" viewBox="{evo["viewBox"]}" opacity="{op:.2f}">{shape}</svg>')
+    dots = "".join(f'<circle cx="{gl + i * step + size + 18 + (step - size - 36) / 2:.0f}" cy="{y + size / 2:.0f}" r="5" fill="{C["lamp500"]}"/>' for i in range(len(st) - 1))
+    c4 = f"""<div style="position:absolute;inset:0;background:#13100D"></div>
+<img src="{photo}" style="position:absolute;left:-40px;top:-40px;width:1280px;height:755px;object-fit:cover;filter:blur(7px) saturate(.9) brightness(.42)">
+<div style="position:absolute;inset:0;background:radial-gradient(75% 85% at 50% 50%,rgba(19,16,13,.15) 0%,rgba(19,16,13,.85) 100%)"></div>
+<svg width="1200" height="675" style="position:absolute;inset:0"><defs><filter id="g4"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<line x1="{gl + size / 2}" y1="{y + size / 2}" x2="{gl + 4 * step + size / 2}" y2="{y + size / 2}" stroke="{C["lamp500"]}" stroke-opacity=".35" stroke-width="2" stroke-dasharray="6 10"/>
+<g filter="url(#g4)">{marks}{dots}</g></svg>"""
+    page("project-00-cover", c4, w=1200, h=675, theme="dark")
 
 
 ALL = [p1_01_at_a_glance, p1_02_letter_evolution, p1_03_gap_lengths, p1_04_home_hero, p1_05_practice_banks,
