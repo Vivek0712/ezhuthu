@@ -1,6 +1,6 @@
 ---
 title: "Ezhuthu: An Apprentice for Tamil Temple Inscriptions, Built with Strands Agents on Amazon Bedrock AgentCore"
-description: "Ezhuthu teaches learners to read real, damaged Tamil inscriptions in Tamil, and proposes the worn-away letters with a calibrated confidence, leaving the rest for an expert. On 413 held-out gaps it matches the editors' restoration 62.7% of the time, and 9 in 10 of the fills it commits to match."
+description: "Identify letters, restore worn-away text and learn to read Tamil inscriptions over 1,000 years old. Built with Strands Agents on Amazon Bedrock AgentCore: a Reader names each carved letter, a Restorer fills gaps using a fine-tuned Strands decision model and a custom Tamil epigraphy ontology, and a Tutor teaches in Tamil. Matches the editors' restoration on 62.7% of 413 held-out gaps; 9 in 10 when it commits."
 tags: ["strands-agents", "amazon-bedrock-agentcore", "generative-ai", "education", "social-good"]
 cover: "img/p1-00-cover.jpg"
 cover_alt: "Carved Tamil letters on a stone wall of the Brihadishwara temple at Thanjavur, lit warm, with a soft outline around each letter"
