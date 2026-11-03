@@ -6,6 +6,7 @@ cover: "img/p1-00-cover.jpg"
 cover_alt: "Carved Tamil letters on a stone wall of the Brihadishwara temple at Thanjavur, lit warm, with a soft outline around each letter"
 repo: "https://github.com/Vivek0712/ezhuthu"
 demo: "https://d3jz2k92ne5puo.cloudfront.net"
+notebook: "https://github.com/Vivek0712/ezhuthu/blob/main/notebooks/ezhuthu_end_to_end.ipynb"
 ---
 
 By Vivek Raja, AWS AI Hero
@@ -19,6 +20,7 @@ So I built Ezhuthu. The name is the Tamil word for "letter". It is an apprentice
 - Live app: https://d3jz2k92ne5puo.cloudfront.net
 - Code (Apache-2.0): https://github.com/Vivek0712/ezhuthu
 - Fine-tuned decision model: https://huggingface.co/sparrow-decider/ezhuthu-sparrow-decider-2b
+- End-to-end Jupyter notebook (data, ontology over MCP, Strands agents on Amazon Bedrock, the fine-tuned decider, the live AgentCore API and the evaluation): https://github.com/Vivek0712/ezhuthu/blob/main/notebooks/ezhuthu_end_to_end.ipynb
 
 ![Ezhuthu at a glance: 1,320 DHARMA inscriptions parsed, 1,469 Tamil-first practice items, 62.7 percent of 413 held-out test gaps matching the editors' restoration, and 90.8 percent of the fills it commits to matching](img/p1-01-at-a-glance.png)
 

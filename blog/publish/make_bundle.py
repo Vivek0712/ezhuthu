@@ -107,6 +107,7 @@ for n, f in PARTS:
         + (f"Series: {get('series')}, part {get('part')}\n" if get("series") else "")
         + (f"GitHub or GitLab Repository: {get('repo')}\n" if get("repo") else "")
         + (f"Endpoint or live demo: {get('demo')}\n" if get("demo") else "")
+        + (f"Jupyter or SageMaker notebook: {get('notebook')}\n" if get("notebook") else "")
         + f"Cover image: blog/{get('cover')} [{spec(get('cover'))}] (1200x675 png/jpg/webp, <= 2 MB, no text)\n"
         + (f"Cover alt text: {get('cover_alt')}\n" if get("cover_alt") else "") + "\n"
         "Figures, in body order. Each < FIGURE n of N > marker in the body is replaced by the upload; the\n"

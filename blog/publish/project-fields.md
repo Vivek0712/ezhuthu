@@ -9,6 +9,7 @@ Identify letters, restore worn-away text and learn to read Tamil inscriptions ov
 Tags: ["strands-agents", "amazon-bedrock-agentcore", "generative-ai", "education", "social-good"]
 GitHub or GitLab Repository: https://github.com/Vivek0712/ezhuthu
 Endpoint or live demo: https://d3jz2k92ne5puo.cloudfront.net
+Jupyter or SageMaker notebook: https://github.com/Vivek0712/ezhuthu/blob/main/notebooks/ezhuthu_end_to_end.ipynb
 Cover image: blog/img/p1-00-cover.jpg [1200x675 JPEG, 297 KB] (1200x675 png/jpg/webp, <= 2 MB, no text)
 Cover alt text: Carved Tamil letters on a stone wall of the Brihadishwara temple at Thanjavur, lit warm, with a soft outline around each letter
 
