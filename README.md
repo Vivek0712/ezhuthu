@@ -163,6 +163,17 @@ deploy. A one-gap restore takes about 15 s with the decider call, against about 
 
 ## How it works
 
+Clips from the Ezhuthu launch film (each loops a few seconds of the 3-minute film).
+
+| Restore: fills when sure | The Restorer: a tool-using Strands agent and the confidence check |
+| --- | --- |
+| <img src="design/brand/banners/how/how-01-restore.gif" alt="The Restore screen fills one missing letter with -k at 72 percent confidence, matching the editors' restoration, and shows what the published edition reads" width="100%"> | <img src="design/brand/banners/how/how-02-agents.gif" alt="The Restorer retrieves parallel passages and proposes fills with Claude Sonnet 4.6 escalating to Opus 4.6, then the calibrated confidence check fills or leaves the gap open inside a 25-second budget" width="100%"> |
+| **Custom Tamil-inscription ontology over MCP** | **Fine-tuned Strands decision model for Tamil** |
+| <img src="design/brand/banners/how/how-03-ontology.gif" alt="A knowledge graph of 1,958 named entities: rulers, places, temples and formulas, served to the agents over MCP" width="100%"> | <img src="design/brand/banners/how/how-04-finetuned.gif" alt="The fine-tuned 2B Strands Decider: 2,334 choice and 6,936 yes/no rows from the train split, LoRA r 48, chosen by a rule committed first and tested once on held-out inscriptions" width="100%"> |
+| **Runs on Amazon Bedrock AgentCore** | |
+| <img src="design/brand/banners/how/how-05-agentcore.gif" alt="CloudFront, API Gateway with JWT, a Lambda proxy, AgentCore Runtime and Amazon Bedrock, with Cognito and DynamoDB, defined as code" width="100%"> | Full film sources, captions and credits: [`media/video/`](media/video/). The clips contain CC BY-SA 4.0 and CC BY material; footage credits are in [`media/video/CREDITS.md`](media/video/CREDITS.md). |
+
+
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#FBF8F1', 'primaryBorderColor': '#9B3D22', 'primaryTextColor': '#1D1611', 'lineColor': '#76674F', 'clusterBkg': '#F5EACB', 'clusterBorder': '#B28C42', 'tertiaryColor': '#F4EEE2'}}}%%
 flowchart LR
