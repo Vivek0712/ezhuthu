@@ -19,6 +19,7 @@ PARTS = [
     ("part-1", "ezhuthu-part-1-problem-and-product.md"),
     ("part-2", "ezhuthu-part-2-architecture.md"),
     ("part-3", "ezhuthu-part-3-evaluation.md"),
+    ("project", "ezhuthu-project.md"),
 ]
 BANNED = [
     r"\bexperimental\b", r"\bAivar\b", r"Strands AI", r"AWS AI(?! Hero)", r"\bcorrect(ly)?\b", r"\baccurate\b",
@@ -34,7 +35,10 @@ problems = []
 for n, f in PARTS:
     text = (BLOG / f).read_text()
     fm, body = text.split("\n---\n", 1)
-    get = lambda k: re.search(rf'^{k}: (.*)$', fm, re.M).group(1).strip('"')
+    def get(k: str, fm: str = fm) -> str:
+        m = re.search(rf'^{k}: (.*)$', fm, re.M)
+        return m.group(1).strip('"') if m else ""
+
     title, desc = get("title"), get("description")
     tags = json.loads(get("tags"))
 
@@ -75,8 +79,11 @@ for n, f in PARTS:
         f"# {n}: form fields\n\n"
         f"Title ({len(title)} chars):\n{title}\n\n"
         f"Description ({len(desc)} chars):\n{desc}\n\n"
-        f"Tags: {get('tags')}\nSeries: {get('series')}, part {get('part')}\n"
-        f"Cover image: blog/{get('cover')} (1200x675 png/jpg/webp, <= 2 MB, no text)\n\n"
+        f"Tags: {get('tags')}\n"
+        + (f"Series: {get('series')}, part {get('part')}\n" if get("series") else "")
+        + (f"GitHub or GitLab Repository: {get('repo')}\n" if get("repo") else "")
+        + (f"Endpoint or live demo: {get('demo')}\n" if get("demo") else "")
+        + f"Cover image: blog/{get('cover')} (1200x675 png/jpg/webp, <= 2 MB, no text)\n\n"
         "Figures, in body order. Each < FIGURE n of N > marker in the body is replaced by the upload; the\n"
         "Alt text line under it goes into the image's alt field; the italic line after it is the caption.\n"
         + "".join(f"  {i}. blog/img/{im}  (under \"{h}\")\n" for i, im, h in placed)
